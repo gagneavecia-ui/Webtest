@@ -1,7 +1,4 @@
 // firebase-messaging-sw.js
-// ⚠️ Ce fichier DOIT être à la racine du site
-// Exemple: https://votre-site.com/firebase-messaging-sw.js
-
 importScripts('https://www.gstatic.com/firebasejs/12.12.1/firebase-app-compat.js');
 importScripts('https://www.gstatic.com/firebasejs/12.12.1/firebase-messaging-compat.js');
 
@@ -16,7 +13,6 @@ firebase.initializeApp({
 
 const messaging = firebase.messaging();
 
-// Messages en arrière-plan
 messaging.onBackgroundMessage((payload) => {
   console.log('[SW] Message reçu:', payload);
   
@@ -30,32 +26,14 @@ messaging.onBackgroundMessage((payload) => {
     badge: '/badge-icon.png',
     data: { url: url },
     requireInteraction: true,
-    vibrate: [200, 100, 200, 100, 200],
-    actions: [
-      { action: 'open', title: '📖 Ouvrir' },
-      { action: 'close', title: '✕ Fermer' }
-    ]
+    vibrate: [200, 100, 200, 100, 200]
   });
 });
 
-// Clic sur la notification
 self.addEventListener('notificationclick', (event) => {
   event.notification.close();
-  
   const url = event.notification.data?.url || '/index.html';
-  
-  event.waitUntil(
-    clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clients) => {
-      for (const client of clients) {
-        if (client.url.includes(url) && 'focus' in client) {
-          return client.focus();
-        }
-      }
-      if (clients.openWindow) {
-        return clients.openWindow(url);
-      }
-    })
-  );
+  event.waitUntil(clients.openWindow(url));
 });
 
 console.log('✅ Service Worker FCM chargé');
