@@ -941,113 +941,117 @@ function formatCurrency(amount) {
     }, (error) => { console.error('Erreur actualités:', error); actualites = defaultActualites; currentActuIndex = 0; displayActu(0); });
   }
 
-  // ================================================================
-  // FCM - NOTIFICATIONS PUSH (comme WhatsApp)
-  // ================================================================
-  async function setupFCMNotifications() {
-    try {
-      // Vérifier si l'utilisateur est l'admin
-      const isAdmin = currentUser && currentUser.email === 'gagneavecia@gmail.com';
-      
-      if (!isAdmin) {
-        // Si ce n'est pas l'admin, on n'active pas les notifications push
-        notifBadge.className = 'notif-badge inactive';
-        notifStatusText.textContent = '🔕 Admin uniquement';
-        return;
-      }
-
-      // 1. Demander la permission
-      const permission = await Notification.requestPermission();
-      
-      if (permission === 'granted') {
-        console.log('✅ Permission notification accordée (admin)');
-        
-        // 2. Obtenir le token FCM
-        const token = await getToken(messaging, { vapidKey: VAPID_KEY });
-        console.log('📱 Token FCM Admin:', token);
-        
-        // 3. Sauvegarder le token dans Firestore
-        if (currentUser) {
-          const userRef = doc(db, 'users', currentUser.uid);
-          await updateDoc(userRef, {
-            fcmToken: token,
-            isAdmin: true,
-            notificationsEnabled: true
-          });
-          console.log('✅ Token FCM sauvegardé pour admin');
-          notifBadge.className = 'notif-badge active';
-          notifStatusText.textContent = '🔔 Notifications actives';
-        }
-        
-        return token;
-      } else {
-        console.warn('⚠️ Permission notification refusée');
-        notifBadge.className = 'notif-badge inactive';
-        notifStatusText.textContent = '🔕 Notifications désactivées';
-        return null;
-      }
-    } catch (error) {
-      console.error('❌ Erreur setup FCM:', error);
+// ================================================================
+// FCM - NOTIFICATIONS PUSH (Version complète mobile)
+// ================================================================
+async function setupFCMNotifications() {
+  try {
+    const isAdmin = currentUser && currentUser.email === 'gagneavecia@gmail.com';
+    
+    if (!isAdmin) {
       notifBadge.className = 'notif-badge inactive';
-      notifStatusText.textContent = '🔕 Erreur notifications';
+      notifStatusText.textContent = '🔕 Admin uniquement';
       return null;
     }
-  }
 
-  // Écouter les messages en premier plan (quand l'admin est sur le site)
-  onMessage(messaging, (payload) => {
-    console.log('📩 Message reçu en premier plan:', payload);
-    
-    if (payload.data?.type === 'new_deposit') {
-      // Notification de nouveau dépôt → style WhatsApp
-      const userName = payload.data.userName || 'Utilisateur';
-      const amount = payload.data.amount || '0';
-      
-      showToast(
-        `💰 NOUVEAU DÉPÔT\n${userName} - ${parseInt(amount).toLocaleString('fr-FR')} FCFA`,
-        'success'
-      );
-      
-      // Faire vibrer le téléphone
-      if (navigator.vibrate) {
-        navigator.vibrate([200, 100, 200]);
-      }
+    // Détection mobile
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    console.log(`📱 ${isMobile ? 'Mobile' : 'Desktop'} détecté`);
+
+    // Vérifier le support
+    if (!('Notification' in window)) {
+      console.warn('⚠️ Notifications non supportées sur ce navigateur');
+      notifStatusText.textContent = '⚠️ Non supporté';
+      return null;
     }
-  });
 
-  // ================================================================
-  // MENU - SWIPE
-  // ================================================================
-  let touchStartX = 0, touchStartY = 0, isSwiping = false, isMenuOpen = false;
-  function openMenu() { if (isMenuOpen) return; isMenuOpen = true; menuOverlay.classList.add('active'); document.body.style.overflow = 'hidden'; }
-  function closeMenu() { if (!isMenuOpen) return; isMenuOpen = false; menuOverlay.classList.remove('active'); document.body.style.overflow = ''; }
+    // Pour iOS, afficher un message
+    if (/iPhone|iPad|iPod/i.test(navigator.userAgent) && navigator.userAgent.includes('Safari')) {
+      console.warn('⚠️ Safari iOS ne supporte pas les notifications push');
+      notifBadge.className = 'notif-badge inactive';
+      notifStatusText.textContent = '📱 iOS Safari: non supporté';
+      return null;
+    }
 
-  document.addEventListener('touchstart', (e) => {
-    const touch = e.changedTouches[0];
-    touchStartX = touch.screenX; touchStartY = touch.screenY; isSwiping = false;
-  }, { passive: true });
+    // Vérifier le Service Worker
+    let swReg;
+    try {
+      swReg = await navigator.serviceWorker.getRegistration('/firebase-messaging-sw.js');
+      if (!swReg) {
+        console.warn('⚠️ SW non enregistré, tentative...');
+        swReg = await navigator.serviceWorker.register('/firebase-messaging-sw.js');
+        console.log('✅ SW enregistré:', swReg);
+      } else {
+        console.log('✅ SW déjà enregistré');
+      }
+    } catch (e) {
+      console.error('❌ Erreur SW:', e);
+      notifStatusText.textContent = '⚠️ SW erreur';
+      return null;
+    }
 
-  document.addEventListener('touchmove', (e) => {
-    if (!e.cancelable) return;
-    const touch = e.changedTouches[0];
-    const deltaX = touch.screenX - touchStartX;
-    const deltaY = touch.screenY - touchStartY;
-    if (Math.abs(deltaY) > Math.abs(deltaX) * 1.2) return;
-    if (Math.abs(deltaX) > 15) { isSwiping = true; e.preventDefault(); }
-  }, { passive: false });
+    // Demander la permission
+    const permission = await Notification.requestPermission();
+    console.log('📌 Permission:', permission);
+    
+    if (permission !== 'granted') {
+      notifBadge.className = 'notif-badge inactive';
+      notifStatusText.textContent = '🔕 Refusé';
+      return null;
+    }
 
-  document.addEventListener('touchend', (e) => {
-    if (!isSwiping) return;
-    const deltaX = e.changedTouches[0].screenX - touchStartX;
-    if (deltaX < -40 && !isMenuOpen) openMenu();
-    else if (deltaX > 40 && isMenuOpen) closeMenu();
-    isSwiping = false;
-  }, { passive: true });
+    // Obtenir le token FCM
+    console.log('📱 Obtention du token FCM...');
+    const token = await getToken(messaging, { 
+      vapidKey: "BA8jFHMi3fNPkB4iAqib8GJnrq1_8KR2u_PyQjI2q5rp6rzmaGAsZ_aHm7TP1FqvXg4ZhOUBQUrQ6jpEf9qmrlM" 
+    });
+    
+    console.log('✅ Token FCM:', token);
+    
+    if (!token) {
+      notifStatusText.textContent = '⚠️ Token vide';
+      return null;
+    }
 
-  menuBtn.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); isMenuOpen ? closeMenu() : openMenu(); });
-  menuCloseBtn.addEventListener('click', () => closeMenu());
-  menuBackdrop.addEventListener('click', () => closeMenu());
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
+    // Sauvegarder dans Firestore
+    if (currentUser) {
+      const userRef = doc(db, 'users', currentUser.uid);
+      await updateDoc(userRef, {
+        fcmToken: token,
+        isAdmin: true,
+        notificationsEnabled: true,
+        deviceType: isMobile ? 'mobile' : 'desktop',
+        lastTokenUpdate: new Date().toISOString()
+      });
+      console.log('✅ Token sauvegardé dans Firestore');
+    }
+
+    notifBadge.className = 'notif-badge active';
+    notifStatusText.textContent = isMobile ? '📱 Mobile actif' : '🔔 Actif';
+    return token;
+
+  } catch (error) {
+    console.error('❌ Erreur setup FCM:', error);
+    console.error('📋 Code:', error.code);
+    console.error('📋 Message:', error.message);
+    
+    // Message adapté
+    let errorMsg = 'Erreur';
+    if (error.code === 'messaging/permission-blocked') {
+      errorMsg = '🔕 Permission bloquée';
+    } else if (error.code === 'messaging/unsupported-browser') {
+      errorMsg = '⚠️ Navigateur non supporté';
+    } else if (error.code === 'messaging/failed-serviceworker-registration') {
+      errorMsg = '⚠️ SW échec';
+    } else if (error.code === 'auth/too-many-requests') {
+      errorMsg = '⏳ Trop de tentatives';
+    }
+    
+    notifBadge.className = 'notif-badge inactive';
+    notifStatusText.textContent = '❌ ' + errorMsg;
+    return null;
+  }
+  }
   
     // ================================================================
   // ADMIN BUTTON
