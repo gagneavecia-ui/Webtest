@@ -756,7 +756,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
-setPersistence(auth, browserLocalPersistence);
+await setPersistence(auth, browserLocalPersistence);
 
 // ================================================================
 // HELPERS
@@ -886,31 +886,6 @@ const DEFAULT_EBOOKS_FIRESTORE = [
 ];
 
 // ================================================================
-// INITIALISER LES E-BOOKS (SANS SUPPRIMER)
-// ================================================================
-async function initializeEbooks() {
-  try {
-    const snapshot = await getDocs(collection(db, 'ebooks'));
-    
-    // ✅ SEULEMENT SI LA COLLECTION EST VIDE
-    if (snapshot.empty) {
-      console.log('📚 Création des 10 e-books par défaut...');
-      for (const ebook of DEFAULT_EBOOKS_FIRESTORE) {
-        const docRef = doc(db, 'ebooks', ebook.id);
-        await setDoc(docRef, ebook);
-      }
-      console.log('✅ 10 e-books créés');
-    } else {
-      console.log('✅ E-books déjà existants (' + snapshot.size + ' documents)');
-    }
-    return true;
-  } catch (error) {
-    console.error('❌ Erreur initialisation e-books:', error);
-    return false;
-  }
-}
-
-// ================================================================
 // RENDRE LES E-BOOKS (SANS PRIX)
 // ================================================================
 function renderEbooks(ebooks) {
@@ -1034,7 +1009,7 @@ document.addEventListener('keydown', (e) => {
 // ================================================================
 function loadEbooks() {
   const q = query(collection(db, 'ebooks'), orderBy('createdAt', 'desc'));
-  onSnapshot(q, (snapshot) => {
+  const unsubscribe = onSnapshot(q, (snapshot) => {
     const ebooks = [];
     snapshot.forEach(doc => {
       ebooks.push({ id: doc.id, ...doc.data() });
@@ -1072,16 +1047,18 @@ async function loadUser(uid) {
 // ================================================================
 // AUTH
 // ================================================================
+let authChecked = false;
+
 onAuthStateChanged(auth, async (user) => {
+  if (authChecked) return;
+  authChecked = true;
+
   if (user) {
     currentUser = user;
     localStorage.setItem('ARVEXA_current_user', user.uid);
     
-    // RECRÉER LES E-BOOKS (supprime les anciens et crée les nouveaux avec bonnes images)
-    await initializeEbooks();
-    
     await loadUser(user.uid);
-    loadEbooks();
+    loadEbooks();  // onSnapshot with fallback handles empty collection
     
     if (!isUnlocked) {
       setTimeout(() => {
@@ -1102,7 +1079,7 @@ onAuthStateChanged(auth, async (user) => {
   }
 });
 
-console.log('📚 ARVEXA - Bibliothèque numérique chargée (avec recréation forcée)');
+console.log('📚 ARVEXA - Bibliothèque numérique chargée');
 </script>
 </body>
 </html>

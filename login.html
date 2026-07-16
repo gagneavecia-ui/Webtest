@@ -497,12 +497,6 @@
 </head>
 <body>
 
-<!-- ===== NETTOYAGE CACHE AU CHARGEMENT ===== -->
-<script>
-  console.log("🧹 Nettoyage du cache au chargement de login.html");
-  sessionStorage.clear();
-</script>
-
 <!-- ===== BACKGROUND ===== -->
 <div class="gradient-bg"></div>
 <div class="glow glow-1"></div>
@@ -588,8 +582,8 @@
 <script type="importmap">
   {
     "imports": {
-      "firebase/app": "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js",
-      "firebase/auth": "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js"
+      "firebase/app": "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js",
+      "firebase/auth": "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js"
     }
   }
 </script>
@@ -620,7 +614,7 @@
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   
-  setPersistence(auth, browserLocalPersistence);
+  await setPersistence(auth, browserLocalPersistence);
 
   // ===== ÉLÉMENTS DOM =====
   const loginForm = document.getElementById('loginForm');
@@ -668,6 +662,8 @@
   });
 
   // ===== VÉRIFICATION AUTOMATIQUE DE CONNEXION =====
+  // Note: onAuthStateChanged listener is intentionally not unsubscribed —
+  // acceptable here because the page redirects on success (login page lifecycle).
   onAuthStateChanged(auth, (user) => {
     if (authChecked) return;
     authChecked = true;

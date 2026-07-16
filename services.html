@@ -458,27 +458,24 @@
 
 <script type="module">
 // ================================================================
-// IMPORTS FIREBASE
+// IMPORTS
 // ================================================================
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
+import { initializeApp } from "firebase/app";
 import { 
   getAuth, 
-  onAuthStateChanged, 
-  setPersistence, 
-  browserLocalPersistence 
-} from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
+  onAuthStateChanged,
+  setPersistence,
+  browserLocalPersistence
+} from "firebase/auth";
 import { 
-  getFirestore, 
-  doc, 
-  getDoc, 
-  getDocs, 
-  collection, 
-  query, 
-  orderBy, 
-  onSnapshot, 
-  setDoc,
-  serverTimestamp 
-} from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
+  getFirestore,
+  doc,
+  getDoc,
+  collection,
+  query,
+  orderBy,
+  onSnapshot
+} from "firebase/firestore";
 
 // ================================================================
 // FIREBASE CONFIG
@@ -493,54 +490,20 @@ const firebaseConfig = {
   measurementId: "G-HC2Q5DNKDR"
 };
 
-// ================================================================
-// INITIALISATION
-// ================================================================
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
-setPersistence(auth, browserLocalPersistence);
+await setPersistence(auth, browserLocalPersistence);
 
 // ================================================================
-// DOM ÉLÉMENTS
+// DOM
 // ================================================================
 const servicesGrid = document.getElementById('servicesGrid');
 const comingSoonGrid = document.getElementById('comingSoonGrid');
 const comingSoonHeader = document.getElementById('comingSoonHeader');
 const toast = document.getElementById('toast');
 
-// ================================================================
-// ÉTAT GLOBAL
-// ================================================================
 let isUnlocked = false;
-let servicesData = [];
-
-// ================================================================
-// 🚀 CACHE SESSION - CLÉ POUR LA RAPIDITÉ
-// ================================================================
-const SESSION_LOADED = sessionStorage.getItem('arvexa_services_loaded');
-const SESSION_UID = sessionStorage.getItem('arvexa_session_uid');
-
-// ================================================================
-// FONCTIONS DE CACHE
-// ================================================================
-function cacheServices(data) {
-  localStorage.setItem('ARVEXA_services_data', JSON.stringify(data));
-}
-
-function getCachedServices() {
-  const cached = localStorage.getItem('ARVEXA_services_data');
-  return cached ? JSON.parse(cached) : null;
-}
-
-function cacheUserData(data) {
-  localStorage.setItem('ARVEXA_user_data', JSON.stringify(data));
-}
-
-function getCachedUserData() {
-  const cached = localStorage.getItem('ARVEXA_user_data');
-  return cached ? JSON.parse(cached) : null;
-}
 
 // ================================================================
 // TOAST
@@ -556,24 +519,17 @@ function showToast(message, type = 'info') {
 // DONNÉES PAR DÉFAUT - SERVICES
 // ================================================================
 const DEFAULT_SERVICES = [
-  { id: 'service_001', name: 'E-books', icon: 'fa-book', iconClass: 'blue', description: 'Lisez et apprenez à votre rythme', page: 'ebooks.html', isPremium: true, isComing: false, order: 1 },
-  { id: 'service_002', name: 'Formations', icon: 'fa-graduation-cap', iconClass: 'purple', description: 'Cours vidéo pour maîtriser la finance', page: 'formations.html', isPremium: true, isComing: false, order: 2 },
-  { id: 'service_003', name: 'Achat', icon: 'fa-shopping-cart', iconClass: 'gold', description: 'E-books, formations et services', page: 'boutique.html', isPremium: true, isComing: false, order: 3 },
-  { id: 'service_004', name: 'Investir', icon: 'fa-chart-line', iconClass: 'gold', description: "Packs d'investissement avec rendements", page: 'investir.html', isPremium: true, isComing: false, order: 4 },
-  { id: 'service_005', name: 'Vendre', icon: 'fa-store', iconClass: 'green', description: 'Monétisez vos compétences', page: 'vendre.html', isPremium: true, isComing: false, order: 5 },
-  { id: 'service_006', name: 'Parrainage', icon: 'fa-users', iconClass: 'gold', description: 'Gagnez jusqu\'à 500 FCFA par filleul', page: 'parrainage.html', isPremium: true, isComing: false, order: 6 },
-  { id: 'service_007', name: 'Recharger', icon: 'fa-plus-circle', iconClass: 'green', description: 'Alimentez votre compte ARVEXA', page: 'recharger.html', isPremium: false, isComing: false, order: 7 },
-  { id: 'service_008', name: 'Retrait', icon: 'fa-arrow-down', iconClass: 'red', description: 'Retirez vos gains en toute sécurité', page: 'retrait.html', isPremium: true, isComing: false, order: 8 },
-  { id: 'service_009', name: 'Forum', icon: 'fa-comments', iconClass: 'blue', description: 'Échangez avec la communauté', page: 'forum.html', isPremium: true, isComing: false, order: 9 },
-  { id: 'service_010', name: 'Mon Activité', icon: 'fa-chart-pie', iconClass: 'purple', description: 'Suivez vos performances en temps réel', page: 'activite.html', isPremium: false, isComing: false, order: 10 }
+  { id: 'service_001', name: 'E-books', icon: 'fa-book', iconClass: 'blue', description: 'Lisez et apprenez à votre rythme', page: 'ebooks.html', isPremium: true, isComing: false, order: 1, createdAt: new Date().toISOString() },
+  { id: 'service_002', name: 'Formations', icon: 'fa-graduation-cap', iconClass: 'purple', description: 'Cours vidéo pour maîtriser la finance', page: 'formations.html', isPremium: true, isComing: false, order: 2, createdAt: new Date().toISOString() },
+  { id: 'service_003', name: 'Achat', icon: 'fa-shopping-cart', iconClass: 'gold', description: 'E-books, formations et services', page: 'boutique.html', isPremium: true, isComing: false, order: 3, createdAt: new Date().toISOString() },
+  { id: 'service_004', name: 'Investir', icon: 'fa-chart-line', iconClass: 'gold', description: 'Packs d\'investissement avec rendements', page: 'investir.html', isPremium: true, isComing: false, order: 4, createdAt: new Date().toISOString() },
+  { id: 'service_005', name: 'Vendre', icon: 'fa-store', iconClass: 'green', description: 'Monétisez vos compétences', page: 'vendre.html', isPremium: true, isComing: false, order: 5, createdAt: new Date().toISOString() },
+  { id: 'service_006', name: 'Parrainage', icon: 'fa-users', iconClass: 'gold', description: 'Gagnez jusqu\'à 500 FCFA par filleul', page: 'parrainage.html', isPremium: true, isComing: false, order: 6, createdAt: new Date().toISOString() },
+  { id: 'service_007', name: 'Recharger', icon: 'fa-plus-circle', iconClass: 'green', description: 'Alimentez votre compte ARVEXA', page: 'recharger.html', isPremium: false, isComing: false, order: 7, createdAt: new Date().toISOString() },
+  { id: 'service_008', name: 'Retrait', icon: 'fa-arrow-down', iconClass: 'red', description: 'Retirez vos gains en toute sécurité', page: 'retrait.html', isPremium: true, isComing: false, order: 8, createdAt: new Date().toISOString() },
+  { id: 'service_009', name: 'Forum', icon: 'fa-comments', iconClass: 'blue', description: 'Échangez avec la communauté', page: 'forum.html', isPremium: true, isComing: false, order: 9, createdAt: new Date().toISOString() },
+  { id: 'service_010', name: 'Mon Activité', icon: 'fa-chart-pie', iconClass: 'purple', description: 'Suivez vos performances en temps réel', page: 'activite.html', isPremium: false, isComing: false, order: 10, createdAt: new Date().toISOString() }
 ];
-
-// ================================================================
-// AFFICHAGE IMMÉDIAT DU CONTENU
-// ================================================================
-function showContentImmediately() {
-  document.body.style.opacity = '1';
-}
 
 // ================================================================
 // RENDRE UNE CARTE SERVICE
@@ -625,71 +581,23 @@ function renderServices(services, unlocked) {
 }
 
 // ================================================================
-// INITIALISER LES SERVICES (UNE SEULE FOIS)
+// CHARGER LES SERVICES DEPUIS FIRESTORE
 // ================================================================
-let servicesInitialized = false;
-
-async function initializeServices() {
-  if (servicesInitialized) return true;
-  
-  try {
-    const servicesRef = collection(db, 'services');
-    const snapshot = await getDocs(servicesRef);
-    
-    if (snapshot.empty) {
-      console.log('📝 Création des services par défaut...');
-      for (const service of DEFAULT_SERVICES) {
-        const docRef = doc(db, 'services', service.id);
-        await setDoc(docRef, { ...service, _createdAt: serverTimestamp() });
-      }
-      console.log('✅ Services créés');
-    }
-    
-    servicesInitialized = true;
-    return true;
-  } catch (error) {
-    console.error('❌ Erreur initialisation services:', error);
-    return false;
-  }
-}
-
-// ================================================================
-// CHARGER LES SERVICES DEPUIS FIRESTORE (UNE SEULE FOIS)
-// ================================================================
-let servicesLoaded = false;
-
 function loadServices() {
-  // Si déjà chargés, ne pas refaire la requête
-  if (servicesLoaded) return;
-  
   const q = query(collection(db, 'services'), orderBy('order', 'asc'));
-  
   return onSnapshot(q, (snapshot) => {
     const services = [];
     snapshot.forEach(doc => {
       services.push({ id: doc.id, ...doc.data() });
     });
-    
-    servicesData = services;
-    cacheServices(services);
-    
     if (services.length > 0) {
       renderServices(services, isUnlocked);
     } else {
       renderServices(DEFAULT_SERVICES, isUnlocked);
     }
-    
-    servicesLoaded = true;
-    console.log('✅ Services chargés:', services.length);
-    
   }, (error) => {
-    console.error('❌ Erreur chargement services:', error);
-    const cached = getCachedServices();
-    if (cached) {
-      renderServices(cached, isUnlocked);
-    } else {
-      renderServices(DEFAULT_SERVICES, isUnlocked);
-    }
+    console.error('Erreur chargement services:', error);
+    renderServices(DEFAULT_SERVICES, isUnlocked);
   });
 }
 
@@ -703,77 +611,29 @@ async function loadUser(uid) {
     if (userSnap.exists()) {
       const data = userSnap.data();
       isUnlocked = data.isUnlocked === true || data.hasDeposited === true;
-      cacheUserData(data);
-      return data;
     }
     return null;
   } catch (error) {
-    console.error('❌ Erreur chargement utilisateur:', error);
+    console.error('Erreur chargement utilisateur:', error);
     return null;
   }
 }
 
 // ================================================================
-// AUTHENTIFICATION AVEC CACHE SESSION 🔥
+// AUTH
 // ================================================================
+let authChecked = false;
+
 onAuthStateChanged(auth, async (user) => {
   if (user) {
+    if (authChecked) return;
+    authChecked = true;
     localStorage.setItem('ARVEXA_current_user', user.uid);
-    
-    // 🔥 SI DÉJÀ CHARGÉ PENDANT CETTE SESSION → AFFICHAGE INSTANTANÉ
-    if (SESSION_LOADED === 'true' && SESSION_UID === user.uid) {
-      console.log("⚡ Chargement instantané depuis cache session - Services");
-      
-      showContentImmediately();
-      
-      // Charger depuis localStorage
-      const cachedUser = getCachedUserData();
-      if (cachedUser) {
-        isUnlocked = cachedUser.isUnlocked === true || cachedUser.hasDeposited === true;
-      }
-      
-      const cachedServices = getCachedServices();
-      if (cachedServices) {
-        renderServices(cachedServices, isUnlocked);
-      } else {
-        // Si pas de cache, charger (mais en arrière-plan)
-        setTimeout(() => {
-          initializeServices();
-          loadServices();
-        }, 100);
-      }
-      
-      // Mise à jour en arrière-plan
-      setTimeout(() => {
-        if (auth.currentUser) {
-          loadUser(user.uid);
-          if (!servicesLoaded) {
-            initializeServices();
-            loadServices();
-          }
-        }
-      }, 200);
-      
-      return;
-    }
-    
-    // ===== PREMIER CHARGEMENT DE LA SESSION =====
-    console.log("🔄 Premier chargement de la session - Services");
-    
-    showContentImmediately();
-    
-    // Charger l'utilisateur
     await loadUser(user.uid);
-    
-    // Initialiser et charger les services
-    await initializeServices();
     loadServices();
-    
-    // Marquer la session comme chargée
-    sessionStorage.setItem('arvexa_services_loaded', 'true');
-    sessionStorage.setItem('arvexa_session_uid', user.uid);
-    
   } else {
+    if (authChecked) return;
+    authChecked = true;
     const savedUid = localStorage.getItem('ARVEXA_current_user');
     if (savedUid) {
       setTimeout(() => {
@@ -787,7 +647,7 @@ onAuthStateChanged(auth, async (user) => {
   }
 });
 
-console.log("🛠️ ARVEXA - Page des services optimisée avec cache session");
+console.log('🛠️ ARVEXA - Page des services chargée');
 </script>
 </body>
 </html>

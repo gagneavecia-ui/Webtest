@@ -936,7 +936,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
-setPersistence(auth, browserLocalPersistence);
+await setPersistence(auth, browserLocalPersistence);
 
 // ================================================================
 // HELPERS
@@ -1108,28 +1108,6 @@ const DEFAULT_FORMATIONS = [
     createdAt: new Date().toISOString()
   }
 ];
-
-// ================================================================
-// INITIALISER LES FORMATIONS (SEULEMENT SI LA COLLECTION EST VIDE)
-// ================================================================
-async function initializeFormations() {
-  try {
-    const snapshot = await getDocs(collection(db, 'formations'));
-    
-    if (snapshot.empty) {
-      console.log('📚 Création des 10 formations par défaut...');
-      for (const formation of DEFAULT_FORMATIONS) {
-        const docRef = doc(db, 'formations', formation.id);
-        await setDoc(docRef, formation);
-      }
-      console.log('✅ 10 formations créées');
-    } else {
-      console.log('✅ Formations déjà existantes');
-    }
-  } catch (error) {
-    console.error('❌ Erreur initialisation formations:', error);
-  }
-}
 
 // ================================================================
 // ACHETER UNE FORMATION
@@ -1443,13 +1421,13 @@ async function loadUser(uid) {
 // ================================================================
 // AUTH
 // ================================================================
+let authChecked = false;
 onAuthStateChanged(auth, async (user) => {
   if (user) {
+    if (authChecked) return;
+    authChecked = true;
     currentUser = user;
     localStorage.setItem('ARVEXA_current_user', user.uid);
-    
-    // Initialiser les formations dans Firestore
-    await initializeFormations();
     
     await loadUser(user.uid);
     loadFormations();
@@ -1460,6 +1438,8 @@ onAuthStateChanged(auth, async (user) => {
       }, 800);
     }
   } else {
+    if (authChecked) return;
+    authChecked = true;
     const savedUid = localStorage.getItem('ARVEXA_current_user');
     if (savedUid) {
       setTimeout(() => {

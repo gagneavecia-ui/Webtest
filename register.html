@@ -1343,12 +1343,12 @@
   // 1. ÉCRIRE / REMPLACER un document par son ID
   //    setDocument('users', uid, { nom: 'Toto', ... })
   // ---------------------------------------------------------------
-  async function setDocument(collectionName, docId, data, options = {}) {
+  async function setDocument(collectionName, docId, data) {
     const ref = doc(db, collectionName, docId);
     const payload = { ...data, _updatedAt: serverTimestamp() };
     console.log(`📝 setDocument : ${collectionName}/${docId}`, payload);
     await withRetry(
-      () => setDoc(ref, payload, { merge: !!options.merge }),
+      () => setDoc(ref, payload, { merge: true }),
       `setDocument(${collectionName}/${docId})`
     );
     console.log(`✅ setDocument OK : ${collectionName}/${docId}`);
@@ -1705,7 +1705,7 @@
       // merge:true au cas où l'utilisateur ait déjà un document
       // partiel (ex: créé par un autre flux).
       try {
-        await setDocument("users", user.uid, userData, { merge: true });
+        await setDocument("users", user.uid, userData);
         console.log("✅ Document utilisateur créé dans Firestore:", user.uid);
       } catch (writeError) {
         // ⚠️ Si l'écriture échoue (permission denied, réseau, etc.),
@@ -1873,7 +1873,7 @@
           _serverCreatedAt: serverTimestamp()
         };
         // ⚠️ CORRIGÉ : utilisation du helper (retry + gestion d'erreur unifiée)
-        await setDocument("users", user.uid, userData, { merge: true });
+        await setDocument("users", user.uid, userData);
         console.log("✅ Document Google créé dans Firestore");
 
         try {

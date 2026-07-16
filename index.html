@@ -786,7 +786,7 @@
   // VAPID Key
   const VAPID_KEY = "BJKkMr-LMevY9HePx3vzYqWMILwAV8mxwOdfkbR-PvEu_m7eu309ygioDNLLqW1wRc2b93Irb1svNnLQIpegquk";
 
-  setPersistence(auth, browserLocalPersistence);
+  await setPersistence(auth, browserLocalPersistence);
 
   // ================================================================
   // DOM
@@ -1210,7 +1210,6 @@ statRevenueEl.textContent = formatCurrency(totalRevenus);
         userData = snap.data();
         updateUI(userData);
         localStorage.setItem('ARVEXA_user_data', JSON.stringify(userData));
-        if (!isFirstLoad) setTimeout(() => forceCheckAndCreditGains(), 1500);
       }
     }, (error) => { console.error('Erreur onSnapshot:', error); });
   }
@@ -1220,8 +1219,11 @@ statRevenueEl.textContent = formatCurrency(totalRevenus);
   // ================================================================
   const sessionUid = sessionStorage.getItem('session_uid');
 
+  let authChecked = false;
   onAuthStateChanged(auth, async (user) => {
     if (user) {
+      if (authChecked) return;
+      authChecked = true;
       currentUser = user;
       localStorage.setItem('ARVEXA_current_user', user.uid);
       
@@ -1284,6 +1286,8 @@ statRevenueEl.textContent = formatCurrency(totalRevenus);
         }
       }
     } else {
+      if (authChecked) return;
+      authChecked = true;
       const savedUid = localStorage.getItem('ARVEXA_current_user');
       if (savedUid) {
         setTimeout(() => { if (!auth.currentUser) { window.location.href = 'login.html'; } }, 2000);
