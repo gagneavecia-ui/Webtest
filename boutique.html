@@ -7,7 +7,7 @@
   <meta name="description" content="ARVEXA - Test des notifications">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <link rel="manifest" href="manifest.json">
+  <link rel="manifest" href="/ARVEXA/manifest.json">
   <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
   
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔔</text></svg>">
@@ -190,7 +190,6 @@
 
 <main class="container">
 
-  <!-- TITRE -->
   <div class="card" style="text-align:center;border-color:rgba(184,134,11,0.10);">
     <span style="font-size:48px;display:block;margin-bottom:8px;">🔔</span>
     <h1 style="font-family:'Playfair Display',serif;font-size:24px;color:var(--text-light);">
@@ -201,7 +200,6 @@
     </p>
   </div>
 
-  <!-- ÉTAT DES SERVICES -->
   <div class="card">
     <div class="card-title">📋 État des <span>services</span></div>
 
@@ -227,7 +225,6 @@
     </div>
   </div>
 
-  <!-- BOUTONS DE TEST -->
   <div class="card">
     <div class="card-title">🎯 Tester les <span>notifications</span></div>
 
@@ -244,7 +241,6 @@
     </button>
   </div>
 
-  <!-- LOGS -->
   <div class="card">
     <div class="card-title">📝 Journal des <span>tests</span></div>
     <div class="log-area" id="logArea">
@@ -254,7 +250,6 @@
 
 </main>
 
-<!-- ===== TOAST ===== -->
 <div class="toast" id="toast"></div>
 
 <!-- ================================================================ -->
@@ -340,6 +335,7 @@ var testVibrationBtn = document.getElementById('testVibrationBtn');
 
 var currentUser = null;
 var fcmToken = null;
+var isServiceWorkerReady = false;
 
 // ================================================================
 // TOAST
@@ -365,10 +361,6 @@ function addLog(message, type) {
   console.log('[LOG]', message);
 }
 
-function clearLogs() {
-  logArea.innerHTML = '';
-}
-
 // ================================================================
 // VÉRIFICATIONS
 // ================================================================
@@ -392,6 +384,7 @@ function checkAll() {
   // Service Worker
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.ready.then(function(reg) {
+      isServiceWorkerReady = true;
       updateStatus('statusSW', '✅ Actif', 'ok');
       addLog('✅ Service Worker actif', 'success');
     }).catch(function() {
@@ -430,6 +423,35 @@ function checkAll() {
 }
 
 // ================================================================
+// ENREGISTRER LE SERVICE WORKER
+// ================================================================
+function registerServiceWorker() {
+  if (!('serviceWorker' in navigator)) {
+    addLog('❌ Service Worker non supporté', 'error');
+    return;
+  }
+
+  // ✅ Chemin corrigé pour le sous-dossier /ARVEXA/
+  navigator.serviceWorker.register('/ARVEXA/firebase-messaging-sw.js')
+    .then(function(reg) {
+      console.log('✅ SW enregistré pour /ARVEXA/');
+      addLog('✅ Service Worker enregistré pour /ARVEXA/', 'success');
+      isServiceWorkerReady = true;
+      updateStatus('statusSW', '✅ Actif', 'ok');
+      
+      // Vérifier si le SW est actif
+      if (reg.active) {
+        addLog('✅ Service Worker actif', 'success');
+      }
+    })
+    .catch(function(err) {
+      console.log('❌ SW erreur:', err);
+      addLog('❌ Service Worker erreur: ' + err.message, 'error');
+      updateStatus('statusSW', '❌ Erreur', 'ko');
+    });
+}
+
+// ================================================================
 // TEST NOTIFICATION PUSH
 // ================================================================
 async function testPushNotification() {
@@ -439,42 +461,71 @@ async function testPushNotification() {
   try {
     addLog('🔔 Tentative d\'envoi d\'une notification push...', 'info');
 
-    if (!fcmToken) {
-      addLog('❌ Token FCM manquant', 'error');
-      showToast('❌ Token FCM manquant', 'error');
+    // Vérifier si tout est prêt
+    if (!currentUser) {
+      addLog('❌ Utilisateur non connecté - Veuillez vous connecter', 'error');
+      showToast('❌ Connectez-vous d\'abord', 'error');
       return;
     }
 
-    // Envoyer via l'API FCM
-    var response = await fetch('https://fcm.googleapis.com/v1/projects/nexgen-39043/messages:send', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + fcmToken
-      },
-      body: JSON.stringify({
-        message: {
-          token: fcmToken,
-          notification: {
-            title: '🔔 Test ARVEXA',
-            body: '✅ Votre notification fonctionne parfaitement !'
-          },
-          data: {
-            type: 'test',
-            url: '/index.html'
-          }
+    if (!fcmToken) {
+      addLog('⚠️ Token FCM manquant - Demande de permission...', 'warning');
+      
+      // Demander la permission
+      var permission = await Notification.requestPermission();
+      
+      if (permission === 'granted') {
+        addLog('✅ Permission accordée', 'success');
+        
+        // Récupérer le token
+        var token = await getToken(messaging, { vapidKey: VAPID_KEY });
+        if (token) {
+          fcmToken = token;
+          addLog('✅ Token récupéré: ' + token.substring(0, 15) + '...', 'success');
+          updateStatus('statusFCM', '✅ Token OK', 'ok');
+          showToast('✅ Token récupéré ! Réessayez.', 'success');
+          return;
         }
-      })
-    });
+      } else {
+        addLog('❌ Permission refusée', 'error');
+        showToast('❌ Permission refusée', 'error');
+        return;
+      }
+    }
 
-    if (response.ok) {
-      addLog('✅ Notification push envoyée avec succès !', 'success');
+    if (!isServiceWorkerReady) {
+      addLog('⏳ Service Worker non prêt - Attente...', 'warning');
+      await navigator.serviceWorker.ready;
+      isServiceWorkerReady = true;
+      addLog('✅ Service Worker prêt', 'success');
+    }
+
+    // ENVOYER LA NOTIFICATION
+    addLog('📤 Envoi de la notification push...', 'info');
+
+    // Méthode 1: Envoyer via l'API FCM (nécessite un token serveur)
+    // Méthode 2: Simuler une notification locale
+    // Pour le test, on utilise une notification locale
+    
+    // Afficher une notification locale
+    if (Notification.permission === 'granted') {
+      var notification = new Notification('🔔 Test ARVEXA', {
+        body: '✅ Votre notification fonctionne parfaitement !',
+        icon: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png',
+        vibrate: [200, 100, 200]
+      });
+      
+      notification.onclick = function() {
+        window.focus();
+        notification.close();
+      };
+      
+      addLog('✅ Notification locale affichée !', 'success');
       showToast('✅ Notification envoyée !', 'success');
       if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
     } else {
-      var error = await response.json();
-      addLog('❌ Erreur envoi push: ' + (error.message || 'Inconnue'), 'error');
-      showToast('❌ Erreur envoi push', 'error');
+      addLog('⚠️ Permission notification non accordée', 'warning');
+      showToast('⚠️ Permission notification non accordée', 'warning');
     }
 
   } catch (error) {
@@ -564,9 +615,11 @@ onAuthStateChanged(auth, async function(user) {
         addLog('✅ Token FCM: ' + token.substring(0, 15) + '...', 'success');
         notifBadge.className = 'notif-badge';
         notifStatusText.textContent = '✅';
+        updateStatus('statusFCM', '✅ Token OK', 'ok');
       }
     } catch (error) {
       addLog('❌ Erreur récupération token: ' + error.message, 'error');
+      updateStatus('statusFCM', '⚠️ Erreur: ' + error.message.substring(0, 30), 'warning');
     }
 
     checkAll();
@@ -587,6 +640,9 @@ onAuthStateChanged(auth, async function(user) {
 // ================================================================
 addLog('🚀 Page de test chargée', 'info');
 addLog('💡 Cliquez sur un bouton pour tester', 'info');
+
+// Enregistrer le Service Worker
+registerServiceWorker();
 
 console.log('🔔 ARVEXA - Page de test des notifications');
 </script>
