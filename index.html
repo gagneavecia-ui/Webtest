@@ -1498,14 +1498,18 @@ document.getElementById('userProfileBtn').addEventListener('click', function(e) 
 document.getElementById('logoLink').addEventListener('click', function(e) { e.preventDefault(); window.location.href = 'index.html'; });
 
 // ================================================================
-// SERVICE WORKER
+// SERVICE WORKER - VERSION CORRIGÉE POUR /ARVEXA/
 // ================================================================
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function() {
-    navigator.serviceWorker.register('/firebase-messaging-sw.js')
-      .then(function(reg) { console.log('✅ SW FCM enregistré'); })
-      .catch(function(err) { console.log('⚠️ SW FCM erreur:', err); });
-  });
+  navigator.serviceWorker.register('/Webtest/firebase-messaging-sw.js')
+    .then(function(reg) {
+      console.log('✅ SW enregistré pour /Webtest/');
+      addLog('✅ Service Worker enregistré', 'success');
+    })
+    .catch(function(err) {
+      console.log('❌ SW erreur:', err);
+      addLog('❌ Service Worker erreur: ' + err.message, 'error');
+    });
 }
 
 console.log("🚀 ARVEXA - Page d'accueil avec Épargne et Chat IA");
