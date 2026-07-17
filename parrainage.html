@@ -80,7 +80,7 @@
     }
     .glow-1 { width: 350px; height: 350px; background: rgba(26, 58, 42, 0.15); top: -80px; right: -80px; }
     .glow-2 { width: 200px; height: 200px; background: rgba(184, 134, 11, 0.03); bottom: 0; left: 0; animation-delay: -4s; }
-    .glow-3 { width: 250px; height: 250px; background: rgba(26, 58, 42, 0.08); top: 40%; left: 50%; transform: translate(-50%, -50%); animation-delay: -8s; }
+    .glow-3 { width: 250px; height: 250px; background: rgba(26, 58, 42, 0.08); top: 40%; left: 50%; transform: translate(-50%,-50%); animation-delay: -8s; }
     @keyframes glowMove {
       0% { transform: translate(0, 0) scale(1); }
       100% { transform: translate(30px, -20px) scale(1.1); }
@@ -131,6 +131,23 @@
       background: rgba(184, 134, 11, 0.08);
     }
     .back-btn i { font-size: clamp(14px, 1.8vw, 18px); }
+
+    .notif-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 30px;
+      font-size: 10px;
+      font-weight: 500;
+      transition: var(--transition);
+      background: rgba(45, 125, 90, 0.08);
+      color: var(--success);
+      border: 1px solid rgba(45, 125, 90, 0.10);
+    }
+    .notif-badge i {
+      font-size: 12px;
+    }
 
     .container {
       max-width: 600px;
@@ -256,6 +273,48 @@
     .share-btn.telegram { background: #0088CC; color: white; }
     .share-btn.copy { background: rgba(184,134,11,0.10); color: var(--accent); border: 1px solid rgba(184,134,11,0.12); }
 
+    /* ===== NOTIFICATION BANNER ===== */
+    .notif-permission-banner {
+      background: rgba(184, 134, 11, 0.06);
+      border: 1px solid rgba(184, 134, 11, 0.10);
+      border-radius: 12px;
+      padding: 12px 16px;
+      margin: 18px 0 10px;
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .notif-permission-banner p {
+      font-size: 12px;
+      color: var(--text-dim);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .notif-permission-banner p i {
+      color: var(--accent);
+    }
+    .notif-permission-banner .btn-enable {
+      padding: 6px 16px;
+      background: var(--accent);
+      border: none;
+      border-radius: 30px;
+      color: var(--bg-dark);
+      font-weight: 600;
+      font-size: 11px;
+      cursor: pointer;
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+    .notif-permission-banner .btn-enable:active {
+      transform: scale(0.95);
+    }
+    .notif-permission-banner .btn-enable:hover {
+      background: #9A7209;
+    }
+
     /* ===== STATS ===== */
     .stats-grid {
       display: grid;
@@ -294,9 +353,31 @@
       border-bottom: 1px solid rgba(255,255,255,0.03);
     }
     .filleul-item:last-child { border-bottom: none; }
-    .filleul-item .name { font-weight: 500; color: var(--text-light); }
-    .filleul-item .date { font-size: 11px; color: var(--text-dim); }
-    .filleul-item .gain { color: var(--success); font-weight: 600; font-size: 13px; }
+    .filleul-item .left .name { font-weight: 500; color: var(--text-light); }
+    .filleul-item .left .date { font-size: 11px; color: var(--text-dim); }
+    .filleul-item .right { text-align: right; }
+    .filleul-item .status {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 10px;
+      border-radius: 20px;
+      display: inline-block;
+    }
+    .status.waiting {
+      background: rgba(212, 160, 23, 0.12);
+      color: #D4A017;
+      border: 1px solid rgba(212, 160, 23, 0.15);
+    }
+    .status.received {
+      background: rgba(45, 125, 90, 0.12);
+      color: var(--success);
+      border: 1px solid rgba(45, 125, 90, 0.15);
+    }
+    .status.inactive {
+      background: rgba(138, 58, 58, 0.08);
+      color: var(--danger);
+      border: 1px solid rgba(138, 58, 58, 0.10);
+    }
 
     .empty-state {
       text-align: center;
@@ -334,6 +415,95 @@
     .toast.info { background: #0D1A2A; border: 1px solid #4A7A8A; color: #4A7A8A; }
 
     /* ============================================================
+       LOCKED MESSAGE - DESIGN CORRIGÉ
+       ============================================================ */
+    #lockedMessage {
+      display: none;
+      text-align: center;
+      padding: 40px 24px;
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      border: 1px solid var(--card-border);
+      animation: fadeInUp 0.4s ease;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    #lockedMessage .lock-icon {
+      font-size: 48px;
+      color: var(--accent);
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    #lockedMessage h2 {
+      margin-bottom: 12px;
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      color: var(--text-light);
+    }
+
+    #lockedMessage p {
+      color: var(--text-dim);
+      margin-bottom: 8px;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    #lockedMessage .highlight {
+      color: var(--success);
+      font-weight: 600;
+    }
+
+    /* ===== BOUTON RECHARGER - DESIGN CORRIGÉ ===== */
+    .btn-recharge-lock {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 18px;
+      padding: 12px 28px;
+      background: var(--accent);
+      color: var(--bg-dark);
+      border: none;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 14px;
+      text-decoration: none;
+      transition: var(--transition);
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      min-width: auto;
+      width: auto;
+    }
+    .btn-recharge-lock:active {
+      transform: scale(0.96);
+    }
+    .btn-recharge-lock:hover {
+      background: #9A7209;
+      box-shadow: 0 4px 20px rgba(184, 134, 11, 0.2);
+    }
+    .btn-recharge-lock i {
+      font-size: 14px;
+    }
+
+    #lockedMessage .back-link {
+      display: inline-block;
+      margin-top: 16px;
+      color: var(--text-muted);
+      font-size: 13px;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    #lockedMessage .back-link:hover {
+      color: var(--text-dim);
+    }
+
+    /* ============================================================
        RESPONSIVE
        ============================================================ */
     @media (max-width: 480px) {
@@ -346,6 +516,8 @@
       .stat-card .value { font-size: 18px; }
       .hero-stats { gap: 16px; }
       .hero-stats .stat .value { font-size: 18px; }
+      #lockedMessage { padding: 30px 16px; }
+      .btn-recharge-lock { padding: 10px 20px; font-size: 13px; }
     }
 
     @media (min-width: 481px) and (max-width: 600px) {
@@ -367,7 +539,9 @@
 <header class="header">
   <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
   <a href="index.html" class="logo">ARVE<span>XA</span></a>
-  <div class="header-placeholder"></div>
+  <span class="notif-badge" id="notifBadge">
+    <i class="fas fa-circle"></i> <span id="notifStatusText">🔔</span>
+  </span>
 </header>
 
 <!-- ===== MAIN ===== -->
@@ -379,12 +553,12 @@
     <!-- HERO -->
     <div class="hero">
       <span class="hero-icon"><i class="fas fa-users"></i></span>
-      <h1>Programme de <span>Parrainage</span></h1>
-      <p>Invitez vos amis et gagnez <strong>500 FCFA</strong> par filleul</p>
+      <h1>👥 Programme de <span>Parrainage</span></h1>
+      <p>Invitez vos amis et gagnez <strong>500 FCFA</strong> après leur <strong>premier dépôt</strong></p>
       <div class="hero-stats">
         <div class="stat">
           <div class="value">+500 FCFA</div>
-          <div class="label">Par filleul</div>
+          <div class="label">Après 1er dépôt</div>
         </div>
         <div class="stat">
           <div class="value">Illimité</div>
@@ -411,6 +585,12 @@
         <button class="share-btn telegram" id="shareTelegram"><i class="fab fa-telegram-plane"></i> Telegram</button>
         <button class="share-btn copy" id="copyLinkBtn"><i class="fas fa-copy"></i> Copier</button>
       </div>
+    </div>
+
+    <!-- NOTIFICATION PERMISSION BANNER -->
+    <div class="notif-permission-banner" id="notifPermissionBanner">
+      <p><i class="fas fa-bell"></i> Activez les notifications pour suivre vos parrainages !</p>
+      <button class="btn-enable" id="enableNotifBtn"><i class="fas fa-check"></i> Activer</button>
     </div>
 
     <!-- STATS -->
@@ -442,59 +622,94 @@
   </div>
 
   <!-- ===== MESSAGE DE BLOCAGE (visible si NON débloqué) ===== -->
-  <div id="lockedMessage" style="display:none; text-align:center; padding:40px 20px; background:var(--bg-card); border-radius:var(--radius); border:1px solid var(--card-border);">
-    <i class="fas fa-lock" style="font-size:48px; color:var(--accent); margin-bottom:16px;"></i>
-    <h2 style="margin-bottom:12px; font-family:'Playfair Display',serif; font-size:22px;">🔒 Parrainage verrouillé</h2>
-    <p style="color:var(--text-dim); margin-bottom:8px; font-size:14px;">
+  <div id="lockedMessage">
+    <span class="lock-icon"><i class="fas fa-lock"></i></span>
+    <h2>🔒 Parrainage verrouillé</h2>
+    <p>
       Effectuez votre <strong>premier dépôt</strong> de <strong>3 000 FCFA</strong> pour débloquer le programme de parrainage.
     </p>
-    <p style="color:var(--text-dim); margin-bottom:20px; font-size:14px;">
-      Gagnez <strong style="color:var(--success);">500 FCFA</strong> pour chaque personne que vous parrainez !
+    <p>
+      Gagnez <span class="highlight">500 FCFA</span> pour chaque personne que vous parrainez après son 1er dépôt !
     </p>
-    <a href="recharger.html" style="display:inline-block; padding:14px 28px; background:var(--accent); color:var(--bg-dark); border-radius:12px; font-weight:700; text-decoration:none; transition:var(--transition);">
+    <a href="recharger.html" class="btn-recharge-lock">
       <i class="fas fa-plus-circle"></i> Recharger maintenant
     </a>
-    <br><br>
-    <a href="index.html" style="color:var(--text-dim); font-size:13px; text-decoration:none;">🏠 Retour à l'accueil</a>
+    <br>
+    <a href="index.html" class="back-link">🏠 Retour à l'accueil</a>
   </div>
 
 </main>
 
 <div class="toast" id="toast"></div>
 
+<!-- ================================================================ -->
+<!-- ERUDA -->
+<!-- ================================================================ -->
+<script>
+(function() {
+  var isLocal = location.hostname === "localhost" || location.hostname === "127.0.0.1";
+  var isDebug = location.search.indexOf("debug=true") !== -1 || location.search.indexOf("eruda=true") !== -1;
+  if (isLocal || isDebug) {
+    if (document.querySelector('script[data-eruda]')) return;
+    var s = document.createElement("script");
+    s.setAttribute("data-eruda", "true");
+    s.src = "https://cdn.jsdelivr.net/npm/eruda";
+    s.onload = function() {
+      if (typeof eruda !== 'undefined') {
+        eruda.init({ tool: ['console', 'network', 'elements'], defaults: { displaySize: 40 } });
+        console.log("🐞 Eruda active - Parrainage");
+      }
+    };
+    document.head.appendChild(s);
+  }
+})();
+</script>
+
+<!-- ================================================================ -->
+<!-- IMPORTS -->
+<!-- ================================================================ -->
 <script type="importmap">
 {
   "imports": {
-    "firebase/app": "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js",
-    "firebase/auth": "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js",
-    "firebase/firestore": "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js"
+    "firebase/app": "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js",
+    "firebase/auth": "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js",
+    "firebase/firestore": "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js",
+    "firebase/messaging": "https://www.gstatic.com/firebasejs/12.12.1/firebase-messaging.js"
   }
 }
 </script>
 
 <script type="module">
-import { initializeApp } from "firebase/app";
+// ================================================================
+// IMPORTS FIREBASE v12
+// ================================================================
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
 import { 
   getAuth, 
   onAuthStateChanged,
   setPersistence,
   browserLocalPersistence
-} from "firebase/auth";
+} from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
 import { 
   getFirestore,
   doc,
   getDoc,
-  getDocs,
   collection,
   query,
   where,
+  onSnapshot,
+  updateDoc,
   serverTimestamp
-} from "firebase/firestore";
+} from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
+import { 
+  getMessaging,
+  getToken
+} from "https://www.gstatic.com/firebasejs/12.12.1/firebase-messaging.js";
 
 // ================================================================
-// FIREBASE CONFIG
+// CONFIGURATION FIREBASE
 // ================================================================
-const firebaseConfig = {
+var firebaseConfig = {
   apiKey: "AIzaSyBEbYuuUlNCLMBUHClv4UnyownNHw2q3_g",
   authDomain: "nexgen-39043.firebaseapp.com",
   projectId: "nexgen-39043",
@@ -504,282 +719,425 @@ const firebaseConfig = {
   measurementId: "G-HC2Q5DNKDR"
 };
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-await setPersistence(auth, browserLocalPersistence);
+var app = initializeApp(firebaseConfig);
+var auth = getAuth(app);
+var db = getFirestore(app);
+var messaging = getMessaging(app);
+
+var VAPID_KEY = "BJKkMr-LMevY9HePx3vzYqWMILwAV8mxwOdfkbR-PvEu_m7eu309ygioDNLLqW1wRc2b93Irb1svNnLQIpegquk";
+
+setPersistence(auth, browserLocalPersistence);
 
 // ================================================================
-// HELPERS
+// TELEGRAM CONFIG (admin uniquement)
 // ================================================================
-async function getDocument(collectionName, docId) {
-  const ref = doc(db, collectionName, docId);
-  const snap = await getDoc(ref);
-  if (!snap.exists()) return null;
-  return { id: snap.id, ...snap.data() };
-}
+var TELEGRAM_BOT_TOKEN = "8283625921:AAEF--QKS9uqnz0K3j7SGkk7fsdRb3b8y8o";
+var TELEGRAM_CHAT_ID = "5212067028";
 
 // ================================================================
 // DOM
 // ================================================================
-const parrainCodeEl = document.getElementById('parrainCode');
-const inviteLinkEl = document.getElementById('inviteLink');
-const totalFilleulsEl = document.getElementById('totalFilleuls');
-const totalGainsEl = document.getElementById('totalGainsParrainage');
-const filleulsContainer = document.getElementById('filleulsContainer');
-const toast = document.getElementById('toast');
+var parrainCodeEl = document.getElementById('parrainCode');
+var inviteLinkEl = document.getElementById('inviteLink');
+var totalFilleulsEl = document.getElementById('totalFilleuls');
+var totalGainsEl = document.getElementById('totalGainsParrainage');
+var filleulsContainer = document.getElementById('filleulsContainer');
+var toast = document.getElementById('toast');
+var parrainContent = document.getElementById('parrainContent');
+var lockedMessage = document.getElementById('lockedMessage');
+var notifBadge = document.getElementById('notifBadge');
+var notifStatusText = document.getElementById('notifStatusText');
+var notifPermissionBanner = document.getElementById('notifPermissionBanner');
+var enableNotifBtn = document.getElementById('enableNotifBtn');
+
+var currentUser = null;
+var userData = null;
+var unsubscribeFilleuls = null;
+var notificationTimeout = null;
 
 // ================================================================
 // TOAST
 // ================================================================
-function showToast(message, type = 'success') {
+function showToast(message, type) {
+  type = type || 'success';
   toast.textContent = message;
-  toast.className = `toast ${type}`;
-  setTimeout(() => toast.classList.add('show'), 50);
-  setTimeout(() => toast.classList.remove('show'), 3500);
+  toast.className = 'toast ' + type;
+  clearTimeout(notificationTimeout);
+  setTimeout(function() {
+    toast.classList.add('show');
+  }, 50);
+  notificationTimeout = setTimeout(function() {
+    toast.classList.remove('show');
+  }, 3500);
 }
 
 // ================================================================
-// ÉCHAPPEMENT HTML
+// ENVOI TELEGRAM (admin uniquement)
+// ================================================================
+function sendTelegramMessage(message) {
+  var url = 'https://api.telegram.org/bot' + TELEGRAM_BOT_TOKEN + '/sendMessage';
+  return fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      chat_id: TELEGRAM_CHAT_ID,
+      text: message,
+      parse_mode: 'HTML',
+      disable_web_page_preview: true
+    })
+  }).then(function(response) {
+    return response.json();
+  }).then(function(data) {
+    console.log('Telegram envoye:', data.ok);
+    return data.ok;
+  }).catch(function(error) {
+    console.error('Erreur Telegram:', error);
+    return false;
+  });
+}
+
+// ================================================================
+// NOTIFICATION ADMIN - NOUVEAU PARRAINAGE
+// ================================================================
+function notifyAdminNewReferral(userName, userEmail, referralCode) {
+  var messages = [
+    '👊 YES ! Nouveau parrainage !\n\n👤 Parrain: ' + userName + '\n👤 Filleul: ' + userEmail + '\n🔑 Code: ' + referralCode + '\n\n500 FCFA en attente du 1er dépôt du filleul.\n\n🔗 Suivre le parrainage',
+    'Eh djo, nouveau parrainage ! 🔥\n\n' + userName + ' a parrainé ' + userEmail + '.\n500 FCFA en attente du dépôt.\n\nOn surveille ça ! 👀',
+    'Nouveau parrainage dans la maison ! 🤝\n\n' + userName + ' vient de parrainer un nouveau membre.\n500 FCFA en jeu, on attend le dépôt ! 💰',
+    'Ça y est, un filleul de plus pour ' + userName + ' ! 😎\n\n500 FCFA en attente du 1er dépôt.\nAllez, on espère que ça va vite se faire ! ⏳',
+    'Hey, nouveau lien de parrainage activé ! 🔗\n\n' + userName + ' a parrainé quelqu\'un.\n500 FCFA en jeu dès le premier dépôt ! 💪'
+  ];
+  var randomIdx = Math.floor(Math.random() * messages.length);
+  var msg = messages[randomIdx] + '\n\n🔗 <a href="https://nexgen-39043.web.app/admin">Voir dans l\'admin</a>';
+  return sendTelegramMessage(msg);
+}
+
+// ================================================================
+// ECHAPPEMENT HTML
 // ================================================================
 function escapeHtml(str) {
   if (!str) return '';
-  const div = document.createElement('div');
+  var div = document.createElement('div');
   div.textContent = str;
   return div.innerHTML;
 }
 
 // ================================================================
-// CHARGEMENT DES FILLEULS (CORRIGÉ - via collection users)
+// ECOUTE EN TEMPS REEL DES FILLEULS
 // ================================================================
-async function loadFilleuls(referralCode) {
+function listenToFilleuls(referralCode) {
+  if (unsubscribeFilleuls) {
+    unsubscribeFilleuls();
+    unsubscribeFilleuls = null;
+  }
+
   if (!referralCode) {
-    filleulsContainer.innerHTML = `
-      <div class="empty-state">
-        <i class="fas fa-user-plus"></i>
-        <p>Aucun filleul pour l'instant</p>
-        <p class="sub">Partagez votre code pour inviter des amis !</p>
-      </div>
-    `;
+    filleulsContainer.innerHTML = '<div class="empty-state"><i class="fas fa-user-plus"></i><p>Aucun filleul pour l\'instant</p><p class="sub">Partagez votre code pour inviter des amis !</p></div>';
     totalFilleulsEl.textContent = 0;
     return;
   }
 
   try {
-    console.log("🔍 Recherche des filleuls avec code:", referralCode);
+    var usersRef = collection(db, "users");
+    var q = query(usersRef, where("referredBy", "==", referralCode));
     
-    // ✅ RECHERCHE DES FILLEULS DANS LA COLLECTION users
-    const usersRef = collection(db, "users");
-    const q = query(usersRef, where("referredBy", "==", referralCode));
-    const querySnapshot = await getDocs(q);
-    
-    console.log("📊 Nombre de filleuls trouvés:", querySnapshot.size);
-    
-    if (querySnapshot.empty) {
-      filleulsContainer.innerHTML = `
-        <div class="empty-state">
-          <i class="fas fa-user-plus"></i>
-          <p>Aucun filleul pour l'instant</p>
-          <p class="sub">Partagez votre code pour inviter des amis !</p>
-        </div>
-      `;
-      totalFilleulsEl.textContent = 0;
-      return;
-    }
-    
-    let html = '';
-    let count = 0;
-    querySnapshot.forEach((docSnap) => {
-      const data = docSnap.data();
-      const name = `${data.prenom || ''} ${data.nom || ''}`.trim() || data.email?.split('@')[0] || 'Utilisateur';
-      const date = data.registrationDate ? new Date(data.registrationDate).toLocaleDateString('fr-FR') : 'Date inconnue';
-      count++;
-      html += `
-        <div class="filleul-item">
-          <div>
-            <div class="name">${escapeHtml(name)}</div>
-            <div class="date">Inscrit le ${date}</div>
-          </div>
-          <div class="gain">+500 FCFA</div>
-        </div>
-      `;
+    unsubscribeFilleuls = onSnapshot(q, function(snapshot) {
+      console.log("Mise à jour filleuls en temps réel:", snapshot.size);
+      
+      if (snapshot.empty) {
+        filleulsContainer.innerHTML = '<div class="empty-state"><i class="fas fa-user-plus"></i><p>Aucun filleul pour l\'instant</p><p class="sub">Partagez votre code pour inviter des amis !</p></div>';
+        totalFilleulsEl.textContent = 0;
+        return;
+      }
+      
+      var html = '';
+      var count = 0;
+      var newReferralDetected = false;
+      
+      snapshot.forEach(function(docSnap) {
+        var data = docSnap.data();
+        var name = (data.prenom || '') + ' ' + (data.nom || '');
+        name = name.trim() || (data.email ? data.email.split('@')[0] : 'Utilisateur');
+        var date = data.createdAt || data.registrationDate || data.dateInscription;
+        var formattedDate = date ? new Date(date).toLocaleDateString('fr-FR') : 'Date inconnue';
+        count++;
+        
+        var hasDeposited = data.hasDeposited === true || data.firstDeposit === true;
+        var bonusReceived = data.referralBonusReceived === true;
+        
+        var statusText = '';
+        var statusClass = '';
+        
+        if (hasDeposited && bonusReceived) {
+          statusText = '✅ Bonus reçu';
+          statusClass = 'received';
+        } else if (hasDeposited && !bonusReceived) {
+          statusText = '⏳ Bonus en attente';
+          statusClass = 'waiting';
+        } else if (!hasDeposited) {
+          statusText = '⏳ En attente de dépôt';
+          statusClass = 'waiting';
+        } else {
+          statusText = 'Statut inconnu';
+          statusClass = 'inactive';
+        }
+        
+        html += '<div class="filleul-item"><div class="left"><div class="name">' + escapeHtml(name) + '</div><div class="date">Inscrit le ' + formattedDate + '</div></div><div class="right"><span class="status ' + statusClass + '">' + statusText + '</span></div></div>';
+        
+        if (data.createdAt) {
+          var now = new Date();
+          var created = new Date(data.createdAt);
+          var diff = (now - created) / 1000;
+          if (diff < 10) {
+            newReferralDetected = true;
+            notifyAdminNewReferral(userData ? userData.prenom : 'Utilisateur', data.email, referralCode);
+          }
+        }
+      });
+      
+      filleulsContainer.innerHTML = html;
+      totalFilleulsEl.textContent = count;
+      
+      if (newReferralDetected) {
+        showToast('👊 YES ! Nouveau filleul détecté ! 🎉', 'success');
+        if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
+      }
+      
+    }, function(error) {
+      console.error('Erreur écoute filleuls:', error);
+      if (error.code === 'permission-denied') {
+        filleulsContainer.innerHTML = '<div class="empty-state"><i class="fas fa-lock"></i><p>⛔ Permission refusée</p><p class="sub">Vérifiez les règles Firestore</p></div>';
+      }
     });
-    filleulsContainer.innerHTML = html;
-    totalFilleulsEl.textContent = count;
-    console.log("✅ Filleuls affichés:", count);
     
   } catch (error) {
-    console.error("❌ Erreur chargement filleuls:", error);
-    console.error("📋 Code:", error.code);
-    console.error("📋 Message:", error.message);
-    
-    // Si erreur de permission, afficher un message plus clair
-    if (error.code === 'permission-denied') {
-      filleulsContainer.innerHTML = `
-        <div class="empty-state">
-          <i class="fas fa-lock"></i>
-          <p>⛔ Permission refusée</p>
-          <p class="sub">Vérifiez les règles Firestore (autorisez les requêtes sur users)</p>
-        </div>
-      `;
-    } else {
-      filleulsContainer.innerHTML = `
-        <div class="empty-state">
-          <i class="fas fa-exclamation-circle"></i>
-          <p>Erreur de chargement</p>
-          <p class="sub">Réessayez plus tard</p>
-        </div>
-      `;
-    }
+    console.error('Erreur setup écoute:', error);
   }
 }
 
 // ================================================================
-// CHARGEMENT DES DONNÉES UTILISATEUR
+// CHARGEMENT UTILISATEUR
 // ================================================================
 async function loadUserData(uid) {
   try {
-    const data = await getDocument('users', uid);
-    if (!data) {
-      console.error("❌ Utilisateur introuvable");
+    var userRef = doc(db, 'users', uid);
+    var docSnap = await getDoc(userRef);
+    
+    if (!docSnap.exists()) {
+      console.error('Utilisateur introuvable');
       window.location.href = 'login.html';
       return;
     }
+    
+    var data = docSnap.data();
+    currentUser = { uid: uid, ...data };
 
-    // Vérification déblocage
-    const isUnlocked = data.isUnlocked === true || data.hasDeposited === true;
+    var isUnlocked = data.isUnlocked === true || data.hasDeposited === true;
     
     if (!isUnlocked) {
-      document.getElementById('parrainContent').style.display = 'none';
-      document.getElementById('lockedMessage').style.display = 'block';
+      parrainContent.style.display = 'none';
+      lockedMessage.style.display = 'block';
       showToast('🔒 Parrainage verrouillé. Effectuez votre premier dépôt.', 'warning');
       return;
     }
 
-    document.getElementById('parrainContent').style.display = 'block';
-    document.getElementById('lockedMessage').style.display = 'none';
+    parrainContent.style.display = 'block';
+    lockedMessage.style.display = 'none';
 
-    const code = data.referralCode || 'Non disponible';
+    var code = data.referralCode || 'Non disponible';
     parrainCodeEl.textContent = code;
 
-    const baseUrl = window.location.origin + window.location.pathname.replace('parrainage.html', '');
-    const link = `${baseUrl}register.html?ref=${code}`;
+    var baseUrl = window.location.origin + window.location.pathname.replace('parrainage.html', '');
+    var link = baseUrl + 'register.html?ref=' + code;
     inviteLinkEl.textContent = link;
 
     totalFilleulsEl.textContent = data.referralsCount || 0;
-    totalGainsEl.textContent = `${(data.referralEarnings || 0).toLocaleString('fr-FR')} FCFA`;
+    totalGainsEl.textContent = (data.referralEarnings || 0).toLocaleString('fr-FR') + ' FCFA';
 
-    // Charger les filleuls
-    await loadFilleuls(code);
+    listenToFilleuls(code);
+
+    localStorage.setItem('ARVEXA_user_data', JSON.stringify(data));
+    sessionStorage.setItem('arvexa_loaded', 'true');
 
   } catch (error) {
-    console.error("❌ Erreur loadUserData:", error);
-    showToast("Erreur de chargement des données", "error");
+    console.error('Erreur loadUserData:', error);
+    showToast('Erreur de chargement des données', 'error');
   }
 }
 
 // ================================================================
 // COPIER CODE
 // ================================================================
-document.getElementById('copyCodeBtn').addEventListener('click', () => {
-  const code = parrainCodeEl.textContent;
-  if (code && code !== 'CHARGEMENT...' && code !== 'Non disponible') {
-    navigator.clipboard.writeText(code).then(() => {
-      const btn = document.getElementById('copyCodeBtn');
+document.getElementById('copyCodeBtn').addEventListener('click', function() {
+  var code = parrainCodeEl.textContent;
+  if (!code || code === 'CHARGEMENT...' || code === 'Non disponible') return;
+  
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(code).then(function() {
+      var btn = document.getElementById('copyCodeBtn');
       btn.innerHTML = '<i class="fas fa-check"></i> Copié !';
       btn.classList.add('copied');
       showToast('✅ Code copié !', 'success');
-      setTimeout(() => {
+      setTimeout(function() {
         btn.innerHTML = '<i class="fas fa-copy"></i> Copier le code';
         btn.classList.remove('copied');
       }, 3000);
-    }).catch(() => {
-      const ta = document.createElement('textarea');
-      ta.value = code;
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand('copy');
-      document.body.removeChild(ta);
-      showToast('✅ Code copié !', 'success');
+    }).catch(function() {
+      fallbackCopy(code);
     });
+  } else {
+    fallbackCopy(code);
   }
 });
+
+function fallbackCopy(text) {
+  var ta = document.createElement('textarea');
+  ta.value = text;
+  document.body.appendChild(ta);
+  ta.select();
+  document.execCommand('copy');
+  document.body.removeChild(ta);
+  showToast('✅ Code copié !', 'success');
+}
 
 // ================================================================
 // COPIER LIEN
 // ================================================================
-document.getElementById('copyLinkBtn').addEventListener('click', () => {
-  const link = inviteLinkEl.textContent;
-  if (link && link !== 'Chargement...') {
-    navigator.clipboard.writeText(link).then(() => {
+document.getElementById('copyLinkBtn').addEventListener('click', function() {
+  var link = inviteLinkEl.textContent;
+  if (!link || link === 'Chargement...') return;
+  
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(link).then(function() {
       showToast('✅ Lien copié !', 'success');
-    }).catch(() => {
-      const ta = document.createElement('textarea');
-      ta.value = link;
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand('copy');
-      document.body.removeChild(ta);
-      showToast('✅ Lien copié !', 'success');
+    }).catch(function() {
+      fallbackCopy(link);
     });
+  } else {
+    fallbackCopy(link);
   }
 });
 
 // ================================================================
 // PARTAGES
 // ================================================================
-document.getElementById('shareWA').addEventListener('click', () => {
-  const link = inviteLinkEl.textContent;
-  const code = parrainCodeEl.textContent;
-  const text = `🎁 Rejoins ARVEXA ! Gagne 500 FCFA avec mon code : ${code}\n🔗 ${link}`;
-  window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+document.getElementById('shareWA').addEventListener('click', function() {
+  var link = inviteLinkEl.textContent;
+  var code = parrainCodeEl.textContent;
+  var text = '🎁 Rejoins ARVEXA ! Gagne 500 FCFA avec mon code : ' + code + '\n🔗 ' + link;
+  window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank');
 });
 
-document.getElementById('shareFB').addEventListener('click', () => {
-  const link = inviteLinkEl.textContent;
-  window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(link)}`, '_blank');
+document.getElementById('shareFB').addEventListener('click', function() {
+  var link = inviteLinkEl.textContent;
+  window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(link), '_blank');
 });
 
-document.getElementById('shareTwitter').addEventListener('click', () => {
-  const link = inviteLinkEl.textContent;
-  const text = `🎁 Rejoins ARVEXA ! Gagne 500 FCFA avec mon code de parrainage !`;
-  window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(link)}`, '_blank');
+document.getElementById('shareTwitter').addEventListener('click', function() {
+  var link = inviteLinkEl.textContent;
+  var text = '🎁 Rejoins ARVEXA ! Gagne 500 FCFA avec mon code de parrainage !';
+  window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(text) + '&url=' + encodeURIComponent(link), '_blank');
 });
 
-document.getElementById('shareTelegram').addEventListener('click', () => {
-  const link = inviteLinkEl.textContent;
-  const text = `🎁 Rejoins ARVEXA ! Gagne 500 FCFA avec mon code !\n🔗 ${link}`;
-  window.open(`https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent(text)}`, '_blank');
+document.getElementById('shareTelegram').addEventListener('click', function() {
+  var link = inviteLinkEl.textContent;
+  var text = '🎁 Rejoins ARVEXA ! Gagne 500 FCFA avec mon code !\n🔗 ' + link;
+  window.open('https://t.me/share/url?url=' + encodeURIComponent(link) + '&text=' + encodeURIComponent(text), '_blank');
 });
+
+// ================================================================
+// NOTIFICATIONS FCM
+// ================================================================
+async function setupFCMNotifications() {
+  try {
+    if (Notification.permission === 'granted') {
+      var token = await getToken(messaging, { vapidKey: VAPID_KEY });
+      if (currentUser) {
+        var userRef = doc(db, 'users', currentUser.uid);
+        await updateDoc(userRef, { fcmToken: token, notificationsEnabled: true });
+      }
+      notifBadge.className = 'notif-badge';
+      notifStatusText.textContent = '🔔';
+      if (notifPermissionBanner) notifPermissionBanner.style.display = 'none';
+      return token;
+    }
+    
+    if (Notification.permission === 'denied') {
+      notifBadge.className = 'notif-badge';
+      notifStatusText.textContent = '🔕';
+      if (notifPermissionBanner) notifPermissionBanner.style.display = 'none';
+      return null;
+    }
+    
+    notifBadge.className = 'notif-badge';
+    notifStatusText.textContent = '🔔';
+    if (notifPermissionBanner) notifPermissionBanner.style.display = 'flex';
+    return null;
+  } catch (error) {
+    console.error('❌ Erreur FCM:', error);
+    return null;
+  }
+}
+
+if (enableNotifBtn) {
+  enableNotifBtn.addEventListener('click', async function() {
+    try {
+      var permission = await Notification.requestPermission();
+      if (permission === 'granted') {
+        var token = await getToken(messaging, { vapidKey: VAPID_KEY });
+        if (currentUser) {
+          var userRef = doc(db, 'users', currentUser.uid);
+          await updateDoc(userRef, { fcmToken: token, notificationsEnabled: true });
+        }
+        notifBadge.className = 'notif-badge';
+        notifStatusText.textContent = '🔔';
+        if (notifPermissionBanner) notifPermissionBanner.style.display = 'none';
+        showToast('✅ Notifications activées !', 'success');
+      } else {
+        showToast('⚠️ Notifications désactivées.', 'warning');
+      }
+    } catch (error) {
+      console.error('❌ Erreur permission:', error);
+    }
+  });
+}
 
 // ================================================================
 // AUTH
 // ================================================================
-let authChecked = false;
+var authChecked = false;
 
-onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, function(user) {
   if (user) {
-    if (authChecked) return;
-    authChecked = true;
+    currentUser = user;
     localStorage.setItem('ARVEXA_current_user', user.uid);
+    
+    var cached = localStorage.getItem('ARVEXA_user_data');
+    if (cached) {
+      try {
+        userData = JSON.parse(cached);
+      } catch(e) {}
+    }
+
     loadUserData(user.uid);
-  } else {
-    if (authChecked) return;
+    setupFCMNotifications();
     authChecked = true;
-    const saved = localStorage.getItem('ARVEXA_current_user');
-    if (saved) {
-      setTimeout(() => {
+  } else {
+    var saved = localStorage.getItem('ARVEXA_current_user');
+    if (saved && !authChecked) {
+      setTimeout(function() {
         if (!auth.currentUser) {
           window.location.href = 'login.html';
         }
       }, 2000);
-    } else {
+    } else if (!authChecked) {
       window.location.href = 'login.html';
     }
+    authChecked = true;
   }
 });
 
-console.log('👥 ARVEXA - Page Parrainage chargée');
+console.log('👥 ARVEXA - Page Parrainage chargée (version premium)');
 </script>
 </body>
 </html>
