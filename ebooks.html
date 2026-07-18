@@ -924,106 +924,107 @@ function showToast(message, type = 'info') {
 // ================================================================
 const DEFAULT_EBOOKS = [
   {
-    id: 'ebook_001',
-    title: "50 idées de business à lancer avec 0 FCFA",
-    category: "Entrepreneuriat",
-    description: "Découvrez 50 idées d'activités rentables à démarrer sans capital.",
-    coverImage: "https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=300&h=400&fit=crop",
-    isNew: true,
-    isPopular: false,
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 'ebook_002',
-    title: "100 outils IA gratuits pour gagner du temps et de l'argent",
-    category: "Technologie",
-    description: "Les meilleurs outils d'IA pour booster votre productivité.",
-    coverImage: "https://images.pexels.com/photos/669615/pexels-photo-669615.jpeg?auto=compress&cs=tinysrgb&w=300&h=400&fit=crop",
-    isNew: true,
-    isPopular: true,
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 'ebook_003',
-    title: "Les erreurs qui empêchent de devenir riche avant 30 ans",
-    category: "Finance",
-    description: "Évitez les pièges qui freinent votre réussite financière.",
-    coverImage: "https://images.pexels.com/photos/4386367/pexels-photo-4386367.jpeg?auto=compress&cs=tinysrgb&w=300&h=400&fit=crop",
-    isNew: false,
-    isPopular: true,
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 'ebook_004',
-    title: "Comment économiser et gérer son argent intelligemment",
-    category: "Finance",
-    description: "Maîtrisez vos finances et faites fructifier votre argent.",
-    coverImage: "https://images.pexels.com/photos/5849577/pexels-photo-5849577.jpeg?auto=compress&cs=tinysrgb&w=300&h=400&fit=crop",
-    isNew: false,
-    isPopular: false,
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 'ebook_005',
-    title: "Les 100 meilleures applications pour gagner de l'argent en ligne",
-    category: "Technologie",
-    description: "Les applis qui rapportent vraiment.",
-    coverImage: "https://images.pexels.com/photos/4386366/pexels-photo-4386366.jpeg?auto=compress&cs=tinysrgb&w=300&h=400&fit=crop",
-    isNew: false,
-    isPopular: false,
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 'ebook_006',
-    title: "Le guide complet du freelancing",
-    category: "Entrepreneuriat",
-    description: "Devenez freelance et vivez de votre passion.",
-    coverImage: "https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=300&h=400&fit=crop",
-    isNew: false,
-    isPopular: false,
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 'ebook_007',
-    title: "Les secrets de la discipline et de la productivité",
-    category: "Développement",
-    description: "Les méthodes pour rester productif et atteindre vos objectifs.",
-    coverImage: "https://images.pexels.com/photos/669615/pexels-photo-669615.jpeg?auto=compress&cs=tinysrgb&w=300&h=400&fit=crop",
-    isNew: false,
-    isPopular: false,
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 'ebook_008',
-    title: "Les bases du marketing digital",
-    category: "Marketing",
-    description: "Comprenez les fondamentaux du marketing en ligne.",
-    coverImage: "https://images.pexels.com/photos/4386367/pexels-photo-4386367.jpeg?auto=compress&cs=tinysrgb&w=300&h=400&fit=crop",
-    isNew: false,
-    isPopular: false,
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 'ebook_009',
-    title: "Le guide du branding personnel",
-    category: "Développement",
-    description: "Construisez votre marque personnelle et démarquez-vous.",
-    coverImage: "https://images.pexels.com/photos/5849577/pexels-photo-5849577.jpeg?auto=compress&cs=tinysrgb&w=300&h=400&fit=crop",
-    isNew: false,
-    isPopular: false,
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 'ebook_010',
-    title: "Comment créer plusieurs sources de revenus",
-    category: "Finance",
-    description: "Diversifiez vos revenus pour une liberté financière totale.",
-    coverImage: "https://images.pexels.com/photos/4386366/pexels-photo-4386366.jpeg?auto=compress&cs=tinysrgb&w=300&h=400&fit=crop",
-    isNew: false,
-    isPopular: true,
-    createdAt: new Date().toISOString()
-  }
-];
+        id: 'ebook_001',
+        title: "50 idées de business à lancer avec 0 FCFA",
+        category: "Entrepreneuriat",
+        description: "Découvrez 50 idées d'activités rentables à démarrer sans capital.",
+        coverImage: "ebooks/cover-1.png",
+        isNew: true,
+        isPopular: false,
+        createdAt: new Date().toISOString()
+      },
+      {
+        id: 'ebook_002',
+        title: "100 outils IA gratuits pour gagner du temps et de l'argent",
+        category: "Technologie",
+        description: "Les meilleurs outils d'IA pour booster votre productivité.",
+        coverImage: "ebooks/cover-2.png",
+        isNew: true,
+        isPopular: true,
+        createdAt: new Date().toISOString()
+      },
+      {
+        id: 'ebook_003',
+        title: "Les erreurs qui empêchent de devenir riche avant 20 ans",
+        category: "Finance",
+        description: "Évitez les pièges qui freinent votre réussite financière.",
+        coverImage: "ebooks/cover-3.png",
+        isNew: false,
+        isPopular: true,
+        createdAt: new Date().toISOString()
+      },
+      {
+        id: 'ebook_004',
+        title: "Comment économiser et gérer son argent intelligemment",
+        category: "Finance",
+        description: "Maîtrisez vos finances et faites fructifier votre argent.",
+        coverImage: "ebooks/cover-4.png",
+        isNew: false,
+        isPopular: false,
+        createdAt: new Date().toISOString()
+      },
+      {
+        id: 'ebook_005',
+        title: "Les 100 meilleures applications pour gagner de l'argent en ligne",
+        category: "Technologie",
+        description: "Les applis qui rapportent vraiment.",
+        coverImage: "ebooks/cover-5.png",
+        isNew: false,
+        isPopular: false,
+        createdAt: new Date().toISOString()
+      },
+      {
+        id: 'ebook_006',
+        title: "Le guide complet du freelancing",
+        category: "Entrepreneuriat",
+        description: "Devenez freelance et vivez de votre passion.",
+        coverImage: "ebooks/cover-6.png",
+        isNew: false,
+        isPopular: false,
+        createdAt: new Date().toISOString()
+      },
+      {
+        id: 'ebook_007',
+        title: "Les secrets de la discipline et de la productivité",
+        category: "Développement",
+        description: "Les méthodes pour rester productif et atteindre vos objectifs.",
+        coverImage: "ebooks/cover-7.png",
+        isNew: false,
+        isPopular: false,
+        createdAt: new Date().toISOString()
+      },
+      {
+        id: 'ebook_008',
+        title: "Les bases du marketing digital",
+        category: "Marketing",
+        description: "Comprenez les fondamentaux du marketing en ligne.",
+        coverImage: "ebooks/cover-8.png",
+        isNew: false,
+        isPopular: false,
+        createdAt: new Date().toISOString()
+      },
+      {
+        id: 'ebook_009',
+        title: "Le guide du branding personnel",
+        category: "Développement",
+        description: "Construisez votre marque personnelle et démarquez-vous.",
+        coverImage: "ebooks/cover-9.png",
+        isNew: false,
+        isPopular: false,
+        createdAt: new Date().toISOString()
+      },
+      {
+        id: 'ebook_010',
+        title: "Comment créer plusieurs sources de revenus",
+        category: "Finance",
+        description: "Diversifiez vos revenus pour une liberté financière totale.",
+        coverImage: "ebooks/cover-10.png",
+        isNew: false,
+        isPopular: true,
+        createdAt: new Date().toISOString()
+      }
+    ];
+
 
 // ================================================================
 // RENDRE LES E-BOOKS
@@ -1109,7 +1110,7 @@ function renderEbooks(ebooks) {
 // ================================================================
 function handleEbookClick(ebook) {
   if (isUnlocked) {
-    window.location.href = `lire-ebook.html?id=${ebook.id}`;
+   window.location.href = `ebooks/${ebook.id}.html`;
     return;
   }
   showPremiumPopup();
