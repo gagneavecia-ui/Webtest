@@ -518,11 +518,20 @@ var token = await getToken(messaging, {
     
     // Afficher une notification locale
     if (Notification.permission === 'granted') {
-      var notification = new Notification('🔔 Test ARVEXA', {
-        body: '✅ Votre notification fonctionne parfaitement !',
-        icon: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png',
-        vibrate: [200, 100, 200]
-      });
+      var registration = await navigator.serviceWorker.ready;
+
+await registration.showNotification('🔔 Test ARVEXA', {
+  body: '✅ Votre notification fonctionne parfaitement !',
+  icon: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png',
+  badge: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png',
+  vibrate: [200, 100, 200],
+  data: {
+    url: '/Webtest/index.html'
+  }
+});
+
+addLog('✅ Notification Service Worker affichée !', 'success');
+showToast('✅ Notification envoyée !', 'success');
       
       notification.onclick = function() {
         window.focus();
