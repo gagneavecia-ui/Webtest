@@ -596,6 +596,69 @@
     }
 
     /* ============================================================
+   SKELETON LOADING
+   ============================================================ */
+.skeleton-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.skeleton-card {
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.02);
+  animation: skeletonPulse 1.5s ease-in-out infinite;
+}
+.skeleton-card .skeleton-image {
+  aspect-ratio: 16/9;
+  background: rgba(255, 255, 255, 0.03);
+}
+.skeleton-card .skeleton-content {
+  padding: 14px 16px 16px;
+}
+.skeleton-card .skeleton-line {
+  height: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 6px;
+  margin-bottom: 8px;
+}
+.skeleton-card .skeleton-line:last-child {
+  margin-bottom: 0;
+}
+.skeleton-card .skeleton-line.long {
+  width: 80%;
+}
+.skeleton-card .skeleton-line.short {
+  width: 40%;
+}
+
+@keyframes skeletonPulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.6; }
+}
+
+@media (min-width: 601px) and (max-width: 768px) {
+  .skeleton-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+}
+@media (min-width: 769px) {
+  .skeleton-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+}
+@media (min-width: 1024px) {
+  .skeleton-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+}
+
+    /* ============================================================
        RESPONSIVE
        ============================================================ */
     @media (max-width: 480px) {
@@ -718,9 +781,76 @@
     <p class="hero-description">Apprenez les secrets de la finance, de l'investissement et de l'entrepreneuriat.</p>
   </div>
 
-  <!-- ===== FORMATIONS ===== -->
-  <div class="formations-grid" id="formationsGrid">
-    <!-- Rempli par JavaScript -->
+  <!-- ===== SKELETON LOADING ===== -->
+<div class="skeleton-grid" id="skeletonGrid">
+  <div class="skeleton-card">
+    <div class="skeleton-image"></div>
+    <div class="skeleton-content">
+      <div class="skeleton-line" style="width:60%;"></div>
+      <div class="skeleton-line" style="width:80%;"></div>
+      <div class="skeleton-line" style="width:40%;"></div>
+    </div>
+  </div>
+  <div class="skeleton-card">
+    <div class="skeleton-image"></div>
+    <div class="skeleton-content">
+      <div class="skeleton-line" style="width:60%;"></div>
+      <div class="skeleton-line" style="width:80%;"></div>
+      <div class="skeleton-line" style="width:40%;"></div>
+    </div>
+  </div>
+  <div class="skeleton-card">
+    <div class="skeleton-image"></div>
+    <div class="skeleton-content">
+      <div class="skeleton-line" style="width:60%;"></div>
+      <div class="skeleton-line" style="width:80%;"></div>
+      <div class="skeleton-line" style="width:40%;"></div>
+    </div>
+  </div>
+  <div class="skeleton-card">
+    <div class="skeleton-image"></div>
+    <div class="skeleton-content">
+      <div class="skeleton-line" style="width:60%;"></div>
+      <div class="skeleton-line" style="width:80%;"></div>
+      <div class="skeleton-line" style="width:40%;"></div>
+    </div>
+  </div>
+  <div class="skeleton-card">
+    <div class="skeleton-image"></div>
+    <div class="skeleton-content">
+      <div class="skeleton-line" style="width:60%;"></div>
+      <div class="skeleton-line" style="width:80%;"></div>
+      <div class="skeleton-line" style="width:40%;"></div>
+    </div>
+  </div>
+  <div class="skeleton-card">
+    <div class="skeleton-image"></div>
+    <div class="skeleton-content">
+      <div class="skeleton-line" style="width:60%;"></div>
+      <div class="skeleton-line" style="width:80%;"></div>
+      <div class="skeleton-line" style="width:40%;"></div>
+    </div>
+  </div>
+  <div class="skeleton-card">
+    <div class="skeleton-image"></div>
+    <div class="skeleton-content">
+      <div class="skeleton-line" style="width:60%;"></div>
+      <div class="skeleton-line" style="width:80%;"></div>
+      <div class="skeleton-line" style="width:40%;"></div>
+    </div>
+  </div>
+  <div class="skeleton-card">
+    <div class="skeleton-image"></div>
+    <div class="skeleton-content">
+      <div class="skeleton-line" style="width:60%;"></div>
+      <div class="skeleton-line" style="width:80%;"></div>
+      <div class="skeleton-line" style="width:40%;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== FORMATIONS ===== -->
+<div class="formations-grid" id="formationsGrid" style="display:none;"></div>
   </div>
 
 </main>
@@ -808,103 +938,148 @@ function showToast(message, type = 'info') {
 // FORMATIONS PAR DÉFAUT
 // ================================================================
 const DEFAULT_FORMATIONS = [
-  {
-    id: 'formation_001',
-    title: "La Bourse pour débutants",
-    category: "Investissement",
-    description: "Apprenez à investir en bourse avec des stratégies simples et efficaces.",
-    price: 5000,
-    isFree: false,
-    level: "Débutant",
-    duration: "2h30",
-    coverImage: "https://images.pexels.com/photos/4386367/pexels-photo-4386367.jpeg?auto=compress&cs=tinysrgb&w=400&h=225&fit=crop",
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 'formation_002',
-    title: "Les bases de la finance personnelle",
-    category: "Finance",
-    description: "Gérez votre budget, épargnez et préparez votre avenir financier.",
-    price: 0,
-    isFree: true,
-    level: "Débutant",
-    duration: "1h45",
-    coverImage: "https://images.pexels.com/photos/5849577/pexels-photo-5849577.jpeg?auto=compress&cs=tinysrgb&w=400&h=225&fit=crop",
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 'formation_003',
-    title: "Investissement immobilier en Afrique",
-    category: "Immobilier",
-    description: "Découvrez comment investir dans l'immobilier en Afrique et générer des revenus passifs.",
-    price: 10000,
-    isFree: false,
-    level: "Intermédiaire",
-    duration: "3h00",
-    coverImage: "https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=400&h=225&fit=crop",
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 'formation_004',
-    title: "Cryptomonnaies : Guide complet",
-    category: "Crypto",
-    description: "Comprenez la blockchain, le Bitcoin et investissez dans les cryptos.",
-    price: 7500,
-    isFree: false,
-    level: "Débutant",
-    duration: "2h00",
-    coverImage: "https://images.pexels.com/photos/669615/pexels-photo-669615.jpeg?auto=compress&cs=tinysrgb&w=400&h=225&fit=crop",
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 'formation_005',
-    title: "Entrepreneuriat sans capital",
-    category: "Entrepreneuriat",
-    description: "Lancez votre entreprise avec peu ou pas d'argent. Stratégies concrètes.",
-    price: 5000,
-    isFree: false,
-    level: "Débutant",
-    duration: "2h30",
-    coverImage: "https://images.pexels.com/photos/4386366/pexels-photo-4386366.jpeg?auto=compress&cs=tinysrgb&w=400&h=225&fit=crop",
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 'formation_006',
-    title: "Marketing digital pour entrepreneurs",
-    category: "Marketing",
-    description: "Maîtrisez les stratégies de marketing digital pour développer votre business.",
-    price: 8000,
-    isFree: false,
-    level: "Intermédiaire",
-    duration: "3h30",
-    coverImage: "https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=400&h=225&fit=crop",
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 'formation_007',
-    title: "Devenir rentier en 5 ans",
-    category: "Finance",
-    description: "Planifiez votre indépendance financière en 5 ans avec des stratégies prouvées.",
-    price: 12000,
-    isFree: false,
-    level: "Avancé",
-    duration: "4h00",
-    coverImage: "https://images.pexels.com/photos/5849577/pexels-photo-5849577.jpeg?auto=compress&cs=tinysrgb&w=400&h=225&fit=crop",
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 'formation_008',
-    title: "Négociation et vente",
-    category: "Développement",
-    description: "Développez vos compétences en négociation et vendez n'importe quoi.",
-    price: 6000,
-    isFree: false,
-    level: "Intermédiaire",
-    duration: "2h00",
-    coverImage: "https://images.pexels.com/photos/4386367/pexels-photo-4386367.jpeg?auto=compress&cs=tinysrgb&w=400&h=225&fit=crop",
-    createdAt: new Date().toISOString()
-  }
-];
+ 
+     {
+        id: 'formation_001',
+        title: "Créer un business rentable avec l'IA de A à Z",
+        category: "Intelligence Artificielle",
+        description: "Le guide complet pour lancer et scaler un business profitable en exploitant la puissance de l'IA.",
+        price: 5000,
+        isFree: false,
+        level: "Débutant",
+        duration: "4h30",
+        coverImage: "formations/cover-ia.png",
+        isPopular: true,
+        isNew: true,
+        createdAt: new Date().toISOString()
+      },
+      {
+        id: 'formation_002',
+        title: "Créer un site web professionnel sans coder",
+        category: "Web",
+        description: "Apprenez à créer un site web professionnel sans écrire une seule ligne de code.",
+        price: 3000,
+        isFree: false,
+        level: "Débutant",
+        duration: "2h00",
+        coverImage: "formations/cover-site.png",
+        isPopular: false,
+        isNew: true,
+        createdAt: new Date().toISOString()
+      },
+      {
+        id: 'formation_003',
+        title: "Devenir freelance et trouver ses premiers clients",
+        category: "Freelance",
+        description: "Les stratégies concrètes pour trouver vos premiers clients freelance et décoller votre activité.",
+        price: 4000,
+        isFree: false,
+        level: "Débutant",
+        duration: "2h30",
+        coverImage: "formations/cover-freelance.png",
+        isPopular: true,
+        isNew: false,
+        createdAt: new Date().toISOString()
+      },
+      {
+        id: 'formation_004',
+        title: "Créer une boutique e-commerce qui vend",
+        category: "E-commerce",
+        description: "Lancez votre boutique en ligne et générez vos premières ventes rapidement.",
+        price: 5000,
+        isFree: false,
+        level: "Intermédiaire",
+        duration: "3h00",
+        coverImage: "formations/cover-ecommerce.png",
+        isPopular: false,
+        isNew: false,
+        createdAt: new Date().toISOString()
+      },
+      {
+        id: 'formation_005',
+        title: "Créer et vendre une formation en ligne",
+        category: "Formation",
+        description: "Créez votre formation en ligne et générez des revenus passifs.",
+        price: 6000,
+        isFree: false,
+        level: "Intermédiaire",
+        duration: "3h30",
+        coverImage: "formations/cover-formation.png",
+        isPopular: false,
+        isNew: false,
+        createdAt: new Date().toISOString()
+      },
+      {
+        id: 'formation_006',
+        title: "Maîtriser TikTok, Instagram et YouTube",
+        category: "Réseaux Sociaux",
+        description: "Apprenez à créer du contenu viral et à monétiser votre audience sur les réseaux sociaux.",
+        price: 4000,
+        isFree: false,
+        level: "Débutant",
+        duration: "2h30",
+        coverImage: "formations/cover-social.png",
+        isPopular: true,
+        isNew: false,
+        createdAt: new Date().toISOString()
+      },
+      {
+        id: 'formation_007',
+        title: "Automatiser son business avec l'IA et le no-code",
+        category: "Automatisation",
+        description: "Maîtrisez l'automatisation IA et no-code pour gagner du temps et augmenter vos profits.",
+        price: 7000,
+        isFree: false,
+        level: "Intermédiaire",
+        duration: "4h00",
+        coverImage: "formations/cover-auto.png",
+        isPopular: false,
+        isNew: false,
+        createdAt: new Date().toISOString()
+      },
+      {
+        id: 'formation_008',
+        title: "Créer un SaaS avec l'IA sans être développeur",
+        category: "SaaS",
+        description: "Construisez un SaaS rentable en utilisant l'IA et le no-code.",
+        price: 8000,
+        isFree: false,
+        level: "Avancé",
+        duration: "4h30",
+        coverImage: "formations/cover-saas.png",
+        isPopular: false,
+        isNew: false,
+        createdAt: new Date().toISOString()
+      },
+      {
+        id: 'formation_009',
+        title: "Copywriting et techniques de vente qui convertissent",
+        category: "Vente",
+        description: "Maîtrisez l'art du copywriting pour vendre plus et mieux.",
+        price: 4000,
+        isFree: false,
+        level: "Débutant",
+        duration: "2h00",
+        coverImage: "formations/cover-copy.png",
+        isPopular: false,
+        isNew: true,
+        createdAt: new Date().toISOString()
+      },
+      {
+        id: 'formation_010',
+        title: "Construire un business en ligne jusqu'à 1 000 000 FCFA/mois",
+        category: "Business",
+        description: "Le plan d'action pour atteindre 1 000 000 FCFA de revenus mensuels avec votre business en ligne.",
+        price: 10000,
+        isFree: false,
+        level: "Avancé",
+        duration: "5h00",
+        coverImage: "formations/cover-milion.png",
+        isPopular: true,
+        isNew: false,
+        createdAt: new Date().toISOString()
+      }
+    ];
 
 // ================================================================
 // ACHETER UNE FORMATION (fonction Firestore)
@@ -1105,7 +1280,7 @@ async function acheterFormationAction(formation) {
   }
   
   if (userAchats && userAchats.includes(formation.id)) {
-    window.location.href = `formation-detail.html?id=${formation.id}`;
+    window.location.href = `formations/${formation.id}.html`;
     return;
   }
   
@@ -1154,17 +1329,23 @@ document.addEventListener('keydown', (e) => {
 });
 
 // ================================================================
-// CHARGER LES FORMATIONS
+// CHARGER LES FORMATIONS AVEC SKELETON
 // ================================================================
 function loadFormations() {
+  skeletonGrid.style.display = 'grid';
+  formationsGrid.style.display = 'none';
+
   try {
-    // Essayer de charger depuis Firestore
     const q = query(collection(db, 'formations'), orderBy('createdAt', 'desc'));
     onSnapshot(q, (snapshot) => {
       const formations = [];
       snapshot.forEach(doc => {
         formations.push({ id: doc.id, ...doc.data() });
       });
+      
+      skeletonGrid.style.display = 'none';
+      formationsGrid.style.display = 'grid';
+      
       if (formations.length > 0) {
         renderFormations(formations);
       } else {
@@ -1173,6 +1354,8 @@ function loadFormations() {
     });
   } catch (error) {
     console.warn('Erreur chargement formations, fallback:', error);
+    skeletonGrid.style.display = 'none';
+    formationsGrid.style.display = 'grid';
     renderFormations(DEFAULT_FORMATIONS);
   }
 }
@@ -1204,8 +1387,11 @@ async function loadUser(uid) {
       const data = docSnap.data();
       isUnlocked = data.isUnlocked === true || data.hasDeposited === true;
       userAchats = data.achats || [];
+      
+      // ✅ Si premium, fermer le popup
       if (isUnlocked && premiumPopup.classList.contains('show')) {
         hidePremiumPopup();
+        showToast('🎉 Compte premium activé !', 'success');
       }
       return data;
     }
@@ -1251,16 +1437,24 @@ onAuthStateChanged(auth, (user) => {
   if (user) {
     currentUser = user;
     localStorage.setItem('ARVEXA_current_user', user.uid);
-    loadUser(user.uid);
-    listenUser(user.uid);
-    loadUserAchats(user.uid);
-    loadFormations();
-
-    if (!isUnlocked) {
-      setTimeout(() => {
-        showPremiumPopup();
-      }, 1000);
-    }
+    
+    // ✅ Charger l'utilisateur et ses données
+    loadUser(user.uid).then(() => {
+      // ✅ Écouter les changements en temps réel
+      listenUser(user.uid);
+      loadUserAchats(user.uid);
+      loadFormations();
+      
+      // ✅ Vérifier le premium après le chargement
+      if (!isUnlocked) {
+        setTimeout(() => {
+          showPremiumPopup();
+        }, 800);
+      }
+    }).catch((error) => {
+      console.error('Erreur chargement utilisateur:', error);
+      loadFormations();
+    });
 
   } else {
     const savedUid = localStorage.getItem('ARVEXA_current_user');
