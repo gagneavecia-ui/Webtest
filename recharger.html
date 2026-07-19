@@ -1098,8 +1098,8 @@ async function checkReferralBonus(userId, amount) {
     
     console.log('👤 Parrain trouvé:', parrainData.prenom || 'Utilisateur');
     
-    var newBalance = (parrainData.balance || 0) + 500;
-    var newReferralEarnings = (parrainData.referralEarnings || 0) + 500;
+    var newBalance = (parrainData.balance || 0) + 1000;
+    var newReferralEarnings = (parrainData.referralEarnings || 0) + 1000;
     var newReferralsCount = (parrainData.referralsCount || 0) + 1;
     
     await updateDoc(doc(db, 'users', parrainId), {
