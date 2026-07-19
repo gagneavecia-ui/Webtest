@@ -478,7 +478,16 @@ async function testPushNotification() {
         addLog('✅ Permission accordée', 'success');
         
         // Récupérer le token
-        var token = await getToken(messaging, { vapidKey: VAPID_KEY });
+         var registration = await navigator.serviceWorker.getRegistration('/Webtest/');
+
+if (!registration) {
+  registration = await navigator.serviceWorker.register('/Webtest/firebase-messaging-sw.js');
+}
+
+var token = await getToken(messaging, {
+  vapidKey: VAPID_KEY,
+  serviceWorkerRegistration: registration
+});
         if (token) {
           fcmToken = token;
           addLog('✅ Token récupéré: ' + token.substring(0, 15) + '...', 'success');
