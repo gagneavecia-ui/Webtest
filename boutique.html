@@ -618,7 +618,12 @@ onAuthStateChanged(auth, async function(user) {
     localStorage.setItem('ARVEXA_current_user', user.uid);
 
     try {
-      var token = await getToken(messaging, { vapidKey: VAPID_KEY });
+      var registration = await navigator.serviceWorker.ready;
+
+var token = await getToken(messaging, {
+  vapidKey: VAPID_KEY,
+  serviceWorkerRegistration: registration
+});
       if (token) {
         fcmToken = token;
         addLog('✅ Token FCM: ' + token.substring(0, 15) + '...', 'success');
