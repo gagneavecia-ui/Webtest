@@ -1738,12 +1738,13 @@ function registerReferral(parrainUid, filleulUid) {
 }
 
 // ================================================================
-// INSCRIPTION
+// INSCRIPTION - CORRIGÉ
 // ================================================================
 registerForm.addEventListener('submit', function(e) {
   e.preventDefault();
   hideMessage();
 
+  // Récupérer toutes les valeurs du formulaire
   var nom = document.getElementById('nom').value.trim();
   var prenom = document.getElementById('prenom').value.trim();
   var email = document.getElementById('email').value.trim();
@@ -1755,7 +1756,7 @@ registerForm.addEventListener('submit', function(e) {
   var referralCode = document.getElementById('referralCode').value.trim().toUpperCase();
   var howKnown = document.getElementById('howKnown').value;
 
-  // Validations
+  // ✅ VALIDATIONS
   if (!nom || !prenom || !email || !telephone || !password) {
     showMessage('Tous les champs sont obligatoires.', 'error');
     return;
@@ -1786,10 +1787,13 @@ registerForm.addEventListener('submit', function(e) {
     return;
   }
 
+  // ✅ Variables déclarées ICI (en dehors des then)
   var parrainId = null;
-  var generatedReferralCode = null; // ✅ DÉCLARÉ ICI
-  var now = null; // ✅ DÉCLARÉ ICI
-  
+  var generatedReferralCode = null;
+  var now = null;
+  var currentUser = null;       // ✅ AJOUTÉ
+  var currentUserData = null;   // ✅ AJOUTÉ
+
   function processRegistration() {
     return checkReferralCode(referralCode).then(function(result) {
       if (result) {
@@ -1806,76 +1810,79 @@ registerForm.addEventListener('submit', function(e) {
       
       return createUserWithEmailAndPassword(auth, email, password);
     }).then(function(userCredential) {
-      var user = userCredential.user;
-      console.log("✅ Utilisateur créé dans Auth:", user.uid);
+      // ✅ STOCKER L'UTILISATEUR ICI
+      currentUser = userCredential.user;
+      console.log("✅ Utilisateur créé dans Auth:", currentUser.uid);
       
       try {
-        sendEmailVerification(user);
+        sendEmailVerification(currentUser);
         console.log("✅ Email de vérification envoyé");
       } catch(verifError) {
         console.warn("⚠️ Erreur envoi email:", verifError);
       }
       
-      return generateUniqueReferralCode(user.uid, prenom, nom).then(function(code) {
-        generatedReferralCode = code; // ✅ STOCKER LA VALEUR
-        var fullPhone = indicatif + ' ' + telephone;
-        now = new Date().toISOString();
+      return generateUniqueReferralCode(currentUser.uid, prenom, nom);
+    }).then(function(code) {
+      generatedReferralCode = code;
+      var fullPhone = indicatif + ' ' + telephone;
+      now = new Date().toISOString();
 
-        var userData = {
-          uid: user.uid,
-          email: email,
-          nom: nom,
-          prenom: prenom,
-          fullName: prenom + ' ' + nom,
-          pays: pays,
-          phone: fullPhone,
-          howKnown: howKnown,
-          balance: 0,
-          realBalance: 0,
-          totalDepots: 0,
-          totalRetraits: 0,
-          totalAchats: 0,
-          totalVentes: 0,
-          totalRevenus: 0,
-          gainsTotal: 0,
-          investments: [],
-          achats: [],
-          referralsCount: 0,
-          referralEarnings: 0,
-          referralCode: generatedReferralCode,
-          referredBy: referralCode || null,
-          referralBonusPending: referralCode ? true : false,
-          referralBonusAmount: referralCode ? 500 : 0,
-          referralBonusReceived: false,
-          status: "active",
-          role: "user",
-          hasDeposited: false,
-          isUnlocked: false,
-          registrationDate: now,
-          createdAt: now,
-          lastLogin: now,
-          emailVerified: false,
-          _serverCreatedAt: serverTimestamp()
-        };
+      // ✅ STOCKER LES DONNÉES UTILISATEUR ICI
+      currentUserData = {
+        uid: currentUser.uid,
+        email: email,
+        nom: nom,
+        prenom: prenom,
+        fullName: prenom + ' ' + nom,
+        pays: pays,
+        phone: fullPhone,
+        howKnown: howKnown,
+        balance: 0,
+        realBalance: 0,
+        totalDepots: 0,
+        totalRetraits: 0,
+        totalAchats: 0,
+        totalVentes: 0,
+        totalRevenus: 0,
+        gainsTotal: 0,
+        investments: [],
+        achats: [],
+        epargnes: [],
+        referralsCount: 0,
+        referralEarnings: 0,
+        referralCode: generatedReferralCode,
+        referredBy: referralCode || null,
+        referralBonusPending: referralCode ? true : false,
+        referralBonusAmount: referralCode ? 1000 : 0,
+        referralBonusReceived: false,
+        status: "active",
+        role: "user",
+        hasDeposited: false,
+        isUnlocked: false,
+        registrationDate: now,
+        createdAt: now,
+        lastLogin: now,
+        emailVerified: false,
+        _serverCreatedAt: serverTimestamp()
+      };
 
-        console.log("📝 Sauvegarde dans Firestore...");
-        return setDocument("users", user.uid, userData);
-      });
+      console.log("📝 Sauvegarde dans Firestore...");
+      return setDocument("users", currentUser.uid, currentUserData);
     }).then(function() {
       console.log("✅ Document utilisateur créé");
       return setDocument("referralCodes", generatedReferralCode, {
-        uid: user.uid,
+        uid: currentUser.uid,
         createdAt: now
       });
     }).then(function() {
       console.log("✅ Mapping referralCodes créé");
       
       if (parrainId) {
-        return registerReferral(parrainId, user.uid);
+        return registerReferral(parrainId, currentUser.uid);
       }
       return null;
     }).then(function() {
-      return getDocument("users", user.uid);
+      return getDocument("users", currentUser.uid);
     }).then(function(verifyData) {
       if (verifyData) {
         console.log("✅ Vérification réussie");
@@ -1899,10 +1906,11 @@ registerForm.addEventListener('submit', function(e) {
         return notifyAdminNewUser(nom, prenom, email, pays, howKnownLabel, referralCode, null);
       }
     }).then(function() {
-      localStorage.setItem('ARVEXA_current_user', user.uid);
-      localStorage.setItem('ARVEXA_user_name', userData.fullName);
+      // ✅ UTILISER currentUser et currentUserData (déclarés en haut)
+      localStorage.setItem('ARVEXA_current_user', currentUser.uid);
+      localStorage.setItem('ARVEXA_user_name', currentUserData.fullName);
       localStorage.setItem('ARVEXA_is_unlocked', 'false');
-      localStorage.setItem('ARVEXA_user_data', JSON.stringify(userData));
+      localStorage.setItem('ARVEXA_user_data', JSON.stringify(currentUserData));
       
       showToast('✅ Compte créé avec succès ! Bienvenue sur ARVEXA. 🎉', 'success');
       
