@@ -1590,14 +1590,13 @@ participants.forEach(async function(uid){
 
  if(uid !== currentUser.uid){
 
- await createUserNotification(
-   db,
-   uid,
-   "💬 Nouvelle réponse",
-   userName+" a répondu à votre sujet",
-   "forum_new_reply"
- );
-
+ console.log("📢 Notification réponse :", {
+  utilisateurs: participantIds,
+  title: '💬 Nouvelle réponse dans le forum',
+  body: userName + ' a répondu à "' + topicTitle + '"',
+  type: 'forum_new_reply',
+  topicId: currentTopicId
+});
  }
 
 });
