@@ -3,7 +3,8 @@
 // ================================================================
 
 var APP_CONFIG = {
-  // 🔗 URL de base du site (à modifier quand tu auras l'URL définitive)
+  
+  FCM_SW_URL: '/Webtest/firebase-messaging-sw.js', 
   SITE_URL: 'https://gagneavecia-ui.github.io/Webtest',
   
   // 🔗 Lien vers l'admin
