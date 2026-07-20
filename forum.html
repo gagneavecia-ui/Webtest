@@ -1748,37 +1748,81 @@ if (messaging) {
 // ================================================================
 async function setupFCMNotifications() {
   try {
+
     if (typeof Notification === 'undefined') {
       console.warn('⚠️ Notification API non disponible');
       if (notifStatusText) notifStatusText.textContent = '🔕';
       return null;
     }
-    
+
+
+    // Enregistrer le service worker Firebase
+    var registration = await navigator.serviceWorker.register(
+      '/Webtest/firebase-messaging-sw.js'
+    );
+
+    console.log("✅ Service Worker enregistré:", registration);
+
+
     if (Notification.permission === 'granted') {
-      var token = await getToken(messaging, { vapidKey: VAPID_KEY });
+
+      var token = await getToken(messaging, {
+        vapidKey: VAPID_KEY,
+        serviceWorkerRegistration: registration
+      });
+
+
+      console.log("🔥 Token FCM:", token);
+
+
       if (currentUser) {
+
         var userRef = doc(db, 'users', currentUser.uid);
-        await updateDoc(userRef, { fcmToken: token, notificationsEnabled: true });
+
+        await updateDoc(userRef, {
+          fcmToken: token,
+          notificationsEnabled: true
+        });
+
       }
-      if (notifBadge) notifBadge.className = 'notif-badge';
-      if (notifStatusText) notifStatusText.textContent = '🔔';
+
+
+      if (notifBadge) {
+        notifBadge.className = 'notif-badge';
+      }
+
+      if (notifStatusText) {
+        notifStatusText.textContent = '🔔';
+      }
+
+
       return token;
     }
-    
+
+
     if (Notification.permission === 'denied') {
-      if (notifBadge) notifBadge.className = 'notif-badge';
-      if (notifStatusText) notifStatusText.textContent = '🔕';
+
+      if (notifStatusText) {
+        notifStatusText.textContent = '🔕';
+      }
+
       return null;
     }
-    
-    if (notifBadge) notifBadge.className = 'notif-badge';
-    if (notifStatusText) notifStatusText.textContent = '🔔';
+
+
+    console.log("⚠️ Permission notification non accordée");
+
     return null;
-    
-  } catch (error) {
-    console.error('❌ Erreur FCM:', error);
-    if (notifBadge) notifBadge.className = 'notif-badge';
-    if (notifStatusText) notifStatusText.textContent = '🔕';
+
+
+  } catch(error) {
+
+    console.error("❌ Erreur FCM:", error);
+
+    if (notifStatusText) {
+      notifStatusText.textContent = '🔕';
+    }
+
     return null;
   }
 }
