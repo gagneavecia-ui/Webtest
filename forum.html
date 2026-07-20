@@ -1171,14 +1171,7 @@ async function sendNotificationToUsers(userIds, notificationData) {
       }
     };
     
-    var response = await fetch('https://fcm.googleapis.com/fcm/send', {
-      method: 'POST',
-      headers: {
-        'Authorization': 'key=AAAAy0j96LY:APA91bFPoUXp9LVt46od4dwbhwhMGLq57M-2Q94fP2w24Ild-1ZpCVO_sjS9PCLn9Hvt-YMb_v6HoxdA2bNPR6cBqI_xW5k1exDhWCNpAWq-mDUshL1B2G22O7lLQnALUTZ9XDXWhOex',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(message)
-    });
+  console.log("Notification à envoyer:", notificationData);
     
     console.log('✅ Notifications FCM envoyées:', response.status);
     
