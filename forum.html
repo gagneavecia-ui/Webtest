@@ -929,7 +929,12 @@ import {
   getToken,
   onMessage
 } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-messaging.js";
-
+import {
+ createUserNotification,
+ listenUserNotifications
+}
+from "./notifications.js";
+  
 // ================================================================
 // CONFIGURATION - FALLBACK SI config.js n'est pas chargé
 // ================================================================
@@ -1487,6 +1492,27 @@ async function createTopic() {
 
     var docRef = await addDoc(collection(db, 'forum_topics'), data);
 
+    var usersSnapshot = await getDocs(
+ collection(db,"users")
+);
+
+
+for(var userDoc of usersSnapshot.docs){
+
+ if(userDoc.id !== currentUser.uid){
+
+ await createUserNotification(
+   db,
+   userDoc.id,
+   "💬 Nouveau sujet",
+   userName+" a publié : "+title,
+   "forum_new_topic"
+ );
+
+ }
+
+}
+
     notifyAdminNewTopic(userName, title, category);
 
     var usersRef = collection(db, 'users');
@@ -1562,6 +1588,26 @@ async function addReply() {
 
     var docRef = await addDoc(collection(db, 'forum_replies'), replyData);
     console.log('✅ Réponse ajoutée:', docRef.id);
+
+    var participants =
+await getTopicParticipants(currentTopicId);
+
+
+participants.forEach(async function(uid){
+
+ if(uid !== currentUser.uid){
+
+ await createUserNotification(
+   db,
+   uid,
+   "💬 Nouvelle réponse",
+   userName+" a répondu à votre sujet",
+   "forum_new_reply"
+ );
+
+ }
+
+});
 
     var currentCount = topicSnap.data().repliesCount || 0;
     await updateDoc(topicRef, {
@@ -1796,6 +1842,19 @@ var authChecked = false;
 onAuthStateChanged(auth, function(user) {
   if (user) {
     currentUser = user;
+listenUserNotifications(
+ db,
+ user.uid,
+ function(notif){
+
+   showToast(
+    notif.title+"\n"+notif.body,
+    "info"
+   );
+
+ }
+);
+    
     localStorage.setItem('ARVEXA_current_user', user.uid);
     
     var cached = localStorage.getItem('ARVEXA_user_data');
