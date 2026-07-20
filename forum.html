@@ -1132,52 +1132,11 @@ function notifyAdminNewTopic(userName, title, category) {
 // ENVOYER UNE NOTIFICATION FCM À PLUSIEURS UTILISATEURS
 // ================================================================
 async function sendNotificationToUsers(userIds, notificationData) {
-  if (!userIds || userIds.length === 0) return;
-  
-  try {
-    var tokens = [];
-    for (var i = 0; i < userIds.length; i++) {
-      var userRef = doc(db, 'users', userIds[i]);
-      var userSnap = await getDoc(userRef);
-      if (userSnap.exists()) {
-        var data = userSnap.data();
-        if (data.fcmToken) {
-          tokens.push(data.fcmToken);
-        }
-      }
-    }
-    
-    if (tokens.length === 0) {
-      console.log('⚠️ Aucun token FCM trouvé');
-      return;
-    }
-    
-    var message = {
-      registration_ids: tokens,
-      notification: {
-        title: notificationData.title || 'ARVEXA',
-        body: notificationData.body || 'Nouvelle notification'
-      },
-      data: {
-        type: notificationData.type || 'default',
-        topicId: notificationData.topicId || '',
-        topicTitle: notificationData.topicTitle || '',
-        url: notificationData.url || '/Webtest/forum.html'
-      },
-      webpush: {
-        fcm_options: {
-          link: notificationData.url || '/Webtest/forum.html'
-        }
-      }
-    };
-    
-  console.log("Notification à envoyer:", notificationData);
-    
-    console.log('✅ Notifications FCM envoyées:', response.status);
-    
-  } catch (error) {
-    console.error('❌ Erreur envoi notifications FCM:', error);
-  }
+  console.log("📢 Notification à envoyer");
+  console.log("👥 Utilisateurs :", userIds);
+  console.log("📦 Données :", notificationData);
+
+  return true;
 }
 
 // ================================================================
