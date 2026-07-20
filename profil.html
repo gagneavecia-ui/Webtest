@@ -132,23 +132,6 @@
     }
     .back-btn i { font-size: clamp(14px, 1.8vw, 18px); }
 
-    .notif-badge {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 10px;
-      border-radius: 30px;
-      font-size: 10px;
-      font-weight: 500;
-      transition: var(--transition);
-      background: rgba(45, 125, 90, 0.08);
-      color: var(--success);
-      border: 1px solid rgba(45, 125, 90, 0.10);
-    }
-    .notif-badge i {
-      font-size: 12px;
-    }
-
     .container {
       max-width: 600px;
       margin: 0 auto;
@@ -387,50 +370,6 @@
     }
 
     /* ============================================================
-       NOTIFICATION BANNER
-       ============================================================ */
-    .notif-permission-banner {
-      background: rgba(184, 134, 11, 0.06);
-      border: 1px solid rgba(184, 134, 11, 0.10);
-      border-radius: 12px;
-      padding: 12px 16px;
-      margin: 18px 0 10px;
-      display: none;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .notif-permission-banner p {
-      font-size: 12px;
-      color: var(--text-dim);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .notif-permission-banner p i {
-      color: var(--accent);
-    }
-    .notif-permission-banner .btn-enable {
-      padding: 6px 16px;
-      background: var(--accent);
-      border: none;
-      border-radius: 30px;
-      color: var(--bg-dark);
-      font-weight: 600;
-      font-size: 11px;
-      cursor: pointer;
-      transition: var(--transition);
-      white-space: nowrap;
-    }
-    .notif-permission-banner .btn-enable:active {
-      transform: scale(0.95);
-    }
-    .notif-permission-banner .btn-enable:hover {
-      background: #9A7209;
-    }
-
-    /* ============================================================
        MODAL
        ============================================================ */
     .modal-overlay {
@@ -649,9 +588,8 @@
 <header class="header">
   <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
   <a href="index.html" class="logo">ARVE<span>XA</span></a>
-  <span class="notif-badge" id="notifBadge">
-    <i class="fas fa-circle"></i> <span id="notifStatusText">🔔</span>
-  </span>
+   <span>
+      </span>
 </header>
 
 <main class="container">
@@ -722,12 +660,6 @@
     <button class="btn-security" id="changePasswordBtn">
       <i class="fas fa-lock"></i> Changer le mot de passe
     </button>
-  </div>
-
-  <!-- NOTIFICATION PERMISSION BANNER -->
-  <div class="notif-permission-banner" id="notifPermissionBanner">
-    <p><i class="fas fa-bell"></i> Activez les notifications pour rester informé !</p>
-    <button class="btn-enable" id="enableNotifBtn"><i class="fas fa-check"></i> Activer</button>
   </div>
 
   <!-- LOGOUT -->
@@ -825,6 +757,11 @@
 </script>
 
 <!-- ================================================================ -->
+<!-- CONFIGURATION CENTRALISÉE -->
+<!-- ================================================================ -->
+<script src="config.js"></script>
+
+<!-- ================================================================ -->
 <!-- IMPORTS -->
 <!-- ================================================================ -->
 <script type="importmap">
@@ -832,8 +769,7 @@
   "imports": {
     "firebase/app": "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js",
     "firebase/auth": "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js",
-    "firebase/firestore": "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js",
-    "firebase/messaging": "https://www.gstatic.com/firebasejs/12.12.1/firebase-messaging.js"
+    "firebase/firestore": "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js"
   }
 }
 </script>
@@ -860,10 +796,17 @@ import {
   updateDoc,
   onSnapshot
 } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
-import { 
-  getMessaging,
-  getToken
-} from "https://www.gstatic.com/firebasejs/12.12.1/firebase-messaging.js";
+
+// ================================================================
+// CONFIGURATION - FALLBACK SI config.js n'est pas chargé
+// ================================================================
+var ADMIN_URL = 'https://nexgen-39043.web.app/admin';
+
+if (typeof APP_CONFIG !== 'undefined' && APP_CONFIG.ADMIN_URL) {
+  ADMIN_URL = APP_CONFIG.ADMIN_URL;
+}
+
+console.log('🔗 ADMIN_URL:', ADMIN_URL);
 
 // ================================================================
 // CONFIGURATION FIREBASE
@@ -881,9 +824,6 @@ var firebaseConfig = {
 var app = initializeApp(firebaseConfig);
 var auth = getAuth(app);
 var db = getFirestore(app);
-var messaging = getMessaging(app);
-
-var VAPID_KEY = "BJKkMr-LMevY9HePx3vzYqWMILwAV8mxwOdfkbR-PvEu_m7eu309ygioDNLLqW1wRc2b93Irb1svNnLQIpegquk";
 
 setPersistence(auth, browserLocalPersistence);
 
@@ -896,7 +836,6 @@ var avatarEmail = document.getElementById('avatarEmail');
 var avatarStatus = document.getElementById('avatarStatus');
 var avatarUploadBtn = document.getElementById('avatarUploadBtn');
 var avatarFileInput = document.getElementById('avatarFileInput');
-var removeAvatarBtn = document.getElementById('removeAvatarBtn');
 
 var displayNom = document.getElementById('displayNom');
 var displayPrenom = document.getElementById('displayPrenom');
@@ -921,10 +860,6 @@ var changePasswordBtn = document.getElementById('changePasswordBtn');
 
 var logoutBtn = document.getElementById('logoutBtn');
 var toast = document.getElementById('toast');
-var notifBadge = document.getElementById('notifBadge');
-var notifStatusText = document.getElementById('notifStatusText');
-var notifPermissionBanner = document.getElementById('notifPermissionBanner');
-var enableNotifBtn = document.getElementById('enableNotifBtn');
 
 var currentUser = null;
 var userData = null;
@@ -1008,7 +943,9 @@ function loadUser(uid) {
       updateUI(snap.data());
     }
   }, function(error) {
-    console.error('Erreur chargement user:', error);
+    if (error.code !== 'aborted' && error.code !== 'cancelled') {
+      console.error('Erreur chargement user:', error);
+    }
   });
 
   getDoc(userRef).then(function(snap) {
@@ -1016,12 +953,14 @@ function loadUser(uid) {
       updateUI(snap.data());
     }
   }).catch(function(error) {
-    console.error('Erreur getDoc:', error);
+    if (error.code !== 'aborted' && error.code !== 'cancelled') {
+      console.error('Erreur getDoc:', error);
+    }
   });
 }
 
 // ================================================================
-// AVATAR UPLOAD - STOCKAGE DANS FIRESTORE (Base64)
+// AVATAR UPLOAD
 // ================================================================
 avatarUploadBtn.addEventListener('click', function() {
   avatarFileInput.click();
@@ -1093,28 +1032,6 @@ avatarFileInput.addEventListener('change', function(e) {
   };
   reader.readAsDataURL(file);
 });
-
-// ================================================================
-// SUPPRIMER L'AVATAR
-// ================================================================
-if (removeAvatarBtn) {
-  removeAvatarBtn.addEventListener('click', function() {
-    if (confirm('Voulez-vous supprimer votre photo de profil ?')) {
-      var userRef = doc(db, 'users', currentUser.uid);
-      updateDoc(userRef, { avatarBase64: null })
-        .then(function() {
-          avatarDisplay.style.backgroundImage = 'none';
-          var prenom = userData?.prenom || 'Utilisateur';
-          avatarDisplay.textContent = prenom.charAt(0).toUpperCase();
-          showToast('✅ Photo supprimée', 'success');
-        })
-        .catch(function(error) {
-          console.error('Erreur suppression:', error);
-          showToast('❌ Erreur lors de la suppression.', 'error');
-        });
-    }
-  });
-}
 
 // ================================================================
 // MODAL - MODIFIER
@@ -1295,63 +1212,6 @@ logoutBtn.addEventListener('click', function() {
 });
 
 // ================================================================
-// NOTIFICATIONS FCM
-// ================================================================
-async function setupFCMNotifications() {
-  try {
-    if (Notification.permission === 'granted') {
-      var token = await getToken(messaging, { vapidKey: VAPID_KEY });
-      if (currentUser) {
-        var userRef = doc(db, 'users', currentUser.uid);
-        await updateDoc(userRef, { fcmToken: token, notificationsEnabled: true });
-      }
-      notifBadge.className = 'notif-badge';
-      notifStatusText.textContent = '🔔';
-      if (notifPermissionBanner) notifPermissionBanner.style.display = 'none';
-      return token;
-    }
-    
-    if (Notification.permission === 'denied') {
-      notifBadge.className = 'notif-badge';
-      notifStatusText.textContent = '🔕';
-      if (notifPermissionBanner) notifPermissionBanner.style.display = 'none';
-      return null;
-    }
-    
-    notifBadge.className = 'notif-badge';
-    notifStatusText.textContent = '🔔';
-    if (notifPermissionBanner) notifPermissionBanner.style.display = 'flex';
-    return null;
-  } catch (error) {
-    console.error('❌ Erreur FCM:', error);
-    return null;
-  }
-}
-
-if (enableNotifBtn) {
-  enableNotifBtn.addEventListener('click', async function() {
-    try {
-      var permission = await Notification.requestPermission();
-      if (permission === 'granted') {
-        var token = await getToken(messaging, { vapidKey: VAPID_KEY });
-        if (currentUser) {
-          var userRef = doc(db, 'users', currentUser.uid);
-          await updateDoc(userRef, { fcmToken: token, notificationsEnabled: true });
-        }
-        notifBadge.className = 'notif-badge';
-        notifStatusText.textContent = '🔔';
-        if (notifPermissionBanner) notifPermissionBanner.style.display = 'none';
-        showToast('✅ Notifications activées !', 'success');
-      } else {
-        showToast('⚠️ Notifications désactivées.', 'warning');
-      }
-    } catch (error) {
-      console.error('❌ Erreur permission:', error);
-    }
-  });
-}
-
-// ================================================================
 // AUTH
 // ================================================================
 var authChecked = false;
@@ -1370,7 +1230,6 @@ onAuthStateChanged(auth, function(user) {
     }
 
     loadUser(user.uid);
-    setupFCMNotifications();
     authChecked = true;
   } else {
     var savedUid = localStorage.getItem('ARVEXA_current_user');

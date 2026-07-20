@@ -125,23 +125,6 @@
       font-size: clamp(14px, 1.8vw, 18px);
     }
 
-    .notif-badge {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 10px;
-      border-radius: 30px;
-      font-size: 10px;
-      font-weight: 500;
-      transition: var(--transition);
-      background: rgba(45, 125, 90, 0.08);
-      color: var(--success);
-      border: 1px solid rgba(45, 125, 90, 0.10);
-    }
-    .notif-badge i {
-      font-size: 12px;
-    }
-
     .container {
       max-width: 960px;
       margin: 0 auto;
@@ -399,50 +382,6 @@
     }
 
     /* ============================================================
-       NOTIFICATION BANNER
-       ============================================================ */
-    .notif-permission-banner {
-      background: rgba(184, 134, 11, 0.06);
-      border: 1px solid rgba(184, 134, 11, 0.10);
-      border-radius: 12px;
-      padding: 12px 16px;
-      margin: 18px 0 10px;
-      display: none;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .notif-permission-banner p {
-      font-size: 12px;
-      color: var(--text-dim);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .notif-permission-banner p i {
-      color: var(--accent);
-    }
-    .notif-permission-banner .btn-enable {
-      padding: 6px 16px;
-      background: var(--accent);
-      border: none;
-      border-radius: 30px;
-      color: var(--bg-dark);
-      font-weight: 600;
-      font-size: 11px;
-      cursor: pointer;
-      transition: var(--transition);
-      white-space: nowrap;
-    }
-    .notif-permission-banner .btn-enable:active {
-      transform: scale(0.95);
-    }
-    .notif-permission-banner .btn-enable:hover {
-      background: #9A7209;
-    }
-
-    /* ============================================================
        TOAST
        ============================================================ */
     .toast {
@@ -542,9 +481,7 @@
 <header class="header">
   <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
   <a href="index.html" class="logo">ARVE<span>XA</span></a>
-  <span class="notif-badge" id="notifBadge">
-    <i class="fas fa-circle"></i> <span id="notifStatusText">🔔</span>
-  </span>
+  <span></span>
 </header>
 
 <main class="container">
@@ -571,9 +508,9 @@
         <div class="stat-label">Revenus</div>
       </div>
       <div class="stat-item">
-        <div class="stat-icon gold"><i class="fas fa-piggy-bank"></i></div>
-        <div class="stat-value" id="statEpargnes">0</div>
-        <div class="stat-label">Épargnes</div>
+        <div class="stat-icon gold"><i class="fas fa-trophy"></i></div>
+        <div class="stat-value" id="statDefis">0 FCFA</div>
+        <div class="stat-label">Défis</div>
       </div>
       <div class="stat-item">
         <div class="stat-icon blue"><i class="fas fa-users"></i></div>
@@ -627,12 +564,6 @@
     </div>
   </div>
 
-  <!-- NOTIFICATION PERMISSION BANNER -->
-  <div class="notif-permission-banner" id="notifPermissionBanner">
-    <p><i class="fas fa-bell"></i> Activez les notifications pour suivre votre activité !</p>
-    <button class="btn-enable" id="enableNotifBtn"><i class="fas fa-check"></i> Activer</button>
-  </div>
-
 </main>
 
 <div class="toast" id="toast"></div>
@@ -661,6 +592,11 @@
 </script>
 
 <!-- ================================================================ -->
+<!-- CONFIGURATION CENTRALISÉE -->
+<!-- ================================================================ -->
+<script src="config.js"></script>
+
+<!-- ================================================================ -->
 <!-- IMPORTS -->
 <!-- ================================================================ -->
 <script type="importmap">
@@ -668,8 +604,7 @@
   "imports": {
     "firebase/app": "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js",
     "firebase/auth": "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js",
-    "firebase/firestore": "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js",
-    "firebase/messaging": "https://www.gstatic.com/firebasejs/12.12.1/firebase-messaging.js"
+    "firebase/firestore": "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js"
   }
 }
 </script>
@@ -689,17 +624,23 @@ import {
   getFirestore, 
   doc, 
   getDoc, 
+  getDocs,
   collection, 
   query, 
   where, 
-  orderBy, 
-  getDocs, 
   onSnapshot 
 } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
-import { 
-  getMessaging,
-  getToken
-} from "https://www.gstatic.com/firebasejs/12.12.1/firebase-messaging.js";
+
+// ================================================================
+// CONFIGURATION - FALLBACK SI config.js n'est pas chargé
+// ================================================================
+var ADMIN_URL = 'https://nexgen-39043.web.app/admin';
+
+if (typeof APP_CONFIG !== 'undefined' && APP_CONFIG.ADMIN_URL) {
+  ADMIN_URL = APP_CONFIG.ADMIN_URL;
+}
+
+console.log('🔗 ADMIN_URL:', ADMIN_URL);
 
 // ================================================================
 // CONFIGURATION FIREBASE
@@ -717,9 +658,6 @@ var firebaseConfig = {
 var app = initializeApp(firebaseConfig);
 var auth = getAuth(app);
 var db = getFirestore(app);
-var messaging = getMessaging(app);
-
-var VAPID_KEY = "BJKkMr-LMevY9HePx3vzYqWMILwAV8mxwOdfkbR-PvEu_m7eu309ygioDNLLqW1wRc2b93Irb1svNnLQIpegquk";
 
 setPersistence(auth, browserLocalPersistence);
 
@@ -728,24 +666,24 @@ setPersistence(auth, browserLocalPersistence);
 // ================================================================
 var statBalance = document.getElementById('statBalance');
 var statRevenus = document.getElementById('statRevenus');
-var statEpargnes = document.getElementById('statEpargnes');
+var statDefis = document.getElementById('statDefis');
 var statParrainages = document.getElementById('statParrainages');
 var transactionsList = document.getElementById('transactionsList');
 var txCount = document.getElementById('txCount');
 var toast = document.getElementById('toast');
 var canvas = document.getElementById('gainChart');
-var notifBadge = document.getElementById('notifBadge');
-var notifStatusText = document.getElementById('notifStatusText');
-var notifPermissionBanner = document.getElementById('notifPermissionBanner');
-var enableNotifBtn = document.getElementById('enableNotifBtn');
 
 var currentUser = null;
 var userData = null;
 var allTransactions = [];
-var filteredTransactions = [];
 var currentFilter = 'all';
 var currentPeriod = 'all';
 var unsubscribeUser = null;
+var unsubscribeDepots = null;
+var unsubscribeRetraits = null;
+var unsubscribeAchats = null;
+var unsubscribeVentes = null;
+var unsubscribeGains = null;
 var notificationTimeout = null;
 
 // ================================================================
@@ -799,20 +737,28 @@ function updateStats(data) {
   statBalance.textContent = formatCurrency(data.balance || 0);
   statRevenus.textContent = formatCurrency(data.gainsTotal || data.totalRevenus || 0);
   statParrainages.textContent = data.referralsCount || 0;
+  
+  // Défis - Total gagné
+  var totalDefis = data.totalDefisGagnes || 0;
+  statDefis.textContent = formatCurrency(totalDefis);
 }
 
 // ================================================================
-// CHARGER TOUTES LES STATISTIQUES
+// CHARGER LES STATISTIQUES DES DÉFIS
 // ================================================================
-function loadAllStats(uid) {
+function loadDefisStats(uid) {
   if (!uid) return;
-  
-  // Épargnes
-  var qEpargnes = query(collection(db, 'epargnes'), where('userId', '==', uid));
-  onSnapshot(qEpargnes, function(snapshot) {
-    statEpargnes.textContent = snapshot.size;
+  var userRef = doc(db, 'users', uid);
+  onSnapshot(userRef, function(snap) {
+    if (snap.exists()) {
+      var data = snap.data();
+      var totalDefis = data.totalDefisGagnes || 0;
+      statDefis.textContent = formatCurrency(totalDefis);
+    }
   }, function(error) {
-    console.error('Erreur chargement épargnes:', error);
+    if (error.code !== 'aborted' && error.code !== 'cancelled') {
+      console.error('Erreur chargement défis:', error);
+    }
   });
 }
 
@@ -876,10 +822,15 @@ function drawChart(gains) {
 function renderTransactions() {
   var filtered = allTransactions;
   
+  // ✅ FILTRE PAR TYPE
   if (currentFilter !== 'all') {
-    filtered = filtered.filter(function(t) { return t.type === currentFilter; });
+    filtered = filtered.filter(function(t) {
+      var type = t.type || 'transaction';
+      return type === currentFilter;
+    });
   }
   
+  // ✅ FILTRE PAR PÉRIODE
   if (currentPeriod !== 'all') {
     var now = new Date();
     var cutoff = new Date(now);
@@ -893,7 +844,6 @@ function renderTransactions() {
     });
   }
 
-  filteredTransactions = filtered;
   txCount.textContent = filtered.length + ' transaction(s)';
 
   if (filtered.length === 0) {
@@ -956,68 +906,144 @@ function renderTransactions() {
 }
 
 // ================================================================
-// LOAD TRANSACTIONS
+// ÉCOUTER UNE COLLECTION EN TEMPS RÉEL
 // ================================================================
-function loadTransactions(userId) {
-  var allTx = [];
-  var collections = ['depots', 'retraits', 'achats', 'ventes', 'gains', 'transactions'];
-  var typeMap = {
-    'depots': 'depot',
-    'retraits': 'retrait',
-    'achats': 'achat',
-    'ventes': 'vente',
-    'gains': 'gain',
-    'transactions': 'transaction'
-  };
+function listenToCollection(collectionName, type, userId) {
+  var q = query(collection(db, collectionName), where('userId', '==', userId));
   
-  var promises = collections.map(function(col) {
-    var q = query(
-      collection(db, col),
-      where('userId', '==', userId)
-    );
-    return getDocs(q).then(function(snapshot) {
-      snapshot.forEach(function(doc) {
-        var data = doc.data();
-        var type = data.type || typeMap[col] || col.slice(0, -1);
-        allTx.push({
-          id: doc.id,
-          ...data,
-          _collection: col,
-          type: type
-        });
-      });
-    }).catch(function() {});
-  });
-
-  Promise.all(promises).then(function() {
-    allTx.sort(function(a, b) {
-      var dateA = a.timestamp || a.date || a.createdAt || '';
-      var dateB = b.timestamp || b.date || b.createdAt || '';
-      return new Date(dateB) - new Date(dateA);
-    });
-
-    allTransactions = allTx;
-    renderTransactions();
-
-    var gains = [];
-    var now = new Date();
-    for (var i = 5; i >= 0; i--) {
-      var weekStart = new Date(now);
-      weekStart.setDate(now.getDate() - (i * 7 + 6));
-      var weekEnd = new Date(now);
-      weekEnd.setDate(now.getDate() - (i * 7));
+  return onSnapshot(q, function(snapshot) {
+    var updated = false;
+    var existingIds = allTransactions.map(function(t) { return t.id; });
+    
+    snapshot.docChanges().forEach(function(change) {
+      var data = change.doc.data();
+      var tx = {
+        id: change.doc.id,
+        ...data,
+        type: data.type || type
+      };
       
-      var total = 0;
-      allTx.forEach(function(t) {
-        var date = new Date(t.timestamp || t.date || t.createdAt);
-        if (date >= weekStart && date <= weekEnd && (t.type === 'gain' || t.type === 'vente')) {
-          total += t.montant || t.amount || 0;
+      if (change.type === 'added') {
+        if (!existingIds.includes(change.doc.id)) {
+          allTransactions.push(tx);
+          updated = true;
         }
+      } else if (change.type === 'modified') {
+        var index = allTransactions.findIndex(function(t) { return t.id === change.doc.id; });
+        if (index !== -1) {
+          allTransactions[index] = tx;
+          updated = true;
+        }
+      } else if (change.type === 'removed') {
+        allTransactions = allTransactions.filter(function(t) { return t.id !== change.doc.id; });
+        updated = true;
+      }
+    });
+    
+    if (updated) {
+      allTransactions.sort(function(a, b) {
+        var dateA = a.timestamp || a.date || a.createdAt || '';
+        var dateB = b.timestamp || b.date || b.createdAt || '';
+        return new Date(dateB) - new Date(dateA);
       });
-      gains.push(total);
+      renderTransactions();
+      updateChart();
     }
-    drawChart(gains);
+  }, function(error) {
+    if (error.code !== 'aborted' && error.code !== 'cancelled') {
+      console.error('Erreur écoute ' + collectionName + ':', error);
+    }
   });
+}
+
+// ================================================================
+// METTRE À JOUR LE GRAPHIQUE
+// ================================================================
+function updateChart() {
+  var gains = [];
+  var now = new Date();
+  for (var i = 5; i >= 0; i--) {
+    var weekStart = new Date(now);
+    weekStart.setDate(now.getDate() - (i * 7 + 6));
+    var weekEnd = new Date(now);
+    weekEnd.setDate(now.getDate() - (i * 7));
+    
+    var total = 0;
+    allTransactions.forEach(function(t) {
+      var date = new Date(t.timestamp || t.date || t.createdAt);
+      if (date >= weekStart && date <= weekEnd && (t.type === 'gain' || t.type === 'vente')) {
+        total += t.montant || t.amount || 0;
+      }
+    });
+    gains.push(total);
+  }
+  drawChart(gains);
+}
+
+// ================================================================
+// CHARGER LES TRANSACTIONS EN TEMPS RÉEL
+// ================================================================
+function loadTransactionsRealtime(userId) {
+  if (unsubscribeDepots) { unsubscribeDepots(); unsubscribeDepots = null; }
+  if (unsubscribeRetraits) { unsubscribeRetraits(); unsubscribeRetraits = null; }
+  if (unsubscribeAchats) { unsubscribeAchats(); unsubscribeAchats = null; }
+  if (unsubscribeVentes) { unsubscribeVentes(); unsubscribeVentes = null; }
+  if (unsubscribeGains) { unsubscribeGains(); unsubscribeGains = null; }
+  
+  allTransactions = [];
+  
+  unsubscribeDepots = listenToCollection('depots', 'depot', userId);
+  unsubscribeRetraits = listenToCollection('retraits', 'retrait', userId);
+  unsubscribeAchats = listenToCollection('achats', 'achat', userId);
+  unsubscribeVentes = listenToCollection('ventes', 'vente', userId);
+  unsubscribeGains = listenToCollection('gains', 'gain', userId);
+  
+  var q = query(collection(db, 'transactions'), where('userId', '==', userId));
+  var unsub = onSnapshot(q, function(snapshot) {
+    var updated = false;
+    var existingIds = allTransactions.map(function(t) { return t.id; });
+    
+    snapshot.docChanges().forEach(function(change) {
+      var data = change.doc.data();
+      var tx = {
+        id: change.doc.id,
+        ...data,
+        type: data.type || 'transaction'
+      };
+      
+      if (change.type === 'added') {
+        if (!existingIds.includes(change.doc.id)) {
+          allTransactions.push(tx);
+          updated = true;
+        }
+      } else if (change.type === 'modified') {
+        var index = allTransactions.findIndex(function(t) { return t.id === change.doc.id; });
+        if (index !== -1) {
+          allTransactions[index] = tx;
+          updated = true;
+        }
+      } else if (change.type === 'removed') {
+        allTransactions = allTransactions.filter(function(t) { return t.id !== change.doc.id; });
+        updated = true;
+      }
+    });
+    
+    if (updated) {
+      allTransactions.sort(function(a, b) {
+        var dateA = a.timestamp || a.date || a.createdAt || '';
+        var dateB = b.timestamp || b.date || b.createdAt || '';
+        return new Date(dateB) - new Date(dateA);
+      });
+      renderTransactions();
+      updateChart();
+    }
+  }, function(error) {
+    if (error.code !== 'aborted' && error.code !== 'cancelled') {
+      console.error('Erreur écoute transactions:', error);
+    }
+  });
+  
+  window._unsubTransactions = unsub;
 }
 
 // ================================================================
@@ -1046,63 +1072,6 @@ document.querySelectorAll('#periodFilters .filter-tab').forEach(function(tab) {
 });
 
 // ================================================================
-// NOTIFICATIONS FCM
-// ================================================================
-async function setupFCMNotifications() {
-  try {
-    if (Notification.permission === 'granted') {
-      var token = await getToken(messaging, { vapidKey: VAPID_KEY });
-      if (currentUser) {
-        var userRef = doc(db, 'users', currentUser.uid);
-        await updateDoc(userRef, { fcmToken: token, notificationsEnabled: true });
-      }
-      notifBadge.className = 'notif-badge';
-      notifStatusText.textContent = '🔔';
-      if (notifPermissionBanner) notifPermissionBanner.style.display = 'none';
-      return token;
-    }
-    
-    if (Notification.permission === 'denied') {
-      notifBadge.className = 'notif-badge';
-      notifStatusText.textContent = '🔕';
-      if (notifPermissionBanner) notifPermissionBanner.style.display = 'none';
-      return null;
-    }
-    
-    notifBadge.className = 'notif-badge';
-    notifStatusText.textContent = '🔔';
-    if (notifPermissionBanner) notifPermissionBanner.style.display = 'flex';
-    return null;
-  } catch (error) {
-    console.error('❌ Erreur FCM:', error);
-    return null;
-  }
-}
-
-if (enableNotifBtn) {
-  enableNotifBtn.addEventListener('click', async function() {
-    try {
-      var permission = await Notification.requestPermission();
-      if (permission === 'granted') {
-        var token = await getToken(messaging, { vapidKey: VAPID_KEY });
-        if (currentUser) {
-          var userRef = doc(db, 'users', currentUser.uid);
-          await updateDoc(userRef, { fcmToken: token, notificationsEnabled: true });
-        }
-        notifBadge.className = 'notif-badge';
-        notifStatusText.textContent = '🔔';
-        if (notifPermissionBanner) notifPermissionBanner.style.display = 'none';
-        showToast('✅ Notifications activées !', 'success');
-      } else {
-        showToast('⚠️ Notifications désactivées.', 'warning');
-      }
-    } catch (error) {
-      console.error('❌ Erreur permission:', error);
-    }
-  });
-}
-
-// ================================================================
 // AUTH
 // ================================================================
 var authChecked = false;
@@ -1126,11 +1095,13 @@ onAuthStateChanged(auth, function(user) {
       if (docSnap.exists()) {
         userData = docSnap.data();
         updateStats(userData);
-        loadTransactions(user.uid);
-        loadAllStats(user.uid);
+        loadTransactionsRealtime(user.uid);
+        loadDefisStats(user.uid);
       }
     }).catch(function(error) {
-      console.error('Erreur chargement user:', error);
+      if (error.code !== 'aborted' && error.code !== 'cancelled') {
+        console.error('Erreur chargement user:', error);
+      }
     });
 
     if (unsubscribeUser) unsubscribeUser();
@@ -1141,10 +1112,11 @@ onAuthStateChanged(auth, function(user) {
         localStorage.setItem('ARVEXA_user_data', JSON.stringify(userData));
       }
     }, function(error) {
-      console.error('Erreur onSnapshot:', error);
+      if (error.code !== 'aborted' && error.code !== 'cancelled') {
+        console.error('Erreur onSnapshot:', error);
+      }
     });
 
-    setupFCMNotifications();
     authChecked = true;
   } else {
     var savedUid = localStorage.getItem('ARVEXA_current_user');

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
   <meta name="theme-color" content="#0A0A0A">
-  <meta name="description" content="ARVEXA - Programme de parrainage, gagnez 500 FCFA par filleul">
+  <meta name="description" content="ARVEXA - Programme de parrainage, gagnez 1000 FCFA par filleul">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="manifest" href="manifest.json">
@@ -132,23 +132,6 @@
     }
     .back-btn i { font-size: clamp(14px, 1.8vw, 18px); }
 
-    .notif-badge {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 10px;
-      border-radius: 30px;
-      font-size: 10px;
-      font-weight: 500;
-      transition: var(--transition);
-      background: rgba(45, 125, 90, 0.08);
-      color: var(--success);
-      border: 1px solid rgba(45, 125, 90, 0.10);
-    }
-    .notif-badge i {
-      font-size: 12px;
-    }
-
     .container {
       max-width: 600px;
       margin: 0 auto;
@@ -273,48 +256,6 @@
     .share-btn.telegram { background: #0088CC; color: white; }
     .share-btn.copy { background: rgba(184,134,11,0.10); color: var(--accent); border: 1px solid rgba(184,134,11,0.12); }
 
-    /* ===== NOTIFICATION BANNER ===== */
-    .notif-permission-banner {
-      background: rgba(184, 134, 11, 0.06);
-      border: 1px solid rgba(184, 134, 11, 0.10);
-      border-radius: 12px;
-      padding: 12px 16px;
-      margin: 18px 0 10px;
-      display: none;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .notif-permission-banner p {
-      font-size: 12px;
-      color: var(--text-dim);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .notif-permission-banner p i {
-      color: var(--accent);
-    }
-    .notif-permission-banner .btn-enable {
-      padding: 6px 16px;
-      background: var(--accent);
-      border: none;
-      border-radius: 30px;
-      color: var(--bg-dark);
-      font-weight: 600;
-      font-size: 11px;
-      cursor: pointer;
-      transition: var(--transition);
-      white-space: nowrap;
-    }
-    .notif-permission-banner .btn-enable:active {
-      transform: scale(0.95);
-    }
-    .notif-permission-banner .btn-enable:hover {
-      background: #9A7209;
-    }
-
     /* ===== STATS ===== */
     .stats-grid {
       display: grid;
@@ -415,7 +356,7 @@
     .toast.info { background: #0D1A2A; border: 1px solid #4A7A8A; color: #4A7A8A; }
 
     /* ============================================================
-       LOCKED MESSAGE - DESIGN CORRIGÉ
+       LOCKED MESSAGE
        ============================================================ */
     #lockedMessage {
       display: none;
@@ -459,7 +400,6 @@
       font-weight: 600;
     }
 
-    /* ===== BOUTON RECHARGER - DESIGN CORRIGÉ ===== */
     .btn-recharge-lock {
       display: inline-flex;
       align-items: center;
@@ -539,8 +479,8 @@
 <header class="header">
   <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
   <a href="index.html" class="logo">ARVE<span>XA</span></a>
-  <span class="notif-badge" id="notifBadge">
-    <i class="fas fa-circle"></i> <span id="notifStatusText">🔔</span>
+  <span>
+  </span>
   </span>
 </header>
 
@@ -587,12 +527,6 @@
       </div>
     </div>
 
-    <!-- NOTIFICATION PERMISSION BANNER -->
-    <div class="notif-permission-banner" id="notifPermissionBanner">
-      <p><i class="fas fa-bell"></i> Activez les notifications pour suivre vos parrainages !</p>
-      <button class="btn-enable" id="enableNotifBtn"><i class="fas fa-check"></i> Activer</button>
-    </div>
-
     <!-- STATS -->
     <div class="stats-grid">
       <div class="stat-card">
@@ -621,7 +555,7 @@
 
   </div>
 
-  <!-- ===== MESSAGE DE BLOCAGE (visible si NON débloqué) ===== -->
+  <!-- ===== MESSAGE DE BLOCAGE ===== -->
   <div id="lockedMessage">
     <span class="lock-icon"><i class="fas fa-lock"></i></span>
     <h2>🔒 Parrainage verrouillé</h2>
@@ -629,7 +563,7 @@
       Effectuez votre <strong>premier dépôt</strong> de <strong>3 000 FCFA</strong> pour débloquer le programme de parrainage.
     </p>
     <p>
-      Gagnez <span class="highlight">500 FCFA</span> pour chaque personne que vous parrainez après son 1er dépôt !
+      Gagnez <span class="highlight">1000 FCFA</span> pour chaque personne que vous parrainez après son 1er dépôt !
     </p>
     <a href="recharger.html" class="btn-recharge-lock">
       <i class="fas fa-plus-circle"></i> Recharger maintenant
@@ -666,6 +600,11 @@
 </script>
 
 <!-- ================================================================ -->
+<!-- CONFIGURATION CENTRALISÉE -->
+<!-- ================================================================ -->
+<script src="config.js"></script>
+
+<!-- ================================================================ -->
 <!-- IMPORTS -->
 <!-- ================================================================ -->
 <script type="importmap">
@@ -673,8 +612,7 @@
   "imports": {
     "firebase/app": "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js",
     "firebase/auth": "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js",
-    "firebase/firestore": "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js",
-    "firebase/messaging": "https://www.gstatic.com/firebasejs/12.12.1/firebase-messaging.js"
+    "firebase/firestore": "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js"
   }
 }
 </script>
@@ -694,6 +632,7 @@ import {
   getFirestore,
   doc,
   getDoc,
+  getDocs,
   collection,
   query,
   where,
@@ -701,10 +640,17 @@ import {
   updateDoc,
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
-import { 
-  getMessaging,
-  getToken
-} from "https://www.gstatic.com/firebasejs/12.12.1/firebase-messaging.js";
+
+// ================================================================
+// CONFIGURATION - FALLBACK SI config.js n'est pas chargé
+// ================================================================
+var ADMIN_URL = 'https://nexgen-39043.web.app/admin';
+
+if (typeof APP_CONFIG !== 'undefined' && APP_CONFIG.ADMIN_URL) {
+  ADMIN_URL = APP_CONFIG.ADMIN_URL;
+}
+
+console.log('🔗 ADMIN_URL:', ADMIN_URL);
 
 // ================================================================
 // CONFIGURATION FIREBASE
@@ -722,14 +668,11 @@ var firebaseConfig = {
 var app = initializeApp(firebaseConfig);
 var auth = getAuth(app);
 var db = getFirestore(app);
-var messaging = getMessaging(app);
-
-var VAPID_KEY = "BA8jFHMi3fNPkB4iAqib8GJnrq1_8KR2u_PyQjI2q5rp6rzmaGAsZ_aHm7TP1FqvXg4ZhOUBQUrQ6jpEf9qmrlM";
 
 setPersistence(auth, browserLocalPersistence);
 
 // ================================================================
-// TELEGRAM CONFIG (admin uniquement)
+// TELEGRAM CONFIG
 // ================================================================
 var TELEGRAM_BOT_TOKEN = "8283625921:AAEF--QKS9uqnz0K3j7SGkk7fsdRb3b8y8o";
 var TELEGRAM_CHAT_ID = "5212067028";
@@ -745,10 +688,6 @@ var filleulsContainer = document.getElementById('filleulsContainer');
 var toast = document.getElementById('toast');
 var parrainContent = document.getElementById('parrainContent');
 var lockedMessage = document.getElementById('lockedMessage');
-var notifBadge = document.getElementById('notifBadge');
-var notifStatusText = document.getElementById('notifStatusText');
-var notifPermissionBanner = document.getElementById('notifPermissionBanner');
-var enableNotifBtn = document.getElementById('enableNotifBtn');
 
 var currentUser = null;
 var userData = null;
@@ -756,8 +695,13 @@ var unsubscribeFilleuls = null;
 var notificationTimeout = null;
 
 // ================================================================
-// TOAST
+// HELPERS
 // ================================================================
+function formatCurrency(amount) {
+  if (!amount) return '0 FCFA';
+  return amount.toLocaleString('fr-FR') + ' FCFA';
+}
+
 function showToast(message, type) {
   type = type || 'success';
   toast.textContent = message;
@@ -768,13 +712,124 @@ function showToast(message, type) {
   }, 50);
   notificationTimeout = setTimeout(function() {
     toast.classList.remove('show');
-  }, 3500);
+  }, 4000);
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  var div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
 }
 
 // ================================================================
-// ENVOI TELEGRAM (admin uniquement)
+// 15 MESSAGES POUR NOUVEAU FILLEUL
+// ================================================================
+var parrainageMessages = [
+  function(userName, filleulName, totalUsers) {
+    return '👤 Nouveau filleul ! 👤 ' + userName + ' a parrainé ' + filleulName + ' 👥 ' + totalUsers + '\n\n🔗 [ Va voir ça ](' + ADMIN_URL + ')';
+  },
+  function(userName, filleulName, totalUsers) {
+    return '🎯 Nouveau parrainage ! 👤 ' + userName + ' 👤 ' + filleulName + ' 👥 ' + totalUsers + '\n\n🔗 [ Admin ](' + ADMIN_URL + ')';
+  },
+  function(userName, filleulName, totalUsers) {
+    return '👥 Parrainage validé ! 👤 ' + userName + ' → ' + filleulName + ' 👥 ' + totalUsers + '\n\n🔗 [ Check ](' + ADMIN_URL + ')';
+  },
+  function(userName, filleulName, totalUsers) {
+    return '🔥 Nouvelle recrue ! 👤 ' + userName + ' a parrainé ' + filleulName + ' 👥 ' + totalUsers + '\n\n🔗 [ Voir ](' + ADMIN_URL + ')';
+  },
+  function(userName, filleulName, totalUsers) {
+    return '💪 Un nouveau dans le gang ! 👤 ' + userName + ' → ' + filleulName + ' 👥 ' + totalUsers + '\n\n🔗 [ Action ](' + ADMIN_URL + ')';
+  },
+  function(userName, filleulName, totalUsers) {
+    return '🏆 Parrainage réussi ! 👤 ' + userName + ' 👤 ' + filleulName + ' 👥 ' + totalUsers + '\n\n🔗 [ Dashboard ](' + ADMIN_URL + ')';
+  },
+  function(userName, filleulName, totalUsers) {
+    return '📈 Le réseau grandit ! 👤 ' + userName + ' → ' + filleulName + ' 👥 ' + totalUsers + '\n\n🔗 [ Console ](' + ADMIN_URL + ')';
+  },
+  function(userName, filleulName, totalUsers) {
+    return '⭐ Nouveau membre ! 👤 ' + userName + ' a parrainé ' + filleulName + ' 👥 ' + totalUsers + '\n\n🔗 [ Gérer ](' + ADMIN_URL + ')';
+  },
+  function(userName, filleulName, totalUsers) {
+    return '🎯 Parrainage en cours ! 👤 ' + userName + ' → ' + filleulName + ' 👥 ' + totalUsers + '\n\n🔗 [ Suivre ](' + ADMIN_URL + ')';
+  },
+  function(userName, filleulName, totalUsers) {
+    return '💎 Nouveau filleul ! 👤 ' + userName + ' 👤 ' + filleulName + ' 👥 ' + totalUsers + '\n\n🔗 [ Voir plus ](' + ADMIN_URL + ')';
+  },
+  function(userName, filleulName, totalUsers) {
+    return '👑 Le boss parraine ! 👤 ' + userName + ' → ' + filleulName + ' 👥 ' + totalUsers + '\n\n🔗 [ Admin panel ](' + ADMIN_URL + ')';
+  },
+  function(userName, filleulName, totalUsers) {
+    return '🚀 Recrue de plus ! 👤 ' + userName + ' 👤 ' + filleulName + ' 👥 ' + totalUsers + '\n\n🔗 [ Contrôle ](' + ADMIN_URL + ')';
+  },
+  function(userName, filleulName, totalUsers) {
+    return '🔥 Nouveau parrain ! 👤 ' + userName + ' → ' + filleulName + ' 👥 ' + totalUsers + '\n\n🔗 [ Découvrir ](' + ADMIN_URL + ')';
+  },
+  function(userName, filleulName, totalUsers) {
+    return '💪 Le gang s\'agrandit ! 👤 ' + userName + ' 👤 ' + filleulName + ' 👥 ' + totalUsers + '\n\n🔗 [ Accès ](' + ADMIN_URL + ')';
+  },
+  function(userName, filleulName, totalUsers) {
+    return '🎯 Parrainage validé ! 👤 ' + userName + ' → ' + filleulName + ' 👥 ' + totalUsers + '\n\n🔗 [ Voir admin ](' + ADMIN_URL + ')';
+  }
+];
+
+// ================================================================
+// 15 MESSAGES POUR BONUS DE PARRAINAGE
+// ================================================================
+var parrainageBonusMessages = [
+  function(userName, amount, totalUsers) {
+    return '💰 Bonus parrainage ! 👤 ' + userName + ' 💰 ' + formatCurrency(amount) + ' 👥 ' + totalUsers + '\n\n🔗 [ Va voir ça ](' + ADMIN_URL + ')';
+  },
+  function(userName, amount, totalUsers) {
+    return '🎁 Bonus crédité ! 👤 ' + userName + ' 💰 ' + formatCurrency(amount) + ' 👥 ' + totalUsers + '\n\n🔗 [ Admin ](' + ADMIN_URL + ')';
+  },
+  function(userName, amount, totalUsers) {
+    return '💸 Parrainage payé ! 👤 ' + userName + ' 💰 ' + formatCurrency(amount) + ' 👥 ' + totalUsers + '\n\n🔗 [ Check ](' + ADMIN_URL + ')';
+  },
+  function(userName, amount, totalUsers) {
+    return '🏆 Bonus validé ! 👤 ' + userName + ' 💰 ' + formatCurrency(amount) + ' 👥 ' + totalUsers + '\n\n🔗 [ Voir ](' + ADMIN_URL + ')';
+  },
+  function(userName, amount, totalUsers) {
+    return '💰 Paiement parrainage ! 👤 ' + userName + ' 💰 ' + formatCurrency(amount) + ' 👥 ' + totalUsers + '\n\n🔗 [ Action ](' + ADMIN_URL + ')';
+  },
+  function(userName, amount, totalUsers) {
+    return '💵 Bonus reçu ! 👤 ' + userName + ' 💰 ' + formatCurrency(amount) + ' 👥 ' + totalUsers + '\n\n🔗 [ Dashboard ](' + ADMIN_URL + ')';
+  },
+  function(userName, amount, totalUsers) {
+    return '🎯 Bonus de filleul ! 👤 ' + userName + ' 💰 ' + formatCurrency(amount) + ' 👥 ' + totalUsers + '\n\n🔗 [ Console ](' + ADMIN_URL + ')';
+  },
+  function(userName, amount, totalUsers) {
+    return '⭐ Gain de parrainage ! 👤 ' + userName + ' 💰 ' + formatCurrency(amount) + ' 👥 ' + totalUsers + '\n\n🔗 [ Gérer ](' + ADMIN_URL + ')';
+  },
+  function(userName, amount, totalUsers) {
+    return '🔥 Prime parrainage ! 👤 ' + userName + ' 💰 ' + formatCurrency(amount) + ' 👥 ' + totalUsers + '\n\n🔗 [ Suivre ](' + ADMIN_URL + ')';
+  },
+  function(userName, amount, totalUsers) {
+    return '💎 Bonus encaissé ! 👤 ' + userName + ' 💰 ' + formatCurrency(amount) + ' 👥 ' + totalUsers + '\n\n🔗 [ Voir plus ](' + ADMIN_URL + ')';
+  },
+  function(userName, amount, totalUsers) {
+    return '👑 Paiement du roi ! 👤 ' + userName + ' 💰 ' + formatCurrency(amount) + ' 👥 ' + totalUsers + '\n\n🔗 [ Admin panel ](' + ADMIN_URL + ')';
+  },
+  function(userName, amount, totalUsers) {
+    return '🚀 Bonus crédité ! 👤 ' + userName + ' 💰 ' + formatCurrency(amount) + ' 👥 ' + totalUsers + '\n\n🔗 [ Contrôle ](' + ADMIN_URL + ')';
+  },
+  function(userName, amount, totalUsers) {
+    return '💰 Nouveau bonus ! 👤 ' + userName + ' 💰 ' + formatCurrency(amount) + ' 👥 ' + totalUsers + '\n\n🔗 [ Découvrir ](' + ADMIN_URL + ')';
+  },
+  function(userName, amount, totalUsers) {
+    return '💪 Gain parrainage ! 👤 ' + userName + ' 💰 ' + formatCurrency(amount) + ' 👥 ' + totalUsers + '\n\n🔗 [ Accès ](' + ADMIN_URL + ')';
+  },
+  function(userName, amount, totalUsers) {
+    return '🎯 Bonus validé ! 👤 ' + userName + ' 💰 ' + formatCurrency(amount) + ' 👥 ' + totalUsers + '\n\n🔗 [ Voir admin ](' + ADMIN_URL + ')';
+  }
+];
+
+// ================================================================
+// ENVOI TELEGRAM
 // ================================================================
 function sendTelegramMessage(message) {
+  console.log('📨 Envoi Telegram:', message);
+  
   var url = 'https://api.telegram.org/bot' + TELEGRAM_BOT_TOKEN + '/sendMessage';
   return fetch(url, {
     method: 'POST',
@@ -782,44 +837,61 @@ function sendTelegramMessage(message) {
     body: JSON.stringify({
       chat_id: TELEGRAM_CHAT_ID,
       text: message,
-      parse_mode: 'HTML',
+      parse_mode: 'Markdown',
       disable_web_page_preview: true
     })
   }).then(function(response) {
+    console.log('📨 Réponse status:', response.status);
     return response.json();
   }).then(function(data) {
-    console.log('Telegram envoye:', data.ok);
-    return data.ok;
+    console.log('📨 Data:', data);
+    if (data.ok) {
+      console.log('✅ Telegram envoyé');
+      return true;
+    } else {
+      console.error('❌ Telegram erreur:', data);
+      return false;
+    }
   }).catch(function(error) {
-    console.error('Erreur Telegram:', error);
+    console.error('❌ Erreur Telegram:', error);
     return false;
   });
 }
 
 // ================================================================
-// NOTIFICATION ADMIN - NOUVEAU PARRAINAGE
+// NOTIFICATION NOUVEAU FILLEUL
 // ================================================================
-function notifyAdminNewReferral(userName, userEmail, referralCode) {
-  var messages = [
-    '👊 YES ! Nouveau parrainage !\n\n👤 Parrain: ' + userName + '\n👤 Filleul: ' + userEmail + '\n🔑 Code: ' + referralCode + '\n\n500 FCFA en attente du 1er dépôt du filleul.\n\n🔗 Suivre le parrainage',
-    'Eh djo, nouveau parrainage ! 🔥\n\n' + userName + ' a parrainé ' + userEmail + '.\n500 FCFA en attente du dépôt.\n\nOn surveille ça ! 👀',
-    'Nouveau parrainage dans la maison ! 🤝\n\n' + userName + ' vient de parrainer un nouveau membre.\n500 FCFA en jeu, on attend le dépôt ! 💰',
-    'Ça y est, un filleul de plus pour ' + userName + ' ! 😎\n\n500 FCFA en attente du 1er dépôt.\nAllez, on espère que ça va vite se faire ! ⏳',
-    'Hey, nouveau lien de parrainage activé ! 🔗\n\n' + userName + ' a parrainé quelqu\'un.\n500 FCFA en jeu dès le premier dépôt ! 💪'
-  ];
-  var randomIdx = Math.floor(Math.random() * messages.length);
-  var msg = messages[randomIdx] + '\n\n🔗 <a href="https://nexgen-39043.web.app/admin">Voir dans l\'admin</a>';
-  return sendTelegramMessage(msg);
+function notifyAdminNewReferral(parrainNom, filleulNom) {
+  console.log('🔔 notifyAdminNewReferral appelé');
+  
+  getDocs(collection(db, "users")).then(function(snapshot) {
+    var totalUsers = snapshot.size;
+    var randomIndex = Math.floor(Math.random() * parrainageMessages.length);
+    var message = parrainageMessages[randomIndex](parrainNom, filleulNom, totalUsers);
+    
+    console.log('📨 Message à envoyer:', message);
+    return sendTelegramMessage(message);
+  }).catch(function(error) {
+    console.error('❌ Erreur envoi parrainage:', error);
+  });
 }
 
 // ================================================================
-// ECHAPPEMENT HTML
+// NOTIFICATION BONUS PARRAINAGE
 // ================================================================
-function escapeHtml(str) {
-  if (!str) return '';
-  var div = document.createElement('div');
-  div.textContent = str;
-  return div.innerHTML;
+function notifyAdminBonusReferral(parrainNom, amount) {
+  console.log('🔔 notifyAdminBonusReferral appelé');
+  
+  getDocs(collection(db, "users")).then(function(snapshot) {
+    var totalUsers = snapshot.size;
+    var randomIndex = Math.floor(Math.random() * parrainageBonusMessages.length);
+    var message = parrainageBonusMessages[randomIndex](parrainNom, amount, totalUsers);
+    
+    console.log('📨 Message bonus à envoyer:', message);
+    return sendTelegramMessage(message);
+  }).catch(function(error) {
+    console.error('❌ Erreur envoi bonus:', error);
+  });
 }
 
 // ================================================================
@@ -884,13 +956,15 @@ function listenToFilleuls(referralCode) {
         
         html += '<div class="filleul-item"><div class="left"><div class="name">' + escapeHtml(name) + '</div><div class="date">Inscrit le ' + formattedDate + '</div></div><div class="right"><span class="status ' + statusClass + '">' + statusText + '</span></div></div>';
         
+        // Détecter un nouveau filleul (inscrit dans les 10 dernières secondes)
         if (data.createdAt) {
           var now = new Date();
           var created = new Date(data.createdAt);
           var diff = (now - created) / 1000;
           if (diff < 10) {
             newReferralDetected = true;
-            notifyAdminNewReferral(userData ? userData.prenom : 'Utilisateur', data.email, referralCode);
+            var parrainNom = userData ? (userData.prenom + ' ' + userData.nom || 'Utilisateur') : 'Utilisateur';
+            notifyAdminNewReferral(parrainNom, name);
           }
         }
       });
@@ -902,6 +976,20 @@ function listenToFilleuls(referralCode) {
         showToast('👊 YES ! Nouveau filleul détecté ! 🎉', 'success');
         if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
       }
+      
+      // Vérifier les nouveaux bonus
+      snapshot.docChanges().forEach(function(change) {
+        if (change.type === 'modified') {
+          var data = change.doc.data();
+          
+          // Si le bonus a été reçu
+          if (data.referralBonusReceived === true) {
+            var parrainNom = userData ? (userData.prenom + ' ' + userData.nom || 'Utilisateur') : 'Utilisateur';
+            var bonusAmount = data.referralBonusAmount || 1000;
+            notifyAdminBonusReferral(parrainNom, bonusAmount);
+          }
+        }
+      });
       
     }, function(error) {
       console.error('Erreur écoute filleuls:', error);
@@ -1024,7 +1112,7 @@ document.getElementById('copyLinkBtn').addEventListener('click', function() {
 document.getElementById('shareWA').addEventListener('click', function() {
   var link = inviteLinkEl.textContent;
   var code = parrainCodeEl.textContent;
-  var text = '🎁 Rejoins ARVEXA ! Gagne 500 FCFA avec mon code : ' + code + '\n🔗 ' + link;
+  var text = '🎁 Rejoins ARVEXA ! Gagne 1000 FCFA avec mon code : ' + code + '\n🔗 ' + link;
   window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank');
 });
 
@@ -1035,72 +1123,15 @@ document.getElementById('shareFB').addEventListener('click', function() {
 
 document.getElementById('shareTwitter').addEventListener('click', function() {
   var link = inviteLinkEl.textContent;
-  var text = '🎁 Rejoins ARVEXA ! Gagne 500 FCFA avec mon code de parrainage !';
+  var text = '🎁 Rejoins ARVEXA ! Gagne 1000 FCFA avec mon code de parrainage !';
   window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(text) + '&url=' + encodeURIComponent(link), '_blank');
 });
 
 document.getElementById('shareTelegram').addEventListener('click', function() {
   var link = inviteLinkEl.textContent;
-  var text = '🎁 Rejoins ARVEXA ! Gagne 500 FCFA avec mon code !\n🔗 ' + link;
+  var text = '🎁 Rejoins ARVEXA ! Gagne 1000 FCFA avec mon code !\n🔗 ' + link;
   window.open('https://t.me/share/url?url=' + encodeURIComponent(link) + '&text=' + encodeURIComponent(text), '_blank');
 });
-
-// ================================================================
-// NOTIFICATIONS FCM
-// ================================================================
-async function setupFCMNotifications() {
-  try {
-    if (Notification.permission === 'granted') {
-      var token = await getToken(messaging, { vapidKey: VAPID_KEY });
-      if (currentUser) {
-        var userRef = doc(db, 'users', currentUser.uid);
-        await updateDoc(userRef, { fcmToken: token, notificationsEnabled: true });
-      }
-      notifBadge.className = 'notif-badge';
-      notifStatusText.textContent = '🔔';
-      if (notifPermissionBanner) notifPermissionBanner.style.display = 'none';
-      return token;
-    }
-    
-    if (Notification.permission === 'denied') {
-      notifBadge.className = 'notif-badge';
-      notifStatusText.textContent = '🔕';
-      if (notifPermissionBanner) notifPermissionBanner.style.display = 'none';
-      return null;
-    }
-    
-    notifBadge.className = 'notif-badge';
-    notifStatusText.textContent = '🔔';
-    if (notifPermissionBanner) notifPermissionBanner.style.display = 'flex';
-    return null;
-  } catch (error) {
-    console.error('❌ Erreur FCM:', error);
-    return null;
-  }
-}
-
-if (enableNotifBtn) {
-  enableNotifBtn.addEventListener('click', async function() {
-    try {
-      var permission = await Notification.requestPermission();
-      if (permission === 'granted') {
-        var token = await getToken(messaging, { vapidKey: VAPID_KEY });
-        if (currentUser) {
-          var userRef = doc(db, 'users', currentUser.uid);
-          await updateDoc(userRef, { fcmToken: token, notificationsEnabled: true });
-        }
-        notifBadge.className = 'notif-badge';
-        notifStatusText.textContent = '🔔';
-        if (notifPermissionBanner) notifPermissionBanner.style.display = 'none';
-        showToast('✅ Notifications activées !', 'success');
-      } else {
-        showToast('⚠️ Notifications désactivées.', 'warning');
-      }
-    } catch (error) {
-      console.error('❌ Erreur permission:', error);
-    }
-  });
-}
 
 // ================================================================
 // AUTH
@@ -1120,7 +1151,6 @@ onAuthStateChanged(auth, function(user) {
     }
 
     loadUserData(user.uid);
-    setupFCMNotifications();
     authChecked = true;
   } else {
     var saved = localStorage.getItem('ARVEXA_current_user');
@@ -1137,7 +1167,7 @@ onAuthStateChanged(auth, function(user) {
   }
 });
 
-console.log('👥 ARVEXA - Page Parrainage chargée (version premium)');
+console.log('👥 ARVEXA - Page Parrainage chargée (version finale)');
 </script>
 </body>
 </html>

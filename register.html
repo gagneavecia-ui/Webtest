@@ -494,21 +494,27 @@
     .referral-info.invalid { color: #D4A017; }
     .referral-info i { font-size: 11px; }
 
-    /* ===== SELECT UNIFORME ===== */
-    .select-wrapper {
-      position: relative;
+    /* ===== KNOW SELECTOR - STYLE UNIFORME AVEC PAYS ===== */
+    .know-selector {
       display: flex;
       align-items: center;
+      justify-content: space-between;
+      padding: 12px 14px 12px 44px;
       background: rgba(10, 10, 10, 0.6);
       border: 1px solid var(--card-border);
       border-radius: 12px;
+      cursor: pointer;
       transition: var(--transition);
+      position: relative;
     }
-    .select-wrapper:focus-within {
+    .know-selector:active {
+      transform: scale(0.98);
+    }
+    .know-selector:focus-within {
       border-color: var(--accent);
       box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.08);
     }
-    .select-wrapper .icon-left {
+    .know-selector .icon-left {
       position: absolute;
       left: 14px;
       color: var(--text-muted);
@@ -516,32 +522,152 @@
       pointer-events: none;
       z-index: 2;
     }
-    .select-wrapper select {
-      width: 100%;
-      padding: 12px 14px 12px 44px;
-      background: transparent;
-      border: none;
-      color: var(--text-light);
+    .know-selector-display {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+    }
+    .know-selector-display .icon-emoji {
+      font-size: 18px;
+    }
+    .know-selector-display .name {
       font-size: 14px;
-      font-family: inherit;
-      outline: none;
-      appearance: none;
-      cursor: pointer;
-    }
-    .select-wrapper select option {
-      background: var(--bg-dark);
+      font-weight: 500;
       color: var(--text-light);
     }
-    .select-wrapper .arrow {
-      position: absolute;
-      right: 14px;
-      color: var(--accent);
+    .know-selector .arrow {
+      color: var(--text-muted);
       font-size: 12px;
-      pointer-events: none;
       transition: var(--transition);
     }
-    .select-wrapper:focus-within .arrow {
-      transform: rotate(180deg);
+
+    /* ===== COUNTRY MODAL & KNOW MODAL ===== */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(3, 3, 5, 0.96);
+      backdrop-filter: blur(16px);
+      z-index: 2000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-overlay.show {
+      opacity: 1;
+      visibility: visible;
+    }
+    .modal {
+      background: var(--bg-card);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(184, 134, 11, 0.15);
+      border-radius: var(--radius);
+      width: 100%;
+      max-width: 380px;
+      max-height: 80vh;
+      overflow: hidden;
+      transform: scale(0.9);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .modal-overlay.show .modal {
+      transform: scale(1);
+    }
+    .modal-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--glass-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .modal-header h3 {
+      font-size: 18px;
+      font-weight: 700;
+      font-family: 'Playfair Display', 'Georgia', serif;
+      color: var(--text-light);
+    }
+    .modal-header h3 span {
+      color: var(--accent);
+      font-style: italic;
+    }
+    .modal-close {
+      width: 34px; height: 34px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+      color: var(--text-dim);
+    }
+    .modal-close:active {
+      transform: scale(0.94);
+    }
+    .modal-search {
+      padding: 12px 20px;
+      border-bottom: 1px solid var(--glass-border);
+    }
+    .modal-search input {
+      width: 100%;
+      padding: 12px 16px;
+      background: rgba(10, 10, 10, 0.6);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      color: var(--text-light);
+      font-size: 13px;
+      font-family: inherit;
+      outline: none;
+    }
+    .modal-search input:focus {
+      border-color: var(--accent);
+    }
+    .modal-list {
+      padding: 8px 8px 16px;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+    .modal-list::-webkit-scrollbar {
+      width: 3px;
+    }
+    .modal-list::-webkit-scrollbar-track {
+      background: rgba(255,255,255,0.02);
+      border-radius: 10px;
+    }
+    .modal-list::-webkit-scrollbar-thumb {
+      background: var(--accent);
+      border-radius: 10px;
+      opacity: 0.3;
+    }
+    .modal-option {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: var(--transition);
+      margin-bottom: 2px;
+    }
+    .modal-option:active {
+      background: rgba(184, 134, 11, 0.06);
+      transform: scale(0.98);
+    }
+    .modal-option.selected {
+      background: rgba(184, 134, 11, 0.08);
+      border: 1px solid rgba(184, 134, 11, 0.12);
+    }
+    .modal-option-icon {
+      font-size: 22px;
+    }
+    .modal-option-name {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-light);
     }
 
     /* ===== SOCIAL BUTTONS ===== */
@@ -658,143 +784,6 @@
     }
 
     /* ============================================================
-       COUNTRY MODAL
-       ============================================================ */
-    .country-modal-overlay {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(3, 3, 5, 0.96);
-      backdrop-filter: blur(16px);
-      z-index: 2000;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-    .country-modal-overlay.show {
-      opacity: 1;
-      visibility: visible;
-    }
-    .country-modal {
-      background: var(--bg-card);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(184, 134, 11, 0.15);
-      border-radius: var(--radius);
-      width: 100%;
-      max-width: 380px;
-      max-height: 80vh;
-      overflow: hidden;
-      transform: scale(0.9);
-      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-    .country-modal-overlay.show .country-modal {
-      transform: scale(1);
-    }
-    .country-modal-header {
-      padding: 16px 20px;
-      border-bottom: 1px solid var(--glass-border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .country-modal-header h3 {
-      font-size: 18px;
-      font-weight: 700;
-      font-family: 'Playfair Display', 'Georgia', serif;
-      color: var(--text-light);
-    }
-    .country-modal-header h3 span {
-      color: var(--accent);
-      font-style: italic;
-    }
-    .country-modal-close {
-      width: 34px; height: 34px;
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: var(--transition);
-      color: var(--text-dim);
-    }
-    .country-modal-close:active {
-      transform: scale(0.94);
-    }
-    .country-modal-search {
-      padding: 12px 20px;
-      border-bottom: 1px solid var(--glass-border);
-    }
-    .country-modal-search input {
-      width: 100%;
-      padding: 12px 16px;
-      background: rgba(10, 10, 10, 0.6);
-      border: 1px solid var(--card-border);
-      border-radius: 12px;
-      color: var(--text-light);
-      font-size: 13px;
-      font-family: inherit;
-      outline: none;
-    }
-    .country-modal-search input:focus {
-      border-color: var(--accent);
-    }
-    .country-modal-list {
-      padding: 8px 8px 16px;
-      max-height: 400px;
-      overflow-y: auto;
-    }
-    .country-modal-list::-webkit-scrollbar {
-      width: 3px;
-    }
-    .country-modal-list::-webkit-scrollbar-track {
-      background: rgba(255,255,255,0.02);
-      border-radius: 10px;
-    }
-    .country-modal-list::-webkit-scrollbar-thumb {
-      background: var(--accent);
-      border-radius: 10px;
-      opacity: 0.3;
-    }
-    .country-option {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 16px;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: var(--transition);
-      margin-bottom: 2px;
-    }
-    .country-option:active {
-      background: rgba(184, 134, 11, 0.06);
-      transform: scale(0.98);
-    }
-    .country-option.selected {
-      background: rgba(184, 134, 11, 0.08);
-      border: 1px solid rgba(184, 134, 11, 0.12);
-    }
-    .country-option-flag {
-      font-size: 22px;
-    }
-    .country-option-name {
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--text-light);
-    }
-    .country-option-code {
-      margin-left: auto;
-      font-size: 12px;
-      color: var(--accent);
-      font-family: monospace;
-      opacity: 0.7;
-    }
-
-    /* ============================================================
        TOAST
        ============================================================ */
     .toast {
@@ -856,7 +845,7 @@
         min-width: 60px;
         font-size: 13px;
       }
-      .country-modal {
+      .modal {
         max-width: 100%;
         margin: 10px;
         border-radius: 20px;
@@ -1025,24 +1014,18 @@
         </div>
       </div>
 
-      <!-- COMMENT CONNU (uniforme) -->
+      <!-- COMMENT CONNU - STYLE UNIFORME AVEC PAYS -->
       <div class="form-group">
         <label><i class="fas fa-question-circle" style="color:var(--accent);"></i> Comment avez-vous connu ARVEXA ?</label>
-        <div class="select-wrapper">
+        <div class="know-selector" id="knowSelector">
           <i class="fas fa-users icon-left"></i>
-          <select id="howKnown">
-            <option value="">Sélectionnez une option</option>
-            <option value="facebook">📘 Facebook</option>
-            <option value="whatsapp">💬 WhatsApp</option>
-            <option value="ami">👥 Un ami</option>
-            <option value="publicite">📢 Publicité</option>
-            <option value="tiktok">🎵 TikTok</option>
-            <option value="instagram">📸 Instagram</option>
-            <option value="youtube">▶️ YouTube</option>
-            <option value="autre">🔗 Autre</option>
-          </select>
+          <div class="know-selector-display">
+            <span class="icon-emoji" id="selectedKnowEmoji">🔗</span>
+            <span class="name" id="selectedKnowName">Sélectionnez une option</span>
+          </div>
           <i class="fas fa-chevron-down arrow"></i>
         </div>
+        <input type="hidden" id="howKnown" value="">
       </div>
 
       <!-- Bouton inscription -->
@@ -1074,18 +1057,34 @@
 </main>
 
 <!-- ===== COUNTRY MODAL ===== -->
-<div class="country-modal-overlay" id="countryModal">
-  <div class="country-modal">
-    <div class="country-modal-header">
+<div class="modal-overlay" id="countryModal">
+  <div class="modal">
+    <div class="modal-header">
       <h3>Sélectionnez votre <span>pays</span></h3>
-      <div class="country-modal-close" id="closeCountryModalBtn">
+      <div class="modal-close" id="closeCountryModalBtn">
         <i class="fas fa-times"></i>
       </div>
     </div>
-    <div class="country-modal-search">
+    <div class="modal-search">
       <input type="text" id="countrySearch" placeholder="🔍 Rechercher un pays..." autocomplete="off">
     </div>
-    <div class="country-modal-list" id="countryList"></div>
+    <div class="modal-list" id="countryList"></div>
+  </div>
+</div>
+
+<!-- ===== KNOW MODAL ===== -->
+<div class="modal-overlay" id="knowModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>Comment avez-vous connu <span>ARVEXA</span> ?</h3>
+      <div class="modal-close" id="closeKnowModalBtn">
+        <i class="fas fa-times"></i>
+      </div>
+    </div>
+    <div class="modal-search">
+      <input type="text" id="knowSearch" placeholder="🔍 Rechercher..." autocomplete="off">
+    </div>
+    <div class="modal-list" id="knowList"></div>
   </div>
 </div>
 
@@ -1120,6 +1119,11 @@
 </script>
 
 <!-- ================================================================ -->
+<!-- CONFIGURATION CENTRALISÉE - CHARGÉE EN PREMIER -->
+<!-- ================================================================ -->
+<script src="config.js"></script>
+
+<!-- ================================================================ -->
 <!-- IMPORTS -->
 <!-- ================================================================ -->
 <script type="importmap">
@@ -1128,7 +1132,6 @@
     "firebase/app": "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js",
     "firebase/auth": "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js",
     "firebase/firestore": "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js"
-    "firebase/messaging": "https://www.gstatic.com/firebasejs/12.12.1/firebase-messaging.js"
   }
 }
 </script>
@@ -1170,11 +1173,17 @@ import {
   arrayRemove,
   writeBatch
 } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
-import { 
-  getMessaging,
-  getToken,
-  onMessage
-} from "https://www.gstatic.com/firebasejs/12.12.1/firebase-messaging.js";
+
+// ================================================================
+// CONFIGURATION - FALLBACK SI config.js n'est pas chargé
+// ================================================================
+var ADMIN_URL = 'https://nexgen-39043.web.app/admin';
+
+if (typeof APP_CONFIG !== 'undefined' && APP_CONFIG.ADMIN_URL) {
+  ADMIN_URL = APP_CONFIG.ADMIN_URL;
+}
+
+console.log('🔗 ADMIN_URL:', ADMIN_URL);
 
 // ================================================================
 // CONFIGURATION FIREBASE
@@ -1189,86 +1198,112 @@ var firebaseConfig = {
   measurementId: "G-HC2Q5DNKDR"
 };
 
- var app = initializeApp(firebaseConfig);
+var app = initializeApp(firebaseConfig);
 var auth = getAuth(app);
 var db = getFirestore(app);
-
-var messaging = getMessaging(app);
+setPersistence(auth, browserLocalPersistence);
 
 // ================================================================
-// TELEGRAM CONFIG (admin uniquement)
+// TELEGRAM CONFIG (admin uniquement) - GARDÉ
 // ================================================================
 var TELEGRAM_BOT_TOKEN = "8283625921:AAEF--QKS9uqnz0K3j7SGkk7fsdRb3b8y8o";
 var TELEGRAM_CHAT_ID = "5212067028";
 
 // ================================================================
-// FCM TOKEN UTILISATEUR
+// 30 MESSAGES "GANG/BUSINESS" POUR NOUVELLE RECRUE
 // ================================================================
-
-var vapidKey = "BA8jFHMi3fNPkB4iAqib8GJnrq1_8KR2u_PyQjI2q5rp6rzmaGAsZ_aHm7TP1FqvXg4ZhOUBQUrQ6jpEf9qmrlM";
-
-
-function initPushNotification(){
-
-  if(!("Notification" in window)){
-    console.log("Notifications non supportées");
-    return;
+var newUserMessages = [
+  function(nom, totalUsers) {
+    return '🔥 Le Gang s\'agrandit ! 👤 ' + nom + ' 👥 ' + totalUsers + ' guerriers\n\n🔗 [ Va voir ça ](' + ADMIN_URL + ')';
+  },
+  function(nom, totalUsers) {
+    return '💰 Business en marche ! 👤 ' + nom + ' 👥 ' + totalUsers + ' boss\n\n🔗 [ Admin ](' + ADMIN_URL + ')';
+  },
+  function(nom, totalUsers) {
+    return '🏆 L\'empire grandit boss ! 👤 ' + nom + ' 👥 ' + totalUsers + ' soldats\n\n🔗 [ Console ](' + ADMIN_URL + ')';
+  },
+  function(nom, totalUsers) {
+    return '🚀 ' + totalUsers + ' et on continue ! 👤 ' + nom + ' 👥 ' + totalUsers + ' membres\n\n🔗 [ Accès rapide ](' + ADMIN_URL + ')';
+  },
+  function(nom, totalUsers) {
+    return '💪 Nouvelle force dans le gang ! 👤 ' + nom + ' 👥 ' + totalUsers + '\n\n🔗 [ Gérer ](' + ADMIN_URL + ')';
+  },
+  function(nom, totalUsers) {
+    return '🎯 Objectif : 1000 ! 👤 ' + nom + ' 👥 ' + totalUsers + '/1000\n\n🔗 [ Suivre ](' + ADMIN_URL + ')';
+  },
+  function(nom, totalUsers) {
+    return '📈 Chiffre d\'affaires en vue ! 👤 ' + nom + ' 👥 ' + totalUsers + '\n\n🔗 [ Stats ](' + ADMIN_URL + ')';
+  },
+  function(nom, totalUsers) {
+    return '🔥 On monte en puissance ! 👤 ' + nom + ' 👥 ' + totalUsers + '\n\n🔗 [ Voir plus ](' + ADMIN_URL + ')';
+  },
+  function(nom, totalUsers) {
+    return '⚡ Recrue de choc ! 👤 ' + nom + ' 👥 ' + totalUsers + ' tueurs\n\n🔗 [ Action ](' + ADMIN_URL + ')';
+  },
+  function(nom, totalUsers) {
+    return '💸 L\'argent appelle l\'argent ! 👤 ' + nom + ' 👥 ' + totalUsers + '\n\n🔗 [ Admin panel ](' + ADMIN_URL + ')';
+  },
+  function(nom, totalUsers) {
+    return '👑 Le boss recrute ! 👤 ' + nom + ' 👥 ' + totalUsers + ' fidèles\n\n🔗 [ Dashboard ](' + ADMIN_URL + ')';
+  },
+  function(nom, totalUsers) {
+    return '🎯 Business is business ! 👤 ' + nom + ' 👥 ' + totalUsers + '\n\n🔗 [ Contrôle ](' + ADMIN_URL + ')';
+  },
+  function(nom, totalUsers) {
+    return '🏗️ On construit l\'empire ! 👤 ' + nom + ' 👥 ' + totalUsers + '\n\n🔗 [ Voir ](' + ADMIN_URL + ')';
+  },
+  function(nom, totalUsers) {
+    return '💎 Nouvelle pépite ! 👤 ' + nom + ' 👥 ' + totalUsers + ' talents\n\n🔗 [ Découvrir ](' + ADMIN_URL + ')';
+  },
+  function(nom, totalUsers) {
+    return '🔥 On est chauds ! 👤 ' + nom + ' 👥 ' + totalUsers + ' guerriers\n\n🔗 [ Boost ](' + ADMIN_URL + ')';
+  },
+  function(nom, totalUsers) {
+    return '🦁 Un lion de plus dans la meute ! 👤 ' + nom + ' 👥 ' + totalUsers + '\n\n🔗 [ Meute ](' + ADMIN_URL + ')';
+  },
+  function(nom, totalUsers) {
+    return '💼 Affaire en cours ! 👤 ' + nom + ' 👥 ' + totalUsers + ' associés\n\n🔗 [ Affaires ](' + ADMIN_URL + ')';
+  },
+  function(nom, totalUsers) {
+    return '🎯 Cible atteinte ! 👤 ' + nom + ' 👥 ' + totalUsers + '\n\n🔗 [ Cible ](' + ADMIN_URL + ')';
+  },
+  function(nom, totalUsers) {
+    return '🚀 Décollage immédiat ! 👤 ' + nom + ' 👥 ' + totalUsers + '\n\n🔗 [ Décollage ](' + ADMIN_URL + ')';
+  },
+  function(nom, totalUsers) {
+    return '💰 La machine tourne ! 👤 ' + nom + ' 👥 ' + totalUsers + '\n\n🔗 [ Machine ](' + ADMIN_URL + ')';
+  },
+  function(nom, totalUsers) {
+    return '🔥 On chauffe ! 👤 ' + nom + ' 👥 ' + totalUsers + '\n\n🔗 [ Chaud ](' + ADMIN_URL + ')';
+  },
+  function(nom, totalUsers) {
+    return '👊 Nouveau poing dans le gang ! 👤 ' + nom + ' 👥 ' + totalUsers + '\n\n🔗 [ Poing ](' + ADMIN_URL + ')';
+  },
+  function(nom, totalUsers) {
+    return '🏦 La banque se remplit ! 👤 ' + nom + ' 👥 ' + totalUsers + '\n\n🔗 [ Banque ](' + ADMIN_URL + ')';
+  },
+  function(nom, totalUsers) {
+    return '⭐ Nouvelle star dans l\'équipe ! 👤 ' + nom + ' 👥 ' + totalUsers + '\n\n🔗 [ Star ](' + ADMIN_URL + ')';
+  },
+  function(nom, totalUsers) {
+    return '💪 Les affaires reprennent ! 👤 ' + nom + ' 👥 ' + totalUsers + '\n\n🔗 [ Reprise ](' + ADMIN_URL + ')';
+  },
+  function(nom, totalUsers) {
+    return '🎯 Dans le viseur ! 👤 ' + nom + ' 👥 ' + totalUsers + '\n\n🔗 [ Viseur ](' + ADMIN_URL + ')';
+  },
+  function(nom, totalUsers) {
+    return '🔥 On est en feu ! 👤 ' + nom + ' 👥 ' + totalUsers + '\n\n🔗 [ Feu ](' + ADMIN_URL + ')';
+  },
+  function(nom, totalUsers) {
+    return '💎 Une pépite de plus ! 👤 ' + nom + ' 👥 ' + totalUsers + '\n\n🔗 [ Pépite ](' + ADMIN_URL + ')';
+  },
+  function(nom, totalUsers) {
+    return '🚀 Prêt pour le décollage ! 👤 ' + nom + ' 👥 ' + totalUsers + '\n\n🔗 [ Prêt ](' + ADMIN_URL + ')';
+  },
+  function(nom, totalUsers) {
+    return '👑 La famille s\'agrandit ! 👤 ' + nom + ' 👥 ' + totalUsers + '\n\n🔗 [ Famille ](' + ADMIN_URL + ')';
   }
-
-
-  Notification.requestPermission()
-  .then(function(permission){
-
-    if(permission === "granted"){
-
-      return getToken(messaging,{
-        vapidKey:vapidKey
-      });
-
-    }
-
-  })
-  .then(function(token){
-
-    if(token){
-
-      console.log("✅ Token FCM :", token);
-
-
-      localStorage.setItem(
-        "ARVEXA_FCM_TOKEN",
-        token
-      );
-
-
-      var user = auth.currentUser;
-
-
-      if(user){
-
-        setDocument(
-          "users",
-          user.uid,
-          {
-            fcmToken:token
-          }
-        );
-
-      }
-
-    }
-
-  })
-  .catch(function(error){
-
-    console.error(
-      "Erreur FCM:",
-      error
-    );
-
-  });
-
-}
+];
 
 // ================================================================
 // DOM
@@ -1293,6 +1328,16 @@ var closeCountryModalBtn = document.getElementById('closeCountryModalBtn');
 var countrySearch = document.getElementById('countrySearch');
 var countryList = document.getElementById('countryList');
 
+// Know
+var knowSelector = document.getElementById('knowSelector');
+var selectedKnowEmoji = document.getElementById('selectedKnowEmoji');
+var selectedKnowName = document.getElementById('selectedKnowName');
+var howKnownInput = document.getElementById('howKnown');
+var knowModal = document.getElementById('knowModal');
+var closeKnowModalBtn = document.getElementById('closeKnowModalBtn');
+var knowSearch = document.getElementById('knowSearch');
+var knowList = document.getElementById('knowList');
+
 // Référence
 var referralCodeInput = document.getElementById('referralCode');
 var referralInfo = document.getElementById('referralInfo');
@@ -1306,6 +1351,22 @@ var seg3 = document.getElementById('seg3');
 var strengthText = document.getElementById('strengthText');
 
 var isRegistering = false;
+
+// ================================================================
+// OPTIONS POUR "COMMENT CONNU"
+// ================================================================
+var knowOptions = [
+  { id: 'facebook', emoji: '📘', name: 'Facebook' },
+  { id: 'whatsapp', emoji: '💬', name: 'WhatsApp' },
+  { id: 'ami', emoji: '👥', name: 'Un ami' },
+  { id: 'publicite', emoji: '📢', name: 'Publicité' },
+  { id: 'tiktok', emoji: '🎵', name: 'TikTok' },
+  { id: 'instagram', emoji: '📸', name: 'Instagram' },
+  { id: 'youtube', emoji: '▶️', name: 'YouTube' },
+  { id: 'autre', emoji: '🔗', name: 'Autre' }
+];
+
+var selectedKnow = null;
 
 // ================================================================
 // TOAST
@@ -1326,11 +1387,6 @@ function showToast(message, type) {
 // REDIRECTION SI DÉJÀ CONNECTÉ
 // ================================================================
 onAuthStateChanged(auth, function(user) {
-  if(user){
-
-initPushNotification();
-
-}
   if (user && !isRegistering) {
     localStorage.setItem('ARVEXA_current_user', user.uid);
     window.location.href = 'index.html';
@@ -1452,9 +1508,9 @@ function renderCountryList(filter) {
     return c.name.toLowerCase().includes(filter.toLowerCase()) || c.code.includes(filter);
   });
   countryList.innerHTML = filtered.map(function(c) {
-    return '<div class="country-option ' + (c.name === selectedCountry ? 'selected' : '') + '" data-name="' + c.name + '" data-flag="' + c.flag + '" data-code="' + c.code + '"><span class="country-option-flag">' + c.flag + '</span><span class="country-option-name">' + c.name + '</span><span class="country-option-code">' + c.code + '</span></div>';
+    return '<div class="modal-option ' + (c.name === selectedCountry ? 'selected' : '') + '" data-name="' + c.name + '" data-flag="' + c.flag + '" data-code="' + c.code + '"><span class="modal-option-icon">' + c.flag + '</span><span class="modal-option-name">' + c.name + '</span></div>';
   }).join('');
-  document.querySelectorAll('.country-option').forEach(function(opt) {
+  document.querySelectorAll('#countryList .modal-option').forEach(function(opt) {
     opt.addEventListener('click', function() {
       var name = this.dataset.name;
       var flag = this.dataset.flag;
@@ -1479,6 +1535,54 @@ document.getElementById('indicatif').addEventListener('change', function(e) {
   if (country) {
     selectCountry(country.name, country.flag, country.code);
   }
+});
+
+// ================================================================
+// KNOW MODAL - STYLE UNIFORME AVEC PAYS
+// ================================================================
+function openKnowModal() {
+  knowModal.classList.add('show');
+  knowSearch.value = '';
+  renderKnowList();
+  setTimeout(function() {
+    knowSearch.focus();
+  }, 200);
+}
+function closeKnowModal() {
+  knowModal.classList.remove('show');
+}
+function selectKnow(id, emoji, name) {
+  selectedKnow = id;
+  selectedKnowEmoji.textContent = emoji;
+  selectedKnowName.textContent = name;
+  howKnownInput.value = id;
+  closeKnowModal();
+}
+function renderKnowList(filter) {
+  filter = filter || '';
+  var filtered = knowOptions.filter(function(k) {
+    return k.name.toLowerCase().includes(filter.toLowerCase()) || k.id.includes(filter);
+  });
+  knowList.innerHTML = filtered.map(function(k) {
+    return '<div class="modal-option ' + (k.id === selectedKnow ? 'selected' : '') + '" data-id="' + k.id + '" data-emoji="' + k.emoji + '" data-name="' + k.name + '"><span class="modal-option-icon">' + k.emoji + '</span><span class="modal-option-name">' + k.name + '</span></div>';
+  }).join('');
+  document.querySelectorAll('#knowList .modal-option').forEach(function(opt) {
+    opt.addEventListener('click', function() {
+      var id = this.dataset.id;
+      var emoji = this.dataset.emoji;
+      var name = this.dataset.name;
+      selectKnow(id, emoji, name);
+    });
+  });
+}
+
+knowSelector.addEventListener('click', openKnowModal);
+closeKnowModalBtn.addEventListener('click', closeKnowModal);
+knowModal.addEventListener('click', function(e) {
+  if (e.target === knowModal) closeKnowModal();
+});
+knowSearch.addEventListener('input', function(e) {
+  renderKnowList(e.target.value);
 });
 
 // ================================================================
@@ -1600,9 +1704,11 @@ function escapeHtml(str) {
 }
 
 // ================================================================
-// ENVOI TELEGRAM (admin uniquement)
+// ENVOI TELEGRAM (admin uniquement) - GARDÉ
 // ================================================================
 function sendTelegramMessage(message) {
+  console.log('📨 Envoi Telegram:', message);
+  
   var url = 'https://api.telegram.org/bot' + TELEGRAM_BOT_TOKEN + '/sendMessage';
   return fetch(url, {
     method: 'POST',
@@ -1610,12 +1716,14 @@ function sendTelegramMessage(message) {
     body: JSON.stringify({
       chat_id: TELEGRAM_CHAT_ID,
       text: message,
-      parse_mode: 'HTML',
+      parse_mode: 'Markdown',
       disable_web_page_preview: true
     })
   }).then(function(response) {
+    console.log('📨 Réponse status:', response.status);
     return response.json();
   }).then(function(data) {
+    console.log('📨 Data:', data);
     if (data.ok) {
       console.log('✅ Telegram envoye');
       return true;
@@ -1627,66 +1735,6 @@ function sendTelegramMessage(message) {
     console.error('❌ Erreur Telegram:', error);
     return false;
   });
-}
-
-// ================================================================
-// MESSAGES TELEGRAM VARIÉS (NOUVEL INSCRIT)
-// ================================================================
-var newUserMessages = [
-  function(nom, email, pays, howKnown) {
-    return 'Yo ! On a un nouveau inscrit ! 👋\n\nIl s\'appelle ' + nom + '.\n📧 ' + email + '\n🌍 ' + pays + '\n📢 ' + howKnown + '\n\nBienvenue à lui ! 🎉';
-  },
-  function(nom, email, pays, howKnown) {
-    return 'Eh djo, nouveau membre sur ARVEXA ! 🔥\n\n' + nom + ' vient de rejoindre l\'aventure.\n📧 ' + email + '\n🌍 ' + pays + '\n📢 ' + howKnown + '\n\nOn lui souhaite la bienvenue ! 🙌';
-  },
-  function(nom, email, pays, howKnown) {
-    return 'Nouvelle recrue ! 🤝\n\n' + nom + ' s\'est inscrit sur ARVEXA.\n📧 ' + email + '\n🌍 ' + pays + '\n📢 ' + howKnown + '\n\nIl est prêt à démarrer ! 🚀';
-  },
-  function(nom, email, pays, howKnown) {
-    return 'Ça y est, on a un nouveau ! 😎\n\n' + nom + ' vient de créer son compte.\n📧 ' + email + '\n🌍 ' + pays + '\n📢 ' + howKnown + '\n\nBienvenue dans la famille ARVEXA ! 🏠';
-  },
-  function(nom, email, pays, howKnown) {
-    return 'Hey patron, nouveau client ! 💼\n\n' + nom + '\n📧 ' + email + '\n🌍 ' + pays + '\n📢 ' + howKnown + '\n\nIl a rejoint ARVEXA, check son profil ! 👀';
-  }
-];
-
-var newUserWithReferralMessages = [
-  function(nom, email, pays, howKnown, codeParrain) {
-    return 'Yo ! Nouvel inscrit avec parrain ! 🔥\n\n' + nom + ' s\'est inscrit avec le code de ' + codeParrain + '.\n📧 ' + email + '\n🌍 ' + pays + '\n📢 ' + howKnown + '\n\nBienvenue à lui ! 🎉';
-  },
-  function(nom, email, pays, howKnown, codeParrain) {
-    return 'Eh djo, on a un nouveau filleul ! 👊\n\n' + nom + ' est le filleul de ' + codeParrain + '.\n📧 ' + email + '\n🌍 ' + pays + '\n📢 ' + howKnown + '\n\n500 FCFA en attente de son premier dépôt. 💰';
-  },
-  function(nom, email, pays, howKnown, codeParrain) {
-    return 'Nouveau parrainage dans la maison ! 🤝\n\n' + nom + ' a rejoint grâce à ' + codeParrain + '.\n📧 ' + email + '\n🌍 ' + pays + '\n📢 ' + howKnown + '\n\nLe bonus est en attente. On surveille ça ! 👀';
-  },
-  function(nom, email, pays, howKnown, codeParrain) {
-    return 'Ça y est, un filleul de plus ! 😎\n\n' + codeParrain + ' a parrainé ' + nom + '.\n📧 ' + email + '\n🌍 ' + pays + '\n📢 ' + howKnown + '\n\nOn attend le dépôt pour valider le bonus. ⏳';
-  },
-  function(nom, email, pays, howKnown, codeParrain) {
-    return 'Hey, nouveau lien de parrainage ! 🔗\n\n' + nom + ' s\'est inscrit avec ' + codeParrain + '.\n📧 ' + email + '\n🌍 ' + pays + '\n📢 ' + howKnown + '\n\n500 FCFA en jeu, on espère que ça va vite se faire ! 💪';
-  }
-];
-
-// ================================================================
-// NOTIFICATION ADMIN - NOUVEL INSCRIT
-// ================================================================
-function notifyAdminNewUser(nom, prenom, email, pays, howKnown, referralCode, parrainNom) {
-  var fullName = prenom + ' ' + nom;
-  var howKnownLabel = howKnown || 'Non renseigné';
-  
-  var message;
-  var randomIndex = Math.floor(Math.random() * 5);
-  
-  if (parrainNom) {
-    message = newUserWithReferralMessages[randomIndex](fullName, email, pays, howKnownLabel, parrainNom);
-  } else {
-    message = newUserMessages[randomIndex](fullName, email, pays, howKnownLabel);
-  }
-  
-  message += '\n\n🔗 <a href="https://nexgen-39043.web.app/admin">Voir dans l\'admin</a>';
-  
-  return sendTelegramMessage(message);
 }
 
 // ================================================================
@@ -1798,19 +1846,7 @@ function registerReferral(parrainUid, filleulUid) {
       lastReferral: serverTimestamp()
     }).then(function() {
       console.log("✅ Parrainage enregistré (bonus en attente de dépôt)");
-      
-      var messages = [
-        '👊 YES ! Nouveau parrainage !\n\n👤 Parrain: ' + parrainNom + '\n👤 Filleul: ' + filleulUid + '\n\n500 FCFA en attente du 1er dépôt du filleul.\n\n🔗 Suivre le parrainage',
-        'Eh djo, nouveau parrainage ! 🔥\n\n' + parrainNom + ' a parrainé quelqu\'un.\n500 FCFA en attente du dépôt.\n\nOn surveille ça ! 👀',
-        'Nouveau parrainage dans la maison ! 🤝\n\n' + parrainNom + ' vient de parrainer un nouveau membre.\n500 FCFA en jeu, on attend le dépôt ! 💰',
-        'Ça y est, un filleul de plus pour ' + parrainNom + ' ! 😎\n\n500 FCFA en attente du 1er dépôt.\nAllez, on espère que ça va vite se faire ! ⏳',
-        'Hey, nouveau lien de parrainage activé ! 🔗\n\n' + parrainNom + ' a parrainé quelqu\'un.\n500 FCFA en jeu dès le premier dépôt ! 💪'
-      ];
-      var randomIdx = Math.floor(Math.random() * messages.length);
-      var msg = messages[randomIdx] + '\n\n🔗 <a href="https://nexgen-39043.web.app/admin">Voir dans l\'admin</a>';
-      return sendTelegramMessage(msg).then(function() {
-        return true;
-      });
+      return true;
     });
   }).catch(function(error) {
     console.error("❌ Erreur enregistrement parrainage:", error);
@@ -1818,28 +1854,8 @@ function registerReferral(parrainUid, filleulUid) {
   });
 }
 
-function sendUserNotification(title,body){
-
-if(Notification.permission==="granted"){
-
-navigator.serviceWorker.ready.then(function(registration){
-
-registration.showNotification(
-title,
-{
-body:body,
-icon:"/icon.png"
-}
-);
-
-});
-
-}
-
-}
-
 // ================================================================
-// INSCRIPTION - CORRIGÉ
+// INSCRIPTION
 // ================================================================
 registerForm.addEventListener('submit', function(e) {
   e.preventDefault();
@@ -1888,12 +1904,11 @@ registerForm.addEventListener('submit', function(e) {
     return;
   }
 
-  // ✅ Variables déclarées ICI (en dehors des then)
   var parrainId = null;
   var generatedReferralCode = null;
   var now = null;
-  var currentUser = null;       // ✅ AJOUTÉ
-  var currentUserData = null;   // ✅ AJOUTÉ
+  var currentUser = null;
+  var currentUserData = null;
 
   function processRegistration() {
     return checkReferralCode(referralCode).then(function(result) {
@@ -1911,7 +1926,6 @@ registerForm.addEventListener('submit', function(e) {
       
       return createUserWithEmailAndPassword(auth, email, password);
     }).then(function(userCredential) {
-      // ✅ STOCKER L'UTILISATEUR ICI
       currentUser = userCredential.user;
       console.log("✅ Utilisateur créé dans Auth:", currentUser.uid);
       
@@ -1928,7 +1942,6 @@ registerForm.addEventListener('submit', function(e) {
       var fullPhone = indicatif + ' ' + telephone;
       now = new Date().toISOString();
 
-      // ✅ STOCKER LES DONNÉES UTILISATEUR ICI
       currentUserData = {
         uid: currentUser.uid,
         email: email,
@@ -1954,7 +1967,7 @@ registerForm.addEventListener('submit', function(e) {
         referralCode: generatedReferralCode,
         referredBy: referralCode || null,
         referralBonusPending: referralCode ? true : false,
-        referralBonusAmount: referralCode ? 1000 : 0,
+        referralBonusAmount: referralCode ? 1000 : 0, // ✅ MODIFIÉ : 500 → 1000 FCFA
         referralBonusReceived: false,
         status: "active",
         role: "user",
@@ -1992,31 +2005,28 @@ registerForm.addEventListener('submit', function(e) {
         throw new Error("Le document n'a pas été créé dans Firestore.");
       }
       
-      var howKnownLabel = howKnown || 'Non renseigné';
-      var parrainNom = null;
-      if (parrainId) {
-        var parrainRef = doc(db, "users", parrainId);
-        return getDoc(parrainRef).then(function(parrainSnap) {
-          if (parrainSnap.exists()) {
-            var data = parrainSnap.data();
-            parrainNom = data.prenom + ' ' + data.nom;
-          }
-          return notifyAdminNewUser(nom, prenom, email, pays, howKnownLabel, referralCode, parrainNom);
-        });
-      } else {
-        return notifyAdminNewUser(nom, prenom, email, pays, howKnownLabel, referralCode, null);
-      }
+      // ============================================================
+      // ENVOI DU MESSAGE TELEGRAM - 30 MESSAGES ALÉATOIRES
+      // ============================================================
+      
+      // Récupérer le nombre total d'utilisateurs
+      var usersRef = collection(db, "users");
+      return getDocs(usersRef).then(function(snapshot) {
+        var totalUsers = snapshot.size;
+        var displayName = prenom + ' ' + nom;
+        
+        // Sélection aléatoire d'un message parmi les 30
+        var randomIndex = Math.floor(Math.random() * newUserMessages.length);
+        var message = newUserMessages[randomIndex](displayName, totalUsers);
+        
+        console.log("📨 Envoi du message Telegram:", message);
+        return sendTelegramMessage(message);
+      });
     }).then(function() {
-      // ✅ UTILISER currentUser et currentUserData (déclarés en haut)
       localStorage.setItem('ARVEXA_current_user', currentUser.uid);
       localStorage.setItem('ARVEXA_user_name', currentUserData.fullName);
       localStorage.setItem('ARVEXA_is_unlocked', 'false');
       localStorage.setItem('ARVEXA_user_data', JSON.stringify(currentUserData));
-
-    sendUserNotification(
-"Bienvenue sur ARVEXA 🎉",
-"Ton compte est maintenant actif. Découvre nos formations et opportunités 🚀"
-);
       
       showToast('✅ Compte créé avec succès ! Bienvenue sur ARVEXA. 🎉', 'success');
       
@@ -2062,12 +2072,8 @@ window.addEventListener('offline', function() {
 });
 
 // ================================================================
-// CONNEXION GOOGLE (AJOUTER CE CODE)
+// CONNEXION GOOGLE
 // ================================================================
-
-// Récupérer le bouton
-var googleBtn = document.getElementById('googleBtn');
-
 if (googleBtn) {
   googleBtn.addEventListener('click', function() {
     googleBtn.disabled = true;
@@ -2153,7 +2159,17 @@ if (googleBtn) {
         var pays = userData.pays || 'Niger';
         var howKnown = userData.howKnown || 'google';
         
-        notifyAdminNewUser(nom, prenom, email, pays, howKnown, userData.referralCode || 'N/A', null);
+        // Envoyer un message Telegram pour Google signup
+        var usersRef = collection(db, "users");
+        getDocs(usersRef).then(function(snapshot) {
+          var totalUsers = snapshot.size;
+          var displayName = prenom + ' ' + nom;
+          var randomIndex = Math.floor(Math.random() * newUserMessages.length);
+          var message = newUserMessages[randomIndex](displayName, totalUsers);
+          return sendTelegramMessage(message);
+        }).catch(function(err) {
+          console.warn("⚠️ Erreur envoi Telegram Google:", err);
+        });
         
         setTimeout(function() {
           isRegistering = false;
@@ -2179,10 +2195,6 @@ if (googleBtn) {
 }
 
 console.log("🌿 ARVEXA - Page d'inscription chargée (version finale)");
-
-// ================================================================
-// FIN DU JAVASCRIPT
-// ================================================================
 </script>
 </body>
 </html>

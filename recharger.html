@@ -129,23 +129,6 @@
       font-size: clamp(14px, 1.8vw, 18px);
     }
 
-    .notif-badge {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 10px;
-      border-radius: 30px;
-      font-size: 10px;
-      font-weight: 500;
-      transition: var(--transition);
-      background: rgba(45, 125, 90, 0.08);
-      color: var(--success);
-      border: 1px solid rgba(45, 125, 90, 0.10);
-    }
-    .notif-badge i {
-      font-size: 12px;
-    }
-
     .header-placeholder {
       width: clamp(32px, 4vw, 40px);
       flex-shrink: 0;
@@ -471,48 +454,6 @@
       color: var(--accent);
     }
 
-    /* ===== NOTIFICATION BANNER ===== */
-    .notif-permission-banner {
-      background: rgba(184, 134, 11, 0.06);
-      border: 1px solid rgba(184, 134, 11, 0.10);
-      border-radius: 12px;
-      padding: 12px 16px;
-      margin: 18px 0 10px;
-      display: none;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .notif-permission-banner p {
-      font-size: 12px;
-      color: var(--text-dim);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .notif-permission-banner p i {
-      color: var(--accent);
-    }
-    .notif-permission-banner .btn-enable {
-      padding: 6px 16px;
-      background: var(--accent);
-      border: none;
-      border-radius: 30px;
-      color: var(--bg-dark);
-      font-weight: 600;
-      font-size: 11px;
-      cursor: pointer;
-      transition: var(--transition);
-      white-space: nowrap;
-    }
-    .notif-permission-banner .btn-enable:active {
-      transform: scale(0.95);
-    }
-    .notif-permission-banner .btn-enable:hover {
-      background: #9A7209;
-    }
-
     /* ===== ADMIN NOTE ===== */
     .admin-note {
       background: rgba(45, 125, 90, 0.04);
@@ -696,8 +637,8 @@
 <header class="header">
   <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
   <a href="index.html" class="logo">ARVE<span>XA</span></a>
-  <span class="notif-badge" id="notifBadge">
-    <i class="fas fa-circle"></i> <span id="notifStatusText">🔔</span>
+     <span>
+   </span>
   </span>
 </header>
 
@@ -787,12 +728,6 @@
     Envoyer la demande via WhatsApp
   </a>
 
-  <!-- NOTIFICATION PERMISSION BANNER -->
-  <div class="notif-permission-banner" id="notifPermissionBanner">
-    <p><i class="fas fa-bell"></i> Activez les notifications pour suivre vos dépôts !</p>
-    <button class="btn-enable" id="enableNotifBtn"><i class="fas fa-check"></i> Activer</button>
-  </div>
-
   <!-- HISTORIQUE -->
   <div class="card" style="margin-top:18px;padding-bottom:8px;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
@@ -842,6 +777,11 @@
 </script>
 
 <!-- ================================================================ -->
+<!-- CONFIGURATION CENTRALISÉE -->
+<!-- ================================================================ -->
+<script src="config.js"></script>
+
+<!-- ================================================================ -->
 <!-- IMPORTS -->
 <!-- ================================================================ -->
 <script type="importmap">
@@ -849,8 +789,7 @@
   "imports": {
     "firebase/app": "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js",
     "firebase/auth": "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js",
-    "firebase/firestore": "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js",
-    "firebase/messaging": "https://www.gstatic.com/firebasejs/12.12.1/firebase-messaging.js"
+    "firebase/firestore": "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js"
   }
 }
 </script>
@@ -874,16 +813,21 @@ import {
   collection,
   query,
   where,
-  orderBy,
   addDoc,
   updateDoc,
-  onSnapshot,
-  serverTimestamp
+  onSnapshot
 } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
-import { 
-  getMessaging,
-  getToken
-} from "https://www.gstatic.com/firebasejs/12.12.1/firebase-messaging.js";
+
+// ================================================================
+// CONFIGURATION - FALLBACK SI config.js n'est pas chargé
+// ================================================================
+var ADMIN_URL = 'https://nexgen-39043.web.app/admin';
+
+if (typeof APP_CONFIG !== 'undefined' && APP_CONFIG.ADMIN_URL) {
+  ADMIN_URL = APP_CONFIG.ADMIN_URL;
+}
+
+console.log('🔗 ADMIN_URL:', ADMIN_URL);
 
 // ================================================================
 // CONFIGURATION FIREBASE
@@ -901,15 +845,11 @@ var firebaseConfig = {
 var app = initializeApp(firebaseConfig);
 var auth = getAuth(app);
 var db = getFirestore(app);
-var messaging = getMessaging(app);
-
-// VAPID Key
-var VAPID_KEY = "BA8jFHMi3fNPkB4iAqib8GJnrq1_8KR2u_PyQjI2q5rp6rzmaGAsZ_aHm7TP1FqvXg4ZhOUBQUrQ6jpEf9qmrlM";
 
 setPersistence(auth, browserLocalPersistence);
 
 // ================================================================
-// TELEGRAM CONFIG (admin uniquement)
+// TELEGRAM CONFIG
 // ================================================================
 var TELEGRAM_BOT_TOKEN = "8283625921:AAEF--QKS9uqnz0K3j7SGkk7fsdRb3b8y8o";
 var TELEGRAM_CHAT_ID = "5212067028";
@@ -920,7 +860,6 @@ var TELEGRAM_CHAT_ID = "5212067028";
 var WHATSAPP_NUMBER = "22798064667";
 var MIN_DEPOSIT = 3000;
 var MAX_DEPOSIT = 1000000;
-var MAX_REQUESTS_PER_DAY = 2;
 
 // ================================================================
 // DOM
@@ -933,29 +872,20 @@ var amountDisplay = document.getElementById('amountDisplay');
 var whatsappBtn = document.getElementById('whatsappBtn');
 var historyList = document.getElementById('historyList');
 var toast = document.getElementById('toast');
-var notifBadge = document.getElementById('notifBadge');
-var notifStatusText = document.getElementById('notifStatusText');
-var notifPermissionBanner = document.getElementById('notifPermissionBanner');
-var enableNotifBtn = document.getElementById('enableNotifBtn');
 
 var currentUserId = null;
 var currentAuthUser = null;
 var userData = null;
+var userBalance = 0;
 var unsubscribeHistory = null;
 var notificationTimeout = null;
 
 // ================================================================
 // HELPERS
 // ================================================================
-function getDocument(collectionName, docId) {
-  var ref = doc(db, collectionName, docId);
-  return getDoc(ref).then(function(snap) {
-    if (!snap.exists()) return null;
-    return { id: snap.id, ...snap.data() };
-  }).catch(function(error) {
-    console.error('Erreur getDocument:', error);
-    return null;
-  });
+function formatCurrency(amount) {
+  if (!amount) return '0 FCFA';
+  return amount.toLocaleString('fr-FR') + ' FCFA';
 }
 
 function showToast(message, type) {
@@ -978,11 +908,6 @@ function generateId() {
   return prefix + '-' + timestamp + '-' + random;
 }
 
-function formatCurrency(amount) {
-  if (!amount) return '0 FCFA';
-  return amount.toLocaleString('fr-FR') + ' FCFA';
-}
-
 function escapeHtml(str) {
   if (!str) return '';
   var div = document.createElement('div');
@@ -991,9 +916,248 @@ function escapeHtml(str) {
 }
 
 // ================================================================
-// ENVOI TELEGRAM (admin uniquement)
+// 15 MESSAGES POUR DEMANDE DE DÉPÔT
+// ================================================================
+var depositRequestMessages = [
+  function(userName, amount, totalUsers) {
+    return '📩 Demande de dépôt ! 👤 ' + userName + ' 💰 ' + formatCurrency(amount) + ' 👥 ' + totalUsers + '\n\n🔗 [ Va voir ça ](' + ADMIN_URL + ')';
+  },
+  function(userName, amount, totalUsers) {
+    return '📩 Nouvelle demande ! 👤 ' + userName + ' 💰 ' + formatCurrency(amount) + ' 👥 ' + totalUsers + '\n\n🔗 [ Admin ](' + ADMIN_URL + ')';
+  },
+  function(userName, amount, totalUsers) {
+    return '📩 Recharge demandée ! 👤 ' + userName + ' 💰 ' + formatCurrency(amount) + ' 👥 ' + totalUsers + '\n\n🔗 [ Check ](' + ADMIN_URL + ')';
+  },
+  function(userName, amount, totalUsers) {
+    return '📩 Dépôt en attente ! 👤 ' + userName + ' 💰 ' + formatCurrency(amount) + ' 👥 ' + totalUsers + '\n\n🔗 [ Voir ](' + ADMIN_URL + ')';
+  },
+  function(userName, amount, totalUsers) {
+    return '📩 Demande reçue ! 👤 ' + userName + ' 💰 ' + formatCurrency(amount) + ' 👥 ' + totalUsers + '\n\n🔗 [ Action ](' + ADMIN_URL + ')';
+  },
+  function(userName, amount, totalUsers) {
+    return '📩 Nouvelle demande de recharge ! 👤 ' + userName + ' 💰 ' + formatCurrency(amount) + ' 👥 ' + totalUsers + '\n\n🔗 [ Dashboard ](' + ADMIN_URL + ')';
+  },
+  function(userName, amount, totalUsers) {
+    return '📩 Demande de dépôt en cours ! 👤 ' + userName + ' 💰 ' + formatCurrency(amount) + ' 👥 ' + totalUsers + '\n\n🔗 [ Console ](' + ADMIN_URL + ')';
+  },
+  function(userName, amount, totalUsers) {
+    return '📩 Recharge à valider ! 👤 ' + userName + ' 💰 ' + formatCurrency(amount) + ' 👥 ' + totalUsers + '\n\n🔗 [ Gérer ](' + ADMIN_URL + ')';
+  },
+  function(userName, amount, totalUsers) {
+    return '📩 Dépôt à traiter ! 👤 ' + userName + ' 💰 ' + formatCurrency(amount) + ' 👥 ' + totalUsers + '\n\n🔗 [ Suivre ](' + ADMIN_URL + ')';
+  },
+  function(userName, amount, totalUsers) {
+    return '📩 Demande de paiement ! 👤 ' + userName + ' 💰 ' + formatCurrency(amount) + ' 👥 ' + totalUsers + '\n\n🔗 [ Voir plus ](' + ADMIN_URL + ')';
+  },
+  function(userName, amount, totalUsers) {
+    return '📩 Nouveau dépôt en attente ! 👤 ' + userName + ' 💰 ' + formatCurrency(amount) + ' 👥 ' + totalUsers + '\n\n🔗 [ Admin panel ](' + ADMIN_URL + ')';
+  },
+  function(userName, amount, totalUsers) {
+    return '📩 Demande de recharge reçue ! 👤 ' + userName + ' 💰 ' + formatCurrency(amount) + ' 👥 ' + totalUsers + '\n\n🔗 [ Contrôle ](' + ADMIN_URL + ')';
+  },
+  function(userName, amount, totalUsers) {
+    return '📩 Dépôt à valider ! 👤 ' + userName + ' 💰 ' + formatCurrency(amount) + ' 👥 ' + totalUsers + '\n\n🔗 [ Découvrir ](' + ADMIN_URL + ')';
+  },
+  function(userName, amount, totalUsers) {
+    return '📩 Recharge en attente ! 👤 ' + userName + ' 💰 ' + formatCurrency(amount) + ' 👥 ' + totalUsers + '\n\n🔗 [ Accès ](' + ADMIN_URL + ')';
+  },
+  function(userName, amount, totalUsers) {
+    return '📩 Demande de dépôt ! 👤 ' + userName + ' 💰 ' + formatCurrency(amount) + ' 👥 ' + totalUsers + '\n\n🔗 [ Voir admin ](' + ADMIN_URL + ')';
+  }
+];
+
+// ================================================================
+// 15 MESSAGES POUR ENCAISSEMENT (validation admin)
+// ================================================================
+var encaissementMessages = [
+  function(userName, amount, todayTotal, weekTotal, monthTotal, allTimeTotal) {
+    var stats = [
+      '📊 Aujourd\'hui : ' + formatCurrency(todayTotal),
+      '📊 Cette semaine : ' + formatCurrency(weekTotal),
+      '📊 Ce mois : ' + formatCurrency(monthTotal),
+      '📊 Total : ' + formatCurrency(allTimeTotal)
+    ];
+    var randomStat = stats[Math.floor(Math.random() * stats.length)];
+    var links = ['Va voir ça', 'Admin', 'Voir les stats', 'Check', 'Dashboard', 'Voir', 'Console', 'Accès', 'Gérer', 'Suivre', 'Action', 'Voir plus', 'Admin panel', 'Contrôle', 'Découvrir'];
+    var randomLink = links[Math.floor(Math.random() * links.length)];
+    return '💰 Encaissement de ' + formatCurrency(amount) + ' par ' + userName + '. ' + randomStat + '\n\n🔗 [ ' + randomLink + ' ](' + ADMIN_URL + ')';
+  },
+  function(userName, amount, todayTotal, weekTotal, monthTotal, allTimeTotal) {
+    var stats = [
+      '📊 Aujourd\'hui : ' + formatCurrency(todayTotal),
+      '📊 Cette semaine : ' + formatCurrency(weekTotal),
+      '📊 Ce mois : ' + formatCurrency(monthTotal),
+      '📊 Total : ' + formatCurrency(allTimeTotal)
+    ];
+    var randomStat = stats[Math.floor(Math.random() * stats.length)];
+    var links = ['Va voir ça', 'Admin', 'Voir les stats', 'Check', 'Dashboard', 'Voir', 'Console', 'Accès', 'Gérer', 'Suivre', 'Action', 'Voir plus', 'Admin panel', 'Contrôle', 'Découvrir'];
+    var randomLink = links[Math.floor(Math.random() * links.length)];
+    return '💵 Encaissement de ' + formatCurrency(amount) + ' par ' + userName + '. ' + randomStat + '\n\n🔗 [ ' + randomLink + ' ](' + ADMIN_URL + ')';
+  },
+  function(userName, amount, todayTotal, weekTotal, monthTotal, allTimeTotal) {
+    var stats = [
+      '📊 Aujourd\'hui : ' + formatCurrency(todayTotal),
+      '📊 Cette semaine : ' + formatCurrency(weekTotal),
+      '📊 Ce mois : ' + formatCurrency(monthTotal),
+      '📊 Total : ' + formatCurrency(allTimeTotal)
+    ];
+    var randomStat = stats[Math.floor(Math.random() * stats.length)];
+    var links = ['Va voir ça', 'Admin', 'Voir les stats', 'Check', 'Dashboard', 'Voir', 'Console', 'Accès', 'Gérer', 'Suivre', 'Action', 'Voir plus', 'Admin panel', 'Contrôle', 'Découvrir'];
+    var randomLink = links[Math.floor(Math.random() * links.length)];
+    return '🏆 Encaissement de ' + formatCurrency(amount) + ' par ' + userName + '. ' + randomStat + '\n\n🔗 [ ' + randomLink + ' ](' + ADMIN_URL + ')';
+  },
+  function(userName, amount, todayTotal, weekTotal, monthTotal, allTimeTotal) {
+    var stats = [
+      '📊 Aujourd\'hui : ' + formatCurrency(todayTotal),
+      '📊 Cette semaine : ' + formatCurrency(weekTotal),
+      '📊 Ce mois : ' + formatCurrency(monthTotal),
+      '📊 Total : ' + formatCurrency(allTimeTotal)
+    ];
+    var randomStat = stats[Math.floor(Math.random() * stats.length)];
+    var links = ['Va voir ça', 'Admin', 'Voir les stats', 'Check', 'Dashboard', 'Voir', 'Console', 'Accès', 'Gérer', 'Suivre', 'Action', 'Voir plus', 'Admin panel', 'Contrôle', 'Découvrir'];
+    var randomLink = links[Math.floor(Math.random() * links.length)];
+    return '💸 Encaissement de ' + formatCurrency(amount) + ' par ' + userName + '. ' + randomStat + '\n\n🔗 [ ' + randomLink + ' ](' + ADMIN_URL + ')';
+  },
+  function(userName, amount, todayTotal, weekTotal, monthTotal, allTimeTotal) {
+    var stats = [
+      '📊 Aujourd\'hui : ' + formatCurrency(todayTotal),
+      '📊 Cette semaine : ' + formatCurrency(weekTotal),
+      '📊 Ce mois : ' + formatCurrency(monthTotal),
+      '📊 Total : ' + formatCurrency(allTimeTotal)
+    ];
+    var randomStat = stats[Math.floor(Math.random() * stats.length)];
+    var links = ['Va voir ça', 'Admin', 'Voir les stats', 'Check', 'Dashboard', 'Voir', 'Console', 'Accès', 'Gérer', 'Suivre', 'Action', 'Voir plus', 'Admin panel', 'Contrôle', 'Découvrir'];
+    var randomLink = links[Math.floor(Math.random() * links.length)];
+    return '🎯 Encaissement de ' + formatCurrency(amount) + ' par ' + userName + '. ' + randomStat + '\n\n🔗 [ ' + randomLink + ' ](' + ADMIN_URL + ')';
+  },
+  function(userName, amount, todayTotal, weekTotal, monthTotal, allTimeTotal) {
+    var stats = [
+      '📊 Aujourd\'hui : ' + formatCurrency(todayTotal),
+      '📊 Cette semaine : ' + formatCurrency(weekTotal),
+      '📊 Ce mois : ' + formatCurrency(monthTotal),
+      '📊 Total : ' + formatCurrency(allTimeTotal)
+    ];
+    var randomStat = stats[Math.floor(Math.random() * stats.length)];
+    var links = ['Va voir ça', 'Admin', 'Voir les stats', 'Check', 'Dashboard', 'Voir', 'Console', 'Accès', 'Gérer', 'Suivre', 'Action', 'Voir plus', 'Admin panel', 'Contrôle', 'Découvrir'];
+    var randomLink = links[Math.floor(Math.random() * links.length)];
+    return '🚀 Encaissement de ' + formatCurrency(amount) + ' par ' + userName + '. ' + randomStat + '\n\n🔗 [ ' + randomLink + ' ](' + ADMIN_URL + ')';
+  },
+  function(userName, amount, todayTotal, weekTotal, monthTotal, allTimeTotal) {
+    var stats = [
+      '📊 Aujourd\'hui : ' + formatCurrency(todayTotal),
+      '📊 Cette semaine : ' + formatCurrency(weekTotal),
+      '📊 Ce mois : ' + formatCurrency(monthTotal),
+      '📊 Total : ' + formatCurrency(allTimeTotal)
+    ];
+    var randomStat = stats[Math.floor(Math.random() * stats.length)];
+    var links = ['Va voir ça', 'Admin', 'Voir les stats', 'Check', 'Dashboard', 'Voir', 'Console', 'Accès', 'Gérer', 'Suivre', 'Action', 'Voir plus', 'Admin panel', 'Contrôle', 'Découvrir'];
+    var randomLink = links[Math.floor(Math.random() * links.length)];
+    return '💪 Encaissement de ' + formatCurrency(amount) + ' par ' + userName + '. ' + randomStat + '\n\n🔗 [ ' + randomLink + ' ](' + ADMIN_URL + ')';
+  },
+  function(userName, amount, todayTotal, weekTotal, monthTotal, allTimeTotal) {
+    var stats = [
+      '📊 Aujourd\'hui : ' + formatCurrency(todayTotal),
+      '📊 Cette semaine : ' + formatCurrency(weekTotal),
+      '📊 Ce mois : ' + formatCurrency(monthTotal),
+      '📊 Total : ' + formatCurrency(allTimeTotal)
+    ];
+    var randomStat = stats[Math.floor(Math.random() * stats.length)];
+    var links = ['Va voir ça', 'Admin', 'Voir les stats', 'Check', 'Dashboard', 'Voir', 'Console', 'Accès', 'Gérer', 'Suivre', 'Action', 'Voir plus', 'Admin panel', 'Contrôle', 'Découvrir'];
+    var randomLink = links[Math.floor(Math.random() * links.length)];
+    return '🔥 Encaissement de ' + formatCurrency(amount) + ' par ' + userName + '. ' + randomStat + '\n\n🔗 [ ' + randomLink + ' ](' + ADMIN_URL + ')';
+  },
+  function(userName, amount, todayTotal, weekTotal, monthTotal, allTimeTotal) {
+    var stats = [
+      '📊 Aujourd\'hui : ' + formatCurrency(todayTotal),
+      '📊 Cette semaine : ' + formatCurrency(weekTotal),
+      '📊 Ce mois : ' + formatCurrency(monthTotal),
+      '📊 Total : ' + formatCurrency(allTimeTotal)
+    ];
+    var randomStat = stats[Math.floor(Math.random() * stats.length)];
+    var links = ['Va voir ça', 'Admin', 'Voir les stats', 'Check', 'Dashboard', 'Voir', 'Console', 'Accès', 'Gérer', 'Suivre', 'Action', 'Voir plus', 'Admin panel', 'Contrôle', 'Découvrir'];
+    var randomLink = links[Math.floor(Math.random() * links.length)];
+    return '💎 Encaissement de ' + formatCurrency(amount) + ' par ' + userName + '. ' + randomStat + '\n\n🔗 [ ' + randomLink + ' ](' + ADMIN_URL + ')';
+  },
+  function(userName, amount, todayTotal, weekTotal, monthTotal, allTimeTotal) {
+    var stats = [
+      '📊 Aujourd\'hui : ' + formatCurrency(todayTotal),
+      '📊 Cette semaine : ' + formatCurrency(weekTotal),
+      '📊 Ce mois : ' + formatCurrency(monthTotal),
+      '📊 Total : ' + formatCurrency(allTimeTotal)
+    ];
+    var randomStat = stats[Math.floor(Math.random() * stats.length)];
+    var links = ['Va voir ça', 'Admin', 'Voir les stats', 'Check', 'Dashboard', 'Voir', 'Console', 'Accès', 'Gérer', 'Suivre', 'Action', 'Voir plus', 'Admin panel', 'Contrôle', 'Découvrir'];
+    var randomLink = links[Math.floor(Math.random() * links.length)];
+    return '🏦 Encaissement de ' + formatCurrency(amount) + ' par ' + userName + '. ' + randomStat + '\n\n🔗 [ ' + randomLink + ' ](' + ADMIN_URL + ')';
+  },
+  function(userName, amount, todayTotal, weekTotal, monthTotal, allTimeTotal) {
+    var stats = [
+      '📊 Aujourd\'hui : ' + formatCurrency(todayTotal),
+      '📊 Cette semaine : ' + formatCurrency(weekTotal),
+      '📊 Ce mois : ' + formatCurrency(monthTotal),
+      '📊 Total : ' + formatCurrency(allTimeTotal)
+    ];
+    var randomStat = stats[Math.floor(Math.random() * stats.length)];
+    var links = ['Va voir ça', 'Admin', 'Voir les stats', 'Check', 'Dashboard', 'Voir', 'Console', 'Accès', 'Gérer', 'Suivre', 'Action', 'Voir plus', 'Admin panel', 'Contrôle', 'Découvrir'];
+    var randomLink = links[Math.floor(Math.random() * links.length)];
+    return '⭐ Encaissement de ' + formatCurrency(amount) + ' par ' + userName + '. ' + randomStat + '\n\n🔗 [ ' + randomLink + ' ](' + ADMIN_URL + ')';
+  },
+  function(userName, amount, todayTotal, weekTotal, monthTotal, allTimeTotal) {
+    var stats = [
+      '📊 Aujourd\'hui : ' + formatCurrency(todayTotal),
+      '📊 Cette semaine : ' + formatCurrency(weekTotal),
+      '📊 Ce mois : ' + formatCurrency(monthTotal),
+      '📊 Total : ' + formatCurrency(allTimeTotal)
+    ];
+    var randomStat = stats[Math.floor(Math.random() * stats.length)];
+    var links = ['Va voir ça', 'Admin', 'Voir les stats', 'Check', 'Dashboard', 'Voir', 'Console', 'Accès', 'Gérer', 'Suivre', 'Action', 'Voir plus', 'Admin panel', 'Contrôle', 'Découvrir'];
+    var randomLink = links[Math.floor(Math.random() * links.length)];
+    return '📈 Encaissement de ' + formatCurrency(amount) + ' par ' + userName + '. ' + randomStat + '\n\n🔗 [ ' + randomLink + ' ](' + ADMIN_URL + ')';
+  },
+  function(userName, amount, todayTotal, weekTotal, monthTotal, allTimeTotal) {
+    var stats = [
+      '📊 Aujourd\'hui : ' + formatCurrency(todayTotal),
+      '📊 Cette semaine : ' + formatCurrency(weekTotal),
+      '📊 Ce mois : ' + formatCurrency(monthTotal),
+      '📊 Total : ' + formatCurrency(allTimeTotal)
+    ];
+    var randomStat = stats[Math.floor(Math.random() * stats.length)];
+    var links = ['Va voir ça', 'Admin', 'Voir les stats', 'Check', 'Dashboard', 'Voir', 'Console', 'Accès', 'Gérer', 'Suivre', 'Action', 'Voir plus', 'Admin panel', 'Contrôle', 'Découvrir'];
+    var randomLink = links[Math.floor(Math.random() * links.length)];
+    return '👑 Encaissement de ' + formatCurrency(amount) + ' par ' + userName + '. ' + randomStat + '\n\n🔗 [ ' + randomLink + ' ](' + ADMIN_URL + ')';
+  },
+  function(userName, amount, todayTotal, weekTotal, monthTotal, allTimeTotal) {
+    var stats = [
+      '📊 Aujourd\'hui : ' + formatCurrency(todayTotal),
+      '📊 Cette semaine : ' + formatCurrency(weekTotal),
+      '📊 Ce mois : ' + formatCurrency(monthTotal),
+      '📊 Total : ' + formatCurrency(allTimeTotal)
+    ];
+    var randomStat = stats[Math.floor(Math.random() * stats.length)];
+    var links = ['Va voir ça', 'Admin', 'Voir les stats', 'Check', 'Dashboard', 'Voir', 'Console', 'Accès', 'Gérer', 'Suivre', 'Action', 'Voir plus', 'Admin panel', 'Contrôle', 'Découvrir'];
+    var randomLink = links[Math.floor(Math.random() * links.length)];
+    return '⚡ Encaissement de ' + formatCurrency(amount) + ' par ' + userName + '. ' + randomStat + '\n\n🔗 [ ' + randomLink + ' ](' + ADMIN_URL + ')';
+  },
+  function(userName, amount, todayTotal, weekTotal, monthTotal, allTimeTotal) {
+    var stats = [
+      '📊 Aujourd\'hui : ' + formatCurrency(todayTotal),
+      '📊 Cette semaine : ' + formatCurrency(weekTotal),
+      '📊 Ce mois : ' + formatCurrency(monthTotal),
+      '📊 Total : ' + formatCurrency(allTimeTotal)
+    ];
+    var randomStat = stats[Math.floor(Math.random() * stats.length)];
+    var links = ['Va voir ça', 'Admin', 'Voir les stats', 'Check', 'Dashboard', 'Voir', 'Console', 'Accès', 'Gérer', 'Suivre', 'Action', 'Voir plus', 'Admin panel', 'Contrôle', 'Découvrir'];
+    var randomLink = links[Math.floor(Math.random() * links.length)];
+    return '💰 Encaissement de ' + formatCurrency(amount) + ' par ' + userName + '. ' + randomStat + '\n\n🔗 [ ' + randomLink + ' ](' + ADMIN_URL + ')';
+  }
+];
+
+// ================================================================
+// ENVOI TELEGRAM
 // ================================================================
 function sendTelegramMessage(message) {
+  console.log('📨 Envoi Telegram:', message);
+  
   var url = 'https://api.telegram.org/bot' + TELEGRAM_BOT_TOKEN + '/sendMessage';
   return fetch(url, {
     method: 'POST',
@@ -1001,186 +1165,94 @@ function sendTelegramMessage(message) {
     body: JSON.stringify({
       chat_id: TELEGRAM_CHAT_ID,
       text: message,
-      parse_mode: 'HTML',
+      parse_mode: 'Markdown',
       disable_web_page_preview: true
     })
   }).then(function(response) {
+    console.log('📨 Réponse status:', response.status);
     return response.json();
   }).then(function(data) {
-    console.log('Telegram envoye:', data.ok);
-    return data.ok;
+    console.log('📨 Data:', data);
+    if (data.ok) {
+      console.log('✅ Telegram envoye');
+      return true;
+    } else {
+      console.error('❌ Telegram erreur:', data);
+      return false;
+    }
   }).catch(function(error) {
-    console.error('Erreur Telegram:', error);
+    console.error('❌ Erreur Telegram:', error);
     return false;
   });
 }
 
 // ================================================================
-// MOTIVATION MESSAGES
+// NOTIFICATION DEMANDE DE DÉPÔT
 // ================================================================
-function getMotivationMessage(type, userName, amount) {
-  var messages = {
-    deposit: [
-      '💰 Encaissement effectué ! ' + userName + ' vient de recharger ' + formatCurrency(amount) + '. 🚀',
-      '✅ Dépôt validé ! ' + userName + ' a ajouté ' + formatCurrency(amount) + ' à son portefeuille. 🔥',
-      '🎯 Bravo ! ' + userName + ' vient d\'investir ' + formatCurrency(amount) + '. Continuez comme ça ! 💪',
-      '📈 Nouveau dépôt de ' + formatCurrency(amount) + ' par ' + userName + '. La croissance continue ! ⚡',
-      '💵 ' + userName + ' vient de recharger ' + formatCurrency(amount) + '. Votre plateforme grandit ! 🌟'
-    ]
-  };
-  var list = messages[type] || ['✅ Action effectuée avec succès ! 🚀'];
-  return list[Math.floor(Math.random() * list.length)];
-}
-
-// ================================================================
-// NOTIFICATION ADMIN
-// ================================================================
-function notifyAdminDeposit(userName, userId, amount, depositId) {
-  var message = '💰 <b>ALERTE DEPOT !</b>\n\n' +
-                '👤 ' + escapeHtml(userName) + '\n' +
-                '💵 ' + formatCurrency(amount) + '\n' +
-                '🆔 ' + escapeHtml(userId) + '\n' +
-                '🕐 ' + new Date().toLocaleString('fr-FR') + '\n\n' +
-                '📲 Valider: <a href="https://nexgen-39043.web.app/admin">Voir dans l\'admin</a>';
+function notifyAdminDepositRequest(userName, userId, amount, depositId) {
+  console.log('🔔 notifyAdminDepositRequest appelé');
   
-  sendTelegramMessage(message);
-
-  var notifData = {
-    type: 'deposit_pending',
-    title: '💰 Nouveau dépôt - ' + formatCurrency(amount),
-    body: userName + ' - ID: ' + userId,
-    userId: currentAuthUser ? currentAuthUser.uid : '',
-    userName: userName,
-    amount: amount,
-    depositId: depositId,
-    read: false,
-    createdAt: new Date().toISOString(),
-    target: 'admin'
-  };
-  
-  addDoc(collection(db, 'notifications'), notifData).catch(function(error) {
-    console.error('Erreur notification admin:', error);
+  getDocs(collection(db, "users")).then(function(snapshot) {
+    var totalUsers = snapshot.size;
+    var randomIndex = Math.floor(Math.random() * depositRequestMessages.length);
+    var message = depositRequestMessages[randomIndex](userName, amount, totalUsers);
+    
+    console.log('📨 Message à envoyer:', message);
+    return sendTelegramMessage(message);
+  }).catch(function(error) {
+    console.error('❌ Erreur envoi demande:', error);
   });
 }
 
 // ================================================================
-// CHECK REFERRAL BONUS
+// NOTIFICATION ENCAISSEMENT (validation admin)
 // ================================================================
-async function checkReferralBonus(userId, amount) {
+async function notifyAdminEncaissement(userName, amount) {
+  console.log('🔔 notifyAdminEncaissement appelé');
+  
   try {
-    var userRef = doc(db, 'users', userId);
-    var userSnap = await getDoc(userRef);
-    if (!userSnap.exists()) return;
+    var q = query(collection(db, 'depots'), where('statut', '==', 'valide'));
+    var snapshot = await getDocs(q);
     
-    var userData = userSnap.data();
-    var referredBy = userData.referredBy;
-    var hasReceivedBonus = userData.referralBonusReceived === true;
+    var today = new Date().toISOString().split('T')[0];
+    var weekStart = new Date();
+    weekStart.setDate(weekStart.getDate() - weekStart.getDay());
+    var weekStartStr = weekStart.toISOString().split('T')[0];
+    var monthStart = new Date();
+    monthStart.setDate(1);
+    var monthStartStr = monthStart.toISOString().split('T')[0];
     
-    if (!referredBy || hasReceivedBonus) return;
+    var todayTotal = 0;
+    var weekTotal = 0;
+    var monthTotal = 0;
+    var allTimeTotal = 0;
     
-    var isFirstDeposit = userData.hasDeposited !== true;
-    if (!isFirstDeposit || amount < 3000) return;
-    
-    console.log('🎯 Premier dépôt détecté pour', userId, ' - Recherche du parrain:', referredBy);
-    
-    var usersRef = collection(db, 'users');
-    var q = query(usersRef, where('referralCode', '==', referredBy));
-    var querySnapshot = await getDocs(q);
-    
-    if (querySnapshot.empty) {
-      console.log('⚠️ Parrain non trouvé avec le code:', referredBy);
-      return;
-    }
-    
-    var parrainDoc = querySnapshot.docs[0];
-    var parrainData = parrainDoc.data();
-    var parrainId = parrainDoc.id;
-    
-    console.log('👤 Parrain trouvé:', parrainData.prenom || 'Utilisateur');
-    
-    var newBalance = (parrainData.balance || 0) + 1000;
-    var newReferralEarnings = (parrainData.referralEarnings || 0) + 1000;
-    var newReferralsCount = (parrainData.referralsCount || 0) + 1;
-    
-    await updateDoc(doc(db, 'users', parrainId), {
-      balance: newBalance,
-      referralEarnings: newReferralEarnings,
-      referralsCount: newReferralsCount,
-      lastReferralDate: new Date().toISOString()
+    snapshot.forEach(function(doc) {
+      var data = doc.data();
+      var montant = data.montant || 0;
+      var date = data.date || data.timestamp || '';
+      allTimeTotal += montant;
+      
+      if (date && date.startsWith(today)) todayTotal += montant;
+      if (date && date >= weekStartStr) weekTotal += montant;
+      if (date && date >= monthStartStr) monthTotal += montant;
     });
     
-    await updateDoc(userRef, {
-      referralBonusReceived: true,
-      referralBonusAmount: 500,
-      referralBonusDate: new Date().toISOString(),
-      hasDeposited: true,
-      firstDepositAmount: amount,
-      firstDepositDate: new Date().toISOString()
-    });
+    console.log('📊 Stats:', { todayTotal, weekTotal, monthTotal, allTimeTotal });
     
-    var parrainName = parrainData.prenom || parrainData.fullName || 'Utilisateur';
-    var filleulName = userData.prenom || userData.fullName || 'Utilisateur';
+    var randomIndex = Math.floor(Math.random() * encaissementMessages.length);
+    var message = encaissementMessages[randomIndex](userName, amount, todayTotal, weekTotal, monthTotal, allTimeTotal);
     
-    var msg = '🎉 <b>BOUM ! Bonus parrainage validé !</b>\n\n' +
-              '👤 <b>Parrain:</b> ' + parrainName + '\n' +
-              '👤 <b>Filleul:</b> ' + filleulName + '\n' +
-              '💵 <b>Montant:</b> 500 FCFA\n' +
-              '💰 <b>Dépôt du filleul:</b> ' + formatCurrency(amount) + '\n' +
-              '🕐 <b>Date:</b> ' + new Date().toLocaleString('fr-FR') + '\n\n' +
-              '🔗 <a href="https://nexgen-39043.web.app/admin">Gérer les parrainages</a>';
-    
-    await sendTelegramMessage(msg);
-    showToast('🎉 ' + parrainName + ' a reçu +500 FCFA pour parrainage !', 'success');
-    console.log('✅ Bonus de parrainage crédité à', parrainName);
+    console.log('📨 Message encaissement:', message);
+    await sendTelegramMessage(message);
     
   } catch (error) {
-    console.error('❌ Erreur checkReferralBonus:', error);
+    console.error('❌ Erreur calcul stats:', error);
   }
 }
 
 // ================================================================
-// NOTIFICATION APRES VALIDATION D'UN DEPOT
-// ================================================================
-async function notifyDepositValidated(userId, userName, amount, depositId) {
-  var message = getMotivationMessage('deposit', userName, amount);
-  
-  var fullMessage = '✅ <b>ENCAISSEMENT EFFECTUE !</b>\n\n' +
-                    '💰 ' + message + '\n\n' +
-                    '👤 ' + userName + '\n' +
-                    '💵 ' + formatCurrency(amount) + '\n' +
-                    '🕐 ' + new Date().toLocaleString('fr-FR') + '\n\n' +
-                    '🔗 <a href="https://nexgen-39043.web.app/admin">Gérer les dépôts</a>';
-  
-  await sendTelegramMessage(fullMessage);
-  await checkReferralBonus(userId, amount);
-}
-
-// ================================================================
-// CHECK DAILY LIMIT
-// ================================================================
-function checkDailyLimit(uid) {
-  if (!uid) return Promise.resolve({ allowed: false, count: 0 });
-
-  var today = new Date().toISOString().split('T')[0];
-  var q = query(
-    collection(db, 'depots'),
-    where('userId', '==', uid),
-    where('date', '==', today),
-    where('statut', 'in', ['en_attente', 'pending'])
-  );
-  
-  return getDocs(q).then(function(snapshot) {
-    var count = snapshot.size;
-    var allowed = count < MAX_REQUESTS_PER_DAY;
-    return { allowed: allowed, count: count };
-  }).catch(function(error) {
-    console.error('Erreur checkDailyLimit:', error);
-    return { allowed: true, count: 0 };
-  });
-}
-
-// ================================================================
-// ECOUTE EN TEMPS REEL DE L'HISTORIQUE (SANS INDEX)
+// ECOUTE EN TEMPS REEL DE L'HISTORIQUE
 // ================================================================
 function listenToHistory(uid) {
   if (unsubscribeHistory) {
@@ -1193,10 +1265,7 @@ function listenToHistory(uid) {
     return;
   }
 
-  var q = query(
-    collection(db, 'depots'),
-    where('userId', '==', uid)
-  );
+  var q = query(collection(db, 'depots'), where('userId', '==', uid));
 
   unsubscribeHistory = onSnapshot(q, function(snapshot) {
     if (snapshot.empty) {
@@ -1245,21 +1314,24 @@ function listenToHistory(uid) {
       historyList.appendChild(item);
     });
 
-    // Détecter les nouveaux dépôts validés
+    // 🚨 Détecter les nouveaux dépôts validés (ENCAISSEMENT)
     snapshot.docChanges().forEach(function(change) {
       if (change.type === 'modified') {
         var data = change.doc.data();
-        var oldData = change.doc.data(); 
+        
         if (data.statut === 'valide' || data.statut === 'validé') {
           var userName = userData ? (userData.prenom || 'Utilisateur') : 'Utilisateur';
-          notifyDepositValidated(currentAuthUser.uid, userName, data.montant || 0, change.doc.id);
+          var amount = data.montant || 0;
+          
+          notifyAdminEncaissement(userName, amount);
+          showToast('✅ Encaissement notifié !', 'success');
         }
       }
     });
 
   }, function(error) {
-    console.error('Erreur ecoute historique:', error);
-    if (error.code === 'failed-precondition') {
+    console.error('Erreur ecoute historique:', error.code);
+    if (error.code === 'failed-precondition' || error.code === 'permission-denied') {
       loadHistoryOnce(uid);
     }
   });
@@ -1343,6 +1415,8 @@ function loadUserData(uid) {
         var ref = doc(db, 'users', uid);
         updateDoc(ref, { id: currentUserId, customerId: currentUserId });
       }
+      
+      userBalance = userData.balance || 0;
       
       userIdDisplay.textContent = currentUserId || 'ID indisponible';
       listenToHistory(uid);
@@ -1447,7 +1521,7 @@ function updateWhatsAppLink(amount) {
                 'Telephone: ' + indicatif + ' ' + cleanPhone + '\n' +
                 'Montant: ' + formatCurrency(amountValue) + '\n' +
                 'Date: ' + new Date().toLocaleDateString('fr-FR') + '\n\n' +
-                'Valider: https://nexgen-39043.web.app/admin/index.html';
+                'Valider: ' + ADMIN_URL;
   
   whatsappBtn.href = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(message);
 }
@@ -1485,114 +1559,47 @@ whatsappBtn.addEventListener('click', function(event) {
     return;
   }
 
-  checkDailyLimit(currentAuthUser.uid).then(function(result) {
-    if (!result.allowed) {
-      showToast('Vous avez deja ' + result.count + ' demande en attente aujourd\'hui. Reessayez demain.', 'warning');
-      return;
-    }
+  var depositData = {
+    userId: currentAuthUser.uid,
+    displayId: currentUserId || 'ID_INCONNU',
+    userName: userName,
+    userEmail: userEmail,
+    userPhone: cleanPhone,
+    userIndicatif: indicatif || '+227',
+    fullPhone: (indicatif || '+227') + ' ' + cleanPhone,
+    montant: amount,
+    date: new Date().toISOString().split('T')[0],
+    timestamp: new Date().toISOString(),
+    statut: 'en_attente',
+    type: 'recharge',
+    source: 'whatsapp',
+    paymentMethod: 'whatsapp',
+    createdAt: new Date().toISOString()
+  };
 
-    var depositData = {
-      userId: currentAuthUser.uid,
-      displayId: currentUserId || 'ID_INCONNU',
-      userName: userName,
-      userEmail: userEmail,
-      userPhone: cleanPhone,
-      userIndicatif: indicatif || '+227',
-      fullPhone: (indicatif || '+227') + ' ' + cleanPhone,
-      montant: amount,
-      date: new Date().toISOString().split('T')[0],
-      timestamp: new Date().toISOString(),
-      statut: 'en_attente',
-      type: 'recharge',
-      source: 'whatsapp',
-      paymentMethod: 'whatsapp',
-      createdAt: new Date().toISOString()
-    };
-
-    return addDoc(collection(db, 'depots'), depositData).then(function(docRef) {
-      notifyAdminDeposit(userName, currentUserId, amount, docRef.id);
-      showToast('Demande de ' + formatCurrency(amount) + ' enregistree.', 'success');
-      
-      var message = 'NOUVELLE DEMANDE DE RECHARGE\n\n' +
-                    'Nom: ' + userName + '\n' +
-                    'ID: ' + currentUserId + '\n' +
-                    'Telephone: ' + (indicatif || '+227') + ' ' + cleanPhone + '\n' +
-                    'Montant: ' + formatCurrency(amount) + '\n' +
-                    'Date: ' + new Date().toLocaleDateString('fr-FR') + '\n\n' +
-                    'Valider: https://nexgen-39043.web.app/admin/index.html';
-      
-      var waUrl = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(message);
-      window.open(waUrl, '_blank', 'noopener,noreferrer');
-      
-      amountInput.value = '';
-      updateAmountDisplay();
-    });
+  addDoc(collection(db, 'depots'), depositData).then(function(docRef) {
+    notifyAdminDepositRequest(userName, currentUserId, amount, docRef.id);
+    
+    showToast('Demande de ' + formatCurrency(amount) + ' enregistree.', 'success');
+    
+    var message = 'NOUVELLE DEMANDE DE RECHARGE\n\n' +
+                  'Nom: ' + userName + '\n' +
+                  'ID: ' + currentUserId + '\n' +
+                  'Telephone: ' + (indicatif || '+227') + ' ' + cleanPhone + '\n' +
+                  'Montant: ' + formatCurrency(amount) + '\n' +
+                  'Date: ' + new Date().toLocaleDateString('fr-FR') + '\n\n' +
+                  'Valider: ' + ADMIN_URL;
+    
+    var waUrl = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(message);
+    window.open(waUrl, '_blank', 'noopener,noreferrer');
+    
+    amountInput.value = '';
+    updateAmountDisplay();
   }).catch(function(error) {
     console.error('Erreur:', error);
     showToast('Erreur lors de l\'enregistrement: ' + error.message, 'error');
   });
 });
-
-// ================================================================
-// NOTIFICATIONS FCM
-// ================================================================
-async function setupFCMNotifications() {
-  try {
-    if (Notification.permission === 'granted') {
-      var token = await getToken(messaging, { vapidKey: VAPID_KEY });
-      if (currentAuthUser) {
-        var userRef = doc(db, 'users', currentAuthUser.uid);
-        await updateDoc(userRef, { fcmToken: token, notificationsEnabled: true });
-      }
-      notifBadge.className = 'notif-badge';
-      notifStatusText.textContent = '🔔';
-      if (notifPermissionBanner) notifPermissionBanner.style.display = 'none';
-      return token;
-    }
-    
-    if (Notification.permission === 'denied') {
-      notifBadge.className = 'notif-badge';
-      notifStatusText.textContent = '🔕';
-      if (notifPermissionBanner) notifPermissionBanner.style.display = 'none';
-      return null;
-    }
-    
-    // Par défaut → afficher la bannière
-    notifBadge.className = 'notif-badge';
-    notifStatusText.textContent = '🔔';
-    if (notifPermissionBanner) notifPermissionBanner.style.display = 'flex';
-    return null;
-  } catch (error) {
-    console.error('❌ Erreur FCM:', error);
-    return null;
-  }
-}
-
-// ================================================================
-// DEMANDER LA PERMISSION AU CLIC
-// ================================================================
-if (enableNotifBtn) {
-  enableNotifBtn.addEventListener('click', async function() {
-    try {
-      var permission = await Notification.requestPermission();
-      if (permission === 'granted') {
-        var token = await getToken(messaging, { vapidKey: VAPID_KEY });
-        if (currentAuthUser) {
-          var userRef = doc(db, 'users', currentAuthUser.uid);
-          await updateDoc(userRef, { fcmToken: token, notificationsEnabled: true });
-        }
-        notifBadge.className = 'notif-badge';
-        notifStatusText.textContent = '🔔';
-        if (notifPermissionBanner) notifPermissionBanner.style.display = 'none';
-        showToast('✅ Notifications activées !', 'success');
-      } else {
-        showToast('⚠️ Notifications désactivées.', 'warning');
-      }
-    } catch (error) {
-      console.error('❌ Erreur permission:', error);
-    }
-  });
-}
 
 // ================================================================
 // AUTH
@@ -1609,11 +1616,11 @@ onAuthStateChanged(auth, function(user) {
       try {
         userData = JSON.parse(cached);
         if (!userData.indicatif) userData.indicatif = '+227';
+        userBalance = userData.balance || 0;
       } catch(e) {}
     }
 
     loadUserData(user.uid);
-    setupFCMNotifications();
     authChecked = true;
   } else {
     var savedUid = localStorage.getItem('ARVEXA_current_user');
@@ -1635,7 +1642,7 @@ onAuthStateChanged(auth, function(user) {
 // ================================================================
 amountInput.addEventListener('input', updateAmountDisplay);
 
-console.log('💰 ARVEXA - Page Recharger chargee (version stable)');
+console.log('💰 ARVEXA - Page Recharger chargee');
 </script>
 </body>
 </html>

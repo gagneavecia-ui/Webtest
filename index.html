@@ -101,31 +101,6 @@
 
     .header-actions { display: flex; align-items: center; gap: 8px; }
 
-    /* ===== BADGE NOTIFICATION ===== */
-    .notif-badge {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 10px;
-      border-radius: 30px;
-      font-size: 10px;
-      font-weight: 500;
-      transition: var(--transition);
-    }
-    .notif-badge.active {
-      background: rgba(45, 125, 90, 0.12);
-      color: var(--success);
-      border: 1px solid rgba(45, 125, 90, 0.15);
-    }
-    .notif-badge.inactive {
-      background: rgba(138, 58, 58, 0.12);
-      color: #8A3A3A;
-      border: 1px solid rgba(138, 58, 58, 0.15);
-    }
-    .notif-badge i {
-      font-size: 12px;
-    }
-
     .user-profile {
       display: flex; align-items: center; gap: 8px; padding: 4px 10px 4px 4px;
       background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 40px;
@@ -449,7 +424,6 @@
       .logo-text { font-size: 16px; }
       .actu-card { padding: 14px 16px; }
       .actu-text { font-size: 12px; }
-      .notif-badge { display: none; }
     }
     @media (min-width: 768px) {
       .container { max-width: 700px; padding: 28px 24px 60px; }
@@ -529,8 +503,7 @@
       <a href="ebooks.html" class="menu-link"><i class="fas fa-book"></i> E-books</a>
       <a href="formations.html" class="menu-link"><i class="fas fa-graduation-cap"></i> Formations</a>
       <a href="boutique.html" class="menu-link"><i class="fas fa-shopping-cart"></i> Achat</a>
-      <!-- ===== MODIFICATION : Investir → Épargne ===== -->
-      <a href="epargne.html" class="menu-link"><i class="fas fa-piggy-bank"></i> Épargne</a>
+      <a href="epargne.html" class="menu-link"><i class="fas fa-trophy"></i> Défis</a>
       <a href="vendre.html" class="menu-link"><i class="fas fa-store"></i> Vendre</a>
       <a href="forum.html" class="menu-link"><i class="fas fa-comments"></i> Forum</a>
       <a href="parrainage.html" class="menu-link"><i class="fas fa-users"></i> Parrainage</a>
@@ -553,8 +526,8 @@
 <header class="header">
   <a href="#" class="logo" id="logoLink"><div class="logo-text">ARVE<span>XA</span></div></a>
   <div class="header-actions">
-    <span class="notif-badge" id="notifBadge">
-      <i class="fas fa-circle"></i> <span id="notifStatusText">Chargement...</span>
+        <span>
+      </span>
     </span>
     <a href="#" class="user-profile" id="userProfileBtn">
       <div class="user-avatar" id="userAvatar">A</div>
@@ -599,9 +572,9 @@
       <div class="quick-stat-label">Revenus</div>
     </div>
     <div class="quick-stat-item">
-      <div class="quick-stat-icon blue"><i class="fas fa-piggy-bank"></i></div>
-      <div class="quick-stat-value" id="statEpargne">0</div>
-      <div class="quick-stat-label">Épargne</div>
+      <div class="quick-stat-icon gold"><i class="fas fa-trophy"></i></div>
+      <div class="quick-stat-value" id="statDefis">0 FCFA</div>
+      <div class="quick-stat-label">Défis</div>
     </div>
     <div class="quick-stat-item">
       <div class="quick-stat-icon green"><i class="fas fa-users"></i></div>
@@ -620,7 +593,7 @@
   <div class="formations-list-horizontal">
     <a href="formations.html" class="formation-card-horizontal">
       <div class="formation-horiz-img-wrap">
-        <img src="i.png" alt="Économiser" class="formation-horiz-img" loading="lazy">
+        <img src="https://im.png" alt="Économiser" class="formation-horiz-img" loading="lazy">
         <span class="formation-horiz-badge">Débutant</span>
       </div>
       <div class="formation-horiz-content">
@@ -634,7 +607,7 @@
     </a>
     <a href="formations.html" class="formation-card-horizontal">
       <div class="formation-horiz-img-wrap">
-        <img src="im.png" alt="Investir" class="formation-horiz-img" loading="lazy">
+        <img src="https://i.png" alt="Investir" class="formation-horiz-img" loading="lazy">
         <span class="formation-horiz-badge">Débutant</span>
       </div>
       <div class="formation-horiz-content">
@@ -672,12 +645,11 @@
       </div>
       <div class="service-arrow"><i class="fas fa-chevron-right"></i></div>
     </a>
-    <!-- ===== MODIFICATION : Investir → Épargne ===== -->
     <a href="epargne.html" class="service-item">
-      <div class="service-icon blue"><i class="fas fa-piggy-bank"></i></div>
+      <div class="service-icon gold"><i class="fas fa-trophy"></i></div>
       <div class="service-content">
-        <div class="service-title">Epargne</div>
-        <div class="service-desc">Épargnez pour vos projets et objectifs</div>
+        <div class="service-title">Défis</div>
+        <div class="service-desc">Relevez des défis et gagnez des récompenses</div>
       </div>
       <div class="service-arrow"><i class="fas fa-chevron-right"></i></div>
     </a>
@@ -739,15 +711,19 @@
 
 <!-- ============================================================ -->
 <!-- ===== SCRIPTS ===== -->
+<!-- ============================================================ -->
+
+<!-- ===== CONFIGURATION CENTRALISÉE ===== -->
+<script src="config.js"></script>
+
 <script type="importmap">
-  {
-    "imports": {
-      "firebase/app": "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js",
-      "firebase/auth": "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js",
-      "firebase/firestore": "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js",
-      "firebase/messaging": "https://www.gstatic.com/firebasejs/12.12.1/firebase-messaging.js"
-    }
+{
+  "imports": {
+    "firebase/app": "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js",
+    "firebase/auth": "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js",
+    "firebase/firestore": "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js"
   }
+}
 </script>
 
 <!-- ================================================================ -->
@@ -798,6 +774,17 @@ if (!isFirstLoad) {
 }
 
 // ================================================================
+// CONFIGURATION - FALLBACK SI config.js n'est pas chargé
+// ================================================================
+var ADMIN_URL = 'https://nexgen-39043.web.app/admin';
+
+if (typeof APP_CONFIG !== 'undefined' && APP_CONFIG.ADMIN_URL) {
+  ADMIN_URL = APP_CONFIG.ADMIN_URL;
+}
+
+console.log('🔗 ADMIN_URL:', ADMIN_URL);
+
+// ================================================================
 // IMPORTS FIREBASE
 // ================================================================
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
@@ -809,11 +796,6 @@ import {
   getFirestore, doc, getDoc, onSnapshot, updateDoc, setDoc,
   collection, query, orderBy, where
 } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
-import { 
-  getMessaging, 
-  getToken, 
-  onMessage 
-} from "https://www.gstatic.com/firebasejs/12.12.1/firebase-messaging.js";
 
 // ================================================================
 // FIREBASE
@@ -831,10 +813,6 @@ var firebaseConfig = {
 var app = initializeApp(firebaseConfig);
 var auth = getAuth(app);
 var db = getFirestore(app);
-var messaging = getMessaging(app);
-
-// VAPID Key
-var VAPID_KEY = "BJKkMr-LMevY9HePx3vzYqWMILwAV8mxwOdfkbR-PvEu_m7eu309ygioDNLLqW1wRc2b93Irb1svNnLQIpegquk";
 
 setPersistence(auth, browserLocalPersistence);
 
@@ -845,7 +823,7 @@ var userNameEl = document.getElementById('userName');
 var userAvatarEl = document.getElementById('userAvatar');
 var statBalanceEl = document.getElementById('statBalance');
 var statRevenueEl = document.getElementById('statRevenue');
-var statEpargneEl = document.getElementById('statEpargne');
+var statDefisEl = document.getElementById('statDefis');
 var statReferralsEl = document.getElementById('statReferrals');
 
 var menuOverlay = document.getElementById('menuOverlay');
@@ -872,10 +850,6 @@ var toast = document.getElementById('toast');
 
 var notifBadge = document.getElementById('notifBadge');
 var notifStatusText = document.getElementById('notifStatusText');
-
-// Bannière permission notifications
-var notifPermissionBanner = document.getElementById('notifPermissionBanner');
-var enableNotifBtn = document.getElementById('enableNotifBtn');
 
 var currentUser = null;
 var userData = null;
@@ -1016,161 +990,6 @@ function loadActualites() {
 }
 
 // ================================================================
-// FCM - NOTIFICATIONS PUSH (UNIQUEMENT APRÈS ACTION UTILISATEUR)
-// ================================================================
-
-// Variable pour savoir si on a déjà demandé
-var notifPermissionRequested = false;
-
-async function setupFCMNotifications() {
-  // NE PAS DEMANDER LA PERMISSION ICI
-  // On vérifie juste l'état actuel
-  try {
-    var isAdmin = currentUser && currentUser.email === 'gagneavecia@gmail.com';
-    
-    // Vérifier le statut actuel
-    if (Notification.permission === 'granted') {
-      // Déjà autorisé
-      var token = await getToken(messaging, { vapidKey: VAPID_KEY });
-      if (currentUser) {
-        var userRef = doc(db, 'users', currentUser.uid);
-        await updateDoc(userRef, {
-          fcmToken: token,
-          notificationsEnabled: true,
-          isAdmin: isAdmin,
-          lastTokenUpdate: new Date().toISOString()
-        });
-      }
-      notifBadge.className = 'notif-badge active';
-      notifStatusText.textContent = isAdmin ? '👑 Admin - Notifs actives' : '🔔 Notifications actives';
-      if (notifPermissionBanner) notifPermissionBanner.style.display = 'none';
-      return token;
-    }
-    
-    if (Notification.permission === 'denied') {
-      notifBadge.className = 'notif-badge inactive';
-      notifStatusText.textContent = '🔕 Notifications bloquées';
-      if (notifPermissionBanner) notifPermissionBanner.style.display = 'none';
-      return null;
-    }
-    
-    // Permission par défaut (default) → Afficher le bouton
-    notifBadge.className = 'notif-badge inactive';
-    notifStatusText.textContent = '🔔 Activer les notifs';
-    if (notifPermissionBanner) notifPermissionBanner.style.display = 'block';
-    return null;
-    
-  } catch (error) {
-    console.error('❌ Erreur FCM:', error);
-    notifBadge.className = 'notif-badge inactive';
-    notifStatusText.textContent = '🔕 Erreur';
-    return null;
-  }
-}
-
-// ================================================================
-// DEMANDER LA PERMISSION AU CLIC DE L'UTILISATEUR
-// ================================================================
-if (enableNotifBtn) {
-  enableNotifBtn.addEventListener('click', async function() {
-    console.log('🔔 Demande de permission notifications...');
-    
-    try {
-      var permission = await Notification.requestPermission();
-      
-      if (permission === 'granted') {
-        console.log('✅ Permission accordée');
-        
-        // Maintenant on peut récupérer le token
-        var isAdmin = currentUser && currentUser.email === 'gagneavecia@gmail.com';
-        var token = await getToken(messaging, { vapidKey: VAPID_KEY });
-        
-        if (currentUser) {
-          var userRef = doc(db, 'users', currentUser.uid);
-          await updateDoc(userRef, {
-            fcmToken: token,
-            notificationsEnabled: true,
-            isAdmin: isAdmin,
-            lastTokenUpdate: new Date().toISOString()
-          });
-        }
-        
-        notifBadge.className = 'notif-badge active';
-        notifStatusText.textContent = isAdmin ? '👑 Admin - Notifs actives' : '🔔 Notifications actives';
-        if (notifPermissionBanner) notifPermissionBanner.style.display = 'none';
-        showToast('✅ Notifications activées avec succès !', 'success');
-        
-        // S'abonner aux messages après activation
-        setupOnMessageListener();
-        
-      } else {
-        console.warn('⚠️ Permission refusée');
-        notifBadge.className = 'notif-badge inactive';
-        notifStatusText.textContent = '🔕 Notifications désactivées';
-        if (notifPermissionBanner) notifPermissionBanner.style.display = 'none';
-        showToast('⚠️ Vous avez refusé les notifications.', 'warning');
-      }
-    } catch (error) {
-      console.error('❌ Erreur demande permission:', error);
-      showToast('❌ Erreur lors de l\'activation des notifications.', 'error');
-    }
-  });
-}
-
-// ================================================================
-// ÉCOUTE DES MESSAGES EN PREMIER PLAN
-// ================================================================
-function setupOnMessageListener() {
-  onMessage(messaging, function(payload) {
-    console.log('📩 Message reçu en premier plan:', payload);
-    
-    var data = payload.data || {};
-    var type = data.type || 'default';
-    var isAdmin = currentUser && currentUser.email === 'gagneavecia@gmail.com';
-    
-    if (navigator.vibrate) {
-      navigator.vibrate([200, 100, 200]);
-    }
-    
-    // Admin reçoit toutes les notifications
-    if (isAdmin) {
-      showToast(
-        '📢 ' + (payload.notification?.title || 'ARVEXA') + '\n' + (payload.notification?.body || 'Nouvelle notification'),
-        'info'
-      );
-      return;
-    }
-    
-    // Utilisateur normal → notifications personnelles
-    switch(type) {
-      case 'daily_gain':
-        var amount = parseInt(data.amount || 0);
-        showGainNotification(
-          '💰 Gains quotidiens',
-          '+' + amount.toLocaleString('fr-FR') + ' FCFA ajoutés à votre solde !'
-        );
-        break;
-      case 'new_referral':
-        showToast('👤 NOUVEAU PARRAIN\n' + (data.userName || '') + ' a rejoint ARVEXA !', 'success');
-        break;
-      case 'deposit_confirmed':
-        showToast('✅ DÉPÔT CONFIRMÉ\n' + parseInt(data.amount || 0).toLocaleString('fr-FR') + ' FCFA crédités', 'success');
-        break;
-      case 'withdrawal_confirmed':
-        showToast('✅ RETRAIT EFFECTUÉ\n' + parseInt(data.amount || 0).toLocaleString('fr-FR') + ' FCFA envoyés', 'success');
-        break;
-      case 'purchase_confirmed':
-        showToast('✅ ACHAT CONFIRMÉ\n' + (data.productName || 'Produit') + ' acheté', 'success');
-        break;
-      default:
-        if (payload.notification?.title && payload.notification?.body) {
-          showToast('📢 ' + payload.notification.title + '\n' + payload.notification.body, 'info');
-        }
-    }
-  });
-}
-
-// ================================================================
 // MENU - SWIPE
 // ================================================================
 var touchStartX = 0, touchStartY = 0, isSwiping = false, isMenuOpen = false;
@@ -1239,8 +1058,7 @@ async function handleLogout() {
 menuLogoutBtn.addEventListener('click', handleLogout);
 
 // ================================================================
-// UPDATE UI
-// ================================================================
+// UPDATE UI// ================================================================
 function updateUI(data) {
   if (!data) return;
   var prenom = data.prenom || '';
@@ -1280,9 +1098,9 @@ function updateUI(data) {
   var totalRevenus = data.gainsTotal || data.totalRevenus || 0;
   statRevenueEl.textContent = formatCurrency(totalRevenus);
 
-  // Compteur épargne : nombre d'épargnes actives
-  var epargneCount = data.epargnes ? data.epargnes.length : 0;
-  statEpargneEl.textContent = epargneCount;
+  // 🔥 Défis - Total gagné
+  var totalDefis = data.totalDefisGagnes || 0;
+  statDefisEl.textContent = formatCurrency(totalDefis);
 
   statReferralsEl.textContent = data.referralsCount || 0;
 
@@ -1380,16 +1198,19 @@ async function forceCheckAndCreditGains() {
 }
 
 // ================================================================
-// CHARGER LE NOMBRE D'ÉPARGNES
+// CHARGER LES STATISTIQUES DES DÉFIS
 // ================================================================
-function loadEpargnesCount(uid) {
+function loadDefisStats(uid) {
   if (!uid) return;
-  var q = query(collection(db, 'epargnes'), where('userId', '==', uid));
-  onSnapshot(q, function(snapshot) {
-    var count = snapshot.size;
-    statEpargneEl.textContent = count;
+  var userRef = doc(db, 'users', uid);
+  onSnapshot(userRef, function(snap) {
+    if (snap.exists()) {
+      var data = snap.data();
+      var totalDefis = data.totalDefisGagnes || 0;
+      statDefisEl.textContent = formatCurrency(totalDefis);
+    }
   }, function(error) {
-    console.error('Erreur chargement épargnes:', error);
+    console.error('Erreur chargement défis:', error);
   });
 }
 
@@ -1406,7 +1227,11 @@ function listenToUser(uid) {
       localStorage.setItem('ARVEXA_user_data', JSON.stringify(userData));
       if (!isFirstLoad) setTimeout(function() { forceCheckAndCreditGains(); }, 1500);
     }
-  }, function(error) { console.error('Erreur onSnapshot:', error); });
+  }, function(error) { 
+    if (error.code !== 'aborted' && error.code !== 'cancelled') {
+      console.error('Erreur onSnapshot:', error);
+    }
+  });
 }
 
 // ================================================================
@@ -1430,9 +1255,8 @@ onAuthStateChanged(auth, async function(user) {
       }
       listenToUser(user.uid);
       loadActualites();
-      loadEpargnesCount(user.uid); // ✅ AJOUTÉ
+      loadDefisStats(user.uid);
       setTimeout(function() { forceCheckAndCreditGains(); }, 2000);
-      await setupFCMNotifications();
       return;
     }
 
@@ -1443,7 +1267,7 @@ onAuthStateChanged(auth, async function(user) {
         var newUser = {
           uid: user.uid, email: user.email || '', prenom: user.displayName?.split(' ')[0] || 'Investisseur',
           nom: user.displayName?.split(' ').slice(1).join(' ') || '', fullName: user.displayName || 'Investisseur',
-          balance: 0, gainsTotal: 0, totalDepots: 0, totalRetraits: 0, epargnes: [],
+          balance: 0, gainsTotal: 0, totalDepots: 0, totalRetraits: 0, totalDefisGagnes: 0,
           referralsCount: 0, referralEarnings: 0, status: 'active', role: 'user',
           createdAt: new Date().toISOString(), lastLogin: new Date().toISOString(),
           hasDeposited: false, isUnlocked: false
@@ -1458,9 +1282,8 @@ onAuthStateChanged(auth, async function(user) {
       updateUI(userData);
       listenToUser(user.uid);
       loadActualites();
-      loadEpargnesCount(user.uid); // ✅ AJOUTÉ
+      loadDefisStats(user.uid);
       setTimeout(function() { forceCheckAndCreditGains(); }, 2000);
-      await setupFCMNotifications();
     } catch (error) {
       console.error('Erreur Firestore:', error);
       var cached = localStorage.getItem('ARVEXA_user_data');
@@ -1497,22 +1320,7 @@ onAuthStateChanged(auth, async function(user) {
 document.getElementById('userProfileBtn').addEventListener('click', function(e) { e.preventDefault(); window.location.href = 'profil.html'; });
 document.getElementById('logoLink').addEventListener('click', function(e) { e.preventDefault(); window.location.href = 'index.html'; });
 
-// ================================================================
-// SERVICE WORKER - VERSION CORRIGÉE POUR /ARVEXA/
-// ================================================================
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/Webtest/firebase-messaging-sw.js')
-    .then(function(reg) {
-      console.log('✅ SW enregistré pour /Webtest/');
-      addLog('✅ Service Worker enregistré', 'success');
-    })
-    .catch(function(err) {
-      console.log('❌ SW erreur:', err);
-      addLog('❌ Service Worker erreur: ' + err.message, 'error');
-    });
-}
-
-console.log("🚀 ARVEXA - Page d'accueil avec Épargne et Chat IA");
+console.log("🚀 ARVEXA - Page d'accueil avec Défis");
 </script>
 </body>
 </html>
