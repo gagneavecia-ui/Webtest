@@ -1338,6 +1338,71 @@ function listenToHistory(uid) {
 }
 
 // ================================================================
+// VÉRIFIER ET CRÉDITER LE BONUS DE PARRAINAGE
+// ================================================================
+async function checkReferralBonus(userId, amount) {
+  console.log('🔍 Vérification bonus pour:', userId);
+  
+  try {
+    var userRef = doc(db, 'users', userId);
+    var userSnap = await getDoc(userRef);
+    if (!userSnap.exists()) return;
+    
+    var userData = userSnap.data();
+    var referredBy = userData.referredBy;
+    
+    // Conditions
+    if (!referredBy) return;
+    if (userData.referralBonusReceived === true) return;
+    if (userData.hasDeposited === true) return;
+    if (amount < 3000) return;
+    
+    console.log('✅ Éligible ! Parrain:', referredBy);
+    
+    // Trouver le parrain
+    var q = query(collection(db, 'users'), where('referralCode', '==', referredBy));
+    var snapshot = await getDocs(q);
+    
+    if (snapshot.empty) {
+      console.log('⚠️ Parrain introuvable');
+      return;
+    }
+    
+    var parrainDoc = snapshot.docs[0];
+    var parrainData = parrainDoc.data();
+    var parrainId = parrainDoc.id;
+    
+    // Créditer
+    await updateDoc(doc(db, 'users', parrainId), {
+      balance: (parrainData.balance || 0) + 1000,
+      referralEarnings: (parrainData.referralEarnings || 0) + 1000,
+      referralsCount: (parrainData.referralsCount || 0) + 1
+    });
+    
+    // Marquer
+    await updateDoc(userRef, {
+      referralBonusReceived: true,
+      referralBonusAmount: 1000,
+      hasDeposited: true
+    });
+    
+    console.log('✅ Bonus de 1000 FCFA crédité !');
+    
+    // Notification Telegram
+    var msg = '🎉 <b>Bonus parrainage !</b>\n\n' +
+              '👤 Parrain: ' + (parrainData.prenom || 'Utilisateur') + '\n' +
+              '👤 Filleul: ' + (userData.prenom || 'Utilisateur') + '\n' +
+              '💵 1000 FCFA\n' +
+              '🔗 <a href="' + ADMIN_URL + '">Admin</a>';
+    
+    sendTelegramMessage(msg);
+    
+  } catch (error) {
+    console.error('❌ Erreur bonus:', error);
+  }
+}
+
+// ================================================================
 // CHARGEMENT UNIQUE (FALLBACK)
 // ================================================================
 function loadHistoryOnce(uid) {
