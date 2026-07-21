@@ -1221,10 +1221,10 @@ async function notifyAdminEncaissement(userName, amount) {
     var monthStart = new Date();
     monthStart.setDate(1);
     var monthStartStr = monthStart.toISOString().split('T')[0];
-    
+    id=""
     var todayTotal = 0;
     var weekTotal = 0;
-    var monthTotal = 0;
+        var monthTotal = 0;
     var allTimeTotal = 0;
     
     snapshot.forEach(function(doc) {
@@ -1315,19 +1315,25 @@ function listenToHistory(uid) {
     });
 
     // 🚨 Détecter les nouveaux dépôts validés (ENCAISSEMENT)
-    snapshot.docChanges().forEach(function(change) {
-      if (change.type === 'modified') {
-        var data = change.doc.data();
-        
-        if (data.statut === 'valide' || data.statut === 'validé') {
-          var userName = userData ? (userData.prenom || 'Utilisateur') : 'Utilisateur';
-          var amount = data.montant || 0;
-          
-          notifyAdminEncaissement(userName, amount);
-          showToast('✅ Encaissement notifié !', 'success');
-        }
-      }
-    });
+    // 🚨 Détecter les nouveaux dépôts validés (ENCAISSEMENT)
+snapshot.docChanges().forEach(function(change) {
+  if (change.type === 'modified') {
+    var data = change.doc.data();
+    
+    if (data.statut === 'valide' || data.statut === 'validé') {
+      var userName = userData ? (userData.prenom || 'Utilisateur') : 'Utilisateur';
+      var amount = data.montant || 0;
+      var userId = data.userId; // ✅ RÉCUPÉRER L'ID
+      
+      notifyAdminEncaissement(userName, amount);
+      
+      // ✅ APPELER LA FONCTION DE BONUS
+      checkReferralBonus(userId, amount);
+      
+      showToast('✅ Encaissement notifié !', 'success');
+    }
+  }
+});
 
   }, function(error) {
     console.error('Erreur ecoute historique:', error.code);
@@ -1351,11 +1357,25 @@ async function checkReferralBonus(userId, amount) {
     var userData = userSnap.data();
     var referredBy = userData.referredBy;
     
-    // Conditions
-    if (!referredBy) return;
-    if (userData.referralBonusReceived === true) return;
-    if (userData.hasDeposited === true) return;
-    if (amount < 3000) return;
+    // ✅ CONDITIONS CORRIGÉES
+    if (!referredBy) {
+      console.log('⏳ Pas de code de parrainage');
+      return;
+    }
+    if (userData.referralBonusReceived === true) {
+      console.log('⏳ Bonus déjà reçu');
+      return;
+    }
+    // ✅ Vérifier si c'est le premier dépôt
+    var isFirstDeposit = userData.hasDeposited !== true || (userData.totalDeposits || 0) === 0;
+    if (!isFirstDeposit) {
+      console.log('⏳ Déjà déposé avant');
+      return;
+    }
+    if (amount < 3000) {
+      console.log('⏳ Montant minimum 3000 FCFA requis');
+      return;
+    }
     
     console.log('✅ Éligible ! Parrain:', referredBy);
     
@@ -1372,30 +1392,35 @@ async function checkReferralBonus(userId, amount) {
     var parrainData = parrainDoc.data();
     var parrainId = parrainDoc.id;
     
-    // Créditer
+    // 💰 Créditer le parrain
     await updateDoc(doc(db, 'users', parrainId), {
       balance: (parrainData.balance || 0) + 1000,
       referralEarnings: (parrainData.referralEarnings || 0) + 1000,
-      referralsCount: (parrainData.referralsCount || 0) + 1
+      referralsCount: (parrainData.referralsCount || 0) + 1,
+      lastReferralDate: new Date().toISOString()
     });
     
-    // Marquer
+    // ✅ Marquer comme reçu
     await updateDoc(userRef, {
       referralBonusReceived: true,
       referralBonusAmount: 1000,
+      referralBonusDate: new Date().toISOString(),
       hasDeposited: true
     });
     
     console.log('✅ Bonus de 1000 FCFA crédité !');
     
     // Notification Telegram
-    var msg = '🎉 <b>Bonus parrainage !</b>\n\n' +
+    var msg = '🎉 <b>Bonus parrainage crédité !</b>\n\n' +
               '👤 Parrain: ' + (parrainData.prenom || 'Utilisateur') + '\n' +
               '👤 Filleul: ' + (userData.prenom || 'Utilisateur') + '\n' +
               '💵 1000 FCFA\n' +
+              '📊 Dépôt du filleul: ' + formatCurrency(amount) + '\n' +
+              '🕐 ' + new Date().toLocaleString('fr-FR') + '\n\n' +
               '🔗 <a href="' + ADMIN_URL + '">Admin</a>';
     
     sendTelegramMessage(msg);
+    showToast('🎉 Bonus de 1000 FCFA crédité !', 'success');
     
   } catch (error) {
     console.error('❌ Erreur bonus:', error);
