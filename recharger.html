@@ -754,29 +754,6 @@
 <div class="toast" id="toast"></div>
 
 <!-- ================================================================ -->
-<!-- ERUDA -->
-<!-- ================================================================ -->
-<script>
-(function() {
-  var isLocal = location.hostname === "localhost" || location.hostname === "127.0.0.1";
-  var isDebug = location.search.indexOf("debug=true") !== -1 || location.search.indexOf("eruda=true") !== -1;
-  if (isLocal || isDebug) {
-    if (document.querySelector('script[data-eruda]')) return;
-    var s = document.createElement("script");
-    s.setAttribute("data-eruda", "true");
-    s.src = "https://cdn.jsdelivr.net/npm/eruda";
-    s.onload = function() {
-      if (typeof eruda !== 'undefined') {
-        eruda.init({ tool: ['console', 'network', 'elements'], defaults: { displaySize: 40 } });
-        console.log("🐞 Eruda active - Recharger");
-      }
-    };
-    document.head.appendChild(s);
-  }
-})();
-</script>
-
-<!-- ================================================================ -->
 <!-- CONFIGURATION CENTRALISÉE -->
 <!-- ================================================================ -->
 <script src="config.js"></script>
@@ -880,7 +857,12 @@ var userData = null;
 var userBalance = 0;
 var unsubscribeHistory = null;
 var notificationTimeout = null;
-var isPageLoading = true; // ✅ CORRECTION 2
+var isPageLoading = true;
+
+// ================================================================
+// ✅ CORRECTION: Cache pour suivre les statuts des dépôts
+// ================================================================
+var depotStatusCache = {};
 
 // ================================================================
 // HELPERS
@@ -918,7 +900,7 @@ function escapeHtml(str) {
 }
 
 // ================================================================
-// 15 MESSAGES POUR DEMANDE DE DÉPÔT
+// MESSAGES POUR DEMANDE DE DÉPÔT
 // ================================================================
 var depositRequestMessages = [
   function(userName, amount, totalUsers) {
@@ -969,7 +951,8 @@ var depositRequestMessages = [
 ];
 
 // ================================================================
-// 15 MESSAGES POUR ENCAISSEMENT// ================================================================
+// MESSAGES POUR ENCAISSEMENT
+// ================================================================
 var encaissementMessages = [
   function(userName, amount, todayTotal, weekTotal, monthTotal, allTimeTotal) {
     var stats = [
@@ -1253,7 +1236,7 @@ async function notifyAdminEncaissement(userName, amount) {
 }
 
 // ================================================================
-// ✅ CORRECTION 1: BONUS DE PARRAINAGE
+// ✅ CORRECTION: BONUS DE PARRAINAGE - UNIQUEMENT AU DÉPÔT VALIDÉ
 // ================================================================
 async function checkAndCreditReferralBonus(userId) {
   try {
@@ -1268,7 +1251,7 @@ async function checkAndCreditReferralBonus(userId) {
     
     const userData = userSnap.data();
     
-    // Vérifier si l'utilisateur a un bonus de parrainage en attente
+    // ✅ Vérifier si l'utilisateur a un bonus de parrainage en attente
     if (!userData.referralBonusPending || userData.referralBonusReceived) {
       console.log('ℹ️ Pas de bonus en attente');
       return;
@@ -1305,11 +1288,12 @@ async function checkAndCreditReferralBonus(userId) {
     const parrainData = parrainSnap.data();
     const bonusAmount = userData.referralBonusAmount || 1000;
     
+    // ✅ UNIQUEMENT ICI le bonus est crédité + compteur incrémenté
     await updateDoc(parrainRef, {
       balance: increment(bonusAmount),
       referralEarnings: increment(bonusAmount),
-      gainsTotal: increment(bonusAmount), // ✅ AJOUT pour le revenu
-      referralsCount: increment(1)
+      gainsTotal: increment(bonusAmount),
+      referralsCount: increment(1)  // ✅ ICI le compteur est incrémenté
     });
     
     // Marquer le bonus comme reçu
@@ -1327,7 +1311,7 @@ async function checkAndCreditReferralBonus(userId) {
     notifyAdminBonusReferral(parrainNom, bonusAmount);
     
     // Afficher une notification à l'utilisateur
-    showToast('🎉 Bonus parrainage de ' + formatCurrency(bonusAmount) + ' crédité !', 'success');
+    showToast('🎉 Bonus parrainage de ' + formatCurrency(bonusAmount) + ' crédité au parrain !', 'success');
     
   } catch (error) {
     console.error('❌ Erreur bonus parrainage:', error);
@@ -1358,7 +1342,7 @@ function notifyAdminBonusReferral(parrainNom, amount) {
 }
 
 // ================================================================
-// ECOUTE EN TEMPS REEL DE L'HISTORIQUE
+// ✅ CORRECTION: ECOUTE EN TEMPS REEL DE L'HISTORIQUE
 // ================================================================
 function listenToHistory(uid) {
   if (unsubscribeHistory) {
@@ -1376,19 +1360,25 @@ function listenToHistory(uid) {
   unsubscribeHistory = onSnapshot(q, function(snapshot) {
     if (snapshot.empty) {
       historyList.innerHTML = '<div class="empty-state"><i class="fas fa-clock"></i><p>Aucun depot effectue</p></div>';
+      // ✅ Nettoyer le cache
+      depotStatusCache = {};
       return;
     }
 
     var items = [];
     snapshot.forEach(function(docSnap) {
       var data = docSnap.data();
+      var docId = docSnap.id;
       items.push({
-        id: docSnap.id,
+        id: docId,
         montant: data.montant || 0,
         date: data.date || 'Date inconnue',
         statut: data.statut || 'en_attente',
         timestamp: data.timestamp || data.createdAt || data.date || ''
       });
+      
+      // ✅ Mettre à jour le cache
+      depotStatusCache[docId] = data.statut || 'en_attente';
     });
 
     items.sort(function(a, b) {
@@ -1420,15 +1410,36 @@ function listenToHistory(uid) {
       historyList.appendChild(item);
     });
 
-    // Vérifier les nouveaux dépôts validés
+    // ✅ CORRECTION: Vérifier les changements de statut pour déclencher le bonus
     snapshot.docChanges().forEach(function(change) {
       if (change.type === 'modified') {
         var data = change.doc.data();
-        if (data.statut === 'valide' || data.statut === 'validé') {
+        var docId = change.doc.id;
+        var oldStatus = depotStatusCache[docId] || 'en_attente';
+        var newStatus = data.statut || 'en_attente';
+        
+        // ✅ Si le statut passe de "en_attente" à "valide"
+        if (oldStatus !== 'valide' && oldStatus !== 'validé' && 
+            (newStatus === 'valide' || newStatus === 'validé')) {
+          console.log('✅ Dépôt validé:', docId);
+          var userId = data.userId;
+          if (userId) {
+            // ✅ Déclencher le bonus de parrainage
+            checkAndCreditReferralBonus(userId);
+          }
+          // Notification admin
           var userName = userData ? (userData.prenom || 'Utilisateur') : 'Utilisateur';
           var amount = data.montant || 0;
           notifyAdminEncaissement(userName, amount);
         }
+        
+        // ✅ Mettre à jour le cache
+        depotStatusCache[docId] = newStatus;
+      }
+      
+      if (change.type === 'added') {
+        var data = change.doc.data();
+        depotStatusCache[change.doc.id] = data.statut || 'en_attente';
       }
     });
 
@@ -1630,7 +1641,7 @@ function updateWhatsAppLink(amount) {
 }
 
 // ================================================================
-// ENVOI VIA WHATSAPP - AVEC BONUS PARRAINAGE
+// ENVOI VIA WHATSAPP
 // ================================================================
 whatsappBtn.addEventListener('click', async function(event) {
   event.preventDefault();
@@ -1684,8 +1695,8 @@ whatsappBtn.addEventListener('click', async function(event) {
     var docRef = await addDoc(collection(db, 'depots'), depositData);
     console.log('✅ Dépôt enregistré:', docRef.id);
     
-    // ✅ CORRECTION 1: Vérifier et créditer le bonus de parrainage
-    await checkAndCreditReferralBonus(currentAuthUser.uid);
+    // ❌ SUPPRIMÉ: checkAndCreditReferralBonus ici (sera déclenché à la validation)
+    // Le bonus sera déclenché UNIQUEMENT quand l'admin valide le dépôt
     
     // Notification Telegram
     notifyAdminDepositRequest(userName, currentUserId, amount, docRef.id);
@@ -1713,7 +1724,7 @@ whatsappBtn.addEventListener('click', async function(event) {
 });
 
 // ================================================================
-// ✅ CORRECTION 2: AUTH AVEC isPageLoading
+// AUTH AVEC isPageLoading
 // ================================================================
 onAuthStateChanged(auth, function(user) {
   if (user) {
@@ -1767,7 +1778,9 @@ onAuthStateChanged(auth, function(user) {
 amountInput.addEventListener('input', updateAmountDisplay);
 
 console.log('💰 ARVEXA - Page Recharger corrigée');
-console.log('✅ Bonus parrainage activé');
+console.log('✅ Bonus parrainage UNIQUEMENT au dépôt validé');
+console.log('✅ Compteur de parrainages incrémenté UNE SEULE FOIS');
+console.log('✅ Détection des changements de statut des dépôts');
 </script>
 </body>
 </html>
