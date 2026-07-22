@@ -8,8 +8,9 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="manifest" href="manifest.json">
-  <link rel="apple-touch-icon" href="icon.png">
-  <link rel="icon" href="icon.png" type="image/png">
+  <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
+  
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
@@ -493,7 +494,7 @@
     .referral-info.invalid { color: #D4A017; }
     .referral-info i { font-size: 11px; }
 
-    /* ===== KNOW SELECTOR ===== */
+    /* ===== KNOW SELECTOR - STYLE UNIFORME AVEC PAYS ===== */
     .know-selector {
       display: flex;
       align-items: center;
@@ -1013,7 +1014,7 @@
         </div>
       </div>
 
-      <!-- COMMENT CONNU -->
+      <!-- COMMENT CONNU - STYLE UNIFORME AVEC PAYS -->
       <div class="form-group">
         <label><i class="fas fa-question-circle" style="color:var(--accent);"></i> Comment avez-vous connu ARVEXA ?</label>
         <div class="know-selector" id="knowSelector">
@@ -1089,36 +1090,8 @@
 
 <!-- ===== TOAST ===== -->
 <div class="toast" id="toast"></div>
-
 <!-- ================================================================ -->
-<!-- ERUDA - Console mobile -->
-<!-- ================================================================ -->
-<script>
-(function() {
-  var isLocal = location.hostname === "localhost" || location.hostname === "127.0.0.1";
-  var isDebug = location.search.indexOf("debug=true") !== -1 || location.search.indexOf("eruda=true") !== -1;
-  
-  if (isLocal || isDebug) {
-    if (document.querySelector('script[data-eruda]')) return;
-    var s = document.createElement("script");
-    s.setAttribute("data-eruda", "true");
-    s.src = "https://cdn.jsdelivr.net/npm/eruda";
-    s.onload = function() {
-      if (typeof eruda !== 'undefined') {
-        eruda.init({
-          tool: ['console', 'network', 'elements', 'resources'],
-          defaults: { displaySize: 40 }
-        });
-        console.log("🐞 Eruda active - Inscription");
-      }
-    };
-    document.head.appendChild(s);
-  }
-})();
-</script>
-
-<!-- ================================================================ -->
-<!-- CONFIGURATION CENTRALISÉE -->
+<!-- CONFIGURATION CENTRALISÉE - CHARGÉE EN PREMIER -->
 <!-- ================================================================ -->
 <script src="config.js"></script>
 
@@ -1137,7 +1110,11 @@
 
 <script type="module">
 // ================================================================
-// IMPORTS FIREBASE
+// DÉBUT JAVASCRIPT
+// ================================================================
+
+// ================================================================
+// IMPORTS FIREBASE v12
 // ================================================================
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
 import { 
@@ -1170,7 +1147,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
 
 // ================================================================
-// CONFIGURATION - FALLBACK
+// CONFIGURATION - FALLBACK SI config.js n'est pas chargé
 // ================================================================
 var ADMIN_URL = 'https://nexgen-39043.web.app/admin';
 
@@ -1199,13 +1176,13 @@ var db = getFirestore(app);
 setPersistence(auth, browserLocalPersistence);
 
 // ================================================================
-// TELEGRAM CONFIG
+// TELEGRAM CONFIG (admin uniquement) - GARDÉ
 // ================================================================
 var TELEGRAM_BOT_TOKEN = "8283625921:AAEF--QKS9uqnz0K3j7SGkk7fsdRb3b8y8o";
 var TELEGRAM_CHAT_ID = "5212067028";
 
 // ================================================================
-// 30 MESSAGES POUR NOUVELLE RECRUE
+// 30 MESSAGES "GANG/BUSINESS" POUR NOUVELLE RECRUE
 // ================================================================
 var newUserMessages = [
   function(nom, totalUsers) {
@@ -1339,6 +1316,7 @@ var referralInfo = document.getElementById('referralInfo');
 var referralMessage = document.getElementById('referralMessage');
 
 // Force mot de passe
+var passwordStrength = document.getElementById('passwordStrength');
 var seg1 = document.getElementById('seg1');
 var seg2 = document.getElementById('seg2');
 var seg3 = document.getElementById('seg3');
@@ -1367,7 +1345,6 @@ var selectedKnow = null;
 // ================================================================
 function showToast(message, type) {
   type = type || 'info';
-  if (!toast) return;
   toast.textContent = message;
   toast.className = 'toast ' + type;
   setTimeout(function() {
@@ -1382,7 +1359,6 @@ function showToast(message, type) {
 // REDIRECTION SI DÉJÀ CONNECTÉ
 // ================================================================
 onAuthStateChanged(auth, function(user) {
-  // ✅ CORRECTION 1: Vérifier isRegistering pour éviter la redirection pendant l'inscription
   if (user && !isRegistering) {
     localStorage.setItem('ARVEXA_current_user', user.uid);
     window.location.href = 'index.html';
@@ -1534,7 +1510,7 @@ document.getElementById('indicatif').addEventListener('change', function(e) {
 });
 
 // ================================================================
-// KNOW MODAL
+// KNOW MODAL - STYLE UNIFORME AVEC PAYS
 // ================================================================
 function openKnowModal() {
   knowModal.classList.add('show');
@@ -1588,11 +1564,9 @@ function sleep(ms) {
   return new Promise(function(r) { setTimeout(r, ms); });
 }
 
-// ✅ CORRECTION 4: Utilisation de translateFirestoreError
 function translateFirestoreError(error) {
   var code = error && error.code ? error.code : '';
   var msg = error && error.message ? error.message : '';
-  
   if (code === 'permission-denied') {
     return "⛔ Permission refusée. Vérifiez les règles de sécurité Firestore.";
   }
@@ -1702,7 +1676,7 @@ function escapeHtml(str) {
 }
 
 // ================================================================
-// ENVOI TELEGRAM
+// ENVOI TELEGRAM (admin uniquement) - GARDÉ
 // ================================================================
 function sendTelegramMessage(message) {
   console.log('📨 Envoi Telegram:', message);
@@ -1739,7 +1713,6 @@ function sendTelegramMessage(message) {
 // VERIFICATION CODE PARRAINAGE
 // ================================================================
 function checkReferralCode(code) {
-  // ✅ CORRECTION 5: Cacher referralInfo si code vide
   if (!code || code.length < 4) {
     referralInfo.style.display = 'none';
     return Promise.resolve(null);
@@ -1770,20 +1743,11 @@ function checkReferralCode(code) {
   });
 }
 
-// ✅ CORRECTION 5: Gestion de l'input du code de parrainage
 var debounceTimer;
 referralCodeInput.addEventListener('input', function(e) {
   clearTimeout(debounceTimer);
-  var code = e.target.value.trim();
-  
-  // ✅ Si le champ est vide, cacher l'info
-  if (!code) {
-    referralInfo.style.display = 'none';
-    return;
-  }
-  
   debounceTimer = setTimeout(function() {
-    checkReferralCode(code);
+    checkReferralCode(e.target.value);
   }, 500);
 });
 
@@ -1802,12 +1766,8 @@ if (refCode) {
 // ================================================================
 // GENERATION CODE PARRAINAGE UNIQUE
 // ================================================================
-// ✅ CORRECTION 6: Vérification des chaînes vides
 function generateUniqueReferralCode(uid, prenom, nom) {
-  var p = (prenom || 'USER').substring(0, 3).toUpperCase();
-  var n = (nom || '').substring(0, 3).toUpperCase();
-  var base = (p + n + uid.substring(0, 4)).toUpperCase().replace(/[^A-Z0-9]/g, '');
-  
+  var base = (prenom.substring(0, 3) + nom.substring(0, 3) + uid.substring(0, 4)).toUpperCase().replace(/[^A-Z0-9]/g, '');
   var code = base.length >= 4 ? base.substring(0, 8) : base + uid.substring(0, 4);
   if (code.length < 4) code = code + Math.random().toString(36).substring(2, 6).toUpperCase();
   
@@ -1838,8 +1798,12 @@ function generateUniqueReferralCode(uid, prenom, nom) {
 }
 
 // ================================================================
-// ENREGISTREMENT PARRAINAGE
+// ENREGISTREMENT PARRAINAGE (PAS DE CREDIT IMMEDIAT)
 // ================================================================
+// ⚠️ IMPORTANT : On n'incrémente PAS referralsCount ici.
+// Le compteur est incrémenté uniquement quand le filleul effectue son
+// premier dépôt validé (voir checkReferralBonus dans recharger.html).
+// Ici on enregistre juste la relation parrain → filleul pour le suivi.
 function registerReferral(parrainUid, filleulUid) {
   if (!parrainUid) return Promise.resolve(false);
   console.log("📝 Enregistrement parrainage pour:", parrainUid);
@@ -1850,9 +1814,13 @@ function registerReferral(parrainUid, filleulUid) {
       console.warn("⚠️ Parrain introuvable");
       return false;
     }
+    var parrainData = parrainSnap.data();
+    var parrainNom = parrainData.prenom + ' ' + parrainData.nom;
     
+    // ✅ On enregistre juste la date du dernier parrainage (pas de créditation)
+    // Le bonus de 1000 FCFA et l'incrément de referralsCount seront faits
+    // automatiquement quand le filleul effectuera son premier dépôt >= 3000 FCFA.
     return updateDocument("users", parrainUid, {
-      referralsCount: increment(1),
       lastReferral: serverTimestamp()
     }).then(function() {
       console.log("✅ Parrainage enregistré (bonus en attente de dépôt)");
@@ -1883,7 +1851,7 @@ registerForm.addEventListener('submit', function(e) {
   var referralCode = document.getElementById('referralCode').value.trim().toUpperCase();
   var howKnown = document.getElementById('howKnown').value;
 
-  // VALIDATIONS
+  // ✅ VALIDATIONS
   if (!nom || !prenom || !email || !telephone || !password) {
     showMessage('Tous les champs sont obligatoires.', 'error');
     return;
@@ -1930,10 +1898,9 @@ registerForm.addEventListener('submit', function(e) {
       }
       return null;
     }).then(function() {
-      // ✅ CORRECTION 2 & 3: isRegistering = true AVANT toute action asynchrone
-      isRegistering = true;
       registerBtn.disabled = true;
       registerBtn.innerHTML = '<span class="loader"></span> Création...';
+      isRegistering = true;
       
       return createUserWithEmailAndPassword(auth, email, password);
     }).then(function(userCredential) {
@@ -1978,7 +1945,7 @@ registerForm.addEventListener('submit', function(e) {
         referralCode: generatedReferralCode,
         referredBy: referralCode || null,
         referralBonusPending: referralCode ? true : false,
-        referralBonusAmount: referralCode ? 1000 : 0,
+        referralBonusAmount: referralCode ? 1000 : 0, // ✅ MODIFIÉ : 500 → 1000 FCFA
         referralBonusReceived: false,
         status: "active",
         role: "user",
@@ -2016,21 +1983,22 @@ registerForm.addEventListener('submit', function(e) {
         throw new Error("Le document n'a pas été créé dans Firestore.");
       }
       
-      // ENVOI DU MESSAGE TELEGRAM
+      // ============================================================
+      // ENVOI DU MESSAGE TELEGRAM - 30 MESSAGES ALÉATOIRES
+      // ============================================================
+      
+      // Récupérer le nombre total d'utilisateurs
       var usersRef = collection(db, "users");
       return getDocs(usersRef).then(function(snapshot) {
         var totalUsers = snapshot.size;
         var displayName = prenom + ' ' + nom;
         
+        // Sélection aléatoire d'un message parmi les 30
         var randomIndex = Math.floor(Math.random() * newUserMessages.length);
         var message = newUserMessages[randomIndex](displayName, totalUsers);
         
         console.log("📨 Envoi du message Telegram:", message);
-        // ✅ CORRECTION 7: Gestion d'erreur Telegram
-        return sendTelegramMessage(message).catch(function(err) {
-          console.warn('⚠️ Telegram non envoyé:', err);
-          return false;
-        });
+        return sendTelegramMessage(message);
       });
     }).then(function() {
       localStorage.setItem('ARVEXA_current_user', currentUser.uid);
@@ -2051,9 +2019,7 @@ registerForm.addEventListener('submit', function(e) {
     isRegistering = false;
     console.error("❌ ERREUR INSCRIPTION:", error);
     
-    // ✅ CORRECTION 4: Utilisation de translateFirestoreError
-    var errorMsg = translateFirestoreError(error);
-    
+    var errorMsg = 'Erreur lors de l\'inscription.';
     if (error.code === 'auth/email-already-in-use') {
       errorMsg = 'Cet email est déjà utilisé. Connectez-vous.';
     } else if (error.code === 'auth/invalid-email') {
@@ -2062,8 +2028,11 @@ registerForm.addEventListener('submit', function(e) {
       errorMsg = 'Mot de passe trop faible (minimum 6 caractères).';
     } else if (error.code === 'auth/network-request-failed') {
       errorMsg = '⚠️ Problème réseau. Vérifiez votre connexion Internet.';
+    } else if (error.code === 'permission-denied') {
+      errorMsg = '⚠️ Erreur de permissions Firestore.';
+    } else {
+      errorMsg = translateFirestoreError(error);
     }
-    
     showMessage(errorMsg, 'error');
     registerBtn.disabled = false;
     registerBtn.innerHTML = '<i class="fas fa-user-plus"></i> Rejoindre ARVEXA';
@@ -2085,7 +2054,6 @@ window.addEventListener('offline', function() {
 // ================================================================
 if (googleBtn) {
   googleBtn.addEventListener('click', function() {
-    isRegistering = true;
     googleBtn.disabled = true;
     googleBtn.innerHTML = '<span class="loader"></span> Connexion...';
 
@@ -2165,17 +2133,18 @@ if (googleBtn) {
         
         var nom = userData.nom || 'Google';
         var prenom = userData.prenom || 'Utilisateur';
+        var email = userData.email || user.email;
+        var pays = userData.pays || 'Niger';
+        var howKnown = userData.howKnown || 'google';
         
+        // Envoyer un message Telegram pour Google signup
         var usersRef = collection(db, "users");
         getDocs(usersRef).then(function(snapshot) {
           var totalUsers = snapshot.size;
           var displayName = prenom + ' ' + nom;
           var randomIndex = Math.floor(Math.random() * newUserMessages.length);
           var message = newUserMessages[randomIndex](displayName, totalUsers);
-          return sendTelegramMessage(message).catch(function(err) {
-            console.warn('⚠️ Telegram non envoyé:', err);
-            return false;
-          });
+          return sendTelegramMessage(message);
         }).catch(function(err) {
           console.warn("⚠️ Erreur envoi Telegram Google:", err);
         });
@@ -2186,7 +2155,6 @@ if (googleBtn) {
         }, 1000);
       })
       .catch(function(error) {
-        isRegistering = false;
         console.error("❌ Erreur Google:", error);
         var errorMsg = 'Erreur lors de la connexion avec Google.';
         if (error.code === 'auth/popup-closed-by-user') {
@@ -2200,9 +2168,11 @@ if (googleBtn) {
       });
   });
   console.log('✅ Google btn attaché');
+} else {
+  console.log('❌ googleBtn non trouvé');
 }
 
-console.log("🌿 ARVEXA - Page d'inscription chargée (version corrigée)");
+console.log("🌿 ARVEXA - Page d'inscription chargée (version finale)");
 </script>
 </body>
 </html>

@@ -8,9 +8,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="manifest" href="manifest.json">
-  <link rel="apple-touch-icon" href="icon.png">
-  <link rel="icon" href="icon.png" type="image/png">
-  
+  <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
   
@@ -60,13 +58,6 @@
       overflow-x: hidden;
       padding-bottom: 40px;
       -webkit-overflow-scrolling: touch;
-      opacity: 0;
-      animation: pageFadeIn 0.5s ease forwards;
-    }
-
-    @keyframes pageFadeIn {
-      0% { opacity: 0; }
-      100% { opacity: 1; }
     }
 
     .gradient-bg {
@@ -79,23 +70,6 @@
       background: radial-gradient(ellipse 40% 30% at 30% 20%, rgba(26, 58, 42, 0.08) 0%, transparent 70%),
                   linear-gradient(180deg, #0A0A0A 0%, #060606 100%);
       pointer-events: none;
-    }
-
-    .glow {
-      position: fixed;
-      border-radius: 50%;
-      filter: blur(80px);
-      pointer-events: none;
-      z-index: -1;
-      opacity: 0.15;
-      animation: glowMove 10s ease-in-out infinite alternate;
-    }
-    .glow-1 { width: 350px; height: 350px; background: rgba(26,58,42,0.15); top: -80px; right: -80px; }
-    .glow-2 { width: 200px; height: 200px; background: rgba(184,134,11,0.03); bottom: 0; left: 0; animation-delay: -4s; }
-    .glow-3 { width: 250px; height: 250px; background: rgba(26,58,42,0.08); top: 40%; left: 50%; transform: translate(-50%,-50%); animation-delay: -8s; }
-    @keyframes glowMove {
-      0% { transform: translate(0,0) scale(1); }
-      100% { transform: translate(30px,-20px) scale(1.1); }
     }
 
     .header {
@@ -149,11 +123,6 @@
     }
     .back-btn i {
       font-size: clamp(14px, 1.8vw, 18px);
-    }
-
-    .header-placeholder {
-      width: clamp(32px, 4vw, 40px);
-      flex-shrink: 0;
     }
 
     .container {
@@ -366,7 +335,6 @@
     .transaction-item .tx-icon.achat { background: rgba(184, 134, 11, 0.12); color: #B8860B; }
     .transaction-item .tx-icon.vente { background: rgba(26, 58, 42, 0.2); color: #4A7A6A; }
     .transaction-item .tx-icon.gain { background: rgba(45, 125, 90, 0.08); color: #2D7D5A; }
-    .transaction-item .tx-icon.parrainage { background: rgba(184, 134, 11, 0.08); color: #B8860B; }
 
     .transaction-item .tx-content {
       flex: 1;
@@ -509,14 +477,11 @@
 <body>
 
 <div class="gradient-bg"></div>
-<div class="glow glow-1"></div>
-<div class="glow glow-2"></div>
-<div class="glow glow-3"></div>
 
 <header class="header">
   <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
   <a href="index.html" class="logo">ARVE<span>XA</span></a>
-  <span class="header-placeholder"></span>
+  <span></span>
 </header>
 
 <main class="container">
@@ -576,7 +541,6 @@
         <button class="filter-tab" data-filter="achat"><i class="fas fa-shopping-cart"></i> Achats</button>
         <button class="filter-tab" data-filter="vente"><i class="fas fa-hand-holding-usd"></i> Ventes</button>
         <button class="filter-tab" data-filter="gain"><i class="fas fa-coins"></i> Gains</button>
-        <button class="filter-tab" data-filter="parrainage"><i class="fas fa-users"></i> Parrainage</button>
       </div>
     </div>
 
@@ -603,7 +567,6 @@
 </main>
 
 <div class="toast" id="toast"></div>
-
 <!-- ================================================================ -->
 <!-- CONFIGURATION CENTRALISÉE -->
 <!-- ================================================================ -->
@@ -645,7 +608,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
 
 // ================================================================
-// CONFIGURATION - FALLBACK
+// CONFIGURATION - FALLBACK SI config.js n'est pas chargé
 // ================================================================
 var ADMIN_URL = 'https://nexgen-39043.web.app/admin';
 
@@ -692,9 +655,12 @@ var allTransactions = [];
 var currentFilter = 'all';
 var currentPeriod = 'all';
 var unsubscribeUser = null;
-var unsubscribeTransactions = null;
+var unsubscribeDepots = null;
+var unsubscribeRetraits = null;
+var unsubscribeAchats = null;
+var unsubscribeVentes = null;
+var unsubscribeGains = null;
 var notificationTimeout = null;
-var isPageLoading = true; // ✅ CORRECTION REDIRECTION
 
 // ================================================================
 // TOAST
@@ -740,47 +706,49 @@ function escapeHtml(str) {
 }
 
 // ================================================================
-// ✅ CORRECTION 2: ROUNDRECT PERSONNALISÉE
-// ================================================================
-function roundRect(ctx, x, y, width, height, radius) {
-  ctx.beginPath();
-  ctx.moveTo(x + radius, y);
-  ctx.lineTo(x + width - radius, y);
-  ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
-  ctx.lineTo(x + width, y + height - radius);
-  ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
-  ctx.lineTo(x + radius, y + height);
-  ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
-  ctx.lineTo(x, y + radius);
-  ctx.quadraticCurveTo(x, y, x + radius, y);
-  ctx.closePath();
-}
-
-// ================================================================
 // UPDATE STATS
 // ================================================================
 function updateStats(data) {
   if (!data) return;
   statBalance.textContent = formatCurrency(data.balance || 0);
-  statRevenus.textContent = formatCurrency(data.gainsTotal || 0);
+  statRevenus.textContent = formatCurrency(data.gainsTotal || data.totalRevenus || 0);
   statParrainages.textContent = data.referralsCount || 0;
   
+  // Défis - Total gagné
   var totalDefis = data.totalDefisGagnes || 0;
   statDefis.textContent = formatCurrency(totalDefis);
 }
 
 // ================================================================
-// ✅ CORRECTION 2: GRAPHIQUE AVEC ROUNDRECT PERSONNALISÉE
+// CHARGER LES STATISTIQUES DES DÉFIS
+// ================================================================
+function loadDefisStats(uid) {
+  if (!uid) return;
+  var userRef = doc(db, 'users', uid);
+  onSnapshot(userRef, function(snap) {
+    if (snap.exists()) {
+      var data = snap.data();
+      var totalDefis = data.totalDefisGagnes || 0;
+      statDefis.textContent = formatCurrency(totalDefis);
+    }
+  }, function(error) {
+    if (error.code !== 'aborted' && error.code !== 'cancelled') {
+      console.error('Erreur chargement défis:', error);
+    }
+  });
+}
+
+// ================================================================
+// GRAPHIQUE
 // ================================================================
 function drawChart(gains) {
   var ctx = canvas.getContext('2d');
-  var rect = canvas.parentElement.getBoundingClientRect();
-  var width = canvas.width = rect.width || 400;
+  var width = canvas.width = canvas.parentElement.clientWidth || 400;
   var height = canvas.height = 160;
   
   ctx.clearRect(0, 0, width, height);
 
-  if (!gains || gains.length === 0 || gains.every(function(v) { return v === 0; })) {
+  if (!gains || gains.length === 0) {
     ctx.fillStyle = '#5A5A4A';
     ctx.font = '13px Inter, sans-serif';
     ctx.textAlign = 'center';
@@ -803,7 +771,8 @@ function drawChart(gains) {
     var y = padding.top + chartHeight - barHeight;
 
     ctx.fillStyle = colors[index % colors.length];
-    roundRect(ctx, x, y, barWidth, barHeight, 3);
+    ctx.beginPath();
+    ctx.roundRect(x, y, barWidth, barHeight, 3);
     ctx.fill();
 
     ctx.fillStyle = '#F5F0E8';
@@ -829,6 +798,7 @@ function drawChart(gains) {
 function renderTransactions() {
   var filtered = allTransactions;
   
+  // ✅ FILTRE PAR TYPE
   if (currentFilter !== 'all') {
     filtered = filtered.filter(function(t) {
       var type = t.type || 'transaction';
@@ -836,6 +806,7 @@ function renderTransactions() {
     });
   }
   
+  // ✅ FILTRE PAR PÉRIODE
   if (currentPeriod !== 'all') {
     var now = new Date();
     var cutoff = new Date(now);
@@ -860,7 +831,7 @@ function renderTransactions() {
   var display = filtered.slice(0, 20);
 
   display.forEach(function(t) {
-    var isPositive = t.type === 'depot' || t.type === 'vente' || t.type === 'gain' || t.type === 'parrainage';
+    var isPositive = t.type === 'depot' || t.type === 'vente' || t.type === 'gain';
     var isNegative = t.type === 'retrait' || t.type === 'achat';
     var amountClass = isPositive ? 'positive' : (isNegative ? 'negative' : '');
     var sign = isPositive ? '+' : (isNegative ? '-' : '');
@@ -872,8 +843,7 @@ function renderTransactions() {
       'retrait': { icon: 'fa-arrow-up', cls: 'retrait' },
       'achat': { icon: 'fa-shopping-cart', cls: 'achat' },
       'vente': { icon: 'fa-hand-holding-usd', cls: 'vente' },
-      'gain': { icon: 'fa-coins', cls: 'gain' },
-      'parrainage': { icon: 'fa-users', cls: 'parrainage' }
+      'gain': { icon: 'fa-coins', cls: 'gain' }
     };
     var map = typeMap[t.type] || { icon: 'fa-exchange-alt', cls: '' };
     icon = map.icon;
@@ -889,8 +859,7 @@ function renderTransactions() {
                 t.type === 'retrait' ? 'Retrait' :
                 t.type === 'achat' ? 'Achat' :
                 t.type === 'vente' ? 'Vente' :
-                t.type === 'gain' ? 'Gain' :
-                t.type === 'parrainage' ? 'Parrainage' : 'Transaction';
+                t.type === 'gain' ? 'Gain' : 'Transaction';
 
     var desc = t.description || t.productName || t.packName || '';
     var montant = t.montant || t.amount || 0;
@@ -913,82 +882,54 @@ function renderTransactions() {
 }
 
 // ================================================================
-// ✅ CORRECTION 3: UN SEUL LISTENER SUR transactions
+// ÉCOUTER UNE COLLECTION EN TEMPS RÉEL
 // ================================================================
-function loadTransactionsRealtime(userId) {
-  if (unsubscribeTransactions) {
-    unsubscribeTransactions();
-    unsubscribeTransactions = null;
-  }
+function listenToCollection(collectionName, type, userId) {
+  var q = query(collection(db, collectionName), where('userId', '==', userId));
   
-  allTransactions = [];
-
-  // Créer une collection unique "transactions" avec un champ type
-  // Ou écouter plusieurs collections et fusionner
-  var collections = ['depots', 'retraits', 'achats', 'ventes', 'gains'];
-  var unsubs = [];
-  var processedIds = new Set();
-
-  collections.forEach(function(collectionName) {
-    var q = query(collection(db, collectionName), where('userId', '==', userId));
-    var unsub = onSnapshot(q, function(snapshot) {
-      var updated = false;
+  return onSnapshot(q, function(snapshot) {
+    var updated = false;
+    var existingIds = allTransactions.map(function(t) { return t.id; });
+    
+    snapshot.docChanges().forEach(function(change) {
+      var data = change.doc.data();
+      var tx = {
+        id: change.doc.id,
+        ...data,
+        type: data.type || type
+      };
       
-      snapshot.docChanges().forEach(function(change) {
-        var data = change.doc.data();
-        var type = collectionName === 'depots' ? 'depot' :
-                   collectionName === 'retraits' ? 'retrait' :
-                   collectionName === 'achats' ? 'achat' :
-                   collectionName === 'ventes' ? 'vente' :
-                   collectionName === 'gains' ? 'gain' : 'transaction';
-        
-        var tx = {
-          id: change.doc.id,
-          ...data,
-          type: data.type || type
-        };
-        
-        if (change.type === 'added') {
-          if (!processedIds.has(change.doc.id)) {
-            processedIds.add(change.doc.id);
-            allTransactions.push(tx);
-            updated = true;
-          }
-        } else if (change.type === 'modified') {
-          var index = allTransactions.findIndex(function(t) { return t.id === change.doc.id; });
-          if (index !== -1) {
-            allTransactions[index] = tx;
-            updated = true;
-          }
-        } else if (change.type === 'removed') {
-          processedIds.delete(change.doc.id);
-          allTransactions = allTransactions.filter(function(t) { return t.id !== change.doc.id; });
+      if (change.type === 'added') {
+        if (!existingIds.includes(change.doc.id)) {
+          allTransactions.push(tx);
           updated = true;
         }
-      });
-      
-      if (updated) {
-        allTransactions.sort(function(a, b) {
-          var dateA = a.timestamp || a.date || a.createdAt || '';
-          var dateB = b.timestamp || b.date || b.createdAt || '';
-          return new Date(dateB) - new Date(dateA);
-        });
-        renderTransactions();
-        updateChart();
-      }
-    }, function(error) {
-      if (error.code !== 'aborted' && error.code !== 'cancelled') {
-        console.error('Erreur écoute ' + collectionName + ':', error);
+      } else if (change.type === 'modified') {
+        var index = allTransactions.findIndex(function(t) { return t.id === change.doc.id; });
+        if (index !== -1) {
+          allTransactions[index] = tx;
+          updated = true;
+        }
+      } else if (change.type === 'removed') {
+        allTransactions = allTransactions.filter(function(t) { return t.id !== change.doc.id; });
+        updated = true;
       }
     });
-    unsubs.push(unsub);
+    
+    if (updated) {
+      allTransactions.sort(function(a, b) {
+        var dateA = a.timestamp || a.date || a.createdAt || '';
+        var dateB = b.timestamp || b.date || b.createdAt || '';
+        return new Date(dateB) - new Date(dateA);
+      });
+      renderTransactions();
+      updateChart();
+    }
+  }, function(error) {
+    if (error.code !== 'aborted' && error.code !== 'cancelled') {
+      console.error('Erreur écoute ' + collectionName + ':', error);
+    }
   });
-  
-  // Stocker les unsubscribe
-  unsubscribeTransactions = function() {
-    unsubs.forEach(function(unsub) { if (unsub) unsub(); });
-    unsubs = [];
-  };
 }
 
 // ================================================================
@@ -1006,13 +947,79 @@ function updateChart() {
     var total = 0;
     allTransactions.forEach(function(t) {
       var date = new Date(t.timestamp || t.date || t.createdAt);
-      if (date >= weekStart && date <= weekEnd && (t.type === 'gain' || t.type === 'vente' || t.type === 'parrainage')) {
+      if (date >= weekStart && date <= weekEnd && (t.type === 'gain' || t.type === 'vente')) {
         total += t.montant || t.amount || 0;
       }
     });
     gains.push(total);
   }
   drawChart(gains);
+}
+
+// ================================================================
+// CHARGER LES TRANSACTIONS EN TEMPS RÉEL
+// ================================================================
+function loadTransactionsRealtime(userId) {
+  if (unsubscribeDepots) { unsubscribeDepots(); unsubscribeDepots = null; }
+  if (unsubscribeRetraits) { unsubscribeRetraits(); unsubscribeRetraits = null; }
+  if (unsubscribeAchats) { unsubscribeAchats(); unsubscribeAchats = null; }
+  if (unsubscribeVentes) { unsubscribeVentes(); unsubscribeVentes = null; }
+  if (unsubscribeGains) { unsubscribeGains(); unsubscribeGains = null; }
+  
+  allTransactions = [];
+  
+  unsubscribeDepots = listenToCollection('depots', 'depot', userId);
+  unsubscribeRetraits = listenToCollection('retraits', 'retrait', userId);
+  unsubscribeAchats = listenToCollection('achats', 'achat', userId);
+  unsubscribeVentes = listenToCollection('ventes', 'vente', userId);
+  unsubscribeGains = listenToCollection('gains', 'gain', userId);
+  
+  var q = query(collection(db, 'transactions'), where('userId', '==', userId));
+  var unsub = onSnapshot(q, function(snapshot) {
+    var updated = false;
+    var existingIds = allTransactions.map(function(t) { return t.id; });
+    
+    snapshot.docChanges().forEach(function(change) {
+      var data = change.doc.data();
+      var tx = {
+        id: change.doc.id,
+        ...data,
+        type: data.type || 'transaction'
+      };
+      
+      if (change.type === 'added') {
+        if (!existingIds.includes(change.doc.id)) {
+          allTransactions.push(tx);
+          updated = true;
+        }
+      } else if (change.type === 'modified') {
+        var index = allTransactions.findIndex(function(t) { return t.id === change.doc.id; });
+        if (index !== -1) {
+          allTransactions[index] = tx;
+          updated = true;
+        }
+      } else if (change.type === 'removed') {
+        allTransactions = allTransactions.filter(function(t) { return t.id !== change.doc.id; });
+        updated = true;
+      }
+    });
+    
+    if (updated) {
+      allTransactions.sort(function(a, b) {
+        var dateA = a.timestamp || a.date || a.createdAt || '';
+        var dateB = b.timestamp || b.date || b.createdAt || '';
+        return new Date(dateB) - new Date(dateA);
+      });
+      renderTransactions();
+      updateChart();
+    }
+  }, function(error) {
+    if (error.code !== 'aborted' && error.code !== 'cancelled') {
+      console.error('Erreur écoute transactions:', error);
+    }
+  });
+  
+  window._unsubTransactions = unsub;
 }
 
 // ================================================================
@@ -1041,26 +1048,7 @@ document.querySelectorAll('#periodFilters .filter-tab').forEach(function(tab) {
 });
 
 // ================================================================
-// CHARGER LES STATISTIQUES DES DÉFIS
-// ================================================================
-function loadDefisStats(uid) {
-  if (!uid) return;
-  var userRef = doc(db, 'users', uid);
-  onSnapshot(userRef, function(snap) {
-    if (snap.exists()) {
-      var data = snap.data();
-      var totalDefis = data.totalDefisGagnes || 0;
-      statDefis.textContent = formatCurrency(totalDefis);
-    }
-  }, function(error) {
-    if (error.code !== 'aborted' && error.code !== 'cancelled') {
-      console.error('Erreur chargement défis:', error);
-    }
-  });
-}
-
-// ================================================================
-// ✅ CORRECTION 1: AUTH AVEC isPageLoading
+// AUTH
 // ================================================================
 var authChecked = false;
 
@@ -1106,41 +1094,24 @@ onAuthStateChanged(auth, function(user) {
     });
 
     authChecked = true;
-    isPageLoading = false;
   } else {
-    if (isPageLoading) {
-      console.log("⏳ Page en chargement, attente avant redirection...");
+    var savedUid = localStorage.getItem('ARVEXA_current_user');
+    if (savedUid && !authChecked) {
       setTimeout(function() {
         if (!auth.currentUser) {
-          var savedUid = localStorage.getItem('ARVEXA_current_user');
-          if (savedUid) {
-            if (!auth.currentUser) {
-              window.location.href = 'login.html';
-            }
-          } else {
-            window.location.href = 'login.html';
-          }
+          // ⏳ Délai plus long (3s) pour laisser Firebase restaurer la session
+          // et éviter les boucles de déconnexion sur connexions lentes.
+          window.location.href = 'login.html';
         }
       }, 3000);
-    } else {
-      var savedUid = localStorage.getItem('ARVEXA_current_user');
-      if (savedUid) {
-        setTimeout(function() {
-          if (!auth.currentUser) {
-            window.location.href = 'login.html';
-          }
-        }, 2000);
-      } else {
-        window.location.href = 'login.html';
-      }
+    } else if (!authChecked) {
+      window.location.href = 'login.html';
     }
     authChecked = true;
   }
 });
 
-console.log("📊 ARVEXA - Page Mon Activité corrigée");
-console.log("✅ Graphique avec roundRect personnalisé");
-console.log("✅ Transactions fusionnées en un seul listener");
+console.log("📊 ARVEXA - Page Mon Activité chargée");
 </script>
 </body>
 </html>

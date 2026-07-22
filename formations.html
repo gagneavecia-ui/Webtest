@@ -8,8 +8,10 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="manifest" href="manifest.json">
-  <link rel="apple-touch-icon" href="icon.png">
-  <link rel="icon" href="icon.png" type="image/png">
+  <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
@@ -86,12 +88,12 @@
       opacity: 0.15;
       animation: glowMove 10s ease-in-out infinite alternate;
     }
-    .glow-1 { width: 350px; height: 350px; background: rgba(26,58,42,0.15); top: -80px; right: -80px; }
-    .glow-2 { width: 200px; height: 200px; background: rgba(184,134,11,0.03); bottom: 0; left: 0; animation-delay: -4s; }
-    .glow-3 { width: 250px; height: 250px; background: rgba(26,58,42,0.08); top: 40%; left: 50%; transform: translate(-50%,-50%); animation-delay: -8s; }
+    .glow-1 { width: 350px; height: 350px; background: rgba(26, 58, 42, 0.15); top: -80px; right: -80px; }
+    .glow-2 { width: 200px; height: 200px; background: rgba(184, 134, 11, 0.03); bottom: 0; left: 0; animation-delay: -4s; }
+    .glow-3 { width: 250px; height: 250px; background: rgba(26, 58, 42, 0.08); top: 40%; left: 50%; transform: translate(-50%, -50%); animation-delay: -8s; }
     @keyframes glowMove {
-      0% { transform: translate(0,0) scale(1); }
-      100% { transform: translate(30px,-20px) scale(1.1); }
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(30px, -20px) scale(1.1); }
     }
 
     /* ===== HEADER ===== */
@@ -550,50 +552,6 @@
     }
 
     /* ============================================================
-       SKELETON LOADING
-       ============================================================ */
-    .skeleton-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
-      margin-bottom: 24px;
-    }
-    .skeleton-card {
-      background: rgba(255, 255, 255, 0.02);
-      border-radius: var(--radius);
-      overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.02);
-      animation: skeletonPulse 1.5s ease-in-out infinite;
-    }
-    .skeleton-card .skeleton-image {
-      aspect-ratio: 16/9;
-      background: rgba(255, 255, 255, 0.03);
-    }
-    .skeleton-card .skeleton-content {
-      padding: 14px 16px 16px;
-    }
-    .skeleton-card .skeleton-line {
-      height: 12px;
-      background: rgba(255, 255, 255, 0.03);
-      border-radius: 6px;
-      margin-bottom: 8px;
-    }
-    .skeleton-card .skeleton-line:last-child {
-      margin-bottom: 0;
-    }
-    .skeleton-card .skeleton-line.long {
-      width: 80%;
-    }
-    .skeleton-card .skeleton-line.short {
-      width: 40%;
-    }
-
-    @keyframes skeletonPulse {
-      0%, 100% { opacity: 0.3; }
-      50% { opacity: 0.6; }
-    }
-
-    /* ============================================================
        TOAST
        ============================================================ */
     .toast {
@@ -638,14 +596,73 @@
     }
 
     /* ============================================================
+   SKELETON LOADING
+   ============================================================ */
+.skeleton-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.skeleton-card {
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.02);
+  animation: skeletonPulse 1.5s ease-in-out infinite;
+}
+.skeleton-card .skeleton-image {
+  aspect-ratio: 16/9;
+  background: rgba(255, 255, 255, 0.03);
+}
+.skeleton-card .skeleton-content {
+  padding: 14px 16px 16px;
+}
+.skeleton-card .skeleton-line {
+  height: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 6px;
+  margin-bottom: 8px;
+}
+.skeleton-card .skeleton-line:last-child {
+  margin-bottom: 0;
+}
+.skeleton-card .skeleton-line.long {
+  width: 80%;
+}
+.skeleton-card .skeleton-line.short {
+  width: 40%;
+}
+
+@keyframes skeletonPulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.6; }
+}
+
+@media (min-width: 601px) and (max-width: 768px) {
+  .skeleton-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+}
+@media (min-width: 769px) {
+  .skeleton-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+}
+@media (min-width: 1024px) {
+  .skeleton-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+}
+
+    /* ============================================================
        RESPONSIVE
        ============================================================ */
     @media (max-width: 480px) {
       .formations-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
-      }
-      .skeleton-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 10px;
       }
@@ -688,10 +705,6 @@
         grid-template-columns: repeat(3, 1fr);
         gap: 14px;
       }
-      .skeleton-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 14px;
-      }
     }
 
     @media (min-width: 769px) {
@@ -703,10 +716,6 @@
         grid-template-columns: repeat(3, 1fr);
         gap: 18px;
       }
-      .skeleton-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 18px;
-      }
     }
 
     @media (min-width: 1024px) {
@@ -715,10 +724,6 @@
         padding: 32px 5%;
       }
       .formations-grid {
-        grid-template-columns: repeat(4, 1fr);
-        gap: 20px;
-      }
-      .skeleton-grid {
         grid-template-columns: repeat(4, 1fr);
         gap: 20px;
       }
@@ -739,7 +744,7 @@
     <span class="popup-icon">💰</span>
     <h2>Opportunité en <span>Or</span></h2>
     <p class="popup-subtitle">
-      🔥 Rechargez <strong>3 000 FCFA</strong> et débloquez <strong>TOUTES</strong> les formations ARVEXA !
+      🔥 Rechargez <strong>3 000 FCFA</strong> et débloquez <strong>TOUT</strong> le contenu premium ARVEXA !
     </p>
     <ul class="features-list">
       <li><i class="fas fa-check-circle"></i> Formations exclusives</li>
@@ -777,75 +782,76 @@
   </div>
 
   <!-- ===== SKELETON LOADING ===== -->
-  <div class="skeleton-grid" id="skeletonGrid">
-    <div class="skeleton-card">
-      <div class="skeleton-image"></div>
-      <div class="skeleton-content">
-        <div class="skeleton-line" style="width:60%;"></div>
-        <div class="skeleton-line" style="width:80%;"></div>
-        <div class="skeleton-line" style="width:40%;"></div>
-      </div>
-    </div>
-    <div class="skeleton-card">
-      <div class="skeleton-image"></div>
-      <div class="skeleton-content">
-        <div class="skeleton-line" style="width:60%;"></div>
-        <div class="skeleton-line" style="width:80%;"></div>
-        <div class="skeleton-line" style="width:40%;"></div>
-      </div>
-    </div>
-    <div class="skeleton-card">
-      <div class="skeleton-image"></div>
-      <div class="skeleton-content">
-        <div class="skeleton-line" style="width:60%;"></div>
-        <div class="skeleton-line" style="width:80%;"></div>
-        <div class="skeleton-line" style="width:40%;"></div>
-      </div>
-    </div>
-    <div class="skeleton-card">
-      <div class="skeleton-image"></div>
-      <div class="skeleton-content">
-        <div class="skeleton-line" style="width:60%;"></div>
-        <div class="skeleton-line" style="width:80%;"></div>
-        <div class="skeleton-line" style="width:40%;"></div>
-      </div>
-    </div>
-    <div class="skeleton-card">
-      <div class="skeleton-image"></div>
-      <div class="skeleton-content">
-        <div class="skeleton-line" style="width:60%;"></div>
-        <div class="skeleton-line" style="width:80%;"></div>
-        <div class="skeleton-line" style="width:40%;"></div>
-      </div>
-    </div>
-    <div class="skeleton-card">
-      <div class="skeleton-image"></div>
-      <div class="skeleton-content">
-        <div class="skeleton-line" style="width:60%;"></div>
-        <div class="skeleton-line" style="width:80%;"></div>
-        <div class="skeleton-line" style="width:40%;"></div>
-      </div>
-    </div>
-    <div class="skeleton-card">
-      <div class="skeleton-image"></div>
-      <div class="skeleton-content">
-        <div class="skeleton-line" style="width:60%;"></div>
-        <div class="skeleton-line" style="width:80%;"></div>
-        <div class="skeleton-line" style="width:40%;"></div>
-      </div>
-    </div>
-    <div class="skeleton-card">
-      <div class="skeleton-image"></div>
-      <div class="skeleton-content">
-        <div class="skeleton-line" style="width:60%;"></div>
-        <div class="skeleton-line" style="width:80%;"></div>
-        <div class="skeleton-line" style="width:40%;"></div>
-      </div>
+<div class="skeleton-grid" id="skeletonGrid">
+  <div class="skeleton-card">
+    <div class="skeleton-image"></div>
+    <div class="skeleton-content">
+      <div class="skeleton-line" style="width:60%;"></div>
+      <div class="skeleton-line" style="width:80%;"></div>
+      <div class="skeleton-line" style="width:40%;"></div>
     </div>
   </div>
+  <div class="skeleton-card">
+    <div class="skeleton-image"></div>
+    <div class="skeleton-content">
+      <div class="skeleton-line" style="width:60%;"></div>
+      <div class="skeleton-line" style="width:80%;"></div>
+      <div class="skeleton-line" style="width:40%;"></div>
+    </div>
+  </div>
+  <div class="skeleton-card">
+    <div class="skeleton-image"></div>
+    <div class="skeleton-content">
+      <div class="skeleton-line" style="width:60%;"></div>
+      <div class="skeleton-line" style="width:80%;"></div>
+      <div class="skeleton-line" style="width:40%;"></div>
+    </div>
+  </div>
+  <div class="skeleton-card">
+    <div class="skeleton-image"></div>
+    <div class="skeleton-content">
+      <div class="skeleton-line" style="width:60%;"></div>
+      <div class="skeleton-line" style="width:80%;"></div>
+      <div class="skeleton-line" style="width:40%;"></div>
+    </div>
+  </div>
+  <div class="skeleton-card">
+    <div class="skeleton-image"></div>
+    <div class="skeleton-content">
+      <div class="skeleton-line" style="width:60%;"></div>
+      <div class="skeleton-line" style="width:80%;"></div>
+      <div class="skeleton-line" style="width:40%;"></div>
+    </div>
+  </div>
+  <div class="skeleton-card">
+    <div class="skeleton-image"></div>
+    <div class="skeleton-content">
+      <div class="skeleton-line" style="width:60%;"></div>
+      <div class="skeleton-line" style="width:80%;"></div>
+      <div class="skeleton-line" style="width:40%;"></div>
+    </div>
+  </div>
+  <div class="skeleton-card">
+    <div class="skeleton-image"></div>
+    <div class="skeleton-content">
+      <div class="skeleton-line" style="width:60%;"></div>
+      <div class="skeleton-line" style="width:80%;"></div>
+      <div class="skeleton-line" style="width:40%;"></div>
+    </div>
+  </div>
+  <div class="skeleton-card">
+    <div class="skeleton-image"></div>
+    <div class="skeleton-content">
+      <div class="skeleton-line" style="width:60%;"></div>
+      <div class="skeleton-line" style="width:80%;"></div>
+      <div class="skeleton-line" style="width:40%;"></div>
+    </div>
+  </div>
+</div>
 
-  <!-- ===== FORMATIONS ===== -->
-  <div class="formations-grid" id="formationsGrid" style="display:none;"></div>
+<!-- ===== FORMATIONS ===== -->
+<div class="formations-grid" id="formationsGrid" style="display:none;"></div>
+  </div>
 
 </main>
 
@@ -880,12 +886,11 @@ import {
   getFirestore, 
   doc, 
   getDoc, 
+  onSnapshot, 
   updateDoc,
   collection,
   query,
-  orderBy,
-  onSnapshot,
-  increment
+  orderBy
 } from "firebase/firestore";
 
 // ================================================================
@@ -911,7 +916,6 @@ setPersistence(auth, browserLocalPersistence);
 // DOM
 // ================================================================
 const formationsGrid = document.getElementById('formationsGrid');
-const skeletonGrid = document.getElementById('skeletonGrid');
 const premiumPopup = document.getElementById('premiumPopup');
 const popupLaterBtn = document.getElementById('popupLaterBtn');
 const toast = document.getElementById('toast');
@@ -919,7 +923,6 @@ const toast = document.getElementById('toast');
 let isUnlocked = false;
 let currentUser = null;
 let userAchats = [];
-let isPageLoading = true;
 
 // ================================================================
 // TOAST
@@ -935,150 +938,151 @@ function showToast(message, type = 'info') {
 // FORMATIONS PAR DÉFAUT
 // ================================================================
 const DEFAULT_FORMATIONS = [
-  {
-    id: 'formation_001',
-    title: "Créer un business rentable avec l'IA de A à Z",
-    category: "Intelligence Artificielle",
-    description: "Le guide complet pour lancer et scaler un business profitable en exploitant la puissance de l'IA.",
-    price: 5000,
-    isFree: false,
-    level: "Débutant",
-    duration: "4h30",
-    coverImage: "formations/cover-ia.png",
-    isPopular: true,
-    isNew: true,
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 'formation_002',
-    title: "Créer un site web professionnel sans coder",
-    category: "Web",
-    description: "Apprenez à créer un site web professionnel sans écrire une seule ligne de code.",
-    price: 3000,
-    isFree: false,
-    level: "Débutant",
-    duration: "2h00",
-    coverImage: "formations/cover-site.png",
-    isPopular: false,
-    isNew: true,
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 'formation_003',
-    title: "Devenir freelance et trouver ses premiers clients",
-    category: "Freelance",
-    description: "Les stratégies concrètes pour trouver vos premiers clients freelance et décoller votre activité.",
-    price: 4000,
-    isFree: false,
-    level: "Débutant",
-    duration: "2h30",
-    coverImage: "formations/cover-freelance.png",
-    isPopular: true,
-    isNew: false,
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 'formation_004',
-    title: "Créer une boutique e-commerce qui vend",
-    category: "E-commerce",
-    description: "Lancez votre boutique en ligne et générez vos premières ventes rapidement.",
-    price: 5000,
-    isFree: false,
-    level: "Intermédiaire",
-    duration: "3h00",
-    coverImage: "formations/cover-ecommerce.png",
-    isPopular: false,
-    isNew: false,
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 'formation_005',
-    title: "Créer et vendre une formation en ligne",
-    category: "Formation",
-    description: "Créez votre formation en ligne et générez des revenus passifs.",
-    price: 6000,
-    isFree: false,
-    level: "Intermédiaire",
-    duration: "3h30",
-    coverImage: "formations/cover-formation.png",
-    isPopular: false,
-    isNew: false,
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 'formation_006',
-    title: "Maîtriser TikTok, Instagram et YouTube",
-    category: "Réseaux Sociaux",
-    description: "Apprenez à créer du contenu viral et à monétiser votre audience sur les réseaux sociaux.",
-    price: 4000,
-    isFree: false,
-    level: "Débutant",
-    duration: "2h30",
-    coverImage: "formations/cover-social.png",
-    isPopular: true,
-    isNew: false,
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 'formation_007',
-    title: "Automatiser son business avec l'IA et le no-code",
-    category: "Automatisation",
-    description: "Maîtrisez l'automatisation IA et no-code pour gagner du temps et augmenter vos profits.",
-    price: 7000,
-    isFree: false,
-    level: "Intermédiaire",
-    duration: "4h00",
-    coverImage: "formations/cover-auto.png",
-    isPopular: false,
-    isNew: false,
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 'formation_008',
-    title: "Créer un SaaS avec l'IA sans être développeur",
-    category: "SaaS",
-    description: "Construisez un SaaS rentable en utilisant l'IA et le no-code.",
-    price: 8000,
-    isFree: false,
-    level: "Avancé",
-    duration: "4h30",
-    coverImage: "formations/cover-saas.png",
-    isPopular: false,
-    isNew: false,
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 'formation_009',
-    title: "Copywriting et techniques de vente qui convertissent",
-    category: "Vente",
-    description: "Maîtrisez l'art du copywriting pour vendre plus et mieux.",
-    price: 4000,
-    isFree: false,
-    level: "Débutant",
-    duration: "2h00",
-    coverImage: "formations/cover-copy.png",
-    isPopular: false,
-    isNew: true,
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 'formation_010',
-    title: "Construire un business en ligne jusqu'à 1 000 000 FCFA/mois",
-    category: "Business",
-    description: "Le plan d'action pour atteindre 1 000 000 FCFA de revenus mensuels avec votre business en ligne.",
-    price: 10000,
-    isFree: false,
-    level: "Avancé",
-    duration: "5h00",
-    coverImage: "formations/cover-milion.png",
-    isPopular: true,
-    isNew: false,
-    createdAt: new Date().toISOString()
-  }
-];
+ 
+     {
+        id: 'formation_001',
+        title: "Créer un business rentable avec l'IA de A à Z",
+        category: "Intelligence Artificielle",
+        description: "Le guide complet pour lancer et scaler un business profitable en exploitant la puissance de l'IA.",
+        price: 5000,
+        isFree: false,
+        level: "Débutant",
+        duration: "4h30",
+        coverImage: "formations/cover-ia.png",
+        isPopular: true,
+        isNew: true,
+        createdAt: new Date().toISOString()
+      },
+      {
+        id: 'formation_002',
+        title: "Créer un site web professionnel sans coder",
+        category: "Web",
+        description: "Apprenez à créer un site web professionnel sans écrire une seule ligne de code.",
+        price: 3000,
+        isFree: false,
+        level: "Débutant",
+        duration: "2h00",
+        coverImage: "formations/cover-site.png",
+        isPopular: false,
+        isNew: true,
+        createdAt: new Date().toISOString()
+      },
+      {
+        id: 'formation_003',
+        title: "Devenir freelance et trouver ses premiers clients",
+        category: "Freelance",
+        description: "Les stratégies concrètes pour trouver vos premiers clients freelance et décoller votre activité.",
+        price: 4000,
+        isFree: false,
+        level: "Débutant",
+        duration: "2h30",
+        coverImage: "formations/cover-freelance.png",
+        isPopular: true,
+        isNew: false,
+        createdAt: new Date().toISOString()
+      },
+      {
+        id: 'formation_004',
+        title: "Créer une boutique e-commerce qui vend",
+        category: "E-commerce",
+        description: "Lancez votre boutique en ligne et générez vos premières ventes rapidement.",
+        price: 5000,
+        isFree: false,
+        level: "Intermédiaire",
+        duration: "3h00",
+        coverImage: "formations/cover-ecommerce.png",
+        isPopular: false,
+        isNew: false,
+        createdAt: new Date().toISOString()
+      },
+      {
+        id: 'formation_005',
+        title: "Créer et vendre une formation en ligne",
+        category: "Formation",
+        description: "Créez votre formation en ligne et générez des revenus passifs.",
+        price: 6000,
+        isFree: false,
+        level: "Intermédiaire",
+        duration: "3h30",
+        coverImage: "formations/cover-formation.png",
+        isPopular: false,
+        isNew: false,
+        createdAt: new Date().toISOString()
+      },
+      {
+        id: 'formation_006',
+        title: "Maîtriser TikTok, Instagram et YouTube",
+        category: "Réseaux Sociaux",
+        description: "Apprenez à créer du contenu viral et à monétiser votre audience sur les réseaux sociaux.",
+        price: 4000,
+        isFree: false,
+        level: "Débutant",
+        duration: "2h30",
+        coverImage: "formations/cover-social.png",
+        isPopular: true,
+        isNew: false,
+        createdAt: new Date().toISOString()
+      },
+      {
+        id: 'formation_007',
+        title: "Automatiser son business avec l'IA et le no-code",
+        category: "Automatisation",
+        description: "Maîtrisez l'automatisation IA et no-code pour gagner du temps et augmenter vos profits.",
+        price: 7000,
+        isFree: false,
+        level: "Intermédiaire",
+        duration: "4h00",
+        coverImage: "formations/cover-auto.png",
+        isPopular: false,
+        isNew: false,
+        createdAt: new Date().toISOString()
+      },
+      {
+        id: 'formation_008',
+        title: "Créer un SaaS avec l'IA sans être développeur",
+        category: "SaaS",
+        description: "Construisez un SaaS rentable en utilisant l'IA et le no-code.",
+        price: 8000,
+        isFree: false,
+        level: "Avancé",
+        duration: "4h30",
+        coverImage: "formations/cover-saas.png",
+        isPopular: false,
+        isNew: false,
+        createdAt: new Date().toISOString()
+      },
+      {
+        id: 'formation_009',
+        title: "Copywriting et techniques de vente qui convertissent",
+        category: "Vente",
+        description: "Maîtrisez l'art du copywriting pour vendre plus et mieux.",
+        price: 4000,
+        isFree: false,
+        level: "Débutant",
+        duration: "2h00",
+        coverImage: "formations/cover-copy.png",
+        isPopular: false,
+        isNew: true,
+        createdAt: new Date().toISOString()
+      },
+      {
+        id: 'formation_010',
+        title: "Construire un business en ligne jusqu'à 1 000 000 FCFA/mois",
+        category: "Business",
+        description: "Le plan d'action pour atteindre 1 000 000 FCFA de revenus mensuels avec votre business en ligne.",
+        price: 10000,
+        isFree: false,
+        level: "Avancé",
+        duration: "5h00",
+        coverImage: "formations/cover-milion.png",
+        isPopular: true,
+        isNew: false,
+        createdAt: new Date().toISOString()
+      }
+    ];
 
 // ================================================================
-// ✅ CORRECTION 3: ACHETER UNE FORMATION AVEC gainsTotal
+// ACHETER UNE FORMATION (fonction Firestore)
 // ================================================================
 async function acheterFormation(userId, formationId, price) {
   try {
@@ -1091,25 +1095,26 @@ async function acheterFormation(userId, formationId, price) {
     
     const userData = userSnap.data();
     
+    // Vérifier si l'utilisateur a assez de solde
     if ((userData.balance || 0) < price) {
       return { success: false, error: 'Solde insuffisant. Rechargez votre compte.' };
     }
     
+    // Vérifier si déjà acheté
     const achats = userData.achats || [];
     if (achats.includes(formationId)) {
       return { success: false, error: 'Déjà acheté' };
     }
     
+    // Effectuer l'achat
     const newBalance = (userData.balance || 0) - price;
     const newAchats = [...achats, formationId];
     const newTotalAchats = (userData.totalAchats || 0) + price;
     
-    // ✅ AJOUT: gainsTotal mis à jour
     await updateDoc(userRef, {
       balance: newBalance,
       achats: newAchats,
-      totalAchats: newTotalAchats,
-      gainsTotal: increment(price)
+      totalAchats: newTotalAchats
     });
     
     return { success: true, newBalance };
@@ -1137,6 +1142,7 @@ function renderFormations(formations) {
     const isFree = formation.isFree || formation.price === 0;
     const isAchete = userAchats && userAchats.includes(formation.id);
     
+    // Déterminer le prix affiché
     let priceText = '';
     let priceClass = '';
     
@@ -1151,6 +1157,7 @@ function renderFormations(formations) {
       priceClass = '';
     }
     
+    // Bouton principal
     let btnText = '📖 Voir';
     let btnClass = 'primary';
     let btnAction = 'voir';
@@ -1167,6 +1174,7 @@ function renderFormations(formations) {
       }
     }
 
+    // Badge niveau
     const levelBadge = formation.level || 'Débutant';
     const duration = formation.duration || '2h';
 
@@ -1174,18 +1182,15 @@ function renderFormations(formations) {
     const safeDescription = (formation.description || '').replace(/"/g, '&quot;');
     const safeCategory = (formation.category || 'Général').replace(/"/g, '&quot;');
 
-    // ✅ Si premium, pas de cadenas
-    const showLock = !isUnlocked && !isFree && !isAchete;
-
     return `
       <div class="formation-card" data-id="${formation.id}" style="animation-delay: ${index * 0.05}s;">
         <div class="image-wrap">
-          <img src="${formation.coverImage || 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 400 225\'%3E%3Crect fill=\'%231A3A2A\' width=\'400\' height=\'225\'/%3E%3Ctext x=\'200\' y=\'120\' text-anchor=\'middle\' font-size=\'40\' fill=\'%23B8860B\'%3E🎓%3C/text%3E%3C/svg%3E'}" 
+          <img src="${formation.coverImage || 'https://via.placeholder.com/400x225/1A3A2A/B8860B?text=📚'}" 
                alt="${safeTitle}" 
                class="formation-image"
                loading="lazy"
-               onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 400 225\'%3E%3Crect fill=\'%231A3A2A\' width=\'400\' height=\'225\'/%3E%3Ctext x=\'200\' y=\'120\' text-anchor=\'middle\' font-size=\'40\' fill=\'%23B8860B\'%3E🎓%3C/text%3E%3C/svg%3E'">
-          ${showLock ? '<span class="premium-lock"><i class="fas fa-lock"></i></span>' : ''}
+               onerror="this.src='https://via.placeholder.com/400x225/1A3A2A/B8860B?text=🎓'">
+          ${!isFree && !isUnlocked ? '<span class="premium-lock"><i class="fas fa-lock"></i></span>' : ''}
           <span class="formation-badge">${levelBadge}</span>
         </div>
         <div class="formation-content">
@@ -1235,23 +1240,31 @@ function renderFormations(formations) {
 }
 
 // ================================================================
-// ✅ CORRECTION 2: GESTION DES ACTIONS - POPUP UNIQUEMENT SI GRATUIT
+// GESTION DES ACTIONS SUR UNE FORMATION
 // ================================================================
 async function handleFormationAction(formation, action) {
   const isFree = formation.isFree || formation.price === 0;
   const isAchete = userAchats && userAchats.includes(formation.id);
   
-  if (isFree || isAchete) {
+  // Si gratuite → voir directement
+  if (isFree) {
     window.location.href = `formation-detail.html?id=${formation.id}`;
     return;
   }
   
-  // ✅ Si gratuit, afficher le popup
+  // Si déjà achetée → voir
+  if (isAchete) {
+    window.location.href = `formation-detail.html?id=${formation.id}`;
+    return;
+  }
+  
+  // Si non débloqué → popup
   if (!isUnlocked) {
     showPremiumPopup();
     return;
   }
   
+  // Si débloqué mais pas achetée → acheter
   if (action === 'acheter' || action === 'voir') {
     await acheterFormationAction(formation);
   }
@@ -1271,6 +1284,7 @@ async function acheterFormationAction(formation) {
     return;
   }
   
+  // Confirmer l'achat
   if (!confirm(`Acheter la formation "${formation.title}" pour ${formation.price.toLocaleString('fr-FR')} FCFA ?`)) {
     return;
   }
@@ -1280,6 +1294,7 @@ async function acheterFormationAction(formation) {
     
     if (result.success) {
       showToast(`✅ "${formation.title}" achetée avec succès !`, 'success');
+      // Recharger les formations
       loadFormations();
     } else {
       showToast(`❌ ${result.error}`, 'error');
@@ -1294,10 +1309,8 @@ async function acheterFormationAction(formation) {
 // GESTION DU POPUP PREMIUM
 // ================================================================
 function showPremiumPopup() {
-  if (!isUnlocked) {
-    premiumPopup.classList.add('show');
-    document.body.style.overflow = 'hidden';
-  }
+  premiumPopup.classList.add('show');
+  document.body.style.overflow = 'hidden';
 }
 
 function hidePremiumPopup() {
@@ -1357,16 +1370,15 @@ function loadUserAchats(uid) {
     if (snap.exists()) {
       const data = snap.data();
       userAchats = data.achats || [];
+      // Recharger les formations pour mettre à jour les boutons
       loadFormations();
     }
   });
 }
 
 // ================================================================
-// ✅ CORRECTION 4: CHARGER UTILISATEUR AVEC ÉCOUTE EN TEMPS RÉEL
+// CHARGER UTILISATEUR
 // ================================================================
-let unsubscribeUser = null;
-
 async function loadUser(uid) {
   try {
     const userRef = doc(db, 'users', uid);
@@ -1376,6 +1388,7 @@ async function loadUser(uid) {
       isUnlocked = data.isUnlocked === true || data.hasDeposited === true;
       userAchats = data.achats || [];
       
+      // ✅ Si premium, fermer le popup
       if (isUnlocked && premiumPopup.classList.contains('show')) {
         hidePremiumPopup();
         showToast('🎉 Compte premium activé !', 'success');
@@ -1389,16 +1402,13 @@ async function loadUser(uid) {
   }
 }
 
-// ✅ ÉCOUTE EN TEMPS RÉEL
+// ================================================================
+// ÉCOUTER UTILISATEUR EN TEMPS RÉEL
+// ================================================================
 function listenUser(uid) {
   if (!uid) return;
-  if (unsubscribeUser) {
-    unsubscribeUser();
-    unsubscribeUser = null;
-  }
-  
   const userRef = doc(db, 'users', uid);
-  unsubscribeUser = onSnapshot(userRef, (snap) => {
+  onSnapshot(userRef, (snap) => {
     if (snap.exists()) {
       const data = snap.data();
       const wasUnlocked = isUnlocked;
@@ -1410,12 +1420,10 @@ function listenUser(uid) {
           hidePremiumPopup();
           showToast('🎉 Compte débloqué !', 'success');
         }
-        loadFormations();
       }
       
-      if (isUnlocked !== wasUnlocked) {
-        loadFormations();
-      }
+      // Recharger les formations pour mettre à jour les boutons
+      loadFormations();
     }
   }, (error) => {
     console.error('Erreur onSnapshot:', error);
@@ -1423,60 +1431,48 @@ function listenUser(uid) {
 }
 
 // ================================================================
-// ✅ CORRECTION 1: AUTH AVEC isPageLoading
+// AUTH
 // ================================================================
 onAuthStateChanged(auth, (user) => {
   if (user) {
     currentUser = user;
     localStorage.setItem('ARVEXA_current_user', user.uid);
     
+    // ✅ Charger l'utilisateur et ses données
     loadUser(user.uid).then(() => {
+      // ✅ Écouter les changements en temps réel
       listenUser(user.uid);
       loadUserAchats(user.uid);
       loadFormations();
       
-      // ✅ Ne montrer le popup que si l'utilisateur est GRATUIT
+      // ✅ Vérifier le premium après le chargement
       if (!isUnlocked) {
         setTimeout(() => {
           showPremiumPopup();
         }, 800);
       }
+    }).catch((error) => {
+      console.error('Erreur chargement utilisateur:', error);
+      loadFormations();
     });
-    isPageLoading = false;
+
   } else {
-    if (isPageLoading) {
-      console.log("⏳ Page en chargement, attente avant redirection...");
+    const savedUid = localStorage.getItem('ARVEXA_current_user');
+    if (savedUid) {
       setTimeout(() => {
         if (!auth.currentUser) {
-          const savedUid = localStorage.getItem('ARVEXA_current_user');
-          if (savedUid) {
-            if (!auth.currentUser) {
-              window.location.href = 'login.html';
-            }
-          } else {
-            window.location.href = 'login.html';
-          }
+          // ⏳ Délai plus long (3s) pour laisser Firebase restaurer la session
+          // et éviter les boucles de déconnexion sur connexions lentes.
+          window.location.href = 'login.html';
         }
       }, 3000);
     } else {
-      const savedUid = localStorage.getItem('ARVEXA_current_user');
-      if (savedUid) {
-        setTimeout(() => {
-          if (!auth.currentUser) {
-            window.location.href = 'login.html';
-          }
-        }, 2000);
-      } else {
-        window.location.href = 'login.html';
-      }
+      window.location.href = 'login.html';
     }
   }
 });
 
-console.log('🎓 ARVEXA - Page Formations corrigée');
-console.log('✅ gainsTotal mis à jour lors des achats');
-console.log('✅ Popup premium uniquement pour les utilisateurs gratuits');
-console.log('✅ Dossier formations/ pour les couvertures');
+console.log('🎓 ARVEXA - Page Formations chargée');
 </script>
 </body>
 </html>
