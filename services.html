@@ -8,9 +8,8 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="manifest" href="manifest.json">
-  <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
-  
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
+  <link rel="apple-touch-icon" href="icon.png">
+  <link rel="icon" href="icon.png" type="image/png">
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
@@ -636,6 +635,7 @@ import {
   orderBy,
   onSnapshot,
   setDoc,
+  updateDoc, // ✅ CORRECTION 2: updateDoc ajouté
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
 import { 
@@ -679,6 +679,9 @@ var enableNotifBtn = document.getElementById('enableNotifBtn');
 
 var isUnlocked = false;
 var notificationTimeout = null;
+var isPageLoading = true; // ✅ CORRECTION REDIRECTION
+var currentUser = null;
+var unsubscribeUser = null; // ✅ CORRECTION 3: pour écoute temps réel
 
 // ================================================================
 // TOAST
@@ -745,7 +748,7 @@ var DEFAULT_SERVICES = [
   { id: 'service_003', name: 'Achat', icon: 'fa-shopping-cart', iconClass: 'gold', description: 'E-books, formations et services', page: 'boutique.html', isPremium: true, isComing: false, order: 3, createdAt: new Date().toISOString() },
   { id: 'service_004', name: 'Épargne', icon: 'fa-piggy-bank', iconClass: 'gold', description: 'Épargnez pour vos projets et objectifs', page: 'epargne.html', isPremium: true, isComing: false, order: 4, createdAt: new Date().toISOString() },
   { id: 'service_005', name: 'Vendre', icon: 'fa-store', iconClass: 'green', description: 'Monétisez vos compétences', page: 'vendre.html', isPremium: true, isComing: false, order: 5, createdAt: new Date().toISOString() },
-  { id: 'service_006', name: 'Parrainage', icon: 'fa-users', iconClass: 'gold', description: 'Gagnez jusqu\'à 500 FCFA après le 1er dépôt', page: 'parrainage.html', isPremium: true, isComing: false, order: 6, createdAt: new Date().toISOString() },
+  { id: 'service_006', name: 'Parrainage', icon: 'fa-users', iconClass: 'gold', description: 'Gagnez 1000 FCFA après le 1er dépôt', page: 'parrainage.html', isPremium: true, isComing: false, order: 6, createdAt: new Date().toISOString() },
   { id: 'service_007', name: 'Recharger', icon: 'fa-plus-circle', iconClass: 'green', description: 'Alimentez votre compte ARVEXA', page: 'recharger.html', isPremium: false, isComing: false, order: 7, createdAt: new Date().toISOString() },
   { id: 'service_008', name: 'Retrait', icon: 'fa-arrow-down', iconClass: 'red', description: 'Retirez vos gains en toute sécurité', page: 'retrait.html', isPremium: true, isComing: false, order: 8, createdAt: new Date().toISOString() },
   { id: 'service_009', name: 'Forum', icon: 'fa-comments', iconClass: 'blue', description: 'Échangez avec la communauté', page: 'forum.html', isPremium: true, isComing: false, order: 9, createdAt: new Date().toISOString() },
@@ -781,7 +784,7 @@ function initializeServices() {
 }
 
 // ================================================================
-// RENDRE UNE CARTE SERVICE
+// ✅ CORRECTION 4: RENDRE UNE CARTE SERVICE
 // ================================================================
 function renderServiceCard(service, unlocked) {
   var isPremium = service.isPremium || false;
@@ -801,6 +804,7 @@ function renderServiceCard(service, unlocked) {
     badgeClass = 'free';
   }
 
+  // ✅ Si premium ET unlocked, pas de cadenas
   var showLock = isPremium && !unlocked && !isComing;
   var delay = (service.order || 0) * 0.05;
 
@@ -849,8 +853,8 @@ function loadServices() {
   
   return onSnapshot(q, function(snapshot) {
     var services = [];
-    snapshot.forEach(function(doc) {
-      services.push(Object.assign({ id: doc.id }, doc.data()));
+    snapshot.forEach(function(snap) {
+      services.push(Object.assign({ id: snap.id }, snap.data()));
     });
     if (services.length > 0) {
       renderServices(services, isUnlocked);
@@ -864,7 +868,7 @@ function loadServices() {
 }
 
 // ================================================================
-// CHARGER UTILISATEUR
+// ✅ CORRECTION 3: CHARGER UTILISATEUR AVEC ÉCOUTE EN TEMPS RÉEL
 // ================================================================
 function loadUser(uid) {
   var userRef = doc(db, 'users', uid);
@@ -879,6 +883,33 @@ function loadUser(uid) {
   }).catch(function(error) {
     console.error('Erreur chargement utilisateur:', error);
     return null;
+  });
+}
+
+// ✅ ÉCOUTE EN TEMPS RÉEL DES CHANGEMENTS DE L'UTILISATEUR
+function listenUser(uid) {
+  if (!uid) return;
+  if (unsubscribeUser) {
+    unsubscribeUser();
+    unsubscribeUser = null;
+  }
+  
+  var userRef = doc(db, 'users', uid);
+  unsubscribeUser = onSnapshot(userRef, function(snap) {
+    if (snap.exists()) {
+      var data = snap.data();
+      var wasUnlocked = isUnlocked;
+      isUnlocked = data.isUnlocked === true || data.hasDeposited === true;
+      
+      // ✅ Si le statut change, recharger les services
+      if (isUnlocked !== wasUnlocked) {
+        console.log('🔄 Statut premium changé:', isUnlocked);
+        // Recharger les services avec le nouveau statut
+        loadServices();
+      }
+    }
+  }, function(error) {
+    console.error('Erreur onSnapshot utilisateur:', error);
   });
 }
 
@@ -940,10 +971,9 @@ if (enableNotifBtn) {
 }
 
 // ================================================================
-// AUTH
+// ✅ CORRECTION 1: AUTH AVEC isPageLoading
 // ================================================================
 var authChecked = false;
-var currentUser = null;
 
 onAuthStateChanged(auth, function(user) {
   if (user) {
@@ -959,6 +989,8 @@ onAuthStateChanged(auth, function(user) {
     }
     
     loadUser(user.uid).then(function() {
+      // ✅ Écouter les changements de l'utilisateur
+      listenUser(user.uid);
       return initializeServices();
     }).then(function() {
       loadServices();
@@ -966,22 +998,42 @@ onAuthStateChanged(auth, function(user) {
     });
     
     authChecked = true;
+    isPageLoading = false;
   } else {
-    var saved = localStorage.getItem('ARVEXA_current_user');
-    if (saved && !authChecked) {
+    if (isPageLoading) {
+      console.log("⏳ Page en chargement, attente avant redirection...");
       setTimeout(function() {
         if (!auth.currentUser) {
-          window.location.href = 'login.html';
+          var savedUid = localStorage.getItem('ARVEXA_current_user');
+          if (savedUid) {
+            if (!auth.currentUser) {
+              window.location.href = 'login.html';
+            }
+          } else {
+            window.location.href = 'login.html';
+          }
         }
-      }, 2000);
-    } else if (!authChecked) {
-      window.location.href = 'login.html';
+      }, 3000);
+    } else {
+      var savedUid = localStorage.getItem('ARVEXA_current_user');
+      if (savedUid) {
+        setTimeout(function() {
+          if (!auth.currentUser) {
+            window.location.href = 'login.html';
+          }
+        }, 2000);
+      } else {
+        window.location.href = 'login.html';
+      }
     }
     authChecked = true;
   }
 });
 
-console.log('🛠️ ARVEXA - Page des services chargée (version optimisée)');
+console.log('🛠️ ARVEXA - Page des services corrigée');
+console.log('✅ Mise à jour en temps réel du statut premium');
+console.log('✅ updateDoc importé');
+console.log('✅ isPageLoading pour redirection');
 </script>
 </body>
 </html>

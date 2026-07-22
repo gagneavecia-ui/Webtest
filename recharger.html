@@ -8,7 +8,9 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="manifest" href="manifest.json">
-  <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
+  <link rel="apple-touch-icon" href="icon.png">
+  <link rel="icon" href="icon.png" type="image/png">
+  
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
   
@@ -557,7 +559,7 @@
       font-size: clamp(12px, 1.2vw, 14px);
       font-weight: 500;
       transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-      z-index: 999;
+      z-index: 9999;
       text-align: center;
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
       pointer-events: none;
@@ -637,9 +639,7 @@
 <header class="header">
   <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
   <a href="index.html" class="logo">ARVE<span>XA</span></a>
-     <span>
-   </span>
-  </span>
+  <span class="header-placeholder"></span>
 </header>
 
 <!-- ===== MAIN ===== -->
@@ -815,19 +815,27 @@ import {
   where,
   addDoc,
   updateDoc,
-  onSnapshot
+  onSnapshot,
+  increment
 } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
 
 // ================================================================
-// CONFIGURATION - FALLBACK SI config.js n'est pas chargé
+// CONFIGURATION - FALLBACK
 // ================================================================
 var ADMIN_URL = 'https://nexgen-39043.web.app/admin';
+var WHATSAPP_NUMBER = '22798064667';
+var MIN_DEPOSIT = 3000;
+var MAX_DEPOSIT = 1000000;
 
-if (typeof APP_CONFIG !== 'undefined' && APP_CONFIG.ADMIN_URL) {
-  ADMIN_URL = APP_CONFIG.ADMIN_URL;
+if (typeof APP_CONFIG !== 'undefined') {
+  if (APP_CONFIG.ADMIN_URL) ADMIN_URL = APP_CONFIG.ADMIN_URL;
+  if (APP_CONFIG.CONTACT_WHATSAPP) WHATSAPP_NUMBER = APP_CONFIG.CONTACT_WHATSAPP;
+  if (APP_CONFIG.MIN_DEPOSIT) MIN_DEPOSIT = APP_CONFIG.MIN_DEPOSIT;
+  if (APP_CONFIG.MAX_DEPOSIT) MAX_DEPOSIT = APP_CONFIG.MAX_DEPOSIT;
 }
 
 console.log('🔗 ADMIN_URL:', ADMIN_URL);
+console.log('📱 WHATSAPP:', WHATSAPP_NUMBER);
 
 // ================================================================
 // CONFIGURATION FIREBASE
@@ -855,13 +863,6 @@ var TELEGRAM_BOT_TOKEN = "8283625921:AAEF--QKS9uqnz0K3j7SGkk7fsdRb3b8y8o";
 var TELEGRAM_CHAT_ID = "5212067028";
 
 // ================================================================
-// CONSTANTES
-// ================================================================
-var WHATSAPP_NUMBER = "22798064667";
-var MIN_DEPOSIT = 3000;
-var MAX_DEPOSIT = 1000000;
-
-// ================================================================
 // DOM
 // ================================================================
 var userIdDisplay = document.getElementById('userIdDisplay');
@@ -879,6 +880,7 @@ var userData = null;
 var userBalance = 0;
 var unsubscribeHistory = null;
 var notificationTimeout = null;
+var isPageLoading = true; // ✅ CORRECTION 2
 
 // ================================================================
 // HELPERS
@@ -967,8 +969,7 @@ var depositRequestMessages = [
 ];
 
 // ================================================================
-// 15 MESSAGES POUR ENCAISSEMENT (validation admin)
-// ================================================================
+// 15 MESSAGES POUR ENCAISSEMENT// ================================================================
 var encaissementMessages = [
   function(userName, amount, todayTotal, weekTotal, monthTotal, allTimeTotal) {
     var stats = [
@@ -1205,7 +1206,7 @@ function notifyAdminDepositRequest(userName, userId, amount, depositId) {
 }
 
 // ================================================================
-// NOTIFICATION ENCAISSEMENT (validation admin)
+// NOTIFICATION ENCAISSEMENT
 // ================================================================
 async function notifyAdminEncaissement(userName, amount) {
   console.log('🔔 notifyAdminEncaissement appelé');
@@ -1221,14 +1222,14 @@ async function notifyAdminEncaissement(userName, amount) {
     var monthStart = new Date();
     monthStart.setDate(1);
     var monthStartStr = monthStart.toISOString().split('T')[0];
-    id=""
+    
     var todayTotal = 0;
     var weekTotal = 0;
-        var monthTotal = 0;
+    var monthTotal = 0;
     var allTimeTotal = 0;
     
-    snapshot.forEach(function(doc) {
-      var data = doc.data();
+    snapshot.forEach(function(docSnap) {
+      var data = docSnap.data();
       var montant = data.montant || 0;
       var date = data.date || data.timestamp || '';
       allTimeTotal += montant;
@@ -1249,6 +1250,111 @@ async function notifyAdminEncaissement(userName, amount) {
   } catch (error) {
     console.error('❌ Erreur calcul stats:', error);
   }
+}
+
+// ================================================================
+// ✅ CORRECTION 1: BONUS DE PARRAINAGE
+// ================================================================
+async function checkAndCreditReferralBonus(userId) {
+  try {
+    console.log('🔍 Vérification bonus parrainage pour:', userId);
+    
+    const userRef = doc(db, 'users', userId);
+    const userSnap = await getDoc(userRef);
+    if (!userSnap.exists()) {
+      console.log('⚠️ Utilisateur introuvable');
+      return;
+    }
+    
+    const userData = userSnap.data();
+    
+    // Vérifier si l'utilisateur a un bonus de parrainage en attente
+    if (!userData.referralBonusPending || userData.referralBonusReceived) {
+      console.log('ℹ️ Pas de bonus en attente');
+      return;
+    }
+    
+    const parrainCode = userData.referredBy;
+    if (!parrainCode) {
+      console.log('ℹ️ Pas de code parrain');
+      return;
+    }
+    
+    // Récupérer l'UID du parrain via le code
+    const codeRef = doc(db, 'referralCodes', parrainCode);
+    const codeSnap = await getDoc(codeRef);
+    if (!codeSnap.exists()) {
+      console.log('⚠️ Code parrain introuvable:', parrainCode);
+      return;
+    }
+    
+    const parrainUid = codeSnap.data().uid;
+    if (!parrainUid) {
+      console.log('⚠️ Pas d\'UID pour le parrain');
+      return;
+    }
+    
+    // Créditer le parrain
+    const parrainRef = doc(db, 'users', parrainUid);
+    const parrainSnap = await getDoc(parrainRef);
+    if (!parrainSnap.exists()) {
+      console.log('⚠️ Parrain introuvable:', parrainUid);
+      return;
+    }
+    
+    const parrainData = parrainSnap.data();
+    const bonusAmount = userData.referralBonusAmount || 1000;
+    
+    await updateDoc(parrainRef, {
+      balance: increment(bonusAmount),
+      referralEarnings: increment(bonusAmount),
+      gainsTotal: increment(bonusAmount), // ✅ AJOUT pour le revenu
+      referralsCount: increment(1)
+    });
+    
+    // Marquer le bonus comme reçu
+    await updateDoc(userRef, {
+      referralBonusPending: false,
+      referralBonusReceived: true,
+      hasDeposited: true,
+      isUnlocked: true
+    });
+    
+    console.log('✅ Bonus parrainage crédité:', bonusAmount, 'à', parrainUid);
+    
+    // Notification Telegram
+    const parrainNom = parrainData.prenom + ' ' + parrainData.nom || 'Utilisateur';
+    notifyAdminBonusReferral(parrainNom, bonusAmount);
+    
+    // Afficher une notification à l'utilisateur
+    showToast('🎉 Bonus parrainage de ' + formatCurrency(bonusAmount) + ' crédité !', 'success');
+    
+  } catch (error) {
+    console.error('❌ Erreur bonus parrainage:', error);
+  }
+}
+
+// ================================================================
+// NOTIFICATION BONUS PARRAINAGE
+// ================================================================
+function notifyAdminBonusReferral(parrainNom, amount) {
+  console.log('🔔 notifyAdminBonusReferral appelé');
+  
+  getDocs(collection(db, "users")).then(function(snapshot) {
+    var totalUsers = snapshot.size;
+    var randomIndex = Math.floor(Math.random() * 15);
+    var messages = [
+      function(nom, montant, total) { return '💰 Bonus parrainage ! 👤 ' + nom + ' 💰 ' + formatCurrency(montant) + ' 👥 ' + total + '\n\n🔗 [ Va voir ça ](' + ADMIN_URL + ')'; },
+      function(nom, montant, total) { return '🎁 Bonus crédité ! 👤 ' + nom + ' 💰 ' + formatCurrency(montant) + ' 👥 ' + total + '\n\n🔗 [ Admin ](' + ADMIN_URL + ')'; },
+      function(nom, montant, total) { return '🏆 Bonus validé ! 👤 ' + nom + ' 💰 ' + formatCurrency(montant) + ' 👥 ' + total + '\n\n🔗 [ Voir ](' + ADMIN_URL + ')'; },
+      function(nom, montant, total) { return '💵 Bonus reçu ! 👤 ' + nom + ' 💰 ' + formatCurrency(montant) + ' 👥 ' + total + '\n\n🔗 [ Dashboard ](' + ADMIN_URL + ')'; },
+      function(nom, montant, total) { return '🎯 Gain de filleul ! 👤 ' + nom + ' 💰 ' + formatCurrency(montant) + ' 👥 ' + total + '\n\n🔗 [ Console ](' + ADMIN_URL + ')'; }
+    ];
+    var message = messages[randomIndex % messages.length](parrainNom, amount, totalUsers);
+    return sendTelegramMessage(message);
+  }).catch(function(error) {
+    console.error('❌ Erreur envoi bonus:', error);
+  });
 }
 
 // ================================================================
@@ -1304,36 +1410,27 @@ function listenToHistory(uid) {
       var statut = data.statut || 'en_attente';
       if (statut === 'valide' || statut === 'validé' || statut === 'confirmed') {
         statusClass = 'validated';
-        statusLabel = '✅ Valide';
+        statusLabel = '✅ Validé';
       } else if (statut === 'rejete' || statut === 'rejeté' || statut === 'rejected') {
         statusClass = 'rejected';
-        statusLabel = '❌ Rejete';
+        statusLabel = '❌ Rejeté';
       }
 
       item.innerHTML = '<div class="left"><span class="amount">' + formatCurrency(data.montant) + '</span><span class="date">' + (data.date || 'Date inconnue') + '</span></div><div class="right"><span class="status-badge ' + statusClass + '">' + statusLabel + '</span></div>';
       historyList.appendChild(item);
     });
 
-    // 🚨 Détecter les nouveaux dépôts validés (ENCAISSEMENT)
-    // 🚨 Détecter les nouveaux dépôts validés (ENCAISSEMENT)
-snapshot.docChanges().forEach(function(change) {
-  if (change.type === 'modified') {
-    var data = change.doc.data();
-    
-    if (data.statut === 'valide' || data.statut === 'validé') {
-      var userName = userData ? (userData.prenom || 'Utilisateur') : 'Utilisateur';
-      var amount = data.montant || 0;
-      var userId = data.userId; // ✅ RÉCUPÉRER L'ID
-      
-      notifyAdminEncaissement(userName, amount);
-      
-      // ✅ APPELER LA FONCTION DE BONUS
-      checkReferralBonus(userId, amount);
-      
-      showToast('✅ Encaissement notifié !', 'success');
-    }
-  }
-});
+    // Vérifier les nouveaux dépôts validés
+    snapshot.docChanges().forEach(function(change) {
+      if (change.type === 'modified') {
+        var data = change.doc.data();
+        if (data.statut === 'valide' || data.statut === 'validé') {
+          var userName = userData ? (userData.prenom || 'Utilisateur') : 'Utilisateur';
+          var amount = data.montant || 0;
+          notifyAdminEncaissement(userName, amount);
+        }
+      }
+    });
 
   }, function(error) {
     console.error('Erreur ecoute historique:', error.code);
@@ -1341,90 +1438,6 @@ snapshot.docChanges().forEach(function(change) {
       loadHistoryOnce(uid);
     }
   });
-}
-
-// ================================================================
-// VÉRIFIER ET CRÉDITER LE BONUS DE PARRAINAGE
-// ================================================================
-async function checkReferralBonus(userId, amount) {
-  console.log('🔍 Vérification bonus pour:', userId);
-  
-  try {
-    var userRef = doc(db, 'users', userId);
-    var userSnap = await getDoc(userRef);
-    if (!userSnap.exists()) return;
-    
-    var userData = userSnap.data();
-    var referredBy = userData.referredBy;
-    
-    // ✅ CONDITIONS CORRIGÉES
-    if (!referredBy) {
-      console.log('⏳ Pas de code de parrainage');
-      return;
-    }
-    if (userData.referralBonusReceived === true) {
-      console.log('⏳ Bonus déjà reçu');
-      return;
-    }
-    // ✅ Vérifier si c'est le premier dépôt
-    var isFirstDeposit = userData.hasDeposited !== true || (userData.totalDeposits || 0) === 0;
-    if (!isFirstDeposit) {
-      console.log('⏳ Déjà déposé avant');
-      return;
-    }
-    if (amount < 3000) {
-      console.log('⏳ Montant minimum 3000 FCFA requis');
-      return;
-    }
-    
-    console.log('✅ Éligible ! Parrain:', referredBy);
-    
-    // Trouver le parrain
-    var q = query(collection(db, 'users'), where('referralCode', '==', referredBy));
-    var snapshot = await getDocs(q);
-    
-    if (snapshot.empty) {
-      console.log('⚠️ Parrain introuvable');
-      return;
-    }
-    
-    var parrainDoc = snapshot.docs[0];
-    var parrainData = parrainDoc.data();
-    var parrainId = parrainDoc.id;
-    
-    // 💰 Créditer le parrain
-    await updateDoc(doc(db, 'users', parrainId), {
-      balance: (parrainData.balance || 0) + 1000,
-      referralEarnings: (parrainData.referralEarnings || 0) + 1000,
-      referralsCount: (parrainData.referralsCount || 0) + 1,
-      lastReferralDate: new Date().toISOString()
-    });
-    
-    // ✅ Marquer comme reçu
-    await updateDoc(userRef, {
-      referralBonusReceived: true,
-      referralBonusAmount: 1000,
-      referralBonusDate: new Date().toISOString(),
-      hasDeposited: true
-    });
-    
-    console.log('✅ Bonus de 1000 FCFA crédité !');
-    
-    // Notification Telegram
-    var msg = '🎉 <b>Bonus parrainage crédité !</b>\n\n' +
-              '👤 Parrain: ' + (parrainData.prenom || 'Utilisateur') + '\n' +
-              '👤 Filleul: ' + (userData.prenom || 'Utilisateur') + '\n' +
-              '💵 1000 FCFA\n' +
-              '📊 Dépôt du filleul: ' + formatCurrency(amount) + '\n' +
-              '🕐 ' + new Date().toLocaleString('fr-FR') + '\n\n' +
-              '🔗 <a href="' + ADMIN_URL + '">Admin</a>';
-    
-    sendTelegramMessage(msg);
-    showToast('🎉 Bonus de 1000 FCFA crédité !', 'success');
-    
-  } catch (error) {
-    console.error('❌ Erreur bonus:', error);
-  }
 }
 
 // ================================================================
@@ -1470,10 +1483,10 @@ function loadHistoryOnce(uid) {
       var statut = data.statut || 'en_attente';
       if (statut === 'valide' || statut === 'validé' || statut === 'confirmed') {
         statusClass = 'validated';
-        statusLabel = '✅ Valide';
+        statusLabel = '✅ Validé';
       } else if (statut === 'rejete' || statut === 'rejeté' || statut === 'rejected') {
         statusClass = 'rejected';
-        statusLabel = '❌ Rejete';
+        statusLabel = '❌ Rejeté';
       }
 
       item.innerHTML = '<div class="left"><span class="amount">' + formatCurrency(data.montant) + '</span><span class="date">' + (data.date || 'Date inconnue') + '</span></div><div class="right"><span class="status-badge ' + statusClass + '">' + statusLabel + '</span></div>';
@@ -1528,9 +1541,9 @@ copyIdBtn.addEventListener('click', function() {
 
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(id).then(function() {
-      copyIdBtn.innerHTML = '<i class="fas fa-check"></i> ID copie !';
+      copyIdBtn.innerHTML = '<i class="fas fa-check"></i> ID copié !';
       copyIdBtn.classList.add('copied');
-      showToast('ID copie', 'success');
+      showToast('ID copié', 'success');
       setTimeout(function() {
         copyIdBtn.innerHTML = '<i class="fas fa-copy"></i> Copier mon ID';
         copyIdBtn.classList.remove('copied');
@@ -1550,7 +1563,7 @@ function fallbackCopy(text) {
   textarea.select();
   document.execCommand('copy');
   document.body.removeChild(textarea);
-  showToast('ID copie !', 'success');
+  showToast('ID copié !', 'success');
 }
 
 // ================================================================
@@ -1608,7 +1621,7 @@ function updateWhatsAppLink(amount) {
   var message = 'NOUVELLE DEMANDE DE RECHARGE\n\n' +
                 'Nom: ' + userName + '\n' +
                 'ID: ' + currentUserId + '\n' +
-                'Telephone: ' + indicatif + ' ' + cleanPhone + '\n' +
+                'Téléphone: ' + indicatif + ' ' + cleanPhone + '\n' +
                 'Montant: ' + formatCurrency(amountValue) + '\n' +
                 'Date: ' + new Date().toLocaleDateString('fr-FR') + '\n\n' +
                 'Valider: ' + ADMIN_URL;
@@ -1617,9 +1630,9 @@ function updateWhatsAppLink(amount) {
 }
 
 // ================================================================
-// ENVOI VIA WHATSAPP
+// ENVOI VIA WHATSAPP - AVEC BONUS PARRAINAGE
 // ================================================================
-whatsappBtn.addEventListener('click', function(event) {
+whatsappBtn.addEventListener('click', async function(event) {
   event.preventDefault();
 
   var amount = parseInt(amountInput.value, 10) || 0;
@@ -1645,7 +1658,7 @@ whatsappBtn.addEventListener('click', function(event) {
   }
 
   if (!phone || cleanPhone.length < 7) {
-    showToast('Numero de telephone invalide. Mettez a jour votre profil.', 'error');
+    showToast('Numéro de téléphone invalide. Mettez à jour votre profil.', 'error');
     return;
   }
 
@@ -1667,15 +1680,22 @@ whatsappBtn.addEventListener('click', function(event) {
     createdAt: new Date().toISOString()
   };
 
-  addDoc(collection(db, 'depots'), depositData).then(function(docRef) {
+  try {
+    var docRef = await addDoc(collection(db, 'depots'), depositData);
+    console.log('✅ Dépôt enregistré:', docRef.id);
+    
+    // ✅ CORRECTION 1: Vérifier et créditer le bonus de parrainage
+    await checkAndCreditReferralBonus(currentAuthUser.uid);
+    
+    // Notification Telegram
     notifyAdminDepositRequest(userName, currentUserId, amount, docRef.id);
     
-    showToast('Demande de ' + formatCurrency(amount) + ' enregistree.', 'success');
+    showToast('Demande de ' + formatCurrency(amount) + ' enregistrée.', 'success');
     
     var message = 'NOUVELLE DEMANDE DE RECHARGE\n\n' +
                   'Nom: ' + userName + '\n' +
                   'ID: ' + currentUserId + '\n' +
-                  'Telephone: ' + (indicatif || '+227') + ' ' + cleanPhone + '\n' +
+                  'Téléphone: ' + (indicatif || '+227') + ' ' + cleanPhone + '\n' +
                   'Montant: ' + formatCurrency(amount) + '\n' +
                   'Date: ' + new Date().toLocaleDateString('fr-FR') + '\n\n' +
                   'Valider: ' + ADMIN_URL;
@@ -1685,17 +1705,16 @@ whatsappBtn.addEventListener('click', function(event) {
     
     amountInput.value = '';
     updateAmountDisplay();
-  }).catch(function(error) {
+    
+  } catch (error) {
     console.error('Erreur:', error);
     showToast('Erreur lors de l\'enregistrement: ' + error.message, 'error');
-  });
+  }
 });
 
 // ================================================================
-// AUTH
+// ✅ CORRECTION 2: AUTH AVEC isPageLoading
 // ================================================================
-var authChecked = false;
-
 onAuthStateChanged(auth, function(user) {
   if (user) {
     currentAuthUser = user;
@@ -1711,19 +1730,34 @@ onAuthStateChanged(auth, function(user) {
     }
 
     loadUserData(user.uid);
-    authChecked = true;
+    isPageLoading = false;
   } else {
-    var savedUid = localStorage.getItem('ARVEXA_current_user');
-    if (savedUid && !authChecked) {
+    if (isPageLoading) {
+      console.log("⏳ Page en chargement, attente avant redirection...");
       setTimeout(function() {
         if (!auth.currentUser) {
-          window.location.href = 'login.html';
+          var savedUid = localStorage.getItem('ARVEXA_current_user');
+          if (savedUid) {
+            if (!auth.currentUser) {
+              window.location.href = 'login.html';
+            }
+          } else {
+            window.location.href = 'login.html';
+          }
         }
-      }, 2000);
-    } else if (!authChecked) {
-      window.location.href = 'login.html';
+      }, 3000);
+    } else {
+      var savedUid = localStorage.getItem('ARVEXA_current_user');
+      if (savedUid) {
+        setTimeout(function() { 
+          if (!auth.currentUser) { 
+            window.location.href = 'login.html'; 
+          } 
+        }, 2000);
+      } else {
+        window.location.href = 'login.html';
+      }
     }
-    authChecked = true;
   }
 });
 
@@ -1732,7 +1766,8 @@ onAuthStateChanged(auth, function(user) {
 // ================================================================
 amountInput.addEventListener('input', updateAmountDisplay);
 
-console.log('💰 ARVEXA - Page Recharger chargee');
+console.log('💰 ARVEXA - Page Recharger corrigée');
+console.log('✅ Bonus parrainage activé');
 </script>
 </body>
 </html>

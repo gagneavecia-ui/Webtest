@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <meta name="theme-color" content="#0A0A0A">
+  <meta name="description" content="ARVEXA - Donnez votre avis">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon.png">
+  <link rel="icon" href="icon.png" type="image/png">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary: #1A3A2A;
+      --primary-dark: #0A1A12;
+      --primary-light: #2A5A3A;
+      --accent: #B8860B;
+      --accent-dim: rgba(184, 134, 11, 0.08);
+      --success: #2D7D5A;
+      --danger: #8A3A3A;
+      --bg-dark: #0A0A0A;
+      --bg-surface: #141414;
+      --bg-card: rgba(20, 20, 20, 0.7);
+      --text-light: #F5F0E8;
+      --text-dim: #8A8A7A;
+      --text-muted: #5A5A4A;
+      --card-border: rgba(184, 134, 11, 0.06);
+      --glass-bg: rgba(26, 58, 42, 0.15);
+      --glass-border: rgba(184, 134, 11, 0.04);
+      --transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+      --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      --radius: 16px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+    body {
+      font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-light);
+      font-size: 14px;
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+      opacity: 0;
+      animation: pageFadeIn 0.5s ease forwards;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 80px;
+    }
+
+    @keyframes pageFadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    .gradient-bg {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: -2;
+      background: radial-gradient(ellipse 40% 30% at 30% 20%, rgba(26, 58, 42, 0.10) 0%, transparent 70%),
+                  linear-gradient(180deg, #0A0A0A 0%, #060606 100%);
+      pointer-events: none;
+    }
+
+    .glow {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: -1;
+      opacity: 0.15;
+      animation: glowMove 10s ease-in-out infinite alternate;
+    }
+    .glow-1 { width: 350px; height: 350px; background: rgba(26,58,42,0.15); top: -80px; right: -80px; }
+    .glow-2 { width: 200px; height: 200px; background: rgba(184,134,11,0.03); bottom: 0; left: 0; animation-delay: -4s; }
+    .glow-3 { width: 250px; height: 250px; background: rgba(26,58,42,0.08); top: 40%; left: 50%; transform: translate(-50%,-50%); animation-delay: -8s; }
+    @keyframes glowMove {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(30px, -20px) scale(1.1); }
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 5%;
+      background: rgba(10, 10, 10, 0.95);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(184, 134, 11, 0.04);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: var(--text-light);
+      font-size: clamp(16px, 2.5vw, 22px);
+      font-weight: 700;
+      font-family: 'Playfair Display', 'Georgia', serif;
+      letter-spacing: 2px;
+    }
+    .logo span { color: var(--accent); font-style: italic; }
+
+    .back-btn {
+      width: clamp(32px, 4vw, 40px);
+      height: clamp(32px, 4vw, 40px);
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-light);
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s, border-color 0.2s;
+      flex-shrink: 0;
+    }
+    .back-btn:active {
+      transform: scale(0.94);
+      background: rgba(184, 134, 11, 0.08);
+    }
+    .back-btn i { font-size: clamp(14px, 1.8vw, 18px); }
+
+    .notif-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 30px;
+      font-size: 10px;
+      font-weight: 500;
+      transition: var(--transition);
+      background: rgba(45, 125, 90, 0.08);
+      color: var(--success);
+      border: 1px solid rgba(45, 125, 90, 0.10);
+    }
+    .notif-badge i { font-size: 12px; }
+
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 16px 16px 40px;
+      width: 100%;
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      background: linear-gradient(135deg, rgba(26, 58, 42, 0.20), rgba(10, 26, 18, 0.10));
+      border-radius: var(--radius);
+      padding: 28px 20px;
+      margin-bottom: 20px;
+      border: 1px solid rgba(184, 134, 11, 0.10);
+      text-align: center;
+    }
+    .hero-icon { font-size: 40px; color: var(--accent); margin-bottom: 10px; display: block; }
+    .hero h1 { font-size: 24px; font-weight: 700; font-family: 'Playfair Display', serif; color: var(--text-light); }
+    .hero h1 span { color: var(--accent); font-style: italic; }
+    .hero p { color: var(--text-dim); font-size: 13px; margin-top: 6px; }
+
+    /* ===== STATS AVIS ===== */
+    .stats-avis {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .stat-avis {
+      background: var(--bg-card);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 16px 12px;
+      text-align: center;
+    }
+    .stat-avis .value {
+      font-size: 24px;
+      font-weight: 700;
+      font-family: 'Playfair Display', serif;
+      color: var(--accent);
+    }
+    .stat-avis .label {
+      font-size: 10px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 2px;
+    }
+    .stat-avis .stars {
+      color: #D4A017;
+      font-size: 14px;
+      letter-spacing: 2px;
+    }
+
+    /* ===== FORMULAIRE AVIS ===== */
+    .avis-form {
+      background: var(--bg-card);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .avis-form .form-title {
+      font-size: 16px;
+      font-weight: 600;
+      font-family: 'Playfair Display', serif;
+      color: var(--text-light);
+      margin-bottom: 12px;
+    }
+    .avis-form .form-title span { color: var(--accent); font-style: italic; }
+
+    .avis-form .form-group {
+      margin-bottom: 14px;
+    }
+    .avis-form .form-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .avis-form .stars-selector {
+      display: flex;
+      gap: 8px;
+      font-size: 28px;
+      cursor: pointer;
+    }
+    .avis-form .stars-selector .star {
+      color: var(--text-muted);
+      transition: var(--transition);
+      opacity: 0.3;
+    }
+    .avis-form .stars-selector .star.active {
+      color: #D4A017;
+      opacity: 1;
+    }
+    .avis-form .stars-selector .star:active { transform: scale(0.9); }
+
+    .avis-form .input-wrapper {
+      display: flex;
+      align-items: center;
+      background: rgba(10, 10, 10, 0.6);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      transition: var(--transition);
+    }
+    .avis-form .input-wrapper:focus-within {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.08);
+    }
+    .avis-form .input-wrapper textarea,
+    .avis-form .input-wrapper input {
+      width: 100%;
+      padding: 12px 14px;
+      background: transparent;
+      border: none;
+      color: var(--text-light);
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+    }
+    .avis-form .input-wrapper textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+    .avis-form .input-wrapper textarea::placeholder,
+    .avis-form .input-wrapper input::placeholder {
+      color: var(--text-muted);
+      opacity: 0.5;
+    }
+
+    .avis-form .btn-submit {
+      width: 100%;
+      padding: 12px;
+      background: var(--accent);
+      border: none;
+      border-radius: 12px;
+      color: var(--bg-dark);
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .avis-form .btn-submit:active { transform: scale(0.97); }
+    .avis-form .btn-submit:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .avis-form .btn-submit .loader {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--bg-dark);
+      border-radius: 50%;
+      border-top-color: transparent;
+      animation: spin 0.6s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* ===== LISTE AVIS ===== */
+    .avis-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .avis-item {
+      background: var(--bg-card);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 16px 18px;
+      transition: var(--transition);
+      opacity: 0;
+      animation: fadeInUp 0.4s ease forwards;
+    }
+    .avis-item:nth-child(1) { animation-delay: 0.05s; }
+    .avis-item:nth-child(2) { animation-delay: 0.10s; }
+    .avis-item:nth-child(3) { animation-delay: 0.15s; }
+    .avis-item:nth-child(4) { animation-delay: 0.20s; }
+    .avis-item:nth-child(5) { animation-delay: 0.25s; }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .avis-item:hover { border-color: rgba(184, 134, 11, 0.08); }
+
+    .avis-item .avis-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    .avis-item .avis-author {
+      font-weight: 600;
+      color: var(--text-light);
+      font-size: 14px;
+    }
+    .avis-item .avis-date {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+    .avis-item .avis-stars {
+      color: #D4A017;
+      font-size: 14px;
+      letter-spacing: 2px;
+      margin-bottom: 4px;
+    }
+    .avis-item .avis-text {
+      font-size: 13px;
+      color: var(--text-dim);
+      line-height: 1.6;
+    }
+    .avis-item .avis-verified {
+      font-size: 10px;
+      color: var(--success);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 6px;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-dim);
+    }
+    .empty-state i {
+      font-size: 48px;
+      opacity: 0.2;
+      display: block;
+      margin-bottom: 12px;
+    }
+    .empty-state p { font-size: 14px; }
+
+    /* ============================================================
+       TOAST
+       ============================================================ */
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(120px);
+      max-width: 90%;
+      width: 400px;
+      padding: 14px 20px;
+      border-radius: 14px;
+      font-size: 13px;
+      font-weight: 500;
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+      z-index: 9999;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      pointer-events: none;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+    .toast.success { background: #0D2A1F; border: 1px solid #2D7D5A; color: #2D7D5A; }
+    .toast.error { background: #2A0D0D; border: 1px solid #8A3A3A; color: #8A3A3A; }
+    .toast.warning { background: #2A1A0D; border: 1px solid #B8860B; color: #B8860B; }
+    .toast.info { background: #0D1A2A; border: 1px solid #4A7A8A; color: #4A7A8A; }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 480px) {
+      .container { padding: 12px 12px 30px; }
+      .hero h1 { font-size: 20px; }
+      .stats-avis { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+      .stat-avis .value { font-size: 18px; }
+      .stat-avis .stars { font-size: 11px; }
+      .avis-form .stars-selector { font-size: 24px; }
+    }
+
+    @media (min-width: 768px) {
+      .container { max-width: 700px; padding: 24px 24px 40px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="gradient-bg"></div>
+<div class="glow glow-1"></div>
+<div class="glow glow-2"></div>
+<div class="glow glow-3"></div>
+
+<header class="header">
+  <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+  <a href="index.html" class="logo">ARVE<span>XA</span></a>
+  <span class="notif-badge" id="notifBadge">
+    <i class="fas fa-circle"></i> <span id="notifStatusText">🔔</span>
+  </span>
+</header>
+
+<main class="container">
+
+  <!-- ===== HERO ===== -->
+  <div class="hero">
+    <span class="hero-icon"><i class="fas fa-star"></i></span>
+    <h1>⭐ Avis <span>ARVEXA</span></h1>
+    <p>Donnez votre avis sur ARVEXA et aidez la communauté à grandir</p>
+  </div>
+
+  <!-- ===== STATS ===== -->
+  <div class="stats-avis" id="statsAvis">
+    <div class="stat-avis">
+      <div class="value" id="totalAvis">0</div>
+      <div class="label">Avis</div>
+    </div>
+    <div class="stat-avis">
+      <div class="value" id="moyenneAvis">0.0</div>
+      <div class="label">Moyenne</div>
+    </div>
+    <div class="stat-avis">
+      <div class="stars" id="starsMoyenne">☆☆☆☆☆</div>
+      <div class="label">Évaluation</div>
+    </div>
+  </div>
+
+  <!-- ===== FORMULAIRE ===== -->
+  <div class="avis-form" id="avisForm">
+    <div class="form-title">✍️ Donnez votre <span>avis</span></div>
+    
+    <div class="form-group">
+      <label>⭐ Votre note</label>
+      <div class="stars-selector" id="starsSelector">
+        <span class="star" data-value="1">★</span>
+        <span class="star" data-value="2">★</span>
+        <span class="star" data-value="3">★</span>
+        <span class="star" data-value="4">★</span>
+        <span class="star" data-value="5">★</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>💬 Votre avis</label>
+      <div class="input-wrapper">
+        <textarea id="avisText" placeholder="Partagez votre expérience sur ARVEXA..." maxlength="500"></textarea>
+      </div>
+      <div style="text-align:right;font-size:10px;color:var(--text-muted);margin-top:4px;">
+        <span id="charCount">0</span> / 500 caractères
+      </div>
+    </div>
+
+    <button class="btn-submit" id="submitAvisBtn">
+      <i class="fas fa-paper-plane"></i> Publier mon avis
+    </button>
+  </div>
+
+  <!-- ===== LISTE DES AVIS ===== -->
+  <div style="margin-top:8px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+      <span style="font-size:14px;font-weight:600;color:var(--text-light);">📋 Derniers avis</span>
+    </div>
+    <div class="avis-list" id="avisList">
+      <div class="empty-state">
+        <i class="fas fa-star"></i>
+        <p>Aucun avis pour le moment</p>
+        <p style="font-size:12px;opacity:0.6;margin-top:4px;">Soyez le premier à donner votre avis !</p>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- ===== TOAST ===== -->
+<div class="toast" id="toast"></div>
+
+<!-- ================================================================ -->
+<!-- CONFIGURATION CENTRALISÉE -->
+<!-- ================================================================ -->
+<script src="config.js"></script>
+
+<!-- ================================================================ -->
+<!-- IMPORTS -->
+<!-- ================================================================ -->
+<script type="importmap">
+{
+  "imports": {
+    "firebase/app": "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js",
+    "firebase/auth": "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js",
+    "firebase/firestore": "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js"
+  }
+}
+</script>
+
+<script type="module">
+// ================================================================
+// IMPORTS FIREBASE
+// ================================================================
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
+import { 
+  getAuth, 
+  onAuthStateChanged,
+  setPersistence,
+  browserLocalPersistence
+} from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
+import { 
+  getFirestore,
+  doc,
+  getDoc,
+  getDocs,
+  addDoc,
+  collection,
+  query,
+  orderBy,
+  where,
+  onSnapshot,
+  updateDoc,
+  increment
+} from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
+
+// ================================================================
+// CONFIGURATION FIREBASE
+// ================================================================
+const firebaseConfig = {
+  apiKey: "AIzaSyBEbYuuUlNCLMBUHClv4UnyownNHw2q3_g",
+  authDomain: "nexgen-39043.firebaseapp.com",
+  projectId: "nexgen-39043",
+  storageBucket: "nexgen-39043.firebasestorage.app",
+  messagingSenderId: "619390144325",
+  appId: "1:619390144325:web:35d96b125501e4e8b1782c",
+  measurementId: "G-HC2Q5DNKDR"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+setPersistence(auth, browserLocalPersistence);
+
+// ================================================================
+// DOM
+// ================================================================
+const starsSelector = document.getElementById('starsSelector');
+const avisText = document.getElementById('avisText');
+const charCount = document.getElementById('charCount');
+const submitBtn = document.getElementById('submitAvisBtn');
+const avisList = document.getElementById('avisList');
+const totalAvis = document.getElementById('totalAvis');
+const moyenneAvis = document.getElementById('moyenneAvis');
+const starsMoyenne = document.getElementById('starsMoyenne');
+const toast = document.getElementById('toast');
+
+let selectedStars = 0;
+let currentUser = null;
+let userData = null;
+let isPageLoading = true;
+
+// ================================================================
+// TOAST
+// ================================================================
+function showToast(message, type = 'info') {
+  toast.textContent = message;
+  toast.className = 'toast ' + type;
+  setTimeout(() => toast.classList.add('show'), 50);
+  setTimeout(() => toast.classList.remove('show'), 4000);
+}
+
+// ================================================================
+// FORMAT DATE
+// ================================================================
+function formatDate(dateStr) {
+  if (!dateStr) return 'Date inconnue';
+  try {
+    const d = new Date(dateStr);
+    return d.toLocaleDateString('fr-FR') + ' à ' + d.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+  } catch {
+    return 'Date inconnue';
+  }
+}
+
+// ================================================================
+// STARS
+// ================================================================
+function renderStars(note) {
+  const total = 5;
+  let html = '';
+  for (let i = 1; i <= total; i++) {
+    html += i <= note ? '★' : '☆';
+  }
+  return html;
+}
+
+// ================================================================
+// SÉLECTION DES ÉTOILES
+// ================================================================
+document.querySelectorAll('.star').forEach(star => {
+  star.addEventListener('click', function() {
+    selectedStars = parseInt(this.dataset.value);
+    document.querySelectorAll('.star').forEach(s => s.classList.remove('active'));
+    this.classList.add('active');
+    // Activer les étoiles précédentes
+    let found = false;
+    document.querySelectorAll('.star').forEach(s => {
+      if (parseInt(s.dataset.value) <= selectedStars) {
+        s.classList.add('active');
+      }
+    });
+  });
+});
+
+// ================================================================
+// COMPTEUR DE CARACTÈRES
+// ================================================================
+avisText.addEventListener('input', function() {
+  const count = this.value.length;
+  charCount.textContent = count;
+  if (count > 480) {
+    charCount.style.color = 'var(--danger)';
+  } else {
+    charCount.style.color = 'var(--text-muted)';
+  }
+});
+
+// ================================================================
+// CHARGER LES AVIS
+// ================================================================
+let unsubscribeAvis = null;
+
+function loadAvis() {
+  if (unsubscribeAvis) {
+    unsubscribeAvis();
+    unsubscribeAvis = null;
+  }
+
+  const q = query(
+    collection(db, 'avis'),
+    orderBy('createdAt', 'desc')
+  );
+
+  unsubscribeAvis = onSnapshot(q, (snapshot) => {
+    const avis = [];
+    let totalNotes = 0;
+    let count = 0;
+
+    snapshot.forEach(doc => {
+      const data = doc.data();
+      avis.push({ id: doc.id, ...data });
+      totalNotes += data.note || 0;
+      count++;
+    });
+
+    // Mettre à jour les stats
+    totalAvis.textContent = count;
+    const moyenne = count > 0 ? (totalNotes / count) : 0;
+    moyenneAvis.textContent = moyenne.toFixed(1);
+    starsMoyenne.textContent = renderStars(Math.round(moyenne));
+
+    if (avis.length === 0) {
+      avisList.innerHTML = `
+        <div class="empty-state">
+          <i class="fas fa-star"></i>
+          <p>Aucun avis pour le moment</p>
+          <p style="font-size:12px;opacity:0.6;margin-top:4px;">Soyez le premier à donner votre avis !</p>
+        </div>
+      `;
+      return;
+    }
+
+    // Afficher les avis (max 20)
+    const displayAvis = avis.slice(0, 20);
+    let html = '';
+    displayAvis.forEach(a => {
+      const stars = renderStars(a.note || 0);
+      html += `
+        <div class="avis-item">
+          <div class="avis-header">
+            <span class="avis-author">${escapeHtml(a.userName || 'Utilisateur')}</span>
+            <span class="avis-date">${formatDate(a.createdAt)}</span>
+          </div>
+          <div class="avis-stars">${stars}</div>
+          <div class="avis-text">${escapeHtml(a.text || '')}</div>
+          ${a.isVerified ? '<div class="avis-verified"><i class="fas fa-check-circle"></i> Utilisateur vérifié</div>' : ''}
+        </div>
+      `;
+    });
+    avisList.innerHTML = html;
+
+  }, (error) => {
+    console.error('Erreur chargement avis:', error);
+  });
+}
+
+function escapeHtml(text) {
+  if (!text) return '';
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// ================================================================
+// PUBLIER UN AVIS
+// ================================================================
+submitBtn.addEventListener('click', async function() {
+  if (!currentUser) {
+    showToast('⚠️ Veuillez vous connecter', 'error');
+    return;
+  }
+
+  const text = avisText.value.trim();
+  if (selectedStars === 0) {
+    showToast('⚠️ Veuillez sélectionner une note', 'warning');
+    return;
+  }
+  if (text.length < 5) {
+    showToast('⚠️ Votre avis doit contenir au moins 5 caractères', 'warning');
+    return;
+  }
+  if (text.length > 500) {
+    showToast('⚠️ Votre avis est trop long (max 500 caractères)', 'warning');
+    return;
+  }
+
+  submitBtn.disabled = true;
+  submitBtn.innerHTML = '<span class="loader"></span> Publication...';
+
+  try {
+    // Vérifier si l'utilisateur a déjà donné un avis
+    const q = query(collection(db, 'avis'), where('userId', '==', currentUser.uid));
+    const existing = await getDocs(q);
+    if (!existing.empty) {
+      showToast('⚠️ Vous avez déjà donné votre avis', 'warning');
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Publier mon avis';
+      return;
+    }
+
+    const userName = userData?.prenom + ' ' + userData?.nom || userData?.fullName || 'Utilisateur';
+    
+    const avisData = {
+      userId: currentUser.uid,
+      userName: userName.trim() || 'Utilisateur',
+      email: currentUser.email || '',
+      note: selectedStars,
+      text: text,
+      isVerified: userData?.hasDeposited === true || userData?.isUnlocked === true || false,
+      createdAt: new Date().toISOString()
+    };
+
+    await addDoc(collection(db, 'avis'), avisData);
+
+    showToast('✅ Avis publié ! Merci pour votre contribution 🎉', 'success');
+
+    // Réinitialiser le formulaire
+    selectedStars = 0;
+    document.querySelectorAll('.star').forEach(s => s.classList.remove('active'));
+    avisText.value = '';
+    charCount.textContent = '0';
+
+    // Recharger les avis
+    loadAvis();
+
+  } catch (error) {
+    console.error('Erreur publication avis:', error);
+    showToast('❌ Erreur lors de la publication', 'error');
+  }
+
+  submitBtn.disabled = false;
+  submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Publier mon avis';
+});
+
+// ================================================================
+// CHARGER UTILISATEUR
+// ================================================================
+function loadUserData(uid) {
+  const userRef = doc(db, 'users', uid);
+  return getDoc(userRef).then(docSnap => {
+    if (docSnap.exists()) {
+      userData = docSnap.data();
+      localStorage.setItem('ARVEXA_user_data', JSON.stringify(userData));
+    }
+    return userData;
+  }).catch(error => {
+    console.error('Erreur chargement user:', error);
+    return null;
+  });
+}
+
+// ================================================================
+// AUTH
+// ================================================================
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    currentUser = user;
+    localStorage.setItem('ARVEXA_current_user', user.uid);
+
+    const cached = localStorage.getItem('ARVEXA_user_data');
+    if (cached) {
+      try {
+        userData = JSON.parse(cached);
+      } catch(e) {}
+    }
+
+    loadUserData(user.uid).then(() => {
+      loadAvis();
+    });
+
+    isPageLoading = false;
+  } else {
+    if (isPageLoading) {
+      setTimeout(() => {
+        if (!auth.currentUser) {
+          const savedUid = localStorage.getItem('ARVEXA_current_user');
+          if (savedUid) {
+            if (!auth.currentUser) {
+              window.location.href = 'login.html';
+            }
+          } else {
+            window.location.href = 'login.html';
+          }
+        }
+      }, 3000);
+    } else {
+      const savedUid = localStorage.getItem('ARVEXA_current_user');
+      if (savedUid) {
+        setTimeout(() => {
+          if (!auth.currentUser) {
+            window.location.href = 'login.html';
+          }
+        }, 2000);
+      } else {
+        window.location.href = 'login.html';
+      }
+    }
+  }
+});
+
+console.log('⭐ ARVEXA - Page Avis chargée');
+</script>
+</body>
+</html>

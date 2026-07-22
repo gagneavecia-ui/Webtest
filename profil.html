@@ -8,9 +8,8 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="manifest" href="manifest.json">
-  <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
-  
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👤</text></svg>">
+  <link rel="apple-touch-icon" href="icon.png">
+  <link rel="icon" href="icon.png" type="image/png">
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
@@ -210,6 +209,8 @@
       margin: 0 auto;
       border: 3px solid rgba(184, 134, 11, 0.15);
       transition: var(--transition);
+      background-size: cover;
+      background-position: center;
     }
     .avatar:hover {
       transform: scale(1.02);
@@ -588,8 +589,7 @@
 <header class="header">
   <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
   <a href="index.html" class="logo">ARVE<span>XA</span></a>
-   <span>
-      </span>
+  <span></span>
 </header>
 
 <main class="container">
@@ -734,29 +734,6 @@
 <div class="toast" id="toast"></div>
 
 <!-- ================================================================ -->
-<!-- ERUDA -->
-<!-- ================================================================ -->
-<script>
-(function() {
-  var isLocal = location.hostname === "localhost" || location.hostname === "127.0.0.1";
-  var isDebug = location.search.indexOf("debug=true") !== -1 || location.search.indexOf("eruda=true") !== -1;
-  if (isLocal || isDebug) {
-    if (document.querySelector('script[data-eruda]')) return;
-    var s = document.createElement("script");
-    s.setAttribute("data-eruda", "true");
-    s.src = "https://cdn.jsdelivr.net/npm/eruda";
-    s.onload = function() {
-      if (typeof eruda !== 'undefined') {
-        eruda.init({ tool: ['console', 'network', 'elements'], defaults: { displaySize: 40 } });
-        console.log("🐞 Eruda active - Profil");
-      }
-    };
-    document.head.appendChild(s);
-  }
-})();
-</script>
-
-<!-- ================================================================ -->
 <!-- CONFIGURATION CENTRALISÉE -->
 <!-- ================================================================ -->
 <script src="config.js"></script>
@@ -866,6 +843,7 @@ var userData = null;
 var currentEditField = null;
 var unsubscribeUser = null;
 var notificationTimeout = null;
+var isPageLoading = true; // ✅ CORRECTION 1
 
 // ================================================================
 // TOAST
@@ -882,6 +860,25 @@ function showToast(message, type) {
     toast.classList.remove('show');
   }, 3500);
 }
+
+// ================================================================
+// PAYS VERS INDICATIF
+// ================================================================
+var paysToIndicatif = {
+  'Niger': '+227',
+  'Bénin': '+229',
+  'Mali': '+223',
+  'Burkina Faso': '+226',
+  'Sénégal': '+221',
+  "Côte d'Ivoire": '+225',
+  'Togo': '+228',
+  'Guinée': '+224',
+  'Ghana': '+233',
+  'Cameroun': '+237',
+  'Nigéria': '+234',
+  'Tchad': '+235',
+  'Maroc': '+212'
+};
 
 // ================================================================
 // UPDATE UI
@@ -960,7 +957,7 @@ function loadUser(uid) {
 }
 
 // ================================================================
-// AVATAR UPLOAD
+// AVATAR UPLOAD - COMPRESSION AMÉLIORÉE
 // ================================================================
 avatarUploadBtn.addEventListener('click', function() {
   avatarFileInput.click();
@@ -987,7 +984,8 @@ avatarFileInput.addEventListener('change', function(e) {
     var img = new Image();
     img.onload = function() {
       var canvas = document.createElement('canvas');
-      var size = 200;
+      // ✅ CORRECTION 2: Taille réduite pour économiser l'espace
+      var size = 150;
       var width = img.width;
       var height = img.height;
       
@@ -1008,7 +1006,8 @@ avatarFileInput.addEventListener('change', function(e) {
       var ctx = canvas.getContext('2d');
       ctx.drawImage(img, 0, 0, width, height);
       
-      var base64 = canvas.toDataURL('image/jpeg', 0.7);
+      // ✅ CORRECTION 2: Qualité réduite à 50%
+      var base64 = canvas.toDataURL('image/jpeg', 0.5);
       
       var userRef = doc(db, 'users', currentUser.uid);
       updateDoc(userRef, { avatarBase64: base64 })
@@ -1097,6 +1096,12 @@ saveEditBtn.addEventListener('click', function() {
   var updateData = {};
   updateData[currentEditField] = newValue;
 
+  // ✅ CORRECTION 4: Si pays modifié, mettre à jour l'indicatif
+  if (currentEditField === 'pays') {
+    var indicatif = paysToIndicatif[newValue] || '+227';
+    updateData.indicatif = indicatif;
+  }
+
   updateDoc(doc(db, 'users', currentUser.uid), updateData)
     .then(function() {
       showToast('✅ ' + currentEditField + ' mis à jour !', 'success');
@@ -1120,6 +1125,18 @@ editInput.addEventListener('keypress', function(e) {
 // MODAL - CHANGER MOT DE PASSE
 // ================================================================
 changePasswordBtn.addEventListener('click', function() {
+  // ✅ CORRECTION 3: Vérifier si l'utilisateur a un mot de passe
+  if (!currentUser) return;
+  
+  var provider = currentUser.providerData && currentUser.providerData[0] 
+    ? currentUser.providerData[0].providerId 
+    : null;
+  
+  if (provider === 'google.com') {
+    showToast('❌ Vous êtes connecté avec Google. Utilisez Google pour gérer votre mot de passe.', 'error');
+    return;
+  }
+  
   passwordModal.classList.add('show');
   currentPassword.value = '';
   newPassword.value = '';
@@ -1173,6 +1190,8 @@ savePasswordBtn.addEventListener('click', function() {
         showToast('❌ Mot de passe actuel incorrect.', 'error');
       } else if (error.code === 'auth/too-many-requests') {
         showToast('❌ Trop de tentatives. Réessayez plus tard.', 'error');
+      } else if (error.code === 'auth/requires-recent-login') {
+        showToast('❌ Veuillez vous reconnecter avant de changer votre mot de passe.', 'error');
       } else {
         showToast('❌ Erreur: ' + error.message, 'error');
       }
@@ -1212,10 +1231,8 @@ logoutBtn.addEventListener('click', function() {
 });
 
 // ================================================================
-// AUTH
+// ✅ CORRECTION 1: AUTH AVEC isPageLoading
 // ================================================================
-var authChecked = false;
-
 onAuthStateChanged(auth, function(user) {
   if (user) {
     currentUser = user;
@@ -1230,23 +1247,39 @@ onAuthStateChanged(auth, function(user) {
     }
 
     loadUser(user.uid);
-    authChecked = true;
+    isPageLoading = false;
   } else {
-    var savedUid = localStorage.getItem('ARVEXA_current_user');
-    if (savedUid && !authChecked) {
+    // ✅ CORRECTION 1: Attendre avant de rediriger
+    if (isPageLoading) {
+      console.log("⏳ Page en chargement, attente avant redirection...");
       setTimeout(function() {
         if (!auth.currentUser) {
-          window.location.href = 'login.html';
+          var savedUid = localStorage.getItem('ARVEXA_current_user');
+          if (savedUid) {
+            if (!auth.currentUser) {
+              window.location.href = 'login.html';
+            }
+          } else {
+            window.location.href = 'login.html';
+          }
         }
-      }, 2000);
-    } else if (!authChecked) {
-      window.location.href = 'login.html';
+      }, 3000);
+    } else {
+      var savedUid = localStorage.getItem('ARVEXA_current_user');
+      if (savedUid) {
+        setTimeout(function() {
+          if (!auth.currentUser) {
+            window.location.href = 'login.html';
+          }
+        }, 2000);
+      } else {
+        window.location.href = 'login.html';
+      }
     }
-    authChecked = true;
   }
 });
 
-console.log('👤 ARVEXA - Page Profil chargée');
+console.log('👤 ARVEXA - Page Profil chargée (version corrigée)');
 </script>
 </body>
 </html>

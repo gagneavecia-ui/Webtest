@@ -4,13 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
   <meta name="theme-color" content="#0A0A0A">
-  <meta name="description" content="ARVEXA - Épargne programmable">
+  <meta name="description" content="ARVEXA - Défis quotidiens">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="manifest" href="manifest.json">
-  <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
-  
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐷</text></svg>">
+  <link rel="apple-touch-icon" href="icon.png">
+  <link rel="icon" href="icon.png" type="image/png">
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
@@ -78,9 +77,9 @@
       opacity: 0.15;
       animation: glowMove 10s ease-in-out infinite alternate;
     }
-    .glow-1 { width: 350px; height: 350px; background: rgba(26, 58, 42, 0.15); top: -80px; right: -80px; }
-    .glow-2 { width: 200px; height: 200px; background: rgba(184, 134, 11, 0.03); bottom: 0; left: 0; animation-delay: -4s; }
-    .glow-3 { width: 250px; height: 250px; background: rgba(26, 58, 42, 0.08); top: 40%; left: 50%; transform: translate(-50%,-50%); animation-delay: -8s; }
+    .glow-1 { width: 350px; height: 350px; background: rgba(26,58,42,0.15); top: -80px; right: -80px; }
+    .glow-2 { width: 200px; height: 200px; background: rgba(184,134,11,0.03); bottom: 0; left: 0; animation-delay: -4s; }
+    .glow-3 { width: 250px; height: 250px; background: rgba(26,58,42,0.08); top: 40%; left: 50%; transform: translate(-50%,-50%); animation-delay: -8s; }
     @keyframes glowMove {
       0% { transform: translate(0, 0) scale(1); }
       100% { transform: translate(30px, -20px) scale(1.1); }
@@ -145,12 +144,10 @@
       color: var(--success);
       border: 1px solid rgba(45, 125, 90, 0.10);
     }
-    .notif-badge i {
-      font-size: 12px;
-    }
+    .notif-badge i { font-size: 12px; }
 
     .container {
-      max-width: 600px;
+      max-width: 700px;
       margin: 0 auto;
       padding: 16px 16px 40px;
       width: 100%;
@@ -170,176 +167,151 @@
     .hero h1 span { color: var(--accent); font-style: italic; }
     .hero p { color: var(--text-dim); font-size: 13px; margin-top: 6px; }
 
-    /* ===== TOTAL ===== */
-    .total-card {
-      text-align: center;
-      padding: clamp(16px, 2.5vw, 24px);
-      border-color: rgba(184, 134, 11, 0.08);
-      background: linear-gradient(135deg, rgba(20,20,20,0.8), rgba(10,10,10,0.9));
-    }
-    .total-card .label {
-      font-size: clamp(10px, 1.2vw, 12px);
-      font-weight: 500;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-    }
-    .total-card .label i {
-      color: var(--accent);
-      margin-right: 6px;
-    }
-    .total-card .amount {
-      font-family: 'Playfair Display', 'Georgia', serif;
-      font-size: clamp(28px, 5vw, 40px);
-      font-weight: 700;
-      color: var(--text-light);
-      margin: 6px 0 4px;
-    }
-    .total-card .sub {
-      font-size: 12px;
-      color: var(--text-dim);
-    }
-
-    /* ===== SECTION ===== */
-    .section-header {
-      margin-bottom: 14px;
+    .hero-stats {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255,255,255,0.04);
     }
-    .section-header-left {
-      border-left: 2px solid var(--accent);
-      padding-left: 10px;
-    }
-    .section-subtitle {
-      color: var(--accent);
-      font-size: 9px;
-      font-weight: 400;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      opacity: 0.5;
-    }
-    .section-title {
-      font-size: clamp(18px, 3vw, 22px);
-      font-weight: 700;
-      font-family: 'Playfair Display', serif;
-      color: var(--text-light);
-    }
-    .section-title span { color: var(--accent); font-style: italic; }
+    .hero-stats .stat { text-align: center; }
+    .hero-stats .stat .value { font-size: 20px; font-weight: 700; color: var(--accent); font-family: 'Playfair Display', serif; }
+    .hero-stats .stat .label { font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; }
 
-    .btn-add {
-      padding: 8px 16px;
-      background: var(--accent);
-      border: none;
-      border-radius: 30px;
-      color: var(--bg-dark);
-      font-weight: 600;
-      font-size: 12px;
-      cursor: pointer;
-      transition: var(--transition);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .btn-add:active { transform: scale(0.95); }
-    .btn-add:hover { background: #9A7209; }
-
-    /* ===== CARD ===== */
-    .card {
+    /* ===== PROGRESS ===== */
+    .progress-card {
       background: var(--bg-card);
       backdrop-filter: blur(8px);
       border: 1px solid var(--card-border);
       border-radius: var(--radius);
-      padding: clamp(16px, 3vw, 24px);
-      margin-bottom: 18px;
-      box-shadow: var(--shadow);
-      transition: border-color 0.2s;
-      width: 100%;
-      overflow: hidden;
+      padding: 16px 20px;
+      margin-bottom: 16px;
     }
-    .card:hover { border-color: rgba(184, 134, 11, 0.08); }
-
-    /* ===== ÉPARGNE ITEM ===== */
-    .epargne-item {
-      padding: 14px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.03);
-    }
-    .epargne-item:last-child { border-bottom: none; }
-
-    .epargne-item .header {
+    .progress-card .progress-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 6px;
-      background: transparent;
-      padding: 0;
-      border: none;
-      position: static;
-      backdrop-filter: none;
+      margin-bottom: 8px;
     }
-    .epargne-item .header .name {
+    .progress-card .progress-title {
+      font-size: 13px;
       font-weight: 600;
-      font-size: 15px;
       color: var(--text-light);
     }
-    .epargne-item .header .status {
-      font-size: 10px;
+    .progress-card .progress-title span { color: var(--accent); }
+    .progress-card .progress-value {
+      font-size: 13px;
       font-weight: 600;
-      padding: 2px 10px;
-      border-radius: 20px;
-    }
-    .epargne-item .header .status.active {
-      background: rgba(45, 125, 90, 0.12);
-      color: var(--success);
-      border: 1px solid rgba(45, 125, 90, 0.15);
-    }
-    .epargne-item .header .status.completed {
-      background: rgba(184, 134, 11, 0.12);
       color: var(--accent);
-      border: 1px solid rgba(184, 134, 11, 0.15);
     }
-
-    .epargne-item .progress {
-      margin: 6px 0 8px;
-    }
-    .epargne-item .progress-bar {
+    .progress-bar {
       width: 100%;
       height: 6px;
       background: rgba(255,255,255,0.06);
       border-radius: 4px;
       overflow: hidden;
     }
-    .epargne-item .progress-bar .fill {
+    .progress-bar .bar {
       height: 100%;
-      background: linear-gradient(90deg, var(--accent), var(--success));
       border-radius: 4px;
+      background: linear-gradient(90deg, var(--accent), var(--success));
       transition: width 0.5s ease;
       width: 0%;
     }
 
-    .epargne-item .details {
+    /* ===== DEFIS GRID ===== */
+    .defis-grid {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 12px;
-      color: var(--text-dim);
-    }
-    .epargne-item .details .percent {
-      font-weight: 600;
-      color: var(--accent);
-    }
-    .epargne-item .details .amounts {
-      font-weight: 500;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
     }
 
-    .epargne-item .actions {
+    .defi-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 16px 18px;
+      transition: all 0.3s ease;
       display: flex;
-      gap: 8px;
-      margin-top: 10px;
+      align-items: center;
+      gap: 14px;
+      position: relative;
+      opacity: 0;
+      animation: fadeInUp 0.4s ease forwards;
     }
-    .epargne-item .actions .btn-small {
-      padding: 6px 14px;
+    .defi-card:nth-child(1) { animation-delay: 0.05s; }
+    .defi-card:nth-child(2) { animation-delay: 0.10s; }
+    .defi-card:nth-child(3) { animation-delay: 0.15s; }
+    .defi-card:nth-child(4) { animation-delay: 0.20s; }
+    .defi-card:nth-child(5) { animation-delay: 0.25s; }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .defi-card:active { transform: scale(0.98); }
+    .defi-card:hover { border-color: rgba(184, 134, 11, 0.08); }
+
+    .defi-card .defi-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+    .defi-card .defi-icon.quiz { background: rgba(184, 134, 11, 0.10); color: var(--accent); }
+    .defi-card .defi-icon.jeu { background: rgba(45, 125, 90, 0.10); color: var(--success); }
+    .defi-card .defi-icon.special { background: rgba(138, 58, 58, 0.10); color: #8A3A3A; }
+    .defi-card .defi-icon.final { background: rgba(99, 102, 241, 0.10); color: #6366F1; }
+
+    .defi-card .defi-content {
+      flex: 1;
+      min-width: 0;
+    }
+    .defi-card .defi-day {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .defi-card .defi-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-light);
+    }
+    .defi-card .defi-desc {
+      font-size: 12px;
+      color: var(--text-dim);
+      font-weight: 300;
+    }
+    .defi-card .defi-reward {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--success);
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .defi-card .defi-status {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 18px;
+    }
+    .defi-card .defi-status.done { color: var(--success); }
+    .defi-card .defi-status.locked { color: var(--text-muted); opacity: 0.3; }
+    .defi-card .defi-status.failed { color: var(--danger); }
+
+    .defi-card .defi-btn {
+      padding: 6px 16px;
       border: none;
       border-radius: 20px;
       font-size: 11px;
@@ -347,41 +319,32 @@
       cursor: pointer;
       transition: var(--transition);
       font-family: 'Inter', sans-serif;
+      margin-top: 4px;
     }
-    .epargne-item .actions .btn-small:active { transform: scale(0.95); }
-    .epargne-item .actions .btn-deposit {
+    .defi-card .defi-btn.start {
       background: var(--accent);
       color: var(--bg-dark);
     }
-    .epargne-item .actions .btn-deposit:hover { background: #9A7209; }
-    .epargne-item .actions .btn-detail {
-      background: rgba(255,255,255,0.04);
-      color: var(--text-dim);
-      border: 1px solid rgba(255,255,255,0.04);
+    .defi-card .defi-btn.start:active { transform: scale(0.95); }
+    .defi-card .defi-btn.start:hover { background: #9A7209; }
+
+    .defi-card .defi-btn.done {
+      background: rgba(45, 125, 90, 0.12);
+      color: var(--success);
+      cursor: default;
     }
-    .epargne-item .actions .btn-detail:hover {
-      background: rgba(255,255,255,0.08);
-      color: var(--text-light);
+    .defi-card .defi-btn.locked {
+      background: rgba(255,255,255,0.03);
+      color: var(--text-muted);
+      cursor: not-allowed;
+    }
+    .defi-card .defi-btn.failed {
+      background: rgba(138, 58, 58, 0.10);
+      color: var(--danger);
+      cursor: default;
     }
 
-    /* ===== EMPTY ===== */
-    .empty-state {
-      text-align: center;
-      padding: 40px 20px;
-      color: var(--text-dim);
-    }
-    .empty-state i {
-      font-size: 48px;
-      opacity: 0.2;
-      display: block;
-      margin-bottom: 12px;
-    }
-    .empty-state p { font-size: 14px; }
-    .empty-state .sub { font-size: 12px; margin-top: 4px; opacity: 0.6; }
-
-    /* ============================================================
-       MODAL
-       ============================================================ */
+    /* ===== MODAL QUIZ ===== */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
@@ -406,8 +369,8 @@
       border: 1px solid rgba(184, 134, 11, 0.15);
       border-radius: var(--radius);
       width: 100%;
-      max-width: 400px;
-      max-height: 85vh;
+      max-width: 500px;
+      max-height: 90vh;
       overflow: hidden;
       transform: scale(0.92);
       transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -427,10 +390,7 @@
       font-family: 'Playfair Display', serif;
       color: var(--text-light);
     }
-    .modal-header h3 span {
-      color: var(--accent);
-      font-style: italic;
-    }
+    .modal-header h3 span { color: var(--accent); font-style: italic; }
     .modal-close {
       width: 34px; height: 34px;
       background: var(--glass-bg);
@@ -445,47 +405,63 @@
     }
     .modal-close:active { transform: scale(0.94); }
 
-    .modal-body { padding: 20px; max-height: 55vh; overflow-y: auto; }
-    .modal-body .form-group { margin-bottom: 16px; }
-    .modal-body .form-group label {
-      display: block;
-      font-size: 11px;
-      font-weight: 500;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 4px;
+    .modal-body {
+      padding: 20px;
+      max-height: 60vh;
+      overflow-y: auto;
     }
-    .modal-body .input-wrapper {
-      display: flex;
-      align-items: center;
-      background: rgba(10, 10, 10, 0.6);
+    .modal-body .question-item {
+      background: rgba(10, 10, 10, 0.4);
       border: 1px solid var(--card-border);
       border-radius: 12px;
-      transition: var(--transition);
+      padding: 14px 16px;
+      margin-bottom: 12px;
     }
-    .modal-body .input-wrapper:focus-within {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.08);
-    }
-    .modal-body .input-wrapper input {
-      width: 100%;
-      padding: 12px 14px;
-      background: transparent;
-      border: none;
-      color: var(--text-light);
+    .modal-body .question-item .q-text {
       font-size: 14px;
-      font-family: inherit;
-      outline: none;
+      font-weight: 500;
+      color: var(--text-light);
+      margin-bottom: 8px;
     }
-    .modal-body .input-wrapper input::placeholder {
-      color: var(--text-muted);
-      opacity: 0.5;
+    .modal-body .question-item .q-options {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
     }
-    .modal-body .input-wrapper .prefix {
-      padding-left: 14px;
-      color: var(--accent);
-      font-weight: 600;
+    .modal-body .question-item .q-options label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      background: rgba(10, 10, 10, 0.3);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 13px;
+      color: var(--text-dim);
+    }
+    .modal-body .question-item .q-options label:active { transform: scale(0.98); }
+    .modal-body .question-item .q-options label:hover { border-color: rgba(184, 134, 11, 0.15); }
+    .modal-body .question-item .q-options input[type="radio"] {
+      accent-color: var(--accent);
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+    .modal-body .question-item .q-options label.selected {
+      border-color: var(--accent);
+      background: rgba(184, 134, 11, 0.06);
+    }
+    .modal-body .question-item .q-options label.correct {
+      border-color: var(--success);
+      background: rgba(45, 125, 90, 0.06);
+      color: var(--success);
+    }
+    .modal-body .question-item .q-options label.wrong {
+      border-color: var(--danger);
+      background: rgba(138, 58, 58, 0.06);
+      color: var(--danger);
     }
 
     .modal-footer {
@@ -512,70 +488,50 @@
       opacity: 0.5;
       cursor: not-allowed;
     }
-    .modal-footer .btn-submit .loader {
-      display: inline-block;
-      width: 18px;
-      height: 18px;
-      border: 2px solid var(--bg-dark);
-      border-radius: 50%;
-      border-top-color: transparent;
-      animation: spin 0.6s linear infinite;
-    }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
 
-    .modal-body .info-text {
-      font-size: 12px;
-      color: var(--text-dim);
-      margin-top: 8px;
-      padding: 10px 12px;
-      background: rgba(10,10,10,0.3);
-      border-radius: 8px;
+    /* ===== MODAL JEU ===== */
+    .game-container {
+      text-align: center;
+      padding: 10px 0;
     }
-    .modal-body .info-text strong {
-      color: var(--text-light);
-    }
-
-    /* ============================================================
-       NOTIFICATION BANNER
-       ============================================================ */
-    .notif-permission-banner {
-      background: rgba(184, 134, 11, 0.06);
-      border: 1px solid rgba(184, 134, 11, 0.10);
-      border-radius: 12px;
-      padding: 12px 16px;
-      margin: 18px 0 10px;
-      display: none;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .notif-permission-banner p {
-      font-size: 12px;
-      color: var(--text-dim);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .notif-permission-banner p i {
+    .game-container .game-score {
+      font-size: 48px;
+      font-weight: 700;
+      font-family: 'Playfair Display', serif;
       color: var(--accent);
+      margin: 10px 0;
     }
-    .notif-permission-banner .btn-enable {
-      padding: 6px 16px;
-      background: var(--accent);
+    .game-container .game-target {
+      font-size: 14px;
+      color: var(--text-dim);
+    }
+    .game-container .game-target span { color: var(--accent); font-weight: 700; }
+    .game-container .game-essais {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin: 6px 0 12px;
+    }
+
+    .game-btn {
+      padding: 12px 30px;
       border: none;
-      border-radius: 30px;
-      color: var(--bg-dark);
-      font-weight: 600;
-      font-size: 11px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 700;
       cursor: pointer;
       transition: var(--transition);
-      white-space: nowrap;
+      font-family: 'Inter', sans-serif;
+      margin: 4px;
     }
-    .notif-permission-banner .btn-enable:active { transform: scale(0.95); }
-    .notif-permission-banner .btn-enable:hover { background: #9A7209; }
+    .game-btn:active { transform: scale(0.95); }
+    .game-btn.primary { background: var(--accent); color: var(--bg-dark); }
+    .game-btn.primary:hover { background: #9A7209; }
+    .game-btn.success { background: var(--success); color: #fff; }
+    .game-btn.danger { background: var(--danger); color: #fff; }
+    .game-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
 
     /* ============================================================
        TOAST
@@ -609,8 +565,11 @@
     @media (max-width: 480px) {
       .container { padding: 12px 12px 30px; }
       .hero h1 { font-size: 20px; }
-      .epargne-item .header .name { font-size: 14px; }
+      .defi-card { flex-wrap: wrap; padding: 14px; }
+      .defi-card .defi-reward { width: 100%; text-align: left; }
+      .defi-card .defi-status { top: 6px; right: 6px; font-size: 14px; }
       .modal { max-width: 100%; margin: 10px; }
+      .game-container .game-score { font-size: 36px; }
     }
 
     @media (min-width: 768px) {
@@ -635,104 +594,68 @@
 
 <main class="container">
 
-  <!-- HERO -->
+  <!-- ===== HERO ===== -->
   <div class="hero">
-    <span class="hero-icon"><i class="fas fa-piggy-bank"></i></span>
-    <h1>🐷 Épargne <span>programmable</span></h1>
-    <p>Épargnez pour vos projets et objectifs</p>
-  </div>
-
-  <!-- TOTAL -->
-  <div class="card total-card">
-    <div class="label"><i class="fas fa-coins"></i> Total épargné</div>
-    <div class="amount" id="totalEpargne">0 FCFA</div>
-    <div class="sub" id="totalObjectifs">0 objectif(s)</div>
-  </div>
-
-  <!-- SECTION ÉPARGNES -->
-  <div class="section-header">
-    <div class="section-header-left">
-      <div class="section-subtitle">Mes épargnes</div>
-      <h2 class="section-title">Mes <span>objectifs</span></h2>
-    </div>
-    <button class="btn-add" id="openCreateModal">
-      <i class="fas fa-plus"></i> Créer
-    </button>
-  </div>
-
-  <!-- LISTE -->
-  <div id="epargneList">
-    <div class="empty-state">
-      <i class="fas fa-piggy-bank"></i>
-      <p>Aucune épargne créée</p>
-      <p class="sub">Créez votre première épargne pour commencer !</p>
+    <span class="hero-icon"><i class="fas fa-trophy"></i></span>
+    <h1>🏆 Défis <span>Hebdomadaires</span></h1>
+    <p>Chaque semaine, gagnez jusqu'à <strong>300 FCFA</strong> en relevant des défis</p>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="value">300 FCFA</div>
+        <div class="label">À gagner cette semaine</div>
+      </div>
+      <div class="stat">
+        <div class="value" id="defisTotal">5</div>
+        <div class="label">Défis</div>
+      </div>
     </div>
   </div>
 
-  <!-- NOTIFICATION BANNER -->
-  <div class="notif-permission-banner" id="notifPermissionBanner">
-    <p><i class="fas fa-bell"></i> Activez les notifications pour suivre vos épargnes !</p>
-    <button class="btn-enable" id="enableNotifBtn"><i class="fas fa-check"></i> Activer</button>
+  <!-- ===== PROGRESS ===== -->
+  <div class="progress-card">
+    <div class="progress-header">
+      <span class="progress-title">Progression <span>hebdomadaire</span></span>
+      <span class="progress-value" id="progressValue">0 / 300 FCFA</span>
+    </div>
+    <div class="progress-bar">
+      <div class="bar" id="progressBar"></div>
+    </div>
+  </div>
+
+  <!-- ===== DÉFIS ===== -->
+  <div class="defis-grid" id="defisGrid">
+    <!-- Les défis seront générés par JavaScript -->
   </div>
 
 </main>
 
-<!-- ===== MODAL CRÉER ===== -->
-<div class="modal-overlay" id="createModal">
+<!-- ===== MODAL QUIZ ===== -->
+<div class="modal-overlay" id="quizModal">
   <div class="modal">
     <div class="modal-header">
-      <h3>💰 Nouvelle <span>épargne</span></h3>
-      <button class="modal-close" id="closeCreateModal"><i class="fas fa-times"></i></button>
+      <h3>📝 <span id="quizTitle">Quiz</span></h3>
+      <button class="modal-close" id="closeQuizModal"><i class="fas fa-times"></i></button>
     </div>
-    <div class="modal-body">
-      <div class="form-group">
-        <label>📝 Nom de l'épargne</label>
-        <div class="input-wrapper">
-          <input type="text" id="epargneNom" placeholder="Ex: Voyage, Études, Moto..." maxlength="30">
-        </div>
-      </div>
-      <div class="form-group">
-        <label>🎯 Objectif (montant cible)</label>
-        <div class="input-wrapper">
-          <span class="prefix">F</span>
-          <input type="number" id="epargneObjectif" placeholder="Ex: 500000" min="10000">
-        </div>
-      </div>
-      <div class="info-text">
-        💡 Objectif minimum : <strong>10 000 FCFA</strong>
-      </div>
+    <div class="modal-body" id="quizBody">
+      <!-- Questions générées par JS -->
     </div>
     <div class="modal-footer">
-      <button class="btn-submit" id="createEpargneBtn">💾 Créer l'épargne</button>
+      <button class="btn-submit" id="submitQuizBtn">📤 Valider mes réponses</button>
     </div>
   </div>
 </div>
 
-<!-- ===== MODAL DÉPÔT ===== -->
-<div class="modal-overlay" id="depositModal">
+<!-- ===== MODAL JEU ===== -->
+<div class="modal-overlay" id="gameModal">
   <div class="modal">
     <div class="modal-header">
-      <h3>➕ Ajouter à <span id="depositModalName">l'épargne</span></h3>
-      <button class="modal-close" id="closeDepositModal"><i class="fas fa-times"></i></button>
+      <h3>🎮 <span id="gameTitle">Jeu</span></h3>
+      <button class="modal-close" id="closeGameModal"><i class="fas fa-times"></i></button>
     </div>
-    <div class="modal-body">
-      <div class="form-group">
-        <label>💰 Montant à ajouter</label>
-        <div class="input-wrapper">
-          <span class="prefix">F</span>
-          <input type="number" id="depositAmount" placeholder="Ex: 25000" min="1000">
-        </div>
+    <div class="modal-body" id="gameBody">
+      <div class="game-container" id="gameContainer">
+        <!-- Contenu du jeu généré par JS -->
       </div>
-      <div class="info-text" id="depositInfo">
-        Solde actuel : <strong id="depositCurrent">0 FCFA</strong> / <strong id="depositTarget">0 FCFA</strong>
-        <br>Reste : <strong id="depositRemain">0 FCFA</strong>
-      </div>
-      <div class="info-text" style="margin-top:6px; background:rgba(184,134,11,0.03); border:1px solid rgba(184,134,11,0.06);">
-        💡 Dépôt minimum : <strong>1 000 FCFA</strong>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn-submit" id="depositEpargneBtn">💰 Ajouter</button>
     </div>
   </div>
 </div>
@@ -741,27 +664,9 @@
 <div class="toast" id="toast"></div>
 
 <!-- ================================================================ -->
-<!-- ERUDA -->
+<!-- CONFIGURATION CENTRALISÉE -->
 <!-- ================================================================ -->
-<script>
-(function() {
-  var isLocal = location.hostname === "localhost" || location.hostname === "127.0.0.1";
-  var isDebug = location.search.indexOf("debug=true") !== -1 || location.search.indexOf("eruda=true") !== -1;
-  if (isLocal || isDebug) {
-    if (document.querySelector('script[data-eruda]')) return;
-    var s = document.createElement("script");
-    s.setAttribute("data-eruda", "true");
-    s.src = "https://cdn.jsdelivr.net/npm/eruda";
-    s.onload = function() {
-      if (typeof eruda !== 'undefined') {
-        eruda.init({ tool: ['console', 'network', 'elements'], defaults: { displaySize: 40 } });
-        console.log("🐞 Eruda active - Épargne");
-      }
-    };
-    document.head.appendChild(s);
-  }
-})();
-</script>
+<script src="config.js"></script>
 
 <!-- ================================================================ -->
 <!-- IMPORTS -->
@@ -771,15 +676,14 @@
   "imports": {
     "firebase/app": "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js",
     "firebase/auth": "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js",
-    "firebase/firestore": "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js",
-    "firebase/messaging": "https://www.gstatic.com/firebasejs/12.12.1/firebase-messaging.js"
+    "firebase/firestore": "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js"
   }
 }
 </script>
 
 <script type="module">
 // ================================================================
-// IMPORTS FIREBASE v12
+// IMPORTS FIREBASE
 // ================================================================
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
 import { 
@@ -792,25 +696,15 @@ import {
   getFirestore,
   doc,
   getDoc,
-  getDocs,
-  collection,
-  query,
-  where,
-  orderBy,
-  onSnapshot,
-  addDoc,
   updateDoc,
-  serverTimestamp
+  increment,
+  onSnapshot
 } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
-import { 
-  getMessaging,
-  getToken
-} from "https://www.gstatic.com/firebasejs/12.12.1/firebase-messaging.js";
 
 // ================================================================
 // CONFIGURATION FIREBASE
 // ================================================================
-var firebaseConfig = {
+const firebaseConfig = {
   apiKey: "AIzaSyBEbYuuUlNCLMBUHClv4UnyownNHw2q3_g",
   authDomain: "nexgen-39043.firebaseapp.com",
   projectId: "nexgen-39043",
@@ -820,583 +714,764 @@ var firebaseConfig = {
   measurementId: "G-HC2Q5DNKDR"
 };
 
-var app = initializeApp(firebaseConfig);
-var auth = getAuth(app);
-var db = getFirestore(app);
-var messaging = getMessaging(app);
-
-var VAPID_KEY = "BJKkMr-LMevY9HePx3vzYqWMILwAV8mxwOdfkbR-PvEu_m7eu309ygioDNLLqW1wRc2b93Irb1svNnLQIpegquk";
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
 setPersistence(auth, browserLocalPersistence);
 
 // ================================================================
-// TELEGRAM CONFIG (admin uniquement)
+// DONNÉES DES DÉFIS
 // ================================================================
-var TELEGRAM_BOT_TOKEN = "8283625921:AAEF--QKS9uqnz0K3j7SGkk7fsdRb3b8y8o";
-var TELEGRAM_CHAT_ID = "5212067028";
+
+// Semaine 1 - Défis du lundi au vendredi
+const SEMAINE_1 = {
+  id: 'semaine_1',
+  semaine: 1,
+  totalRecompense: 300,
+  defis: [
+    {
+      jour: 1,
+      nom: "Lundi",
+      type: "quiz",
+      titre: "Quiz Culture Générale",
+      description: "Réponds à 10 questions sur la culture générale",
+      recompense: 40,
+      icone: "fa-globe",
+      iconClass: "quiz",
+      scoreRequis: 7,
+      questions: [
+        { question: "Quel est le plus grand océan du monde ?", options: ["Pacifique", "Atlantique", "Indien", "Arctique"], bonne: 0 },
+        { question: "Combien y a-t-il de continents ?", options: ["5", "6", "7", "8"], bonne: 2 },
+        { question: "Quelle est la capitale du Japon ?", options: ["Séoul", "Pékin", "Tokyo", "Bangkok"], bonne: 2 },
+        { question: "Qui a peint la Joconde ?", options: ["Michel-Ange", "Léonard de Vinci", "Raphaël", "Donatello"], bonne: 1 },
+        { question: "Quel est l'animal le plus rapide du monde ?", options: ["Lion", "Guépard", "Faucon", "Antilope"], bonne: 1 },
+        { question: "Quelle est la plus haute montagne du monde ?", options: ["Mont Blanc", "Kilimandjaro", "Everest", "K2"], bonne: 2 },
+        { question: "Dans quel pays se trouve la tour Eiffel ?", options: ["Italie", "Espagne", "France", "Allemagne"], bonne: 2 },
+        { question: "Quelle est la planète la plus proche du soleil ?", options: ["Vénus", "Mercure", "Terre", "Mars"], bonne: 1 },
+        { question: "Combien d'heures y a-t-il dans une journée ?", options: ["12", "24", "36", "48"], bonne: 1 },
+        { question: "Quel est le symbole chimique de l'eau ?", options: ["H2O", "CO2", "NaCl", "HCl"], bonne: 0 }
+      ]
+    },
+    {
+      jour: 2,
+      nom: "Mardi",
+      type: "quiz",
+      titre: "Quiz ARVEXA",
+      description: "Que sais-tu sur ARVEXA ?",
+      recompense: 50,
+      icone: "fa-rocket",
+      iconClass: "quiz",
+      scoreRequis: 7,
+      questions: [
+        { question: "Que signifie ARVEXA ?", options: ["Argent", "Investissement", "Croissance", "Tout"], bonne: 2 },
+        { question: "Quelle est la couleur d'ARVEXA ?", options: ["Rouge", "Bleu", "Or", "Vert"], bonne: 2 },
+        { question: "ARVEXA a été créé dans quel pays ?", options: ["Côte d'Ivoire", "Sénégal", "Niger", "Mali"], bonne: 2 },
+        { question: "Quel est le slogan d'ARVEXA ?", options: ["La finance pour tous", "Construisez votre avenir financier", "Investissez maintenant", "Gagnez de l'argent"], bonne: 1 },
+        { question: "Que peut-on faire sur ARVEXA ?", options: ["Investir", "Épargner", "Parrainer", "Tout"], bonne: 3 },
+        { question: "ARVEXA est une plateforme de ?", options: ["Réseaux sociaux", "Finance et investissement", "Jeux vidéo", "Musique"], bonne: 1 },
+        { question: "Quel est le montant minimum pour recharger ?", options: ["1000 FCFA", "2000 FCFA", "3000 FCFA", "5000 FCFA"], bonne: 2 },
+        { question: "ARVEXA propose-t-il des formations ?", options: ["Oui", "Non", "Bientôt", "Seulement en anglais"], bonne: 0 },
+        { question: "Le parrainage rapporte combien ?", options: ["500 FCFA", "1000 FCFA", "1500 FCFA", "2000 FCFA"], bonne: 1 },
+        { question: "ARVEXA est disponible sur ?", options: ["Web uniquement", "Mobile uniquement", "Web et mobile", "Desktop uniquement"], bonne: 2 }
+      ]
+    },
+    {
+      jour: 3,
+      nom: "Mercredi",
+      type: "jeu",
+      titre: "Jeu de Mémoire",
+      description: "Retrouve les paires en moins de 30 secondes",
+      recompense: 60,
+      icone: "fa-brain",
+      iconClass: "jeu",
+      scoreRequis: 8,
+      essaisMax: 2,
+      jeu: "memory"
+    },
+    {
+      jour: 4,
+      nom: "Jeudi",
+      type: "quiz",
+      titre: "Quiz sur le Niger",
+      description: "Que connais-tu du Niger ?",
+      recompense: 70,
+      icone: "fa-flag",
+      iconClass: "quiz",
+      scoreRequis: 7,
+      questions: [
+        { question: "Quelle est la capitale du Niger ?", options: ["Niamey", "Maradi", "Zinder", "Agadez"], bonne: 0 },
+        { question: "Quelle est la monnaie du Niger ?", options: ["Euro", "Dollar", "CFA", "Naira"], bonne: 2 },
+        { question: "Le Niger est situé dans quelle région ?", options: ["Afrique du Nord", "Afrique de l'Ouest", "Afrique Centrale", "Afrique de l'Est"], bonne: 1 },
+        { question: "Quel est le fleuve principal du Niger ?", options: ["Sénégal", "Niger", "Congo", "Nil"], bonne: 1 },
+        { question: "Le Niger est bordé par combien de pays ?", options: ["5", "6", "7", "8"], bonne: 2 },
+        { question: "Quelle est la langue officielle du Niger ?", options: ["Anglais", "Français", "Arabe", "Haoussa"], bonne: 1 },
+        { question: "Le Niger fait partie de quel espace économique ?", options: ["UE", "CEDEAO", "SADC", "COMESA"], bonne: 1 },
+        { question: "Quelle est la superficie du Niger ?", options: ["1 267 000 km²", "2 500 000 km²", "800 000 km²", "1 500 000 km²"], bonne: 0 },
+        { question: "Le Niger est connu pour ses ?", options: ["Montagnes", "Déserts", "Forêts", "Lacs"], bonne: 1 },
+        { question: "ARVEXA est né au Niger, quelle année ?", options: ["2024", "2025", "2026", "2027"], bonne: 1 }
+      ]
+    },
+    {
+      jour: 5,
+      nom: "Vendredi",
+      type: "special",
+      titre: "Défi Spécial",
+      description: "Mélange de culture et de logique",
+      recompense: 80,
+      icone: "fa-star",
+      iconClass: "special",
+      scoreRequis: 8,
+      essaisMax: 2,
+      questions: [
+        { question: "Le Niger est le plus grand pays d'Afrique de l'Ouest ?", options: ["Vrai", "Faux"], bonne: 0 },
+        { question: "ARVEXA veut dire Argent, Réussite, Valeur, Excellence, Xénon ?", options: ["Vrai", "Faux"], bonne: 0 },
+        { question: "Le Niger est un pays sahélien", options: ["Vrai", "Faux"], bonne: 0 },
+        { question: "La monnaie du Niger est le Dollar", options: ["Vrai", "Faux"], bonne: 1 },
+        { question: "Le Niger a une façade maritime", options: ["Vrai", "Faux"], bonne: 1 },
+        { question: "Le Niger est membre de la CEDEAO", options: ["Vrai", "Faux"], bonne: 0 },
+        { question: "La langue officielle du Niger est l'Anglais", options: ["Vrai", "Faux"], bonne: 1 },
+        { question: "Le Niger est un pays d'Afrique de l'Ouest", options: ["Vrai", "Faux"], bonne: 0 },
+        { question: "Le Niger est plus grand que le Sénégal", options: ["Vrai", "Faux"], bonne: 0 },
+        { question: "ARVEXA a été créé en 2025", options: ["Vrai", "Faux"], bonne: 1 }
+      ]
+    }
+  ]
+};
+
+// ================================================================
+// ÉTAT DES DÉFIS
+// ================================================================
+let userDefis = {};
+let currentUser = null;
+let userData = null;
+let currentDefiIndex = -1;
+let quizReponses = [];
+let gameScore = 0;
+let gameEssais = 0;
+let gameTarget = 0;
+let isGameActive = false;
+let intervalId = null;
+let isPageLoading = true;
 
 // ================================================================
 // DOM
 // ================================================================
-var totalEpargne = document.getElementById('totalEpargne');
-var totalObjectifs = document.getElementById('totalObjectifs');
-var epargneList = document.getElementById('epargneList');
-var toast = document.getElementById('toast');
+const defisGrid = document.getElementById('defisGrid');
+const progressBar = document.getElementById('progressBar');
+const progressValue = document.getElementById('progressValue');
+const defisTotal = document.getElementById('defisTotal');
+const toast = document.getElementById('toast');
 
-var notifBadge = document.getElementById('notifBadge');
-var notifStatusText = document.getElementById('notifStatusText');
-var notifPermissionBanner = document.getElementById('notifPermissionBanner');
-var enableNotifBtn = document.getElementById('enableNotifBtn');
+// Modals
+const quizModal = document.getElementById('quizModal');
+const closeQuizModal = document.getElementById('closeQuizModal');
+const quizBody = document.getElementById('quizBody');
+const submitQuizBtn = document.getElementById('submitQuizBtn');
+const quizTitle = document.getElementById('quizTitle');
 
-var createModal = document.getElementById('createModal');
-var closeCreateModal = document.getElementById('closeCreateModal');
-var openCreateModal = document.getElementById('openCreateModal');
-var createEpargneBtn = document.getElementById('createEpargneBtn');
-
-var depositModal = document.getElementById('depositModal');
-var closeDepositModal = document.getElementById('closeDepositModal');
-var depositEpargneBtn = document.getElementById('depositEpargneBtn');
-
-var currentUser = null;
-var userData = null;
-var unsubscribeEpargnes = null;
-var notificationTimeout = null;
-var currentEpargneId = null;
+const gameModal = document.getElementById('gameModal');
+const closeGameModal = document.getElementById('closeGameModal');
+const gameBody = document.getElementById('gameBody');
+const gameTitle = document.getElementById('gameTitle');
 
 // ================================================================
-// HELPERS
+// TOAST
+// ================================================================
+function showToast(message, type = 'info') {
+  toast.textContent = message;
+  toast.className = 'toast ' + type;
+  setTimeout(() => toast.classList.add('show'), 50);
+  setTimeout(() => toast.classList.remove('show'), 4000);
+}
+
+// ================================================================
+// FORMAT CURRENCY
 // ================================================================
 function formatCurrency(amount) {
   if (!amount) return '0 FCFA';
   return amount.toLocaleString('fr-FR') + ' FCFA';
 }
 
-function showToast(message, type) {
-  type = type || 'success';
-  toast.textContent = message;
-  toast.className = 'toast ' + type;
-  clearTimeout(notificationTimeout);
-  setTimeout(function() {
-    toast.classList.add('show');
-  }, 50);
-  notificationTimeout = setTimeout(function() {
-    toast.classList.remove('show');
-  }, 4000);
-}
-
-function escapeHtml(str) {
-  if (!str) return '';
-  var div = document.createElement('div');
-  div.textContent = str;
-  return div.innerHTML;
-}
-
 // ================================================================
-// ENVOI TELEGRAM (admin uniquement)
+// CHARGER L'ÉTAT DES DÉFIS
 // ================================================================
-function sendTelegramMessage(message) {
-  var url = 'https://api.telegram.org/bot' + TELEGRAM_BOT_TOKEN + '/sendMessage';
-  return fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      chat_id: TELEGRAM_CHAT_ID,
-      text: message,
-      parse_mode: 'HTML',
-      disable_web_page_preview: true
-    })
-  }).then(function(response) {
-    return response.json();
-  }).then(function(data) {
-    console.log('Telegram envoye:', data.ok);
-    return data.ok;
-  }).catch(function(error) {
-    console.error('Erreur Telegram:', error);
-    return false;
+function loadUserDefis(uid) {
+  const userRef = doc(db, 'users', uid);
+  onSnapshot(userRef, (snap) => {
+    if (snap.exists()) {
+      userData = snap.data();
+      userDefis = userData.defisHebdo || {};
+      renderDefis();
+      updateProgress();
+    }
+  }, (error) => {
+    console.error('Erreur chargement défis:', error);
   });
 }
 
 // ================================================================
-// NOTIFICATION ADMIN - NOUVELLE ÉPARGNE
+// SAUVEGARDER L'ÉTAT D'UN DÉFI
 // ================================================================
-function notifyAdminNewEpargne(userName, nom, objectif) {
-  var msg = '📊 <b>Nouvelle épargne créée !</b>\n\n' +
-            '👤 <b>Utilisateur:</b> ' + escapeHtml(userName) + '\n' +
-            '📝 <b>Nom:</b> ' + escapeHtml(nom) + '\n' +
-            '🎯 <b>Objectif:</b> ' + formatCurrency(objectif) + '\n' +
-            '🕐 <b>Date:</b> ' + new Date().toLocaleString('fr-FR') + '\n\n' +
-            '🔗 <a href="https://nexgen-39043.web.app/admin">Voir dans l\'admin</a>';
-  return sendTelegramMessage(msg);
-}
-
-// ================================================================
-// NOTIFICATION ADMIN - OBJECTIF ATTEINT
-// ================================================================
-function notifyAdminGoalReached(userName, nom, objectif) {
-  var msg = '🎯 <b>OBJECTIF ATTEINT !</b> 🏆\n\n' +
-            '👤 <b>Utilisateur:</b> ' + escapeHtml(userName) + '\n' +
-            '📝 <b>Épargne:</b> ' + escapeHtml(nom) + '\n' +
-            '💵 <b>Montant:</b> ' + formatCurrency(objectif) + '\n' +
-            '🕐 <b>Date:</b> ' + new Date().toLocaleString('fr-FR') + '\n\n' +
-            '🔗 <a href="https://nexgen-39043.web.app/admin">Voir dans l\'admin</a>';
-  return sendTelegramMessage(msg);
-}
-
-// ================================================================
-// RENDRE UNE ÉPARGNE
-// ================================================================
-function renderEpargne(data) {
-  var nom = data.nom || 'Sans nom';
-  var objectif = data.objectif || 0;
-  var montantActuel = data.montantActuel || 0;
-  var progression = objectif > 0 ? Math.min(Math.round((montantActuel / objectif) * 100), 100) : 0;
-  var statut = data.statut || 'en_cours';
-  var isCompleted = statut === 'atteint' || progression >= 100;
-
-  var statusClass = isCompleted ? 'completed' : 'active';
-  var statusText = isCompleted ? '✅ Objectif atteint' : '⏳ En cours';
-
-  var html = '<div class="epargne-item" data-id="' + data.id + '">';
-  html += '<div class="header">';
-  html += '<span class="name">' + escapeHtml(nom) + '</span>';
-  html += '<span class="status ' + statusClass + '">' + statusText + '</span>';
-  html += '</div>';
-  html += '<div class="progress"><div class="progress-bar"><div class="fill" style="width:' + progression + '%;"></div></div></div>';
-  html += '<div class="details">';
-  html += '<span class="percent">' + progression + '%</span>';
-  html += '<span class="amounts">' + formatCurrency(montantActuel) + ' / ' + formatCurrency(objectif) + '</span>';
-  html += '</div>';
-  html += '<div class="actions">';
-  if (!isCompleted) {
-    html += '<button class="btn-small btn-deposit" data-id="' + data.id + '" data-nom="' + escapeHtml(nom) + '" data-current="' + montantActuel + '" data-target="' + objectif + '"><i class="fas fa-plus"></i> Ajouter</button>';
-  }
-  html += '</div>';
-  html += '</div>';
-
-  return html;
-}
-
-// ================================================================
-// CHARGER LES ÉPARGNES (SANS INDEX)
-// ================================================================
-function loadEpargnes(uid) {
-  if (unsubscribeEpargnes) {
-    unsubscribeEpargnes();
-    unsubscribeEpargnes = null;
-  }
-
-  if (!uid) {
-    epargneList.innerHTML = '<div class="empty-state"><i class="fas fa-piggy-bank"></i><p>Aucune épargne créée</p><p class="sub">Créez votre première épargne pour commencer !</p></div>';
-    return;
-  }
-
-  // ✅ SANS orderBy - PAS D'INDEX NÉCESSAIRE
-  var q = query(
-    collection(db, 'epargnes'),
-    where('userId', '==', uid)
-  );
-
-  unsubscribeEpargnes = onSnapshot(q, function(snapshot) {
-    if (snapshot.empty) {
-      epargneList.innerHTML = '<div class="empty-state"><i class="fas fa-piggy-bank"></i><p>Aucune épargne créée</p><p class="sub">Créez votre première épargne pour commencer !</p></div>';
-      totalEpargne.textContent = '0 FCFA';
-      totalObjectifs.textContent = '0 objectif(s)';
-      return;
-    }
-
-    // ✅ Récupérer tous les documents
-    var items = [];
-    snapshot.forEach(function(docSnap) {
-      var data = docSnap.data();
-      data.id = docSnap.id;
-      items.push(data);
-    });
-
-    // ✅ Tri manuel (du plus récent au plus ancien)
-    items.sort(function(a, b) {
-      var dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
-      var dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
-      return dateB - dateA;
-    });
-
-    // ✅ Afficher
-    var total = 0;
-    var html = '';
-    var count = 0;
-
-    items.forEach(function(data) {
-      total += data.montantActuel || 0;
-      count++;
-      html += renderEpargne(data);
-    });
-
-    epargneList.innerHTML = html;
-    totalEpargne.textContent = formatCurrency(total);
-    totalObjectifs.textContent = count + ' objectif(s)';
-
-    // Attacher les événements aux boutons "Ajouter"
-    document.querySelectorAll('.btn-deposit').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        var id = this.dataset.id;
-        var nom = this.dataset.nom;
-        var current = parseFloat(this.dataset.current) || 0;
-        var target = parseFloat(this.dataset.target) || 0;
-        openDepositModal(id, nom, current, target);
-      });
-    });
-
-  }, function(error) {
-    console.error('Erreur chargement épargnes:', error);
-    if (error.code === 'failed-precondition') {
-      epargneList.innerHTML = '<div class="empty-state"><i class="fas fa-exclamation-circle"></i><p>Index manquant, chargement simplifié...</p></div>';
-      // Fallback : charger une fois sans écoute
-      loadEpargnesOnce(uid);
-    } else {
-      epargneList.innerHTML = '<div class="empty-state"><i class="fas fa-exclamation-circle"></i><p>Erreur de chargement</p></div>';
-    }
-  });
-}
-
-// ================================================================
-// CHARGEMENT UNIQUE (FALLBACK)
-// ================================================================
-function loadEpargnesOnce(uid) {
-  var q = query(collection(db, 'epargnes'), where('userId', '==', uid));
+async function saveDefiStatus(jour, status, gain = 0) {
+  if (!currentUser) return;
   
-  getDocs(q).then(function(snapshot) {
-    if (snapshot.empty) {
-      epargneList.innerHTML = '<div class="empty-state"><i class="fas fa-piggy-bank"></i><p>Aucune épargne créée</p><p class="sub">Créez votre première épargne pour commencer !</p></div>';
-      return;
+  const userRef = doc(db, 'users', currentUser.uid);
+  const defisHebdo = { ...(userData?.defisHebdo || {}) };
+  
+  defisHebdo[jour] = {
+    status: status, // 'done', 'failed', 'locked'
+    gain: gain,
+    date: new Date().toISOString()
+  };
+  
+  // Mettre à jour le total des défis gagnés
+  const totalDefisGagnes = (userData?.totalDefisGagnes || 0) + gain;
+  
+  try {
+    await updateDoc(userRef, {
+      defisHebdo: defisHebdo,
+      totalDefisGagnes: totalDefisGagnes,
+      gainsTotal: increment(gain)
+    });
+    showToast('✅ Défi validé ! +' + formatCurrency(gain), 'success');
+  } catch (error) {
+    console.error('Erreur sauvegarde:', error);
+    showToast('❌ Erreur lors de la sauvegarde', 'error');
+  }
+}
+
+// ================================================================
+// RENDRE LES DÉFIS
+// ================================================================
+function renderDefis() {
+  const semaine = SEMAINE_1;
+  defisTotal.textContent = semaine.defis.length;
+  
+  let html = '';
+  const today = new Date().getDay(); // 1=lundi, 5=vendredi
+  
+  semaine.defis.forEach((defi, index) => {
+    const jourNum = defi.jour;
+    const estAujourdHui = jourNum === today;
+    const estPasse = jourNum < today;
+    const estFutur = jourNum > today;
+    
+    // Vérifier le statut
+    let status = 'locked';
+    let gain = 0;
+    
+    if (userDefis && userDefis[jourNum]) {
+      status = userDefis[jourNum].status;
+      gain = userDefis[jourNum].gain || 0;
+    } else if (estPasse) {
+      status = 'failed'; // Jour passé non fait = échec
+    } else if (estFutur) {
+      status = 'locked';
+    } else if (estAujourdHui) {
+      status = 'start';
     }
-
-    var items = [];
-    snapshot.forEach(function(docSnap) {
-      var data = docSnap.data();
-      data.id = docSnap.id;
-      items.push(data);
+    
+    // Déterminer l'icône de statut
+    let statusIcon = '';
+    let statusClass = '';
+    let btnHtml = '';
+    
+    if (status === 'done') {
+      statusIcon = '<i class="fas fa-check-circle"></i>';
+      statusClass = 'done';
+      btnHtml = `<button class="defi-btn done">✅ Fait</button>`;
+    } else if (status === 'failed') {
+      statusIcon = '<i class="fas fa-times-circle"></i>';
+      statusClass = 'failed';
+      btnHtml = `<button class="defi-btn failed">❌ Échoué</button>`;
+    } else if (status === 'locked') {
+      statusIcon = '<i class="fas fa-lock"></i>';
+      statusClass = 'locked';
+      btnHtml = `<button class="defi-btn locked">🔒 Verrouillé</button>`;
+    } else if (status === 'start') {
+      statusIcon = '<i class="fas fa-play-circle"></i>';
+      statusClass = '';
+      btnHtml = `<button class="defi-btn start" data-index="${index}">🚀 Commencer</button>`;
+    }
+    
+    const iconClass = defi.iconClass || 'quiz';
+    const jourNom = defi.nom || 'Jour ' + jourNum;
+    
+    html += `
+      <div class="defi-card">
+        <div class="defi-icon ${iconClass}">
+          <i class="fas ${defi.icone || 'fa-question'}"></i>
+        </div>
+        <div class="defi-content">
+          <div class="defi-day">${jourNom}</div>
+          <div class="defi-title">${defi.titre}</div>
+          <div class="defi-desc">${defi.description}</div>
+          ${btnHtml}
+        </div>
+        <div class="defi-reward">+${defi.recompense} FCFA</div>
+        <div class="defi-status ${statusClass}">${statusIcon}</div>
+      </div>
+    `;
+  });
+  
+  defisGrid.innerHTML = html;
+  
+  // Attacher les événements aux boutons "Commencer"
+  document.querySelectorAll('.defi-btn.start').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const index = parseInt(this.dataset.index);
+      if (!isNaN(index)) {
+        openDefi(index);
+      }
     });
-
-    items.sort(function(a, b) {
-      var dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
-      var dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
-      return dateB - dateA;
-    });
-
-    var total = 0;
-    var html = '';
-    var count = 0;
-
-    items.forEach(function(data) {
-      total += data.montantActuel || 0;
-      count++;
-      html += renderEpargne(data);
-    });
-
-    epargneList.innerHTML = html;
-    totalEpargne.textContent = formatCurrency(total);
-    totalObjectifs.textContent = count + ' objectif(s)';
-
-  }).catch(function(error) {
-    console.error('Erreur fallback:', error);
-    epargneList.innerHTML = '<div class="empty-state"><i class="fas fa-exclamation-circle"></i><p>Erreur de chargement</p></div>';
   });
 }
 
 // ================================================================
-// CRÉER UNE ÉPARGNE
+// METTRE À JOUR LA PROGRESSION
 // ================================================================
-async function createEpargne() {
-  var nom = document.getElementById('epargneNom').value.trim();
-  var objectif = parseInt(document.getElementById('epargneObjectif').value) || 0;
-
-  if (!nom) {
-    showToast('Veuillez donner un nom à votre épargne.', 'warning');
-    return;
-  }
-  if (nom.length < 2) {
-    showToast('Le nom doit contenir au moins 2 caractères.', 'warning');
-    return;
-  }
-  if (objectif < 10000) {
-    showToast('L\'objectif minimum est de 10 000 FCFA.', 'warning');
-    return;
-  }
-
-  createEpargneBtn.disabled = true;
-  createEpargneBtn.innerHTML = '<span class="loader"></span> Création...';
-
-  try {
-    var userName = userData ? (userData.prenom || 'Utilisateur') : 'Utilisateur';
-
-    var data = {
-      userId: currentUser.uid,
-      userName: userName,
-      nom: nom,
-      objectif: objectif,
-      montantActuel: 0,
-      statut: 'en_cours',
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-      historique: []
-    };
-
-    var docRef = await addDoc(collection(db, 'epargnes'), data);
-
-    // Notification admin
-    notifyAdminNewEpargne(userName, nom, objectif);
-
-    showToast('✅ Épargne "' + nom + '" créée avec succès !', 'success');
-
-    document.getElementById('epargneNom').value = '';
-    document.getElementById('epargneObjectif').value = '';
-    closeCreateModal.click();
-
-  } catch (error) {
-    console.error('Erreur création épargne:', error);
-    showToast('❌ Erreur lors de la création.', 'error');
-  }
-
-  createEpargneBtn.disabled = false;
-  createEpargneBtn.innerHTML = '💾 Créer l\'épargne';
+function updateProgress() {
+  let totalGagne = 0;
+  const semaine = SEMAINE_1;
+  
+  semaine.defis.forEach(defi => {
+    if (userDefis && userDefis[defi.jour] && userDefis[defi.jour].status === 'done') {
+      totalGagne += defi.recompense;
+    }
+  });
+  
+  const total = semaine.totalRecompense || 300;
+  const pourcentage = Math.min((totalGagne / total) * 100, 100);
+  
+  progressBar.style.width = pourcentage + '%';
+  progressValue.textContent = totalGagne + ' / ' + total + ' FCFA';
 }
 
 // ================================================================
-// AJOUTER À UNE ÉPARGNE
+// OUVRIR UN DÉFI
 // ================================================================
-async function addToEpargne() {
-  var amount = parseInt(document.getElementById('depositAmount').value) || 0;
-  var epargneId = currentEpargneId;
-
-  if (!epargneId) {
-    showToast('Erreur: épargne non trouvée.', 'error');
-    return;
+function openDefi(index) {
+  const defi = SEMAINE_1.defis[index];
+  currentDefiIndex = index;
+  
+  if (defi.type === 'quiz') {
+    openQuiz(defi);
+  } else if (defi.type === 'jeu') {
+    openGame(defi);
+  } else if (defi.type === 'special') {
+    openSpecial(defi);
   }
+}
 
-  if (amount < 1000) {
-    showToast('Le dépôt minimum est de 1 000 FCFA.', 'warning');
-    return;
-  }
-
-  depositEpargneBtn.disabled = true;
-  depositEpargneBtn.innerHTML = '<span class="loader"></span> Ajout...';
-
-  try {
-    var epargneRef = doc(db, 'epargnes', epargneId);
-    var epargneSnap = await getDoc(epargneRef);
-
-    if (!epargneSnap.exists()) {
-      showToast('❌ Épargne introuvable.', 'error');
-      return;
-    }
-
-    var epargneData = epargneSnap.data();
-    var newMontant = (epargneData.montantActuel || 0) + amount;
-    var objectif = epargneData.objectif || 0;
-    var statut = newMontant >= objectif ? 'atteint' : 'en_cours';
-
-    var historique = epargneData.historique || [];
-    historique.push({
-      montant: amount,
-      date: new Date().toISOString()
+// ================================================================
+// MODAL QUIZ
+// ================================================================
+function openQuiz(defi) {
+  quizTitle.textContent = defi.titre;
+  quizReponses = new Array(defi.questions.length).fill(-1);
+  
+  let html = '';
+  defi.questions.forEach((q, index) => {
+    html += `
+      <div class="question-item">
+        <div class="q-text">${index + 1}. ${q.question}</div>
+        <div class="q-options" data-q="${index}">
+          ${q.options.map((opt, optIndex) => `
+            <label data-opt="${optIndex}">
+              <input type="radio" name="q${index}" value="${optIndex}">
+              ${opt}
+            </label>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  });
+  
+  quizBody.innerHTML = html;
+  
+  // Attacher les événements radio
+  document.querySelectorAll('.question-item input[type="radio"]').forEach(radio => {
+    radio.addEventListener('change', function() {
+      const qIndex = parseInt(this.name.replace('q', ''));
+      const optIndex = parseInt(this.value);
+      quizReponses[qIndex] = optIndex;
+      
+      // Mettre à jour l'affichage
+      const parent = this.closest('.q-options');
+      parent.querySelectorAll('label').forEach(label => {
+        label.classList.remove('selected');
+      });
+      this.closest('label').classList.add('selected');
     });
+  });
+  
+  submitQuizBtn.disabled = false;
+  submitQuizBtn.textContent = '📤 Valider mes réponses';
+  submitQuizBtn.onclick = () => submitQuiz(defi);
+  
+  quizModal.classList.add('show');
+}
 
-    await updateDoc(epargneRef, {
-      montantActuel: newMontant,
-      statut: statut,
-      updatedAt: new Date().toISOString(),
-      historique: historique
+function submitQuiz(defi) {
+  // Vérifier si toutes les questions ont une réponse
+  const toutesRepondues = quizReponses.every(r => r !== -1);
+  if (!toutesRepondues) {
+    showToast('⚠️ Répondez à toutes les questions !', 'warning');
+    return;
+  }
+  
+  // Compter les bonnes réponses
+  let score = 0;
+  defi.questions.forEach((q, index) => {
+    if (quizReponses[index] === q.bonne) {
+      score++;
+    }
+  });
+  
+  const scoreRequis = defi.scoreRequis || 7;
+  const reussite = score >= scoreRequis;
+  
+  // Afficher les résultats
+  let html = '<div style="text-align:center;padding:20px;">';
+  html += `<div style="font-size:48px;margin-bottom:12px;">${reussite ? '🎉' : '😅'}</div>`;
+  html += `<h3 style="color:${reussite ? 'var(--success)' : 'var(--danger)'};">${reussite ? 'Félicitations !' : 'Pas de chance !'}</h3>`;
+  html += `<p style="color:var(--text-dim);margin:8px 0;">Score : ${score} / ${defi.questions.length}</p>`;
+  html += `<p style="color:var(--text-dim);">${reussite ? '✅ Vous avez gagné ' + formatCurrency(defi.recompense) : '❌ Réessayez demain !'}</p>`;
+  html += '</div>';
+  html += '<div style="display:flex;gap:10px;justify-content:center;margin-top:16px;">';
+  html += `<button class="game-btn primary" onclick="closeQuizModal.click()">Fermer</button>`;
+  html += '</div>';
+  
+  quizBody.innerHTML = html;
+  submitQuizBtn.style.display = 'none';
+  
+  if (reussite) {
+    saveDefiStatus(defi.jour, 'done', defi.recompense);
+    renderDefis();
+    updateProgress();
+  } else {
+    saveDefiStatus(defi.jour, 'failed', 0);
+    renderDefis();
+    updateProgress();
+  }
+}
+
+// ================================================================
+// MODAL JEU - MÉMOIRE
+// ================================================================
+function openGame(defi) {
+  gameTitle.textContent = defi.titre;
+  
+  const essaisRestants = defi.essaisMax - (userDefis[defi.jour]?.essais || 0);
+  
+  let html = `
+    <div class="game-container">
+      <p class="game-target">🎯 Score cible : <span>${defi.scoreRequis}</span></p>
+      <p class="game-essais">Essais restants : ${essaisRestants > 0 ? essaisRestants : '0'}</p>
+      <div style="margin:16px 0;">
+        <button class="game-btn primary" id="startMemoryGameBtn">🎮 Jouer</button>
+      </div>
+      <div id="memoryGameBoard" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;max-width:300px;margin:0 auto;">
+        <!-- Cartes générées par JS -->
+      </div>
+      <p id="memoryScore" style="margin-top:10px;font-size:16px;font-weight:600;color:var(--accent);"></p>
+    </div>
+  `;
+  
+  gameBody.innerHTML = html;
+  gameModal.classList.add('show');
+  
+  // Initialiser le jeu de mémoire
+  let memoryCards = [];
+  let flippedCards = [];
+  let matchedPairs = 0;
+  let isLocked = false;
+  let gameStarted = false;
+  
+  const emojis = ['🐶', '🐱', '🐭', '🐹', '🐰', '🦊', '🐻', '🐼'];
+  const board = document.getElementById('memoryGameBoard');
+  const scoreDisplay = document.getElementById('memoryScore');
+  
+  function initMemoryGame() {
+    const pairs = emojis.slice(0, 4); // 4 paires = 8 cartes
+    memoryCards = [...pairs, ...pairs];
+    // Mélanger
+    for (let i = memoryCards.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [memoryCards[i], memoryCards[j]] = [memoryCards[j], memoryCards[i]];
+    }
+    flippedCards = [];
+    matchedPairs = 0;
+    isLocked = false;
+    gameStarted = true;
+    renderMemoryBoard();
+    scoreDisplay.textContent = 'Paires trouvées : 0 / 4';
+  }
+  
+  function renderMemoryBoard() {
+    board.innerHTML = memoryCards.map((emoji, index) => `
+      <div class="memory-card" data-index="${index}" style="
+        aspect-ratio:1;
+        background:var(--bg-dark);
+        border:1px solid var(--card-border);
+        border-radius:8px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        font-size:28px;
+        cursor:pointer;
+        transition:all 0.3s ease;
+        ${flippedCards.includes(index) || memoryCards[index] === 'matched' ? 'background:rgba(184,134,11,0.10);border-color:var(--accent);' : ''}
+      ">
+        ${flippedCards.includes(index) || memoryCards[index] === 'matched' ? emoji : '❓'}
+      </div>
+    `).join('');
+    
+    document.querySelectorAll('.memory-card').forEach(card => {
+      card.addEventListener('click', () => handleCardClick(parseInt(card.dataset.index)));
     });
-
-    showToast('✅ ' + formatCurrency(amount) + ' ajoutés à votre épargne !', 'success');
-
-    if (statut === 'atteint') {
-      var userName = userData ? (userData.prenom || 'Utilisateur') : 'Utilisateur';
-      notifyAdminGoalReached(userName, epargneData.nom, objectif);
-      showToast('🎯 OBJECTIF ATTEINT ! Félicitations ! 🏆', 'success');
-      if (navigator.vibrate) navigator.vibrate([200, 100, 300, 100, 200]);
-    }
-
-    document.getElementById('depositAmount').value = '';
-    closeDepositModal.click();
-
-  } catch (error) {
-    console.error('Erreur dépôt:', error);
-    showToast('❌ Erreur lors du dépôt.', 'error');
   }
-
-  depositEpargneBtn.disabled = false;
-  depositEpargneBtn.innerHTML = '💰 Ajouter';
-}
-
-// ================================================================
-// OUVRIR MODAL DÉPÔT
-// ================================================================
-function openDepositModal(id, nom, current, target) {
-  currentEpargneId = id;
-  document.getElementById('depositModalName').textContent = nom;
-  document.getElementById('depositCurrent').textContent = formatCurrency(current);
-  document.getElementById('depositTarget').textContent = formatCurrency(target);
-  document.getElementById('depositRemain').textContent = formatCurrency(Math.max(target - current, 0));
-  document.getElementById('depositAmount').value = '';
-  depositModal.classList.add('show');
-}
-
-// ================================================================
-// GESTION DES MODALES
-// ================================================================
-openCreateModal.addEventListener('click', function() {
-  createModal.classList.add('show');
-  document.getElementById('epargneNom').focus();
-});
-
-closeCreateModal.addEventListener('click', function() {
-  createModal.classList.remove('show');
-});
-
-closeDepositModal.addEventListener('click', function() {
-  depositModal.classList.remove('show');
-});
-
-createModal.addEventListener('click', function(e) {
-  if (e.target === createModal) createModal.classList.remove('show');
-});
-
-depositModal.addEventListener('click', function(e) {
-  if (e.target === depositModal) depositModal.classList.remove('show');
-});
-
-createEpargneBtn.addEventListener('click', createEpargne);
-
-depositEpargneBtn.addEventListener('click', addToEpargne);
-
-// Enter key dans les modales
-document.getElementById('epargneNom').addEventListener('keypress', function(e) {
-  if (e.key === 'Enter') document.getElementById('epargneObjectif').focus();
-});
-
-document.getElementById('epargneObjectif').addEventListener('keypress', function(e) {
-  if (e.key === 'Enter') createEpargne();
-});
-
-document.getElementById('depositAmount').addEventListener('keypress', function(e) {
-  if (e.key === 'Enter') addToEpargne();
-});
-
-// ================================================================
-// NOTIFICATIONS FCM
-// ================================================================
-async function setupFCMNotifications() {
-  try {
-    if (Notification.permission === 'granted') {
-      var token = await getToken(messaging, { vapidKey: VAPID_KEY });
-      if (currentUser) {
-        var userRef = doc(db, 'users', currentUser.uid);
-        await updateDoc(userRef, { fcmToken: token, notificationsEnabled: true });
-      }
-      notifBadge.className = 'notif-badge';
-      notifStatusText.textContent = '🔔';
-      if (notifPermissionBanner) notifPermissionBanner.style.display = 'none';
-      return token;
-    }
+  
+  function handleCardClick(index) {
+    if (isLocked || flippedCards.includes(index) || memoryCards[index] === 'matched') return;
+    if (!gameStarted) return;
     
-    if (Notification.permission === 'denied') {
-      notifBadge.className = 'notif-badge';
-      notifStatusText.textContent = '🔕';
-      if (notifPermissionBanner) notifPermissionBanner.style.display = 'none';
-      return null;
-    }
+    flippedCards.push(index);
+    renderMemoryBoard();
     
-    notifBadge.className = 'notif-badge';
-    notifStatusText.textContent = '🔔';
-    if (notifPermissionBanner) notifPermissionBanner.style.display = 'flex';
-    return null;
-  } catch (error) {
-    console.error('❌ Erreur FCM:', error);
-    return null;
-  }
-}
-
-if (enableNotifBtn) {
-  enableNotifBtn.addEventListener('click', async function() {
-    try {
-      var permission = await Notification.requestPermission();
-      if (permission === 'granted') {
-        var token = await getToken(messaging, { vapidKey: VAPID_KEY });
-        if (currentUser) {
-          var userRef = doc(db, 'users', currentUser.uid);
-          await updateDoc(userRef, { fcmToken: token, notificationsEnabled: true });
+    if (flippedCards.length === 2) {
+      isLocked = true;
+      const [i1, i2] = flippedCards;
+      if (memoryCards[i1] === memoryCards[i2]) {
+        // Paire trouvée
+        memoryCards[i1] = 'matched';
+        memoryCards[i2] = 'matched';
+        matchedPairs++;
+        flippedCards = [];
+        isLocked = false;
+        scoreDisplay.textContent = `Paires trouvées : ${matchedPairs} / 4`;
+        renderMemoryBoard();
+        
+        if (matchedPairs === 4) {
+          // Victoire !
+          const essaisUtilises = (userDefis[defi.jour]?.essais || 0) + 1;
+          const reussi = true;
+          handleGameResult(defi, reussi, essaisUtilises);
         }
-        notifBadge.className = 'notif-badge';
-        notifStatusText.textContent = '🔔';
-        if (notifPermissionBanner) notifPermissionBanner.style.display = 'none';
-        showToast('✅ Notifications activées !', 'success');
       } else {
-        showToast('⚠️ Notifications désactivées.', 'warning');
+        // Pas une paire
+        setTimeout(() => {
+          flippedCards = [];
+          isLocked = false;
+          renderMemoryBoard();
+        }, 800);
       }
-    } catch (error) {
-      console.error('❌ Erreur permission:', error);
     }
+  }
+  
+  // Bouton démarrer
+  document.getElementById('startMemoryGameBtn').addEventListener('click', function() {
+    if (essaisRestants <= 0) {
+      showToast('❌ Plus d\'essais pour aujourd\'hui !', 'error');
+      return;
+    }
+    initMemoryGame();
+    this.textContent = '🔄 Recommencer';
   });
 }
 
-// ================================================================
-// CHARGEMENT UTILISATEUR
-// ================================================================
-function loadUserData(uid) {
-  var userRef = doc(db, 'users', uid);
-  return getDoc(userRef).then(function(docSnap) {
-    if (docSnap.exists()) {
-      userData = docSnap.data();
-      if (!userData.prenom) userData.prenom = 'Utilisateur';
-      localStorage.setItem('ARVEXA_user_data', JSON.stringify(userData));
-      sessionStorage.setItem('arvexa_loaded', 'true');
+function handleGameResult(defi, reussi, essaisUtilises) {
+  const essaisRestants = defi.essaisMax - essaisUtilises;
+  
+  // Sauvegarder le nombre d'essais
+  const userRef = doc(db, 'users', currentUser.uid);
+  const defisHebdo = { ...(userData?.defisHebdo || {}) };
+  if (!defisHebdo[defi.jour]) {
+    defisHebdo[defi.jour] = { essais: 0 };
+  }
+  defisHebdo[defi.jour].essais = essaisUtilises;
+  
+  if (reussi) {
+    saveDefiStatus(defi.jour, 'done', defi.recompense);
+    renderDefis();
+    updateProgress();
+    showToast('🎉 Victoire ! +' + formatCurrency(defi.recompense), 'success');
+    gameModal.classList.remove('show');
+  } else if (essaisRestants <= 0) {
+    saveDefiStatus(defi.jour, 'failed', 0);
+    renderDefis();
+    updateProgress();
+    showToast('❌ Plus d\'essais, défi échoué', 'error');
+    gameModal.classList.remove('show');
+  } else {
+    // Réessayer
+    showToast(`💪 Encore un essai ! (${essaisRestants} restant${essaisRestants > 1 ? 's' : ''})`, 'info');
+    // Réinitialiser le jeu
+    const board = document.getElementById('memoryGameBoard');
+    if (board) {
+      const emojis = ['🐶', '🐱', '🐭', '🐹', '🐰', '🦊', '🐻', '🐼'];
+      const pairs = emojis.slice(0, 4);
+      let newCards = [...pairs, ...pairs];
+      for (let i = newCards.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [newCards[i], newCards[j]] = [newCards[j], newCards[i]];
+      }
+      memoryCards = newCards;
+      flippedCards = [];
+      matchedPairs = 0;
+      isLocked = false;
+      renderMemoryBoard();
+      document.getElementById('memoryScore').textContent = 'Paires trouvées : 0 / 4';
     }
-    return userData;
-  }).catch(function(error) {
-    console.error('Erreur chargement user:', error);
-    return null;
-  });
+  }
 }
+
+// ================================================================
+// MODAL DÉFI SPÉCIAL
+// ================================================================
+function openSpecial(defi) {
+  // Défi spécial = mélange de quiz + jeu
+  // On utilise le quiz avec les questions Vrai/Faux
+  quizTitle.textContent = defi.titre + ' 🎯';
+  quizReponses = new Array(defi.questions.length).fill(-1);
+  
+  let html = '';
+  defi.questions.forEach((q, index) => {
+    html += `
+      <div class="question-item">
+        <div class="q-text">${index + 1}. ${q.question}</div>
+        <div class="q-options" data-q="${index}">
+          ${q.options.map((opt, optIndex) => `
+            <label data-opt="${optIndex}">
+              <input type="radio" name="q${index}" value="${optIndex}">
+              ${opt}
+            </label>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  });
+  
+  quizBody.innerHTML = html;
+  
+  document.querySelectorAll('.question-item input[type="radio"]').forEach(radio => {
+    radio.addEventListener('change', function() {
+      const qIndex = parseInt(this.name.replace('q', ''));
+      const optIndex = parseInt(this.value);
+      quizReponses[qIndex] = optIndex;
+      
+      const parent = this.closest('.q-options');
+      parent.querySelectorAll('label').forEach(label => {
+        label.classList.remove('selected');
+      });
+      this.closest('label').classList.add('selected');
+    });
+  });
+  
+  submitQuizBtn.disabled = false;
+  submitQuizBtn.textContent = '📤 Valider mes réponses';
+  submitQuizBtn.style.display = 'block';
+  submitQuizBtn.onclick = () => submitSpecial(defi);
+  
+  quizModal.classList.add('show');
+}
+
+function submitSpecial(defi) {
+  const toutesRepondues = quizReponses.every(r => r !== -1);
+  if (!toutesRepondues) {
+    showToast('⚠️ Répondez à toutes les questions !', 'warning');
+    return;
+  }
+  
+  let score = 0;
+  defi.questions.forEach((q, index) => {
+    if (quizReponses[index] === q.bonne) {
+      score++;
+    }
+  });
+  
+  const scoreRequis = defi.scoreRequis || 8;
+  const reussite = score >= scoreRequis;
+  
+  let html = '<div style="text-align:center;padding:20px;">';
+  html += `<div style="font-size:48px;margin-bottom:12px;">${reussite ? '🎉' : '😅'}</div>`;
+  html += `<h3 style="color:${reussite ? 'var(--success)' : 'var(--danger)'};">${reussite ? 'Félicitations !' : 'Pas de chance !'}</h3>`;
+  html += `<p style="color:var(--text-dim);margin:8px 0;">Score : ${score} / ${defi.questions.length}</p>`;
+  html += `<p style="color:var(--text-dim);">${reussite ? '✅ Vous avez gagné ' + formatCurrency(defi.recompense) : '❌ Réessayez demain !'}</p>`;
+  html += '</div>';
+  html += '<div style="display:flex;gap:10px;justify-content:center;margin-top:16px;">';
+  html += `<button class="game-btn primary" onclick="closeQuizModal.click()">Fermer</button>`;
+  html += '</div>';
+  
+  quizBody.innerHTML = html;
+  submitQuizBtn.style.display = 'none';
+  
+  if (reussite) {
+    saveDefiStatus(defi.jour, 'done', defi.recompense);
+    renderDefis();
+    updateProgress();
+  } else {
+    saveDefiStatus(defi.jour, 'failed', 0);
+    renderDefis();
+    updateProgress();
+  }
+}
+
+// ================================================================
+// FERMER LES MODALS
+// ================================================================
+closeQuizModal.addEventListener('click', () => quizModal.classList.remove('show'));
+quizModal.addEventListener('click', (e) => {
+  if (e.target === quizModal) quizModal.classList.remove('show');
+});
+
+closeGameModal.addEventListener('click', () => gameModal.classList.remove('show'));
+gameModal.addEventListener('click', (e) => {
+  if (e.target === gameModal) gameModal.classList.remove('show');
+});
 
 // ================================================================
 // AUTH
 // ================================================================
-var authChecked = false;
-
-onAuthStateChanged(auth, function(user) {
+onAuthStateChanged(auth, (user) => {
   if (user) {
     currentUser = user;
     localStorage.setItem('ARVEXA_current_user', user.uid);
-    
-    var cached = localStorage.getItem('ARVEXA_user_data');
-    if (cached) {
-      try {
-        userData = JSON.parse(cached);
-      } catch(e) {}
-    }
-
-    loadUserData(user.uid).then(function() {
-      loadEpargnes(user.uid);
-      setupFCMNotifications();
-    });
-
-    authChecked = true;
+    loadUserDefis(user.uid);
+    isPageLoading = false;
   } else {
-    var saved = localStorage.getItem('ARVEXA_current_user');
-    if (saved && !authChecked) {
-      setTimeout(function() {
+    if (isPageLoading) {
+      setTimeout(() => {
         if (!auth.currentUser) {
-          window.location.href = 'login.html';
+          const savedUid = localStorage.getItem('ARVEXA_current_user');
+          if (savedUid) {
+            if (!auth.currentUser) {
+              window.location.href = 'login.html';
+            }
+          } else {
+            window.location.href = 'login.html';
+          }
         }
-      }, 2000);
-    } else if (!authChecked) {
-      window.location.href = 'login.html';
+      }, 3000);
+    } else {
+      const savedUid = localStorage.getItem('ARVEXA_current_user');
+      if (savedUid) {
+        setTimeout(() => {
+          if (!auth.currentUser) {
+            window.location.href = 'login.html';
+          }
+        }, 2000);
+      } else {
+        window.location.href = 'login.html';
+      }
     }
-    authChecked = true;
   }
 });
 
-console.log('🐷 ARVEXA - Page Épargne chargée');
+console.log('🏆 ARVEXA - Défis hebdomadaires chargés');
+console.log('📅 Semaine 1 - Du lundi au vendredi');
+console.log('💰 Total à gagner : 300 FCFA');
 </script>
 </body>
 </html>

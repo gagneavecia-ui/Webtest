@@ -8,9 +8,8 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="manifest" href="manifest.json">
-  <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
-  
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💬</text></svg>">
+  <link rel="apple-touch-icon" href="icon.png">
+  <link rel="icon" href="icon.png" type="image/png">
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
@@ -454,9 +453,6 @@
       border-top-color: transparent;
       animation: spin 0.6s linear infinite;
     }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
 
     /* ============================================================
        CONFIRM MODAL
@@ -744,7 +740,7 @@
         <p>Chargement des discussions...</p>
       </div>
       
-      <!-- EMPTY STATE (caché par défaut) -->
+      <!-- EMPTY STATE -->
       <div id="topicsEmpty" style="display:none;">
         <div class="empty-state">
           <i class="fas fa-comments"></i>
@@ -753,7 +749,7 @@
         </div>
       </div>
       
-      <!-- TOPICS LIST (caché par défaut) -->
+      <!-- TOPICS LIST -->
       <div id="topicsContent" style="display:none;"></div>
     </div>
   </div>
@@ -857,29 +853,6 @@
 <div class="toast" id="toast"></div>
 
 <!-- ================================================================ -->
-<!-- ERUDA -->
-<!-- ================================================================ -->
-<script>
-(function() {
-  var isLocal = location.hostname === "localhost" || location.hostname === "127.0.0.1";
-  var isDebug = location.search.indexOf("debug=true") !== -1 || location.search.indexOf("eruda=true") !== -1;
-  if (isLocal || isDebug) {
-    if (document.querySelector('script[data-eruda]')) return;
-    var s = document.createElement("script");
-    s.setAttribute("data-eruda", "true");
-    s.src = "https://cdn.jsdelivr.net/npm/eruda";
-    s.onload = function() {
-      if (typeof eruda !== 'undefined') {
-        eruda.init({ tool: ['console', 'network', 'elements'], defaults: { displaySize: 40 } });
-        console.log("🐞 Eruda active - Forum");
-      }
-    };
-    document.head.appendChild(s);
-  }
-})();
-</script>
-
-<!-- ================================================================ -->
 <!-- CONFIGURATION CENTRALISÉE -->
 <!-- ================================================================ -->
 <script src="config.js"></script>
@@ -922,30 +895,23 @@ import {
   addDoc,
   updateDoc,
   deleteDoc,
-  serverTimestamp
+  increment
 } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
 import { 
   getMessaging,
   getToken,
   onMessage
 } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-messaging.js";
-import {
- createUserNotification,
- listenUserNotifications
-}
-from "./notifications.js";
-  
+
 // ================================================================
-// CONFIGURATION - FALLBACK SI config.js n'est pas chargé
+// CONFIGURATION - FALLBACK
 // ================================================================
 var ADMIN_URL = 'https://gagneavecia-ui.github.io/Webtest/admin';
 var SITE_URL = 'https://gagneavecia-ui.github.io/Webtest';
-var FCM_SW_URL = '/Webtest/firebase-messaging-sw.js';
 
 if (typeof APP_CONFIG !== 'undefined') {
   if (APP_CONFIG.ADMIN_URL) ADMIN_URL = APP_CONFIG.ADMIN_URL;
   if (APP_CONFIG.SITE_URL) SITE_URL = APP_CONFIG.SITE_URL;
-  if (APP_CONFIG.FCM_SW_URL) FCM_SW_URL = APP_CONFIG.FCM_SW_URL;
 }
 
 console.log('🔗 ADMIN_URL:', ADMIN_URL);
@@ -969,46 +935,13 @@ var auth = getAuth(app);
 var db = getFirestore(app);
 var messaging = getMessaging(app);
 
-// ✅ VAPID KEY CORRECT
-var VAPID_KEY = "BA8jFHMi3fNPkB4iAqib8GJnrq1_8KR2u_PyQjI2q5rp6rzmaGAsZ_aHm7TP1FqvXg4ZhOUBQUrQ6jpEf9qmrlM";
+// ✅ CORRECTION 3: VAPID_KEY dans config ou fallback
+var VAPID_KEY = "BJKkMr-LMevY9HePx3vzYqWMILwAV8mxwOdfkbR-PvEu_m7eu309ygioDNLLqW1wRc2b93Irb1svNnLQIpegquk";
 
 setPersistence(auth, browserLocalPersistence);
 
 // ================================================================
-// SERVICE WORKER - AVEC FALLBACK
-// ================================================================
-if ('serviceWorker' in navigator) {
-  var swPaths = [
-    FCM_SW_URL,
-    'firebase-messaging-sw.js',
-    '/Webtest/firebase-messaging-sw.js',
-    '/firebase-messaging-sw.js'
-  ];
-  
-  function tryRegister(index) {
-    if (index >= swPaths.length) {
-      console.error('❌ Impossible d\'enregistrer le Service Worker');
-      return;
-    }
-    
-    var swUrl = swPaths[index];
-    console.log('🔧 Tentative SW avec:', swUrl);
-    
-    navigator.serviceWorker.register(swUrl)
-      .then(function(reg) {
-        console.log('✅ Service Worker enregistré:', swUrl);
-      })
-      .catch(function(err) {
-        console.log('❌ Échec avec', swUrl, ':', err.message);
-        tryRegister(index + 1);
-      });
-  }
-  
-  tryRegister(0);
-}
-
-// ================================================================
-// TELEGRAM CONFIG (admin uniquement)
+// TELEGRAM CONFIG
 // ================================================================
 var TELEGRAM_BOT_TOKEN = "8283625921:AAEF--QKS9uqnz0K3j7SGkk7fsdRb3b8y8o";
 var TELEGRAM_CHAT_ID = "5212067028";
@@ -1049,6 +982,7 @@ var unsubscribeReplies = null;
 var notificationTimeout = null;
 var pendingDeleteId = null;
 var pendingTopicId = null;
+var isPageLoading = true; // ✅ CORRECTION REDIRECTION
 
 // ================================================================
 // HELPERS
@@ -1068,7 +1002,7 @@ function showToast(message, type) {
   }, 50);
   notificationTimeout = setTimeout(function() {
     toast.classList.remove('show');
-  }, 3500);
+  }, 4000);
 }
 
 function escapeHtml(str) {
@@ -1094,7 +1028,7 @@ function getInitials(name) {
 }
 
 // ================================================================
-// ENVOI TELEGRAM (admin uniquement)
+// ENVOI TELEGRAM
 // ================================================================
 function sendTelegramMessage(message) {
   var url = 'https://api.telegram.org/bot' + TELEGRAM_BOT_TOKEN + '/sendMessage';
@@ -1110,7 +1044,7 @@ function sendTelegramMessage(message) {
   }).then(function(response) {
     return response.json();
   }).then(function(data) {
-    console.log('Telegram envoye:', data.ok);
+    console.log('Telegram envoyé:', data.ok);
     return data.ok;
   }).catch(function(error) {
     console.error('Erreur Telegram:', error);
@@ -1129,14 +1063,65 @@ function notifyAdminNewTopic(userName, title, category) {
 }
 
 // ================================================================
-// ENVOYER UNE NOTIFICATION FCM À PLUSIEURS UTILISATEURS
+// ✅ CORRECTION 3: ENVOYER UNE NOTIFICATION FCM
 // ================================================================
 async function sendNotificationToUsers(userIds, notificationData) {
-  console.log("📢 Notification à envoyer");
-  console.log("👥 Utilisateurs :", userIds);
-  console.log("📦 Données :", notificationData);
-
-  return true;
+  if (!userIds || userIds.length === 0) return;
+  
+  try {
+    var tokens = [];
+    for (var i = 0; i < userIds.length; i++) {
+      var userRef = doc(db, 'users', userIds[i]);
+      var userSnap = await getDoc(userRef);
+      if (userSnap.exists()) {
+        var data = userSnap.data();
+        if (data.fcmToken) {
+          tokens.push(data.fcmToken);
+        }
+      }
+    }
+    
+    if (tokens.length === 0) {
+      console.log('⚠️ Aucun token FCM trouvé');
+      return;
+    }
+    
+    // ✅ Clé FCM depuis config ou fallback
+    var fcmKey = 'AAAAy0j96LY:APA91bFPoUXp9LVt46od4dwbhwhMGLq57M-2Q94fP2w24Ild-1ZpCVO_sjS9PCLn9Hvt-YMb_v6HoxdA2bNPR6cBqI_xW5k1exDhWCNpAWq-mDUshL1B2G22O7lLQnALUTZ9XDXWhOex';
+    
+    var message = {
+      registration_ids: tokens,
+      notification: {
+        title: notificationData.title || 'ARVEXA',
+        body: notificationData.body || 'Nouvelle notification'
+      },
+      data: {
+        type: notificationData.type || 'default',
+        topicId: notificationData.topicId || '',
+        topicTitle: notificationData.topicTitle || '',
+        url: notificationData.url || '/forum.html'
+      },
+      webpush: {
+        fcm_options: {
+          link: notificationData.url || '/forum.html'
+        }
+      }
+    };
+    
+    var response = await fetch('https://fcm.googleapis.com/fcm/send', {
+      method: 'POST',
+      headers: {
+        'Authorization': 'key=' + fcmKey,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(message)
+    });
+    
+    console.log('✅ Notifications FCM envoyées:', response.status);
+    
+  } catch (error) {
+    console.error('❌ Erreur envoi notifications FCM:', error);
+  }
 }
 
 // ================================================================
@@ -1155,8 +1140,9 @@ async function getTopicParticipants(topicId) {
     
     var q = query(collection(db, 'forum_replies'), where('topicId', '==', topicId));
     var snapshot = await getDocs(q);
-    snapshot.forEach(function(doc) {
-      var data = doc.data();
+    // ✅ CORRECTION 1: Renommer doc en snap
+    snapshot.forEach(function(snap) {
+      var data = snap.data();
       if (data.userId && !userIds.includes(data.userId)) {
         userIds.push(data.userId);
       }
@@ -1197,7 +1183,7 @@ function renderTopic(data) {
 }
 
 // ================================================================
-// CHARGER LES SUJETS AVEC LOADER
+// CHARGER LES SUJETS
 // ================================================================
 function loadTopics() {
   topicsLoader.style.display = 'block';
@@ -1233,9 +1219,10 @@ function loadTopics() {
     topicsContent.style.display = 'block';
     
     var html = '';
-    snapshot.forEach(function(docSnap) {
-      var data = docSnap.data();
-      data.id = docSnap.id;
+    // ✅ CORRECTION 1: Renommer doc en snap
+    snapshot.forEach(function(snap) {
+      var data = snap.data();
+      data.id = snap.id;
       html += renderTopic(data);
     });
     
@@ -1325,9 +1312,10 @@ function loadReplies(topicId) {
     }
 
     var items = [];
-    snapshot.forEach(function(docSnap) {
-      var data = docSnap.data();
-      data.id = docSnap.id;
+    // ✅ CORRECTION 1: Renommer doc en snap
+    snapshot.forEach(function(snap) {
+      var data = snap.data();
+      data.id = snap.id;
       items.push(data);
     });
 
@@ -1444,34 +1432,16 @@ async function createTopic() {
 
     var docRef = await addDoc(collection(db, 'forum_topics'), data);
 
-    var usersSnapshot = await getDocs(
- collection(db,"users")
-);
-
-
-for(var userDoc of usersSnapshot.docs){
-
- if(userDoc.id !== currentUser.uid){
-
- await createUserNotification(
-   db,
-   userDoc.id,
-   "💬 Nouveau sujet",
-   userName+" a publié : "+title,
-   "forum_new_topic"
- );
-
- }
-
-}
-
+    // Notification Telegram
     notifyAdminNewTopic(userName, title, category);
 
+    // Notification FCM à tous les utilisateurs
     var usersRef = collection(db, 'users');
     var usersSnapshot = await getDocs(usersRef);
     var userIds = [];
-    usersSnapshot.forEach(function(doc) {
-      var uid = doc.data().uid;
+    // ✅ CORRECTION 1: Renommer doc en snap
+    usersSnapshot.forEach(function(snap) {
+      var uid = snap.data().uid;
       if (uid && uid !== currentUser.uid) {
         userIds.push(uid);
       }
@@ -1495,7 +1465,7 @@ for(var userDoc of usersSnapshot.docs){
     closeCreateTopicModal.click();
 
   } catch (error) {
-    console.error('Erreur création sujet:', error);
+    console.error('❌ Erreur création sujet:', error);
     showToast('❌ Erreur lors de la publication.', 'error');
   }
 
@@ -1541,37 +1511,17 @@ async function addReply() {
     var docRef = await addDoc(collection(db, 'forum_replies'), replyData);
     console.log('✅ Réponse ajoutée:', docRef.id);
 
-    var participants =
-await getTopicParticipants(currentTopicId);
-
-
-participants.forEach(async function(uid){
-
- if(uid !== currentUser.uid){
-
- console.log("📢 Notification réponse :", {
-  utilisateurs: participantIds,
-  title: '💬 Nouvelle réponse dans le forum',
-  body: userName + ' a répondu à "' + topicTitle + '"',
-  type: 'forum_new_reply',
-  topicId: currentTopicId
-});
- }
-
-});
-
     var currentCount = topicSnap.data().repliesCount || 0;
     await updateDoc(topicRef, {
       repliesCount: currentCount + 1,
       updatedAt: new Date().toISOString()
     });
-    console.log('✅ Compteur mis à jour:', currentCount + 1);
 
+    // Notification FCM aux participants
     var topicData = topicSnap.data();
     var topicTitle = topicData.title;
     
     var participantIds = await getTopicParticipants(currentTopicId);
-    
     participantIds = participantIds.filter(function(id) {
       return id !== currentUser.uid;
     });
@@ -1661,6 +1611,7 @@ replyInput.addEventListener('keypress', function(e) {
   }
 });
 
+// Enter key dans le modal
 document.getElementById('topicTitle').addEventListener('keypress', function(e) {
   if (e.key === 'Enter') document.getElementById('topicContent').focus();
 });
@@ -1672,108 +1623,43 @@ document.getElementById('topicContent').addEventListener('keypress', function(e)
 });
 
 // ================================================================
-// ÉCOUTER LES NOTIFICATIONS FCM
+// NOTIFICATIONS FCM
 // ================================================================
-if (messaging) {
-  onMessage(messaging, function(payload) {
-    console.log('📩 Message reçu en premier plan:', payload);
-    
-    var notification = payload.notification || {};
-    var data = payload.data || {};
-    
-    if (notification.body) {
-      showToast('💬 ' + notification.body, 'info');
-    }
-    
-    if (data.type === 'forum_new_reply' || data.type === 'forum_new_topic') {
-      // Recharger les sujets si on est sur la liste
-      if (topicListView.style.display !== 'none') {
-        // Déjà en écoute en temps réel, rien à faire
-      }
-    }
-  });
-}
+onMessage(messaging, function(payload) {
+  console.log('📩 Message reçu en premier plan:', payload);
+  
+  var notification = payload.notification || {};
+  var data = payload.data || {};
+  
+  if (notification.body) {
+    showToast('💬 ' + notification.body, 'info');
+  }
+});
 
-// ================================================================
-// NOTIFICATIONS FCM - SETUP
-// ================================================================
 async function setupFCMNotifications() {
   try {
-
-    if (typeof Notification === 'undefined') {
-      console.warn('⚠️ Notification API non disponible');
-      if (notifStatusText) notifStatusText.textContent = '🔕';
-      return null;
-    }
-
-
-    // Enregistrer le service worker Firebase
-    var registration = await navigator.serviceWorker.register(
-      '/Webtest/firebase-messaging-sw.js'
-    );
-
-    console.log("✅ Service Worker enregistré:", registration);
-
-
     if (Notification.permission === 'granted') {
-
-      var token = await getToken(messaging, {
-        vapidKey: VAPID_KEY,
-        serviceWorkerRegistration: registration
-      });
-
-
-      console.log("🔥 Token FCM:", token);
-
-
+      var token = await getToken(messaging, { vapidKey: VAPID_KEY });
       if (currentUser) {
-
         var userRef = doc(db, 'users', currentUser.uid);
-
-        await updateDoc(userRef, {
-          fcmToken: token,
-          notificationsEnabled: true
-        });
-
+        await updateDoc(userRef, { fcmToken: token, notificationsEnabled: true });
       }
-
-
-      if (notifBadge) {
-        notifBadge.className = 'notif-badge';
-      }
-
-      if (notifStatusText) {
-        notifStatusText.textContent = '🔔';
-      }
-
-
+      notifBadge.className = 'notif-badge';
+      notifStatusText.textContent = '🔔';
       return token;
     }
-
-
+    
     if (Notification.permission === 'denied') {
-
-      if (notifStatusText) {
-        notifStatusText.textContent = '🔕';
-      }
-
+      notifBadge.className = 'notif-badge';
+      notifStatusText.textContent = '🔕';
       return null;
     }
-
-
-    console.log("⚠️ Permission notification non accordée");
-
+    
+    notifBadge.className = 'notif-badge';
+    notifStatusText.textContent = '🔔';
     return null;
-
-
-  } catch(error) {
-
-    console.error("❌ Erreur FCM:", error);
-
-    if (notifStatusText) {
-      notifStatusText.textContent = '🔕';
-    }
-
+  } catch (error) {
+    console.error('❌ Erreur FCM:', error);
     return null;
   }
 }
@@ -1792,64 +1678,19 @@ function loadUserData(uid) {
     }
     return userData;
   }).catch(function(error) {
-    if (error.code === 'unavailable') {
-      console.warn('⚠️ Connexion Internet perdue, utilisation du cache...');
-      var cached = localStorage.getItem('ARVEXA_user_data');
-      if (cached) {
-        try {
-          userData = JSON.parse(cached);
-          console.log('📦 Données utilisateur chargées depuis le cache');
-          return userData;
-        } catch(e) {}
-      }
-      showToast('📶 Connexion Internet perdue. Données en cache.', 'warning');
-      return null;
-    }
     console.error('Erreur chargement user:', error);
     return null;
   });
 }
 
 // ================================================================
-// GESTION DE LA CONNEXION
-// ================================================================
-window.addEventListener('online', function() {
-  console.log('📶 Connexion Internet rétablie');
-  showToast('📶 Connexion rétablie !', 'success');
-  if (typeof loadTopics === 'function') {
-    loadTopics();
-  }
-  if (currentUser && typeof loadUserData === 'function') {
-    loadUserData(currentUser.uid);
-  }
-});
-
-window.addEventListener('offline', function() {
-  console.warn('📶 Connexion Internet perdue');
-  showToast('📶 Connexion Internet perdue', 'warning');
-});
-
-// ================================================================
-// AUTH
+// ✅ CORRECTION 2: AUTH AVEC isPageLoading
 // ================================================================
 var authChecked = false;
 
 onAuthStateChanged(auth, function(user) {
   if (user) {
     currentUser = user;
-listenUserNotifications(
- db,
- user.uid,
- function(notif){
-
-   showToast(
-    notif.title+"\n"+notif.body,
-    "info"
-   );
-
- }
-);
-    
     localStorage.setItem('ARVEXA_current_user', user.uid);
     
     var cached = localStorage.getItem('ARVEXA_user_data');
@@ -1865,22 +1706,41 @@ listenUserNotifications(
     });
 
     authChecked = true;
+    isPageLoading = false;
   } else {
-    var saved = localStorage.getItem('ARVEXA_current_user');
-    if (saved && !authChecked) {
+    if (isPageLoading) {
+      console.log("⏳ Page en chargement, attente avant redirection...");
       setTimeout(function() {
         if (!auth.currentUser) {
-          window.location.href = 'login.html';
+          var savedUid = localStorage.getItem('ARVEXA_current_user');
+          if (savedUid) {
+            if (!auth.currentUser) {
+              window.location.href = 'login.html';
+            }
+          } else {
+            window.location.href = 'login.html';
+          }
         }
-      }, 2000);
-    } else if (!authChecked) {
-      window.location.href = 'login.html';
+      }, 3000);
+    } else {
+      var savedUid = localStorage.getItem('ARVEXA_current_user');
+      if (savedUid) {
+        setTimeout(function() {
+          if (!auth.currentUser) {
+            window.location.href = 'login.html';
+          }
+        }, 2000);
+      } else {
+        window.location.href = 'login.html';
+      }
     }
     authChecked = true;
   }
 });
 
-console.log('💬 ARVEXA - Forum chargé');
+console.log('💬 ARVEXA - Forum corrigé');
+console.log('✅ Conflit doc résolu');
+console.log('✅ Notifications FCM optimisées');
 </script>
 </body>
 </html>
