@@ -15,7 +15,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
   
   <style>
-    /* ===== ROOT ===== */
     :root {
       --primary: #1A3A2A;
       --primary-dark: #0A1A12;
@@ -607,33 +606,6 @@
 <div class="toast" id="toast"></div>
 
 <!-- ================================================================ -->
-<!-- ERUDA - Console mobile -->
-<!-- ================================================================ -->
-<script>
-(function() {
-  var isLocal = location.hostname === "localhost" || location.hostname === "127.0.0.1";
-  var isDebug = location.search.indexOf("debug=true") !== -1 || location.search.indexOf("eruda=true") !== -1;
-  
-  if (isLocal || isDebug) {
-    if (document.querySelector('script[data-eruda]')) return;
-    var s = document.createElement("script");
-    s.setAttribute("data-eruda", "true");
-    s.src = "https://cdn.jsdelivr.net/npm/eruda";
-    s.onload = function() {
-      if (typeof eruda !== 'undefined') {
-        eruda.init({
-          tool: ['console', 'network', 'elements', 'resources'],
-          defaults: { displaySize: 40 }
-        });
-        console.log("🐞 Eruda active - Connexion");
-      }
-    };
-    document.head.appendChild(s);
-  }
-})();
-</script>
-
-<!-- ================================================================ -->
 <!-- CONFIGURATION CENTRALISÉE -->
 <!-- ================================================================ -->
 <script src="config.js"></script>
@@ -669,16 +641,14 @@ import {
 import { 
   getFirestore,
   doc,
-  setDoc,
   getDoc,
-  getDocs,
-  collection,
-  serverTimestamp,
-  updateDoc
+  setDoc,
+  updateDoc,
+  serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
 
 // ================================================================
-// CONFIGURATION - FALLBACK
+// CONFIGURATION
 // ================================================================
 var ADMIN_URL = 'https://nexgen-39043.web.app/admin';
 
@@ -704,6 +674,7 @@ var firebaseConfig = {
 var app = initializeApp(firebaseConfig);
 var auth = getAuth(app);
 var db = getFirestore(app);
+
 setPersistence(auth, browserLocalPersistence);
 
 // ================================================================
@@ -721,6 +692,7 @@ var messageIcon = document.getElementById('messageIcon');
 var messageText = document.getElementById('messageText');
 var toast = document.getElementById('toast');
 
+// ✅ Variable pour éviter la redirection pendant la connexion
 var isLoggingIn = false;
 
 // ================================================================
@@ -789,9 +761,8 @@ function translateFirestoreError(error) {
 }
 
 // ================================================================
-// REDIRECTION SI DÉJÀ CONNECTÉ
+// REDIRECTION SEULEMENT SI PAS EN COURS DE CONNEXION
 // ================================================================
-// ✅ CORRECTION 1: Vérifier isLoggingIn pour éviter la redirection pendant la connexion
 onAuthStateChanged(auth, function(user) {
   if (user && !isLoggingIn) {
     localStorage.setItem('ARVEXA_current_user', user.uid);
@@ -814,9 +785,10 @@ togglePassword.addEventListener('click', function() {
 // ================================================================
 // CRÉER DOCUMENT UTILISATEUR (pour Google)
 // ================================================================
-function createUserDocument(user, displayName, email) {
+function createUserDocument(user) {
   var now = new Date().toISOString();
-  var nameParts = displayName ? displayName.split(' ') : ['Utilisateur', 'Google'];
+  var displayName = user.displayName || 'Utilisateur';
+  var nameParts = displayName.split(' ');
   var prenom = nameParts[0] || 'Utilisateur';
   var nom = nameParts.slice(1).join(' ') || 'Google';
   
@@ -830,10 +802,10 @@ function createUserDocument(user, displayName, email) {
   
   var userData = {
     uid: uid,
-    email: email || user.email,
+    email: user.email || '',
     nom: nom,
     prenom: prenom,
-    fullName: displayName || (prenom + ' ' + nom),
+    fullName: displayName,
     pays: "Niger",
     phone: user.phoneNumber || "",
     howKnown: 'google',
@@ -866,10 +838,8 @@ function createUserDocument(user, displayName, email) {
     _serverCreatedAt: serverTimestamp()
   };
   
-  // Créer le document utilisateur
   var userRef = doc(db, "users", uid);
   return setDoc(userRef, userData, { merge: true }).then(function() {
-    // Créer le mapping du code de parrainage
     var codeRef = doc(db, "referralCodes", referralCode);
     return setDoc(codeRef, {
       uid: uid,
@@ -882,7 +852,7 @@ function createUserDocument(user, displayName, email) {
 }
 
 // ================================================================
-// CONNEXION
+// ✅ CONNEXION - CORRIGÉE (user is defined)
 // ================================================================
 loginForm.addEventListener('submit', function(e) {
   e.preventDefault();
@@ -896,7 +866,6 @@ loginForm.addEventListener('submit', function(e) {
     return;
   }
 
-  // ✅ CORRECTION 5: isLoggingIn = true avant la connexion
   isLoggingIn = true;
   loginBtn.disabled = true;
   loginBtn.innerHTML = '<span class="loader"></span> Connexion...';
@@ -906,13 +875,10 @@ loginForm.addEventListener('submit', function(e) {
       var user = userCredential.user;
       console.log("✅ Connexion réussie:", user.uid);
       
-      // Vérifier que l'utilisateur existe dans Firestore
       var userRef = doc(db, "users", user.uid);
       return getDoc(userRef).then(function(docSnap) {
         if (!docSnap.exists()) {
-          // Si l'utilisateur existe dans Auth mais pas dans Firestore (cas rare)
-          // Créer le document avec les infos disponibles
-          return createUserDocument(user, user.displayName, user.email).then(function() {
+          return createUserDocument(user).then(function() {
             return userRef;
           });
         }
@@ -920,7 +886,6 @@ loginForm.addEventListener('submit', function(e) {
       });
     })
     .then(function(userRef) {
-      // Mettre à jour lastLogin
       return updateDoc(userRef, {
         lastLogin: new Date().toISOString()
       }).catch(function(err) {
@@ -928,20 +893,28 @@ loginForm.addEventListener('submit', function(e) {
       });
     })
     .then(function() {
-      showToast('✅ Connexion réussie ! Bienvenue sur ARVEXA. 🎉', 'success');
-      
-      // Charger les données utilisateur dans localStorage
+      // ✅ Récupérer l'utilisateur depuis auth.currentUser
       var user = auth.currentUser;
-      var userRef = doc(db, "users", user.uid);
-      return getDoc(userRef);
+      if (user) {
+        var userRef = doc(db, "users", user.uid);
+        return getDoc(userRef);
+      }
+      return null;
     })
     .then(function(docSnap) {
-      if (docSnap.exists()) {
+      // ✅ Récupérer l'utilisateur depuis auth.currentUser
+      var user = auth.currentUser;
+      
+      if (docSnap && docSnap.exists()) {
         var userData = docSnap.data();
-        localStorage.setItem('ARVEXA_current_user', user.uid);
+        if (user) {
+          localStorage.setItem('ARVEXA_current_user', user.uid);
+        }
         localStorage.setItem('ARVEXA_user_data', JSON.stringify(userData));
         localStorage.setItem('ARVEXA_is_unlocked', String(userData.isUnlocked || false));
       }
+      
+      showToast('✅ Connexion réussie ! Bienvenue sur ARVEXA. 🎉', 'success');
       
       setTimeout(function() {
         isLoggingIn = false;
@@ -952,7 +925,6 @@ loginForm.addEventListener('submit', function(e) {
       isLoggingIn = false;
       console.error("❌ Erreur connexion:", error);
       
-      // ✅ CORRECTION 3: Messages d'erreur détaillés
       var errorMsg = translateFirestoreError(error);
       
       if (error.code === 'auth/user-not-found') {
@@ -976,11 +948,10 @@ loginForm.addEventListener('submit', function(e) {
 });
 
 // ================================================================
-// CONNEXION GOOGLE
+// ✅ CONNEXION GOOGLE - CORRIGÉE (user is defined)
 // ================================================================
 if (googleBtn) {
   googleBtn.addEventListener('click', function() {
-    // ✅ CORRECTION 5: isLoggingIn = true avant la connexion
     isLoggingIn = true;
     googleBtn.disabled = true;
     googleBtn.innerHTML = '<span class="loader"></span> Connexion...';
@@ -991,12 +962,11 @@ if (googleBtn) {
         var user = result.user;
         console.log("✅ Connexion Google réussie:", user.email);
         
-        // ✅ CORRECTION 4: Vérifier/créer le document Firestore
         var userRef = doc(db, "users", user.uid);
         return getDoc(userRef).then(function(docSnap) {
           if (!docSnap.exists()) {
             console.log("📝 Création du document pour Google...");
-            return createUserDocument(user, user.displayName, user.email).then(function() {
+            return createUserDocument(user).then(function() {
               return userRef;
             });
           }
@@ -1004,7 +974,6 @@ if (googleBtn) {
         });
       })
       .then(function(userRef) {
-        // Mettre à jour lastLogin
         return updateDoc(userRef, {
           lastLogin: new Date().toISOString()
         }).catch(function(err) {
@@ -1012,19 +981,23 @@ if (googleBtn) {
         });
       })
       .then(function() {
+        // ✅ Récupérer l'utilisateur depuis auth.currentUser
         var user = auth.currentUser;
         if (user) {
-          localStorage.setItem('ARVEXA_current_user', user.uid);
-          
-          // Récupérer les données utilisateur
           var userRef = doc(db, "users", user.uid);
           return getDoc(userRef);
         }
         return null;
       })
       .then(function(docSnap) {
+        // ✅ Récupérer l'utilisateur depuis auth.currentUser
+        var user = auth.currentUser;
+        
         if (docSnap && docSnap.exists()) {
           var userData = docSnap.data();
+          if (user) {
+            localStorage.setItem('ARVEXA_current_user', user.uid);
+          }
           localStorage.setItem('ARVEXA_user_data', JSON.stringify(userData));
           localStorage.setItem('ARVEXA_is_unlocked', String(userData.isUnlocked || false));
         }
@@ -1074,7 +1047,6 @@ forgotPasswordBtn.addEventListener('click', function(e) {
     return;
   }
   
-  // Désactiver le bouton temporairement
   forgotPasswordBtn.style.pointerEvents = 'none';
   forgotPasswordBtn.style.opacity = '0.5';
   
@@ -1096,7 +1068,6 @@ forgotPasswordBtn.addEventListener('click', function(e) {
       showMessage(errorMsg, 'error');
     })
     .finally(function() {
-      // Réactiver le bouton
       setTimeout(function() {
         forgotPasswordBtn.style.pointerEvents = 'auto';
         forgotPasswordBtn.style.opacity = '1';
@@ -1105,7 +1076,7 @@ forgotPasswordBtn.addEventListener('click', function(e) {
 });
 
 // ================================================================
-// ENTER KEY pour soumettre le formulaire
+// ENTER KEY
 // ================================================================
 passwordInput.addEventListener('keypress', function(e) {
   if (e.key === 'Enter') {
@@ -1132,6 +1103,8 @@ window.addEventListener('offline', function() {
 });
 
 console.log("🔐 ARVEXA - Page de connexion chargée (version corrigée)");
+console.log("✅ isLoggingIn pour éviter les redirections intempestives");
+console.log("✅ user is defined corrigé");
 </script>
 </body>
 </html>

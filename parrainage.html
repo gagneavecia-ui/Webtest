@@ -8,9 +8,8 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="manifest" href="manifest.json">
-  <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
-  
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👥</text></svg>">
+  <link rel="apple-touch-icon" href="icon.png">
+  <link rel="icon" href="icon.png" type="image/png">
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
@@ -25,7 +24,7 @@
       --success: #2D7D5A;
       --bg-dark: #0A0A0A;
       --bg-surface: #141414;
-      --bg-card: rgba(20, 20, 20, 0.7);
+      --bg-card: rgba(20,  ., 20, 0.7);
       --text-light: #F5F0E8;
       --text-dim: #8A8A7A;
       --text-muted: #5A5A4A;
@@ -78,12 +77,12 @@
       opacity: 0.15;
       animation: glowMove 10s ease-in-out infinite alternate;
     }
-    .glow-1 { width: 350px; height: 350px; background: rgba(26, 58, 42, 0.15); top: -80px; right: -80px; }
-    .glow-2 { width: 200px; height: 200px; background: rgba(184, 134, 11, 0.03); bottom: 0; left: 0; animation-delay: -4s; }
-    .glow-3 { width: 250px; height: 250px; background: rgba(26, 58, 42, 0.08); top: 40%; left: 50%; transform: translate(-50%,-50%); animation-delay: -8s; }
+    .glow-1 { width: 350px; height: 350px; background: rgba(26,58,42,0.15); top: -80px; right: -80px; }
+    .glow-2 { width: 200px; height: 200px; background: rgba(184,134,11,0.03); bottom: 0; left: 0; animation-delay: -4s; }
+    .glow-3 { width: 250px; height: 250px; background: rgba(26,58,42,0.08); top: 40%; left: 50%; transform: translate(-50%,-50%); animation-delay: -8s; }
     @keyframes glowMove {
-      0% { transform: translate(0, 0) scale(1); }
-      100% { transform: translate(30px, -20px) scale(1.1); }
+      0% { transform: translate(0,0) scale(1); }
+      100% { transform: translate(30px,-20px) scale(1.1); }
     }
 
     .header {
@@ -330,32 +329,6 @@
     .empty-state .sub { font-size: 11px; margin-top: 4px; opacity: 0.6; }
 
     /* ============================================================
-       TOAST
-       ============================================================ */
-    .toast {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%) translateY(120px);
-      max-width: 90%;
-      width: 400px;
-      padding: 14px 20px;
-      border-radius: 14px;
-      font-size: 13px;
-      font-weight: 500;
-      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-      z-index: 9999;
-      text-align: center;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-      pointer-events: none;
-    }
-    .toast.show { transform: translateX(-50%) translateY(0); }
-    .toast.success { background: #0D2A1F; border: 1px solid #2D7D5A; color: #2D7D5A; }
-    .toast.error { background: #2A0D0D; border: 1px solid #8A3A3A; color: #8A3A3A; }
-    .toast.warning { background: #2A1A0D; border: 1px solid #B8860B; color: #B8860B; }
-    .toast.info { background: #0D1A2A; border: 1px solid #4A7A8A; color: #4A7A8A; }
-
-    /* ============================================================
        LOCKED MESSAGE
        ============================================================ */
     #lockedMessage {
@@ -380,26 +353,22 @@
       margin-bottom: 16px;
       display: block;
     }
-
     #lockedMessage h2 {
       margin-bottom: 12px;
       font-family: 'Playfair Display', serif;
       font-size: 22px;
       color: var(--text-light);
     }
-
     #lockedMessage p {
       color: var(--text-dim);
       margin-bottom: 8px;
       font-size: 14px;
       line-height: 1.6;
     }
-
     #lockedMessage .highlight {
       color: var(--success);
       font-weight: 600;
     }
-
     .btn-recharge-lock {
       display: inline-flex;
       align-items: center;
@@ -420,17 +389,9 @@
       min-width: auto;
       width: auto;
     }
-    .btn-recharge-lock:active {
-      transform: scale(0.96);
-    }
-    .btn-recharge-lock:hover {
-      background: #9A7209;
-      box-shadow: 0 4px 20px rgba(184, 134, 11, 0.2);
-    }
-    .btn-recharge-lock i {
-      font-size: 14px;
-    }
-
+    .btn-recharge-lock:active { transform: scale(0.96); }
+    .btn-recharge-lock:hover { background: #9A7209; box-shadow: 0 4px 20px rgba(184, 134, 11, 0.2); }
+    .btn-recharge-lock i { font-size: 14px; }
     #lockedMessage .back-link {
       display: inline-block;
       margin-top: 16px;
@@ -439,9 +400,33 @@
       text-decoration: none;
       transition: var(--transition);
     }
-    #lockedMessage .back-link:hover {
-      color: var(--text-dim);
+    #lockedMessage .back-link:hover { color: var(--text-dim); }
+
+    /* ============================================================
+       TOAST
+       ============================================================ */
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(120px);
+      max-width: 90%;
+      width: 400px;
+      padding: 14px 20px;
+      border-radius: 14px;
+      font-size: 13px;
+      font-weight: 500;
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+      z-index: 9999;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      pointer-events: none;
     }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+    .toast.success { background: #0D2A1F; border: 1px solid #2D7D5A; color: #2D7D5A; }
+    .toast.error { background: #2A0D0D; border: 1px solid #8A3A3A; color: #8A3A3A; }
+    .toast.warning { background: #2A1A0D; border: 1px solid #B8860B; color: #B8860B; }
+    .toast.info { background: #0D1A2A; border: 1px solid #4A7A8A; color: #4A7A8A; }
 
     /* ============================================================
        RESPONSIVE
@@ -479,15 +464,13 @@
 <header class="header">
   <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
   <a href="index.html" class="logo">ARVE<span>XA</span></a>
-  <span>
-  </span>
-  </span>
+  <span></span>
 </header>
 
 <!-- ===== MAIN ===== -->
 <main class="container">
 
-  <!-- ===== CONTENU PRINCIPAL (visible si débloqué) ===== -->
+  <!-- ===== CONTENU PRINCIPAL ===== -->
   <div id="parrainContent">
 
     <!-- HERO -->
@@ -575,6 +558,7 @@
 </main>
 
 <div class="toast" id="toast"></div>
+
 <!-- ================================================================ -->
 <!-- CONFIGURATION CENTRALISÉE -->
 <!-- ================================================================ -->
@@ -595,7 +579,7 @@
 
 <script type="module">
 // ================================================================
-// IMPORTS FIREBASE v12
+// IMPORTS FIREBASE
 // ================================================================
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
 import { 
@@ -614,11 +598,12 @@ import {
   where,
   onSnapshot,
   updateDoc,
+  increment,
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
 
 // ================================================================
-// CONFIGURATION - FALLBACK SI config.js n'est pas chargé
+// CONFIGURATION - FALLBACK
 // ================================================================
 var ADMIN_URL = 'https://nexgen-39043.web.app/admin';
 
@@ -648,12 +633,6 @@ var db = getFirestore(app);
 setPersistence(auth, browserLocalPersistence);
 
 // ================================================================
-// TELEGRAM CONFIG
-// ================================================================
-var TELEGRAM_BOT_TOKEN = "8283625921:AAEF--QKS9uqnz0K3j7SGkk7fsdRb3b8y8o";
-var TELEGRAM_CHAT_ID = "5212067028";
-
-// ================================================================
 // DOM
 // ================================================================
 var parrainCodeEl = document.getElementById('parrainCode');
@@ -669,6 +648,10 @@ var currentUser = null;
 var userData = null;
 var unsubscribeFilleuls = null;
 var notificationTimeout = null;
+var isPageLoading = true;
+
+// ✅ Variables pour éviter les notifications en boucle (simplement pour l'affichage)
+var knownFilleulIds = new Set();
 
 // ================================================================
 // HELPERS
@@ -698,180 +681,74 @@ function escapeHtml(str) {
   return div.innerHTML;
 }
 
-// ================================================================
-// 15 MESSAGES POUR NOUVEAU FILLEUL
-// ================================================================
-var parrainageMessages = [
-  function(userName, filleulName, totalUsers) {
-    return '👤 Nouveau filleul ! 👤 ' + userName + ' a parrainé ' + filleulName + ' 👥 ' + totalUsers + '\n\n🔗 [ Va voir ça ](' + ADMIN_URL + ')';
-  },
-  function(userName, filleulName, totalUsers) {
-    return '🎯 Nouveau parrainage ! 👤 ' + userName + ' 👤 ' + filleulName + ' 👥 ' + totalUsers + '\n\n🔗 [ Admin ](' + ADMIN_URL + ')';
-  },
-  function(userName, filleulName, totalUsers) {
-    return '👥 Parrainage validé ! 👤 ' + userName + ' → ' + filleulName + ' 👥 ' + totalUsers + '\n\n🔗 [ Check ](' + ADMIN_URL + ')';
-  },
-  function(userName, filleulName, totalUsers) {
-    return '🔥 Nouvelle recrue ! 👤 ' + userName + ' a parrainé ' + filleulName + ' 👥 ' + totalUsers + '\n\n🔗 [ Voir ](' + ADMIN_URL + ')';
-  },
-  function(userName, filleulName, totalUsers) {
-    return '💪 Un nouveau dans le gang ! 👤 ' + userName + ' → ' + filleulName + ' 👥 ' + totalUsers + '\n\n🔗 [ Action ](' + ADMIN_URL + ')';
-  },
-  function(userName, filleulName, totalUsers) {
-    return '🏆 Parrainage réussi ! 👤 ' + userName + ' 👤 ' + filleulName + ' 👥 ' + totalUsers + '\n\n🔗 [ Dashboard ](' + ADMIN_URL + ')';
-  },
-  function(userName, filleulName, totalUsers) {
-    return '📈 Le réseau grandit ! 👤 ' + userName + ' → ' + filleulName + ' 👥 ' + totalUsers + '\n\n🔗 [ Console ](' + ADMIN_URL + ')';
-  },
-  function(userName, filleulName, totalUsers) {
-    return '⭐ Nouveau membre ! 👤 ' + userName + ' a parrainé ' + filleulName + ' 👥 ' + totalUsers + '\n\n🔗 [ Gérer ](' + ADMIN_URL + ')';
-  },
-  function(userName, filleulName, totalUsers) {
-    return '🎯 Parrainage en cours ! 👤 ' + userName + ' → ' + filleulName + ' 👥 ' + totalUsers + '\n\n🔗 [ Suivre ](' + ADMIN_URL + ')';
-  },
-  function(userName, filleulName, totalUsers) {
-    return '💎 Nouveau filleul ! 👤 ' + userName + ' 👤 ' + filleulName + ' 👥 ' + totalUsers + '\n\n🔗 [ Voir plus ](' + ADMIN_URL + ')';
-  },
-  function(userName, filleulName, totalUsers) {
-    return '👑 Le boss parraine ! 👤 ' + userName + ' → ' + filleulName + ' 👥 ' + totalUsers + '\n\n🔗 [ Admin panel ](' + ADMIN_URL + ')';
-  },
-  function(userName, filleulName, totalUsers) {
-    return '🚀 Recrue de plus ! 👤 ' + userName + ' 👤 ' + filleulName + ' 👥 ' + totalUsers + '\n\n🔗 [ Contrôle ](' + ADMIN_URL + ')';
-  },
-  function(userName, filleulName, totalUsers) {
-    return '🔥 Nouveau parrain ! 👤 ' + userName + ' → ' + filleulName + ' 👥 ' + totalUsers + '\n\n🔗 [ Découvrir ](' + ADMIN_URL + ')';
-  },
-  function(userName, filleulName, totalUsers) {
-    return '💪 Le gang s\'agrandit ! 👤 ' + userName + ' 👤 ' + filleulName + ' 👥 ' + totalUsers + '\n\n🔗 [ Accès ](' + ADMIN_URL + ')';
-  },
-  function(userName, filleulName, totalUsers) {
-    return '🎯 Parrainage validé ! 👤 ' + userName + ' → ' + filleulName + ' 👥 ' + totalUsers + '\n\n🔗 [ Voir admin ](' + ADMIN_URL + ')';
-  }
-];
+function sleep(ms) {
+  return new Promise(function(r) { setTimeout(r, ms); });
+}
 
-// ================================================================
-// 15 MESSAGES POUR BONUS DE PARRAINAGE
-// ================================================================
-var parrainageBonusMessages = [
-  function(userName, amount, totalUsers) {
-    return '💰 Bonus parrainage ! 👤 ' + userName + ' 💰 ' + formatCurrency(amount) + ' 👥 ' + totalUsers + '\n\n🔗 [ Va voir ça ](' + ADMIN_URL + ')';
-  },
-  function(userName, amount, totalUsers) {
-    return '🎁 Bonus crédité ! 👤 ' + userName + ' 💰 ' + formatCurrency(amount) + ' 👥 ' + totalUsers + '\n\n🔗 [ Admin ](' + ADMIN_URL + ')';
-  },
-  function(userName, amount, totalUsers) {
-    return '💸 Parrainage payé ! 👤 ' + userName + ' 💰 ' + formatCurrency(amount) + ' 👥 ' + totalUsers + '\n\n🔗 [ Check ](' + ADMIN_URL + ')';
-  },
-  function(userName, amount, totalUsers) {
-    return '🏆 Bonus validé ! 👤 ' + userName + ' 💰 ' + formatCurrency(amount) + ' 👥 ' + totalUsers + '\n\n🔗 [ Voir ](' + ADMIN_URL + ')';
-  },
-  function(userName, amount, totalUsers) {
-    return '💰 Paiement parrainage ! 👤 ' + userName + ' 💰 ' + formatCurrency(amount) + ' 👥 ' + totalUsers + '\n\n🔗 [ Action ](' + ADMIN_URL + ')';
-  },
-  function(userName, amount, totalUsers) {
-    return '💵 Bonus reçu ! 👤 ' + userName + ' 💰 ' + formatCurrency(amount) + ' 👥 ' + totalUsers + '\n\n🔗 [ Dashboard ](' + ADMIN_URL + ')';
-  },
-  function(userName, amount, totalUsers) {
-    return '🎯 Bonus de filleul ! 👤 ' + userName + ' 💰 ' + formatCurrency(amount) + ' 👥 ' + totalUsers + '\n\n🔗 [ Console ](' + ADMIN_URL + ')';
-  },
-  function(userName, amount, totalUsers) {
-    return '⭐ Gain de parrainage ! 👤 ' + userName + ' 💰 ' + formatCurrency(amount) + ' 👥 ' + totalUsers + '\n\n🔗 [ Gérer ](' + ADMIN_URL + ')';
-  },
-  function(userName, amount, totalUsers) {
-    return '🔥 Prime parrainage ! 👤 ' + userName + ' 💰 ' + formatCurrency(amount) + ' 👥 ' + totalUsers + '\n\n🔗 [ Suivre ](' + ADMIN_URL + ')';
-  },
-  function(userName, amount, totalUsers) {
-    return '💎 Bonus encaissé ! 👤 ' + userName + ' 💰 ' + formatCurrency(amount) + ' 👥 ' + totalUsers + '\n\n🔗 [ Voir plus ](' + ADMIN_URL + ')';
-  },
-  function(userName, amount, totalUsers) {
-    return '👑 Paiement du roi ! 👤 ' + userName + ' 💰 ' + formatCurrency(amount) + ' 👥 ' + totalUsers + '\n\n🔗 [ Admin panel ](' + ADMIN_URL + ')';
-  },
-  function(userName, amount, totalUsers) {
-    return '🚀 Bonus crédité ! 👤 ' + userName + ' 💰 ' + formatCurrency(amount) + ' 👥 ' + totalUsers + '\n\n🔗 [ Contrôle ](' + ADMIN_URL + ')';
-  },
-  function(userName, amount, totalUsers) {
-    return '💰 Nouveau bonus ! 👤 ' + userName + ' 💰 ' + formatCurrency(amount) + ' 👥 ' + totalUsers + '\n\n🔗 [ Découvrir ](' + ADMIN_URL + ')';
-  },
-  function(userName, amount, totalUsers) {
-    return '💪 Gain parrainage ! 👤 ' + userName + ' 💰 ' + formatCurrency(amount) + ' 👥 ' + totalUsers + '\n\n🔗 [ Accès ](' + ADMIN_URL + ')';
-  },
-  function(userName, amount, totalUsers) {
-    return '🎯 Bonus validé ! 👤 ' + userName + ' 💰 ' + formatCurrency(amount) + ' 👥 ' + totalUsers + '\n\n🔗 [ Voir admin ](' + ADMIN_URL + ')';
-  }
-];
-
-// ================================================================
-// ENVOI TELEGRAM
-// ================================================================
-function sendTelegramMessage(message) {
-  console.log('📨 Envoi Telegram:', message);
+function withRetry(operation, label, maxRetries) {
+  label = label || 'operation';
+  maxRetries = maxRetries || 3;
+  var lastError = null;
   
-  var url = 'https://api.telegram.org/bot' + TELEGRAM_BOT_TOKEN + '/sendMessage';
-  return fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      chat_id: TELEGRAM_CHAT_ID,
-      text: message,
-      parse_mode: 'Markdown',
-      disable_web_page_preview: true
-    })
-  }).then(function(response) {
-    console.log('📨 Réponse status:', response.status);
-    return response.json();
-  }).then(function(data) {
-    console.log('📨 Data:', data);
-    if (data.ok) {
-      console.log('✅ Telegram envoyé');
-      return true;
-    } else {
-      console.error('❌ Telegram erreur:', data);
+  function attempt(attemptNumber) {
+    return operation().catch(function(error) {
+      lastError = error;
+      var isNetwork = error && (error.code === 'unavailable' || error.code === 'deadline-exceeded' || error.code === 'cancelled');
+      if (!isNetwork || attemptNumber === maxRetries) {
+        throw error;
+      }
+      console.warn('⚠️ ' + label + ' - tentative ' + attemptNumber + '/' + maxRetries + ' echouee, retry...', error.code);
+      return sleep(attemptNumber * 500).then(function() {
+        return attempt(attemptNumber + 1);
+      });
+    });
+  }
+  return attempt(1);
+}
+
+function updateDocument(collectionName, docId, data) {
+  var ref = doc(db, collectionName, docId);
+  var payload = Object.assign({}, data, { _updatedAt: serverTimestamp() });
+  console.log('✏️ updateDocument : ' + collectionName + '/' + docId);
+  return withRetry(function() {
+    return updateDoc(ref, payload);
+  }, 'updateDocument(' + collectionName + '/' + docId + ')').then(function() {
+    console.log('✅ updateDocument OK : ' + collectionName + '/' + docId);
+    return ref;
+  });
+}
+
+// ================================================================
+// ✅ CORRECTION: REGISTER REFERRAL - SANS BONUS, SANS INCRÉMENT
+// ================================================================
+function registerReferral(parrainUid, filleulUid) {
+  if (!parrainUid) return Promise.resolve(false);
+  
+  console.log("📝 Enregistrement parrainage pour:", parrainUid);
+  
+  var parrainRef = doc(db, "users", parrainUid);
+  return getDoc(parrainRef).then(function(parrainSnap) {
+    if (!parrainSnap.exists()) {
+      console.warn("⚠️ Parrain introuvable");
       return false;
     }
+    
+    // ✅ UNIQUEMENT enregistrer le parrainage
+    // PAS de bonus, PAS d'incrémentation de referralsCount
+    return updateDocument("users", parrainUid, {
+      lastReferral: serverTimestamp()
+    }).then(function() {
+      console.log("✅ Parrainage enregistré (bonus en attente de dépôt)");
+      return true;
+    });
   }).catch(function(error) {
-    console.error('❌ Erreur Telegram:', error);
+    console.error("❌ Erreur enregistrement parrainage:", error);
     return false;
   });
 }
 
 // ================================================================
-// NOTIFICATION NOUVEAU FILLEUL
-// ================================================================
-function notifyAdminNewReferral(parrainNom, filleulNom) {
-  console.log('🔔 notifyAdminNewReferral appelé');
-  
-  getDocs(collection(db, "users")).then(function(snapshot) {
-    var totalUsers = snapshot.size;
-    var randomIndex = Math.floor(Math.random() * parrainageMessages.length);
-    var message = parrainageMessages[randomIndex](parrainNom, filleulNom, totalUsers);
-    
-    console.log('📨 Message à envoyer:', message);
-    return sendTelegramMessage(message);
-  }).catch(function(error) {
-    console.error('❌ Erreur envoi parrainage:', error);
-  });
-}
-
-// ================================================================
-// NOTIFICATION BONUS PARRAINAGE
-// ================================================================
-function notifyAdminBonusReferral(parrainNom, amount) {
-  console.log('🔔 notifyAdminBonusReferral appelé');
-  
-  getDocs(collection(db, "users")).then(function(snapshot) {
-    var totalUsers = snapshot.size;
-    var randomIndex = Math.floor(Math.random() * parrainageBonusMessages.length);
-    var message = parrainageBonusMessages[randomIndex](parrainNom, amount, totalUsers);
-    
-    console.log('📨 Message bonus à envoyer:', message);
-    return sendTelegramMessage(message);
-  }).catch(function(error) {
-    console.error('❌ Erreur envoi bonus:', error);
-  });
-}
-
-// ================================================================
-// ECOUTE EN TEMPS REEL DES FILLEULS
+// ✅ ECOUTE DES FILLEULS - SANS NOTIFICATIONS
 // ================================================================
 function listenToFilleuls(referralCode) {
   if (unsubscribeFilleuls) {
@@ -887,12 +764,34 @@ function listenToFilleuls(referralCode) {
 
   try {
     var usersRef = collection(db, "users");
-    var q = query(usersRef, where("referredBy", "==", referralCode));
+    knownFilleulIds = new Set();
     
-    unsubscribeFilleuls = onSnapshot(q, function(snapshot) {
-      console.log("Mise à jour filleuls en temps réel:", snapshot.size);
+    unsubscribeFilleuls = onSnapshot(usersRef, function(snapshot) {
+      console.log("📊 Mise à jour des utilisateurs en temps réel");
       
-      if (snapshot.empty) {
+      var filleuls = [];
+      var currentFilleulIds = new Set();
+      
+      snapshot.forEach(function(docSnap) {
+        var data = docSnap.data();
+        if (data.referredBy === referralCode) {
+          currentFilleulIds.add(docSnap.id);
+          filleuls.push({
+            id: docSnap.id,
+            ...data
+          });
+        }
+      });
+      
+      console.log("👥 Filleuls trouvés:", filleuls.length);
+      
+      // ✅ Mettre à jour les IDs connus
+      knownFilleulIds = currentFilleulIds;
+      
+      // ❌ PAS DE NOTIFICATIONS - Supprimé
+      
+      // Mettre à jour l'affichage
+      if (filleuls.length === 0) {
         filleulsContainer.innerHTML = '<div class="empty-state"><i class="fas fa-user-plus"></i><p>Aucun filleul pour l\'instant</p><p class="sub">Partagez votre code pour inviter des amis !</p></div>';
         totalFilleulsEl.textContent = 0;
         return;
@@ -900,10 +799,8 @@ function listenToFilleuls(referralCode) {
       
       var html = '';
       var count = 0;
-      var newReferralDetected = false;
       
-      snapshot.forEach(function(docSnap) {
-        var data = docSnap.data();
+      filleuls.forEach(function(data) {
         var name = (data.prenom || '') + ' ' + (data.nom || '');
         name = name.trim() || (data.email ? data.email.split('@')[0] : 'Utilisateur');
         var date = data.createdAt || data.registrationDate || data.dateInscription;
@@ -931,51 +828,20 @@ function listenToFilleuls(referralCode) {
         }
         
         html += '<div class="filleul-item"><div class="left"><div class="name">' + escapeHtml(name) + '</div><div class="date">Inscrit le ' + formattedDate + '</div></div><div class="right"><span class="status ' + statusClass + '">' + statusText + '</span></div></div>';
-        
-        // Détecter un nouveau filleul (inscrit dans les 10 dernières secondes)
-        if (data.createdAt) {
-          var now = new Date();
-          var created = new Date(data.createdAt);
-          var diff = (now - created) / 1000;
-          if (diff < 10) {
-            newReferralDetected = true;
-            var parrainNom = userData ? (userData.prenom + ' ' + userData.nom || 'Utilisateur') : 'Utilisateur';
-            notifyAdminNewReferral(parrainNom, name);
-          }
-        }
       });
       
       filleulsContainer.innerHTML = html;
       totalFilleulsEl.textContent = count;
       
-      if (newReferralDetected) {
-        showToast('👊 YES ! Nouveau filleul détecté ! 🎉', 'success');
-        if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
-      }
-      
-      // Vérifier les nouveaux bonus
-      snapshot.docChanges().forEach(function(change) {
-        if (change.type === 'modified') {
-          var data = change.doc.data();
-          
-          // Si le bonus a été reçu
-          if (data.referralBonusReceived === true) {
-            var parrainNom = userData ? (userData.prenom + ' ' + userData.nom || 'Utilisateur') : 'Utilisateur';
-            var bonusAmount = data.referralBonusAmount || 1000;
-            notifyAdminBonusReferral(parrainNom, bonusAmount);
-          }
-        }
-      });
-      
     }, function(error) {
-      console.error('Erreur écoute filleuls:', error);
+      console.error('❌ Erreur écoute filleuls:', error);
       if (error.code === 'permission-denied') {
         filleulsContainer.innerHTML = '<div class="empty-state"><i class="fas fa-lock"></i><p>⛔ Permission refusée</p><p class="sub">Vérifiez les règles Firestore</p></div>';
       }
     });
     
   } catch (error) {
-    console.error('Erreur setup écoute:', error);
+    console.error('❌ Erreur setup écoute:', error);
   }
 }
 
@@ -995,6 +861,7 @@ async function loadUserData(uid) {
     
     var data = docSnap.data();
     currentUser = { uid: uid, ...data };
+    userData = data;
 
     var isUnlocked = data.isUnlocked === true || data.hasDeposited === true;
     
@@ -1024,7 +891,7 @@ async function loadUserData(uid) {
     sessionStorage.setItem('arvexa_loaded', 'true');
 
   } catch (error) {
-    console.error('Erreur loadUserData:', error);
+    console.error('❌ Erreur loadUserData:', error);
     showToast('Erreur de chargement des données', 'error');
   }
 }
@@ -1110,7 +977,7 @@ document.getElementById('shareTelegram').addEventListener('click', function() {
 });
 
 // ================================================================
-// AUTH
+// AUTH AVEC isPageLoading
 // ================================================================
 var authChecked = false;
 
@@ -1128,24 +995,43 @@ onAuthStateChanged(auth, function(user) {
 
     loadUserData(user.uid);
     authChecked = true;
+    isPageLoading = false;
   } else {
-    var saved = localStorage.getItem('ARVEXA_current_user');
-    if (saved && !authChecked) {
+    if (isPageLoading) {
+      console.log("⏳ Page en chargement, attente avant redirection...");
       setTimeout(function() {
         if (!auth.currentUser) {
-          // ⏳ Délai plus long (3s) pour laisser Firebase restaurer la session
-          // et éviter les boucles de déconnexion sur connexions lentes.
-          window.location.href = 'login.html';
+          var savedUid = localStorage.getItem('ARVEXA_current_user');
+          if (savedUid) {
+            if (!auth.currentUser) {
+              window.location.href = 'login.html';
+            }
+          } else {
+            window.location.href = 'login.html';
+          }
         }
       }, 3000);
-    } else if (!authChecked) {
-      window.location.href = 'login.html';
+    } else {
+      var savedUid = localStorage.getItem('ARVEXA_current_user');
+      if (savedUid) {
+        setTimeout(function() {
+          if (!auth.currentUser) {
+            window.location.href = 'login.html';
+          }
+        }, 2000);
+      } else {
+        window.location.href = 'login.html';
+      }
     }
     authChecked = true;
   }
 });
 
-console.log('👥 ARVEXA - Page Parrainage chargée (version finale)');
+console.log('👥 ARVEXA - Page Parrainage corrigée');
+console.log('✅ Bonus UNIQUEMENT au dépôt validé');
+console.log('✅ Compteur incrémenté UNE SEULE FOIS');
+console.log('✅ Plus de notifications en boucle');
+console.log('✅ Pas de notification Telegram');
 </script>
 </body>
 </html>

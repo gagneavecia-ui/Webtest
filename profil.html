@@ -8,9 +8,8 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="manifest" href="manifest.json">
-  <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
-  
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👤</text></svg>">
+  <link rel="apple-touch-icon" href="icon.png">
+  <link rel="icon" href="icon.png" type="image/png">
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
@@ -78,12 +77,12 @@
       opacity: 0.15;
       animation: glowMove 10s ease-in-out infinite alternate;
     }
-    .glow-1 { width: 350px; height: 350px; background: rgba(26, 58, 42, 0.15); top: -80px; right: -80px; }
-    .glow-2 { width: 200px; height: 200px; background: rgba(184, 134, 11, 0.03); bottom: 0; left: 0; animation-delay: -4s; }
-    .glow-3 { width: 250px; height: 250px; background: rgba(26, 58, 42, 0.08); top: 40%; left: 50%; transform: translate(-50%,-50%); animation-delay: -8s; }
+    .glow-1 { width: 350px; height: 350px; background: rgba(26,58,42,0.15); top: -80px; right: -80px; }
+    .glow-2 { width: 200px; height: 200px; background: rgba(184,134,11,0.03); bottom: 0; left: 0; animation-delay: -4s; }
+    .glow-3 { width: 250px; height: 250px; background: rgba(26,58,42,0.08); top: 40%; left: 50%; transform: translate(-50%,-50%); animation-delay: -8s; }
     @keyframes glowMove {
-      0% { transform: translate(0, 0) scale(1); }
-      100% { transform: translate(30px, -20px) scale(1.1); }
+      0% { transform: translate(0,0) scale(1); }
+      100% { transform: translate(30px,-20px) scale(1.1); }
     }
 
     .header {
@@ -210,6 +209,8 @@
       margin: 0 auto;
       border: 3px solid rgba(184, 134, 11, 0.15);
       transition: var(--transition);
+      background-size: cover;
+      background-position: center;
     }
     .avatar:hover {
       transform: scale(1.02);
@@ -588,8 +589,7 @@
 <header class="header">
   <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
   <a href="index.html" class="logo">ARVE<span>XA</span></a>
-   <span>
-      </span>
+  <span></span>
 </header>
 
 <main class="container">
@@ -732,6 +732,7 @@
 
 <!-- ===== TOAST ===== -->
 <div class="toast" id="toast"></div>
+
 <!-- ================================================================ -->
 <!-- CONFIGURATION CENTRALISÉE -->
 <!-- ================================================================ -->
@@ -774,7 +775,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
 
 // ================================================================
-// CONFIGURATION - FALLBACK SI config.js n'est pas chargé
+// CONFIGURATION - FALLBACK
 // ================================================================
 var ADMIN_URL = 'https://nexgen-39043.web.app/admin';
 
@@ -842,6 +843,7 @@ var userData = null;
 var currentEditField = null;
 var unsubscribeUser = null;
 var notificationTimeout = null;
+var isPageLoading = true;
 
 // ================================================================
 // TOAST
@@ -860,6 +862,25 @@ function showToast(message, type) {
 }
 
 // ================================================================
+// PAYS VERS INDICATIF
+// ================================================================
+var paysToIndicatif = {
+  'Niger': '+227',
+  'Bénin': '+229',
+  'Mali': '+223',
+  'Burkina Faso': '+226',
+  'Sénégal': '+221',
+  "Côte d'Ivoire": '+225',
+  'Togo': '+228',
+  'Guinée': '+224',
+  'Ghana': '+233',
+  'Cameroun': '+237',
+  'Nigéria': '+234',
+  'Tchad': '+235',
+  'Maroc': '+212'
+};
+
+// ================================================================
 // UPDATE UI
 // ================================================================
 function updateUI(data) {
@@ -871,7 +892,6 @@ function updateUI(data) {
   var fullName = prenom + ' ' + nom;
   var initial = prenom.charAt(0).toUpperCase();
 
-  // Photo de profil (Base64)
   if (data.avatarBase64) {
     avatarDisplay.style.backgroundImage = 'url(' + data.avatarBase64 + ')';
     avatarDisplay.style.backgroundSize = 'cover';
@@ -891,7 +911,6 @@ function updateUI(data) {
   displayPhone.textContent = data.phone || 'Non renseigné';
   displayPays.textContent = data.pays || 'Niger';
 
-  // Statut
   var isUnlocked = data.isUnlocked === true || data.hasDeposited === true;
   if (isUnlocked) {
     avatarStatus.textContent = '🔒 Premium';
@@ -936,7 +955,7 @@ function loadUser(uid) {
 }
 
 // ================================================================
-// AVATAR UPLOAD
+// ✅ CORRECTION: AVATAR - ACCEPTE TOUTES LES IMAGES + COMPRESSION
 // ================================================================
 avatarUploadBtn.addEventListener('click', function() {
   avatarFileInput.click();
@@ -951,10 +970,8 @@ avatarFileInput.addEventListener('change', function(e) {
     return;
   }
 
-  if (file.size > 500 * 1024) {
-    showToast('❌ L\'image est trop volumineuse (max 500KB).', 'error');
-    return;
-  }
+  // ✅ PLUS DE LIMITE DE TAILLE - On accepte toutes les images
+  // La compression se fera automatiquement
 
   showToast('📤 Compression en cours...', 'info');
 
@@ -963,19 +980,21 @@ avatarFileInput.addEventListener('change', function(e) {
     var img = new Image();
     img.onload = function() {
       var canvas = document.createElement('canvas');
-      var size = 200;
+      
+      // ✅ Compression automatique
+      // Si l'image est grande, on la réduit à 200px max
+      var maxSize = 200;
       var width = img.width;
       var height = img.height;
       
-      if (width > height) {
-        if (width > size) {
-          height = Math.round((height * size) / width);
-          width = size;
-        }
-      } else {
-        if (height > size) {
-          width = Math.round((width * size) / height);
-          height = size;
+      // Réduire proportionnellement si nécessaire
+      if (width > maxSize || height > maxSize) {
+        if (width > height) {
+          height = Math.round((height * maxSize) / width);
+          width = maxSize;
+        } else {
+          width = Math.round((width * maxSize) / height);
+          height = maxSize;
         }
       }
       
@@ -984,7 +1003,22 @@ avatarFileInput.addEventListener('change', function(e) {
       var ctx = canvas.getContext('2d');
       ctx.drawImage(img, 0, 0, width, height);
       
-      var base64 = canvas.toDataURL('image/jpeg', 0.7);
+      // ✅ Qualité ajustable : 0.5 pour une bonne compression
+      var quality = 0.5;
+      var base64 = canvas.toDataURL('image/jpeg', quality);
+      
+      // ✅ Vérifier la taille finale
+      var sizeInKB = Math.round((base64.length * 3) / 4 / 1024);
+      console.log('📊 Taille finale de l\'image:', sizeInKB, 'KB');
+      
+      // Si l'image est encore trop grande, réduire davantage
+      if (sizeInKB > 200) {
+        // Réduire la qualité
+        quality = 0.3;
+        base64 = canvas.toDataURL('image/jpeg', quality);
+        var newSize = Math.round((base64.length * 3) / 4 / 1024);
+        console.log('📊 Compression supplémentaire:', newSize, 'KB');
+      }
       
       var userRef = doc(db, 'users', currentUser.uid);
       updateDoc(userRef, { avatarBase64: base64 })
@@ -1073,6 +1107,11 @@ saveEditBtn.addEventListener('click', function() {
   var updateData = {};
   updateData[currentEditField] = newValue;
 
+  if (currentEditField === 'pays') {
+    var indicatif = paysToIndicatif[newValue] || '+227';
+    updateData.indicatif = indicatif;
+  }
+
   updateDoc(doc(db, 'users', currentUser.uid), updateData)
     .then(function() {
       showToast('✅ ' + currentEditField + ' mis à jour !', 'success');
@@ -1096,6 +1135,17 @@ editInput.addEventListener('keypress', function(e) {
 // MODAL - CHANGER MOT DE PASSE
 // ================================================================
 changePasswordBtn.addEventListener('click', function() {
+  if (!currentUser) return;
+  
+  var provider = currentUser.providerData && currentUser.providerData[0] 
+    ? currentUser.providerData[0].providerId 
+    : null;
+  
+  if (provider === 'google.com') {
+    showToast('❌ Vous êtes connecté avec Google. Utilisez Google pour gérer votre mot de passe.', 'error');
+    return;
+  }
+  
   passwordModal.classList.add('show');
   currentPassword.value = '';
   newPassword.value = '';
@@ -1149,6 +1199,8 @@ savePasswordBtn.addEventListener('click', function() {
         showToast('❌ Mot de passe actuel incorrect.', 'error');
       } else if (error.code === 'auth/too-many-requests') {
         showToast('❌ Trop de tentatives. Réessayez plus tard.', 'error');
+      } else if (error.code === 'auth/requires-recent-login') {
+        showToast('❌ Veuillez vous reconnecter avant de changer votre mot de passe.', 'error');
       } else {
         showToast('❌ Erreur: ' + error.message, 'error');
       }
@@ -1190,8 +1242,6 @@ logoutBtn.addEventListener('click', function() {
 // ================================================================
 // AUTH
 // ================================================================
-var authChecked = false;
-
 onAuthStateChanged(auth, function(user) {
   if (user) {
     currentUser = user;
@@ -1206,25 +1256,39 @@ onAuthStateChanged(auth, function(user) {
     }
 
     loadUser(user.uid);
-    authChecked = true;
+    isPageLoading = false;
   } else {
-    var savedUid = localStorage.getItem('ARVEXA_current_user');
-    if (savedUid && !authChecked) {
+    if (isPageLoading) {
+      console.log("⏳ Page en chargement, attente avant redirection...");
       setTimeout(function() {
         if (!auth.currentUser) {
-          // ⏳ Délai plus long (3s) pour laisser Firebase restaurer la session
-          // et éviter les boucles de déconnexion sur connexions lentes.
-          window.location.href = 'login.html';
+          var savedUid = localStorage.getItem('ARVEXA_current_user');
+          if (savedUid) {
+            if (!auth.currentUser) {
+              window.location.href = 'login.html';
+            }
+          } else {
+            window.location.href = 'login.html';
+          }
         }
       }, 3000);
-    } else if (!authChecked) {
-      window.location.href = 'login.html';
+    } else {
+      var savedUid = localStorage.getItem('ARVEXA_current_user');
+      if (savedUid) {
+        setTimeout(function() {
+          if (!auth.currentUser) {
+            window.location.href = 'login.html';
+          }
+        }, 2000);
+      } else {
+        window.location.href = 'login.html';
+      }
     }
-    authChecked = true;
   }
 });
 
-console.log('👤 ARVEXA - Page Profil chargée');
+console.log('👤 ARVEXA - Page Profil corrigée');
+console.log('✅ Avatar accepte toutes les images (compression automatique)');
 </script>
 </body>
 </html>
