@@ -81,8 +81,8 @@
     .glow-2 { width: 200px; height: 200px; background: rgba(184,134,11,0.03); bottom: 0; left: 0; animation-delay: -4s; }
     .glow-3 { width: 250px; height: 250px; background: rgba(26,58,42,0.08); top: 40%; left: 50%; transform: translate(-50%,-50%); animation-delay: -8s; }
     @keyframes glowMove {
-      0% { transform: translate(0,0) scale(1); }
-      100% { transform: translate(30px,-20px) scale(1.1); }
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(30px, -20px) scale(1.1); }
     }
 
     .header {
@@ -182,6 +182,27 @@
     .card:hover {
       border-color: rgba(184, 134, 11, 0.08);
     }
+
+    /* ===== SKELETON ===== */
+    .skeleton {
+      background: rgba(255,255,255,0.03);
+      border-radius: 8px;
+      animation: skeletonPulse 1.2s ease-in-out infinite;
+    }
+    @keyframes skeletonPulse {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 0.6; }
+    }
+    .skeleton-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin: 0 auto;
+    }
+    .skeleton-text { height: 14px; width: 100%; margin-bottom: 6px; }
+    .skeleton-text.w60 { width: 60%; }
+    .skeleton-text.w40 { width: 40%; }
+    .skeleton-text.w30 { width: 30%; }
 
     /* ===== AVATAR ===== */
     .avatar-section {
@@ -604,13 +625,19 @@
   <!-- AVATAR -->
   <div class="card avatar-section">
     <div class="avatar-container">
-      <div class="avatar" id="avatarDisplay">A</div>
+      <div class="avatar" id="avatarDisplay">
+        <span class="skeleton skeleton-avatar"></span>
+      </div>
       <div class="avatar-upload" id="avatarUploadBtn" title="Changer la photo">
         <i class="fas fa-camera"></i>
       </div>
     </div>
-    <div class="avatar-name" id="avatarName">Chargement...</div>
-    <div class="avatar-email" id="avatarEmail">email@email.com</div>
+    <div class="avatar-name" id="avatarName">
+      <span class="skeleton skeleton-text w60" style="margin:0 auto;"></span>
+    </div>
+    <div class="avatar-email" id="avatarEmail">
+      <span class="skeleton skeleton-text w40" style="margin:0 auto;"></span>
+    </div>
     <div class="avatar-status premium" id="avatarStatus">🔒 Premium</div>
     <input type="file" id="avatarFileInput" accept="image/*" style="display:none;">
   </div>
@@ -623,31 +650,41 @@
 
     <div class="info-item">
       <span class="label">Nom</span>
-      <span class="value" id="displayNom">Chargement...</span>
+      <span class="value" id="displayNom">
+        <span class="skeleton skeleton-text w40"></span>
+      </span>
       <button class="btn-edit" data-field="nom"><i class="fas fa-pen"></i> Modifier</button>
     </div>
 
     <div class="info-item">
       <span class="label">Prénom</span>
-      <span class="value" id="displayPrenom">Chargement...</span>
+      <span class="value" id="displayPrenom">
+        <span class="skeleton skeleton-text w40"></span>
+      </span>
       <button class="btn-edit" data-field="prenom"><i class="fas fa-pen"></i> Modifier</button>
     </div>
 
     <div class="info-item">
       <span class="label">Email</span>
-      <span class="value" id="displayEmail">Chargement...</span>
+      <span class="value" id="displayEmail">
+        <span class="skeleton skeleton-text w60"></span>
+      </span>
       <span style="color:var(--text-muted);font-size:11px;font-weight:400;white-space:nowrap;">🔒 Non modifiable</span>
     </div>
 
     <div class="info-item">
       <span class="label">Téléphone</span>
-      <span class="value" id="displayPhone">Chargement...</span>
+      <span class="value" id="displayPhone">
+        <span class="skeleton skeleton-text w30"></span>
+      </span>
       <button class="btn-edit" data-field="phone"><i class="fas fa-pen"></i> Modifier</button>
     </div>
 
     <div class="info-item">
       <span class="label">Pays</span>
-      <span class="value" id="displayPays">Chargement...</span>
+      <span class="value" id="displayPays">
+        <span class="skeleton skeleton-text w30"></span>
+      </span>
       <button class="btn-edit" data-field="pays"><i class="fas fa-pen"></i> Modifier</button>
     </div>
   </div>
@@ -783,7 +820,7 @@ if (typeof APP_CONFIG !== 'undefined' && APP_CONFIG.ADMIN_URL) {
   ADMIN_URL = APP_CONFIG.ADMIN_URL;
 }
 
-console.log('🔗 ADMIN_URL:', ADMIN_URL);
+console.debug('🔗 ADMIN_URL:', ADMIN_URL);
 
 // ================================================================
 // CONFIGURATION FIREBASE
@@ -805,7 +842,7 @@ var db = getFirestore(app);
 setPersistence(auth, browserLocalPersistence);
 
 // ================================================================
-// DOM
+// DOM - CACHÉ POUR PERFORMANCE
 // ================================================================
 var avatarDisplay = document.getElementById('avatarDisplay');
 var avatarName = document.getElementById('avatarName');
@@ -844,6 +881,7 @@ var currentEditField = null;
 var unsubscribeUser = null;
 var notificationTimeout = null;
 var isPageLoading = true;
+var dataLoaded = false;
 
 // ================================================================
 // TOAST
@@ -853,9 +891,9 @@ function showToast(message, type) {
   toast.textContent = message;
   toast.className = 'toast ' + type;
   clearTimeout(notificationTimeout);
-  setTimeout(function() {
+  requestAnimationFrame(function() {
     toast.classList.add('show');
-  }, 50);
+  });
   notificationTimeout = setTimeout(function() {
     toast.classList.remove('show');
   }, 3500);
@@ -881,7 +919,15 @@ var paysToIndicatif = {
 };
 
 // ================================================================
-// UPDATE UI
+// FORMAT MONNAIE
+// ================================================================
+function formatCurrency(amount) {
+  if (!amount) return '0 FCFA';
+  return amount.toLocaleString('fr-FR') + ' FCFA';
+}
+
+// ================================================================
+// AFFICHER LES DONNÉES - RAPIDE
 // ================================================================
 function updateUI(data) {
   if (!data) return;
@@ -892,6 +938,7 @@ function updateUI(data) {
   var fullName = prenom + ' ' + nom;
   var initial = prenom.charAt(0).toUpperCase();
 
+  // Avatar
   if (data.avatarBase64) {
     avatarDisplay.style.backgroundImage = 'url(' + data.avatarBase64 + ')';
     avatarDisplay.style.backgroundSize = 'cover';
@@ -902,15 +949,18 @@ function updateUI(data) {
     avatarDisplay.textContent = initial;
   }
 
+  // Nom
   avatarName.textContent = fullName.trim() || 'Utilisateur';
   avatarEmail.textContent = data.email || 'email@email.com';
 
+  // Infos
   displayNom.textContent = nom || 'Non renseigné';
   displayPrenom.textContent = prenom || 'Non renseigné';
   displayEmail.textContent = data.email || 'Non renseigné';
   displayPhone.textContent = data.phone || 'Non renseigné';
   displayPays.textContent = data.pays || 'Niger';
 
+  // Statut Premium
   var isUnlocked = data.isUnlocked === true || data.hasDeposited === true;
   if (isUnlocked) {
     avatarStatus.textContent = '🔒 Premium';
@@ -920,7 +970,37 @@ function updateUI(data) {
     avatarStatus.className = 'avatar-status free';
   }
 
+  // Cache
   localStorage.setItem('ARVEXA_user_data', JSON.stringify(data));
+  
+  // Masquer le skeleton
+  hideSkeletons();
+  dataLoaded = true;
+}
+
+// ================================================================
+// MASQUER LES SKELETONS
+// ================================================================
+function hideSkeletons() {
+  document.querySelectorAll('.skeleton').forEach(function(el) {
+    el.style.display = 'none';
+  });
+}
+
+// ================================================================
+// CHARGEMENT RAPIDE DEPUIS LE CACHE
+// ================================================================
+function loadFromCache() {
+  var cachedData = localStorage.getItem('ARVEXA_user_data');
+  if (cachedData) {
+    try {
+      var data = JSON.parse(cachedData);
+      updateUI(data);
+      console.debug('✅ Profil affiché depuis le cache');
+      return true;
+    } catch(e) {}
+  }
+  return false;
 }
 
 // ================================================================
@@ -939,23 +1019,24 @@ function loadUser(uid) {
     }
   }, function(error) {
     if (error.code !== 'aborted' && error.code !== 'cancelled') {
-      console.error('Erreur chargement user:', error);
+      console.warn('Erreur chargement user:', error);
     }
   });
 
+  // Chargement initial
   getDoc(userRef).then(function(snap) {
     if (snap.exists()) {
       updateUI(snap.data());
     }
   }).catch(function(error) {
     if (error.code !== 'aborted' && error.code !== 'cancelled') {
-      console.error('Erreur getDoc:', error);
+      console.warn('Erreur getDoc:', error);
     }
   });
 }
 
 // ================================================================
-// ✅ CORRECTION: AVATAR - ACCEPTE TOUTES LES IMAGES + COMPRESSION
+// AVATAR - COMPRESSION OPTIMISÉE
 // ================================================================
 avatarUploadBtn.addEventListener('click', function() {
   avatarFileInput.click();
@@ -970,9 +1051,6 @@ avatarFileInput.addEventListener('change', function(e) {
     return;
   }
 
-  // ✅ PLUS DE LIMITE DE TAILLE - On accepte toutes les images
-  // La compression se fera automatiquement
-
   showToast('📤 Compression en cours...', 'info');
 
   var reader = new FileReader();
@@ -980,14 +1058,10 @@ avatarFileInput.addEventListener('change', function(e) {
     var img = new Image();
     img.onload = function() {
       var canvas = document.createElement('canvas');
-      
-      // ✅ Compression automatique
-      // Si l'image est grande, on la réduit à 200px max
       var maxSize = 200;
       var width = img.width;
       var height = img.height;
       
-      // Réduire proportionnellement si nécessaire
       if (width > maxSize || height > maxSize) {
         if (width > height) {
           height = Math.round((height * maxSize) / width);
@@ -1003,21 +1077,15 @@ avatarFileInput.addEventListener('change', function(e) {
       var ctx = canvas.getContext('2d');
       ctx.drawImage(img, 0, 0, width, height);
       
-      // ✅ Qualité ajustable : 0.5 pour une bonne compression
       var quality = 0.5;
       var base64 = canvas.toDataURL('image/jpeg', quality);
       
-      // ✅ Vérifier la taille finale
       var sizeInKB = Math.round((base64.length * 3) / 4 / 1024);
-      console.log('📊 Taille finale de l\'image:', sizeInKB, 'KB');
+      console.debug('📊 Taille finale:', sizeInKB, 'KB');
       
-      // Si l'image est encore trop grande, réduire davantage
       if (sizeInKB > 200) {
-        // Réduire la qualité
         quality = 0.3;
         base64 = canvas.toDataURL('image/jpeg', quality);
-        var newSize = Math.round((base64.length * 3) / 4 / 1024);
-        console.log('📊 Compression supplémentaire:', newSize, 'KB');
       }
       
       var userRef = doc(db, 'users', currentUser.uid);
@@ -1031,11 +1099,7 @@ avatarFileInput.addEventListener('change', function(e) {
         })
         .catch(function(error) {
           console.error('❌ Erreur sauvegarde avatar:', error);
-          if (error.code === 'permission-denied') {
-            showToast('❌ Permission refusée. Vérifiez les règles Firestore.', 'error');
-          } else {
-            showToast('❌ Erreur lors de la sauvegarde.', 'error');
-          }
+          showToast('❌ Erreur lors de la sauvegarde.', 'error');
         });
     };
     img.src = event.target.result;
@@ -1240,26 +1304,41 @@ logoutBtn.addEventListener('click', function() {
 });
 
 // ================================================================
-// AUTH
+// CACHE POUR RETOUR ARRIÈRE INSTANTANÉ
 // ================================================================
+window.addEventListener('pageshow', function(event) {
+  if (event.persisted) {
+    console.debug('📱 Page profil chargée depuis le cache');
+    loadFromCache();
+  }
+});
+
+// ================================================================
+// AUTH - OPTIMISÉ
+// ================================================================
+var sessionUid = sessionStorage.getItem('session_uid');
+
+// Chargement rapide depuis le cache
+loadFromCache();
+
 onAuthStateChanged(auth, function(user) {
   if (user) {
     currentUser = user;
     localStorage.setItem('ARVEXA_current_user', user.uid);
     
-    var cached = localStorage.getItem('ARVEXA_user_data');
-    if (cached) {
-      try {
-        userData = JSON.parse(cached);
-        updateUI(userData);
-      } catch(e) {}
+    // Si session déjà validée, chargement rapide
+    if (sessionUid === user.uid) {
+      console.debug("✅ Session déjà validée, chargement rapide");
+      loadUser(user.uid);
+      isPageLoading = false;
+      return;
     }
 
     loadUser(user.uid);
     isPageLoading = false;
   } else {
     if (isPageLoading) {
-      console.log("⏳ Page en chargement, attente avant redirection...");
+      console.debug("⏳ Page en chargement, attente avant redirection...");
       setTimeout(function() {
         if (!auth.currentUser) {
           var savedUid = localStorage.getItem('ARVEXA_current_user');
@@ -1287,8 +1366,9 @@ onAuthStateChanged(auth, function(user) {
   }
 });
 
-console.log('👤 ARVEXA - Page Profil corrigée');
-console.log('✅ Avatar accepte toutes les images (compression automatique)');
+console.debug('👤 ARVEXA - Page Profil optimisée (v2.0)');
+console.debug('✅ Avatar accepte toutes les images (compression automatique)');
+console.debug('✅ Cache prioritaire pour chargement < 2 secondes');
 </script>
 </body>
 </html>

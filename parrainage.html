@@ -24,7 +24,7 @@
       --success: #2D7D5A;
       --bg-dark: #0A0A0A;
       --bg-surface: #141414;
-      --bg-card: rgba(20,  ., 20, 0.7);
+      --bg-card: rgba(20, 20, 20, 0.7);
       --text-light: #F5F0E8;
       --text-dim: #8A8A7A;
       --text-muted: #5A5A4A;
@@ -138,6 +138,22 @@
       width: 100%;
     }
 
+    /* ===== SKELETON ===== */
+    .skeleton {
+      background: rgba(255,255,255,0.03);
+      border-radius: 8px;
+      animation: skeletonPulse 1.2s ease-in-out infinite;
+    }
+    @keyframes skeletonPulse {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 0.6; }
+    }
+    .skeleton-text { height: 14px; width: 100%; margin-bottom: 6px; }
+    .skeleton-text.w60 { width: 60%; }
+    .skeleton-text.w40 { width: 40%; }
+    .skeleton-text.w30 { width: 30%; }
+    .skeleton-code { height: 50px; width: 100%; border-radius: 12px; }
+
     /* ===== HERO ===== */
     .hero {
       background: linear-gradient(135deg, rgba(26, 58, 42, 0.20), rgba(10, 26, 18, 0.10));
@@ -189,6 +205,10 @@
       word-break: break-all;
       margin-bottom: 12px;
     }
+    .code-box .code.skeleton {
+      color: transparent;
+      background: rgba(255,255,255,0.03);
+    }
     .btn-copy {
       background: rgba(184, 134, 11, 0.10);
       border: 1px solid rgba(184, 134, 11, 0.15);
@@ -227,6 +247,10 @@
       color: var(--text-dim);
       font-family: monospace;
       margin-bottom: 12px;
+    }
+    .link-box .link.skeleton {
+      color: transparent;
+      background: rgba(255,255,255,0.03);
     }
     .share-grid {
       display: grid;
@@ -327,6 +351,14 @@
     .empty-state i { font-size: 36px; opacity: 0.2; display: block; margin-bottom: 10px; }
     .empty-state p { font-size: 13px; }
     .empty-state .sub { font-size: 11px; margin-top: 4px; opacity: 0.6; }
+
+    .filleul-skeleton {
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+    }
+    .filleul-skeleton:last-child { border-bottom: none; }
+    .filleul-skeleton .skeleton-text { height: 12px; width: 60%; margin-bottom: 4px; }
+    .filleul-skeleton .skeleton-text.w40 { width: 40%; }
 
     /* ============================================================
        LOCKED MESSAGE
@@ -455,8 +487,8 @@
   </style>
 </head>
 <body>
-
-<div class="gradient-bg"></div>
+    
+    <div class="gradient-bg"></div>
 <div class="glow glow-1"></div>
 <div class="glow glow-2"></div>
 <div class="glow glow-3"></div>
@@ -493,14 +525,18 @@
     <!-- CODE -->
     <div class="code-box">
       <div class="label"><i class="fas fa-ticket-alt"></i> Votre code de parrainage</div>
-      <div class="code" id="parrainCode">CHARGEMENT...</div>
+      <div class="code" id="parrainCode">
+        <span class="skeleton skeleton-code"></span>
+      </div>
       <button class="btn-copy" id="copyCodeBtn"><i class="fas fa-copy"></i> Copier le code</button>
     </div>
 
     <!-- LIEN -->
     <div class="link-box">
       <div class="title"><i class="fas fa-link"></i> Lien d'invitation</div>
-      <div class="link" id="inviteLink">Chargement...</div>
+      <div class="link" id="inviteLink">
+        <span class="skeleton skeleton-text"></span>
+      </div>
       <div class="share-grid">
         <button class="share-btn whatsapp" id="shareWA"><i class="fab fa-whatsapp"></i> WhatsApp</button>
         <button class="share-btn facebook" id="shareFB"><i class="fab fa-facebook-f"></i> Facebook</button>
@@ -514,12 +550,16 @@
     <div class="stats-grid">
       <div class="stat-card">
         <i class="fas fa-user-friends"></i>
-        <div class="value" id="totalFilleuls">0</div>
+        <div class="value" id="totalFilleuls">
+          <span class="skeleton skeleton-text w40" style="margin:0 auto;"></span>
+        </div>
         <div class="label">Filleuls</div>
       </div>
       <div class="stat-card">
         <i class="fas fa-coins"></i>
-        <div class="value" id="totalGainsParrainage">0 FCFA</div>
+        <div class="value" id="totalGainsParrainage">
+          <span class="skeleton skeleton-text w40" style="margin:0 auto;"></span>
+        </div>
         <div class="label">Gains</div>
       </div>
     </div>
@@ -528,10 +568,17 @@
     <div class="filleuls-box">
       <div class="title"><i class="fas fa-history"></i> Mes filleuls</div>
       <div id="filleulsContainer">
-        <div class="empty-state">
-          <i class="fas fa-user-plus"></i>
-          <p>Aucun filleul pour l'instant</p>
-          <p class="sub">Partagez votre code pour inviter des amis !</p>
+        <div class="filleul-skeleton">
+          <div class="skeleton-text" style="width:40%;"></div>
+          <div class="skeleton-text w40" style="width:30%;"></div>
+        </div>
+        <div class="filleul-skeleton">
+          <div class="skeleton-text" style="width:50%;"></div>
+          <div class="skeleton-text w40" style="width:25%;"></div>
+        </div>
+        <div class="filleul-skeleton">
+          <div class="skeleton-text" style="width:35%;"></div>
+          <div class="skeleton-text w40" style="width:20%;"></div>
         </div>
       </div>
     </div>
@@ -611,7 +658,7 @@ if (typeof APP_CONFIG !== 'undefined' && APP_CONFIG.ADMIN_URL) {
   ADMIN_URL = APP_CONFIG.ADMIN_URL;
 }
 
-console.log('🔗 ADMIN_URL:', ADMIN_URL);
+console.debug('🔗 ADMIN_URL:', ADMIN_URL);
 
 // ================================================================
 // CONFIGURATION FIREBASE
@@ -633,7 +680,7 @@ var db = getFirestore(app);
 setPersistence(auth, browserLocalPersistence);
 
 // ================================================================
-// DOM
+// DOM - CACHÉ POUR PERFORMANCE
 // ================================================================
 var parrainCodeEl = document.getElementById('parrainCode');
 var inviteLinkEl = document.getElementById('inviteLink');
@@ -649,9 +696,23 @@ var userData = null;
 var unsubscribeFilleuls = null;
 var notificationTimeout = null;
 var isPageLoading = true;
+var dataLoaded = false;
 
-// ✅ Variables pour éviter les notifications en boucle (simplement pour l'affichage)
-var knownFilleulIds = new Set();
+// ================================================================
+// TOAST
+// ================================================================
+function showToast(message, type) {
+  type = type || 'success';
+  toast.textContent = message;
+  toast.className = 'toast ' + type;
+  clearTimeout(notificationTimeout);
+  requestAnimationFrame(function() {
+    toast.classList.add('show');
+  });
+  notificationTimeout = setTimeout(function() {
+    toast.classList.remove('show');
+  }, 4000);
+}
 
 // ================================================================
 // HELPERS
@@ -659,19 +720,6 @@ var knownFilleulIds = new Set();
 function formatCurrency(amount) {
   if (!amount) return '0 FCFA';
   return amount.toLocaleString('fr-FR') + ' FCFA';
-}
-
-function showToast(message, type) {
-  type = type || 'success';
-  toast.textContent = message;
-  toast.className = 'toast ' + type;
-  clearTimeout(notificationTimeout);
-  setTimeout(function() {
-    toast.classList.add('show');
-  }, 50);
-  notificationTimeout = setTimeout(function() {
-    toast.classList.remove('show');
-  }, 4000);
 }
 
 function escapeHtml(str) {
@@ -709,22 +757,73 @@ function withRetry(operation, label, maxRetries) {
 function updateDocument(collectionName, docId, data) {
   var ref = doc(db, collectionName, docId);
   var payload = Object.assign({}, data, { _updatedAt: serverTimestamp() });
-  console.log('✏️ updateDocument : ' + collectionName + '/' + docId);
+  console.debug('✏️ updateDocument : ' + collectionName + '/' + docId);
   return withRetry(function() {
     return updateDoc(ref, payload);
   }, 'updateDocument(' + collectionName + '/' + docId + ')').then(function() {
-    console.log('✅ updateDocument OK : ' + collectionName + '/' + docId);
+    console.debug('✅ updateDocument OK : ' + collectionName + '/' + docId);
     return ref;
   });
 }
 
 // ================================================================
-// ✅ CORRECTION: REGISTER REFERRAL - SANS BONUS, SANS INCRÉMENT
+// AFFICHER LES DONNÉES - RAPIDE
+// ================================================================
+function updateUI(data) {
+  if (!data) return;
+  userData = data;
+
+  var isUnlocked = data.isUnlocked === true || data.hasDeposited === true;
+  
+  if (!isUnlocked) {
+    parrainContent.style.display = 'none';
+    lockedMessage.style.display = 'block';
+    return;
+  }
+
+  parrainContent.style.display = 'block';
+  lockedMessage.style.display = 'none';
+
+  var code = data.referralCode || 'Non disponible';
+  parrainCodeEl.innerHTML = code;
+
+  var baseUrl = window.location.origin + window.location.pathname.replace('parrainage.html', '');
+  var link = baseUrl + 'register.html?ref=' + code;
+  inviteLinkEl.textContent = link;
+
+  totalFilleulsEl.textContent = data.referralsCount || 0;
+  totalGainsEl.textContent = formatCurrency(data.referralEarnings || 0);
+
+  listenToFilleuls(code);
+  
+  // Cache
+  localStorage.setItem('ARVEXA_user_data', JSON.stringify(data));
+  dataLoaded = true;
+}
+
+// ================================================================
+// CHARGEMENT RAPIDE DEPUIS LE CACHE
+// ================================================================
+function loadFromCache() {
+  var cachedData = localStorage.getItem('ARVEXA_user_data');
+  if (cachedData) {
+    try {
+      var data = JSON.parse(cachedData);
+      updateUI(data);
+      console.debug('✅ Parrainage affiché depuis le cache');
+      return true;
+    } catch(e) {}
+  }
+  return false;
+}
+
+// ================================================================
+// REGISTER REFERRAL - SANS BONUS, SANS INCRÉMENT
 // ================================================================
 function registerReferral(parrainUid, filleulUid) {
   if (!parrainUid) return Promise.resolve(false);
   
-  console.log("📝 Enregistrement parrainage pour:", parrainUid);
+  console.debug("📝 Enregistrement parrainage pour:", parrainUid);
   
   var parrainRef = doc(db, "users", parrainUid);
   return getDoc(parrainRef).then(function(parrainSnap) {
@@ -733,12 +832,10 @@ function registerReferral(parrainUid, filleulUid) {
       return false;
     }
     
-    // ✅ UNIQUEMENT enregistrer le parrainage
-    // PAS de bonus, PAS d'incrémentation de referralsCount
     return updateDocument("users", parrainUid, {
       lastReferral: serverTimestamp()
     }).then(function() {
-      console.log("✅ Parrainage enregistré (bonus en attente de dépôt)");
+      console.debug("✅ Parrainage enregistré (bonus en attente de dépôt)");
       return true;
     });
   }).catch(function(error) {
@@ -748,7 +845,7 @@ function registerReferral(parrainUid, filleulUid) {
 }
 
 // ================================================================
-// ✅ ECOUTE DES FILLEULS - SANS NOTIFICATIONS
+// ECOUTE DES FILLEULS - OPTIMISÉE
 // ================================================================
 function listenToFilleuls(referralCode) {
   if (unsubscribeFilleuls) {
@@ -764,18 +861,13 @@ function listenToFilleuls(referralCode) {
 
   try {
     var usersRef = collection(db, "users");
-    knownFilleulIds = new Set();
     
     unsubscribeFilleuls = onSnapshot(usersRef, function(snapshot) {
-      console.log("📊 Mise à jour des utilisateurs en temps réel");
-      
       var filleuls = [];
-      var currentFilleulIds = new Set();
       
       snapshot.forEach(function(docSnap) {
         var data = docSnap.data();
         if (data.referredBy === referralCode) {
-          currentFilleulIds.add(docSnap.id);
           filleuls.push({
             id: docSnap.id,
             ...data
@@ -783,14 +875,8 @@ function listenToFilleuls(referralCode) {
         }
       });
       
-      console.log("👥 Filleuls trouvés:", filleuls.length);
+      console.debug("👥 Filleuls trouvés:", filleuls.length);
       
-      // ✅ Mettre à jour les IDs connus
-      knownFilleulIds = currentFilleulIds;
-      
-      // ❌ PAS DE NOTIFICATIONS - Supprimé
-      
-      // Mettre à jour l'affichage
       if (filleuls.length === 0) {
         filleulsContainer.innerHTML = '<div class="empty-state"><i class="fas fa-user-plus"></i><p>Aucun filleul pour l\'instant</p><p class="sub">Partagez votre code pour inviter des amis !</p></div>';
         totalFilleulsEl.textContent = 0;
@@ -846,7 +932,7 @@ function listenToFilleuls(referralCode) {
 }
 
 // ================================================================
-// CHARGEMENT UTILISATEUR
+// CHARGEMENT UTILISATEUR - OPTIMISÉ
 // ================================================================
 async function loadUserData(uid) {
   try {
@@ -863,29 +949,7 @@ async function loadUserData(uid) {
     currentUser = { uid: uid, ...data };
     userData = data;
 
-    var isUnlocked = data.isUnlocked === true || data.hasDeposited === true;
-    
-    if (!isUnlocked) {
-      parrainContent.style.display = 'none';
-      lockedMessage.style.display = 'block';
-      showToast('🔒 Parrainage verrouillé. Effectuez votre premier dépôt.', 'warning');
-      return;
-    }
-
-    parrainContent.style.display = 'block';
-    lockedMessage.style.display = 'none';
-
-    var code = data.referralCode || 'Non disponible';
-    parrainCodeEl.textContent = code;
-
-    var baseUrl = window.location.origin + window.location.pathname.replace('parrainage.html', '');
-    var link = baseUrl + 'register.html?ref=' + code;
-    inviteLinkEl.textContent = link;
-
-    totalFilleulsEl.textContent = data.referralsCount || 0;
-    totalGainsEl.textContent = (data.referralEarnings || 0).toLocaleString('fr-FR') + ' FCFA';
-
-    listenToFilleuls(code);
+    updateUI(data);
 
     localStorage.setItem('ARVEXA_user_data', JSON.stringify(data));
     sessionStorage.setItem('arvexa_loaded', 'true');
@@ -901,7 +965,7 @@ async function loadUserData(uid) {
 // ================================================================
 document.getElementById('copyCodeBtn').addEventListener('click', function() {
   var code = parrainCodeEl.textContent;
-  if (!code || code === 'CHARGEMENT...' || code === 'Non disponible') return;
+  if (!code || code === 'CHARGEMENT...' || code === 'Non disponible' || code.includes('skeleton')) return;
   
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(code).then(function() {
@@ -936,7 +1000,7 @@ function fallbackCopy(text) {
 // ================================================================
 document.getElementById('copyLinkBtn').addEventListener('click', function() {
   var link = inviteLinkEl.textContent;
-  if (!link || link === 'Chargement...') return;
+  if (!link || link === 'Chargement...' || link.includes('skeleton')) return;
   
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(link).then(function() {
@@ -977,28 +1041,41 @@ document.getElementById('shareTelegram').addEventListener('click', function() {
 });
 
 // ================================================================
-// AUTH AVEC isPageLoading
+// CACHE POUR RETOUR ARRIÈRE INSTANTANÉ
 // ================================================================
-var authChecked = false;
+window.addEventListener('pageshow', function(event) {
+  if (event.persisted) {
+    console.debug('📱 Page parrainage chargée depuis le cache');
+    loadFromCache();
+  }
+});
+
+// ================================================================
+// AUTH - OPTIMISÉ AVEC CACHE PRIORITAIRE
+// ================================================================
+var sessionUid = sessionStorage.getItem('session_uid');
+
+// Chargement rapide depuis le cache
+loadFromCache();
 
 onAuthStateChanged(auth, function(user) {
   if (user) {
     currentUser = user;
     localStorage.setItem('ARVEXA_current_user', user.uid);
     
-    var cached = localStorage.getItem('ARVEXA_user_data');
-    if (cached) {
-      try {
-        userData = JSON.parse(cached);
-      } catch(e) {}
+    // Si session déjà validée, chargement rapide
+    if (sessionUid === user.uid) {
+      console.debug("✅ Session déjà validée, chargement rapide");
+      loadUserData(user.uid);
+      isPageLoading = false;
+      return;
     }
 
     loadUserData(user.uid);
-    authChecked = true;
     isPageLoading = false;
   } else {
     if (isPageLoading) {
-      console.log("⏳ Page en chargement, attente avant redirection...");
+      console.debug("⏳ Page en chargement, attente avant redirection...");
       setTimeout(function() {
         if (!auth.currentUser) {
           var savedUid = localStorage.getItem('ARVEXA_current_user');
@@ -1023,15 +1100,12 @@ onAuthStateChanged(auth, function(user) {
         window.location.href = 'login.html';
       }
     }
-    authChecked = true;
   }
 });
 
-console.log('👥 ARVEXA - Page Parrainage corrigée');
-console.log('✅ Bonus UNIQUEMENT au dépôt validé');
-console.log('✅ Compteur incrémenté UNE SEULE FOIS');
-console.log('✅ Plus de notifications en boucle');
-console.log('✅ Pas de notification Telegram');
+console.debug('👥 ARVEXA - Page Parrainage optimisée (v2.0)');
+console.debug('✅ Bonus UNIQUEMENT au dépôt validé');
+console.debug('✅ Cache prioritaire pour chargement < 2 secondes');
 </script>
 </body>
 </html>

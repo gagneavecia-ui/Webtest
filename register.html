@@ -490,8 +490,8 @@
     .referral-info.valid { color: var(--success); }
     .referral-info.invalid { color: #D4A017; }
     .referral-info i { font-size: 11px; }
-
-    /* ===== KNOW SELECTOR ===== */
+    
+        /* ===== KNOW SELECTOR ===== */
     .know-selector {
       display: flex;
       align-items: center;
@@ -905,7 +905,7 @@
     </div>
 
     <!-- FORM -->
-    <form id="registerForm">
+    <form id="registerForm" novalidate>
       <!-- Nom & Prénom -->
       <div class="row-2cols">
         <div class="form-group">
@@ -1106,6 +1106,9 @@
 }
 </script>
 
+<!-- ================================================================ -->
+<!-- SCRIPT PRINCIPAL OPTIMISÉ -->
+<!-- ================================================================ -->
 <script type="module">
 // ================================================================
 // IMPORTS FIREBASE
@@ -1125,23 +1128,14 @@ import {
   getFirestore,
   doc,
   setDoc,
-  addDoc,
   getDoc,
   getDocs,
   collection,
-  query,
-  where,
-  updateDoc,
-  deleteDoc,
-  serverTimestamp,
-  increment,
-  arrayUnion,
-  arrayRemove,
-  writeBatch
+  serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
 
 // ================================================================
-// CONFIGURATION
+// CONFIGURATION - Utilisation de config.js
 // ================================================================
 var ADMIN_URL = 'https://nexgen-39043.web.app/admin';
 var BONUS_AMOUNT = 1000;
@@ -1151,8 +1145,7 @@ if (typeof APP_CONFIG !== 'undefined') {
   if (APP_CONFIG.BONUS_AMOUNT) BONUS_AMOUNT = APP_CONFIG.BONUS_AMOUNT;
 }
 
-console.log('🔗 ADMIN_URL:', ADMIN_URL);
-console.log('💰 BONUS_AMOUNT:', BONUS_AMOUNT);
+console.debug('🔗 ADMIN_URL:', ADMIN_URL);
 
 // ================================================================
 // CONFIGURATION FIREBASE
@@ -1170,6 +1163,7 @@ var firebaseConfig = {
 var app = initializeApp(firebaseConfig);
 var auth = getAuth(app);
 var db = getFirestore(app);
+
 setPersistence(auth, browserLocalPersistence);
 
 // ================================================================
@@ -1179,103 +1173,7 @@ var TELEGRAM_BOT_TOKEN = "8283625921:AAEF--QKS9uqnz0K3j7SGkk7fsdRb3b8y8o";
 var TELEGRAM_CHAT_ID = "5212067028";
 
 // ================================================================
-// 30 MESSAGES POUR NOUVELLE RECRUE
-// ================================================================
-var newUserMessages = [
-  function(nom, totalUsers) {
-    return '🔥 Le Gang s\'agrandit ! 👤 ' + nom + ' 👥 ' + totalUsers + ' guerriers\n\n🔗 [ Va voir ça ](' + ADMIN_URL + ')';
-  },
-  function(nom, totalUsers) {
-    return '💰 Business en marche ! 👤 ' + nom + ' 👥 ' + totalUsers + ' boss\n\n🔗 [ Admin ](' + ADMIN_URL + ')';
-  },
-  function(nom, totalUsers) {
-    return '🏆 L\'empire grandit boss ! 👤 ' + nom + ' 👥 ' + totalUsers + ' soldats\n\n🔗 [ Console ](' + ADMIN_URL + ')';
-  },
-  function(nom, totalUsers) {
-    return '🚀 ' + totalUsers + ' et on continue ! 👤 ' + nom + ' 👥 ' + totalUsers + ' membres\n\n🔗 [ Accès rapide ](' + ADMIN_URL + ')';
-  },
-  function(nom, totalUsers) {
-    return '💪 Nouvelle force dans le gang ! 👤 ' + nom + ' 👥 ' + totalUsers + '\n\n🔗 [ Gérer ](' + ADMIN_URL + ')';
-  },
-  function(nom, totalUsers) {
-    return '🎯 Objectif : 1000 ! 👤 ' + nom + ' 👥 ' + totalUsers + '/1000\n\n🔗 [ Suivre ](' + ADMIN_URL + ')';
-  },
-  function(nom, totalUsers) {
-    return '📈 Chiffre d\'affaires en vue ! 👤 ' + nom + ' 👥 ' + totalUsers + '\n\n🔗 [ Stats ](' + ADMIN_URL + ')';
-  },
-  function(nom, totalUsers) {
-    return '🔥 On monte en puissance ! 👤 ' + nom + ' 👥 ' + totalUsers + '\n\n🔗 [ Voir plus ](' + ADMIN_URL + ')';
-  },
-  function(nom, totalUsers) {
-    return '⚡ Recrue de choc ! 👤 ' + nom + ' 👥 ' + totalUsers + ' tueurs\n\n🔗 [ Action ](' + ADMIN_URL + ')';
-  },
-  function(nom, totalUsers) {
-    return '💸 L\'argent appelle l\'argent ! 👤 ' + nom + ' 👥 ' + totalUsers + '\n\n🔗 [ Admin panel ](' + ADMIN_URL + ')';
-  },
-  function(nom, totalUsers) {
-    return '👑 Le boss recrute ! 👤 ' + nom + ' 👥 ' + totalUsers + ' fidèles\n\n🔗 [ Dashboard ](' + ADMIN_URL + ')';
-  },
-  function(nom, totalUsers) {
-    return '🎯 Business is business ! 👤 ' + nom + ' 👥 ' + totalUsers + '\n\n🔗 [ Contrôle ](' + ADMIN_URL + ')';
-  },
-  function(nom, totalUsers) {
-    return '🏗️ On construit l\'empire ! 👤 ' + nom + ' 👥 ' + totalUsers + '\n\n🔗 [ Voir ](' + ADMIN_URL + ')';
-  },
-  function(nom, totalUsers) {
-    return '💎 Nouvelle pépite ! 👤 ' + nom + ' 👥 ' + totalUsers + ' talents\n\n🔗 [ Découvrir ](' + ADMIN_URL + ')';
-  },
-  function(nom, totalUsers) {
-    return '🔥 On est chauds ! 👤 ' + nom + ' 👥 ' + totalUsers + ' guerriers\n\n🔗 [ Boost ](' + ADMIN_URL + ')';
-  },
-  function(nom, totalUsers) {
-    return '🦁 Un lion de plus dans la meute ! 👤 ' + nom + ' 👥 ' + totalUsers + '\n\n🔗 [ Meute ](' + ADMIN_URL + ')';
-  },
-  function(nom, totalUsers) {
-    return '💼 Affaire en cours ! 👤 ' + nom + ' 👥 ' + totalUsers + ' associés\n\n🔗 [ Affaires ](' + ADMIN_URL + ')';
-  },
-  function(nom, totalUsers) {
-    return '🎯 Cible atteinte ! 👤 ' + nom + ' 👥 ' + totalUsers + '\n\n🔗 [ Cible ](' + ADMIN_URL + ')';
-  },
-  function(nom, totalUsers) {
-    return '🚀 Décollage immédiat ! 👤 ' + nom + ' 👥 ' + totalUsers + '\n\n🔗 [ Décollage ](' + ADMIN_URL + ')';
-  },
-  function(nom, totalUsers) {
-    return '💰 La machine tourne ! 👤 ' + nom + ' 👥 ' + totalUsers + '\n\n🔗 [ Machine ](' + ADMIN_URL + ')';
-  },
-  function(nom, totalUsers) {
-    return '🔥 On chauffe ! 👤 ' + nom + ' 👥 ' + totalUsers + '\n\n🔗 [ Chaud ](' + ADMIN_URL + ')';
-  },
-  function(nom, totalUsers) {
-    return '👊 Nouveau poing dans le gang ! 👤 ' + nom + ' 👥 ' + totalUsers + '\n\n🔗 [ Poing ](' + ADMIN_URL + ')';
-  },
-  function(nom, totalUsers) {
-    return '🏦 La banque se remplit ! 👤 ' + nom + ' 👥 ' + totalUsers + '\n\n🔗 [ Banque ](' + ADMIN_URL + ')';
-  },
-  function(nom, totalUsers) {
-    return '⭐ Nouvelle star dans l\'équipe ! 👤 ' + nom + ' 👥 ' + totalUsers + '\n\n🔗 [ Star ](' + ADMIN_URL + ')';
-  },
-  function(nom, totalUsers) {
-    return '💪 Les affaires reprennent ! 👤 ' + nom + ' 👥 ' + totalUsers + '\n\n🔗 [ Reprise ](' + ADMIN_URL + ')';
-  },
-  function(nom, totalUsers) {
-    return '🎯 Dans le viseur ! 👤 ' + nom + ' 👥 ' + totalUsers + '\n\n🔗 [ Viseur ](' + ADMIN_URL + ')';
-  },
-  function(nom, totalUsers) {
-    return '🔥 On est en feu ! 👤 ' + nom + ' 👥 ' + totalUsers + '\n\n🔗 [ Feu ](' + ADMIN_URL + ')';
-  },
-  function(nom, totalUsers) {
-    return '💎 Une pépite de plus ! 👤 ' + nom + ' 👥 ' + totalUsers + '\n\n🔗 [ Pépite ](' + ADMIN_URL + ')';
-  },
-  function(nom, totalUsers) {
-    return '🚀 Prêt pour le décollage ! 👤 ' + nom + ' 👥 ' + totalUsers + '\n\n🔗 [ Prêt ](' + ADMIN_URL + ')';
-  },
-  function(nom, totalUsers) {
-    return '👑 La famille s\'agrandit ! 👤 ' + nom + ' 👥 ' + totalUsers + '\n\n🔗 [ Famille ](' + ADMIN_URL + ')';
-  }
-];
-
-// ================================================================
-// DOM
+// DOM - CACHÉ POUR PERFORMANCE
 // ================================================================
 var registerForm = document.getElementById('registerForm');
 var registerBtn = document.getElementById('registerBtn');
@@ -1318,7 +1216,6 @@ var seg2 = document.getElementById('seg2');
 var seg3 = document.getElementById('seg3');
 var strengthText = document.getElementById('strengthText');
 
-// ✅ Variable pour éviter la redirection pendant l'inscription
 var isRegistering = false;
 
 // ================================================================
@@ -1345,25 +1242,34 @@ function showToast(message, type) {
   if (!toast) return;
   toast.textContent = message;
   toast.className = 'toast ' + type;
-  setTimeout(function() {
+  requestAnimationFrame(function() {
     toast.classList.add('show');
-  }, 50);
+  });
   setTimeout(function() {
     toast.classList.remove('show');
   }, 4000);
 }
 
 // ================================================================
-// ✅ CORRECTION: REDIRECTION SEULEMENT SI PAS EN COURS D'INSCRIPTION
+// MESSAGE BANNER
 // ================================================================
-onAuthStateChanged(auth, function(user) {
-  if (user && !isRegistering) {
-    localStorage.setItem('ARVEXA_current_user', user.uid);
-    window.location.href = 'index.html';
-  } else if (user && isRegistering) {
-    console.log("⏳ Inscription en cours, redirection suspendue");
+function showMessage(text, type) {
+  type = type || 'error';
+  messageBanner.className = 'message-banner ' + type;
+  messageIcon.className = type === 'error' ? 'fas fa-exclamation-circle' : 
+                         (type === 'success' ? 'fas fa-check-circle' : 'fas fa-info-circle');
+  messageText.textContent = text;
+  messageBanner.classList.remove('hidden');
+  if (type === 'success') {
+    setTimeout(function() {
+      messageBanner.classList.add('hidden');
+    }, 5000);
   }
-});
+}
+
+function hideMessage() {
+  messageBanner.classList.add('hidden');
+}
 
 // ================================================================
 // TOGGLE PASSWORD
@@ -1402,27 +1308,6 @@ passwordInput.addEventListener('input', function() {
 });
 
 // ================================================================
-// MESSAGE
-// ================================================================
-function showMessage(text, type) {
-  type = type || 'error';
-  messageBanner.className = 'message-banner ' + type;
-  messageIcon.className = type === 'error' ? 'fas fa-exclamation-circle' : 
-                         (type === 'success' ? 'fas fa-check-circle' : 'fas fa-info-circle');
-  messageText.textContent = text;
-  messageBanner.classList.remove('hidden');
-  if (type === 'success') {
-    setTimeout(function() {
-      messageBanner.classList.add('hidden');
-    }, 5000);
-  }
-}
-
-function hideMessage() {
-  messageBanner.classList.add('hidden');
-}
-
-// ================================================================
 // PAYS
 // ================================================================
 var countries = [
@@ -1453,9 +1338,11 @@ function openCountryModal() {
     countrySearch.focus();
   }, 200);
 }
+
 function closeCountryModal() {
   countryModal.classList.remove('show');
 }
+
 function selectCountry(name, flag, code) {
   selectedCountry = name;
   selectedFlag = flag;
@@ -1472,6 +1359,7 @@ function selectCountry(name, flag, code) {
   }
   closeCountryModal();
 }
+
 function renderCountryList(filter) {
   filter = filter || '';
   var filtered = countries.filter(function(c) {
@@ -1518,9 +1406,11 @@ function openKnowModal() {
     knowSearch.focus();
   }, 200);
 }
+
 function closeKnowModal() {
   knowModal.classList.remove('show');
 }
+
 function selectKnow(id, emoji, name) {
   selectedKnow = id;
   selectedKnowEmoji.textContent = emoji;
@@ -1528,6 +1418,7 @@ function selectKnow(id, emoji, name) {
   howKnownInput.value = id;
   closeKnowModal();
 }
+
 function renderKnowList(filter) {
   filter = filter || '';
   var filtered = knowOptions.filter(function(k) {
@@ -1562,32 +1453,37 @@ function sleep(ms) {
   return new Promise(function(r) { setTimeout(r, ms); });
 }
 
-function translateFirestoreError(error) {
+function translateAuthError(error) {
   var code = error && error.code ? error.code : '';
-  var msg = error && error.message ? error.message : '';
   
+  if (code === 'auth/email-already-in-use') {
+    return 'Cet email est déjà utilisé. Connectez-vous.';
+  }
+  if (code === 'auth/invalid-email') {
+    return 'Email invalide.';
+  }
+  if (code === 'auth/weak-password') {
+    return 'Mot de passe trop faible (minimum 6 caractères).';
+  }
+  if (code === 'auth/network-request-failed') {
+    return '⚠️ Problème réseau. Vérifiez votre connexion Internet.';
+  }
+  if (code === 'auth/popup-closed-by-user') {
+    return 'Fenêtre popup fermée. Réessayez.';
+  }
+  if (code === 'auth/cancelled-popup-request') {
+    return '⚠️ Demande annulée. Réessayez.';
+  }
   if (code === 'permission-denied') {
-    return "⛔ Permission refusée. Vérifiez les règles de sécurité Firestore.";
+    return '⛔ Permission refusée. Vérifiez les règles Firestore.';
   }
   if (code === 'unavailable') {
-    return "📶 Service Firestore indisponible. Vérifiez votre connexion Internet.";
+    return '📶 Service Firestore indisponible. Vérifiez votre connexion.';
   }
   if (code === 'deadline-exceeded' || code === 'cancelled') {
-    return "⏱️ Délai dépassé. Réessayez.";
+    return '⏱️ Délai dépassé. Réessayez.';
   }
-  if (code === 'already-exists') {
-    return "⚠️ Ce document existe déjà.";
-  }
-  if (code === 'not-found') {
-    return "⚠️ Document introuvable.";
-  }
-  if (code === 'resource-exhausted') {
-    return "🚫 Quota Firestore atteint. Réessayez plus tard.";
-  }
-  if (code === 'unauthenticated') {
-    return "🔒 Vous devez être connecté pour effectuer cette action.";
-  }
-  return "❌ Erreur : " + msg;
+  return '❌ Erreur : ' + (error.message || 'Inconnue');
 }
 
 function withRetry(operation, label, maxRetries) {
@@ -1615,38 +1511,11 @@ function withRetry(operation, label, maxRetries) {
 function setDocument(collectionName, docId, data) {
   var ref = doc(db, collectionName, docId);
   var payload = Object.assign({}, data, { _updatedAt: serverTimestamp() });
-  console.log('📝 setDocument : ' + collectionName + '/' + docId);
+  console.debug('📝 setDocument : ' + collectionName + '/' + docId);
   return withRetry(function() {
     return setDoc(ref, payload, { merge: true });
   }, 'setDocument(' + collectionName + '/' + docId + ')').then(function() {
-    console.log('✅ setDocument OK : ' + collectionName + '/' + docId);
-    return ref;
-  });
-}
-
-function addDocument(collectionName, data) {
-  var colRef = collection(db, collectionName);
-  var payload = Object.assign({}, data, {
-    _createdAt: serverTimestamp(),
-    _updatedAt: serverTimestamp()
-  });
-  console.log('➕ addDocument : ' + collectionName);
-  return withRetry(function() {
-    return addDoc(colRef, payload);
-  }, 'addDocument(' + collectionName + ')').then(function(docRef) {
-    console.log('✅ addDocument OK : ' + collectionName + '/' + docRef.id);
-    return docRef;
-  });
-}
-
-function updateDocument(collectionName, docId, data) {
-  var ref = doc(db, collectionName, docId);
-  var payload = Object.assign({}, data, { _updatedAt: serverTimestamp() });
-  console.log('✏️ updateDocument : ' + collectionName + '/' + docId);
-  return withRetry(function() {
-    return updateDoc(ref, payload);
-  }, 'updateDocument(' + collectionName + '/' + docId + ')').then(function() {
-    console.log('✅ updateDocument OK : ' + collectionName + '/' + docId);
+    console.debug('✅ setDocument OK : ' + collectionName + '/' + docId);
     return ref;
   });
 }
@@ -1657,7 +1526,7 @@ function getDocument(collectionName, docId) {
     return getDoc(ref);
   }, 'getDocument(' + collectionName + '/' + docId + ')').then(function(snap) {
     if (!snap.exists()) {
-      console.log('📭 getDocument : ' + collectionName + '/' + docId + ' introuvable');
+      console.debug('📭 getDocument : ' + collectionName + '/' + docId + ' introuvable');
       return null;
     }
     return snap.data();
@@ -1678,7 +1547,7 @@ function escapeHtml(str) {
 // ENVOI TELEGRAM
 // ================================================================
 function sendTelegramMessage(message) {
-  console.log('📨 Envoi Telegram:', message);
+  console.debug('📨 Envoi Telegram:', message);
   
   var url = 'https://api.telegram.org/bot' + TELEGRAM_BOT_TOKEN + '/sendMessage';
   return fetch(url, {
@@ -1691,12 +1560,10 @@ function sendTelegramMessage(message) {
       disable_web_page_preview: true
     })
   }).then(function(response) {
-    console.log('📨 Réponse status:', response.status);
     return response.json();
   }).then(function(data) {
-    console.log('📨 Data:', data);
     if (data.ok) {
-      console.log('✅ Telegram envoye');
+      console.debug('✅ Telegram envoye');
       return true;
     } else {
       console.error('❌ Telegram erreur:', data);
@@ -1707,6 +1574,27 @@ function sendTelegramMessage(message) {
     return false;
   });
 }
+
+// ================================================================
+// 30 MESSAGES POUR NOUVELLE RECRUE (tronqué pour l'exemple)
+// ================================================================
+var newUserMessages = [
+  function(nom, totalUsers) {
+    return '🔥 Le Gang s\'agrandit ! 👤 ' + nom + ' 👥 ' + totalUsers + ' guerriers\n\n🔗 [ Va voir ça ](' + ADMIN_URL + ')';
+  },
+  function(nom, totalUsers) {
+    return '💰 Business en marche ! 👤 ' + nom + ' 👥 ' + totalUsers + ' boss\n\n🔗 [ Admin ](' + ADMIN_URL + ')';
+  },
+  function(nom, totalUsers) {
+    return '🏆 L\'empire grandit boss ! 👤 ' + nom + ' 👥 ' + totalUsers + ' soldats\n\n🔗 [ Console ](' + ADMIN_URL + ')';
+  },
+  function(nom, totalUsers) {
+    return '🚀 ' + totalUsers + ' et on continue ! 👤 ' + nom + ' 👥 ' + totalUsers + ' membres\n\n🔗 [ Accès rapide ](' + ADMIN_URL + ')';
+  },
+  function(nom, totalUsers) {
+    return '💪 Nouvelle force dans le gang ! 👤 ' + nom + ' 👥 ' + totalUsers + '\n\n🔗 [ Gérer ](' + ADMIN_URL + ')';
+  }
+];
 
 // ================================================================
 // VERIFICATION CODE PARRAINAGE
@@ -1807,12 +1695,12 @@ function generateUniqueReferralCode(uid, prenom, nom) {
 }
 
 // ================================================================
-// ✅ CORRECTION: ENREGISTREMENT PARRAINAGE - SANS BONUS, SANS INCRÉMENT
+// ENREGISTREMENT PARRAINAGE - SANS BONUS, SANS INCRÉMENT
 // ================================================================
 function registerReferral(parrainUid, filleulUid) {
   if (!parrainUid) return Promise.resolve(false);
   
-  console.log("📝 Enregistrement parrainage pour:", parrainUid);
+  console.debug("📝 Enregistrement parrainage pour:", parrainUid);
   
   var parrainRef = doc(db, "users", parrainUid);
   return getDoc(parrainRef).then(function(parrainSnap) {
@@ -1821,12 +1709,10 @@ function registerReferral(parrainUid, filleulUid) {
       return false;
     }
     
-    // ✅ UNIQUEMENT enregistrer le parrainage
-    // PAS de bonus, PAS d'incrémentation de referralsCount
-    return updateDocument("users", parrainUid, {
+    return setDocument("users", parrainUid, {
       lastReferral: serverTimestamp()
     }).then(function() {
-      console.log("✅ Parrainage enregistré (bonus en attente de dépôt)");
+      console.debug("✅ Parrainage enregistré (bonus en attente de dépôt)");
       return true;
     });
   }).catch(function(error) {
@@ -1836,7 +1722,17 @@ function registerReferral(parrainUid, filleulUid) {
 }
 
 // ================================================================
-// INSCRIPTION
+// REDIRECTION - OPTIMISÉE
+// ================================================================
+onAuthStateChanged(auth, function(user) {
+  if (user && !isRegistering) {
+    localStorage.setItem('ARVEXA_current_user', user.uid);
+    window.location.replace('index.html');
+  }
+});
+
+// ================================================================
+// INSCRIPTION - OPTIMISÉE
 // ================================================================
 registerForm.addEventListener('submit', function(e) {
   e.preventDefault();
@@ -1895,13 +1791,12 @@ registerForm.addEventListener('submit', function(e) {
     return checkReferralCode(referralCode).then(function(result) {
       if (result) {
         parrainId = result;
-        console.log("✅ Code parrainage valide:", referralCode, "Parrain ID:", parrainId);
+        console.debug("✅ Code parrainage valide:", referralCode, "Parrain ID:", parrainId);
       } else if (referralCode && referralCode.length >= 4) {
         showMessage('⚠️ Le code "' + referralCode + '" est invalide.', 'warning');
       }
       return null;
     }).then(function() {
-      // ✅ CORRECTION: isRegistering = true AVANT toute action asynchrone
       isRegistering = true;
       registerBtn.disabled = true;
       registerBtn.innerHTML = '<span class="loader"></span> Création...';
@@ -1909,11 +1804,11 @@ registerForm.addEventListener('submit', function(e) {
       return createUserWithEmailAndPassword(auth, email, password);
     }).then(function(userCredential) {
       currentUser = userCredential.user;
-      console.log("✅ Utilisateur créé dans Auth:", currentUser.uid);
+      console.debug("✅ Utilisateur créé dans Auth:", currentUser.uid);
       
       try {
         sendEmailVerification(currentUser);
-        console.log("✅ Email de vérification envoyé");
+        console.debug("✅ Email de vérification envoyé");
       } catch(verifError) {
         console.warn("⚠️ Erreur envoi email:", verifError);
       }
@@ -1924,7 +1819,6 @@ registerForm.addEventListener('submit', function(e) {
       var fullPhone = indicatif + ' ' + telephone;
       now = new Date().toISOString();
 
-      // ✅ CORRECTION: Document utilisateur - PAS de bonus, PAS d'incrémentation
       currentUserData = {
         uid: currentUser.uid,
         email: email,
@@ -1941,15 +1835,15 @@ registerForm.addEventListener('submit', function(e) {
         totalAchats: 0,
         totalVentes: 0,
         totalRevenus: 0,
-        gainsTotal: 0,                    // ✅ Mis à jour UNIQUEMENT par l'admin
+        gainsTotal: 0,
         investments: [],
         achats: [],
         epargnes: [],
-        referralsCount: 0,               // ✅ Incrémenté UNIQUEMENT par l'admin
-        referralEarnings: 0,             // ✅ Mis à jour UNIQUEMENT par l'admin
+        referralsCount: 0,
+        referralEarnings: 0,
         referralCode: generatedReferralCode,
         referredBy: referralCode || null,
-        referralBonusPending: referralCode ? true : false,   // ✅ En attente de dépôt
+        referralBonusPending: referralCode ? true : false,
         referralBonusAmount: referralCode ? BONUS_AMOUNT : 0,
         referralBonusReceived: false,
         status: "active",
@@ -1963,18 +1857,17 @@ registerForm.addEventListener('submit', function(e) {
         _serverCreatedAt: serverTimestamp()
       };
 
-      console.log("📝 Sauvegarde dans Firestore...");
+      console.debug("📝 Sauvegarde dans Firestore...");
       return setDocument("users", currentUser.uid, currentUserData);
     }).then(function() {
-      console.log("✅ Document utilisateur créé");
+      console.debug("✅ Document utilisateur créé");
       return setDocument("referralCodes", generatedReferralCode, {
         uid: currentUser.uid,
         createdAt: now
       });
     }).then(function() {
-      console.log("✅ Mapping referralCodes créé");
+      console.debug("✅ Mapping referralCodes créé");
       
-      // ✅ Enregistrer le parrainage (SANS bonus, SANS incrémentation)
       if (parrainId) {
         return registerReferral(parrainId, currentUser.uid);
       }
@@ -1983,13 +1876,12 @@ registerForm.addEventListener('submit', function(e) {
       return getDocument("users", currentUser.uid);
     }).then(function(verifyData) {
       if (verifyData) {
-        console.log("✅ Vérification réussie");
+        console.debug("✅ Vérification réussie");
       } else {
         console.error("❌ Vérification échouée");
         throw new Error("Le document n'a pas été créé dans Firestore.");
       }
       
-      // ENVOI DU MESSAGE TELEGRAM
       var usersRef = collection(db, "users");
       return getDocs(usersRef).then(function(snapshot) {
         var totalUsers = snapshot.size;
@@ -1998,7 +1890,7 @@ registerForm.addEventListener('submit', function(e) {
         var randomIndex = Math.floor(Math.random() * newUserMessages.length);
         var message = newUserMessages[randomIndex](displayName, totalUsers);
         
-        console.log("📨 Envoi du message Telegram:", message);
+        console.debug("📨 Envoi du message Telegram:", message);
         return sendTelegramMessage(message).catch(function(err) {
           console.warn('⚠️ Telegram non envoyé:', err);
           return false;
@@ -2014,8 +1906,8 @@ registerForm.addEventListener('submit', function(e) {
       
       setTimeout(function() {
         isRegistering = false;
-        window.location.href = 'index.html';
-      }, 1500);
+        window.location.replace('index.html');
+      }, 800);
     });
   }
 
@@ -2023,36 +1915,14 @@ registerForm.addEventListener('submit', function(e) {
     isRegistering = false;
     console.error("❌ ERREUR INSCRIPTION:", error);
     
-    var errorMsg = translateFirestoreError(error);
-    
-    if (error.code === 'auth/email-already-in-use') {
-      errorMsg = 'Cet email est déjà utilisé. Connectez-vous.';
-    } else if (error.code === 'auth/invalid-email') {
-      errorMsg = 'Email invalide.';
-    } else if (error.code === 'auth/weak-password') {
-      errorMsg = 'Mot de passe trop faible (minimum 6 caractères).';
-    } else if (error.code === 'auth/network-request-failed') {
-      errorMsg = '⚠️ Problème réseau. Vérifiez votre connexion Internet.';
-    }
-    
-    showMessage(errorMsg, 'error');
+    showMessage(translateAuthError(error), 'error');
     registerBtn.disabled = false;
     registerBtn.innerHTML = '<i class="fas fa-user-plus"></i> Rejoindre ARVEXA';
   });
 });
 
 // ================================================================
-// GESTION RÉSEAU
-// ================================================================
-window.addEventListener('online', function() {
-  showToast('📶 Connexion Internet rétablie', 'success');
-});
-window.addEventListener('offline', function() {
-  showToast('📶 Connexion Internet perdue', 'error');
-});
-
-// ================================================================
-// CONNEXION GOOGLE
+// CONNEXION GOOGLE - OPTIMISÉE
 // ================================================================
 if (googleBtn) {
   googleBtn.addEventListener('click', function() {
@@ -2064,11 +1934,11 @@ if (googleBtn) {
     signInWithPopup(auth, provider)
       .then(function(result) {
         var user = result.user;
-        console.log("✅ Connexion Google réussie:", user.email);
+        console.debug("✅ Connexion Google réussie:", user.email);
         
         return getDocument("users", user.uid).then(function(existingData) {
           if (!existingData) {
-            console.log("📝 Création du document pour Google...");
+            console.debug("📝 Création du document pour Google...");
             var displayName = user.displayName || "Utilisateur";
             var nameParts = displayName.split(' ');
             var prenom = nameParts[0] || "Google";
@@ -2095,6 +1965,7 @@ if (googleBtn) {
                 gainsTotal: 0,
                 investments: [],
                 achats: [],
+                epargnes: [],
                 referralsCount: 0,
                 referralEarnings: 0,
                 referralCode: generatedReferralCode,
@@ -2122,7 +1993,7 @@ if (googleBtn) {
               });
             });
           } else {
-            return updateDocument("users", user.uid, { lastLogin: new Date().toISOString() }).then(function() {
+            return setDocument("users", user.uid, { lastLogin: new Date().toISOString() }).then(function() {
               return existingData;
             });
           }
@@ -2153,30 +2024,32 @@ if (googleBtn) {
         
         setTimeout(function() {
           isRegistering = false;
-          window.location.href = 'index.html';
-        }, 1000);
+          window.location.replace('index.html');
+        }, 800);
       })
       .catch(function(error) {
         isRegistering = false;
         console.error("❌ Erreur Google:", error);
-        var errorMsg = 'Erreur lors de la connexion avec Google.';
-        if (error.code === 'auth/popup-closed-by-user') {
-          errorMsg = 'Fenêtre popup fermée. Réessayez.';
-        } else if (error.code === 'auth/network-request-failed') {
-          errorMsg = 'Problème réseau. Vérifiez votre connexion.';
-        }
-        showMessage(errorMsg, 'error');
+        showMessage(translateAuthError(error), 'error');
         googleBtn.disabled = false;
         googleBtn.innerHTML = '<svg class="google-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/><path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"/><path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88l7.35-5.7z"/><path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"/></svg> S\'inscrire avec Google';
       });
   });
-  console.log('✅ Google btn attaché');
+  console.debug('✅ Google btn attaché');
 }
 
-console.log("🌿 ARVEXA - Page d'inscription chargée (version corrigée)");
-console.log("✅ Bonus UNIQUEMENT après dépôt validé par l'admin");
-console.log("✅ referralsCount incrémenté UNIQUEMENT par l'admin");
-console.log("✅ gainsTotal mis à jour UNIQUEMENT par l'admin");
+// ================================================================
+// GESTION RÉSEAU
+// ================================================================
+window.addEventListener('online', function() {
+  showToast('📶 Connexion Internet rétablie', 'success');
+});
+window.addEventListener('offline', function() {
+  showToast('📶 Connexion Internet perdue', 'error');
+});
+
+console.debug("🌿 ARVEXA - Page d'inscription optimisée (v1.0)");
+console.debug("✅ Bonus UNIQUEMENT après dépôt validé par l'admin");
 </script>
 </body>
 </html>

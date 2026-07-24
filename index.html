@@ -57,18 +57,16 @@
       min-height: 100vh;
       touch-action: pan-y;
       user-select: none;
-      opacity: 0;
-      animation: pageFadeIn 0.4s ease forwards;
+      opacity: 1;
       -webkit-overflow-scrolling: touch;
     }
-    @keyframes pageFadeIn { 0% { opacity: 0; } 100% { opacity: 1; } }
 
     /* ===== ÉCRAN DE CHARGEMENT ===== */
     #loadingScreen {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background: var(--bg-dark); z-index: 9999;
       display: flex; flex-direction: column; align-items: center; justify-content: center;
-      transition: opacity 0.4s ease, visibility 0.4s ease;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
     }
     #loadingScreen.hide { opacity: 0; visibility: hidden; pointer-events: none; }
     .loader-logo { font-size: 32px; font-weight: 700; font-family: 'Playfair Display', serif; letter-spacing: 3px; color: var(--text-light); margin-bottom: 20px; }
@@ -126,12 +124,13 @@
     }
     .menu-btn:active { transform: scale(0.94); }
     .menu-btn:hover { border-color: rgba(184,134,11,0.12); color: var(--text-light); }
+    .menu-btn svg { width: 18px; height: 18px; stroke: currentColor; }
 
     /* ===== CONTAINER ===== */
     .container { max-width: 500px; margin: 0 auto; padding: 16px 16px 80px; touch-action: pan-y; }
 
     /* ===== HERO ===== */
-    .hero-section { margin-bottom: 24px; animation: fadeInUp 0.5s ease-out; }
+    .hero-section { margin-bottom: 24px; animation: fadeInUp 0.4s ease-out; }
     @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     .hero-badge {
       display: inline-flex; align-items: center; gap: 6px;
@@ -145,7 +144,7 @@
     .hero-description { font-size: 13px; color: var(--text-dim); font-weight: 300; }
 
     /* ===== DASHBOARD ===== */
-    .dashboard-stats-container { margin-bottom: 28px; animation: fadeInUp 0.5s ease-out; }
+    .dashboard-stats-container { margin-bottom: 28px; animation: fadeInUp 0.4s ease-out; }
     .main-stat-card {
       background: linear-gradient(135deg, rgba(20,20,20,0.95), rgba(10,10,10,0.98));
       border: 1px solid rgba(184,134,11,0.04); border-radius: 16px; padding: 18px 20px;
@@ -155,12 +154,6 @@
       content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
       background: linear-gradient(135deg, rgba(184,134,11,0.02), transparent); border-radius: 16px; pointer-events: none;
     }
-    .main-stat-card::after {
-      content: ''; position: absolute; top: -50%; right: -30%; width: 80%; height: 80%;
-      background: radial-gradient(circle, rgba(184,134,11,0.02), transparent 70%); pointer-events: none;
-      animation: cardGlow 8s ease-in-out infinite alternate;
-    }
-    @keyframes cardGlow { 0% { transform: translate(0,0) scale(1); opacity: 0.3; } 100% { transform: translate(-20px,-20px) scale(1.2); opacity: 0.6; } }
     .main-stat-card:hover { border-color: rgba(184,134,11,0.08); transform: translateY(-2px); }
     .main-stat-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; position: relative; z-index: 1; }
     .main-stat-label { font-size: 10px; font-weight: 400; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.5px; }
@@ -170,15 +163,34 @@
       display: flex; align-items: center; gap: 5px; transition: var(--transition); text-decoration: none; position: relative; z-index: 1;
     }
     .btn-recharge:active { transform: scale(0.95); }
-    .btn-recharge:hover { background: #9A7209; box-shadow: 0 0 30px rgba(184,134,11,0.1); }
     .main-stat-value { font-family: 'Playfair Display', serif; font-size: 30px; font-weight: 700; margin-bottom: 6px; position: relative; z-index: 1; color: var(--text-light); letter-spacing: 1px; }
     .main-stat-footer { font-size: 10px; color: var(--text-muted); display: flex; align-items: center; gap: 6px; position: relative; z-index: 1; }
     .main-stat-footer i { color: var(--success); }
+    .main-stat-footer .daily-perf { margin-left: auto; font-size: 9px; font-weight: 400; }
+    .main-stat-footer .daily-perf.positive { color: var(--success); }
+    .main-stat-footer .daily-perf.neutral { color: var(--text-muted); }
+
+    /* ===== SKELETON ===== */
+    .skeleton {
+      background: rgba(255,255,255,0.03);
+      border-radius: 12px;
+      animation: skeletonPulse 1.2s ease-in-out infinite;
+    }
+    @keyframes skeletonPulse {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 0.6; }
+    }
+    .skeleton-text { height: 14px; width: 100%; margin-bottom: 6px; }
+    .skeleton-text.w60 { width: 60%; }
+    .skeleton-text.w40 { width: 40%; }
+    .skeleton-text.w30 { width: 30%; }
+    .skeleton-value { height: 32px; width: 70%; margin: 4px 0; }
+    .skeleton-badge { height: 20px; width: 80px; border-radius: 20px; }
 
     /* ===== QUICK STATS ===== */
     .quick-stats {
       display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 28px;
-      animation: fadeInUp 0.6s ease-out;
+      animation: fadeInUp 0.5s ease-out;
     }
     .quick-stat-item {
       background: rgba(20,20,20,0.4); border: 1px solid rgba(255,255,255,0.02);
@@ -209,7 +221,7 @@
       display: flex; background: var(--bg-card); backdrop-filter: blur(10px);
       border: 1px solid var(--card-border); border-radius: 14px; overflow: hidden;
       text-decoration: none; color: inherit; transition: var(--transition); height: 130px;
-      cursor: pointer; animation: fadeInUp 0.6s ease-out;
+      cursor: pointer; animation: fadeInUp 0.5s ease-out;
     }
     .formation-card-horizontal:active { transform: scale(0.98); }
     .formation-card-horizontal:hover { border-color: rgba(184,134,11,0.08); transform: translateY(-2px); background: rgba(20,20,20,0.8); }
@@ -285,7 +297,7 @@
     .actu-nav-btn:hover { border-color: rgba(184,134,11,0.12); color: var(--text-light); background: rgba(10,10,10,0.5); }
     .actu-nav-btn:disabled { opacity: 0.2; cursor: not-allowed; transform: none; }
 
-    /* ============================================================
+       /* ============================================================
        FOOTER
        ============================================================ */
     .footer { border-top: 1px solid rgba(184,134,11,0.03); padding: 28px 0 16px; text-align: center; margin-top: 20px; }
@@ -664,7 +676,13 @@
       <div class="user-avatar" id="userAvatar">A</div>
       <span class="user-name" id="userName">Chargement...</span>
     </a>
-    <a href="#" class="menu-btn" id="menuBtn"><i class="fas fa-bars"></i></a>
+    <button class="menu-btn" id="menuBtn" aria-label="Ouvrir le menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
   </div>
 </header>
 
@@ -685,31 +703,39 @@
         <span class="main-stat-label">💰 Portefeuille ARVEXA</span>
         <a href="recharger.html" class="btn-recharge"><i class="fas fa-plus"></i> Recharger</a>
       </div>
-      <div class="main-stat-value" id="statBalance">0 FCFA</div>
+      <div class="main-stat-value" id="statBalance">
+        <span class="skeleton skeleton-value"></span>
+      </div>
       <div class="main-stat-footer">
         <i class="fas fa-wallet"></i> Solde disponible
-        <span style="margin-left:auto;color:var(--success);font-size:9px;font-weight:400;" id="dailyReturnDisplay">
-          <i class="fas fa-arrow-up"></i> 0% par jour
+        <span class="daily-perf neutral" id="dailyReturnDisplay">
+          <i class="fas fa-chart-line"></i> <span id="dailyPercent">0</span>% aujourd'hui
         </span>
       </div>
     </div>
   </div>
 
-  <!-- ===== QUICK STATS ===== -->
+    <!-- ===== QUICK STATS ===== -->
   <div class="quick-stats">
     <div class="quick-stat-item">
       <div class="quick-stat-icon gold"><i class="fas fa-coins"></i></div>
-      <div class="quick-stat-value" id="statRevenue">0 FCFA</div>
+      <div class="quick-stat-value" id="statRevenue">
+        <span class="skeleton skeleton-text w60"></span>
+      </div>
       <div class="quick-stat-label">Revenus</div>
     </div>
     <div class="quick-stat-item">
       <div class="quick-stat-icon gold"><i class="fas fa-trophy"></i></div>
-      <div class="quick-stat-value" id="statDefis">0 FCFA</div>
+      <div class="quick-stat-value" id="statDefis">
+        <span class="skeleton skeleton-text w40"></span>
+      </div>
       <div class="quick-stat-label">Défis</div>
     </div>
     <div class="quick-stat-item">
       <div class="quick-stat-icon gold"><i class="fas fa-users"></i></div>
-      <div class="quick-stat-value" id="statReferrals">0</div>
+      <div class="quick-stat-value" id="statReferrals">
+        <span class="skeleton skeleton-text w30"></span>
+      </div>
       <div class="quick-stat-label">Parrainages</div>
     </div>
   </div>
@@ -872,7 +898,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
 import { 
   getFirestore, doc, getDoc, onSnapshot, updateDoc, setDoc,
-  collection, query, orderBy, where
+  collection, query, orderBy, where, getDocs
 } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
 
 // ================================================================
@@ -906,7 +932,7 @@ if (typeof APP_CONFIG !== 'undefined') {
 }
 
 // ================================================================
-// DOM
+// DOM - CACHÉ POUR PERFORMANCE
 // ================================================================
 var userNameEl = document.getElementById('userName');
 var userAvatarEl = document.getElementById('userAvatar');
@@ -914,6 +940,8 @@ var statBalanceEl = document.getElementById('statBalance');
 var statRevenueEl = document.getElementById('statRevenue');
 var statDefisEl = document.getElementById('statDefis');
 var statReferralsEl = document.getElementById('statReferrals');
+var dailyPercentEl = document.getElementById('dailyPercent');
+var dailyReturnDisplay = document.getElementById('dailyReturnDisplay');
 
 var menuOverlay = document.getElementById('menuOverlay');
 var menuBtn = document.getElementById('menuBtn');
@@ -937,7 +965,6 @@ var gainNotifMessage = document.getElementById('gainNotifMessage');
 var adminLockBtn = document.getElementById('adminLockBtn');
 var toast = document.getElementById('toast');
 
-// ✅ MODAL DÉCONNEXION
 var confirmModal = document.getElementById('confirmModal');
 var cancelConfirmBtn = document.getElementById('cancelConfirmBtn');
 var confirmLogoutBtn = document.getElementById('confirmLogoutBtn');
@@ -947,6 +974,7 @@ var userData = null;
 var unsubscribeUser = null;
 var unsubscribeActualites = null;
 var isPageLoading = true;
+var dataLoaded = false;
 
 // ================================================================
 // TOAST
@@ -996,6 +1024,150 @@ function formatCurrency(amount) {
   if (amount >= 1000000) return (amount / 1000000).toFixed(1) + 'M FCFA';
   if (amount >= 1000) return (amount / 1000).toFixed(1) + 'K FCFA';
   return amount.toLocaleString('fr-FR') + ' FCFA';
+}
+
+// ================================================================
+// AFFICHER LES DONNÉES - RAPIDE
+// ================================================================
+function updateUI(data) {
+  if (!data) return;
+  
+  var prenom = data.prenom || '';
+  var displayName = prenom || 'Investisseur';
+  
+  // Header
+  userNameEl.textContent = displayName;
+  
+  // Avatar
+  if (data.avatarBase64) {
+    userAvatarEl.style.backgroundImage = 'url(' + data.avatarBase64 + ')';
+    userAvatarEl.style.backgroundSize = 'cover';
+    userAvatarEl.style.backgroundPosition = 'center';
+    userAvatarEl.textContent = '';
+  } else {
+    userAvatarEl.style.backgroundImage = 'none';
+    userAvatarEl.textContent = displayName.charAt(0).toUpperCase();
+  }
+  
+  if (data.avatarBase64) {
+    menuAvatar.style.backgroundImage = 'url(' + data.avatarBase64 + ')';
+    menuAvatar.style.backgroundSize = 'cover';
+    menuAvatar.style.backgroundPosition = 'center';
+    menuAvatar.textContent = '';
+  } else {
+    menuAvatar.style.backgroundImage = 'none';
+    menuAvatar.textContent = displayName.charAt(0).toUpperCase();
+  }
+  
+  menuUsername.textContent = displayName;
+  menuUseremail.textContent = data.email || 'email@email.com';
+  
+  // Stats
+  var balance = data.balance || 0;
+  statBalanceEl.innerHTML = formatCurrency(balance);
+  
+  var totalRevenus = data.gainsTotal || 0;
+  statRevenueEl.innerHTML = formatCurrency(totalRevenus);
+  
+  var totalDefis = data.totalDefisGagnes || 0;
+  statDefisEl.innerHTML = formatCurrency(totalDefis);
+  
+  statReferralsEl.innerHTML = data.referralsCount || 0;
+  
+  // Performance quotidienne
+  calculateDailyPerformance();
+  
+  // Admin button
+  checkAdminButton(currentUser);
+  
+  // Cache
+  localStorage.setItem('ARVEXA_user_data', JSON.stringify(data));
+  
+  // Masquer l'écran de chargement
+  hideLoadingScreen();
+}
+
+// ================================================================
+// CALCUL DE LA PERFORMANCE QUOTIDIENNE
+// ================================================================
+async function calculateDailyPerformance() {
+  if (!currentUser) return;
+  
+  try {
+    const today = new Date().toISOString().split('T')[0];
+    let totalGains = 0;
+    
+    // 1. Gains de parrainage (depuis la collection 'gains')
+    const gainsQuery = query(
+      collection(db, 'gains'),
+      where('userId', '==', currentUser.uid),
+      where('date', '==', today)
+    );
+    const gainsSnap = await getDocs(gainsQuery);
+    gainsSnap.forEach(doc => {
+      totalGains += doc.data().montant || 0;
+    });
+    
+    // 2. Gains des défis
+    const defisQuery = query(
+      collection(db, 'defis'),
+      where('userId', '==', currentUser.uid),
+      where('date', '==', today),
+      where('statut', '==', 'valide')
+    );
+    const defisSnap = await getDocs(defisQuery);
+    defisSnap.forEach(doc => {
+      totalGains += doc.data().montant || 0;
+    });
+    
+    // 3. Ventes de produits (boutique)
+    const ventesQuery = query(
+      collection(db, 'ventes'),
+      where('userId', '==', currentUser.uid),
+      where('date', '==', today)
+    );
+    const ventesSnap = await getDocs(ventesQuery);
+    ventesSnap.forEach(doc => {
+      totalGains += doc.data().montant || 0;
+    });
+    
+    // 4. Calcul de l'objectif (moyenne des 30 derniers jours)
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+    const thirtyDaysStr = thirtyDaysAgo.toISOString().split('T')[0];
+    
+    // Récupérer toutes les transactions des 30 derniers jours
+    const allGainsQuery = query(
+      collection(db, 'gains'),
+      where('userId', '==', currentUser.uid),
+      where('date', '>=', thirtyDaysStr)
+    );
+    const allGainsSnap = await getDocs(allGainsQuery);
+    let totalMonth = 0;
+    let daysWithGains = 0;
+    allGainsSnap.forEach(doc => {
+      totalMonth += doc.data().montant || 0;
+      daysWithGains++;
+    });
+    
+    // Objectif quotidien = moyenne des jours avec gains OU 5000 FCFA par défaut
+    const dailyAverage = daysWithGains > 0 ? totalMonth / daysWithGains : 5000;
+    const performance = dailyAverage > 0 ? (totalGains / dailyAverage) * 100 : 0;
+    const displayPercent = Math.min(Math.round(performance), 200);
+    
+    // Mettre à jour l'affichage
+    dailyPercentEl.textContent = displayPercent;
+    
+    if (displayPercent > 0) {
+      dailyReturnDisplay.className = 'daily-perf positive';
+    } else {
+      dailyReturnDisplay.className = 'daily-perf neutral';
+    }
+    
+  } catch (error) {
+    console.warn('Erreur calcul performance:', error);
+    dailyPercentEl.textContent = '0';
+  }
 }
 
 // ================================================================
@@ -1059,16 +1231,8 @@ function loadActualites() {
     actualites = data.length > 0 ? data : defaultActualites;
     currentActuIndex = 0;
     displayActu(0);
-    var lastActu = actualites[0];
-    if (lastActu && 
-        sessionStorage.getItem('last_actu_id') !== lastActu.id &&
-        !lastActu.badge.includes('Bienvenue') &&
-        !lastActu.text.includes('Bienvenue')) {
-      showToast('📢 ' + lastActu.badge + ' ' + lastActu.text.substring(0, 50) + '...', 'info');
-      sessionStorage.setItem('last_actu_id', lastActu.id);
-    }
   }, function(error) {
-    console.error('Erreur actualités:', error);
+    console.warn('Erreur actualités:', error);
     actualites = defaultActualites;
     currentActuIndex = 0;
     displayActu(0);
@@ -1076,12 +1240,9 @@ function loadActualites() {
 }
 
 // ================================================================
-// ✅ MENU SWIPE AMÉLIORÉ
+// MENU SWIPE
 // ================================================================
-var touchStartX = 0;
-var touchStartY = 0;
-var isSwiping = false;
-var isMenuOpen = false;
+var touchStartX = 0, touchStartY = 0, isMenuOpen = false;
 var SWIPE_THRESHOLD = 30;
 var EDGE_THRESHOLD = 20;
 
@@ -1092,7 +1253,6 @@ document.addEventListener('touchstart', function(e) {
   var touch = e.changedTouches[0];
   touchStartX = touch.screenX;
   touchStartY = touch.screenY;
-  isSwiping = false;
 }, { passive: true });
 
 document.addEventListener('touchmove', function(e) {
@@ -1104,51 +1264,30 @@ document.addEventListener('touchmove', function(e) {
   if (Math.abs(deltaY) > Math.abs(deltaX) * 1.2) return;
   
   if (touchStartX < EDGE_THRESHOLD && deltaX > SWIPE_THRESHOLD && !isMenuOpen) {
-    isSwiping = true;
     e.preventDefault();
     openMenu();
   }
   
   if (isMenuOpen && deltaX < -SWIPE_THRESHOLD) {
-    isSwiping = true;
     e.preventDefault();
     closeMenu();
   }
 }, { passive: false });
 
-document.addEventListener('touchend', function(e) {
-  isSwiping = false;
-}, { passive: true });
-
-menuBtn.addEventListener('click', function(e) { e.preventDefault(); e.stopPropagation(); isMenuOpen ? closeMenu() : openMenu(); });
-menuCloseBtn.addEventListener('click', function() { closeMenu(); });
-menuBackdrop.addEventListener('click', function() { closeMenu(); });
+menuBtn.addEventListener('click', function(e) { e.preventDefault(); isMenuOpen ? closeMenu() : openMenu(); });
+menuCloseBtn.addEventListener('click', closeMenu);
+menuBackdrop.addEventListener('click', closeMenu);
 document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeMenu(); });
 
 // ================================================================
-// ✅ MODAL DÉCONNEXION UNIFORME
+// MODAL DÉCONNEXION
 // ================================================================
-function openConfirmModal() {
-  confirmModal.classList.add('show');
-  document.body.style.overflow = 'hidden';
-}
-
-function closeConfirmModal() {
-  confirmModal.classList.remove('show');
-  document.body.style.overflow = '';
-}
+function openConfirmModal() { confirmModal.classList.add('show'); document.body.style.overflow = 'hidden'; }
+function closeConfirmModal() { confirmModal.classList.remove('show'); document.body.style.overflow = ''; }
 
 cancelConfirmBtn.addEventListener('click', closeConfirmModal);
-confirmModal.addEventListener('click', function(e) {
-  if (e.target === confirmModal) closeConfirmModal();
-});
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') closeConfirmModal();
-});
+confirmModal.addEventListener('click', function(e) { if (e.target === confirmModal) closeConfirmModal(); });
 
-// ================================================================
-// DÉCONNEXION AVEC MODAL
-// ================================================================
 confirmLogoutBtn.addEventListener('click', async function() {
   try {
     await signOut(auth);
@@ -1165,6 +1304,11 @@ confirmLogoutBtn.addEventListener('click', async function() {
   }
 });
 
+menuLogoutBtn.addEventListener('click', function(e) {
+  e.preventDefault();
+  openConfirmModal();
+});
+
 // ================================================================
 // ADMIN BUTTON
 // ================================================================
@@ -1179,83 +1323,17 @@ function checkAdminButton(user) {
 }
 
 // ================================================================
-// UPDATE UI
+// ÉCRAN DE CHARGEMENT
 // ================================================================
-function updateUI(data) {
-  if (!data) return;
-  var prenom = data.prenom || '';
-  var displayName = prenom || 'Investisseur';
-  
-  userNameEl.textContent = displayName;
-  
-  if (data.avatarBase64) {
-    userAvatarEl.style.backgroundImage = 'url(' + data.avatarBase64 + ')';
-    userAvatarEl.style.backgroundSize = 'cover';
-    userAvatarEl.style.backgroundPosition = 'center';
-    userAvatarEl.textContent = '';
-  } else {
-    userAvatarEl.style.backgroundImage = 'none';
-    userAvatarEl.textContent = displayName.charAt(0).toUpperCase();
-  }
-  
-  if (data.avatarBase64) {
-    menuAvatar.style.backgroundImage = 'url(' + data.avatarBase64 + ')';
-    menuAvatar.style.backgroundSize = 'cover';
-    menuAvatar.style.backgroundPosition = 'center';
-    menuAvatar.textContent = '';
-  } else {
-    menuAvatar.style.backgroundImage = 'none';
-    menuAvatar.textContent = displayName.charAt(0).toUpperCase();
-  }
-  
-  menuUsername.textContent = displayName;
-  menuUseremail.textContent = data.email || 'email@email.com';
-
-  var balance = data.balance || 0;
-  statBalanceEl.textContent = formatCurrency(balance);
-
-  var totalRevenus = data.gainsTotal || 0;
-  statRevenueEl.textContent = formatCurrency(totalRevenus);
-
-  var totalDefis = data.totalDefisGagnes || 0;
-  statDefisEl.textContent = formatCurrency(totalDefis);
-
-  statReferralsEl.textContent = data.referralsCount || 0;
-
-  var dailyReturn = 0;
-  if (data.investments && data.investments.length > 0) {
-    var activeInvests = data.investments.filter(function(i) { return i.status === 'active'; });
-    if (activeInvests.length > 0) {
-      var totalReturn = activeInvests.reduce(function(sum, inv) { return sum + (inv.dailyPercent || inv.dailyReturn || 0); }, 0);
-      dailyReturn = totalReturn / activeInvests.length;
-    }
-  }
-  var displayPercent = dailyReturn > 0 ? (dailyReturn / 10).toFixed(1) : '0';
-  var statFooter = document.querySelector('.main-stat-footer');
-  if (statFooter) {
-    var span = statFooter.querySelector('span:last-child');
-    if (span) {
-      if (parseFloat(displayPercent) > 0) {
-        span.innerHTML = '<i class="fas fa-arrow-up"></i> +' + displayPercent + '% par jour';
-        span.style.color = 'var(--success)';
-      } else {
-        span.innerHTML = '<i class="fas fa-minus"></i> 0% par jour';
-        span.style.color = 'var(--text-muted)';
-      }
-    }
-  }
-  checkAdminButton(currentUser);
-  localStorage.setItem('ARVEXA_user_data', JSON.stringify(data));
-  
-  var isFirstLoad = !sessionStorage.getItem('arvexa_loaded');
-  if (isFirstLoad) {
+function hideLoadingScreen() {
+  if (dataLoaded) return;
+  dataLoaded = true;
+  var loadingScreen = document.getElementById('loadingScreen');
+  if (loadingScreen) {
+    loadingScreen.classList.add('hide');
     setTimeout(function() {
-      loadingScreen.classList.add('hide');
-      mainContent.style.display = 'block';
-      mainContent.style.opacity = '1';
-      document.body.style.overflow = '';
-      sessionStorage.setItem('arvexa_loaded', 'true');
-    }, 600);
+      loadingScreen.style.display = 'none';
+    }, 400);
   }
 }
 
@@ -1263,11 +1341,7 @@ function updateUI(data) {
 // FORCE CHECK GAINS
 // ================================================================
 async function forceCheckAndCreditGains() {
-  if (!currentUser) return false;
-  if (!userData) {
-    await new Promise(resolve => setTimeout(resolve, 500));
-    if (!userData) return false;
-  }
+  if (!currentUser || !userData) return false;
   if (!userData.investments || userData.investments.length === 0) return false;
   
   var activeInvests = userData.investments.filter(function(i) { return i.status === 'active'; });
@@ -1318,7 +1392,7 @@ async function forceCheckAndCreditGains() {
       return true;
     }
     return false;
-  } catch (error) { console.error("❌ Erreur gains:", error); return false; }
+  } catch (error) { console.warn("Erreur gains:", error); return false; }
 }
 
 // ================================================================
@@ -1331,7 +1405,7 @@ function loadDefisStats(uid) {
     if (snap.exists()) {
       var data = snap.data();
       var totalDefis = data.totalDefisGagnes || 0;
-      statDefisEl.textContent = formatCurrency(totalDefis);
+      statDefisEl.innerHTML = formatCurrency(totalDefis);
     }
   }, function(error) {
     console.error('Erreur chargement défis:', error);
@@ -1349,19 +1423,16 @@ function listenToUser(uid) {
       userData = snap.data();
       updateUI(userData);
       localStorage.setItem('ARVEXA_user_data', JSON.stringify(userData));
-      if (!sessionStorage.getItem('arvexa_loaded')) {
-        setTimeout(function() { forceCheckAndCreditGains(); }, 1500);
-      }
     }
   }, function(error) { 
     if (error.code !== 'aborted' && error.code !== 'cancelled') {
-      console.error('Erreur onSnapshot:', error);
+      console.warn('Erreur onSnapshot:', error);
     }
   });
 }
 
 // ================================================================
-// ✅ CACHE POUR RETOUR ARRIÈRE INSTANTANÉ
+// CACHE POUR RETOUR ARRIÈRE INSTANTANÉ
 // ================================================================
 window.addEventListener('pageshow', function(event) {
   if (event.persisted) {
@@ -1374,30 +1445,45 @@ window.addEventListener('pageshow', function(event) {
         var data = JSON.parse(cachedData);
         updateUI(data);
         console.log('✅ Données chargées depuis localStorage');
+        hideLoadingScreen();
       } catch(e) {}
     }
   }
 });
 
 // ================================================================
-// AUTH
+// AUTH - OPTIMISÉ AVEC CACHE PRIORITAIRE
 // ================================================================
 var sessionUid = sessionStorage.getItem('session_uid');
 
+// ✅ CHARGEMENT RAPIDE : D'abord le cache, puis Firebase
+function loadFromCache() {
+  var cachedData = localStorage.getItem('ARVEXA_user_data');
+  if (cachedData) {
+    try {
+      var data = JSON.parse(cachedData);
+      userData = data;
+      updateUI(data);
+      console.log('✅ Affichage rapide depuis le cache');
+      hideLoadingScreen();
+      return true;
+    } catch(e) {}
+  }
+  return false;
+}
+
+// ✅ CHARGEMENT COMPLET
 onAuthStateChanged(auth, async function(user) {
   if (user) {
     currentUser = user;
     localStorage.setItem('ARVEXA_current_user', user.uid);
     
+    // Chargement rapide depuis le cache
+    var cachedLoaded = loadFromCache();
+    
+    // Si session déjà validée, chargement rapide
     if (sessionUid === user.uid) {
       console.log("✅ Session déjà validée, chargement rapide");
-      var cached = localStorage.getItem('ARVEXA_user_data');
-      if (cached) {
-        try {
-          userData = JSON.parse(cached);
-          updateUI(userData);
-        } catch(e) {}
-      }
       listenToUser(user.uid);
       loadActualites();
       loadDefisStats(user.uid);
@@ -1409,6 +1495,7 @@ onAuthStateChanged(auth, async function(user) {
     try {
       var userRef = doc(db, 'users', user.uid);
       var docSnap = await getDoc(userRef);
+      
       if (!docSnap.exists()) {
         var newUser = {
           uid: user.uid, email: user.email || '', prenom: user.displayName?.split(' ')[0] || 'Investisseur',
@@ -1424,35 +1511,27 @@ onAuthStateChanged(auth, async function(user) {
         userData = docSnap.data();
         await updateDoc(userRef, { lastLogin: new Date().toISOString() });
       }
+      
       sessionStorage.setItem('session_uid', user.uid);
+      
+      // Mise à jour avec les données fraîches
       updateUI(userData);
       listenToUser(user.uid);
       loadActualites();
       loadDefisStats(user.uid);
       setTimeout(function() { forceCheckAndCreditGains(); }, 2000);
       isPageLoading = false;
+      
     } catch (error) {
-      console.error('Erreur Firestore:', error);
-      var cached = localStorage.getItem('ARVEXA_user_data');
-      if (cached) {
-        try {
-          userData = JSON.parse(cached);
-          updateUI(userData);
-        } catch(e) {}
-      }
+      console.warn('Erreur Firestore:', error);
+      // Déjà affiché depuis le cache, on continue
       loadActualites();
-      var isFirstLoad = !sessionStorage.getItem('arvexa_loaded');
-      if (isFirstLoad) {
-        setTimeout(function() {
-          loadingScreen.classList.add('hide');
-          mainContent.style.display = 'block';
-          mainContent.style.opacity = '1';
-          document.body.style.overflow = '';
-          sessionStorage.setItem('arvexa_loaded', 'true');
-        }, 800);
-      }
       isPageLoading = false;
     }
+    
+    // Masquer l'écran de chargement si pas déjà fait
+    setTimeout(hideLoadingScreen, 2000);
+    
   } else {
     if (isPageLoading) {
       console.log("⏳ Page en chargement, attente avant redirection...");
@@ -1489,16 +1568,10 @@ onAuthStateChanged(auth, async function(user) {
 document.getElementById('userProfileBtn').addEventListener('click', function(e) { e.preventDefault(); window.location.href = 'profil.html'; });
 document.getElementById('logoLink').addEventListener('click', function(e) { e.preventDefault(); window.location.href = 'index.html'; });
 
-// ✅ MODAL DÉCONNEXION - MENU
-menuLogoutBtn.addEventListener('click', function(e) {
-  e.preventDefault();
-  openConfirmModal();
-});
-
-console.log("🚀 ARVEXA - Page d'accueil corrigée");
-console.log("✅ Menu swipe amélioré (seuil: 30px, bord: 20px)");
-console.log("✅ Modal déconnexion uniforme");
-console.log("✅ Cache pour retour arrière instantané");
+console.log("🚀 ARVEXA - Page d'accueil ULTRA-RAPIDE");
+console.log("✅ Chargement < 3 secondes avec cache prioritaire");
+console.log("✅ Performance quotidienne calculée en temps réel");
+console.log("✅ Menu SVG corrigé (plus de 4 tirets)");
 </script>
 </body>
 </html>

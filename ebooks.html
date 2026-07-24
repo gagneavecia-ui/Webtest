@@ -87,9 +87,9 @@
       opacity: 0.15;
       animation: glowMove 10s ease-in-out infinite alternate;
     }
-    .glow-1 { width: 350px; height: 350px; background: rgba(26, 58, 42, 0.15); top: -80px; right: -80px; }
-    .glow-2 { width: 200px; height: 200px; background: rgba(184, 134, 11, 0.03); bottom: 0; left: 0; animation-delay: -4s; }
-    .glow-3 { width: 250px; height: 250px; background: rgba(26, 58, 42, 0.08); top: 40%; left: 50%; transform: translate(-50%, -50%); animation-delay: -8s; }
+    .glow-1 { width: 350px; height: 350px; background: rgba(26,58,42,0.15); top: -80px; right: -80px; }
+    .glow-2 { width: 200px; height: 200px; background: rgba(184,134,11,0.03); bottom: 0; left: 0; animation-delay: -4s; }
+    .glow-3 { width: 250px; height: 250px; background: rgba(26,58,42,0.08); top: 40%; left: 50%; transform: translate(-50%,-50%); animation-delay: -8s; }
     @keyframes glowMove {
       0% { transform: translate(0, 0) scale(1); }
       100% { transform: translate(30px, -20px) scale(1.1); }
@@ -159,6 +159,21 @@
       padding: 16px 5% 40px;
       width: 100%;
     }
+
+    /* ===== SKELETON ===== */
+    .skeleton {
+      background: rgba(255,255,255,0.03);
+      border-radius: 8px;
+      animation: skeletonPulse 1.2s ease-in-out infinite;
+    }
+    @keyframes skeletonPulse {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 0.6; }
+    }
+    .skeleton-text { height: 12px; width: 100%; margin-bottom: 6px; border-radius: 4px; }
+    .skeleton-text.w60 { width: 60%; }
+    .skeleton-text.w40 { width: 40%; }
+    .skeleton-text.w30 { width: 30%; }
 
     /* ===== HERO ===== */
     .hero-section {
@@ -243,11 +258,6 @@
     }
     .skeleton-card .skeleton-line.short {
       width: 40%;
-    }
-
-    @keyframes skeletonPulse {
-      0%, 100% { opacity: 0.3; }
-      50% { opacity: 0.6; }
     }
 
     /* ============================================================
@@ -436,9 +446,9 @@
     .ebook-card .ebook-btn.locked:active {
       transform: scale(0.97);
     }
-
-    /* ============================================================
-       POPUP PREMIUM
+    
+        /* ============================================================
+       POPUP PREMIUM - INTELLIGENT
        ============================================================ */
     .premium-popup-overlay {
       position: fixed;
@@ -460,6 +470,10 @@
     .premium-popup-overlay.show {
       opacity: 1;
       visibility: visible;
+    }
+    .premium-popup-overlay.hide {
+      opacity: 0;
+      visibility: hidden;
     }
 
     .premium-popup {
@@ -728,7 +742,7 @@
     <h2>🔒 Activez votre compte <span>Premium</span></h2>
     <p class="popup-subtitle">
       Effectuez votre <strong>premier dépôt</strong> de <strong>3 000 FCFA</strong>
-      et débloquez <strong>TOUTES</strong> les fonctionnalités ARVEXA !
+      et débloquez <strong>TOUS</strong> les e-books ARVEXA !
     </p>
     <ul class="features-list">
       <li><i class="fas fa-check-circle"></i> 📚 Tous les e-books</li>
@@ -876,7 +890,8 @@ import {
   collection,
   query,
   orderBy,
-  onSnapshot 
+  onSnapshot,
+  updateDoc
 } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
 
 // ================================================================
@@ -899,7 +914,7 @@ const db = getFirestore(app);
 setPersistence(auth, browserLocalPersistence);
 
 // ================================================================
-// DOM
+// DOM - CACHÉ POUR PERFORMANCE
 // ================================================================
 const ebooksGrid = document.getElementById('ebooksGrid');
 const skeletonGrid = document.getElementById('skeletonGrid');
@@ -908,6 +923,13 @@ const popupLaterBtn = document.getElementById('popupLaterBtn');
 const toast = document.getElementById('toast');
 
 let isUnlocked = false;
+let currentUser = null;
+let userData = null;
+let unsubscribeUser = null;
+let isPageLoading = true;
+let dataLoaded = false;
+let popupShown = false;
+let popupTimeout = null;
 
 // ================================================================
 // TOAST
@@ -915,8 +937,38 @@ let isUnlocked = false;
 function showToast(message, type = 'info') {
   toast.textContent = message;
   toast.className = `toast ${type}`;
-  setTimeout(() => toast.classList.add('show'), 50);
+  requestAnimationFrame(() => toast.classList.add('show'));
   setTimeout(() => toast.classList.remove('show'), 4000);
+}
+
+// ================================================================
+// GESTION DU CACHE AVEC EXPIRATION
+// ================================================================
+function getCachedUserData() {
+  try {
+    const cached = localStorage.getItem('ARVEXA_user_data');
+    const timestamp = localStorage.getItem('ARVEXA_user_data_timestamp');
+    
+    if (!cached) return null;
+    
+    // ✅ Expiration après 5 minutes
+    if (timestamp) {
+      const age = Date.now() - parseInt(timestamp);
+      if (age > 300000) { // 5 minutes
+        console.debug('⏳ Cache expiré, rechargement...');
+        return null;
+      }
+    }
+    
+    return JSON.parse(cached);
+  } catch(e) {
+    return null;
+  }
+}
+
+function setCachedUserData(data) {
+  localStorage.setItem('ARVEXA_user_data', JSON.stringify(data));
+  localStorage.setItem('ARVEXA_user_data_timestamp', String(Date.now()));
 }
 
 // ================================================================
@@ -924,107 +976,106 @@ function showToast(message, type = 'info') {
 // ================================================================
 const DEFAULT_EBOOKS = [
   {
-        id: 'ebook_001',
-        title: "50 idées de business à lancer avec 0 FCFA",
-        category: "Entrepreneuriat",
-        description: "Découvrez 50 idées d'activités rentables à démarrer sans capital.",
-        coverImage: "ebooks/cover-1.png",
-        isNew: true,
-        isPopular: false,
-        createdAt: new Date().toISOString()
-      },
-      {
-        id: 'ebook_002',
-        title: "100 outils IA gratuits pour gagner du temps et de l'argent",
-        category: "Technologie",
-        description: "Les meilleurs outils d'IA pour booster votre productivité.",
-        coverImage: "ebooks/cover-2.png",
-        isNew: true,
-        isPopular: true,
-        createdAt: new Date().toISOString()
-      },
-      {
-        id: 'ebook_003',
-        title: "Les erreurs qui empêchent de devenir riche avant 20 ans",
-        category: "Finance",
-        description: "Évitez les pièges qui freinent votre réussite financière.",
-        coverImage: "ebooks/cover-3.png",
-        isNew: false,
-        isPopular: true,
-        createdAt: new Date().toISOString()
-      },
-      {
-        id: 'ebook_004',
-        title: "Comment économiser et gérer son argent intelligemment",
-        category: "Finance",
-        description: "Maîtrisez vos finances et faites fructifier votre argent.",
-        coverImage: "ebooks/cover-4.png",
-        isNew: false,
-        isPopular: false,
-        createdAt: new Date().toISOString()
-      },
-      {
-        id: 'ebook_005',
-        title: "Les 100 meilleures applications pour gagner de l'argent en ligne",
-        category: "Technologie",
-        description: "Les applis qui rapportent vraiment.",
-        coverImage: "ebooks/cover-5.png",
-        isNew: false,
-        isPopular: false,
-        createdAt: new Date().toISOString()
-      },
-      {
-        id: 'ebook_006',
-        title: "Le guide complet du freelancing",
-        category: "Entrepreneuriat",
-        description: "Devenez freelance et vivez de votre passion.",
-        coverImage: "ebooks/cover-6.png",
-        isNew: false,
-        isPopular: false,
-        createdAt: new Date().toISOString()
-      },
-      {
-        id: 'ebook_007',
-        title: "Les secrets de la discipline et de la productivité",
-        category: "Développement",
-        description: "Les méthodes pour rester productif et atteindre vos objectifs.",
-        coverImage: "ebooks/cover-7.png",
-        isNew: false,
-        isPopular: false,
-        createdAt: new Date().toISOString()
-      },
-      {
-        id: 'ebook_008',
-        title: "Les bases du marketing digital",
-        category: "Marketing",
-        description: "Comprenez les fondamentaux du marketing en ligne.",
-        coverImage: "ebooks/cover-8.png",
-        isNew: false,
-        isPopular: false,
-        createdAt: new Date().toISOString()
-      },
-      {
-        id: 'ebook_009',
-        title: "Le guide du branding personnel",
-        category: "Développement",
-        description: "Construisez votre marque personnelle et démarquez-vous.",
-        coverImage: "ebooks/cover-9.png",
-        isNew: false,
-        isPopular: false,
-        createdAt: new Date().toISOString()
-      },
-      {
-        id: 'ebook_010',
-        title: "Comment créer plusieurs sources de revenus",
-        category: "Finance",
-        description: "Diversifiez vos revenus pour une liberté financière totale.",
-        coverImage: "ebooks/cover-10.png",
-        isNew: false,
-        isPopular: true,
-        createdAt: new Date().toISOString()
-      }
-    ];
-
+    id: 'ebook_001',
+    title: "50 idées de business à lancer avec 0 FCFA",
+    category: "Entrepreneuriat",
+    description: "Découvrez 50 idées d'activités rentables à démarrer sans capital.",
+    coverImage: "ebooks/cover-1.png",
+    isNew: true,
+    isPopular: false,
+    createdAt: new Date().toISOString()
+  },
+  {
+    id: 'ebook_002',
+    title: "100 outils IA gratuits pour gagner du temps et de l'argent",
+    category: "Technologie",
+    description: "Les meilleurs outils d'IA pour booster votre productivité.",
+    coverImage: "ebooks/cover-2.png",
+    isNew: true,
+    isPopular: true,
+    createdAt: new Date().toISOString()
+  },
+  {
+    id: 'ebook_003',
+    title: "Les erreurs qui empêchent de devenir riche avant 20 ans",
+    category: "Finance",
+    description: "Évitez les pièges qui freinent votre réussite financière.",
+    coverImage: "ebooks/cover-3.png",
+    isNew: false,
+    isPopular: true,
+    createdAt: new Date().toISOString()
+  },
+  {
+    id: 'ebook_004',
+    title: "Comment économiser et gérer son argent intelligemment",
+    category: "Finance",
+    description: "Maîtrisez vos finances et faites fructifier votre argent.",
+    coverImage: "ebooks/cover-4.png",
+    isNew: false,
+    isPopular: false,
+    createdAt: new Date().toISOString()
+  },
+  {
+    id: 'ebook_005',
+    title: "Les 100 meilleures applications pour gagner de l'argent en ligne",
+    category: "Technologie",
+    description: "Les applis qui rapportent vraiment.",
+    coverImage: "ebooks/cover-5.png",
+    isNew: false,
+    isPopular: false,
+    createdAt: new Date().toISOString()
+  },
+  {
+    id: 'ebook_006',
+    title: "Le guide complet du freelancing",
+    category: "Entrepreneuriat",
+    description: "Devenez freelance et vivez de votre passion.",
+    coverImage: "ebooks/cover-6.png",
+    isNew: false,
+    isPopular: false,
+    createdAt: new Date().toISOString()
+  },
+  {
+    id: 'ebook_007',
+    title: "Les secrets de la discipline et de la productivité",
+    category: "Développement",
+    description: "Les méthodes pour rester productif et atteindre vos objectifs.",
+    coverImage: "ebooks/cover-7.png",
+    isNew: false,
+    isPopular: false,
+    createdAt: new Date().toISOString()
+  },
+  {
+    id: 'ebook_008',
+    title: "Les bases du marketing digital",
+    category: "Marketing",
+    description: "Comprenez les fondamentaux du marketing en ligne.",
+    coverImage: "ebooks/cover-8.png",
+    isNew: false,
+    isPopular: false,
+    createdAt: new Date().toISOString()
+  },
+  {
+    id: 'ebook_009',
+    title: "Le guide du branding personnel",
+    category: "Développement",
+    description: "Construisez votre marque personnelle et démarquez-vous.",
+    coverImage: "ebooks/cover-9.png",
+    isNew: false,
+    isPopular: false,
+    createdAt: new Date().toISOString()
+  },
+  {
+    id: 'ebook_010',
+    title: "Comment créer plusieurs sources de revenus",
+    category: "Finance",
+    description: "Diversifiez vos revenus pour une liberté financière totale.",
+    coverImage: "ebooks/cover-10.png",
+    isNew: false,
+    isPopular: true,
+    createdAt: new Date().toISOString()
+  }
+];
 
 // ================================================================
 // RENDRE LES E-BOOKS
@@ -1110,27 +1161,62 @@ function renderEbooks(ebooks) {
 // ================================================================
 function handleEbookClick(ebook) {
   if (isUnlocked) {
-   window.location.href = `ebooks/${ebook.id}.html`;
+    window.location.href = `ebooks/${ebook.id}.html`;
     return;
   }
   showPremiumPopup();
 }
 
 // ================================================================
-// GESTION DU POPUP PREMIUM
+// GESTION INTELLIGENTE DU POPUP PREMIUM
 // ================================================================
 function showPremiumPopup() {
-  premiumPopup.classList.add('show');
-  document.body.style.overflow = 'hidden';
+  // ✅ Ne pas afficher si déjà premium
+  if (isUnlocked) {
+    console.debug('✅ Premium actif, popup ignorée');
+    return;
+  }
+  
+  // ✅ Ne pas afficher si déjà affichée dans la session
+  if (popupShown) {
+    console.debug('⏳ Popup déjà affichée dans cette session');
+    return;
+  }
+  
+  // ✅ Attendre 1 seconde pour laisser le temps à Firestore de répondre
+  clearTimeout(popupTimeout);
+  popupTimeout = setTimeout(() => {
+    // ✅ Vérifier une dernière fois le statut
+    if (isUnlocked) {
+      console.debug('✅ Premium détecté, popup annulée');
+      return;
+    }
+    
+    popupShown = true;
+    premiumPopup.classList.remove('hide');
+    premiumPopup.classList.add('show');
+    document.body.style.overflow = 'hidden';
+    console.debug('🔒 Popup premium affichée');
+  }, 1000);
 }
 
 function hidePremiumPopup() {
+  popupShown = false;
+  clearTimeout(popupTimeout);
   premiumPopup.classList.remove('show');
+  premiumPopup.classList.add('hide');
   document.body.style.overflow = '';
 }
 
-popupLaterBtn.addEventListener('click', hidePremiumPopup);
+// ✅ Si premium détecté pendant le chargement
+function onPremiumDetected() {
+  if (premiumPopup.classList.contains('show')) {
+    hidePremiumPopup();
+    showToast('🎉 Compte premium activé !', 'success');
+  }
+}
 
+popupLaterBtn.addEventListener('click', hidePremiumPopup);
 premiumPopup.addEventListener('click', (e) => {
   if (e.target === premiumPopup) hidePremiumPopup();
 });
@@ -1177,6 +1263,44 @@ function loadEbooks() {
 }
 
 // ================================================================
+// VÉRIFICATION DU STATUT PREMIUM EN TEMPS RÉEL
+// ================================================================
+function checkPremiumStatus(uid) {
+  if (!uid) return;
+  
+  const userRef = doc(db, 'users', uid);
+  
+  // ✅ Écoute en temps réel pour détecter le passage premium
+  if (unsubscribeUser) {
+    unsubscribeUser();
+    unsubscribeUser = null;
+  }
+  
+  unsubscribeUser = onSnapshot(userRef, (snap) => {
+    if (snap.exists()) {
+      const data = snap.data();
+      const wasUnlocked = isUnlocked;
+      isUnlocked = data.isUnlocked === true || data.hasDeposited === true;
+      
+      // ✅ Mise à jour du cache
+      userData = data;
+      setCachedUserData(data);
+      
+      // ✅ Si le statut a changé vers premium
+      if (isUnlocked && !wasUnlocked) {
+        console.debug('🔄 Statut premium activé !');
+        onPremiumDetected();
+        // Recharger les e-books
+        loadEbooks();
+        showToast('🎉 Compte premium activé !', 'success');
+      }
+    }
+  }, (error) => {
+    console.warn('Erreur écoute premium:', error);
+  });
+}
+
+// ================================================================
 // CHARGER UTILISATEUR
 // ================================================================
 async function loadUser(uid) {
@@ -1185,11 +1309,9 @@ async function loadUser(uid) {
     const docSnap = await getDoc(userRef);
     if (docSnap.exists()) {
       const data = docSnap.data();
+      userData = data;
       isUnlocked = data.isUnlocked === true || data.hasDeposited === true;
-      if (isUnlocked && premiumPopup.classList.contains('show')) {
-        hidePremiumPopup();
-        showToast('🎉 Compte débloqué ! Accédez à tous les e-books !', 'success');
-      }
+      setCachedUserData(data);
       return data;
     }
     return null;
@@ -1200,66 +1322,114 @@ async function loadUser(uid) {
 }
 
 // ================================================================
-// ÉCOUTER UTILISATEUR EN TEMPS RÉEL
+// AFFICHER LES DONNÉES - RAPIDE
 // ================================================================
-function listenUser(uid) {
-  if (!uid) return;
-  const userRef = doc(db, 'users', uid);
-  onSnapshot(userRef, (snap) => {
-    if (snap.exists()) {
-      const data = snap.data();
-      const wasUnlocked = isUnlocked;
-      isUnlocked = data.isUnlocked === true || data.hasDeposited === true;
-      
-      if (isUnlocked && !wasUnlocked) {
-        if (premiumPopup.classList.contains('show')) {
-          hidePremiumPopup();
-          showToast('🎉 Compte débloqué ! Accédez à tous les e-books !', 'success');
-        }
-      }
-      
-      if (isUnlocked !== wasUnlocked) {
-        loadEbooks();
-      }
-    }
-  }, (error) => {
-    console.error('Erreur onSnapshot:', error);
-  });
+function updateUI(data) {
+  if (!data) return;
+  isUnlocked = data.isUnlocked === true || data.hasDeposited === true;
+  
+  // ✅ Si premium, cacher la popup si elle est ouverte
+  if (isUnlocked && premiumPopup.classList.contains('show')) {
+    hidePremiumPopup();
+  }
+  
+  // ✅ Charger les e-books
+  loadEbooks();
+  
+  // ✅ Si non premium, afficher la popup après un délai
+  if (!isUnlocked && !popupShown) {
+    showPremiumPopup();
+  }
+  
+  dataLoaded = true;
 }
 
 // ================================================================
-// AUTH
+// CHARGEMENT RAPIDE DEPUIS LE CACHE
 // ================================================================
+function loadFromCache() {
+  const cachedData = getCachedUserData();
+  if (cachedData) {
+    updateUI(cachedData);
+    console.debug('✅ E-books affichés depuis le cache');
+    return true;
+  }
+  return false;
+}
+
+// ================================================================
+// CACHE POUR RETOUR ARRIÈRE INSTANTANÉ
+// ================================================================
+window.addEventListener('pageshow', function(event) {
+  if (event.persisted) {
+    console.debug('📱 Page e-books chargée depuis le cache');
+    loadFromCache();
+  }
+});
+
+// ================================================================
+// AUTH - OPTIMISÉ AVEC CACHE PRIORITAIRE
+// ================================================================
+var sessionUid = sessionStorage.getItem('session_uid');
+
+// Chargement rapide depuis le cache
+loadFromCache();
+
 onAuthStateChanged(auth, (user) => {
   if (user) {
+    currentUser = user;
     localStorage.setItem('ARVEXA_current_user', user.uid);
-    loadUser(user.uid).then(() => {
-      listenUser(user.uid);
-      loadEbooks();
+    
+    // Si session déjà validée, chargement rapide
+    if (sessionUid === user.uid) {
+      console.debug("✅ Session déjà validée, chargement rapide");
+      loadUser(user.uid).then(() => {
+        checkPremiumStatus(user.uid);
+        updateUI(userData);
+      });
+      isPageLoading = false;
+      return;
+    }
 
-      if (!isUnlocked) {
-        setTimeout(() => {
-          showPremiumPopup();
-        }, 800);
-      }
+    loadUser(user.uid).then(() => {
+      checkPremiumStatus(user.uid);
+      updateUI(userData);
     });
+    isPageLoading = false;
   } else {
-    const savedUid = localStorage.getItem('ARVEXA_current_user');
-    if (savedUid) {
+    if (isPageLoading) {
+      console.debug("⏳ Page en chargement, attente avant redirection...");
       setTimeout(() => {
         if (!auth.currentUser) {
-          // ⏳ Délai plus long (3s) pour laisser Firebase restaurer la session
-          // et éviter les boucles de déconnexion sur connexions lentes.
-          window.location.href = 'login.html';
+          const savedUid = localStorage.getItem('ARVEXA_current_user');
+          if (savedUid) {
+            if (!auth.currentUser) {
+              window.location.href = 'login.html';
+            }
+          } else {
+            window.location.href = 'login.html';
+          }
         }
       }, 3000);
     } else {
-      window.location.href = 'login.html';
+      const savedUid = localStorage.getItem('ARVEXA_current_user');
+      if (savedUid) {
+        setTimeout(() => {
+          if (!auth.currentUser) {
+            window.location.href = 'login.html';
+          }
+        }, 2000);
+      } else {
+        window.location.href = 'login.html';
+      }
     }
   }
 });
 
-console.log('📚 ARVEXA - Bibliothèque numérique chargée');
+console.debug('📚 ARVEXA - Page E-books optimisée (v2.0)');
+console.debug('✅ Gestion intelligente du premium avec cache expirable');
+console.debug('✅ Détection automatique du passage premium en temps réel');
 </script>
 </body>
 </html>
+    

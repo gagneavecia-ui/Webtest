@@ -159,6 +159,21 @@
       width: 100%;
     }
 
+    /* ===== SKELETON ===== */
+    .skeleton {
+      background: rgba(255,255,255,0.03);
+      border-radius: 8px;
+      animation: skeletonPulse 1.2s ease-in-out infinite;
+    }
+    @keyframes skeletonPulse {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 0.6; }
+    }
+    .skeleton-text { height: 12px; width: 100%; margin-bottom: 6px; border-radius: 4px; }
+    .skeleton-text.w60 { width: 60%; }
+    .skeleton-text.w40 { width: 40%; }
+    .skeleton-text.w30 { width: 30%; }
+
     /* ===== HERO ===== */
     .hero-section {
       margin-bottom: 28px;
@@ -205,7 +220,48 @@
       margin: 0 auto;
     }
 
-    /* ===== FORMATIONS GRID ===== */
+    /* ============================================================
+       SKELETON LOADING
+       ============================================================ */
+    .skeleton-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .skeleton-card {
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.02);
+      animation: skeletonPulse 1.5s ease-in-out infinite;
+    }
+    .skeleton-card .skeleton-image {
+      aspect-ratio: 16/9;
+      background: rgba(255, 255, 255, 0.03);
+    }
+    .skeleton-card .skeleton-content {
+      padding: 14px 16px 16px;
+    }
+    .skeleton-card .skeleton-line {
+      height: 12px;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 6px;
+      margin-bottom: 8px;
+    }
+    .skeleton-card .skeleton-line:last-child {
+      margin-bottom: 0;
+    }
+    .skeleton-card .skeleton-line.long {
+      width: 80%;
+    }
+    .skeleton-card .skeleton-line.short {
+      width: 40%;
+    }
+
+    /* ============================================================
+       FORMATIONS GRID
+       ============================================================ */
     .formations-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -415,9 +471,9 @@
       color: var(--success);
       border: 1px solid rgba(45, 125, 90, 0.15);
     }
-
-    /* ============================================================
-       POPUP PREMIUM
+    
+        /* ============================================================
+       POPUP PREMIUM - INTELLIGENT
        ============================================================ */
     .premium-popup-overlay {
       position: fixed;
@@ -439,6 +495,10 @@
     .premium-popup-overlay.show {
       opacity: 1;
       visibility: visible;
+    }
+    .premium-popup-overlay.hide {
+      opacity: 0;
+      visibility: hidden;
     }
 
     .premium-popup {
@@ -790,50 +850,6 @@
     }
     .achat-modal .achat-buttons .btn-buy.success i {
       color: #fff;
-    }
-
-    /* ============================================================
-       SKELETON LOADING
-       ============================================================ */
-    .skeleton-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
-      margin-bottom: 24px;
-    }
-    .skeleton-card {
-      background: rgba(255, 255, 255, 0.02);
-      border-radius: var(--radius);
-      overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.02);
-      animation: skeletonPulse 1.5s ease-in-out infinite;
-    }
-    .skeleton-card .skeleton-image {
-      aspect-ratio: 16/9;
-      background: rgba(255, 255, 255, 0.03);
-    }
-    .skeleton-card .skeleton-content {
-      padding: 14px 16px 16px;
-    }
-    .skeleton-card .skeleton-line {
-      height: 12px;
-      background: rgba(255, 255, 255, 0.03);
-      border-radius: 6px;
-      margin-bottom: 8px;
-    }
-    .skeleton-card .skeleton-line:last-child {
-      margin-bottom: 0;
-    }
-    .skeleton-card .skeleton-line.long {
-      width: 80%;
-    }
-    .skeleton-card .skeleton-line.short {
-      width: 40%;
-    }
-
-    @keyframes skeletonPulse {
-      0%, 100% { opacity: 0.3; }
-      50% { opacity: 0.6; }
     }
 
     /* ============================================================
@@ -1225,7 +1241,7 @@ const db = getFirestore(app);
 setPersistence(auth, browserLocalPersistence);
 
 // ================================================================
-// DOM
+// DOM - CACHÉ POUR PERFORMANCE
 // ================================================================
 const formationsGrid = document.getElementById('formationsGrid');
 const skeletonGrid = document.getElementById('skeletonGrid');
@@ -1251,6 +1267,9 @@ let currentUser = null;
 let userAchats = [];
 let userBalance = 0;
 let isPageLoading = true;
+let dataLoaded = false;
+let popupShown = false;
+let popupTimeout = null;
 let unsubscribeUser = null;
 let currentFormation = null;
 
@@ -1260,8 +1279,38 @@ let currentFormation = null;
 function showToast(message, type = 'info') {
   toast.textContent = message;
   toast.className = `toast ${type}`;
-  setTimeout(() => toast.classList.add('show'), 50);
+  requestAnimationFrame(() => toast.classList.add('show'));
   setTimeout(() => toast.classList.remove('show'), 4000);
+}
+
+// ================================================================
+// GESTION DU CACHE AVEC EXPIRATION
+// ================================================================
+function getCachedUserData() {
+  try {
+    const cached = localStorage.getItem('ARVEXA_user_data');
+    const timestamp = localStorage.getItem('ARVEXA_user_data_timestamp');
+    
+    if (!cached) return null;
+    
+    // ✅ Expiration après 5 minutes
+    if (timestamp) {
+      const age = Date.now() - parseInt(timestamp);
+      if (age > 300000) { // 5 minutes
+        console.debug('⏳ Cache expiré, rechargement...');
+        return null;
+      }
+    }
+    
+    return JSON.parse(cached);
+  } catch(e) {
+    return null;
+  }
+}
+
+function setCachedUserData(data) {
+  localStorage.setItem('ARVEXA_user_data', JSON.stringify(data));
+  localStorage.setItem('ARVEXA_user_data_timestamp', String(Date.now()));
 }
 
 // ================================================================
@@ -1413,7 +1462,7 @@ const DEFAULT_FORMATIONS = [
 ];
 
 // ================================================================
-// ✅ ACHETER UNE FORMATION (avec gainsTotal)
+// ✅ ACHETER UNE FORMATION - CORRIGÉ
 // ================================================================
 async function acheterFormation(userId, formationId, price) {
   try {
@@ -1439,11 +1488,12 @@ async function acheterFormation(userId, formationId, price) {
     const newAchats = [...achats, formationId];
     const newTotalAchats = (userData.totalAchats || 0) + price;
     
+    // ✅ CORRECTION : L'achat n'est PAS un gain
     await updateDoc(userRef, {
       balance: newBalance,
       achats: newAchats,
-      totalAchats: newTotalAchats,
-      gainsTotal: increment(price)
+      totalAchats: newTotalAchats
+      // ❌ SUPPRIMÉ : gainsTotal: increment(price)
     });
     
     return { success: true, newBalance };
@@ -1454,7 +1504,7 @@ async function acheterFormation(userId, formationId, price) {
 }
 
 // ================================================================
-// ✅ RENDRE LES FORMATIONS
+// ✅ RENDRE LES FORMATIONS - CORRIGÉ (GRATUITES ACCESSIBLES À TOUS)
 // ================================================================
 function renderFormations(formations) {
   if (!formations || formations.length === 0) {
@@ -1470,6 +1520,18 @@ function renderFormations(formations) {
   formationsGrid.innerHTML = formations.map((formation, index) => {
     const isFree = formation.isFree || formation.price === 0;
     const isAchete = userAchats && userAchats.includes(formation.id);
+    
+    // ✅ Une formation est accessible si :
+    // - Elle est gratuite (isFree === true) 
+    // - OU l'utilisateur l'a déjà achetée (isAchete === true)
+    // - OU l'utilisateur est premium ET elle est payante
+    const isAccessible = isFree || isAchete || isUnlocked;
+    
+    // ✅ Le cadenas s'affiche seulement si :
+    // - La formation n'est pas gratuite (isFree === false)
+    // - L'utilisateur ne l'a pas achetée (isAchete === false)
+    // - L'utilisateur n'est pas premium (isUnlocked === false)
+    const showLock = !isFree && !isAchete && !isUnlocked;
     
     let badgeText = '';
     let badgeClass = '';
@@ -1502,29 +1564,31 @@ function renderFormations(formations) {
       priceClass = '';
     }
     
-    let btnText = '📖 Voir';
-    let btnClass = 'primary';
-    let btnAction = 'voir';
+    // ✅ Déterminer le texte et la classe du bouton
+    let btnText, btnClass, btnAction;
     
     if (isFree) {
-      btnText = '📖 Voir';
+      // ✅ Formation gratuite → accessible à tous
+      btnText = '📖 Lire maintenant';
       btnClass = 'free-btn';
       btnAction = 'voir';
     } else if (isAchete) {
-      btnText = '📖 Voir';
+      // ✅ Déjà achetée
+      btnText = '📖 Lire maintenant';
       btnClass = 'achete-btn';
       btnAction = 'voir';
     } else if (!isUnlocked) {
-      btnText = '🔒 Débloquer';
+      // 🔒 Payante et non premium
+      btnText = '🔒 Premium';
       btnClass = 'locked';
       btnAction = 'unlock';
     } else {
+      // 💰 Payante et premium
       btnText = '🛒 Acheter';
       btnClass = 'primary';
       btnAction = 'acheter';
     }
 
-    const showLock = !isUnlocked && !isFree && !isAchete;
     const levelBadge = formation.level || 'Débutant';
     const duration = formation.duration || '2h';
 
@@ -1576,7 +1640,7 @@ function renderFormations(formations) {
     });
   });
 
-  // Écouteurs sur la carte
+    // Écouteurs sur la carte
   document.querySelectorAll('.formation-card').forEach(card => {
     card.addEventListener('click', (e) => {
       if (e.target.closest('.formation-btn')) return;
@@ -1590,9 +1654,9 @@ function renderFormations(formations) {
 }
 
 // ================================================================
-// ✅ GESTION DES ACTIONS - AVEC POPUP MOTIVANT POUR LES PREMIUM
+// ✅ GESTION DES ACTIONS - CORRIGÉE
 // ================================================================
-async function handleFormationAction(formation, action) {
+function handleFormationAction(formation, action) {
   const isFree = formation.isFree || formation.price === 0;
   const isAchete = userAchats && userAchats.includes(formation.id);
   
@@ -1608,7 +1672,7 @@ async function handleFormationAction(formation, action) {
     return;
   }
   
-  // ✅ PREMIUM → ouvrir le modal d'achat motivant
+  // ✅ PREMIUM → ouvrir le modal d'achat
   if (action === 'acheter' || action === 'voir') {
     openAchatModal(formation);
   }
@@ -1620,7 +1684,6 @@ async function handleFormationAction(formation, action) {
 function openAchatModal(formation) {
   currentFormation = formation;
   
-  // Remplir les informations
   achatIcon.textContent = formation.coverImage ? '📚' : '🎓';
   achatTitle.innerHTML = `${formation.title} <span>formation</span>`;
   achatCategory.textContent = formation.category || 'Général';
@@ -1628,10 +1691,8 @@ function openAchatModal(formation) {
   achatPrice.textContent = formation.price.toLocaleString('fr-FR') + ' FCFA';
   achatBalanceAmount.textContent = userBalance.toLocaleString('fr-FR') + ' FCFA';
   
-  // Vérifier si l'utilisateur a assez de solde
   const hasEnoughBalance = userBalance >= formation.price;
   
-  // Mettre à jour le bouton
   if (hasEnoughBalance) {
     confirmAchatBtn.innerHTML = '<i class="fas fa-shopping-cart"></i> Acheter maintenant';
     confirmAchatBtn.className = 'btn-buy';
@@ -1663,7 +1724,7 @@ document.addEventListener('keydown', (e) => {
 });
 
 // ================================================================
-// ✅ CONFIRMER L'ACHAT AVEC ANIMATION
+// ✅ CONFIRMER L'ACHAT
 // ================================================================
 confirmAchatBtn.addEventListener('click', async function() {
   if (!currentFormation) return;
@@ -1672,7 +1733,6 @@ confirmAchatBtn.addEventListener('click', async function() {
     return;
   }
   
-  // ✅ Animation : bouton en chargement
   this.innerHTML = '<span class="loader"></span> Achat en cours...';
   this.disabled = true;
   
@@ -1680,19 +1740,15 @@ confirmAchatBtn.addEventListener('click', async function() {
     const result = await acheterFormation(currentUser.uid, currentFormation.id, currentFormation.price);
     
     if (result.success) {
-      // ✅ Animation de succès
       this.innerHTML = '<i class="fas fa-check-circle"></i> Acheté avec succès !';
       this.className = 'btn-buy success';
       
       showToast(`✅ "${currentFormation.title}" achetée avec succès !`, 'success');
       
-      // Mettre à jour le solde local
       userBalance = result.newBalance;
       
-      // Fermer le modal après un délai
       setTimeout(() => {
         closeAchatModalFn();
-        // Recharger les formations pour mettre à jour les boutons
         loadFormations();
       }, 1500);
       
@@ -1712,18 +1768,47 @@ confirmAchatBtn.addEventListener('click', async function() {
 });
 
 // ================================================================
-// ✅ GESTION DU POPUP PREMIUM
+// GESTION INTELLIGENTE DU POPUP PREMIUM
 // ================================================================
 function showPremiumPopup() {
-  if (!isUnlocked) {
+  if (isUnlocked) {
+    console.debug('✅ Premium actif, popup ignorée');
+    return;
+  }
+  
+  if (popupShown) {
+    console.debug('⏳ Popup déjà affichée dans cette session');
+    return;
+  }
+  
+  clearTimeout(popupTimeout);
+  popupTimeout = setTimeout(() => {
+    if (isUnlocked) {
+      console.debug('✅ Premium détecté, popup annulée');
+      return;
+    }
+    
+    popupShown = true;
+    premiumPopup.classList.remove('hide');
     premiumPopup.classList.add('show');
     document.body.style.overflow = 'hidden';
-  }
+    console.debug('🔒 Popup premium affichée');
+  }, 1000);
 }
 
 function hidePremiumPopup() {
+  popupShown = false;
+  clearTimeout(popupTimeout);
   premiumPopup.classList.remove('show');
+  premiumPopup.classList.add('hide');
   document.body.style.overflow = '';
+}
+
+function onPremiumDetected() {
+  if (premiumPopup.classList.contains('show')) {
+    hidePremiumPopup();
+    showToast('🎉 Compte premium activé !', 'success');
+  }
 }
 
 popupLaterBtn.addEventListener('click', hidePremiumPopup);
@@ -1735,7 +1820,7 @@ document.addEventListener('keydown', (e) => {
 });
 
 // ================================================================
-// ✅ CHARGER LES FORMATIONS
+// CHARGER LES FORMATIONS
 // ================================================================
 function loadFormations() {
   skeletonGrid.style.display = 'grid';
@@ -1767,56 +1852,18 @@ function loadFormations() {
 }
 
 // ================================================================
-// ✅ CHARGER LES ACHATS DE L'UTILISATEUR
+// VÉRIFICATION DU STATUT PREMIUM EN TEMPS RÉEL
 // ================================================================
-function loadUserAchats(uid) {
+function checkPremiumStatus(uid) {
   if (!uid) return;
+  
   const userRef = doc(db, 'users', uid);
-  onSnapshot(userRef, (snap) => {
-    if (snap.exists()) {
-      const data = snap.data();
-      userAchats = data.achats || [];
-      userBalance = data.balance || 0;
-      loadFormations();
-    }
-  });
-}
-
-// ================================================================
-// ✅ CHARGER UTILISATEUR AVEC ÉCOUTE EN TEMPS RÉEL
-// ================================================================
-async function loadUser(uid) {
-  try {
-    const userRef = doc(db, 'users', uid);
-    const docSnap = await getDoc(userRef);
-    if (docSnap.exists()) {
-      const data = docSnap.data();
-      isUnlocked = data.isUnlocked === true || data.hasDeposited === true;
-      userAchats = data.achats || [];
-      userBalance = data.balance || 0;
-      
-      if (isUnlocked && premiumPopup.classList.contains('show')) {
-        hidePremiumPopup();
-        showToast('🎉 Compte premium activé !', 'success');
-      }
-      return data;
-    }
-    return null;
-  } catch (error) {
-    console.error('Erreur chargement utilisateur:', error);
-    return null;
-  }
-}
-
-// ✅ ÉCOUTE EN TEMPS RÉEL
-function listenUser(uid) {
-  if (!uid) return;
+  
   if (unsubscribeUser) {
     unsubscribeUser();
     unsubscribeUser = null;
   }
   
-  const userRef = doc(db, 'users', uid);
   unsubscribeUser = onSnapshot(userRef, (snap) => {
     if (snap.exists()) {
       const data = snap.data();
@@ -1825,12 +1872,13 @@ function listenUser(uid) {
       userAchats = data.achats || [];
       userBalance = data.balance || 0;
       
+      setCachedUserData(data);
+      
       if (isUnlocked && !wasUnlocked) {
-        if (premiumPopup.classList.contains('show')) {
-          hidePremiumPopup();
-          showToast('🎉 Compte débloqué !', 'success');
-        }
+        console.debug('🔄 Statut premium activé !');
+        onPremiumDetected();
         loadFormations();
+        showToast('🎉 Compte premium activé !', 'success');
       }
       
       if (isUnlocked !== wasUnlocked) {
@@ -1838,53 +1886,146 @@ function listenUser(uid) {
       }
     }
   }, (error) => {
-    console.error('Erreur onSnapshot:', error);
+    console.warn('Erreur écoute premium:', error);
   });
 }
 
 // ================================================================
-// ✅ CACHE POUR RETOUR ARRIÈRE INSTANTANÉ
+// CHARGER UTILISATEUR - RETOURNE LES DONNÉES
 // ================================================================
-window.addEventListener('pageshow', function(event) {
-  if (event.persisted) {
-    console.log('📱 Page formations chargée depuis le cache');
-    const cachedData = localStorage.getItem('ARVEXA_user_data');
-    if (cachedData) {
-      try {
-        const data = JSON.parse(cachedData);
-        isUnlocked = data.isUnlocked === true || data.hasDeposited === true;
-        userAchats = data.achats || [];
-        userBalance = data.balance || 0;
-        loadFormations();
-        console.log('✅ Données formations chargées depuis localStorage');
-      } catch(e) {}
+async function loadUser(uid) {
+  try {
+    const userRef = doc(db, 'users', uid);
+    const docSnap = await getDoc(userRef);
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      userAchats = data.achats || [];
+      userBalance = data.balance || 0;
+      isUnlocked = data.isUnlocked === true || data.hasDeposited === true;
+      setCachedUserData(data);
+      return data; // ✅ RETOURNE les données
     }
+    return null;
+  } catch (error) {
+    console.error('Erreur chargement utilisateur:', error);
+    return null;
   }
-});
+}
 
 // ================================================================
-// ✅ AUTH AVEC isPageLoading
+// AUTH - CORRIGÉ
 // ================================================================
+var sessionUid = sessionStorage.getItem('session_uid');
+
+// Chargement rapide depuis le cache
+loadFromCache();
+
 onAuthStateChanged(auth, (user) => {
   if (user) {
     currentUser = user;
     localStorage.setItem('ARVEXA_current_user', user.uid);
     
-    loadUser(user.uid).then(() => {
-      listenUser(user.uid);
-      loadUserAchats(user.uid);
-      loadFormations();
-      
-      if (!isUnlocked) {
-        setTimeout(() => {
-          showPremiumPopup();
-        }, 800);
+    if (sessionUid === user.uid) {
+      console.debug("✅ Session déjà validée, chargement rapide");
+      loadUser(user.uid).then((data) => {  // ✅ data retournée
+        checkPremiumStatus(user.uid);
+        if (data) {
+          updateUI(data);  // ✅ Utiliser data
+        }
+      });
+      isPageLoading = false;
+      return;
+    }
+
+    loadUser(user.uid).then((data) => {  // ✅ data retournée
+      checkPremiumStatus(user.uid);
+      if (data) {
+        updateUI(data);  // ✅ Utiliser data
       }
     });
     isPageLoading = false;
   } else {
+    // ... redirection
+  }
+});
+
+// ================================================================
+// AFFICHER LES DONNÉES - RAPIDE
+// ================================================================
+function updateUI(data) {
+  if (!data) return;
+  
+  userAchats = data.achats || [];
+  userBalance = data.balance || 0;
+  isUnlocked = data.isUnlocked === true || data.hasDeposited === true;
+  
+  if (isUnlocked && premiumPopup.classList.contains('show')) {
+    hidePremiumPopup();
+  }
+  
+  loadFormations();
+  
+  if (!isUnlocked && !popupShown) {
+    showPremiumPopup();
+  }
+  
+  dataLoaded = true;
+}
+
+// ================================================================
+// CHARGEMENT RAPIDE DEPUIS LE CACHE
+// ================================================================
+function loadFromCache() {
+  const cachedData = getCachedUserData();
+  if (cachedData) {
+    updateUI(cachedData);
+    console.debug('✅ Formations affichées depuis le cache');
+    return true;
+  }
+  return false;
+}
+
+// ================================================================
+// CACHE POUR RETOUR ARRIÈRE INSTANTANÉ
+// ================================================================
+window.addEventListener('pageshow', function(event) {
+  if (event.persisted) {
+    console.debug('📱 Page formations chargée depuis le cache');
+    loadFromCache();
+  }
+});
+
+// ================================================================
+// AUTH - OPTIMISÉ AVEC CACHE PRIORITAIRE
+// ================================================================
+var sessionUid = sessionStorage.getItem('session_uid');
+
+// Chargement rapide depuis le cache
+loadFromCache();
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    currentUser = user;
+    localStorage.setItem('ARVEXA_current_user', user.uid);
+    
+    if (sessionUid === user.uid) {
+      console.debug("✅ Session déjà validée, chargement rapide");
+      loadUser(user.uid).then(() => {
+        checkPremiumStatus(user.uid);
+        updateUI(userData);
+      });
+      isPageLoading = false;
+      return;
+    }
+
+    loadUser(user.uid).then(() => {
+      checkPremiumStatus(user.uid);
+      updateUI(userData);
+    });
+    isPageLoading = false;
+  } else {
     if (isPageLoading) {
-      console.log("⏳ Page en chargement, attente avant redirection...");
+      console.debug("⏳ Page en chargement, attente avant redirection...");
       setTimeout(() => {
         if (!auth.currentUser) {
           const savedUid = localStorage.getItem('ARVEXA_current_user');
@@ -1912,10 +2053,10 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
-console.log('🎓 ARVEXA - Page Formations corrigée');
-console.log('✅ Modal achat motivant avec bénéfices');
-console.log('✅ Animation lors de l\'achat');
-console.log('✅ Cache pour retour arrière instantané');
+console.debug('🎓 ARVEXA - Page Formations corrigée (v2.0)');
+console.debug('✅ Formations gratuites accessibles à TOUS');
+console.debug('✅ Gestion intelligente du premium avec cache expirable');
+console.debug('✅ Détection automatique du passage premium en temps réel');
 </script>
 </body>
 </html>
