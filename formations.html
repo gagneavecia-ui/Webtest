@@ -572,6 +572,227 @@
     }
 
     /* ============================================================
+       🎯 MODAL ACHAT FORMATION - MOTIVANT
+       ============================================================ */
+    .achat-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.88);
+      backdrop-filter: blur(16px);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.4s ease;
+      padding: 20px;
+    }
+    .achat-modal-overlay.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .achat-modal {
+      background: linear-gradient(145deg, #141414, #0A0A0A);
+      border: 1px solid rgba(184, 134, 11, 0.12);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+      max-width: 460px;
+      width: 100%;
+      transform: scale(0.9) translateY(30px);
+      transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+      position: relative;
+      overflow: hidden;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .achat-modal-overlay.show .achat-modal {
+      transform: scale(1) translateY(0);
+    }
+    .achat-modal::-webkit-scrollbar { width: 2px; }
+    .achat-modal::-webkit-scrollbar-track { background: transparent; }
+    .achat-modal::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; }
+
+    .achat-modal .modal-close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 32px;
+      height: 32px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(184, 134, 11, 0.06);
+      border-radius: 8px;
+      color: var(--text-dim);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+      z-index: 10;
+    }
+    .achat-modal .modal-close:active { transform: scale(0.92); }
+    .achat-modal .modal-close:hover { border-color: rgba(184, 134, 11, 0.15); color: var(--text-light); }
+
+    .achat-modal .achat-icon {
+      font-size: 48px;
+      display: block;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+    .achat-modal .achat-title {
+      font-size: 22px;
+      font-weight: 700;
+      font-family: 'Playfair Display', 'Georgia', serif;
+      color: var(--text-light);
+      text-align: center;
+      margin-bottom: 4px;
+    }
+    .achat-modal .achat-title span {
+      color: var(--accent);
+      font-style: italic;
+    }
+    .achat-modal .achat-category {
+      text-align: center;
+      font-size: 11px;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+    }
+    .achat-modal .achat-desc {
+      font-size: 14px;
+      color: var(--text-dim);
+      line-height: 1.6;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .achat-modal .achat-benefits {
+      background: rgba(10, 10, 10, 0.4);
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 16px;
+    }
+    .achat-modal .achat-benefits .benefit-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+    .achat-modal .achat-benefits .benefit-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 4px 0;
+      font-size: 13px;
+      color: var(--text-dim);
+    }
+    .achat-modal .achat-benefits .benefit-item i {
+      color: var(--success);
+      font-size: 14px;
+      width: 20px;
+    }
+
+    .achat-modal .achat-price-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.03);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+      margin-bottom: 16px;
+    }
+    .achat-modal .achat-price-label {
+      font-size: 13px;
+      color: var(--text-dim);
+    }
+    .achat-modal .achat-price-value {
+      font-size: 24px;
+      font-weight: 700;
+      font-family: 'Playfair Display', 'Georgia', serif;
+      color: var(--accent);
+    }
+    .achat-modal .achat-balance {
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+    .achat-modal .achat-balance strong {
+      color: var(--success);
+    }
+
+    .achat-modal .achat-buttons {
+      display: flex;
+      gap: 10px;
+    }
+    .achat-modal .achat-buttons .btn-cancel {
+      flex: 0.5;
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      color: var(--text-dim);
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: 'Inter', sans-serif;
+    }
+    .achat-modal .achat-buttons .btn-cancel:active { transform: scale(0.96); }
+    .achat-modal .achat-buttons .btn-cancel:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-light);
+    }
+    .achat-modal .achat-buttons .btn-buy {
+      flex: 1;
+      padding: 12px;
+      background: var(--accent);
+      border: none;
+      border-radius: 12px;
+      color: var(--bg-dark);
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+    .achat-modal .achat-buttons .btn-buy:active { transform: scale(0.96); }
+    .achat-modal .achat-buttons .btn-buy:hover {
+      background: #9A7209;
+      box-shadow: 0 0 30px rgba(184, 134, 11, 0.15);
+    }
+    .achat-modal .achat-buttons .btn-buy .loader {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--bg-dark);
+      border-radius: 50%;
+      border-top-color: transparent;
+      animation: spin 0.6s linear infinite;
+    }
+    .achat-modal .achat-buttons .btn-buy.success {
+      background: var(--success);
+      color: #fff;
+    }
+    .achat-modal .achat-buttons .btn-buy.success i {
+      color: #fff;
+    }
+
+    /* ============================================================
        SKELETON LOADING
        ============================================================ */
     .skeleton-grid {
@@ -703,6 +924,22 @@
         flex: 1;
         justify-content: center;
       }
+      .achat-modal {
+        padding: 24px 16px;
+        margin: 10px;
+      }
+      .achat-modal .achat-title {
+        font-size: 18px;
+      }
+      .achat-modal .achat-price-value {
+        font-size: 20px;
+      }
+      .achat-modal .achat-buttons {
+        flex-direction: column;
+      }
+      .achat-modal .achat-buttons .btn-cancel {
+        flex: 1;
+      }
     }
 
     @media (min-width: 601px) and (max-width: 768px) {
@@ -778,6 +1015,44 @@
         <i class="fas fa-plus-circle"></i> Activer maintenant
       </a>
       <button class="btn-later" id="popupLaterBtn">✕ Plus tard</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- 🎯 MODAL ACHAT FORMATION - MOTIVANT -->
+<!-- ============================================================ -->
+<div class="achat-modal-overlay" id="achatModal">
+  <div class="achat-modal">
+    <button class="modal-close" id="closeAchatModal"><i class="fas fa-times"></i></button>
+    
+    <span class="achat-icon" id="achatIcon">📚</span>
+    <h3 class="achat-title" id="achatTitle">Titre de la <span>formation</span></h3>
+    <div class="achat-category" id="achatCategory">Catégorie</div>
+    <p class="achat-desc" id="achatDesc">Description de la formation</p>
+    
+    <div class="achat-benefits">
+      <div class="benefit-title">🎯 Ce que vous allez gagner</div>
+      <div class="benefit-item"><i class="fas fa-check-circle"></i> Accès à vie à la formation</div>
+      <div class="benefit-item"><i class="fas fa-check-circle"></i> Certificat de réussite inclus</div>
+      <div class="benefit-item"><i class="fas fa-check-circle"></i> Support prioritaire 24/7</div>
+      <div class="benefit-item"><i class="fas fa-check-circle"></i> Mise à jour gratuites à vie</div>
+    </div>
+    
+    <div class="achat-price-row">
+      <span class="achat-price-label">💰 Prix de la formation</span>
+      <span class="achat-price-value" id="achatPrice">5 000 FCFA</span>
+    </div>
+    
+    <div class="achat-balance" id="achatBalance">
+      💳 Solde disponible : <strong id="achatBalanceAmount">0 FCFA</strong>
+    </div>
+    
+    <div class="achat-buttons">
+      <button class="btn-cancel" id="cancelAchatBtn">Annuler</button>
+      <button class="btn-buy" id="confirmAchatBtn">
+        <i class="fas fa-shopping-cart"></i> Acheter maintenant
+      </button>
     </div>
   </div>
 </div>
@@ -958,11 +1233,26 @@ const premiumPopup = document.getElementById('premiumPopup');
 const popupLaterBtn = document.getElementById('popupLaterBtn');
 const toast = document.getElementById('toast');
 
+// Modal achat
+const achatModal = document.getElementById('achatModal');
+const closeAchatModal = document.getElementById('closeAchatModal');
+const cancelAchatBtn = document.getElementById('cancelAchatBtn');
+const confirmAchatBtn = document.getElementById('confirmAchatBtn');
+const achatTitle = document.getElementById('achatTitle');
+const achatCategory = document.getElementById('achatCategory');
+const achatDesc = document.getElementById('achatDesc');
+const achatPrice = document.getElementById('achatPrice');
+const achatBalance = document.getElementById('achatBalance');
+const achatBalanceAmount = document.getElementById('achatBalanceAmount');
+const achatIcon = document.getElementById('achatIcon');
+
 let isUnlocked = false;
 let currentUser = null;
 let userAchats = [];
+let userBalance = 0;
 let isPageLoading = true;
 let unsubscribeUser = null;
+let currentFormation = null;
 
 // ================================================================
 // TOAST
@@ -975,10 +1265,10 @@ function showToast(message, type = 'info') {
 }
 
 // ================================================================
-// ✅ FORMATIONS PAR DÉFAUT (2 GRATUITES + 8 PAYANTES)
+// FORMATIONS PAR DÉFAUT (2 GRATUITES + 8 PAYANTES)
 // ================================================================
 const DEFAULT_FORMATIONS = [
-  // ✅ GRATUITES (accessibles à tous)
+  // ✅ GRATUITES
   {
     id: 'formation_001',
     title: "Créer un business rentable avec l'IA de A à Z",
@@ -1007,7 +1297,7 @@ const DEFAULT_FORMATIONS = [
     isNew: true,
     createdAt: new Date().toISOString()
   },
-  // 🔒 PAYANTES (nécessitent premium)
+  // 🔒 PAYANTES
   {
     id: 'formation_003',
     title: "Devenir freelance et trouver ses premiers clients",
@@ -1149,7 +1439,6 @@ async function acheterFormation(userId, formationId, price) {
     const newAchats = [...achats, formationId];
     const newTotalAchats = (userData.totalAchats || 0) + price;
     
-    // ✅ Mise à jour de gainsTotal (revenus)
     await updateDoc(userRef, {
       balance: newBalance,
       achats: newAchats,
@@ -1182,7 +1471,6 @@ function renderFormations(formations) {
     const isFree = formation.isFree || formation.price === 0;
     const isAchete = userAchats && userAchats.includes(formation.id);
     
-    // ✅ Déterminer le badge
     let badgeText = '';
     let badgeClass = '';
     
@@ -1200,7 +1488,6 @@ function renderFormations(formations) {
       badgeClass = '';
     }
     
-    // ✅ Déterminer le prix affiché
     let priceText = '';
     let priceClass = '';
     
@@ -1215,7 +1502,6 @@ function renderFormations(formations) {
       priceClass = '';
     }
     
-    // ✅ Déterminer le bouton
     let btnText = '📖 Voir';
     let btnClass = 'primary';
     let btnAction = 'voir';
@@ -1238,9 +1524,7 @@ function renderFormations(formations) {
       btnAction = 'acheter';
     }
 
-    // ✅ Afficher le cadenas uniquement si non premium ET non gratuit
     const showLock = !isUnlocked && !isFree && !isAchete;
-
     const levelBadge = formation.level || 'Débutant';
     const duration = formation.duration || '2h';
 
@@ -1306,63 +1590,126 @@ function renderFormations(formations) {
 }
 
 // ================================================================
-// ✅ GESTION DES ACTIONS
+// ✅ GESTION DES ACTIONS - AVEC POPUP MOTIVANT POUR LES PREMIUM
 // ================================================================
 async function handleFormationAction(formation, action) {
   const isFree = formation.isFree || formation.price === 0;
   const isAchete = userAchats && userAchats.includes(formation.id);
   
-  // ✅ GRATUIT ou DÉJÀ ACHETÉ → voir
+  // ✅ GRATUIT ou DÉJÀ ACHETÉ → voir directement
   if (isFree || isAchete) {
     window.location.href = `formations/${formation.id}.html`;
     return;
   }
   
-  // ✅ NON PREMIUM → popup
+  // ✅ NON PREMIUM → popup premium
   if (!isUnlocked) {
     showPremiumPopup();
     return;
   }
   
-  // ✅ PREMIUM → acheter
+  // ✅ PREMIUM → ouvrir le modal d'achat motivant
   if (action === 'acheter' || action === 'voir') {
-    await acheterFormationAction(formation);
+    openAchatModal(formation);
   }
 }
 
 // ================================================================
-// ✅ ACHETER UNE FORMATION (action)
+// 🎯 OUVRIR LE MODAL D'ACHAT MOTIVANT
 // ================================================================
-async function acheterFormationAction(formation) {
-  if (!currentUser) {
-    showToast('⚠️ Veuillez vous connecter', 'error');
+function openAchatModal(formation) {
+  currentFormation = formation;
+  
+  // Remplir les informations
+  achatIcon.textContent = formation.coverImage ? '📚' : '🎓';
+  achatTitle.innerHTML = `${formation.title} <span>formation</span>`;
+  achatCategory.textContent = formation.category || 'Général';
+  achatDesc.textContent = formation.description || 'Découvrez cette formation exclusive ARVEXA.';
+  achatPrice.textContent = formation.price.toLocaleString('fr-FR') + ' FCFA';
+  achatBalanceAmount.textContent = userBalance.toLocaleString('fr-FR') + ' FCFA';
+  
+  // Vérifier si l'utilisateur a assez de solde
+  const hasEnoughBalance = userBalance >= formation.price;
+  
+  // Mettre à jour le bouton
+  if (hasEnoughBalance) {
+    confirmAchatBtn.innerHTML = '<i class="fas fa-shopping-cart"></i> Acheter maintenant';
+    confirmAchatBtn.className = 'btn-buy';
+    confirmAchatBtn.disabled = false;
+  } else {
+    confirmAchatBtn.innerHTML = '💳 Solde insuffisant';
+    confirmAchatBtn.className = 'btn-buy';
+    confirmAchatBtn.style.opacity = '0.5';
+    confirmAchatBtn.disabled = true;
+  }
+  
+  achatModal.classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeAchatModalFn() {
+  achatModal.classList.remove('show');
+  document.body.style.overflow = '';
+  currentFormation = null;
+}
+
+closeAchatModal.addEventListener('click', closeAchatModalFn);
+cancelAchatBtn.addEventListener('click', closeAchatModalFn);
+achatModal.addEventListener('click', (e) => {
+  if (e.target === achatModal) closeAchatModalFn();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeAchatModalFn();
+});
+
+// ================================================================
+// ✅ CONFIRMER L'ACHAT AVEC ANIMATION
+// ================================================================
+confirmAchatBtn.addEventListener('click', async function() {
+  if (!currentFormation) return;
+  if (this.disabled) {
+    showToast('⚠️ Solde insuffisant. Rechargez votre compte.', 'warning');
     return;
   }
   
-  if (userAchats && userAchats.includes(formation.id)) {
-    window.location.href = `formations/${formation.id}.html`;
-    return;
-  }
-  
-  if (!confirm(`Acheter la formation "${formation.title}" pour ${formation.price.toLocaleString('fr-FR')} FCFA ?`)) {
-    return;
-  }
+  // ✅ Animation : bouton en chargement
+  this.innerHTML = '<span class="loader"></span> Achat en cours...';
+  this.disabled = true;
   
   try {
-    const result = await acheterFormation(currentUser.uid, formation.id, formation.price);
+    const result = await acheterFormation(currentUser.uid, currentFormation.id, currentFormation.price);
     
     if (result.success) {
-      showToast(`✅ "${formation.title}" achetée avec succès !`, 'success');
-      // Recharger les formations
-      loadFormations();
+      // ✅ Animation de succès
+      this.innerHTML = '<i class="fas fa-check-circle"></i> Acheté avec succès !';
+      this.className = 'btn-buy success';
+      
+      showToast(`✅ "${currentFormation.title}" achetée avec succès !`, 'success');
+      
+      // Mettre à jour le solde local
+      userBalance = result.newBalance;
+      
+      // Fermer le modal après un délai
+      setTimeout(() => {
+        closeAchatModalFn();
+        // Recharger les formations pour mettre à jour les boutons
+        loadFormations();
+      }, 1500);
+      
     } else {
       showToast(`❌ ${result.error}`, 'error');
+      this.innerHTML = '<i class="fas fa-shopping-cart"></i> Acheter maintenant';
+      this.className = 'btn-buy';
+      this.disabled = false;
     }
   } catch (error) {
     console.error('Erreur achat:', error);
     showToast('❌ Erreur lors de l\'achat', 'error');
+    this.innerHTML = '<i class="fas fa-shopping-cart"></i> Acheter maintenant';
+    this.className = 'btn-buy';
+    this.disabled = false;
   }
-}
+});
 
 // ================================================================
 // ✅ GESTION DU POPUP PREMIUM
@@ -1380,11 +1727,9 @@ function hidePremiumPopup() {
 }
 
 popupLaterBtn.addEventListener('click', hidePremiumPopup);
-
 premiumPopup.addEventListener('click', (e) => {
   if (e.target === premiumPopup) hidePremiumPopup();
 });
-
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') hidePremiumPopup();
 });
@@ -1431,6 +1776,7 @@ function loadUserAchats(uid) {
     if (snap.exists()) {
       const data = snap.data();
       userAchats = data.achats || [];
+      userBalance = data.balance || 0;
       loadFormations();
     }
   });
@@ -1447,6 +1793,7 @@ async function loadUser(uid) {
       const data = docSnap.data();
       isUnlocked = data.isUnlocked === true || data.hasDeposited === true;
       userAchats = data.achats || [];
+      userBalance = data.balance || 0;
       
       if (isUnlocked && premiumPopup.classList.contains('show')) {
         hidePremiumPopup();
@@ -1476,6 +1823,7 @@ function listenUser(uid) {
       const wasUnlocked = isUnlocked;
       isUnlocked = data.isUnlocked === true || data.hasDeposited === true;
       userAchats = data.achats || [];
+      userBalance = data.balance || 0;
       
       if (isUnlocked && !wasUnlocked) {
         if (premiumPopup.classList.contains('show')) {
@@ -1495,6 +1843,26 @@ function listenUser(uid) {
 }
 
 // ================================================================
+// ✅ CACHE POUR RETOUR ARRIÈRE INSTANTANÉ
+// ================================================================
+window.addEventListener('pageshow', function(event) {
+  if (event.persisted) {
+    console.log('📱 Page formations chargée depuis le cache');
+    const cachedData = localStorage.getItem('ARVEXA_user_data');
+    if (cachedData) {
+      try {
+        const data = JSON.parse(cachedData);
+        isUnlocked = data.isUnlocked === true || data.hasDeposited === true;
+        userAchats = data.achats || [];
+        userBalance = data.balance || 0;
+        loadFormations();
+        console.log('✅ Données formations chargées depuis localStorage');
+      } catch(e) {}
+    }
+  }
+});
+
+// ================================================================
 // ✅ AUTH AVEC isPageLoading
 // ================================================================
 onAuthStateChanged(auth, (user) => {
@@ -1507,7 +1875,6 @@ onAuthStateChanged(auth, (user) => {
       loadUserAchats(user.uid);
       loadFormations();
       
-      // ✅ Popup UNIQUEMENT si non premium
       if (!isUnlocked) {
         setTimeout(() => {
           showPremiumPopup();
@@ -1546,10 +1913,9 @@ onAuthStateChanged(auth, (user) => {
 });
 
 console.log('🎓 ARVEXA - Page Formations corrigée');
-console.log('✅ 2 formations gratuites accessibles à tous');
-console.log('✅ 8 formations payantes (premium requis)');
-console.log('✅ gainsTotal mis à jour lors des achats');
-console.log('✅ Popup premium uniquement pour les utilisateurs gratuits');
+console.log('✅ Modal achat motivant avec bénéfices');
+console.log('✅ Animation lors de l\'achat');
+console.log('✅ Cache pour retour arrière instantané');
 </script>
 </body>
 </html>

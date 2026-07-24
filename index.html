@@ -45,11 +45,7 @@
 
     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
-    /* ===== SCROLL FLUIDE ===== */
-    html {
-      scroll-behavior: smooth;
-      -webkit-overflow-scrolling: touch;
-    }
+    html { scroll-behavior: smooth; -webkit-overflow-scrolling: touch; }
 
     body {
       font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
@@ -87,7 +83,6 @@
       background: radial-gradient(ellipse 40% 30% at 30% 20%, rgba(26,58,42,0.12) 0%, transparent 70%),
                   radial-gradient(ellipse 30% 20% at 70% 80%, rgba(184,134,11,0.02) 0%, transparent 60%),
                   linear-gradient(180deg, #0A0A0A 0%, #060606 100%);
-      pointer-events: none;
     }
     .glow {
       position: fixed; border-radius: 50%; filter: blur(80px); pointer-events: none; z-index: -1;
@@ -98,7 +93,9 @@
     .glow-3 { width: 250px; height: 250px; background: rgba(26,58,42,0.08); top: 40%; left: 50%; transform: translate(-50%,-50%); animation-delay: -8s; }
     @keyframes glowMove { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(30px,-20px) scale(1.1); } }
 
-    /* ===== HEADER ===== */
+    /* ============================================================
+       HEADER
+       ============================================================ */
     .header {
       display: flex; justify-content: space-between; align-items: center;
       padding: 10px 5%; background: rgba(10,10,10,0.95); backdrop-filter: blur(12px);
@@ -288,7 +285,9 @@
     .actu-nav-btn:hover { border-color: rgba(184,134,11,0.12); color: var(--text-light); background: rgba(10,10,10,0.5); }
     .actu-nav-btn:disabled { opacity: 0.2; cursor: not-allowed; transform: none; }
 
-    /* ===== FOOTER ===== */
+    /* ============================================================
+       FOOTER
+       ============================================================ */
     .footer { border-top: 1px solid rgba(184,134,11,0.03); padding: 28px 0 16px; text-align: center; margin-top: 20px; }
     .footer-logo { font-size: 16px; font-weight: 700; font-family: 'Playfair Display', serif; letter-spacing: 2px; margin-bottom: 8px; color: var(--text-light); }
     .footer-logo span { color: var(--accent); font-style: italic; }
@@ -311,7 +310,7 @@
     .footer-bottom { font-size: 9px; color: var(--text-muted); opacity: 0.4; font-weight: 300; }
 
     /* ============================================================
-       MENU
+       MENU - SWIPE AMÉLIORÉ
        ============================================================ */
     .menu-overlay {
       position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 2000;
@@ -368,7 +367,6 @@
     .menu-link.chat-link i { color: var(--accent); }
     .menu-link.chat-link:hover { background: rgba(184,134,11,0.06); border-color: rgba(184,134,11,0.15); }
 
-    /* ✅ NOUVEAU: À Propos dans le menu */
     .menu-link.about-link {
       border: 1px solid rgba(184,134,11,0.05);
       margin-top: 2px;
@@ -386,6 +384,115 @@
     .menu-logout i { font-size: 14px; }
     .menu-logout:hover { background: rgba(122,74,74,0.04); color: #8A4A4A; }
     .menu-version { text-align: center; font-size: 9px; color: var(--text-muted); opacity: 0.2; margin-top: 8px; font-weight: 300; }
+
+    /* ============================================================
+       MODAL DÉCONNEXION UNIFORME
+       ============================================================ */
+    .modal-overlay-confirm {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(12px);
+      z-index: 3000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-overlay-confirm.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-confirm {
+      background: var(--bg-surface);
+      border: 1px solid rgba(184, 134, 11, 0.12);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+      max-width: 380px;
+      width: 100%;
+      text-align: center;
+      transform: scale(0.9) translateY(20px);
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+    }
+    .modal-overlay-confirm.show .modal-confirm {
+      transform: scale(1) translateY(0);
+    }
+
+    .modal-confirm .icon {
+      font-size: 48px;
+      color: var(--danger);
+      opacity: 0.3;
+      display: block;
+      margin-bottom: 12px;
+    }
+    .modal-confirm h3 {
+      font-size: 20px;
+      font-weight: 700;
+      font-family: 'Playfair Display', 'Georgia', serif;
+      color: var(--text-light);
+      margin-bottom: 6px;
+    }
+    .modal-confirm h3 span {
+      color: var(--accent);
+      font-style: italic;
+    }
+    .modal-confirm p {
+      font-size: 14px;
+      color: var(--text-dim);
+      line-height: 1.6;
+      margin-bottom: 4px;
+    }
+    .modal-confirm .sub {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+    .modal-confirm .buttons {
+      display: flex;
+      gap: 10px;
+    }
+    .modal-confirm .buttons .btn-cancel {
+      flex: 1;
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      color: var(--text-dim);
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: 'Inter', sans-serif;
+    }
+    .modal-confirm .buttons .btn-cancel:active { transform: scale(0.96); }
+    .modal-confirm .buttons .btn-cancel:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-light);
+    }
+    .modal-confirm .buttons .btn-confirm {
+      flex: 1;
+      padding: 12px;
+      background: var(--danger);
+      border: none;
+      border-radius: 12px;
+      color: #fff;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .modal-confirm .buttons .btn-confirm:active { transform: scale(0.96); }
+    .modal-confirm .buttons .btn-confirm:hover { background: #6A2A2A; }
 
     /* ============================================================
        TOAST
@@ -436,6 +543,7 @@
       .logo-text { font-size: 16px; }
       .actu-card { padding: 14px 16px; }
       .actu-text { font-size: 12px; }
+      .modal-confirm { padding: 24px 16px; }
     }
     @media (min-width: 768px) {
       .container { max-width: 700px; padding: 28px 24px 60px; }
@@ -496,6 +604,20 @@
   </div>
 </div>
 
+<!-- ===== MODAL DE DÉCONNEXION ===== -->
+<div class="modal-overlay-confirm" id="confirmModal">
+  <div class="modal-confirm">
+    <span class="icon"><i class="fas fa-sign-out-alt"></i></span>
+    <h3>⚠️ Confirmer la <span>déconnexion</span></h3>
+    <p>Voulez-vous vraiment vous déconnecter ?</p>
+    <p class="sub">Vous devrez vous reconnecter pour accéder à votre compte.</p>
+    <div class="buttons">
+      <button class="btn-cancel" id="cancelConfirmBtn">Annuler</button>
+      <button class="btn-confirm" id="confirmLogoutBtn"><i class="fas fa-sign-out-alt"></i> Se déconnecter</button>
+    </div>
+  </div>
+</div>
+
 <!-- ===== MENU ===== -->
 <div class="menu-overlay" id="menuOverlay">
   <div class="menu-backdrop" id="menuBackdrop"></div>
@@ -525,7 +647,6 @@
       <a href="avis.html" class="menu-link"><i class="fas fa-star"></i> Avis</a>
       <a href="profil.html" class="menu-link"><i class="fas fa-user"></i> Mon Profil</a>
       <a href="chat.html" class="menu-link chat-link"><i class="fas fa-robot"></i> Assistant ARVEXA</a>
-      <!-- ✅ NOUVEAU : À Propos -->
       <a href="about.html" class="menu-link about-link"><i class="fas fa-info-circle"></i> À Propos</a>
     </nav>
     <div class="menu-footer">
@@ -587,7 +708,6 @@
       <div class="quick-stat-label">Défis</div>
     </div>
     <div class="quick-stat-item">
-      <!-- ✅ CORRIGÉ : Doré au lieu de Vert -->
       <div class="quick-stat-icon gold"><i class="fas fa-users"></i></div>
       <div class="quick-stat-value" id="statReferrals">0</div>
       <div class="quick-stat-label">Parrainages</div>
@@ -603,7 +723,7 @@
     <a href="formations.html" class="section-link">Voir tout <i class="fas fa-arrow-right"></i></a>
   </div>
   <div class="formations-list-horizontal">
-    <!-- ✅ Formation 1 - GRATUITE (IA) -->
+    <!-- Formation 1 - GRATUITE -->
     <a href="formations/formation_001.html" class="formation-card-horizontal">
       <div class="formation-horiz-img-wrap">
         <img src="formations/cover-ia.png" alt="IA" class="formation-horiz-img" loading="lazy"
@@ -620,7 +740,7 @@
       </div>
     </a>
     
-    <!-- ✅ Formation 2 - GRATUITE (Site Web) -->
+    <!-- Formation 2 - GRATUITE -->
     <a href="formations/formation_002.html" class="formation-card-horizontal">
       <div class="formation-horiz-img-wrap">
         <img src="formations/cover-site.png" alt="Site web" class="formation-horiz-img" loading="lazy"
@@ -671,7 +791,6 @@
       <div class="service-arrow"><i class="fas fa-chevron-right"></i></div>
     </a>
     <a href="activite.html" class="service-item">
-      <!-- ✅ CORRIGÉ : Doré au lieu de Vert -->
       <div class="service-icon gold"><i class="fas fa-chart-pie"></i></div>
       <div class="service-content">
         <div class="service-title">Mon Activité</div>
@@ -818,6 +937,11 @@ var gainNotifMessage = document.getElementById('gainNotifMessage');
 var adminLockBtn = document.getElementById('adminLockBtn');
 var toast = document.getElementById('toast');
 
+// ✅ MODAL DÉCONNEXION
+var confirmModal = document.getElementById('confirmModal');
+var cancelConfirmBtn = document.getElementById('cancelConfirmBtn');
+var confirmLogoutBtn = document.getElementById('confirmLogoutBtn');
+
 var currentUser = null;
 var userData = null;
 var unsubscribeUser = null;
@@ -952,14 +1076,14 @@ function loadActualites() {
 }
 
 // ================================================================
-// ✅ CORRECTION: MENU SWIPE AMÉLIORÉ
+// ✅ MENU SWIPE AMÉLIORÉ
 // ================================================================
 var touchStartX = 0;
 var touchStartY = 0;
 var isSwiping = false;
 var isMenuOpen = false;
-var SWIPE_THRESHOLD = 25;
-var EDGE_THRESHOLD = 25;
+var SWIPE_THRESHOLD = 30;
+var EDGE_THRESHOLD = 20;
 
 function openMenu() { if (isMenuOpen) return; isMenuOpen = true; menuOverlay.classList.add('active'); document.body.style.overflow = 'hidden'; }
 function closeMenu() { if (!isMenuOpen) return; isMenuOpen = false; menuOverlay.classList.remove('active'); document.body.style.overflow = ''; }
@@ -977,17 +1101,14 @@ document.addEventListener('touchmove', function(e) {
   var deltaX = touch.screenX - touchStartX;
   var deltaY = touch.screenY - touchStartY;
   
-  // Ignorer si mouvement vertical
   if (Math.abs(deltaY) > Math.abs(deltaX) * 1.2) return;
   
-  // ✅ Ouvrir depuis le bord gauche
   if (touchStartX < EDGE_THRESHOLD && deltaX > SWIPE_THRESHOLD && !isMenuOpen) {
     isSwiping = true;
     e.preventDefault();
     openMenu();
   }
   
-  // ✅ Fermer en glissant vers la gauche depuis le menu
   if (isMenuOpen && deltaX < -SWIPE_THRESHOLD) {
     isSwiping = true;
     e.preventDefault();
@@ -1005,6 +1126,46 @@ menuBackdrop.addEventListener('click', function() { closeMenu(); });
 document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeMenu(); });
 
 // ================================================================
+// ✅ MODAL DÉCONNEXION UNIFORME
+// ================================================================
+function openConfirmModal() {
+  confirmModal.classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeConfirmModal() {
+  confirmModal.classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+cancelConfirmBtn.addEventListener('click', closeConfirmModal);
+confirmModal.addEventListener('click', function(e) {
+  if (e.target === confirmModal) closeConfirmModal();
+});
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeConfirmModal();
+});
+
+// ================================================================
+// DÉCONNEXION AVEC MODAL
+// ================================================================
+confirmLogoutBtn.addEventListener('click', async function() {
+  try {
+    await signOut(auth);
+    localStorage.removeItem('ARVEXA_current_user');
+    localStorage.removeItem('ARVEXA_user_data');
+    sessionStorage.clear();
+    closeConfirmModal();
+    showToast('✅ Déconnexion réussie', 'success');
+    setTimeout(function() { window.location.href = 'login.html'; }, 500);
+  } catch (error) {
+    console.error('Erreur déconnexion:', error);
+    showToast('❌ Erreur lors de la déconnexion', 'error');
+    closeConfirmModal();
+  }
+});
+
+// ================================================================
 // ADMIN BUTTON
 // ================================================================
 function checkAdminButton(user) {
@@ -1016,26 +1177,6 @@ function checkAdminButton(user) {
     adminLockBtn.style.display = 'none';
   }
 }
-
-// ================================================================
-// DÉCONNEXION
-// ================================================================
-async function handleLogout() {
-  if (confirm('Voulez-vous vous déconnecter ?')) {
-    try {
-      await signOut(auth);
-      localStorage.removeItem('ARVEXA_current_user');
-      localStorage.removeItem('ARVEXA_user_data');
-      sessionStorage.clear();
-      showToast('✅ Déconnexion réussie', 'success');
-      setTimeout(function() { window.location.href = 'login.html'; }, 500);
-    } catch (error) {
-      console.error('Erreur déconnexion:', error);
-      showToast('❌ Erreur lors de la déconnexion', 'error');
-    }
-  }
-}
-menuLogoutBtn.addEventListener('click', handleLogout);
 
 // ================================================================
 // UPDATE UI
@@ -1073,18 +1214,14 @@ function updateUI(data) {
   var balance = data.balance || 0;
   statBalanceEl.textContent = formatCurrency(balance);
 
-  // ✅ REVENUS (gainsTotal) - Mis à jour en temps réel
   var totalRevenus = data.gainsTotal || 0;
   statRevenueEl.textContent = formatCurrency(totalRevenus);
 
-  // ✅ DÉFIS
   var totalDefis = data.totalDefisGagnes || 0;
   statDefisEl.textContent = formatCurrency(totalDefis);
 
-  // ✅ PARRAINAGES
   statReferralsEl.textContent = data.referralsCount || 0;
 
-  // Pourcentage dynamique
   var dailyReturn = 0;
   if (data.investments && data.investments.length > 0) {
     var activeInvests = data.investments.filter(function(i) { return i.status === 'active'; });
@@ -1110,7 +1247,6 @@ function updateUI(data) {
   checkAdminButton(currentUser);
   localStorage.setItem('ARVEXA_user_data', JSON.stringify(data));
   
-  // Chargement initial
   var isFirstLoad = !sessionStorage.getItem('arvexa_loaded');
   if (isFirstLoad) {
     setTimeout(function() {
@@ -1225,6 +1361,25 @@ function listenToUser(uid) {
 }
 
 // ================================================================
+// ✅ CACHE POUR RETOUR ARRIÈRE INSTANTANÉ
+// ================================================================
+window.addEventListener('pageshow', function(event) {
+  if (event.persisted) {
+    console.log('📱 Page chargée depuis le cache');
+    var cachedUser = localStorage.getItem('ARVEXA_current_user');
+    var cachedData = localStorage.getItem('ARVEXA_user_data');
+    
+    if (cachedUser && cachedData) {
+      try {
+        var data = JSON.parse(cachedData);
+        updateUI(data);
+        console.log('✅ Données chargées depuis localStorage');
+      } catch(e) {}
+    }
+  }
+});
+
+// ================================================================
 // AUTH
 // ================================================================
 var sessionUid = sessionStorage.getItem('session_uid');
@@ -1299,7 +1454,6 @@ onAuthStateChanged(auth, async function(user) {
       isPageLoading = false;
     }
   } else {
-    // ✅ CORRECTION: Attendre avant de rediriger
     if (isPageLoading) {
       console.log("⏳ Page en chargement, attente avant redirection...");
       setTimeout(function() {
@@ -1335,11 +1489,16 @@ onAuthStateChanged(auth, async function(user) {
 document.getElementById('userProfileBtn').addEventListener('click', function(e) { e.preventDefault(); window.location.href = 'profil.html'; });
 document.getElementById('logoLink').addEventListener('click', function(e) { e.preventDefault(); window.location.href = 'index.html'; });
 
+// ✅ MODAL DÉCONNEXION - MENU
+menuLogoutBtn.addEventListener('click', function(e) {
+  e.preventDefault();
+  openConfirmModal();
+});
+
 console.log("🚀 ARVEXA - Page d'accueil corrigée");
-console.log("✅ Menu swipe amélioré (seuil: 25px, bord: 25px)");
-console.log("✅ Parrainages et Mon Activité en doré");
-console.log("✅ 2 formations gratuites sur l'accueil");
-console.log("✅ gainsTotal en temps réel");
+console.log("✅ Menu swipe amélioré (seuil: 30px, bord: 20px)");
+console.log("✅ Modal déconnexion uniforme");
+console.log("✅ Cache pour retour arrière instantané");
 </script>
 </body>
 </html>
