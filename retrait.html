@@ -34,14 +34,10 @@
       --transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
       --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
       --radius: 16px;
+      --like-color: #FF4757;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
     body {
       font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
@@ -64,29 +60,42 @@
 
     .gradient-bg {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       z-index: -2;
       background: radial-gradient(ellipse 40% 30% at 30% 20%, rgba(26, 58, 42, 0.08) 0%, transparent 70%),
                   linear-gradient(180deg, #0A0A0A 0%, #060606 100%);
       pointer-events: none;
     }
 
+    .glow {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: -1;
+      opacity: 0.15;
+      animation: glowMove 10s ease-in-out infinite alternate;
+    }
+    .glow-1 { width: 350px; height: 350px; background: rgba(26,58,42,0.15); top: -80px; right: -80px; }
+    .glow-2 { width: 200px; height: 200px; background: rgba(184,134,11,0.03); bottom: 0; left: 0; animation-delay: -4s; }
+    .glow-3 { width: 250px; height: 250px; background: rgba(26,58,42,0.08); top: 40%; left: 50%; transform: translate(-50%,-50%); animation-delay: -8s; }
+    @keyframes glowMove {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(30px, -20px) scale(1.1); }
+    }
+
     .header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 12px 5%;
+      padding: 10px 5%;
       background: rgba(10, 10, 10, 0.95);
-      backdrop-filter: blur(8px);
+      backdrop-filter: blur(12px);
       position: sticky;
       top: 0;
       z-index: 100;
       border-bottom: 1px solid rgba(184, 134, 11, 0.04);
-      width: 100%;
-      max-width: 100%;
     }
 
     .logo {
@@ -99,16 +108,13 @@
       font-family: 'Playfair Display', 'Georgia', serif;
       letter-spacing: 2px;
     }
-    .logo span {
-      color: var(--accent);
-      font-style: italic;
-    }
+    .logo span { color: var(--accent); font-style: italic; }
 
     .back-btn {
       width: clamp(32px, 4vw, 40px);
       height: clamp(32px, 4vw, 40px);
-      background: rgba(26, 58, 42, 0.15);
-      border: 1px solid rgba(184, 134, 11, 0.04);
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
       border-radius: 10px;
       display: flex;
       align-items: center;
@@ -119,30 +125,8 @@
       transition: background 0.2s, border-color 0.2s;
       flex-shrink: 0;
     }
-    .back-btn:active {
-      transform: scale(0.94);
-      background: rgba(184, 134, 11, 0.08);
-    }
-    .back-btn i {
-      font-size: clamp(14px, 1.8vw, 18px);
-    }
-
-    .notif-badge {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 10px;
-      border-radius: 30px;
-      font-size: 10px;
-      font-weight: 500;
-      transition: var(--transition);
-      background: rgba(45, 125, 90, 0.08);
-      color: var(--success);
-      border: 1px solid rgba(45, 125, 90, 0.10);
-    }
-    .notif-badge i {
-      font-size: 12px;
-    }
+    .back-btn:active { transform: scale(0.94); background: rgba(184, 134, 11, 0.08); }
+    .back-btn i { font-size: clamp(14px, 1.8vw, 18px); }
 
     .header-placeholder {
       width: clamp(32px, 4vw, 40px);
@@ -158,6 +142,22 @@
       -webkit-overflow-scrolling: touch;
     }
 
+    /* ===== SKELETON ===== */
+    .skeleton {
+      background: rgba(255,255,255,0.03);
+      border-radius: 8px;
+      animation: skeletonPulse 1.2s ease-in-out infinite;
+    }
+    @keyframes skeletonPulse {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 0.6; }
+    }
+    .skeleton-text { height: 14px; width: 100%; margin-bottom: 6px; border-radius: 4px; }
+    .skeleton-text.w60 { width: 60%; }
+    .skeleton-text.w40 { width: 40%; }
+    .skeleton-text.w30 { width: 30%; }
+    .skeleton-value { height: 32px; width: 70%; border-radius: 8px; }
+
     .card {
       background: rgba(20, 20, 20, 0.7);
       backdrop-filter: blur(8px);
@@ -170,11 +170,9 @@
       width: 100%;
       overflow: hidden;
     }
-    .card:hover {
-      border-color: rgba(184, 134, 11, 0.08);
-    }
+    .card:hover { border-color: rgba(184, 134, 11, 0.08); }
 
-    /* ===== BALANCE ===== */
+    /* ===== BALANCE CARD ===== */
     .balance-card {
       text-align: center;
       padding: clamp(16px, 2.5vw, 24px);
@@ -188,10 +186,7 @@
       text-transform: uppercase;
       letter-spacing: 1.5px;
     }
-    .balance-card .label i {
-      color: var(--accent);
-      margin-right: 6px;
-    }
+    .balance-card .label i { color: var(--accent); margin-right: 6px; }
     .balance-card .amount {
       font-family: 'Playfair Display', 'Georgia', serif;
       font-size: clamp(32px, 6vw, 48px);
@@ -203,9 +198,7 @@
       font-size: 11px;
       color: var(--text-muted);
     }
-    .balance-card .status i {
-      color: var(--success);
-    }
+    .balance-card .status i { color: var(--success); }
 
     /* ===== INSTRUCTIONS ===== */
     .instructions-card h3 {
@@ -217,9 +210,7 @@
       gap: 8px;
       color: var(--text-light);
     }
-    .instructions-card h3 i {
-      color: var(--accent);
-    }
+    .instructions-card h3 i { color: var(--accent); }
     .step-list {
       list-style: none;
       padding: 0;
@@ -234,9 +225,7 @@
       color: #8A8A7A;
       line-height: 1.5;
     }
-    .step-list li:last-child {
-      border-bottom: none;
-    }
+    .step-list li:last-child { border-bottom: none; }
     .step-number {
       width: clamp(24px, 3vw, 28px);
       height: clamp(24px, 3vw, 28px);
@@ -253,10 +242,7 @@
       font-family: 'Playfair Display', serif;
       flex-shrink: 0;
     }
-    .step-highlight {
-      color: var(--accent);
-      font-weight: 600;
-    }
+    .step-highlight { color: var(--accent); font-weight: 600; }
 
     /* ===== FORM ===== */
     .form-label {
@@ -266,9 +252,37 @@
       display: block;
       margin-bottom: 6px;
     }
-    .form-label i {
+    .form-label i { color: var(--accent); margin-right: 6px; }
+
+    /* ===== MONTANTS RAPIDES ===== */
+    .quick-amounts {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .quick-amount {
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1px solid rgba(184, 134, 11, 0.12);
+      background: rgba(10, 10, 10, 0.4);
+      color: var(--text-dim);
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+    }
+    .quick-amount:active { transform: scale(0.95); }
+    .quick-amount:hover {
+      border-color: var(--accent);
       color: var(--accent);
-      margin-right: 6px;
+      background: rgba(184, 134, 11, 0.06);
+    }
+    .quick-amount.active {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(184, 134, 11, 0.10);
     }
 
     .input-group {
@@ -319,36 +333,39 @@
       -moz-appearance: textfield;
     }
 
-    .amount-display {
+    /* ===== FEE DISPLAY ===== */
+    .fee-display {
       margin-top: 14px;
       padding: clamp(12px, 1.5vw, 16px);
-      background: rgba(184, 134, 11, 0.03);
+      background: rgba(10, 10, 10, 0.4);
       border: 1px solid rgba(184, 134, 11, 0.06);
       border-radius: 12px;
-      text-align: center;
       transition: all 0.3s;
     }
-    .amount-display.has-value {
-      border-color: rgba(184, 134, 11, 0.15);
-      background: rgba(184, 134, 11, 0.05);
+    .fee-display.has-value {
+      border-color: rgba(184, 134, 11, 0.12);
+      background: rgba(184, 134, 11, 0.03);
     }
-    .amount-display .label {
-      font-size: 11px;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 1px;
+    .fee-display .fee-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 4px 0;
+      font-size: 13px;
+      color: var(--text-dim);
     }
-    .amount-display .value {
-      font-size: clamp(28px, 5vw, 40px);
-      font-weight: 700;
-      font-family: 'Playfair Display', 'Georgia', serif;
-      color: var(--danger);
-      margin-top: 2px;
+    .fee-display .fee-row.total {
+      border-top: 1px solid rgba(255,255,255,0.04);
+      margin-top: 6px;
+      padding-top: 8px;
+      font-weight: 600;
+      color: var(--text-light);
     }
-    .amount-display .value.zero {
-      color: var(--text-muted);
-      opacity: 0.4;
-    }
+    .fee-display .fee-row .fee-label { color: var(--text-muted); font-size: 12px; }
+    .fee-display .fee-row .fee-value { font-weight: 500; }
+    .fee-display .fee-row .fee-value.positive { color: var(--success); }
+    .fee-display .fee-row .fee-value.negative { color: var(--danger); }
+    .fee-display .fee-row .fee-value.accent { color: var(--accent); }
 
     .min-amount-hint {
       font-size: 11px;
@@ -357,9 +374,7 @@
       margin-top: 8px;
       font-weight: 300;
     }
-    .min-amount-hint strong {
-      color: var(--accent);
-    }
+    .min-amount-hint strong { color: var(--accent); }
 
     .balance-info {
       font-size: 12px;
@@ -370,9 +385,7 @@
       background: rgba(10, 10, 10, 0.3);
       border-radius: 8px;
     }
-    .balance-info i {
-      margin-right: 4px;
-    }
+    .balance-info i { margin-right: 4px; }
     .balance-info.insufficient {
       color: var(--danger);
       border: 1px solid rgba(138, 58, 58, 0.15);
@@ -382,20 +395,84 @@
       border: 1px solid rgba(45, 125, 90, 0.15);
     }
 
-    /* ===== DELAI ===== */
-    .delai-info {
-      text-align: center;
+    /* ===== OPERATOR SELECTOR ===== */
+    .operator-selector {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       padding: 10px 14px;
-      background: rgba(184, 134, 11, 0.04);
-      border: 1px solid rgba(184, 134, 11, 0.06);
-      border-radius: 10px;
-      font-size: 12px;
-      color: var(--text-dim);
-      margin-bottom: 10px;
+      background: rgba(10, 10, 10, 0.5);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: var(--transition);
+      position: relative;
     }
-    .delai-info i {
-      color: var(--accent);
-      margin-right: 6px;
+    .operator-selector:active { transform: scale(0.98); }
+    .operator-selector:focus-within {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.08);
+    }
+    .operator-selector .operator-display {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+    }
+    .operator-selector .operator-display img {
+      height: 24px;
+      width: auto;
+      object-fit: contain;
+      border-radius: 4px;
+    }
+    .operator-selector .operator-display .name {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-light);
+    }
+    .operator-selector .arrow {
+      color: var(--text-muted);
+      font-size: 12px;
+      transition: var(--transition);
+    }
+
+    /* ===== OPERATOR MODAL ===== */
+    .operator-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 8px;
+    }
+    .operator-option {
+      padding: 14px 12px;
+      border: 1px solid rgba(184, 134, 11, 0.08);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+      background: rgba(10, 10, 10, 0.4);
+    }
+    .operator-option:hover {
+      border-color: var(--accent);
+      background: rgba(184, 134, 11, 0.06);
+      transform: translateY(-2px);
+    }
+    .operator-option:active { transform: scale(0.96); }
+    .operator-option.selected {
+      border-color: var(--accent);
+      background: rgba(184, 134, 11, 0.10);
+    }
+    .operator-option img {
+      height: 28px;
+      width: auto;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto 4px;
+    }
+    .operator-option span {
+      font-size: 12px;
+      color: var(--text-light);
+      font-weight: 500;
     }
 
     /* ===== WHATSAPP BUTTON ===== */
@@ -417,76 +494,13 @@
       text-decoration: none;
       font-family: 'Inter', sans-serif;
     }
-    .btn-whatsapp:active {
-      transform: scale(0.97);
-    }
+    .btn-whatsapp:active { transform: scale(0.97); }
     .btn-whatsapp:disabled {
       opacity: 0.4;
       cursor: not-allowed;
       transform: none;
     }
-    .btn-whatsapp i {
-      font-size: clamp(18px, 2vw, 24px);
-    }
-
-    /* ===== NOTIFICATION BANNER ===== */
-    .notif-permission-banner {
-      background: rgba(184, 134, 11, 0.06);
-      border: 1px solid rgba(184, 134, 11, 0.10);
-      border-radius: 12px;
-      padding: 12px 16px;
-      margin: 18px 0 10px;
-      display: none;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .notif-permission-banner p {
-      font-size: 12px;
-      color: var(--text-dim);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .notif-permission-banner p i {
-      color: var(--accent);
-    }
-    .notif-permission-banner .btn-enable {
-      padding: 6px 16px;
-      background: var(--accent);
-      border: none;
-      border-radius: 30px;
-      color: var(--bg-dark);
-      font-weight: 600;
-      font-size: 11px;
-      cursor: pointer;
-      transition: var(--transition);
-      white-space: nowrap;
-    }
-    .notif-permission-banner .btn-enable:active {
-      transform: scale(0.95);
-    }
-    .notif-permission-banner .btn-enable:hover {
-      background: #9A7209;
-    }
-
-    /* ===== ADMIN NOTE ===== */
-    .admin-note {
-      background: rgba(45, 125, 90, 0.04);
-      border: 1px solid rgba(45, 125, 90, 0.08);
-      border-radius: 12px;
-      padding: clamp(10px, 1.5vw, 14px) clamp(14px, 2vw, 20px);
-      font-size: clamp(11px, 1vw, 13px);
-      color: #8A8A7A;
-      text-align: center;
-      line-height: 1.6;
-      width: 100%;
-    }
-    .admin-note i {
-      color: var(--success);
-      margin-right: 6px;
-    }
+    .btn-whatsapp i { font-size: clamp(18px, 2vw, 24px); }
 
     /* ===== HISTORIQUE ===== */
     .history-list {
@@ -505,26 +519,11 @@
       border-radius: 10px;
       transition: border-color 0.2s;
     }
-    .history-item:hover {
-      border-color: rgba(184, 134, 11, 0.06);
-    }
-    .history-item .left {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-    .history-item .left .amount {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text-light);
-    }
-    .history-item .left .date {
-      font-size: 10px;
-      color: var(--text-muted);
-    }
-    .history-item .right {
-      text-align: right;
-    }
+    .history-item:hover { border-color: rgba(184, 134, 11, 0.06); }
+    .history-item .left { display: flex; flex-direction: column; gap: 2px; }
+    .history-item .left .amount { font-size: 13px; font-weight: 600; color: var(--text-light); }
+    .history-item .left .date { font-size: 10px; color: var(--text-muted); }
+    .history-item .right { text-align: right; }
     .status-badge {
       font-size: 9px;
       font-weight: 600;
@@ -554,14 +553,220 @@
       padding: 20px;
       color: var(--text-dim);
     }
-    .empty-state i {
-      font-size: 24px;
-      opacity: 0.2;
-      display: block;
-      margin-bottom: 6px;
+    .empty-state i { font-size: 24px; opacity: 0.2; display: block; margin-bottom: 6px; }
+
+    /* ===== DELAI INFO ===== */
+    .delai-info {
+      text-align: center;
+      padding: 10px 14px;
+      background: rgba(184, 134, 11, 0.04);
+      border: 1px solid rgba(184, 134, 11, 0.06);
+      border-radius: 10px;
+      font-size: 12px;
+      color: var(--text-dim);
+      margin-bottom: 10px;
+    }
+    .delai-info i { color: var(--accent); margin-right: 6px; }
+
+    /* ============================================================
+       MODALE ARVEXA - UNIFORME
+       ============================================================ */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(3, 3, 5, 0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+      padding: 20px;
+    }
+    .modal-overlay.show {
+      opacity: 1;
+      visibility: visible;
+    }
+    .modal-overlay.hide {
+      opacity: 0;
+      visibility: hidden;
     }
 
-    /* ===== TOAST ===== */
+    .modal-content {
+      background: linear-gradient(145deg, #141414 0%, #0A0A0A 100%);
+      border: 1px solid rgba(184, 134, 11, 0.12);
+      border-radius: 20px;
+      max-width: 460px;
+      width: 100%;
+      max-height: 90vh;
+      overflow: hidden;
+      transform: scale(0.92) translateY(20px);
+      transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6);
+      position: relative;
+    }
+    .modal-overlay.show .modal-content {
+      transform: scale(1) translateY(0);
+    }
+
+    .modal-content::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--accent), var(--success), var(--accent), transparent);
+      background-size: 200% 100%;
+      animation: shimmerGold 3s ease-in-out infinite;
+      z-index: 10;
+    }
+
+    @keyframes shimmerGold {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    .modal-header {
+      padding: 20px 24px 16px;
+      border-bottom: 1px solid rgba(184, 134, 11, 0.04);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+    .modal-header .modal-title {
+      font-family: 'Playfair Display', 'Georgia', serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-light);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .modal-header .modal-title span { color: var(--accent); font-style: italic; }
+    .modal-header .modal-title i { color: var(--accent); font-size: 22px; }
+    .modal-close-btn {
+      width: 34px; height: 34px;
+      border-radius: 10px;
+      background: rgba(184, 134, 11, 0.04);
+      border: 1px solid rgba(184, 134, 11, 0.06);
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+    .modal-close-btn:hover {
+      background: rgba(184, 134, 11, 0.08);
+      border-color: rgba(184, 134, 11, 0.12);
+      color: var(--text-light);
+    }
+    .modal-close-btn:active { transform: scale(0.92); }
+
+    .modal-body {
+      padding: 20px 24px 24px;
+      max-height: 60vh;
+      overflow-y: auto;
+      position: relative;
+      z-index: 1;
+    }
+    .modal-body::-webkit-scrollbar { width: 3px; }
+    .modal-body::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); border-radius: 10px; }
+    .modal-body::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; opacity: 0.3; }
+
+    .modal-footer {
+      padding: 16px 24px 24px;
+      border-top: 1px solid rgba(184, 134, 11, 0.04);
+      display: flex;
+      gap: 10px;
+      position: relative;
+      z-index: 1;
+    }
+    .modal-footer .btn-primary {
+      flex: 1;
+      padding: 12px 20px;
+      background: var(--accent);
+      border: none;
+      border-radius: 12px;
+      color: var(--bg-dark);
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .modal-footer .btn-primary:hover {
+      background: #9A7209;
+      box-shadow: 0 0 30px rgba(184, 134, 11, 0.15);
+      transform: translateY(-1px);
+    }
+    .modal-footer .btn-primary:active { transform: scale(0.97); }
+    .modal-footer .btn-primary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .modal-footer .btn-secondary {
+      flex: 0.5;
+      padding: 12px 20px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(184, 134, 11, 0.06);
+      border-radius: 12px;
+      color: var(--text-dim);
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .modal-footer .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(184, 134, 11, 0.10);
+      color: var(--text-light);
+    }
+    .modal-footer .btn-secondary:active { transform: scale(0.97); }
+    .modal-footer .btn-danger {
+      flex: 1;
+      padding: 12px 20px;
+      background: rgba(138, 58, 58, 0.10);
+      border: 1px solid rgba(138, 58, 58, 0.12);
+      border-radius: 12px;
+      color: #8A3A3A;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .modal-footer .btn-danger:hover {
+      background: rgba(138, 58, 58, 0.18);
+      border-color: rgba(138, 58, 58, 0.20);
+    }
+    .modal-footer .btn-danger:active { transform: scale(0.97); }
+
+    /* ============================================================
+       TOAST
+       ============================================================ */
     .toast {
       position: fixed;
       bottom: 20px;
@@ -571,31 +776,23 @@
       width: 400px;
       padding: 14px 20px;
       border-radius: 14px;
-      font-size: clamp(12px, 1.2vw, 14px);
+      font-size: 13px;
       font-weight: 500;
       transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-      z-index: 999;
+      z-index: 9999;
       text-align: center;
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
       pointer-events: none;
     }
-    .toast.show {
-      transform: translateX(-50%) translateY(0);
-    }
-    .toast.success {
-      background: #0D2A1F;
-      border: 1px solid #2D7D5A;
-      color: #2D7D5A;
-    }
-    .toast.error {
-      background: #2A0D0D;
-      border: 1px solid #8A3A3A;
-      color: #8A3A3A;
-    }
-    .toast.warning {
-      background: #2A1A0D;
-      border: 1px solid #B8860B;
-      color: #B8860B;
+    .toast.show { transform: translateX(-50%) translateY(0); }
+    .toast.success { background: #0D2A1F; border: 1px solid #2D7D5A; color: #2D7D5A; }
+    .toast.error { background: #2A0D0D; border: 1px solid #8A3A3A; color: #8A3A3A; }
+    .toast.warning { background: #2A1A0D; border: 1px solid #B8860B; color: #B8860B; }
+    .toast.info { background: #0D1A2A; border: 1px solid #4A7A8A; color: #4A7A8A; }
+    .toast.reward { 
+      background: linear-gradient(135deg, #0D2A1F, #1A3A2A); 
+      border: 1px solid var(--accent); 
+      color: var(--accent);
     }
 
     /* ============================================================
@@ -606,20 +803,29 @@
       .card { padding: 14px; border-radius: 14px; }
       .balance-card .amount { font-size: 28px; }
       .btn-whatsapp { font-size: 13px; padding: 12px; }
+      .quick-amount { font-size: 10px; padding: 4px 10px; }
+      .operator-grid { grid-template-columns: repeat(2, 1fr); }
+      .modal-content { border-radius: 16px; }
+      .modal-header { padding: 16px 16px 12px; }
+      .modal-body { padding: 16px; }
+      .modal-footer { padding: 12px 16px 16px; flex-direction: column; }
+      .modal-footer .btn-secondary { flex: 1; }
+      .modal-header .modal-title { font-size: 17px; }
+      .fee-display .fee-row { font-size: 12px; }
+      .operator-selector .operator-display img { height: 20px; }
     }
 
     @media (min-width: 601px) and (max-width: 900px) {
       .container { max-width: 700px; padding: 24px 5%; }
       .card { padding: 24px 28px; border-radius: 18px; }
-      .balance-card .amount { font-size: 40px; }
     }
 
     @media (min-width: 901px) {
       .container { max-width: 800px; padding: 32px 5%; }
       .card { padding: 30px 36px; border-radius: 20px; margin-bottom: 24px; }
-      .balance-card .amount { font-size: 48px; }
       .btn-whatsapp { padding: 18px; font-size: 18px; border-radius: 14px; }
       .btn-whatsapp i { font-size: 24px; }
+      .operator-grid { grid-template-columns: repeat(3, 1fr); }
     }
   </style>
 </head>
@@ -627,14 +833,15 @@
 
 <!-- ===== BACKGROUND ===== -->
 <div class="gradient-bg"></div>
+<div class="glow glow-1"></div>
+<div class="glow glow-2"></div>
+<div class="glow glow-3"></div>
 
 <!-- ===== HEADER ===== -->
 <header class="header">
   <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
   <a href="index.html" class="logo">ARVE<span>XA</span></a>
-  <span class="notif-badge" id="notifBadge">
-    <i class="fas fa-circle"></i> <span id="notifStatusText">🔔</span>
-  </span>
+  <span class="header-placeholder"></span>
 </header>
 
 <!-- ===== MAIN ===== -->
@@ -643,7 +850,9 @@
   <!-- BALANCE -->
   <div class="card balance-card">
     <div class="label"><i class="fas fa-wallet"></i> Solde disponible</div>
-    <div class="amount" id="balanceDisplay">0 FCFA</div>
+    <div class="amount" id="balanceDisplay">
+      <span class="skeleton skeleton-value" style="margin:0 auto;"></span>
+    </div>
     <div class="status"><i class="fas fa-check-circle"></i> Compte actif</div>
   </div>
 
@@ -653,15 +862,15 @@
     <ol class="step-list">
       <li>
         <span class="step-number">1</span>
-        <span>Saisissez le montant que vous souhaitez retirer (<span class="step-highlight">5 000 à 50 000 FCFA</span>)</span>
+        <span>Saisissez le montant que vous souhaitez retirer (<span class="step-highlight">1 000 à 50 000 FCFA</span>)</span>
       </li>
       <li>
         <span class="step-number">2</span>
-        <span>Envoyez la demande via WhatsApp</span>
+        <span>Choisissez votre opérateur de retrait</span>
       </li>
       <li>
         <span class="step-number">3</span>
-        <span>Votre retrait sera traité sous <span class="step-highlight">24-48h</span></span>
+        <span>Envoyez la demande via WhatsApp, votre retrait sera traité sous <span class="step-highlight">24-48h</span></span>
       </li>
     </ol>
   </div>
@@ -669,23 +878,58 @@
   <!-- MONTANT -->
   <div class="card">
     <label class="form-label"><i class="fas fa-coins"></i> Montant à retirer</label>
-    <div class="input-group">
-      <span class="currency">F</span>
-      <input type="number" id="amountInput" placeholder="Ex: 5000" min="5000" max="50000" step="100">
+    
+    <!-- Montants rapides -->
+    <div class="quick-amounts" id="quickAmounts">
+      <button class="quick-amount" data-value="1000">1 000</button>
+      <button class="quick-amount" data-value="2000">2 000</button>
+      <button class="quick-amount" data-value="5000">5 000</button>
+      <button class="quick-amount" data-value="10000">10 000</button>
+      <button class="quick-amount" data-value="20000">20 000</button>
+      <button class="quick-amount" data-value="50000">50 000</button>
     </div>
 
-    <div class="amount-display" id="amountDisplay">
-      <div class="label">💸 Montant qui sera retiré</div>
-      <div class="value zero" id="displayAmount">0 FCFA</div>
+    <div class="input-group">
+      <span class="currency">F</span>
+      <input type="number" id="amountInput" placeholder="Ex: 5000" min="1000" max="50000" step="100">
+    </div>
+
+    <!-- FEE DISPLAY -->
+    <div class="fee-display" id="feeDisplay">
+      <div class="fee-row">
+        <span class="fee-label">💰 Montant demandé</span>
+        <span class="fee-value" id="feeRequested">0 FCFA</span>
+      </div>
+      <div class="fee-row">
+        <span class="fee-label">📊 Frais (<span id="feePercent">0</span>%)</span>
+        <span class="fee-value negative" id="feeValue">0 FCFA</span>
+      </div>
+      <div class="fee-row total">
+        <span class="fee-label">💵 Montant à recevoir</span>
+        <span class="fee-value positive" id="feeNet">0 FCFA</span>
+      </div>
     </div>
 
     <div class="min-amount-hint">
-      ⚠️ Minimum : <strong>5 000 FCFA</strong> | Maximum : <strong>50 000 FCFA</strong>
+      ⚠️ Montant minimum : <strong>1 000 FCFA</strong> | Maximum : <strong>50 000 FCFA</strong>
     </div>
 
     <div class="balance-info" id="balanceInfo">
       <i class="fas fa-info-circle"></i> Solde disponible : <span id="balanceInfoAmount">0 FCFA</span>
     </div>
+  </div>
+
+  <!-- OPÉRATEUR -->
+  <div class="card">
+    <label class="form-label"><i class="fas fa-phone"></i> Opérateur de retrait</label>
+    <div class="operator-selector" id="operatorSelector">
+      <div class="operator-display" id="operatorDisplay">
+        <img src="images2.png" alt="Orange Money" id="selectedOperatorImage">
+        <span class="name" id="selectedOperatorName">Orange Money</span>
+      </div>
+      <i class="fas fa-chevron-down arrow"></i>
+    </div>
+    <input type="hidden" id="selectedOperator" value="orange">
   </div>
 
   <!-- DELAI -->
@@ -694,16 +938,10 @@
   </div>
 
   <!-- WHATSAPP BUTTON -->
-  <a href="#" class="btn-whatsapp" id="whatsappBtn" target="_blank">
+  <button class="btn-whatsapp" id="whatsappBtn">
     <i class="fab fa-whatsapp"></i>
     Envoyer la demande de retrait
-  </a>
-
-  <!-- NOTIFICATION PERMISSION BANNER -->
-  <div class="notif-permission-banner" id="notifPermissionBanner">
-    <p><i class="fas fa-bell"></i> Activez les notifications pour suivre vos retraits !</p>
-    <button class="btn-enable" id="enableNotifBtn"><i class="fas fa-check"></i> Activer</button>
-  </div>
+  </button>
 
   <!-- HISTORIQUE -->
   <div class="card" style="margin-top:18px;padding-bottom:8px;">
@@ -719,39 +957,65 @@
   </div>
 
   <!-- NOTE -->
-  <div class="admin-note">
-    <i class="fas fa-shield-alt"></i>
+  <div class="admin-note" style="background:rgba(45,125,90,0.04);border:1px solid rgba(45,125,90,0.08);border-radius:12px;padding:clamp(10px,1.5vw,14px) clamp(14px,2vw,20px);font-size:clamp(11px,1vw,13px);color:#8A8A7A;text-align:center;line-height:1.6;width:100%;">
+    <i class="fas fa-shield-alt" style="color:var(--success);margin-right:6px;"></i>
     Toute demande est traitée manuellement par l'administrateur.
     <strong>Conservez votre reçu de paiement</strong>.
   </div>
 
 </main>
 
+<!-- ===== MODALE DE CONFIRMATION ===== -->
+<div class="modal-overlay" id="confirmModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="modal-title">
+        <i class="fas fa-receipt"></i>
+        Confirmer <span>le retrait</span>
+      </div>
+      <button class="modal-close-btn" id="closeConfirmModal">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="modal-body" id="confirmModalBody">
+      <!-- Généré par JS -->
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" id="cancelConfirmBtn">Annuler</button>
+      <button class="btn-primary" id="confirmSendBtn">
+        <i class="fas fa-paper-plane"></i> Confirmer l'envoi
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODALE OPÉRATEUR ===== -->
+<div class="modal-overlay" id="operatorModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="modal-title">
+        <i class="fas fa-phone"></i>
+        Choisir un <span>opérateur</span>
+      </div>
+      <button class="modal-close-btn" id="closeOperatorModal">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="operator-grid" id="operatorGrid">
+        <!-- Généré par JS -->
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ===== TOAST ===== -->
 <div class="toast" id="toast"></div>
 
 <!-- ================================================================ -->
-<!-- ERUDA -->
+<!-- CONFIGURATION CENTRALISÉE -->
 <!-- ================================================================ -->
-<script>
-(function() {
-  var isLocal = location.hostname === "localhost" || location.hostname === "127.0.0.1";
-  var isDebug = location.search.indexOf("debug=true") !== -1 || location.search.indexOf("eruda=true") !== -1;
-  if (isLocal || isDebug) {
-    if (document.querySelector('script[data-eruda]')) return;
-    var s = document.createElement("script");
-    s.setAttribute("data-eruda", "true");
-    s.src = "https://cdn.jsdelivr.net/npm/eruda";
-    s.onload = function() {
-      if (typeof eruda !== 'undefined') {
-        eruda.init({ tool: ['console', 'network', 'elements'], defaults: { displaySize: 40 } });
-        console.log("🐞 Eruda active - Retrait");
-      }
-    };
-    document.head.appendChild(s);
-  }
-})();
-</script>
+<script src="config.js"></script>
 
 <!-- ================================================================ -->
 <!-- IMPORTS -->
@@ -761,8 +1025,7 @@
   "imports": {
     "firebase/app": "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js",
     "firebase/auth": "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js",
-    "firebase/firestore": "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js",
-    "firebase/messaging": "https://www.gstatic.com/firebasejs/12.12.1/firebase-messaging.js"
+    "firebase/firestore": "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js"
   }
 }
 </script>
@@ -786,16 +1049,30 @@ import {
   collection,
   query,
   where,
-  orderBy,
   addDoc,
   updateDoc,
   onSnapshot,
-  serverTimestamp
+  increment
 } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
-import { 
-  getMessaging,
-  getToken
-} from "https://www.gstatic.com/firebasejs/12.12.1/firebase-messaging.js";
+
+// ================================================================
+// CONFIGURATION
+// ================================================================
+var ADMIN_URL = 'https://nexgen-39043.web.app/admin';
+var WHATSAPP_NUMBER = '22798064667';
+var MIN_WITHDRAWAL = 1000;
+var MAX_WITHDRAWAL = 50000;
+
+if (typeof APP_CONFIG !== 'undefined') {
+  if (APP_CONFIG.ADMIN_URL) ADMIN_URL = APP_CONFIG.ADMIN_URL;
+  if (APP_CONFIG.CONTACT_WHATSAPP) WHATSAPP_NUMBER = APP_CONFIG.CONTACT_WHATSAPP;
+  if (APP_CONFIG.RETRAIT && APP_CONFIG.RETRAIT.MIN_AMOUNT) MIN_WITHDRAWAL = APP_CONFIG.RETRAIT.MIN_AMOUNT;
+  if (APP_CONFIG.RETRAIT && APP_CONFIG.RETRAIT.MAX_AMOUNT) MAX_WITHDRAWAL = APP_CONFIG.RETRAIT.MAX_AMOUNT;
+}
+
+console.debug('🔗 ADMIN_URL:', ADMIN_URL);
+console.debug('📱 WHATSAPP:', WHATSAPP_NUMBER);
+console.debug('💰 Retrait min:', MIN_WITHDRAWAL, 'max:', MAX_WITHDRAWAL);
 
 // ================================================================
 // CONFIGURATION FIREBASE
@@ -813,24 +1090,28 @@ var firebaseConfig = {
 var app = initializeApp(firebaseConfig);
 var auth = getAuth(app);
 var db = getFirestore(app);
-var messaging = getMessaging(app);
-
-var VAPID_KEY = "BA8jFHMi3fNPkB4iAqib8GJnrq1_8KR2u_PyQjI2q5rp6rzmaGAsZ_aHm7TP1FqvXg4ZhOUBQUrQ6jpEf9qmrlM";
 
 setPersistence(auth, browserLocalPersistence);
 
 // ================================================================
-// TELEGRAM CONFIG (admin uniquement)
+// TELEGRAM CONFIG
 // ================================================================
 var TELEGRAM_BOT_TOKEN = "8283625921:AAEF--QKS9uqnz0K3j7SGkk7fsdRb3b8y8o";
 var TELEGRAM_CHAT_ID = "5212067028";
 
 // ================================================================
-// CONSTANTES
+// OPÉRATEURS
 // ================================================================
-var WHATSAPP_NUMBER = "22798064667";
-var MIN_WITHDRAWAL = 5000;
-var MAX_WITHDRAWAL = 50000;
+var OPERATEURS = [
+  { id: 'orange', name: 'Orange Money', image: 'images2.png' },
+  { id: 'wave', name: 'Wave', image: 'images.png' },
+  { id: 'moov', name: 'Moov Money', image: 'images3.png' },
+  { id: 'airtel', name: 'Airtel Money', image: 'images1.png' },
+  { id: 'mynita', name: 'MyNita', image: 'images4.png' },
+  { id: 'amanata', name: 'AmanaTa', image: 'images5.png' }
+];
+
+var selectedOperator = 'orange';
 
 // ================================================================
 // DOM
@@ -839,15 +1120,29 @@ var balanceDisplay = document.getElementById('balanceDisplay');
 var balanceInfoAmount = document.getElementById('balanceInfoAmount');
 var balanceInfo = document.getElementById('balanceInfo');
 var amountInput = document.getElementById('amountInput');
-var displayAmount = document.getElementById('displayAmount');
-var amountDisplay = document.getElementById('amountDisplay');
+var feeRequested = document.getElementById('feeRequested');
+var feePercent = document.getElementById('feePercent');
+var feeValue = document.getElementById('feeValue');
+var feeNet = document.getElementById('feeNet');
+var feeDisplay = document.getElementById('feeDisplay');
 var whatsappBtn = document.getElementById('whatsappBtn');
 var historyList = document.getElementById('historyList');
 var toast = document.getElementById('toast');
-var notifBadge = document.getElementById('notifBadge');
-var notifStatusText = document.getElementById('notifStatusText');
-var notifPermissionBanner = document.getElementById('notifPermissionBanner');
-var enableNotifBtn = document.getElementById('enableNotifBtn');
+
+var operatorSelector = document.getElementById('operatorSelector');
+var operatorDisplay = document.getElementById('operatorDisplay');
+var selectedOperatorImage = document.getElementById('selectedOperatorImage');
+var selectedOperatorName = document.getElementById('selectedOperatorName');
+var selectedOperatorInput = document.getElementById('selectedOperator');
+var operatorModal = document.getElementById('operatorModal');
+var closeOperatorModal = document.getElementById('closeOperatorModal');
+var operatorGrid = document.getElementById('operatorGrid');
+
+var confirmModal = document.getElementById('confirmModal');
+var closeConfirmModal = document.getElementById('closeConfirmModal');
+var cancelConfirmBtn = document.getElementById('cancelConfirmBtn');
+var confirmSendBtn = document.getElementById('confirmSendBtn');
+var confirmModalBody = document.getElementById('confirmModalBody');
 
 var currentUserId = null;
 var currentAuthUser = null;
@@ -855,19 +1150,50 @@ var userData = null;
 var userBalance = 0;
 var unsubscribeHistory = null;
 var notificationTimeout = null;
+var isPageLoading = true;
+var dataLoaded = false;
+var currentAmount = 0;
+
+// ================================================================
+// GESTION DU CACHE
+// ================================================================
+function getCachedUserData() {
+  try {
+    const cached = localStorage.getItem('ARVEXA_user_data');
+    const timestamp = localStorage.getItem('ARVEXA_user_data_timestamp');
+    if (!cached) return null;
+    if (timestamp) {
+      const age = Date.now() - parseInt(timestamp);
+      if (age > 300000) return null;
+    }
+    return JSON.parse(cached);
+  } catch(e) { return null; }
+}
+
+function setCachedUserData(data) {
+  localStorage.setItem('ARVEXA_user_data', JSON.stringify(data));
+  localStorage.setItem('ARVEXA_user_data_timestamp', String(Date.now()));
+}
+
+function loadFromCache() {
+  const cached = getCachedUserData();
+  if (cached) {
+    userData = cached;
+    userBalance = cached.balance || 0;
+    balanceDisplay.textContent = formatCurrency(userBalance);
+    balanceInfoAmount.textContent = formatCurrency(userBalance);
+    console.debug('✅ Retrait: données chargées depuis le cache');
+    return true;
+  }
+  return false;
+}
 
 // ================================================================
 // HELPERS
 // ================================================================
-function getDocument(collectionName, docId) {
-  var ref = doc(db, collectionName, docId);
-  return getDoc(ref).then(function(snap) {
-    if (!snap.exists()) return null;
-    return { id: snap.id, ...snap.data() };
-  }).catch(function(error) {
-    console.error('Erreur getDocument:', error);
-    return null;
-  });
+function formatCurrency(amount) {
+  if (!amount) return '0 FCFA';
+  return amount.toLocaleString('fr-FR') + ' FCFA';
 }
 
 function showToast(message, type) {
@@ -875,17 +1201,19 @@ function showToast(message, type) {
   toast.textContent = message;
   toast.className = 'toast ' + type;
   clearTimeout(notificationTimeout);
-  setTimeout(function() {
+  requestAnimationFrame(function() {
     toast.classList.add('show');
-  }, 50);
+  });
   notificationTimeout = setTimeout(function() {
     toast.classList.remove('show');
   }, 4000);
 }
 
-function formatCurrency(amount) {
-  if (!amount) return '0 FCFA';
-  return amount.toLocaleString('fr-FR') + ' FCFA';
+function generateId() {
+  var prefix = 'ARV';
+  var timestamp = Date.now().toString(36).toUpperCase();
+  var random = Math.random().toString(36).substring(2, 7).toUpperCase();
+  return prefix + '-' + timestamp + '-' + random;
 }
 
 function escapeHtml(str) {
@@ -896,10 +1224,35 @@ function escapeHtml(str) {
 }
 
 // ================================================================
-// ENVOI TELEGRAM (admin uniquement)
+// CALCUL DES FRAIS
+// ================================================================
+function calculateFees(amount) {
+  if (amount <= 0) return { rate: 0, fees: 0, net: 0 };
+  
+  let rate = 0;
+  if (amount <= 10000) {
+    rate = 0.05; // 5%
+  } else if (amount <= 25000) {
+    rate = 0.04; // 4%
+  } else {
+    rate = 0.03; // 3%
+  }
+  
+  const fees = Math.round(amount * rate);
+  const net = amount - fees;
+  return { rate, fees, net };
+}
+
+// ================================================================
+// ENVOI TELEGRAM
 // ================================================================
 function sendTelegramMessage(message) {
+  console.debug('📨 Envoi Telegram...');
+  
   var url = 'https://api.telegram.org/bot' + TELEGRAM_BOT_TOKEN + '/sendMessage';
+  var controller = new AbortController();
+  var timeoutId = setTimeout(() => controller.abort(), 8000);
+
   return fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -908,84 +1261,410 @@ function sendTelegramMessage(message) {
       text: message,
       parse_mode: 'HTML',
       disable_web_page_preview: true
-    })
-  }).then(function(response) {
+    }),
+    signal: controller.signal
+  })
+  .then(function(response) {
+    clearTimeout(timeoutId);
+    if (!response.ok) {
+      return response.text().then(function(text) {
+        console.warn('⚠️ Telegram HTTP error:', response.status, text);
+        return false;
+      });
+    }
     return response.json();
-  }).then(function(data) {
-    console.log('Telegram envoye:', data.ok);
-    return data.ok;
-  }).catch(function(error) {
-    console.error('Erreur Telegram:', error);
+  })
+  .then(function(data) {
+    clearTimeout(timeoutId);
+    if (data && data.ok) {
+      console.debug('✅ Telegram envoyé');
+      return true;
+    }
+    return false;
+  })
+  .catch(function(error) {
+    clearTimeout(timeoutId);
+    if (error.name === 'AbortError') {
+      console.warn('⏳ Timeout Telegram');
+    } else if (error.message === 'Failed to fetch') {
+      console.warn('📶 Telegram indisponible (réseau/CORS)');
+    } else {
+      console.warn('⚠️ Erreur Telegram:', error.message);
+    }
     return false;
   });
 }
 
 // ================================================================
-// MOTIVATION MESSAGES
+// NOTIFICATION ADMIN RETRAIT
 // ================================================================
-function getMotivationMessage(type, userName, amount) {
-  var messages = {
-    withdrawal: [
-      '💸 Paiement effectué ! ' + userName + ' a reçu ' + formatCurrency(amount) + '. ✅',
-      '🏦 ' + userName + ' a retiré ' + formatCurrency(amount) + '. Transaction réussie ! 🙌',
-      '💳 Retrait validé ! ' + userName + ' a récupéré ' + formatCurrency(amount) + '. Bien joué ! 🎯',
-      '✅ ' + userName + ' a retiré ' + formatCurrency(amount) + '. La confiance s\'installe ! 🔥',
-      '💰 Retrait approuvé ! ' + userName + ' a reçu ' + formatCurrency(amount) + '. 🚀'
-    ]
-  };
-  var list = messages[type] || ['✅ Action effectuée avec succès ! 🚀'];
-  return list[Math.floor(Math.random() * list.length)];
+function notifyAdminWithdrawal(userName, userId, amount, operator, fees, net) {
+  var message = '💸 <b>DEMANDE DE RETRAIT ARVEXA</b>\n\n' +
+                '👤 <b>Nom:</b> ' + escapeHtml(userName) + '\n' +
+                '🆔 <b>ID:</b> ' + escapeHtml(userId) + '\n' +
+                '📱 <b>Opérateur:</b> ' + escapeHtml(operator) + '\n' +
+                '💰 <b>Montant demandé:</b> ' + formatCurrency(amount) + '\n' +
+                '📊 <b>Frais:</b> ' + formatCurrency(fees) + '\n' +
+                '💵 <b>Montant à recevoir:</b> ' + formatCurrency(net) + '\n' +
+                '🕐 <b>Date:</b> ' + new Date().toLocaleString('fr-FR') + '\n\n' +
+                '🔗 <a href="' + ADMIN_URL + '">Voir dans l\'admin</a>';
+  
+  return sendTelegramMessage(message);
 }
 
 // ================================================================
-// NOTIFICATION ADMIN
+// ENVOI DE LA DEMANDE
 // ================================================================
-function notifyAdminWithdrawal(userName, userId, amount, withdrawalId) {
-  var message = '💸 <b>DEMANDE DE RETRAIT !</b>\n\n' +
-                '👤 ' + escapeHtml(userName) + '\n' +
-                '💵 ' + formatCurrency(amount) + '\n' +
-                '🆔 ' + escapeHtml(userId) + '\n' +
-                '🕐 ' + new Date().toLocaleString('fr-FR') + '\n\n' +
-                '📲 Valider: <a href="https://nexgen-39043.web.app/admin">Voir dans l\'admin</a>';
-  
-  sendTelegramMessage(message);
+async function sendWithdrawalRequest(amount) {
+  // Désactiver le bouton
+  whatsappBtn.disabled = true;
+  whatsappBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi en cours...';
 
-  var notifData = {
-    type: 'withdrawal_pending',
-    title: '💸 Nouveau retrait - ' + formatCurrency(amount),
-    body: userName + ' - ID: ' + userId,
-    userId: currentAuthUser ? currentAuthUser.uid : '',
-    userName: userName,
-    amount: amount,
-    withdrawalId: withdrawalId,
-    read: false,
-    createdAt: new Date().toISOString(),
-    target: 'admin'
-  };
+  try {
+    var phone = (userData && userData.phone) || '';
+    var indicatif = (userData && userData.indicatif) || '+227';
+    var cleanPhone = phone.replace(/\D/g, '');
+    var userName = (userData && (userData.prenom || userData.fullName)) || 'Utilisateur';
+    var userEmail = (userData && userData.email) || (currentAuthUser ? currentAuthUser.email : '');
+    var operator = selectedOperatorName.textContent || 'Orange Money';
+    var operatorId = selectedOperatorInput.value || 'orange';
+    
+    var feesData = calculateFees(amount);
+    
+    var withdrawalData = {
+      userId: currentAuthUser.uid,
+      displayId: currentUserId || 'ID_INCONNU',
+      userName: userName,
+      userEmail: userEmail,
+      userPhone: cleanPhone,
+      userIndicatif: indicatif || '+227',
+      fullPhone: (indicatif || '+227') + ' ' + cleanPhone,
+      operator: operator,
+      operatorId: operatorId,
+      montant: amount,
+      frais: feesData.fees,
+      net: feesData.net,
+      date: new Date().toISOString().split('T')[0],
+      timestamp: new Date().toISOString(),
+      statut: 'en_attente',
+      type: 'retrait',
+      source: 'whatsapp',
+      paymentMethod: 'whatsapp',
+      createdAt: new Date().toISOString()
+    };
+
+    var docRef = await addDoc(collection(db, 'retraits'), withdrawalData);
+    console.debug('✅ Retrait enregistré:', docRef.id);
+
+    // Notification admin
+    notifyAdminWithdrawal(userName, currentUserId, amount, operator, feesData.fees, feesData.net);
+
+    showToast('✅ Demande de ' + formatCurrency(amount) + ' enregistrée.', 'success');
+
+    // Message WhatsApp - SANS LIEN ADMIN
+    var message = 'NOUVELLE DEMANDE DE RETRAIT\n\n' +
+                  '👤 Nom: ' + userName + '\n' +
+                  '🆔 ID: ' + currentUserId + '\n' +
+                  '📱 Opérateur: ' + operator + '\n' +
+                  '📱 Téléphone: ' + (indicatif || '+227') + ' ' + cleanPhone + '\n\n' +
+                  '💰 Montant demandé: ' + formatCurrency(amount) + '\n' +
+                  '📊 Frais (' + Math.round(feesData.rate * 100) + '%): ' + formatCurrency(feesData.fees) + '\n' +
+                  '💵 Montant à recevoir: ' + formatCurrency(feesData.net) + '\n\n' +
+                  '📅 Date: ' + new Date().toLocaleDateString('fr-FR') + '\n' +
+                  '🕐 Heure: ' + new Date().toLocaleTimeString('fr-FR');
+
+    var waUrl = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(message);
+    window.open(waUrl, '_blank', 'noopener,noreferrer');
+
+    amountInput.value = '';
+    updateAmountDisplay();
+    document.querySelectorAll('.quick-amount').forEach(b => b.classList.remove('active'));
+
+  } catch (error) {
+    console.error('Erreur:', error);
+    showToast('❌ Erreur lors de l\'enregistrement: ' + error.message, 'error');
+  }
+
+  // Réactiver le bouton
+  whatsappBtn.disabled = false;
+  whatsappBtn.innerHTML = '<i class="fab fa-whatsapp"></i> Envoyer la demande de retrait';
+}
+
+// ================================================================
+// METTRE A JOUR L'AFFICHAGE DU MONTANT ET DES FRAIS
+// ================================================================
+function updateAmountDisplay() {
+  var amount = parseInt(amountInput.value) || 0;
+  currentAmount = amount;
   
-  addDoc(collection(db, 'notifications'), notifData).catch(function(error) {
-    console.error('Erreur notification admin:', error);
+  var feesData = calculateFees(amount);
+  
+  feeRequested.textContent = formatCurrency(amount);
+  feePercent.textContent = Math.round(feesData.rate * 100);
+  feeValue.textContent = formatCurrency(feesData.fees);
+  feeNet.textContent = formatCurrency(feesData.net);
+  
+  if (amount >= MIN_WITHDRAWAL && amount <= MAX_WITHDRAWAL) {
+    feeDisplay.classList.add('has-value');
+    if (feesData.fees > 0) {
+      feeValue.style.color = 'var(--danger)';
+    }
+  } else {
+    feeDisplay.classList.remove('has-value');
+  }
+  
+  // Vérifier le solde
+  if (amount >= MIN_WITHDRAWAL && amount <= MAX_WITHDRAWAL) {
+    if (feesData.net <= userBalance) {
+      balanceInfo.className = 'balance-info sufficient';
+      balanceInfo.innerHTML = '<i class="fas fa-check-circle"></i> Solde suffisant : ' + formatCurrency(userBalance);
+    } else {
+      balanceInfo.className = 'balance-info insufficient';
+      balanceInfo.innerHTML = '<i class="fas fa-exclamation-circle"></i> Solde insuffisant. Vous avez ' + formatCurrency(userBalance);
+    }
+  } else if (amount > 0) {
+    balanceInfo.className = 'balance-info insufficient';
+    balanceInfo.innerHTML = '<i class="fas fa-exclamation-circle"></i> Montant hors limites (min: ' + formatCurrency(MIN_WITHDRAWAL) + ', max: ' + formatCurrency(MAX_WITHDRAWAL) + ')';
+  } else {
+    balanceInfo.className = 'balance-info';
+    balanceInfo.innerHTML = '<i class="fas fa-info-circle"></i> Solde disponible : ' + formatCurrency(userBalance);
+  }
+  
+  updateWhatsAppLink(amount);
+}
+
+// ================================================================
+// METTRE A JOUR LE LIEN WHATSAPP
+// ================================================================
+function updateWhatsAppLink(amount) {
+  var feesData = calculateFees(amount);
+  
+  if (amount < MIN_WITHDRAWAL) {
+    whatsappBtn.disabled = true;
+    whatsappBtn.style.opacity = '0.5';
+    whatsappBtn.innerHTML = '<i class="fab fa-whatsapp"></i> Minimum ' + formatCurrency(MIN_WITHDRAWAL);
+    return;
+  }
+
+  if (amount > MAX_WITHDRAWAL) {
+    whatsappBtn.disabled = true;
+    whatsappBtn.style.opacity = '0.5';
+    whatsappBtn.innerHTML = '<i class="fab fa-whatsapp"></i> Maximum ' + formatCurrency(MAX_WITHDRAWAL);
+    return;
+  }
+
+  if (feesData.net > userBalance) {
+    whatsappBtn.disabled = true;
+    whatsappBtn.style.opacity = '0.5';
+    whatsappBtn.innerHTML = '<i class="fab fa-whatsapp"></i> Solde insuffisant';
+    return;
+  }
+
+  whatsappBtn.disabled = false;
+  whatsappBtn.style.opacity = '1';
+  whatsappBtn.innerHTML = '<i class="fab fa-whatsapp"></i> Envoyer la demande de retrait';
+}
+
+// ================================================================
+// MODALE DE CONFIRMATION - LUXUEUSE
+// ================================================================
+function showConfirmationModal() {
+  var amount = parseInt(amountInput.value) || 0;
+  if (amount < MIN_WITHDRAWAL || amount > MAX_WITHDRAWAL) {
+    showToast('Montant hors limites.', 'warning');
+    return;
+  }
+  
+  var feesData = calculateFees(amount);
+  if (feesData.net > userBalance) {
+    showToast('Solde insuffisant.', 'warning');
+    return;
+  }
+  
+  currentAmount = amount;
+  var operator = selectedOperatorName.textContent || 'Orange Money';
+  var userName = (userData && (userData.prenom || userData.fullName)) || 'Utilisateur';
+  var phone = (userData && userData.phone) || '';
+  var indicatif = (userData && userData.indicatif) || '+227';
+  var cleanPhone = phone.replace(/\D/g, '');
+  
+  confirmModalBody.innerHTML = `
+    <div style="text-align:center;margin-bottom:16px;">
+      <div style="font-size:48px;color:var(--accent);margin-bottom:8px;">
+        <i class="fas fa-arrow-down"></i>
+      </div>
+      <div style="font-size:14px;color:var(--text-dim);">
+        Récapitulatif de votre demande de retrait
+      </div>
+    </div>
+    
+    <div style="background:rgba(10,10,10,0.4);border-radius:12px;padding:16px;">
+      <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.02);">
+        <span style="color:var(--text-muted);font-size:12px;">👤 Nom</span>
+        <span style="color:var(--text-light);font-weight:500;font-size:13px;">${escapeHtml(userName)}</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.02);">
+        <span style="color:var(--text-muted);font-size:12px;">🆔 ID</span>
+        <span style="color:var(--text-light);font-weight:500;font-size:13px;">${escapeHtml(currentUserId)}</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.02);">
+        <span style="color:var(--text-muted);font-size:12px;">📱 Opérateur</span>
+        <span style="color:var(--text-light);font-weight:500;font-size:13px;">${escapeHtml(operator)}</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.02);">
+        <span style="color:var(--text-muted);font-size:12px;">📱 Téléphone</span>
+        <span style="color:var(--text-light);font-weight:500;font-size:13px;">${escapeHtml(indicatif)} ${escapeHtml(cleanPhone)}</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.02);">
+        <span style="color:var(--text-muted);font-size:12px;">💰 Montant demandé</span>
+        <span style="color:var(--text-light);font-weight:600;font-size:14px;">${formatCurrency(amount)}</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.02);">
+        <span style="color:var(--text-muted);font-size:12px;">📊 Frais (${Math.round(feesData.rate * 100)}%)</span>
+        <span style="color:var(--danger);font-weight:500;font-size:13px;">${formatCurrency(feesData.fees)}</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:6px 0;">
+        <span style="color:var(--text-muted);font-size:12px;">💵 Montant à recevoir</span>
+        <span style="color:var(--success);font-weight:700;font-size:16px;">${formatCurrency(feesData.net)}</span>
+      </div>
+    </div>
+    
+    <div style="text-align:center;margin-top:14px;padding:10px;background:rgba(184,134,11,0.04);border-radius:10px;border:1px solid rgba(184,134,11,0.06);">
+      <div style="font-size:11px;color:var(--text-muted);">
+        <i class="fas fa-clock" style="color:var(--accent);"></i>
+        Délai de traitement : <strong style="color:var(--accent);">24-48 heures</strong>
+      </div>
+    </div>
+  `;
+  
+  confirmModal.classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeConfirmationModal() {
+  confirmModal.classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+closeConfirmModal.addEventListener('click', closeConfirmationModal);
+cancelConfirmBtn.addEventListener('click', closeConfirmationModal);
+confirmModal.addEventListener('click', function(e) {
+  if (e.target === confirmModal) closeConfirmationModal();
+});
+
+confirmSendBtn.addEventListener('click', function() {
+  closeConfirmationModal();
+  sendWithdrawalRequest(currentAmount);
+});
+
+// ================================================================
+// MODALE OPÉRATEUR
+// ================================================================
+function openOperatorModal() {
+  operatorModal.classList.add('show');
+}
+
+function closeOperatorModalFn() {
+  operatorModal.classList.remove('show');
+}
+
+closeOperatorModal.addEventListener('click', closeOperatorModalFn);
+operatorModal.addEventListener('click', function(e) {
+  if (e.target === operatorModal) closeOperatorModalFn();
+});
+
+function renderOperators() {
+  var html = '';
+  OPERATEURS.forEach(function(op) {
+    var selected = op.id === selectedOperator ? 'selected' : '';
+    html += `
+      <div class="operator-option ${selected}" data-id="${op.id}" data-name="${op.name}" data-image="${op.image}">
+        <img src="${op.image}" alt="${op.name}" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2740%27 height=%2740%27%3E%3Crect fill=%27%231A3A2A%27 width=%2740%27 height=%2740%27/%3E%3Ctext x=%2720%27 y=%2725%27 text-anchor=%27middle%27 font-size=%2720%27 fill=%27%23B8860B%27%3E📱%3C/text%3E%3C/svg%3E'">
+        <span>${op.name}</span>
+      </div>
+    `;
+  });
+  operatorGrid.innerHTML = html;
+  
+  document.querySelectorAll('.operator-option').forEach(function(opt) {
+    opt.addEventListener('click', function() {
+      var id = this.dataset.id;
+      var name = this.dataset.name;
+      var image = this.dataset.image;
+      selectOperator(id, name, image);
+    });
   });
 }
 
-// ================================================================
-// NOTIFICATION APRES VALIDATION D'UN RETRAIT
-// ================================================================
-async function notifyWithdrawalValidated(userId, userName, amount, withdrawalId) {
-  var message = getMotivationMessage('withdrawal', userName, amount);
+function selectOperator(id, name, image) {
+  selectedOperator = id;
+  selectedOperatorImage.src = image;
+  selectedOperatorName.textContent = name;
+  selectedOperatorInput.value = id;
   
-  var fullMessage = '✅ <b>PAIEMENT EFFECTUE !</b>\n\n' +
-                    '💸 ' + message + '\n\n' +
-                    '👤 ' + userName + '\n' +
-                    '💵 ' + formatCurrency(amount) + '\n' +
-                    '🕐 ' + new Date().toLocaleString('fr-FR') + '\n\n' +
-                    '🔗 <a href="https://nexgen-39043.web.app/admin">Gérer les retraits</a>';
+  document.querySelectorAll('.operator-option').forEach(function(o) {
+    o.classList.remove('selected');
+    if (o.dataset.id === id) {
+      o.classList.add('selected');
+    }
+  });
   
-  await sendTelegramMessage(fullMessage);
+  closeOperatorModalFn();
 }
 
+operatorSelector.addEventListener('click', openOperatorModal);
+
 // ================================================================
-// ECOUTE EN TEMPS REEL DE L'HISTORIQUE
+// MONTANTS RAPIDES
+// ================================================================
+document.querySelectorAll('.quick-amount').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var value = parseInt(this.dataset.value);
+    amountInput.value = value;
+    updateAmountDisplay();
+    
+    document.querySelectorAll('.quick-amount').forEach(function(b) {
+      b.classList.remove('active');
+    });
+    this.classList.add('active');
+  });
+});
+
+// ================================================================
+// ENVOI VIA WHATSAPP - AVEC MODALE DE CONFIRMATION
+// ================================================================
+whatsappBtn.addEventListener('click', function(event) {
+  event.preventDefault();
+  
+  var amount = parseInt(amountInput.value, 10) || 0;
+  
+  if (!currentAuthUser || !currentUserId) {
+    showToast('Veuillez vous reconnecter.', 'error');
+    return;
+  }
+  
+  if (amount < MIN_WITHDRAWAL) {
+    showToast('Le montant minimum est de ' + formatCurrency(MIN_WITHDRAWAL) + '.', 'error');
+    return;
+  }
+  
+  if (amount > MAX_WITHDRAWAL) {
+    showToast('Le montant maximum est de ' + formatCurrency(MAX_WITHDRAWAL) + '.', 'error');
+    return;
+  }
+  
+  var feesData = calculateFees(amount);
+  if (feesData.net > userBalance) {
+    showToast('Solde insuffisant.', 'error');
+    return;
+  }
+  
+  // Afficher la modale de confirmation
+  showConfirmationModal();
+});
+
+// ================================================================
+// ÉCOUTE EN TEMPS RÉEL DE L'HISTORIQUE
 // ================================================================
 function listenToHistory(uid) {
   if (unsubscribeHistory) {
@@ -998,10 +1677,7 @@ function listenToHistory(uid) {
     return;
   }
 
-  var q = query(
-    collection(db, 'retraits'),
-    where('userId', '==', uid)
-  );
+  var q = query(collection(db, 'retraits'), where('userId', '==', uid));
 
   unsubscribeHistory = onSnapshot(q, function(snapshot) {
     if (snapshot.empty) {
@@ -1015,6 +1691,8 @@ function listenToHistory(uid) {
       items.push({
         id: docSnap.id,
         montant: data.montant || 0,
+        net: data.net || data.montant || 0,
+        operator: data.operator || 'Orange Money',
         date: data.date || 'Date inconnue',
         statut: data.statut || 'en_attente',
         timestamp: data.timestamp || data.createdAt || data.date || ''
@@ -1040,25 +1718,22 @@ function listenToHistory(uid) {
       var statut = data.statut || 'en_attente';
       if (statut === 'valide' || statut === 'validé' || statut === 'confirmed') {
         statusClass = 'validated';
-        statusLabel = '✅ Valide';
+        statusLabel = '✅ Validé';
       } else if (statut === 'rejete' || statut === 'rejeté' || statut === 'rejected') {
         statusClass = 'rejected';
-        statusLabel = '❌ Rejete';
+        statusLabel = '❌ Rejeté';
       }
 
-      item.innerHTML = '<div class="left"><span class="amount">' + formatCurrency(data.montant) + '</span><span class="date">' + (data.date || 'Date inconnue') + '</span></div><div class="right"><span class="status-badge ' + statusClass + '">' + statusLabel + '</span></div>';
+      item.innerHTML = `
+        <div class="left">
+          <span class="amount">${formatCurrency(data.montant)}</span>
+          <span class="date">${data.operator} • ${data.date || 'Date inconnue'}</span>
+        </div>
+        <div class="right">
+          <span class="status-badge ${statusClass}">${statusLabel}</span>
+        </div>
+      `;
       historyList.appendChild(item);
-    });
-
-    // Détecter les nouveaux retraits validés
-    snapshot.docChanges().forEach(function(change) {
-      if (change.type === 'modified') {
-        var data = change.doc.data();
-        if (data.statut === 'valide' || data.statut === 'validé') {
-          var userName = userData ? (userData.prenom || 'Utilisateur') : 'Utilisateur';
-          notifyWithdrawalValidated(currentAuthUser.uid, userName, data.montant || 0, change.doc.id);
-        }
-      }
     });
 
   }, function(error) {
@@ -1087,6 +1762,8 @@ function loadHistoryOnce(uid) {
       items.push({
         id: docSnap.id,
         montant: data.montant || 0,
+        net: data.net || data.montant || 0,
+        operator: data.operator || 'Orange Money',
         date: data.date || 'Date inconnue',
         statut: data.statut || 'en_attente',
         timestamp: data.timestamp || data.createdAt || data.date || ''
@@ -1112,13 +1789,21 @@ function loadHistoryOnce(uid) {
       var statut = data.statut || 'en_attente';
       if (statut === 'valide' || statut === 'validé' || statut === 'confirmed') {
         statusClass = 'validated';
-        statusLabel = '✅ Valide';
+        statusLabel = '✅ Validé';
       } else if (statut === 'rejete' || statut === 'rejeté' || statut === 'rejected') {
         statusClass = 'rejected';
-        statusLabel = '❌ Rejete';
+        statusLabel = '❌ Rejeté';
       }
 
-      item.innerHTML = '<div class="left"><span class="amount">' + formatCurrency(data.montant) + '</span><span class="date">' + (data.date || 'Date inconnue') + '</span></div><div class="right"><span class="status-badge ' + statusClass + '">' + statusLabel + '</span></div>';
+      item.innerHTML = `
+        <div class="left">
+          <span class="amount">${formatCurrency(data.montant)}</span>
+          <span class="date">${data.operator} • ${data.date || 'Date inconnue'}</span>
+        </div>
+        <div class="right">
+          <span class="status-badge ${statusClass}">${statusLabel}</span>
+        </div>
+      `;
       historyList.appendChild(item);
     });
   }).catch(function(error) {
@@ -1152,6 +1837,7 @@ function loadUserData(uid) {
       balanceDisplay.textContent = formatCurrency(userBalance);
       balanceInfoAmount.textContent = formatCurrency(userBalance);
       
+      setCachedUserData(userData);
       listenToHistory(uid);
       
       localStorage.setItem('ARVEXA_user_data', JSON.stringify(userData));
@@ -1162,265 +1848,62 @@ function loadUserData(uid) {
   });
 }
 
-function generateId() {
-  var prefix = 'ARV';
-  var timestamp = Date.now().toString(36).toUpperCase();
-  var random = Math.random().toString(36).substring(2, 7).toUpperCase();
-  return prefix + '-' + timestamp + '-' + random;
+// ================================================================
+// AUTH - AVEC CACHE PRIORITAIRE
+// ================================================================
+var sessionUid = sessionStorage.getItem('session_uid');
+
+// Chargement rapide depuis le cache
+loadFromCache();
+renderOperators();
+
+// Chargement des opérateurs
+var operatorImage = document.querySelector('#operatorDisplay img');
+if (operatorImage && operatorImage.src) {
+  // déjà fait
 }
-
-// ================================================================
-// METTRE A JOUR L'AFFICHAGE DU MONTANT
-// ================================================================
-function updateAmountDisplay() {
-  var amount = parseInt(amountInput.value) || 0;
-  
-  if (amount >= MIN_WITHDRAWAL && amount <= MAX_WITHDRAWAL) {
-    displayAmount.textContent = formatCurrency(amount);
-    displayAmount.className = 'value';
-    amountDisplay.classList.add('has-value');
-    
-    if (amount <= userBalance) {
-      balanceInfo.className = 'balance-info sufficient';
-      balanceInfo.innerHTML = '<i class="fas fa-check-circle"></i> Solde suffisant : ' + formatCurrency(userBalance);
-    } else {
-      balanceInfo.className = 'balance-info insufficient';
-      balanceInfo.innerHTML = '<i class="fas fa-exclamation-circle"></i> Solde insuffisant. Vous avez ' + formatCurrency(userBalance);
-    }
-  } else if (amount > 0) {
-    displayAmount.textContent = formatCurrency(amount) + ' (hors limite)';
-    displayAmount.className = 'value zero';
-    amountDisplay.classList.add('has-value');
-  } else {
-    displayAmount.textContent = '0 FCFA';
-    displayAmount.className = 'value zero';
-    amountDisplay.classList.remove('has-value');
-    balanceInfo.className = 'balance-info';
-    balanceInfo.innerHTML = '<i class="fas fa-info-circle"></i> Solde disponible : ' + formatCurrency(userBalance);
-  }
-  
-  updateWhatsAppLink(amount);
-}
-
-// ================================================================
-// METTRE A JOUR LE LIEN WHATSAPP
-// ================================================================
-function updateWhatsAppLink(amount) {
-  var amountValue = amount || parseInt(amountInput.value) || 0;
-  
-  if (amountValue < MIN_WITHDRAWAL) {
-    whatsappBtn.disabled = true;
-    whatsappBtn.style.opacity = '0.5';
-    whatsappBtn.innerHTML = '<i class="fab fa-whatsapp"></i> Minimum ' + formatCurrency(MIN_WITHDRAWAL);
-    return;
-  }
-
-  if (amountValue > MAX_WITHDRAWAL) {
-    whatsappBtn.disabled = true;
-    whatsappBtn.style.opacity = '0.5';
-    whatsappBtn.innerHTML = '<i class="fab fa-whatsapp"></i> Maximum ' + formatCurrency(MAX_WITHDRAWAL);
-    return;
-  }
-
-  if (amountValue > userBalance) {
-    whatsappBtn.disabled = true;
-    whatsappBtn.style.opacity = '0.5';
-    whatsappBtn.innerHTML = '<i class="fab fa-whatsapp"></i> Solde insuffisant';
-    return;
-  }
-
-  whatsappBtn.disabled = false;
-  whatsappBtn.style.opacity = '1';
-  whatsappBtn.innerHTML = '<i class="fab fa-whatsapp"></i> Envoyer la demande de retrait';
-  
-  var phone = (userData && userData.phone) || '';
-  var indicatif = (userData && userData.indicatif) || '+227';
-  var userName = (userData && (userData.prenom || userData.fullName)) || 'Utilisateur';
-  var cleanPhone = phone.replace(/\D/g, '');
-  
-  var message = 'NOUVELLE DEMANDE DE RETRAIT\n\n' +
-                'Nom: ' + userName + '\n' +
-                'ID: ' + currentUserId + '\n' +
-                'Telephone: ' + indicatif + ' ' + cleanPhone + '\n' +
-                'Montant: ' + formatCurrency(amountValue) + '\n' +
-                'Date: ' + new Date().toLocaleDateString('fr-FR') + '\n\n' +
-                'Valider: https://nexgen-39043.web.app/admin/index.html';
-  
-  whatsappBtn.href = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(message);
-}
-
-// ================================================================
-// ENVOI VIA WHATSAPP
-// ================================================================
-whatsappBtn.addEventListener('click', function(event) {
-  event.preventDefault();
-
-  var amount = parseInt(amountInput.value, 10) || 0;
-  var phone = (userData && userData.phone) || '';
-  var indicatif = (userData && userData.indicatif) || '+227';
-  var cleanPhone = phone.replace(/\D/g, '');
-  var userName = (userData && (userData.prenom || userData.fullName)) || 'Utilisateur';
-  var userEmail = (userData && userData.email) || (currentAuthUser ? currentAuthUser.email : '');
-
-  if (!currentAuthUser || !currentUserId) {
-    showToast('Veuillez vous reconnecter.', 'error');
-    return;
-  }
-
-  if (amount < MIN_WITHDRAWAL) {
-    showToast('Le montant minimum est de ' + formatCurrency(MIN_WITHDRAWAL) + '.', 'error');
-    return;
-  }
-
-  if (amount > MAX_WITHDRAWAL) {
-    showToast('Le montant maximum est de ' + formatCurrency(MAX_WITHDRAWAL) + '.', 'error');
-    return;
-  }
-
-  if (amount > userBalance) {
-    showToast('Solde insuffisant. Votre solde est de ' + formatCurrency(userBalance) + '.', 'error');
-    return;
-  }
-
-  if (!phone || cleanPhone.length < 7) {
-    showToast('Numero de telephone invalide. Mettez a jour votre profil.', 'error');
-    return;
-  }
-
-  var withdrawalData = {
-    userId: currentAuthUser.uid,
-    displayId: currentUserId || 'ID_INCONNU',
-    userName: userName,
-    userEmail: userEmail,
-    userPhone: cleanPhone,
-    userIndicatif: indicatif || '+227',
-    fullPhone: (indicatif || '+227') + ' ' + cleanPhone,
-    montant: amount,
-    date: new Date().toISOString().split('T')[0],
-    timestamp: new Date().toISOString(),
-    statut: 'en_attente',
-    type: 'retrait',
-    source: 'whatsapp',
-    paymentMethod: 'whatsapp',
-    createdAt: new Date().toISOString()
-  };
-
-  addDoc(collection(db, 'retraits'), withdrawalData).then(function(docRef) {
-    notifyAdminWithdrawal(userName, currentUserId, amount, docRef.id);
-    showToast('Demande de ' + formatCurrency(amount) + ' enregistree.', 'success');
-    
-    var message = 'NOUVELLE DEMANDE DE RETRAIT\n\n' +
-                  'Nom: ' + userName + '\n' +
-                  'ID: ' + currentUserId + '\n' +
-                  'Telephone: ' + (indicatif || '+227') + ' ' + cleanPhone + '\n' +
-                  'Montant: ' + formatCurrency(amount) + '\n' +
-                  'Date: ' + new Date().toLocaleDateString('fr-FR') + '\n\n' +
-                  'Valider: https://nexgen-39043.web.app/admin/index.html';
-    
-    var waUrl = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(message);
-    window.open(waUrl, '_blank', 'noopener,noreferrer');
-    
-    amountInput.value = '';
-    updateAmountDisplay();
-  }).catch(function(error) {
-    console.error('Erreur:', error);
-    showToast('Erreur lors de l\'enregistrement: ' + error.message, 'error');
-  });
-});
-
-// ================================================================
-// NOTIFICATIONS FCM
-// ================================================================
-async function setupFCMNotifications() {
-  try {
-    if (Notification.permission === 'granted') {
-      var token = await getToken(messaging, { vapidKey: VAPID_KEY });
-      if (currentAuthUser) {
-        var userRef = doc(db, 'users', currentAuthUser.uid);
-        await updateDoc(userRef, { fcmToken: token, notificationsEnabled: true });
-      }
-      notifBadge.className = 'notif-badge';
-      notifStatusText.textContent = '🔔';
-      if (notifPermissionBanner) notifPermissionBanner.style.display = 'none';
-      return token;
-    }
-    
-    if (Notification.permission === 'denied') {
-      notifBadge.className = 'notif-badge';
-      notifStatusText.textContent = '🔕';
-      if (notifPermissionBanner) notifPermissionBanner.style.display = 'none';
-      return null;
-    }
-    
-    notifBadge.className = 'notif-badge';
-    notifStatusText.textContent = '🔔';
-    if (notifPermissionBanner) notifPermissionBanner.style.display = 'flex';
-    return null;
-  } catch (error) {
-    console.error('❌ Erreur FCM:', error);
-    return null;
-  }
-}
-
-if (enableNotifBtn) {
-  enableNotifBtn.addEventListener('click', async function() {
-    try {
-      var permission = await Notification.requestPermission();
-      if (permission === 'granted') {
-        var token = await getToken(messaging, { vapidKey: VAPID_KEY });
-        if (currentAuthUser) {
-          var userRef = doc(db, 'users', currentAuthUser.uid);
-          await updateDoc(userRef, { fcmToken: token, notificationsEnabled: true });
-        }
-        notifBadge.className = 'notif-badge';
-        notifStatusText.textContent = '🔔';
-        if (notifPermissionBanner) notifPermissionBanner.style.display = 'none';
-        showToast('✅ Notifications activées !', 'success');
-      } else {
-        showToast('⚠️ Notifications désactivées.', 'warning');
-      }
-    } catch (error) {
-      console.error('❌ Erreur permission:', error);
-    }
-  });
-}
-
-// ================================================================
-// AUTH
-// ================================================================
-var authChecked = false;
 
 onAuthStateChanged(auth, function(user) {
   if (user) {
     currentAuthUser = user;
     localStorage.setItem('ARVEXA_current_user', user.uid);
     
-    var cached = localStorage.getItem('ARVEXA_user_data');
-    if (cached) {
-      try {
-        userData = JSON.parse(cached);
-        if (!userData.indicatif) userData.indicatif = '+227';
-        userBalance = userData.balance || 0;
-        balanceDisplay.textContent = formatCurrency(userBalance);
-        balanceInfoAmount.textContent = formatCurrency(userBalance);
-      } catch(e) {}
+    if (sessionUid === user.uid) {
+      console.debug("✅ Session déjà validée, chargement rapide");
+      loadUserData(user.uid);
+      isPageLoading = false;
+      return;
     }
 
     loadUserData(user.uid);
-    setupFCMNotifications();
-    authChecked = true;
+    isPageLoading = false;
   } else {
-    var savedUid = localStorage.getItem('ARVEXA_current_user');
-    if (savedUid && !authChecked) {
+    if (isPageLoading) {
+      console.debug("⏳ Page en chargement, attente avant redirection...");
       setTimeout(function() {
         if (!auth.currentUser) {
-          window.location.href = 'login.html';
+          var savedUid = localStorage.getItem('ARVEXA_current_user');
+          if (savedUid) {
+            if (!auth.currentUser) {
+              window.location.href = 'login.html';
+            }
+          } else {
+            window.location.href = 'login.html';
+          }
         }
-      }, 2000);
-    } else if (!authChecked) {
-      window.location.href = 'login.html';
+      }, 3000);
+    } else {
+      var savedUid = localStorage.getItem('ARVEXA_current_user');
+      if (savedUid) {
+        setTimeout(function() {
+          if (!auth.currentUser) {
+            window.location.href = 'login.html';
+          }
+        }, 2000);
+      } else {
+        window.location.href = 'login.html';
+      }
     }
-    authChecked = true;
   }
 });
 
@@ -1429,7 +1912,27 @@ onAuthStateChanged(auth, function(user) {
 // ================================================================
 amountInput.addEventListener('input', updateAmountDisplay);
 
-console.log('💸 ARVEXA - Page Retrait chargee');
+// ================================================================
+// CACHE POUR RETOUR ARRIÈRE INSTANTANÉ
+// ================================================================
+window.addEventListener('pageshow', function(event) {
+  if (event.persisted) {
+    console.debug('📱 Page retrait chargée depuis le cache');
+    loadFromCache();
+    if (userData) {
+      userBalance = userData.balance || 0;
+      balanceDisplay.textContent = formatCurrency(userBalance);
+      balanceInfoAmount.textContent = formatCurrency(userBalance);
+    }
+  }
+});
+
+console.debug('💸 ARVEXA - Page Retrait optimisée (v2.0)');
+console.debug('✅ Montant minimum: 1 000 FCFA');
+console.debug('✅ Frais: 3-5% selon montant');
+console.debug('✅ Sélecteur d\'opérateur (6 opérateurs)');
+console.debug('✅ Cache prioritaire pour chargement < 2 secondes');
+console.debug('✅ Modale de confirmation luxueuse');
 </script>
 </body>
 </html>

@@ -36,6 +36,7 @@
       --transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
       --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
       --radius: 16px;
+      --like-color: #FF4757;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -128,12 +129,33 @@
     .back-btn:active { transform: scale(0.94); background: rgba(184, 134, 11, 0.08); }
     .back-btn i { font-size: clamp(14px, 1.8vw, 18px); }
 
+    .header-placeholder {
+      width: clamp(32px, 4vw, 40px);
+      flex-shrink: 0;
+    }
+
     .container {
       max-width: 700px;
       margin: 0 auto;
       padding: 16px 16px 40px;
       width: 100%;
     }
+
+    /* ===== SKELETON ===== */
+    .skeleton {
+      background: rgba(255,255,255,0.03);
+      border-radius: 8px;
+      animation: skeletonPulse 1.2s ease-in-out infinite;
+    }
+    @keyframes skeletonPulse {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 0.6; }
+    }
+    .skeleton-text { height: 14px; width: 100%; margin-bottom: 6px; border-radius: 4px; }
+    .skeleton-text.w60 { width: 60%; }
+    .skeleton-text.w40 { width: 40%; }
+    .skeleton-text.w30 { width: 30%; }
+    .skeleton-avatar { width: 36px; height: 36px; border-radius: 50%; }
 
     /* ===== HERO ===== */
     .hero {
@@ -148,6 +170,35 @@
     .hero h1 { font-size: 24px; font-weight: 700; font-family: 'Playfair Display', serif; color: var(--text-light); }
     .hero h1 span { color: var(--accent); font-style: italic; }
     .hero p { color: var(--text-dim); font-size: 13px; margin-top: 6px; }
+
+    /* ===== STATS FORUM ===== */
+    .stats-forum {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .stat-forum {
+      background: var(--bg-card);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 12px 8px;
+      text-align: center;
+    }
+    .stat-forum .value {
+      font-size: 18px;
+      font-weight: 700;
+      font-family: 'Playfair Display', serif;
+      color: var(--accent);
+    }
+    .stat-forum .label {
+      font-size: 9px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 2px;
+    }
 
     /* ===== SECTION ===== */
     .section-header {
@@ -190,6 +241,7 @@
       display: flex;
       align-items: center;
       gap: 6px;
+      font-family: 'Inter', sans-serif;
     }
     .btn-add:active { transform: scale(0.95); }
     .btn-add:hover { background: #9A7209; }
@@ -209,33 +261,10 @@
     }
     .card:hover { border-color: rgba(184, 134, 11, 0.08); }
 
-    /* ===== LOADER ===== */
-    #topicsLoader {
-      text-align: center;
-      padding: 40px 20px;
-    }
-    #topicsLoader .spinner {
-      display: inline-block;
-      width: 40px;
-      height: 40px;
-      border: 3px solid rgba(184, 134, 11, 0.1);
-      border-top-color: var(--accent);
-      border-radius: 50%;
-      animation: spin 0.7s linear infinite;
-    }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-    #topicsLoader p {
-      color: var(--text-dim);
-      margin-top: 12px;
-      font-size: 14px;
-    }
-
     /* ===== SUJET ITEM ===== */
     .topic-item {
       display: flex;
-      gap: 14px;
+      gap: 12px;
       padding: 12px 0;
       border-bottom: 1px solid rgba(255,255,255,0.03);
       cursor: pointer;
@@ -247,20 +276,54 @@
     .topic-item:last-child { border-bottom: none; }
 
     .topic-item .topic-icon {
-      font-size: 20px;
+      font-size: 18px;
       color: var(--accent);
       flex-shrink: 0;
       margin-top: 2px;
+      width: 28px;
+      text-align: center;
     }
+    .topic-item .topic-icon.pinned { color: var(--accent); }
+    .topic-item .topic-icon.popular { color: var(--success); }
+
     .topic-item .topic-content { flex: 1; min-width: 0; }
     .topic-item .topic-title {
       font-weight: 600;
-      font-size: 15px;
+      font-size: 14px;
       color: var(--text-light);
       margin-bottom: 2px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
     }
+    .topic-item .topic-title .topic-badge {
+      font-size: 8px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .topic-item .topic-title .topic-badge.pinned {
+      background: rgba(184, 134, 11, 0.12);
+      color: var(--accent);
+    }
+    .topic-item .topic-title .topic-badge.popular {
+      background: rgba(45, 125, 90, 0.12);
+      color: var(--success);
+    }
+    .topic-item .topic-title .topic-badge.new {
+      background: rgba(184, 134, 11, 0.08);
+      color: var(--accent);
+    }
+    .topic-item .topic-title .topic-badge.rewarded {
+      background: rgba(45, 125, 90, 0.12);
+      color: var(--success);
+    }
+
     .topic-item .topic-meta {
-      font-size: 12px;
+      font-size: 11px;
       color: var(--text-dim);
       display: flex;
       gap: 12px;
@@ -273,6 +336,13 @@
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
+    .topic-item .topic-meta .author {
+      color: var(--text-dim);
+    }
+    .topic-item .topic-meta .date {
+      color: var(--text-muted);
+    }
+
     .topic-item .topic-stats {
       display: flex;
       align-items: center;
@@ -282,233 +352,28 @@
       color: var(--text-muted);
     }
     .topic-item .topic-stats .replies { color: var(--text-light); }
-    .topic-item .topic-stats .replies i { color: var(--accent); }
+    .topic-item .topic-stats .replies i { color: var(--accent); font-size: 11px; }
+    .topic-item .topic-stats .likes { color: var(--like-color); }
+    .topic-item .topic-stats .likes i { font-size: 11px; }
+    .topic-item .topic-stats .views { color: var(--text-muted); }
+    .topic-item .topic-stats .views i { font-size: 11px; }
 
-    /* ===== EMPTY ===== */
-    .empty-state {
-      text-align: center;
-      padding: 40px 20px;
-      color: var(--text-dim);
-    }
-    .empty-state i {
-      font-size: 48px;
-      opacity: 0.2;
-      display: block;
-      margin-bottom: 12px;
-    }
-    .empty-state p { font-size: 14px; }
-    .empty-state .sub { font-size: 12px; margin-top: 4px; opacity: 0.6; }
-
-    /* ============================================================
-       MODAL
-       ============================================================ */
-    .modal-overlay {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(3, 3, 5, 0.96);
-      backdrop-filter: blur(16px);
-      z-index: 2000;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-    .modal-overlay.show {
-      opacity: 1;
-      visibility: visible;
-    }
-    .modal {
-      background: var(--bg-card);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(184, 134, 11, 0.15);
-      border-radius: var(--radius);
-      width: 100%;
-      max-width: 400px;
-      max-height: 85vh;
+    .topic-item .topic-likes-progress {
+      width: 60px;
+      height: 3px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 4px;
       overflow: hidden;
-      transform: scale(0.92);
-      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      margin-top: 2px;
     }
-    .modal-overlay.show .modal { transform: scale(1); }
-
-    .modal-header {
-      padding: 16px 20px;
-      border-bottom: 1px solid var(--glass-border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .modal-header h3 {
-      font-size: 18px;
-      font-weight: 700;
-      font-family: 'Playfair Display', serif;
-      color: var(--text-light);
-    }
-    .modal-header h3 span { color: var(--accent); font-style: italic; }
-    .modal-close {
-      width: 34px; height: 34px;
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: var(--transition);
-      color: var(--text-dim);
-    }
-    .modal-close:active { transform: scale(0.94); }
-
-    .modal-body { padding: 20px; max-height: 55vh; overflow-y: auto; }
-    .modal-body .form-group { margin-bottom: 16px; }
-    .modal-body .form-group label {
-      display: block;
-      font-size: 11px;
-      font-weight: 500;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 4px;
-    }
-    .modal-body .input-wrapper {
-      display: flex;
-      align-items: center;
-      background: rgba(10, 10, 10, 0.6);
-      border: 1px solid var(--card-border);
-      border-radius: 12px;
-      transition: var(--transition);
-    }
-    .modal-body .input-wrapper:focus-within {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.08);
-    }
-    .modal-body .input-wrapper input,
-    .modal-body .input-wrapper textarea,
-    .modal-body .input-wrapper select {
-      width: 100%;
-      padding: 12px 14px;
-      background: transparent;
-      border: none;
-      color: var(--text-light);
-      font-size: 14px;
-      font-family: inherit;
-      outline: none;
-    }
-    .modal-body .input-wrapper textarea { min-height: 80px; resize: vertical; }
-    .modal-body .input-wrapper select { appearance: none; cursor: pointer; }
-    .modal-body .input-wrapper select option { background: var(--bg-dark); color: var(--text-light); }
-    .modal-body .input-wrapper input::placeholder,
-    .modal-body .input-wrapper textarea::placeholder {
-      color: var(--text-muted);
-      opacity: 0.5;
+    .topic-item .topic-likes-progress .bar {
+      height: 100%;
+      border-radius: 4px;
+      background: linear-gradient(90deg, var(--accent), var(--like-color));
+      transition: width 0.3s ease;
     }
 
-    .modal-footer {
-      padding: 16px 20px;
-      border-top: 1px solid var(--glass-border);
-      display: flex;
-      gap: 10px;
-    }
-    .modal-footer .btn-submit {
-      width: 100%;
-      padding: 12px;
-      background: var(--accent);
-      border: none;
-      border-radius: 12px;
-      color: var(--bg-dark);
-      font-weight: 700;
-      font-size: 14px;
-      cursor: pointer;
-      transition: var(--transition);
-      font-family: 'Inter', sans-serif;
-    }
-    .modal-footer .btn-submit:active { transform: scale(0.97); }
-    .modal-footer .btn-submit:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-    .modal-footer .btn-submit .loader {
-      display: inline-block;
-      width: 18px;
-      height: 18px;
-      border: 2px solid var(--bg-dark);
-      border-radius: 50%;
-      border-top-color: transparent;
-      animation: spin 0.6s linear infinite;
-    }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    /* ============================================================
-       CONFIRM MODAL
-       ============================================================ */
-    .confirm-modal .modal-body {
-      text-align: center;
-      padding: 24px 20px;
-    }
-    .confirm-modal .modal-body .icon {
-      font-size: 40px;
-      color: var(--danger);
-      opacity: 0.3;
-      display: block;
-      margin-bottom: 12px;
-    }
-    .confirm-modal .modal-body p {
-      color: var(--text-dim);
-      font-size: 14px;
-      line-height: 1.6;
-    }
-    .confirm-modal .modal-body .sub {
-      color: var(--text-muted);
-      font-size: 12px;
-      margin-top: 4px;
-    }
-    .confirm-modal .modal-footer {
-      display: flex;
-      gap: 10px;
-      padding: 12px 20px 20px;
-    }
-    .confirm-modal .modal-footer .btn-confirm {
-      flex: 1;
-      padding: 12px;
-      background: var(--danger);
-      border: none;
-      border-radius: 12px;
-      color: #fff;
-      font-weight: 700;
-      font-size: 14px;
-      cursor: pointer;
-      transition: var(--transition);
-      font-family: 'Inter', sans-serif;
-    }
-    .confirm-modal .modal-footer .btn-confirm:active { transform: scale(0.97); }
-    .confirm-modal .modal-footer .btn-confirm:hover { background: #6A2A2A; }
-    .confirm-modal .modal-footer .btn-cancel {
-      flex: 1;
-      padding: 12px;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--card-border);
-      border-radius: 12px;
-      color: var(--text-dim);
-      font-weight: 600;
-      font-size: 14px;
-      cursor: pointer;
-      transition: var(--transition);
-      font-family: 'Inter', sans-serif;
-    }
-    .confirm-modal .modal-footer .btn-cancel:active { transform: scale(0.97); }
-    .confirm-modal .modal-footer .btn-cancel:hover {
-      background: rgba(255, 255, 255, 0.08);
-      color: var(--text-light);
-    }
-
-    /* ============================================================
-       DÉTAIL SUJET
-       ============================================================ */
+    /* ===== DÉTAIL SUJET ===== */
     .topic-detail-header {
       margin-bottom: 16px;
     }
@@ -534,6 +399,84 @@
       letter-spacing: 0.5px;
     }
 
+    /* ===== LIKE BUTTON ===== */
+    .like-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 30px;
+      border: 1px solid rgba(255, 71, 87, 0.15);
+      background: rgba(255, 71, 87, 0.04);
+      color: var(--text-dim);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+    }
+    .like-btn:hover {
+      border-color: rgba(255, 71, 87, 0.3);
+      background: rgba(255, 71, 87, 0.08);
+    }
+    .like-btn:active { transform: scale(0.95); }
+    .like-btn.liked {
+      background: rgba(255, 71, 87, 0.12);
+      border-color: var(--like-color);
+      color: var(--like-color);
+    }
+    .like-btn.liked i { color: var(--like-color); }
+    .like-btn .like-count {
+      font-weight: 600;
+      min-width: 20px;
+    }
+    .like-btn .like-icon { font-size: 16px; }
+
+    /* ===== PROGRESS BAR LIKES ===== */
+    .likes-progress-container {
+      margin: 8px 0 12px;
+      padding: 10px 14px;
+      background: rgba(10, 10, 10, 0.4);
+      border-radius: 10px;
+      border: 1px solid rgba(184, 134, 11, 0.06);
+    }
+    .likes-progress-container .progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: var(--text-dim);
+      margin-bottom: 4px;
+    }
+    .likes-progress-container .progress-header .target {
+      color: var(--accent);
+      font-weight: 600;
+    }
+    .likes-progress-container .progress-header .reward {
+      color: var(--success);
+      font-weight: 600;
+    }
+    .likes-progress-container .progress-bar {
+      width: 100%;
+      height: 4px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .likes-progress-container .progress-bar .bar {
+      height: 100%;
+      border-radius: 4px;
+      background: linear-gradient(90deg, var(--accent), var(--like-color));
+      transition: width 0.3s ease;
+    }
+    .likes-progress-container .progress-text {
+      font-size: 10px;
+      color: var(--text-muted);
+      margin-top: 4px;
+      text-align: center;
+    }
+
+    /* ===== RÉPONSE ITEM ===== */
     .reply-item {
       display: flex;
       gap: 12px;
@@ -553,17 +496,31 @@
       font-weight: 700;
       color: var(--bg-dark);
       flex-shrink: 0;
+      background-size: cover;
+      background-position: center;
     }
     .reply-item .reply-content { flex: 1; min-width: 0; }
     .reply-item .reply-author {
       font-weight: 600;
       font-size: 13px;
       color: var(--text-light);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .reply-item .reply-author .badge-premium {
+      font-size: 9px;
+      background: rgba(184, 134, 11, 0.12);
+      color: var(--accent);
+      padding: 1px 8px;
+      border-radius: 12px;
+      font-weight: 500;
     }
     .reply-item .reply-date {
       font-size: 11px;
       color: var(--text-muted);
-      margin-left: 8px;
+      margin-left: 4px;
     }
     .reply-item .reply-text {
       font-size: 14px;
@@ -571,20 +528,65 @@
       margin-top: 4px;
       line-height: 1.6;
     }
-    .reply-item .reply-delete {
+    .reply-item .reply-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 6px;
+      align-items: center;
+    }
+    .reply-item .reply-actions .like-btn-sm {
       font-size: 12px;
       color: var(--text-muted);
-      opacity: 0.3;
       cursor: pointer;
       transition: var(--transition);
-      margin-left: auto;
-      padding: 4px 8px;
-      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: none;
+      border: none;
+      font-family: 'Inter', sans-serif;
+      padding: 2px 8px;
+      border-radius: 20px;
     }
-    .reply-item .reply-delete:hover {
+    .reply-item .reply-actions .like-btn-sm:hover {
+      color: var(--like-color);
+      background: rgba(255, 71, 87, 0.04);
+    }
+    .reply-item .reply-actions .like-btn-sm.liked {
+      color: var(--like-color);
+    }
+    .reply-item .reply-actions .like-btn-sm i { font-size: 12px; }
+    .reply-item .reply-actions .delete-btn {
+      font-size: 12px;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: var(--transition);
+      background: none;
+      border: none;
+      font-family: 'Inter', sans-serif;
+      padding: 2px 8px;
+      border-radius: 20px;
+      opacity: 0.3;
+    }
+    .reply-item .reply-actions .delete-btn:hover {
       opacity: 1;
       color: var(--danger);
       background: rgba(138, 58, 58, 0.08);
+    }
+
+    .reply-item .reply-likes-progress {
+      width: 50px;
+      height: 2px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 2px;
+    }
+    .reply-item .reply-likes-progress .bar {
+      height: 100%;
+      border-radius: 4px;
+      background: linear-gradient(90deg, var(--accent), var(--like-color));
+      transition: width 0.3s ease;
     }
 
     .reply-input-area {
@@ -641,6 +643,302 @@
       animation: spin 0.6s linear infinite;
     }
 
+    /* ===== EMPTY ===== */
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-dim);
+    }
+    .empty-state i {
+      font-size: 48px;
+      opacity: 0.2;
+      display: block;
+      margin-bottom: 12px;
+    }
+    .empty-state p { font-size: 14px; }
+    .empty-state .sub { font-size: 12px; margin-top: 4px; opacity: 0.6; }
+    
+        /* ============================================================
+       MODALE ARVEXA - UNIFORME
+       ============================================================ */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(3, 3, 5, 0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+      padding: 20px;
+    }
+    .modal-overlay.show {
+      opacity: 1;
+      visibility: visible;
+    }
+    .modal-overlay.hide {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .modal-content {
+      background: linear-gradient(145deg, #141414 0%, #0A0A0A 100%);
+      border: 1px solid rgba(184, 134, 11, 0.12);
+      border-radius: 20px;
+      max-width: 460px;
+      width: 100%;
+      max-height: 90vh;
+      overflow: hidden;
+      transform: scale(0.92) translateY(20px);
+      transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6);
+      position: relative;
+    }
+    .modal-overlay.show .modal-content {
+      transform: scale(1) translateY(0);
+    }
+
+    .modal-content::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--accent), var(--success), var(--accent), transparent);
+      background-size: 200% 100%;
+      animation: shimmerGold 3s ease-in-out infinite;
+      z-index: 10;
+    }
+
+    @keyframes shimmerGold {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    .modal-header {
+      padding: 20px 24px 16px;
+      border-bottom: 1px solid rgba(184, 134, 11, 0.04);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+    .modal-header .modal-title {
+      font-family: 'Playfair Display', 'Georgia', serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-light);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .modal-header .modal-title span {
+      color: var(--accent);
+      font-style: italic;
+    }
+    .modal-header .modal-title i {
+      color: var(--accent);
+      font-size: 22px;
+    }
+    .modal-close-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: rgba(184, 134, 11, 0.04);
+      border: 1px solid rgba(184, 134, 11, 0.06);
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+    .modal-close-btn:hover {
+      background: rgba(184, 134, 11, 0.08);
+      border-color: rgba(184, 134, 11, 0.12);
+      color: var(--text-light);
+    }
+    .modal-close-btn:active { transform: scale(0.92); }
+
+    .modal-body {
+      padding: 20px 24px 24px;
+      max-height: 60vh;
+      overflow-y: auto;
+      position: relative;
+      z-index: 1;
+    }
+    .modal-body::-webkit-scrollbar { width: 3px; }
+    .modal-body::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); border-radius: 10px; }
+    .modal-body::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; opacity: 0.3; }
+
+    .modal-body .form-group { margin-bottom: 16px; }
+    .modal-body .form-group label {
+      display: block;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+    .modal-body .input-wrapper {
+      display: flex;
+      align-items: center;
+      background: rgba(10, 10, 10, 0.6);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      transition: var(--transition);
+    }
+    .modal-body .input-wrapper:focus-within {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.08);
+    }
+    .modal-body .input-wrapper input,
+    .modal-body .input-wrapper textarea {
+      width: 100%;
+      padding: 12px 14px;
+      background: transparent;
+      border: none;
+      color: var(--text-light);
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+    }
+    .modal-body .input-wrapper textarea { min-height: 80px; resize: vertical; }
+    .modal-body .input-wrapper input::placeholder,
+    .modal-body .input-wrapper textarea::placeholder {
+      color: var(--text-muted);
+      opacity: 0.5;
+    }
+
+    /* ===== CATEGORY GRID ===== */
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 8px;
+    }
+    .category-option {
+      padding: 14px 12px;
+      border: 1px solid rgba(184, 134, 11, 0.08);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+      background: rgba(10, 10, 10, 0.4);
+    }
+    .category-option:hover {
+      border-color: var(--accent);
+      background: rgba(184, 134, 11, 0.06);
+      transform: translateY(-2px);
+    }
+    .category-option:active { transform: scale(0.96); }
+    .category-option.selected {
+      border-color: var(--accent);
+      background: rgba(184, 134, 11, 0.10);
+    }
+    .category-option i {
+      font-size: 24px;
+      color: var(--accent);
+      display: block;
+      margin-bottom: 4px;
+    }
+    .category-option span {
+      font-size: 13px;
+      color: var(--text-light);
+      font-weight: 500;
+    }
+
+    .modal-footer {
+      padding: 16px 24px 24px;
+      border-top: 1px solid rgba(184, 134, 11, 0.04);
+      display: flex;
+      gap: 10px;
+      position: relative;
+      z-index: 1;
+    }
+    .modal-footer .btn-primary {
+      flex: 1;
+      padding: 12px 20px;
+      background: var(--accent);
+      border: none;
+      border-radius: 12px;
+      color: var(--bg-dark);
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .modal-footer .btn-primary:hover {
+      background: #9A7209;
+      box-shadow: 0 0 30px rgba(184, 134, 11, 0.15);
+      transform: translateY(-1px);
+    }
+    .modal-footer .btn-primary:active { transform: scale(0.97); }
+    .modal-footer .btn-primary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .modal-footer .btn-secondary {
+      flex: 0.5;
+      padding: 12px 20px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(184, 134, 11, 0.06);
+      border-radius: 12px;
+      color: var(--text-dim);
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .modal-footer .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(184, 134, 11, 0.10);
+      color: var(--text-light);
+    }
+    .modal-footer .btn-secondary:active { transform: scale(0.97); }
+    .modal-footer .btn-danger {
+      flex: 1;
+      padding: 12px 20px;
+      background: rgba(138, 58, 58, 0.10);
+      border: 1px solid rgba(138, 58, 58, 0.12);
+      border-radius: 12px;
+      color: #8A3A3A;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .modal-footer .btn-danger:hover {
+      background: rgba(138, 58, 58, 0.18);
+      border-color: rgba(138, 58, 58, 0.20);
+    }
+    .modal-footer .btn-danger:active { transform: scale(0.97); }
+
     /* ============================================================
        TOAST
        ============================================================ */
@@ -666,6 +964,11 @@
     .toast.error { background: #2A0D0D; border: 1px solid #8A3A3A; color: #8A3A3A; }
     .toast.warning { background: #2A1A0D; border: 1px solid #B8860B; color: #B8860B; }
     .toast.info { background: #0D1A2A; border: 1px solid #4A7A8A; color: #4A7A8A; }
+    .toast.reward { 
+      background: linear-gradient(135deg, #0D2A1F, #1A3A2A); 
+      border: 1px solid var(--accent); 
+      color: var(--accent);
+    }
 
     /* ============================================================
        RESPONSIVE
@@ -674,11 +977,13 @@
       .container { padding: 12px 12px 30px; }
       .hero h1 { font-size: 20px; }
       .topic-item { flex-wrap: wrap; padding: 10px 0; }
-      .topic-item .topic-stats { width: 100%; justify-content: flex-start; margin-left: 34px; }
+      .topic-item .topic-stats { width: 100%; justify-content: flex-start; margin-left: 40px; }
       .reply-input-area { flex-direction: column; }
       .reply-input-area .btn-reply { width: 100%; justify-content: center; }
-      .modal { max-width: 100%; margin: 10px; }
-      .confirm-modal .modal-footer { flex-direction: column; }
+      .modal-content { max-width: 100%; margin: 10px; }
+      .stats-forum { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+      .stat-forum .value { font-size: 16px; }
+      .category-grid { grid-template-columns: repeat(2, 1fr); }
     }
 
     @media (min-width: 768px) {
@@ -696,6 +1001,7 @@
 <header class="header">
   <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
   <a href="index.html" class="logo">ARVE<span>XA</span></a>
+  <span class="header-placeholder"></span>
 </header>
 
 <main class="container">
@@ -704,7 +1010,27 @@
   <div class="hero">
     <span class="hero-icon"><i class="fas fa-comments"></i></span>
     <h1>💬 Forum <span>ARVEXA</span></h1>
-    <p>Échangez avec la communauté, posez vos questions et partagez vos connaissances</p>
+    <p>Échangez, partagez et gagnez des récompenses avec la communauté</p>
+  </div>
+
+  <!-- ===== STATS ===== -->
+  <div class="stats-forum" id="statsForum">
+    <div class="stat-forum">
+      <div class="value" id="statTopics">0</div>
+      <div class="label">Sujets</div>
+    </div>
+    <div class="stat-forum">
+      <div class="value" id="statReplies">0</div>
+      <div class="label">Réponses</div>
+    </div>
+    <div class="stat-forum">
+      <div class="value" id="statLikes">0</div>
+      <div class="label">Likes</div>
+    </div>
+    <div class="stat-forum">
+      <div class="value" id="statRewards">0 FCFA</div>
+      <div class="label">Récompenses</div>
+    </div>
   </div>
 
   <!-- ===== LISTE DES SUJETS ===== -->
@@ -721,12 +1047,13 @@
 
     <div class="card" id="topicsList">
       <!-- LOADER -->
-      <div id="topicsLoader">
-        <div class="spinner"></div>
-        <p>Chargement des discussions...</p>
+      <div id="topicsLoader" style="text-align:center;padding:20px;">
+        <div class="skeleton skeleton-text w60" style="margin:0 auto;"></div>
+        <div class="skeleton skeleton-text w40" style="margin:8px auto;"></div>
+        <div class="skeleton skeleton-text w30" style="margin:8px auto;"></div>
       </div>
       
-      <!-- EMPTY STATE (caché par défaut) -->
+      <!-- EMPTY STATE -->
       <div id="topicsEmpty" style="display:none;">
         <div class="empty-state">
           <i class="fas fa-comments"></i>
@@ -735,7 +1062,7 @@
         </div>
       </div>
       
-      <!-- TOPICS LIST (caché par défaut) -->
+      <!-- TOPICS LIST -->
       <div id="topicsContent" style="display:none;"></div>
     </div>
   </div>
@@ -763,8 +1090,38 @@
         <p style="color:var(--text-dim);line-height:1.8;">Contenu du sujet...</p>
       </div>
 
+      <!-- LIKES PROGRESS -->
+      <div class="likes-progress-container" id="topicLikesProgress">
+        <div class="progress-header">
+          <span>❤️ <span id="topicLikeCount">0</span> likes</span>
+          <span class="target">Objectif: <span id="topicLikeTarget">50</span> likes</span>
+          <span class="reward">🏆 <span id="topicLikeReward">100</span> FCFA</span>
+        </div>
+        <div class="progress-bar">
+          <div class="bar" id="topicLikeBar" style="width:0%;"></div>
+        </div>
+        <div class="progress-text" id="topicLikeText">0 / 50 likes (0%)</div>
+      </div>
+
+      <!-- LIKE BUTTON -->
+      <div style="margin:8px 0 12px;">
+        <button class="like-btn" id="topicLikeBtn">
+          <i class="fas fa-heart like-icon"></i>
+          <span class="like-count" id="topicLikeBtnCount">0</span>
+          <span>J'aime</span>
+        </button>
+        <span style="font-size:11px;color:var(--text-muted);margin-left:12px;">
+          <i class="fas fa-eye"></i> <span id="topicDetailViews">0</span> vues
+        </span>
+      </div>
+
       <div id="topicDetailRepliesList" style="margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.03);">
         <!-- Réponses -->
+        <div id="repliesLoader" style="text-align:center;padding:12px;">
+          <div class="skeleton skeleton-text w40" style="margin:0 auto;"></div>
+          <div class="skeleton skeleton-text w30" style="margin:8px auto;"></div>
+        </div>
+        <div id="repliesContent" style="display:none;"></div>
       </div>
 
       <div class="reply-input-area">
@@ -778,10 +1135,15 @@
 
 <!-- ===== MODAL CRÉER SUJET ===== -->
 <div class="modal-overlay" id="createTopicModal">
-  <div class="modal">
+  <div class="modal-content">
     <div class="modal-header">
-      <h3>✏️ Créer un <span>sujet</span></h3>
-      <button class="modal-close" id="closeCreateTopicModal"><i class="fas fa-times"></i></button>
+      <div class="modal-title">
+        <i class="fas fa-pen"></i>
+        Créer un <span>sujet</span>
+      </div>
+      <button class="modal-close-btn" id="closeCreateTopicModal">
+        <i class="fas fa-times"></i>
+      </button>
     </div>
     <div class="modal-body">
       <div class="form-group">
@@ -792,16 +1154,11 @@
       </div>
       <div class="form-group">
         <label>📂 Catégorie</label>
-        <div class="input-wrapper">
-          <select id="topicCategory">
-            <option value="Investissement">Investissement</option>
-            <option value="Finance">Finance</option>
-            <option value="Épargne">Épargne</option>
-            <option value="Parrainage">Parrainage</option>
-            <option value="Entrepreneuriat">Entrepreneuriat</option>
-            <option value="Autre">Autre</option>
-          </select>
+        <div class="input-wrapper" id="categorySelector" style="cursor:pointer;">
+          <input type="text" id="topicCategory" placeholder="Choisir une catégorie" readonly style="cursor:pointer;">
+          <i class="fas fa-chevron-down" style="color:var(--accent);padding-right:12px;"></i>
         </div>
+        <input type="hidden" id="selectedCategory" value="Investissement">
       </div>
       <div class="form-group">
         <label>📝 Contenu</label>
@@ -809,28 +1166,92 @@
           <textarea id="topicContent" placeholder="Décrivez votre question ou votre partage..." maxlength="2000"></textarea>
         </div>
       </div>
+      <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">
+        💡 Si votre sujet atteint <strong style="color:var(--accent);">50 likes</strong>, vous gagnez <strong style="color:var(--success);">100 FCFA</strong> !
+      </div>
     </div>
     <div class="modal-footer">
-      <button class="btn-submit" id="createTopicBtn">📤 Publier le sujet</button>
+      <button class="btn-primary" id="createTopicBtn">
+        <i class="fas fa-paper-plane"></i> Publier le sujet
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODAL CATÉGORIE ===== -->
+<div class="modal-overlay" id="categoryModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="modal-title">
+        <i class="fas fa-tag"></i>
+        Choisir une <span>catégorie</span>
+      </div>
+      <button class="modal-close-btn" id="closeCategoryModal">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>📂 Catégorie du sujet</label>
+        <div class="category-grid" id="categoryGrid">
+          <div class="category-option selected" data-category="Investissement">
+            <i class="fas fa-chart-line"></i>
+            <span>Investissement</span>
+          </div>
+          <div class="category-option" data-category="Finance">
+            <i class="fas fa-coins"></i>
+            <span>Finance</span>
+          </div>
+          <div class="category-option" data-category="Épargne">
+            <i class="fas fa-piggy-bank"></i>
+            <span>Épargne</span>
+          </div>
+          <div class="category-option" data-category="Parrainage">
+            <i class="fas fa-users"></i>
+            <span>Parrainage</span>
+          </div>
+          <div class="category-option" data-category="Entrepreneuriat">
+            <i class="fas fa-briefcase"></i>
+            <span>Entrepreneuriat</span>
+          </div>
+          <div class="category-option" data-category="Autre">
+            <i class="fas fa-ellipsis-h"></i>
+            <span>Autre</span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
 <!-- ===== MODAL DE CONFIRMATION ===== -->
-<div class="modal-overlay confirm-modal" id="confirmModal">
-  <div class="modal" style="max-width:360px;">
+<div class="modal-overlay" id="confirmModal">
+  <div class="modal-content">
     <div class="modal-header">
-      <h3>⚠️ Confirmer la <span>suppression</span></h3>
-      <button class="modal-close" id="closeConfirmModal"><i class="fas fa-times"></i></button>
+      <div class="modal-title">
+        <i class="fas fa-trash"></i>
+        Confirmer la <span>suppression</span>
+      </div>
+      <button class="modal-close-btn" id="closeConfirmModal">
+        <i class="fas fa-times"></i>
+      </button>
     </div>
-    <div class="modal-body">
-      <span class="icon"><i class="fas fa-trash"></i></span>
-      <p>Êtes-vous sûr de vouloir supprimer cette réponse ?</p>
-      <p class="sub">Cette action est irréversible.</p>
+    <div class="modal-body" style="text-align:center;padding:24px;">
+      <div style="font-size:48px;color:var(--danger);opacity:0.3;margin-bottom:12px;">
+        <i class="fas fa-exclamation-triangle"></i>
+      </div>
+      <p style="color:var(--text-dim);font-size:14px;line-height:1.6;">
+        Êtes-vous sûr de vouloir supprimer cette réponse ?
+      </p>
+      <p style="color:var(--text-muted);font-size:12px;margin-top:4px;">
+        Cette action est irréversible.
+      </p>
     </div>
     <div class="modal-footer">
-      <button class="btn-cancel" id="cancelDeleteBtn">Annuler</button>
-      <button class="btn-confirm" id="confirmDeleteBtn"><i class="fas fa-trash"></i> Supprimer</button>
+      <button class="btn-secondary" id="cancelDeleteBtn">Annuler</button>
+      <button class="btn-danger" id="confirmDeleteBtn">
+        <i class="fas fa-trash"></i> Supprimer
+      </button>
     </div>
   </div>
 </div>
@@ -880,21 +1301,25 @@ import {
   addDoc,
   updateDoc,
   deleteDoc,
+  runTransaction,
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
+
 // ================================================================
-// CONFIGURATION - FALLBACK SI config.js n'est pas chargé
+// CONFIGURATION
 // ================================================================
-var ADMIN_URL = 'https://gagneavecia-ui.github.io/Webtest/admin';
-var SITE_URL = 'https://gagneavecia-ui.github.io/Webtest';
+var ADMIN_URL = 'https://nexgen-39043.web.app/admin';
+var LIKES_TARGET = 50;
+var LIKES_REWARD = 100;
 
 if (typeof APP_CONFIG !== 'undefined') {
   if (APP_CONFIG.ADMIN_URL) ADMIN_URL = APP_CONFIG.ADMIN_URL;
-  if (APP_CONFIG.SITE_URL) SITE_URL = APP_CONFIG.SITE_URL;
+  if (APP_CONFIG.FORUM_LIKES_TARGET) LIKES_TARGET = APP_CONFIG.FORUM_LIKES_TARGET;
+  if (APP_CONFIG.FORUM_LIKES_REWARD) LIKES_REWARD = APP_CONFIG.FORUM_LIKES_REWARD;
 }
 
-console.log('🔗 ADMIN_URL:', ADMIN_URL);
-console.log('🔗 SITE_URL:', SITE_URL);
+console.debug('🔗 ADMIN_URL:', ADMIN_URL);
+console.debug('🎯 Likes target:', LIKES_TARGET, '→', LIKES_REWARD, 'FCFA');
 
 // ================================================================
 // CONFIGURATION FIREBASE
@@ -914,12 +1339,6 @@ var auth = getAuth(app);
 var db = getFirestore(app);
 
 setPersistence(auth, browserLocalPersistence);
-
-// ================================================================
-// TELEGRAM CONFIG (admin uniquement)
-// ================================================================
-var TELEGRAM_BOT_TOKEN = "8283625921:AAEF--QKS9uqnz0K3j7SGkk7fsdRb3b8y8o";
-var TELEGRAM_CHAT_ID = "5212067028";
 
 // ================================================================
 // DOM
@@ -946,6 +1365,27 @@ var closeConfirmModal = document.getElementById('closeConfirmModal');
 var confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
 var cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
 
+var topicLikeBtn = document.getElementById('topicLikeBtn');
+var topicLikeBtnCount = document.getElementById('topicLikeBtnCount');
+var topicLikeCount = document.getElementById('topicLikeCount');
+var topicLikeTarget = document.getElementById('topicLikeTarget');
+var topicLikeReward = document.getElementById('topicLikeReward');
+var topicLikeBar = document.getElementById('topicLikeBar');
+var topicLikeText = document.getElementById('topicLikeText');
+
+var statTopics = document.getElementById('statTopics');
+var statReplies = document.getElementById('statReplies');
+var statLikes = document.getElementById('statLikes');
+var statRewards = document.getElementById('statRewards');
+
+// CATEGORY MODAL
+var categoryModal = document.getElementById('categoryModal');
+var closeCategoryModal = document.getElementById('closeCategoryModal');
+var categoryGrid = document.getElementById('categoryGrid');
+var categorySelector = document.getElementById('categorySelector');
+var topicCategoryInput = document.getElementById('topicCategory');
+var selectedCategoryInput = document.getElementById('selectedCategory');
+
 var currentUser = null;
 var userData = null;
 var currentTopicId = null;
@@ -955,6 +1395,55 @@ var unsubscribeReplies = null;
 var notificationTimeout = null;
 var pendingDeleteId = null;
 var pendingTopicId = null;
+var isPageLoading = true;
+var dataLoaded = false;
+var selectedCategory = 'Investissement';
+
+// ================================================================
+// GESTION DU CACHE
+// ================================================================
+function getCachedUserData() {
+  try {
+    const cached = localStorage.getItem('ARVEXA_user_data');
+    const timestamp = localStorage.getItem('ARVEXA_user_data_timestamp');
+    if (!cached) return null;
+    if (timestamp) {
+      const age = Date.now() - parseInt(timestamp);
+      if (age > 300000) return null;
+    }
+    return JSON.parse(cached);
+  } catch(e) { return null; }
+}
+
+function setCachedUserData(data) {
+  localStorage.setItem('ARVEXA_user_data', JSON.stringify(data));
+  localStorage.setItem('ARVEXA_user_data_timestamp', String(Date.now()));
+}
+
+function loadFromCache() {
+  const cached = getCachedUserData();
+  if (cached) {
+    userData = cached;
+    return true;
+  }
+  return false;
+}
+
+// ================================================================
+// TOAST
+// ================================================================
+function showToast(message, type) {
+  type = type || 'info';
+  toast.textContent = message;
+  toast.className = 'toast ' + type;
+  clearTimeout(notificationTimeout);
+  requestAnimationFrame(function() {
+    toast.classList.add('show');
+  });
+  notificationTimeout = setTimeout(function() {
+    toast.classList.remove('show');
+  }, 4000);
+}
 
 // ================================================================
 // HELPERS
@@ -962,19 +1451,6 @@ var pendingTopicId = null;
 function formatCurrency(amount) {
   if (!amount) return '0 FCFA';
   return amount.toLocaleString('fr-FR') + ' FCFA';
-}
-
-function showToast(message, type) {
-  type = type || 'success';
-  toast.textContent = message;
-  toast.className = 'toast ' + type;
-  clearTimeout(notificationTimeout);
-  setTimeout(function() {
-    toast.classList.add('show');
-  }, 50);
-  notificationTimeout = setTimeout(function() {
-    toast.classList.remove('show');
-  }, 3500);
 }
 
 function escapeHtml(str) {
@@ -1000,68 +1476,46 @@ function getInitials(name) {
 }
 
 // ================================================================
-// ENVOI TELEGRAM (admin uniquement)
+// MODALE CATÉGORIE
 // ================================================================
-function sendTelegramMessage(message) {
-  var url = 'https://api.telegram.org/bot' + TELEGRAM_BOT_TOKEN + '/sendMessage';
-  return fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      chat_id: TELEGRAM_CHAT_ID,
-      text: message,
-      parse_mode: 'HTML',
-      disable_web_page_preview: true
-    })
-  }).then(function(response) {
-    return response.json();
-  }).then(function(data) {
-    console.log('Telegram envoye:', data.ok);
-    return data.ok;
-  }).catch(function(error) {
-    console.error('Erreur Telegram:', error);
-    return false;
+function openCategoryModal() {
+  categoryModal.classList.add('show');
+}
+
+function closeCategoryModalFn() {
+  categoryModal.classList.remove('show');
+}
+
+closeCategoryModal.addEventListener('click', closeCategoryModalFn);
+categoryModal.addEventListener('click', function(e) {
+  if (e.target === categoryModal) closeCategoryModalFn();
+});
+
+// Sélection d'une catégorie
+document.querySelectorAll('.category-option').forEach(function(opt) {
+  opt.addEventListener('click', function() {
+    document.querySelectorAll('.category-option').forEach(o => o.classList.remove('selected'));
+    this.classList.add('selected');
+    selectedCategory = this.dataset.category;
+    selectedCategoryInput.value = selectedCategory;
+    topicCategoryInput.value = selectedCategory;
+    closeCategoryModalFn();
   });
-}
+});
 
-function notifyAdminNewTopic(userName, title, category) {
-  var msg = '💬 <b>Nouveau sujet dans le forum !</b>\n\n' +
-            '👤 <b>Par:</b> ' + escapeHtml(userName) + '\n' +
-            '📝 <b>Titre:</b> ' + escapeHtml(title) + '\n' +
-            '📂 <b>Catégorie:</b> ' + escapeHtml(category) + '\n' +
-            '🕐 <b>Date:</b> ' + new Date().toLocaleString('fr-FR') + '\n\n' +
-            '🔗 <a href="' + ADMIN_URL + '">Voir dans l\'admin</a>';
-  return sendTelegramMessage(msg);
-}
+// Ouvrir la modale au clic sur le champ catégorie
+categorySelector.addEventListener('click', function() {
+  openCategoryModal();
+});
 
 // ================================================================
-// RÉCUPÉRER LES PARTICIPANTS D'UN SUJET
+// RENDU STATS
 // ================================================================
-async function getTopicParticipants(topicId) {
-  var userIds = [];
-  
-  try {
-    var topicRef = doc(db, 'forum_topics', topicId);
-    var topicSnap = await getDoc(topicRef);
-    if (topicSnap.exists()) {
-      var authorId = topicSnap.data().userId;
-      if (authorId) userIds.push(authorId);
-    }
-    
-    var q = query(collection(db, 'forum_replies'), where('topicId', '==', topicId));
-    var snapshot = await getDocs(q);
-    snapshot.forEach(function(doc) {
-      var data = doc.data();
-      if (data.userId && !userIds.includes(data.userId)) {
-        userIds.push(data.userId);
-      }
-    });
-    
-  } catch (error) {
-    console.error('Erreur récupération participants:', error);
-  }
-  
-  return userIds;
+function updateStats(topics, replies, totalLikes, totalRewards) {
+  statTopics.textContent = topics || 0;
+  statReplies.textContent = replies || 0;
+  statLikes.textContent = totalLikes || 0;
+  statRewards.textContent = formatCurrency(totalRewards || 0);
 }
 
 // ================================================================
@@ -1074,25 +1528,47 @@ function renderTopic(data) {
   var repliesCount = data.repliesCount || 0;
   var createdAt = data.createdAt || new Date().toISOString();
   var isPinned = data.isPinned || false;
+  var likes = data.likes || 0;
+  var views = data.views || 0;
+  var isRewarded = data.likesPaid || false;
+  var progress = Math.min((likes / LIKES_TARGET) * 100, 100);
+
+  var badgeHTML = '';
+  if (isPinned) {
+    badgeHTML = '<span class="topic-badge pinned">📌 Épinglé</span>';
+  } else if (isRewarded) {
+    badgeHTML = '<span class="topic-badge rewarded">🏆 Récompensé</span>';
+  } else if (likes >= LIKES_TARGET * 0.7) {
+    badgeHTML = '<span class="topic-badge popular">🔥 Populaire</span>';
+  }
+
+  var iconClass = isPinned ? 'pinned' : (likes >= LIKES_TARGET * 0.7 ? 'popular' : '');
+  var icon = isPinned ? 'fa-thumbtack' : (likes >= LIKES_TARGET * 0.7 ? 'fa-fire' : 'fa-comment');
 
   return '<div class="topic-item" data-id="' + data.id + '">' +
-    '<div class="topic-icon"><i class="fas ' + (isPinned ? 'fa-thumbtack' : 'fa-comment') + '"></i></div>' +
+    '<div class="topic-icon ' + iconClass + '"><i class="fas ' + icon + '"></i></div>' +
     '<div class="topic-content">' +
-      '<div class="topic-title">' + escapeHtml(title) + '</div>' +
+      '<div class="topic-title">' + escapeHtml(title) + ' ' + badgeHTML + '</div>' +
       '<div class="topic-meta">' +
         '<span class="category">' + escapeHtml(category) + '</span>' +
-        '<span>Par ' + escapeHtml(userName) + '</span>' +
-        '<span>🕐 ' + formatDate(createdAt) + '</span>' +
+        '<span class="author">Par ' + escapeHtml(userName) + '</span>' +
+        '<span class="date">🕐 ' + formatDate(createdAt) + '</span>' +
+      '</div>' +
+      '<div style="display:flex;align-items:center;gap:8px;margin-top:4px;">' +
+        '<div class="topic-likes-progress"><div class="bar" style="width:' + progress + '%;"></div></div>' +
+        '<span style="font-size:9px;color:var(--text-muted);">' + likes + '/' + LIKES_TARGET + '</span>' +
       '</div>' +
     '</div>' +
     '<div class="topic-stats">' +
       '<span class="replies"><i class="fas fa-reply"></i> ' + repliesCount + '</span>' +
+      '<span class="likes"><i class="fas fa-heart"></i> ' + likes + '</span>' +
+      '<span class="views"><i class="fas fa-eye"></i> ' + views + '</span>' +
     '</div>' +
   '</div>';
 }
 
 // ================================================================
-// CHARGER LES SUJETS AVEC LOADER
+// CHARGER LES SUJETS
 // ================================================================
 function loadTopics() {
   topicsLoader.style.display = 'block';
@@ -1128,13 +1604,21 @@ function loadTopics() {
     topicsContent.style.display = 'block';
     
     var html = '';
+    var totalLikes = 0;
+    var totalReplies = 0;
+    var totalRewards = 0;
+    
     snapshot.forEach(function(docSnap) {
       var data = docSnap.data();
       data.id = docSnap.id;
       html += renderTopic(data);
+      totalLikes += data.likes || 0;
+      totalReplies += data.repliesCount || 0;
+      if (data.likesPaid) totalRewards += LIKES_REWARD;
     });
     
     topicsContent.innerHTML = html;
+    updateStats(topicsCount, totalReplies, totalLikes, totalRewards);
 
     document.querySelectorAll('.topic-item').forEach(function(item) {
       item.addEventListener('click', function() {
@@ -1147,53 +1631,343 @@ function loadTopics() {
     topicsLoader.style.display = 'none';
     topicsEmpty.style.display = 'block';
     topicsContent.style.display = 'none';
-    
-    var emptyP = topicsEmpty.querySelector('.empty-state p');
-    var emptySub = topicsEmpty.querySelector('.empty-state .sub');
-    if (emptyP) emptyP.textContent = 'Erreur de chargement';
-    if (emptySub) emptySub.textContent = 'Veuillez réessayer plus tard.';
-    
     console.error('Erreur chargement sujets:', error);
   });
 }
 
 // ================================================================
-// CHARGER DÉTAIL D'UN SUJET
+// ✅ CORRECTION 1: VUES PAR SESSION - Optimisé
 // ================================================================
-function loadTopicDetail(topicId) {
+async function loadTopicDetail(topicId) {
   currentTopicId = topicId;
 
+  // ✅ Vérifier si l'utilisateur a déjà vu ce sujet dans cette session
+  const sessionKey = 'forum_viewed_' + topicId;
+  const alreadyViewed = sessionStorage.getItem(sessionKey);
+
   var topicRef = doc(db, 'forum_topics', topicId);
-  getDoc(topicRef).then(function(docSnap) {
-    if (!docSnap.exists()) {
+  var topicSnap = await getDoc(topicRef);
+  
+  if (!topicSnap.exists()) {
+    showToast('Sujet introuvable', 'error');
+    return;
+  }
+
+  var data = topicSnap.data();
+
+  // ✅ Incrémenter les vues UNIQUEMENT si pas encore vu dans cette session
+  if (!alreadyViewed) {
+    var views = (data.views || 0) + 1;
+    await updateDoc(topicRef, { views: views });
+    sessionStorage.setItem(sessionKey, 'true');
+  }
+
+  topicListView.style.display = 'none';
+  topicDetailView.style.display = 'block';
+
+  document.getElementById('topicDetailTitle').textContent = data.title || 'Sans titre';
+  document.getElementById('topicDetailCategory').textContent = data.category || 'Général';
+  document.getElementById('topicDetailAuthor').textContent = data.userName || 'Utilisateur';
+  document.getElementById('topicDetailDate').textContent = formatDate(data.createdAt);
+  document.getElementById('topicDetailContent').innerHTML = '<p style="color:var(--text-dim);line-height:1.8;">' + escapeHtml(data.content || 'Pas de contenu') + '</p>';
+  document.getElementById('topicDetailReplies').textContent = (data.repliesCount || 0) + ' réponses';
+  document.getElementById('topicDetailViews').textContent = data.views || 0;
+
+  // Likes
+  const likes = data.likes || 0;
+  const isLiked = (data.likedBy || []).includes(currentUser?.uid || '');
+  topicLikeTarget.textContent = LIKES_TARGET;
+  topicLikeReward.textContent = LIKES_REWARD;
+  updateTopicLikeUI(likes, isLiked);
+
+  // Bouton like
+  topicLikeBtn.onclick = function() {
+    likeTopic(topicId);
+  };
+
+  loadReplies(topicId);
+
+  replyInput.value = '';
+  replyInput.focus();
+}
+
+// ================================================================
+// ✅ CORRECTION 2: LIKE INSTANTANÉ (OPTIMISTIC UPDATE)
+// ================================================================
+async function likeTopic(topicId) {
+  if (!currentUser) {
+    showToast('⚠️ Connectez-vous pour liker', 'warning');
+    return;
+  }
+
+  // ✅ OPTIMISTIC UPDATE : Sauvegarder l'état actuel
+  const currentLikes = parseInt(topicLikeCount.textContent) || 0;
+  const isCurrentlyLiked = topicLikeBtn.classList.contains('liked');
+  
+  // ✅ Mettre à jour l'UI immédiatement
+  if (isCurrentlyLiked) {
+    topicLikeCount.textContent = currentLikes - 1;
+    topicLikeBtn.classList.remove('liked');
+    topicLikeBtnCount.textContent = currentLikes - 1;
+  } else {
+    topicLikeCount.textContent = currentLikes + 1;
+    topicLikeBtn.classList.add('liked');
+    topicLikeBtnCount.textContent = currentLikes + 1;
+  }
+  
+  // Mettre à jour la barre de progression
+  const newLikes = parseInt(topicLikeCount.textContent);
+  const progress = Math.min((newLikes / LIKES_TARGET) * 100, 100);
+  topicLikeBar.style.width = progress + '%';
+  topicLikeText.textContent = newLikes + ' / ' + LIKES_TARGET + ' likes (' + Math.round(progress) + '%)';
+
+  // ✅ Envoyer la requête en arrière-plan
+  try {
+    const topicRef = doc(db, 'forum_topics', topicId);
+    const topicSnap = await getDoc(topicRef);
+    if (!topicSnap.exists()) {
+      revertLikeUI(currentLikes, isCurrentlyLiked);
       showToast('Sujet introuvable', 'error');
       return;
     }
 
-    var data = docSnap.data();
+    const topicData = topicSnap.data();
+    const likedBy = topicData.likedBy || [];
+    const isLiked = likedBy.includes(currentUser.uid);
 
-    var views = (data.views || 0) + 1;
-    updateDoc(topicRef, { views: views }).catch(function() {});
+    await runTransaction(db, async (transaction) => {
+      const topicDoc = await transaction.get(topicRef);
+      if (!topicDoc.exists()) return;
 
-    topicListView.style.display = 'none';
-    topicDetailView.style.display = 'block';
+      const currentData = topicDoc.data();
+      const currentLikesDb = currentData.likes || 0;
+      const currentLikedBy = currentData.likedBy || [];
+      const isCurrentlyLikedDb = currentLikedBy.includes(currentUser.uid);
 
-    document.getElementById('topicDetailTitle').textContent = data.title || 'Sans titre';
-    document.getElementById('topicDetailCategory').textContent = data.category || 'Général';
-    document.getElementById('topicDetailAuthor').textContent = data.userName || 'Utilisateur';
-    document.getElementById('topicDetailDate').textContent = formatDate(data.createdAt);
-    document.getElementById('topicDetailContent').innerHTML = '<p style="color:var(--text-dim);line-height:1.8;">' + escapeHtml(data.content || 'Pas de contenu') + '</p>';
-    document.getElementById('topicDetailReplies').textContent = (data.repliesCount || 0) + ' réponses';
+      let newLikesDb = currentLikesDb;
+      let newLikedBy = [...currentLikedBy];
 
-    loadReplies(topicId);
+      if (isCurrentlyLikedDb) {
+        newLikesDb = currentLikesDb - 1;
+        newLikedBy = newLikedBy.filter(id => id !== currentUser.uid);
+      } else {
+        newLikesDb = currentLikesDb + 1;
+        newLikedBy.push(currentUser.uid);
+      }
 
-    replyInput.value = '';
-    replyInput.focus();
+      transaction.update(topicRef, {
+        likes: newLikesDb,
+        likedBy: newLikedBy,
+        updatedAt: new Date().toISOString()
+      });
 
-  }).catch(function(error) {
-    console.error('Erreur chargement sujet:', error);
-    showToast('Erreur de chargement', 'error');
-  });
+      // ✅ Vérifier la récompense
+      if (newLikesDb >= LIKES_TARGET && !currentData.likesPaid) {
+        transaction.update(topicRef, {
+          likesPaid: true,
+          likesPaidAt: new Date().toISOString()
+        });
+
+        const userRef = doc(db, 'users', currentUser.uid);
+        const userSnap = await transaction.get(userRef);
+        if (userSnap.exists()) {
+          const userBalance = userSnap.data().balance || 0;
+          const userGains = userSnap.data().gainsTotal || 0;
+          transaction.update(userRef, {
+            balance: userBalance + LIKES_REWARD,
+            gainsTotal: userGains + LIKES_REWARD,
+            forumRewards: (userSnap.data().forumRewards || 0) + LIKES_REWARD
+          });
+
+          const gainRef = doc(collection(db, 'gains'));
+          transaction.set(gainRef, {
+            userId: currentUser.uid,
+            userName: userData?.prenom || 'Utilisateur',
+            montant: LIKES_REWARD,
+            type: 'forum_likes',
+            sourceId: topicId,
+            sourceType: 'topic',
+            date: new Date().toISOString().split('T')[0],
+            timestamp: new Date().toISOString(),
+            createdAt: new Date().toISOString()
+          });
+
+          // ✅ Notification de récompense
+          setTimeout(() => {
+            showToast('🎉 Félicitations ! Vous avez gagné ' + formatCurrency(LIKES_REWARD) + ' pour ce sujet !', 'reward');
+          }, 500);
+        }
+      }
+    });
+
+  } catch (error) {
+    console.error('Erreur like:', error);
+    // ✅ En cas d'erreur, restaurer l'état précédent
+    revertLikeUI(currentLikes, isCurrentlyLiked);
+    showToast('❌ Erreur lors du like', 'error');
+  }
+}
+
+// ✅ Fonction pour annuler le like en cas d'erreur
+function revertLikeUI(previousLikes, wasLiked) {
+  topicLikeCount.textContent = previousLikes;
+  topicLikeBtnCount.textContent = previousLikes;
+  if (wasLiked) {
+    topicLikeBtn.classList.add('liked');
+  } else {
+    topicLikeBtn.classList.remove('liked');
+  }
+  const progress = Math.min((previousLikes / LIKES_TARGET) * 100, 100);
+  topicLikeBar.style.width = progress + '%';
+  topicLikeText.textContent = previousLikes + ' / ' + LIKES_TARGET + ' likes (' + Math.round(progress) + '%)';
+}
+
+// ================================================================
+// METTRE À JOUR L'UI DU LIKE
+// ================================================================
+function updateTopicLikeUI(likes, isLiked) {
+  const progress = Math.min((likes / LIKES_TARGET) * 100, 100);
+  
+  topicLikeCount.textContent = likes;
+  topicLikeBtnCount.textContent = likes;
+  topicLikeBar.style.width = progress + '%';
+  topicLikeText.textContent = likes + ' / ' + LIKES_TARGET + ' likes (' + Math.round(progress) + '%)';
+
+  if (isLiked) {
+    topicLikeBtn.classList.add('liked');
+  } else {
+    topicLikeBtn.classList.remove('liked');
+  }
+}
+
+// ================================================================
+// LIKER UNE RÉPONSE - AVEC OPTIMISTIC UPDATE
+// ================================================================
+async function likeReply(replyId) {
+  if (!currentUser) {
+    showToast('⚠️ Connectez-vous pour liker', 'warning');
+    return;
+  }
+
+  const btn = document.querySelector(`.like-btn-sm[data-replyid="${replyId}"]`);
+  if (!btn) return;
+
+  // ✅ Sauvegarder l'état actuel
+  const countSpan = btn.querySelector('.like-count');
+  const currentLikes = parseInt(countSpan?.textContent) || 0;
+  const isCurrentlyLiked = btn.classList.contains('liked');
+
+  // ✅ Mettre à jour l'UI immédiatement
+  if (isCurrentlyLiked) {
+    if (countSpan) countSpan.textContent = currentLikes - 1;
+    btn.classList.remove('liked');
+  } else {
+    if (countSpan) countSpan.textContent = currentLikes + 1;
+    btn.classList.add('liked');
+  }
+
+  // Mettre à jour la barre de progression
+  const newLikes = parseInt(countSpan?.textContent) || 0;
+  const progress = Math.min((newLikes / LIKES_TARGET) * 100, 100);
+  const progressBar = document.querySelector(`.reply-likes-progress[data-replyid="${replyId}"] .bar`);
+  if (progressBar) {
+    progressBar.style.width = progress + '%';
+  }
+
+  // ✅ Envoyer la requête en arrière-plan
+  try {
+    const replyRef = doc(db, 'forum_replies', replyId);
+    const replySnap = await getDoc(replyRef);
+    if (!replySnap.exists()) {
+      // Restaurer l'état
+      if (countSpan) countSpan.textContent = currentLikes;
+      btn.classList.toggle('liked', isCurrentlyLiked);
+      showToast('Réponse introuvable', 'error');
+      return;
+    }
+
+    const replyData = replySnap.data();
+    const likedBy = replyData.likedBy || [];
+    const isLiked = likedBy.includes(currentUser.uid);
+
+    let newLikesDb = replyData.likes || 0;
+    let newLikedBy = [...likedBy];
+
+    if (isLiked) {
+      newLikesDb = newLikesDb - 1;
+      newLikedBy = newLikedBy.filter(id => id !== currentUser.uid);
+    } else {
+      newLikesDb = newLikesDb + 1;
+      newLikedBy.push(currentUser.uid);
+    }
+
+    await updateDoc(replyRef, {
+      likes: newLikesDb,
+      likedBy: newLikedBy,
+      updatedAt: new Date().toISOString()
+    });
+
+    // ✅ Vérifier la récompense pour la réponse
+    if (newLikesDb >= LIKES_TARGET && !replyData.likesPaid) {
+      await updateDoc(replyRef, {
+        likesPaid: true,
+        likesPaidAt: new Date().toISOString()
+      });
+
+      const userRef = doc(db, 'users', replyData.userId);
+      const userSnap = await getDoc(userRef);
+      if (userSnap.exists()) {
+        const userBalance = userSnap.data().balance || 0;
+        const userGains = userSnap.data().gainsTotal || 0;
+        await updateDoc(userRef, {
+          balance: userBalance + LIKES_REWARD,
+          gainsTotal: userGains + LIKES_REWARD,
+          forumRewards: (userSnap.data().forumRewards || 0) + LIKES_REWARD
+        });
+
+        await addDoc(collection(db, 'gains'), {
+          userId: replyData.userId,
+          userName: replyData.userName || 'Utilisateur',
+          montant: LIKES_REWARD,
+          type: 'forum_likes',
+          sourceId: replyId,
+          sourceType: 'reply',
+          date: new Date().toISOString().split('T')[0],
+          timestamp: new Date().toISOString(),
+          createdAt: new Date().toISOString()
+        });
+
+        showToast('🎉 Réponse récompensée ! +' + formatCurrency(LIKES_REWARD), 'reward');
+      }
+    }
+
+    // ✅ Mettre à jour l'UI avec les données réelles
+    const updatedSnap = await getDoc(replyRef);
+    if (updatedSnap.exists()) {
+      const data = updatedSnap.data();
+      const finalLikes = data.likes || 0;
+      const isLikedNow = (data.likedBy || []).includes(currentUser.uid);
+      
+      if (countSpan) countSpan.textContent = finalLikes;
+      btn.classList.toggle('liked', isLikedNow);
+      
+      const finalProgress = Math.min((finalLikes / LIKES_TARGET) * 100, 100);
+      if (progressBar) {
+        progressBar.style.width = finalProgress + '%';
+      }
+    }
+
+  } catch (error) {
+    console.error('Erreur like réponse:', error);
+    // Restaurer l'état en cas d'erreur
+    if (countSpan) countSpan.textContent = currentLikes;
+    btn.classList.toggle('liked', isCurrentlyLiked);
+    const oldProgress = Math.min((currentLikes / LIKES_TARGET) * 100, 100);
+    if (progressBar) {
+      progressBar.style.width = oldProgress + '%';
+    }
+    showToast('❌ Erreur lors du like', 'error');
+  }
 }
 
 // ================================================================
@@ -1205,8 +1979,10 @@ function loadReplies(topicId) {
     unsubscribeReplies = null;
   }
 
-  var repliesContainer = document.getElementById('topicDetailRepliesList');
-  repliesContainer.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text-muted);"><i class="fas fa-spinner fa-spin"></i> Chargement...</div>';
+  var repliesContainer = document.getElementById('repliesContent');
+  var repliesLoader = document.getElementById('repliesLoader');
+  repliesLoader.style.display = 'block';
+  repliesContainer.style.display = 'none';
 
   var q = query(
     collection(db, 'forum_replies'),
@@ -1214,8 +1990,11 @@ function loadReplies(topicId) {
   );
 
   unsubscribeReplies = onSnapshot(q, function(snapshot) {
+    repliesLoader.style.display = 'none';
+    
     if (snapshot.empty) {
       repliesContainer.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text-muted);font-size:13px;">Aucune réponse pour le moment</div>';
+      repliesContainer.style.display = 'block';
       return;
     }
 
@@ -1235,21 +2014,52 @@ function loadReplies(topicId) {
     var html = '';
     items.forEach(function(data) {
       var isOwner = currentUser && data.userId === currentUser.uid;
+      var likes = data.likes || 0;
+      var isLiked = (data.likedBy || []).includes(currentUser?.uid || '');
+      var progress = Math.min((likes / LIKES_TARGET) * 100, 100);
+      var isRewarded = data.likesPaid || false;
 
-      html += '<div class="reply-item">' +
-        '<div class="reply-avatar">' + getInitials(data.userName) + '</div>' +
+      var avatarBg = data.avatarBase64 ? 'background-image:url(' + data.avatarBase64 + ');background-size:cover;' : '';
+      var initial = getInitials(data.userName);
+
+      html += '<div class="reply-item" data-replyid="' + data.id + '">' +
+        '<div class="reply-avatar" style="' + avatarBg + '">' + (avatarBg ? '' : initial) + '</div>' +
         '<div class="reply-content">' +
-          '<span class="reply-author">' + escapeHtml(data.userName || 'Utilisateur') + '</span>' +
-          '<span class="reply-date">' + formatDate(data.createdAt) + '</span>' +
+          '<div class="reply-author">' +
+            escapeHtml(data.userName || 'Utilisateur') +
+            (data.isPremium ? '<span class="badge-premium">⭐ Premium</span>' : '') +
+            (isRewarded ? '<span style="font-size:9px;color:var(--success);">🏆 Récompensé</span>' : '') +
+            '<span class="reply-date">' + formatDate(data.createdAt) + '</span>' +
+          '</div>' +
           '<div class="reply-text">' + escapeHtml(data.content || '') + '</div>' +
+          '<div class="reply-actions">' +
+            '<button class="like-btn-sm ' + (isLiked ? 'liked' : '') + '" data-replyid="' + data.id + '">' +
+              '<i class="fas fa-heart"></i> ' +
+              '<span class="like-count">' + likes + '</span>' +
+            '</button>' +
+            '<div class="reply-likes-progress" data-replyid="' + data.id + '">' +
+              '<div class="bar" style="width:' + progress + '%;"></div>' +
+            '</div>' +
+            (isOwner ? '<button class="delete-btn" data-id="' + data.id + '" data-topicid="' + topicId + '"><i class="fas fa-trash"></i></button>' : '') +
+          '</div>' +
         '</div>' +
-        (isOwner ? '<span class="reply-delete" data-id="' + data.id + '" data-topicid="' + topicId + '"><i class="fas fa-trash"></i></span>' : '') +
       '</div>';
     });
 
     repliesContainer.innerHTML = html;
+    repliesContainer.style.display = 'block';
 
-    document.querySelectorAll('.reply-delete').forEach(function(btn) {
+    // Événements likes réponses
+    document.querySelectorAll('.like-btn-sm').forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var replyId = this.dataset.replyid;
+        if (replyId) likeReply(replyId);
+      });
+    });
+
+    // Événements suppression
+    document.querySelectorAll('.delete-btn').forEach(function(btn) {
       btn.addEventListener('click', function(e) {
         e.stopPropagation();
         var replyId = this.dataset.id;
@@ -1264,7 +2074,9 @@ function loadReplies(topicId) {
 
   }, function(error) {
     console.error('Erreur chargement réponses:', error);
+    repliesLoader.style.display = 'none';
     repliesContainer.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text-dim);font-size:13px;">Erreur de chargement</div>';
+    repliesContainer.style.display = 'block';
   });
 }
 
@@ -1287,7 +2099,6 @@ closeConfirmModal.addEventListener('click', hideConfirmModal);
 confirmModal.addEventListener('click', function(e) {
   if (e.target === confirmModal) hideConfirmModal();
 });
-
 cancelDeleteBtn.addEventListener('click', hideConfirmModal);
 
 confirmDeleteBtn.addEventListener('click', async function() {
@@ -1302,7 +2113,7 @@ confirmDeleteBtn.addEventListener('click', async function() {
 // ================================================================
 async function createTopic() {
   var title = document.getElementById('topicTitle').value.trim();
-  var category = document.getElementById('topicCategory').value;
+  var category = selectedCategoryInput.value || 'Investissement';
   var content = document.getElementById('topicContent').value.trim();
 
   if (!title) {
@@ -1323,6 +2134,7 @@ async function createTopic() {
 
   try {
     var userName = userData ? (userData.prenom || userData.fullName || 'Utilisateur') : 'Utilisateur';
+    var isPremium = userData ? (userData.isUnlocked === true || userData.hasDeposited === true) : false;
 
     var data = {
       userId: currentUser.uid,
@@ -1332,19 +2144,25 @@ async function createTopic() {
       content: content,
       repliesCount: 0,
       views: 0,
+      likes: 0,
+      likedBy: [],
+      likesPaid: false,
       isPinned: false,
+      isPremium: isPremium,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
     };
 
     var docRef = await addDoc(collection(db, 'forum_topics'), data);
 
-    notifyAdminNewTopic(userName, title, category);
-
     showToast('✅ Sujet "' + title + '" publié !', 'success');
 
     document.getElementById('topicTitle').value = '';
     document.getElementById('topicContent').value = '';
+    topicCategoryInput.value = 'Investissement';
+    selectedCategoryInput.value = 'Investissement';
+    document.querySelectorAll('.category-option').forEach(o => o.classList.remove('selected'));
+    document.querySelector('.category-option[data-category="Investissement"]').classList.add('selected');
     closeCreateTopicModal.click();
 
   } catch (error) {
@@ -1353,7 +2171,7 @@ async function createTopic() {
   }
 
   createTopicBtn.disabled = false;
-  createTopicBtn.innerHTML = '📤 Publier le sujet';
+  createTopicBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Publier le sujet';
 }
 
 // ================================================================
@@ -1382,28 +2200,30 @@ async function addReply() {
 
   try {
     var userName = userData ? (userData.prenom || userData.fullName || 'Utilisateur') : 'Utilisateur';
+    var isPremium = userData ? (userData.isUnlocked === true || userData.hasDeposited === true) : false;
+    var avatarBase64 = userData?.avatarBase64 || '';
 
     var replyData = {
       topicId: currentTopicId,
       userId: currentUser.uid,
       userName: userName,
+      isPremium: isPremium,
+      avatarBase64: avatarBase64,
       content: content,
+      likes: 0,
+      likedBy: [],
+      likesPaid: false,
       createdAt: new Date().toISOString()
     };
 
-    var docRef = await addDoc(collection(db, 'forum_replies'), replyData);
-    console.log('✅ Réponse ajoutée:', docRef.id);
+    await addDoc(collection(db, 'forum_replies'), replyData);
 
     var currentCount = topicSnap.data().repliesCount || 0;
     await updateDoc(topicRef, {
       repliesCount: currentCount + 1,
       updatedAt: new Date().toISOString()
     });
-    console.log('✅ Compteur mis à jour:', currentCount + 1);
 
-    var topicData = topicSnap.data();
-    var topicTitle = topicData.title;
-    
     showToast('✅ Réponse ajoutée !', 'success');
     replyInput.value = '';
 
@@ -1478,16 +2298,6 @@ replyInput.addEventListener('keypress', function(e) {
   }
 });
 
-document.getElementById('topicTitle').addEventListener('keypress', function(e) {
-  if (e.key === 'Enter') document.getElementById('topicContent').focus();
-});
-document.getElementById('topicContent').addEventListener('keypress', function(e) {
-  if (e.key === 'Enter' && e.shiftKey) {
-    e.preventDefault();
-    createTopic();
-  }
-});
-
 // ================================================================
 // CHARGER UTILISATEUR
 // ================================================================
@@ -1496,64 +2306,49 @@ function loadUserData(uid) {
   return getDoc(userRef).then(function(docSnap) {
     if (docSnap.exists()) {
       userData = docSnap.data();
+      setCachedUserData(userData);
       if (!userData.prenom) userData.prenom = 'Utilisateur';
-      localStorage.setItem('ARVEXA_user_data', JSON.stringify(userData));
-      sessionStorage.setItem('arvexa_loaded', 'true');
+      return userData;
     }
-    return userData;
+    return null;
   }).catch(function(error) {
-    if (error.code === 'unavailable') {
-      console.warn('⚠️ Connexion Internet perdue, utilisation du cache...');
-      var cached = localStorage.getItem('ARVEXA_user_data');
-      if (cached) {
-        try {
-          userData = JSON.parse(cached);
-          console.log('📦 Données utilisateur chargées depuis le cache');
-          return userData;
-        } catch(e) {}
-      }
-      showToast('📶 Connexion Internet perdue. Données en cache.', 'warning');
-      return null;
-    }
-    console.error('Erreur chargement user:', error);
+    console.warn('Erreur chargement user:', error);
     return null;
   });
 }
 
 // ================================================================
-// GESTION DE LA CONNEXION
+// CACHE POUR RETOUR ARRIÈRE INSTANTANÉ
 // ================================================================
-window.addEventListener('online', function() {
-  console.log('📶 Connexion Internet rétablie');
-  showToast('📶 Connexion rétablie !', 'success');
-  if (typeof loadTopics === 'function') {
+window.addEventListener('pageshow', function(event) {
+  if (event.persisted) {
+    console.debug('📱 Page forum chargée depuis le cache');
+    loadFromCache();
     loadTopics();
   }
-  if (currentUser && typeof loadUserData === 'function') {
-    loadUserData(currentUser.uid);
-  }
-});
-
-window.addEventListener('offline', function() {
-  console.warn('📶 Connexion Internet perdue');
-  showToast('📶 Connexion Internet perdue', 'warning');
 });
 
 // ================================================================
 // AUTH
 // ================================================================
 var authChecked = false;
+var sessionUid = sessionStorage.getItem('session_uid');
+
+// Chargement rapide depuis le cache
+loadFromCache();
+loadTopics();
 
 onAuthStateChanged(auth, function(user) {
   if (user) {
     currentUser = user;
     localStorage.setItem('ARVEXA_current_user', user.uid);
     
-    var cached = localStorage.getItem('ARVEXA_user_data');
-    if (cached) {
-      try {
-        userData = JSON.parse(cached);
-      } catch(e) {}
+    if (sessionUid === user.uid) {
+      console.debug("✅ Session déjà validée, chargement rapide");
+      loadUserData(user.uid);
+      authChecked = true;
+      isPageLoading = false;
+      return;
     }
 
     loadUserData(user.uid).then(function() {
@@ -1561,24 +2356,42 @@ onAuthStateChanged(auth, function(user) {
     });
 
     authChecked = true;
+    isPageLoading = false;
   } else {
-    var saved = localStorage.getItem('ARVEXA_current_user');
-    if (saved && !authChecked) {
+    if (isPageLoading) {
       setTimeout(function() {
         if (!auth.currentUser) {
-          // ⏳ Délai plus long (3s) pour laisser Firebase restaurer la session
-          // et éviter les boucles de déconnexion sur connexions lentes.
-          window.location.href = 'login.html';
+          var saved = localStorage.getItem('ARVEXA_current_user');
+          if (saved) {
+            if (!auth.currentUser) {
+              window.location.href = 'login.html';
+            }
+          } else {
+            window.location.href = 'login.html';
+          }
         }
       }, 3000);
-    } else if (!authChecked) {
-      window.location.href = 'login.html';
+    } else {
+      var saved = localStorage.getItem('ARVEXA_current_user');
+      if (saved) {
+        setTimeout(function() {
+          if (!auth.currentUser) {
+            window.location.href = 'login.html';
+          }
+        }, 2000);
+      } else {
+        window.location.href = 'login.html';
+      }
     }
     authChecked = true;
   }
 });
 
-console.log('💬 ARVEXA - Forum chargé');
+console.debug('💬 ARVEXA - Forum optimisé (v3.0)');
+console.debug('✅ Vues : une seule par session');
+console.debug('✅ Likes : instantanés (optimistic update)');
+console.debug('✅ Catégorie : modale luxueuse');
+console.debug('🎯 ' + LIKES_TARGET + ' likes = ' + LIKES_REWARD + ' FCFA');
 </script>
 </body>
 </html>
