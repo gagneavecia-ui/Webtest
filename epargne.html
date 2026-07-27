@@ -657,6 +657,7 @@
 </script>
 
 <script type="module">
+
 // ================================================================
 // IMPORTS
 // ================================================================
@@ -673,7 +674,12 @@ import {
   getDoc,
   updateDoc,
   onSnapshot,
-  increment
+  increment,
+  collection,
+  query,
+  where,
+  getDocs,
+  addDoc
 } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
 
 // ================================================================
@@ -808,6 +814,41 @@ function loadFromCache() {
 }
 
 // ================================================================
+// ✅ ENREGISTRER LE GAIN DANS 'GAINS'
+// ================================================================
+async function saveDefiGain(userId, userName, jour, reward) {
+  try {
+    const today = new Date().toISOString().split('T')[0];
+    
+    // Vérifier si le gain existe déjà
+    const q = query(
+      collection(db, 'gains'),
+      where('userId', '==', userId),
+      where('sourceId', '==', jour),
+      where('date', '==', today)
+    );
+    const snapshot = await getDocs(q);
+    
+    if (snapshot.empty) {
+      await addDoc(collection(db, 'gains'), {
+        userId: userId,
+        userName: userName || 'Utilisateur',
+        montant: reward,
+        type: 'defi',
+        sourceId: jour,
+        sourceType: 'defi',
+        date: today,
+        timestamp: new Date().toISOString(),
+        createdAt: new Date().toISOString()
+      });
+      console.log('✅ Gain defi enregistré dans gains:', jour, reward);
+    }
+  } catch (error) {
+    console.error('Erreur sauvegarde gain:', error);
+  }
+}
+
+// ================================================================
 // TOAST
 // ================================================================
 function showToast(message, type = 'info') {
@@ -846,31 +887,26 @@ function getNumeroSemaine() {
 // ================================================================
 function getDefiStatus(defiId, userDefis) {
   const now = new Date();
-  const jourActuel = now.getDay(); // 0=Dimanche, 1=Lundi, ...
+  const jourActuel = now.getDay();
   const defiIndex = DEFIS.findIndex(d => d.id === defiId);
-  const jourDefi = defiIndex + 1; // 1=Lundi, 5=Vendredi
+  const jourDefi = defiIndex + 1;
   
-  // Vérifier si le défi a déjà été fait
   if (userDefis && userDefis[defiId] && userDefis[defiId].fait) {
     return { status: 'done', label: '✅ Terminé', class: 'done' };
   }
   
-  // Si on est Dimanche (0) ou Samedi (6) → tous les défis sont verrouillés
   if (jourActuel === 0 || jourActuel === 6) {
     return { status: 'locked', label: '🔒 Attendre la semaine', class: 'locked' };
   }
   
-  // Si le jour du défi est passé
   if (jourDefi < jourActuel) {
     return { status: 'failed', label: '⏳ Défi passé', class: 'failed' };
   }
   
-  // Si c'est le jour du défi
   if (jourDefi === jourActuel) {
     return { status: 'available', label: '🎯 Disponible', class: 'available' };
   }
   
-  // Jour futur → verrouillé
   return { status: 'locked', label: `🔒 ${getJourNom(jourDefi)}`, class: 'locked' };
 }
 
@@ -886,7 +922,7 @@ function renderDefis() {
     return sum;
   }, 0);
   
-  const total = 300;
+  const total = 10000;
   const pourcentage = Math.min((totalGagne / total) * 100, 100);
   progressBar.style.width = pourcentage + '%';
   progressValue.textContent = totalGagne + ' / ' + total + ' FCFA';
@@ -943,7 +979,6 @@ function renderDefis() {
   
   defisGrid.innerHTML = html;
   
-  // Événements boutons "Commencer"
   document.querySelectorAll('.defi-btn.start').forEach(btn => {
     btn.addEventListener('click', function(e) {
       e.stopPropagation();
@@ -1045,7 +1080,6 @@ function checkDefiCompletion() {
     setTimeout(() => {
       showSuccessModal(reward, next);
     }, 500);
-    // Nettoyer l'URL
     window.history.replaceState({}, document.title, window.location.pathname);
   }
 }
@@ -1111,6 +1145,7 @@ console.debug('🏆 ARVEXA - Page Défis (v2.0)');
 console.debug('✅ Déblocage progressif des défis');
 console.debug('✅ Chaque défi a sa propre page');
 console.debug('✅ Cache prioritaire pour chargement < 2 secondes');
+console.debug('✅ Gains des défis enregistrés dans collection "gains"');
 </script>
 </body>
 </html>

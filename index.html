@@ -1088,7 +1088,7 @@ function updateUI(data) {
 }
 
 // ================================================================
-// CALCUL DE LA PERFORMANCE QUOTIDIENNE - CORRIGÉ
+// CALCUL DE LA PERFORMANCE QUOTIDIENNE - AVEC DÉFIS
 // ================================================================
 async function calculateDailyPerformance() {
   if (!currentUser) return;
@@ -1097,7 +1097,7 @@ async function calculateDailyPerformance() {
     const today = new Date().toISOString().split('T')[0];
     let totalGains = 0;
 
-    // 1. Gains de parrainage (depuis la collection 'gains')
+    // ✅ 1. Gains de parrainage (depuis la collection 'gains')
     const gainsQuery = query(
       collection(db, 'gains'),
       where('userId', '==', currentUser.uid),
@@ -1108,7 +1108,7 @@ async function calculateDailyPerformance() {
       totalGains += doc.data().montant || 0;
     });
 
-    // 2. Gains des défis (depuis le champ defisHebdo)
+    // ✅ 2. Gains des défis (depuis le champ defisHebdo dans users)
     const userRef = doc(db, 'users', currentUser.uid);
     const userSnap = await getDoc(userRef);
     if (userSnap.exists()) {
@@ -1126,7 +1126,7 @@ async function calculateDailyPerformance() {
       });
     }
 
-    // 3. Gains des ventes (depuis la collection 'ventes')
+    // ✅ 3. Gains des ventes
     const ventesQuery = query(
       collection(db, 'ventes'),
       where('userId', '==', currentUser.uid),
@@ -1137,31 +1137,12 @@ async function calculateDailyPerformance() {
       totalGains += doc.data().montant || 0;
     });
 
-    // 4. Calcul de l'objectif (moyenne des 30 derniers jours)
-    const thirtyDaysAgo = new Date();
-    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-    const thirtyDaysStr = thirtyDaysAgo.toISOString().split('T')[0];
-
-    // Récupérer toutes les transactions des 30 derniers jours
-    const allGainsQuery = query(
-      collection(db, 'gains'),
-      where('userId', '==', currentUser.uid),
-      where('date', '>=', thirtyDaysStr)
-    );
-    const allGainsSnap = await getDocs(allGainsQuery);
-    let totalMonth = 0;
-    let daysWithGains = 0;
-    allGainsSnap.forEach(doc => {
-      totalMonth += doc.data().montant || 0;
-      daysWithGains++;
-    });
-
-    // Objectif quotidien = moyenne des jours avec gains OU 5000 FCFA par défaut
-    const dailyAverage = daysWithGains > 0 ? totalMonth / daysWithGains : 5000;
-    const performance = dailyAverage > 0 ? (totalGains / dailyAverage) * 100 : 0;
+    // ✅ 4. Calcul du pourcentage (objectif 5000 FCFA)
+    const target = 5000;
+    const performance = target > 0 ? (totalGains / target) * 100 : 0;
     const displayPercent = Math.min(Math.round(performance), 200);
 
-    // Mettre à jour l'affichage
+    // ✅ 5. Mettre à jour l'affichage
     const dailyPercentEl = document.getElementById('dailyPercent');
     const dailyReturnDisplay = document.getElementById('dailyReturnDisplay');
     
@@ -1172,10 +1153,18 @@ async function calculateDailyPerformance() {
     if (dailyReturnDisplay) {
       if (displayPercent > 0) {
         dailyReturnDisplay.className = 'daily-perf positive';
+        dailyReturnDisplay.style.color = '#2D7D5A';
       } else {
         dailyReturnDisplay.className = 'daily-perf neutral';
+        dailyReturnDisplay.style.color = '#5A5A4A';
       }
     }
+
+    console.debug('📊 Performance du jour:', {
+      totalGains,
+      target,
+      performance: displayPercent + '%'
+    });
 
   } catch (error) {
     console.warn('Erreur calcul performance:', error);
