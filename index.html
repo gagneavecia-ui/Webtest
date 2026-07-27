@@ -1088,15 +1088,15 @@ function updateUI(data) {
 }
 
 // ================================================================
-// CALCUL DE LA PERFORMANCE QUOTIDIENNE
+// CALCUL DE LA PERFORMANCE QUOTIDIENNE - CORRIGÉ
 // ================================================================
 async function calculateDailyPerformance() {
   if (!currentUser) return;
-  
+
   try {
     const today = new Date().toISOString().split('T')[0];
     let totalGains = 0;
-    
+
     // 1. Gains de parrainage (depuis la collection 'gains')
     const gainsQuery = query(
       collection(db, 'gains'),
@@ -1107,20 +1107,26 @@ async function calculateDailyPerformance() {
     gainsSnap.forEach(doc => {
       totalGains += doc.data().montant || 0;
     });
-    
-    // 2. Gains des défis
-    const defisQuery = query(
-      collection(db, 'defis'),
-      where('userId', '==', currentUser.uid),
-      where('date', '==', today),
-      where('statut', '==', 'valide')
-    );
-    const defisSnap = await getDocs(defisQuery);
-    defisSnap.forEach(doc => {
-      totalGains += doc.data().montant || 0;
-    });
-    
-    // 3. Ventes de produits (boutique)
+
+    // 2. Gains des défis (depuis le champ defisHebdo)
+    const userRef = doc(db, 'users', currentUser.uid);
+    const userSnap = await getDoc(userRef);
+    if (userSnap.exists()) {
+      const userData = userSnap.data();
+      const defisHebdo = userData.defisHebdo || {};
+      
+      // Parcourir tous les défis et additionner les gains du jour
+      Object.values(defisHebdo).forEach(defi => {
+        if (defi.fait && defi.date) {
+          const defiDate = new Date(defi.date).toISOString().split('T')[0];
+          if (defiDate === today) {
+            totalGains += defi.reward || 0;
+          }
+        }
+      });
+    }
+
+    // 3. Gains des ventes (depuis la collection 'ventes')
     const ventesQuery = query(
       collection(db, 'ventes'),
       where('userId', '==', currentUser.uid),
@@ -1130,12 +1136,12 @@ async function calculateDailyPerformance() {
     ventesSnap.forEach(doc => {
       totalGains += doc.data().montant || 0;
     });
-    
+
     // 4. Calcul de l'objectif (moyenne des 30 derniers jours)
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
     const thirtyDaysStr = thirtyDaysAgo.toISOString().split('T')[0];
-    
+
     // Récupérer toutes les transactions des 30 derniers jours
     const allGainsQuery = query(
       collection(db, 'gains'),
@@ -1149,24 +1155,34 @@ async function calculateDailyPerformance() {
       totalMonth += doc.data().montant || 0;
       daysWithGains++;
     });
-    
+
     // Objectif quotidien = moyenne des jours avec gains OU 5000 FCFA par défaut
     const dailyAverage = daysWithGains > 0 ? totalMonth / daysWithGains : 5000;
     const performance = dailyAverage > 0 ? (totalGains / dailyAverage) * 100 : 0;
     const displayPercent = Math.min(Math.round(performance), 200);
-    
+
     // Mettre à jour l'affichage
-    dailyPercentEl.textContent = displayPercent;
+    const dailyPercentEl = document.getElementById('dailyPercent');
+    const dailyReturnDisplay = document.getElementById('dailyReturnDisplay');
     
-    if (displayPercent > 0) {
-      dailyReturnDisplay.className = 'daily-perf positive';
-    } else {
-      dailyReturnDisplay.className = 'daily-perf neutral';
+    if (dailyPercentEl) {
+      dailyPercentEl.textContent = displayPercent;
     }
     
+    if (dailyReturnDisplay) {
+      if (displayPercent > 0) {
+        dailyReturnDisplay.className = 'daily-perf positive';
+      } else {
+        dailyReturnDisplay.className = 'daily-perf neutral';
+      }
+    }
+
   } catch (error) {
     console.warn('Erreur calcul performance:', error);
-    dailyPercentEl.textContent = '0';
+    const dailyPercentEl = document.getElementById('dailyPercent');
+    if (dailyPercentEl) {
+      dailyPercentEl.textContent = '0';
+    }
   }
 }
 
