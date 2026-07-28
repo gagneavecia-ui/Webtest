@@ -4,13 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
   <meta name="theme-color" content="#0A0A0A">
-  <meta name="description" content="ARVEXA - Test des notifications">
+  <meta name="description" content="ARVEXA - Boutique produits digitaux">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <link rel="manifest" href="/ARVEXA/manifest.json">
+  <link rel="manifest" href="manifest.json">
   <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
   
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔔</text></svg>">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛒</text></svg>">
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
@@ -21,6 +21,7 @@
       --primary-dark: #0A1A12;
       --primary-light: #2A5A3A;
       --accent: #B8860B;
+      --accent-dim: rgba(184, 134, 11, 0.08);
       --success: #2D7D5A;
       --danger: #8A3A3A;
       --bg-dark: #0A0A0A;
@@ -35,6 +36,7 @@
       --transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
       --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
       --radius: 16px;
+      --whatsapp: #25D366;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -47,9 +49,10 @@
       line-height: 1.6;
       min-height: 100vh;
       overflow-x: hidden;
-      padding-bottom: 80px;
       opacity: 0;
       animation: pageFadeIn 0.5s ease forwards;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 80px;
     }
 
     @keyframes pageFadeIn {
@@ -58,97 +61,540 @@
     }
 
     .gradient-bg {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
-      background: radial-gradient(ellipse 40% 30% at 30% 20%, rgba(26,58,42,0.10) 0%, transparent 70%),
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: -2;
+      background: radial-gradient(ellipse 40% 30% at 30% 20%, rgba(26, 58, 42, 0.10) 0%, transparent 70%),
                   linear-gradient(180deg, #0A0A0A 0%, #060606 100%);
       pointer-events: none;
     }
 
+    .glow {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: -1;
+      opacity: 0.15;
+      animation: glowMove 10s ease-in-out infinite alternate;
+    }
+    .glow-1 { width: 350px; height: 350px; background: rgba(26,58,42,0.15); top: -80px; right: -80px; }
+    .glow-2 { width: 200px; height: 200px; background: rgba(184,134,11,0.03); bottom: 0; left: 0; animation-delay: -4s; }
+    .glow-3 { width: 250px; height: 250px; background: rgba(26,58,42,0.08); top: 40%; left: 50%; transform: translate(-50%,-50%); animation-delay: -8s; }
+    @keyframes glowMove {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(30px, -20px) scale(1.1); }
+    }
+
     .header {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 12px 5%; background: rgba(10,10,10,0.95); backdrop-filter: blur(8px);
-      position: sticky; top: 0; z-index: 100; border-bottom: 1px solid rgba(184,134,11,0.04);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 5%;
+      background: rgba(10, 10, 10, 0.95);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(184, 134, 11, 0.04);
     }
 
     .logo {
-      display: flex; align-items: center; text-decoration: none;
-      color: var(--text-light); font-size: clamp(16px, 2.5vw, 22px);
-      font-weight: 700; font-family: 'Playfair Display', 'Georgia', serif; letter-spacing: 2px;
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: var(--text-light);
+      font-size: clamp(16px, 2.5vw, 22px);
+      font-weight: 700;
+      font-family: 'Playfair Display', 'Georgia', serif;
+      letter-spacing: 2px;
     }
     .logo span { color: var(--accent); font-style: italic; }
 
     .back-btn {
-      width: clamp(32px, 4vw, 40px); height: clamp(32px, 4vw, 40px);
-      background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 10px;
-      display: flex; align-items: center; justify-content: center; color: var(--text-light);
-      cursor: pointer; text-decoration: none; transition: background 0.2s, border-color 0.2s;
+      width: clamp(32px, 4vw, 40px);
+      height: clamp(32px, 4vw, 40px);
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-light);
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s, border-color 0.2s;
       flex-shrink: 0;
     }
-    .back-btn:active { transform: scale(0.94); background: rgba(184,134,11,0.08); }
+    .back-btn:active { transform: scale(0.94); background: rgba(184, 134, 11, 0.08); }
     .back-btn i { font-size: clamp(14px, 1.8vw, 18px); }
 
-    .notif-badge {
-      display: flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 30px;
-      font-size: 10px; font-weight: 500; transition: var(--transition);
-      background: rgba(45, 125, 90, 0.08); color: var(--success);
-      border: 1px solid rgba(45, 125, 90, 0.10);
+    .header-placeholder {
+      width: clamp(32px, 4vw, 40px);
+      flex-shrink: 0;
     }
-    .notif-badge i { font-size: 12px; }
 
     .container {
-      max-width: 600px; margin: 0 auto; padding: 16px 5% 40px; width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 16px 5% 40px;
+      width: 100%;
     }
 
+    /* ===== SKELETON ===== */
+    .skeleton {
+      background: rgba(255,255,255,0.03);
+      border-radius: 8px;
+      animation: skeletonPulse 1.2s ease-in-out infinite;
+    }
+    @keyframes skeletonPulse {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 0.6; }
+    }
+    .skeleton-text { height: 14px; width: 100%; margin-bottom: 6px; border-radius: 4px; }
+    .skeleton-text.w60 { width: 60%; }
+    .skeleton-text.w40 { width: 40%; }
+    .skeleton-text.w30 { width: 30%; }
+
+    /* ===== HERO ===== */
+    .hero {
+      background: linear-gradient(135deg, rgba(26, 58, 42, 0.20), rgba(10, 26, 18, 0.10));
+      border-radius: var(--radius);
+      padding: 28px 20px;
+      margin-bottom: 20px;
+      border: 1px solid rgba(184, 134, 11, 0.10);
+      text-align: center;
+    }
+    .hero-icon { font-size: 40px; color: var(--accent); margin-bottom: 10px; display: block; }
+    .hero h1 { font-size: 24px; font-weight: 700; font-family: 'Playfair Display', serif; color: var(--text-light); }
+    .hero h1 span { color: var(--accent); font-style: italic; }
+    .hero p { color: var(--text-dim); font-size: 13px; margin-top: 6px; }
+
+    /* ===== FILTRES ===== */
+    .filters-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+      align-items: center;
+    }
+    .filters-bar .search-input {
+      flex: 1;
+      min-width: 180px;
+      padding: 10px 14px;
+      background: rgba(10, 10, 10, 0.6);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      color: var(--text-light);
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+      transition: var(--transition);
+    }
+    .filters-bar .search-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.08);
+    }
+    .filters-bar .search-input::placeholder {
+      color: var(--text-muted);
+      opacity: 0.5;
+    }
+
+    .filter-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: rgba(10, 10, 10, 0.6);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      color: var(--text-dim);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: 'Inter', sans-serif;
+      white-space: nowrap;
+    }
+    .filter-btn:active { transform: scale(0.96); }
+    .filter-btn:hover {
+      border-color: rgba(184, 134, 11, 0.15);
+      color: var(--text-light);
+    }
+    .filter-btn.active {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(184, 134, 11, 0.06);
+    }
+    .filter-btn i { font-size: 14px; }
+
+    .filter-btn.category-btn {
+      background: rgba(184, 134, 11, 0.04);
+      border-color: rgba(184, 134, 11, 0.08);
+      color: var(--accent);
+    }
+    .filter-btn.category-btn:hover {
+      background: rgba(184, 134, 11, 0.08);
+    }
+
+    /* ===== CARD ===== */
     .card {
-      background: var(--bg-card); backdrop-filter: blur(8px);
-      border: 1px solid var(--card-border); border-radius: var(--radius);
-      padding: clamp(16px, 3vw, 24px); margin-bottom: 18px;
-      box-shadow: var(--shadow); transition: border-color 0.2s;
-      width: 100%; overflow: hidden;
+      background: rgba(20, 20, 20, 0.7);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      animation: fadeInUp 0.4s ease forwards;
+    }
+    .card:hover {
+      border-color: rgba(184, 134, 11, 0.10);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
     }
 
-    .card-title {
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card .card-image {
+      width: 100%;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      background: var(--bg-dark);
+    }
+    .card .card-content {
+      padding: 14px 16px 16px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .card .card-category {
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 2px;
+    }
+    .card .card-title {
+      font-size: 15px;
+      font-weight: 700;
       font-family: 'Playfair Display', 'Georgia', serif;
-      font-size: clamp(16px, 1.8vw, 19px);
-      font-weight: 700; color: var(--text-light);
+      color: var(--text-light);
+      line-height: 1.3;
+      margin-bottom: 2px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .card .card-desc {
+      font-size: 12px;
+      color: var(--text-dim);
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      flex: 1;
+      margin-bottom: 8px;
+    }
+    .card .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 8px;
+      border-top: 1px solid rgba(255,255,255,0.03);
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+    .card .card-price {
+      font-size: 16px;
+      font-weight: 700;
+      font-family: 'Playfair Display', 'Georgia', serif;
+      color: var(--success);
+    }
+    .card .card-seller {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .card .card-seller i { color: var(--accent); margin-right: 4px; }
+
+    .card .card-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid rgba(255,255,255,0.03);
+    }
+   .card .card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255,255,255,0.03);
+}
+
+.card .card-actions .btn-contact {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 30px;
+  font-size: 11px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  font-family: 'Inter', sans-serif;
+  border: none;
+  cursor: pointer;
+  flex: 0 1 auto;
+  min-width: 0;
+  white-space: nowrap;
+}
+    .card .card-actions .btn-contact:active { transform: scale(0.95); }
+    .card .card-actions .btn-contact.whatsapp {
+      background: var(--whatsapp);
+      color: #fff;
+    }
+    .card .card-actions .btn-contact.whatsapp:hover { background: #1DA851; }
+    .card .card-actions .btn-contact.call {
+      background: var(--accent);
+      color: var(--bg-dark);
+    }
+    .card .card-actions .btn-contact.call:hover { background: #9A7209; }
+
+    .card .card-views {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+    .card .card-views i { color: var(--accent); }
+
+    /* ===== SKELEON CARD ===== */
+    .skeleton-card {
+      background: rgba(255,255,255,0.02);
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.02);
+      animation: skeletonPulse 1.5s ease-in-out infinite;
+    }
+    .skeleton-card .skeleton-image {
+      aspect-ratio: 16/9;
+      background: rgba(255,255,255,0.03);
+    }
+    .skeleton-card .skeleton-content {
+      padding: 14px 16px 16px;
+    }
+    .skeleton-card .skeleton-line {
+      height: 12px;
+      background: rgba(255,255,255,0.03);
+      border-radius: 6px;
+      margin-bottom: 8px;
+    }
+    .skeleton-card .skeleton-line:last-child { margin-bottom: 0; }
+    .skeleton-card .skeleton-line.w60 { width: 60%; }
+    .skeleton-card .skeleton-line.w40 { width: 40%; }
+    .skeleton-card .skeleton-line.w30 { width: 30%; }
+
+    /* ===== PRODUCTS GRID ===== */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-top: 4px;
+    }
+
+    /* ===== EMPTY STATE ===== */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-dim);
+      grid-column: 1 / -1;
+    }
+    .empty-state i {
+      font-size: 48px;
+      opacity: 0.2;
+      display: block;
       margin-bottom: 12px;
     }
-    .card-title span { color: var(--accent); font-style: italic; }
+    .empty-state p { font-size: 15px; }
+    .empty-state .sub { font-size: 13px; opacity: 0.6; margin-top: 4px; }
 
-    .status-item {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.03);
+    /* ============================================================
+       MODALE CATÉGORIES
+       ============================================================ */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(3, 3, 5, 0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+      padding: 20px;
     }
-    .status-item:last-child { border-bottom: none; }
-    .status-item .label { color: var(--text-dim); font-size: 13px; }
-    .status-item .value { font-weight: 600; font-size: 13px; }
-    .status-item .value.ok { color: var(--success); }
-    .status-item .value.ko { color: var(--danger); }
-    .status-item .value.warning { color: var(--accent); }
-
-    .btn-test {
-      width: 100%; padding: 14px; border: none; border-radius: 12px;
-      font-weight: 700; font-size: 15px; cursor: pointer; transition: var(--transition);
-      font-family: 'Inter', sans-serif; display: flex; align-items: center;
-      justify-content: center; gap: 8px;
-      margin-bottom: 10px;
+    .modal-overlay.show {
+      opacity: 1;
+      visibility: visible;
     }
-    .btn-test:active { transform: scale(0.97); }
-    .btn-test.primary { background: var(--accent); color: var(--bg-dark); }
-    .btn-test.primary:hover { background: #9A7209; }
-    .btn-test.success { background: var(--success); color: #fff; }
-    .btn-test.success:hover { background: #1A5A3A; }
-    .btn-test.danger { background: var(--danger); color: #fff; }
-    .btn-test.danger:hover { background: #6A2A2A; }
-    .btn-test:disabled { opacity: 0.5; cursor: not-allowed; }
 
+    .modal-content {
+      background: linear-gradient(145deg, #141414 0%, #0A0A0A 100%);
+      border: 1px solid rgba(184, 134, 11, 0.12);
+      border-radius: 20px;
+      max-width: 420px;
+      width: 100%;
+      max-height: 90vh;
+      overflow: hidden;
+      transform: scale(0.92) translateY(20px);
+      transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6);
+      position: relative;
+    }
+    .modal-overlay.show .modal-content {
+      transform: scale(1) translateY(0);
+    }
+
+    .modal-content::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--accent), var(--success), var(--accent), transparent);
+      background-size: 200% 100%;
+      animation: shimmerGold 3s ease-in-out infinite;
+      z-index: 10;
+    }
+
+    @keyframes shimmerGold {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    .modal-header {
+      padding: 18px 24px 14px;
+      border-bottom: 1px solid rgba(184, 134, 11, 0.04);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+    .modal-header .modal-title {
+      font-family: 'Playfair Display', 'Georgia', serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-light);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .modal-header .modal-title span {
+      color: var(--accent);
+      font-style: italic;
+    }
+    .modal-header .modal-title i {
+      color: var(--accent);
+      font-size: 22px;
+    }
+    .modal-close-btn {
+      width: 34px; height: 34px;
+      border-radius: 10px;
+      background: rgba(184, 134, 11, 0.04);
+      border: 1px solid rgba(184, 134, 11, 0.06);
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+    .modal-close-btn:hover {
+      background: rgba(184, 134, 11, 0.08);
+      border-color: rgba(184, 134, 11, 0.12);
+      color: var(--text-light);
+    }
+    .modal-close-btn:active { transform: scale(0.92); }
+
+    .modal-body {
+      padding: 20px 24px 24px;
+      max-height: 60vh;
+      overflow-y: auto;
+    }
+    .modal-body::-webkit-scrollbar { width: 3px; }
+    .modal-body::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); border-radius: 10px; }
+    .modal-body::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; opacity: 0.3; }
+
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    .category-option {
+      padding: 14px 12px;
+      border: 1px solid rgba(184, 134, 11, 0.08);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+      background: rgba(10, 10, 10, 0.4);
+    }
+    .category-option:hover {
+      border-color: var(--accent);
+      background: rgba(184, 134, 11, 0.06);
+      transform: translateY(-2px);
+    }
+    .category-option:active { transform: scale(0.96); }
+    .category-option.selected {
+      border-color: var(--accent);
+      background: rgba(184, 134, 11, 0.10);
+    }
+    .category-option i {
+      font-size: 24px;
+      color: var(--accent);
+      display: block;
+      margin-bottom: 4px;
+    }
+    .category-option span {
+      font-size: 13px;
+      color: var(--text-light);
+      font-weight: 500;
+    }
+
+    /* ============================================================
+       TOAST
+       ============================================================ */
     .toast {
-      position: fixed; bottom: 20px; left: 50%;
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
       transform: translateX(-50%) translateY(120px);
-      max-width: 90%; width: 400px; padding: 14px 20px; border-radius: 14px;
-      font-size: 13px; font-weight: 500;
+      max-width: 90%;
+      width: 400px;
+      padding: 14px 20px;
+      border-radius: 14px;
+      font-size: 13px;
+      font-weight: 500;
       transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-      z-index: 9999; text-align: center; box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      z-index: 9999;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
       pointer-events: none;
     }
     .toast.show { transform: translateX(-50%) translateY(0); }
@@ -157,100 +603,145 @@
     .toast.warning { background: #2A1A0D; border: 1px solid #B8860B; color: #B8860B; }
     .toast.info { background: #0D1A2A; border: 1px solid #4A7A8A; color: #4A7A8A; }
 
-    .log-area {
-      background: rgba(10,10,10,0.5); border-radius: 8px; padding: 12px;
-      max-height: 150px; overflow-y: auto; font-size: 12px;
-      font-family: 'Courier New', monospace; color: var(--text-dim);
-      border: 1px solid var(--card-border);
-      margin-top: 8px;
-    }
-    .log-area::-webkit-scrollbar { width: 2px; }
-    .log-area::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; }
-    .log-area .log-entry { padding: 2px 0; border-bottom: 1px solid rgba(255,255,255,0.02); }
-    .log-area .log-entry.success { color: var(--success); }
-    .log-area .log-entry.error { color: var(--danger); }
-    .log-area .log-entry.warning { color: var(--accent); }
-
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
     @media (max-width: 480px) {
+      .products-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
       .container { padding: 12px 4% 30px; }
+      .hero h1 { font-size: 20px; }
+      .filters-bar { flex-direction: column; align-items: stretch; }
+      .filters-bar .search-input { min-width: auto; }
+      .filter-btn { justify-content: center; }
+      .card .card-content { padding: 10px 12px 12px; }
+      .card .card-title { font-size: 13px; }
+      .card .card-desc { font-size: 10px; display: none; }
+      .card .card-price { font-size: 14px; }
+      .card .card-actions .btn-contact { font-size: 10px; padding: 4px 10px; }
+      .category-grid { grid-template-columns: repeat(2, 1fr); }
+      .modal-content { max-width: 100%; margin: 10px; }
     }
+
+    @media (min-width: 601px) and (max-width: 768px) {
+      .products-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+      .filters-bar { flex-wrap: wrap; }
+    }
+
+    @media (min-width: 769px) {
+      .products-grid { grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    }
+
+    @media (min-width: 1024px) {
+      .products-grid { grid-template-columns: repeat(4, 1fr); gap: 20px; }
+    }
+    
+    @media (max-width: 480px) {
+  .card .card-actions .btn-contact {
+    font-size: 9px;
+    padding: 3px 8px;
+  }
+  .card .card-actions .btn-contact i {
+    font-size: 10px;
+  }
+}
   </style>
 </head>
 <body>
 
 <div class="gradient-bg"></div>
+<div class="glow glow-1"></div>
+<div class="glow glow-2"></div>
+<div class="glow glow-3"></div>
 
 <header class="header">
   <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
   <a href="index.html" class="logo">ARVE<span>XA</span></a>
-  <span class="notif-badge" id="notifBadge">
-    <i class="fas fa-circle"></i> <span id="notifStatusText">🔔</span>
-  </span>
+  <span class="header-placeholder"></span>
 </header>
 
 <main class="container">
 
-  <div class="card" style="text-align:center;border-color:rgba(184,134,11,0.10);">
-    <span style="font-size:48px;display:block;margin-bottom:8px;">🔔</span>
-    <h1 style="font-family:'Playfair Display',serif;font-size:24px;color:var(--text-light);">
-      Test des <span style="color:var(--accent);font-style:italic;">Notifications</span>
-    </h1>
-    <p style="color:var(--text-dim);font-size:13px;margin-top:4px;">
-      Vérifiez que tout fonctionne correctement
-    </p>
+  <!-- ===== HERO ===== -->
+  <div class="hero">
+    <span class="hero-icon"><i class="fas fa-store"></i></span>
+    <h1>🛒 Boutique <span>ARVEXA</span></h1>
+    <p>Découvrez les produits digitaux de la communauté</p>
   </div>
 
-  <div class="card">
-    <div class="card-title">📋 État des <span>services</span></div>
-
-    <div class="status-item">
-      <span class="label"><i class="fas fa-bell"></i> Permission notifications</span>
-      <span class="value" id="statusPermission">... Vérification</span>
-    </div>
-    <div class="status-item">
-      <span class="label"><i class="fas fa-cloud"></i> Firebase Messaging</span>
-      <span class="value" id="statusFCM">... Vérification</span>
-    </div>
-    <div class="status-item">
-      <span class="label"><i class="fas fa-user-check"></i> Utilisateur connecté</span>
-      <span class="value" id="statusAuth">... Vérification</span>
-    </div>
-    <div class="status-item">
-      <span class="label"><i class="fas fa-robot"></i> Service Worker</span>
-      <span class="value" id="statusSW">... Vérification</span>
-    </div>
-    <div class="status-item">
-      <span class="label"><i class="fas fa-telegram"></i> Telegram admin</span>
-      <span class="value" id="statusTelegram">... Vérification</span>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-title">🎯 Tester les <span>notifications</span></div>
-
-    <button class="btn-test primary" id="testPushBtn">
-      <i class="fas fa-bell"></i> Tester une notification push
-    </button>
-
-    <button class="btn-test success" id="testTelegramBtn">
-      <i class="fab fa-telegram"></i> Tester Telegram admin
-    </button>
-
-    <button class="btn-test danger" id="testVibrationBtn">
-      <i class="fas fa-vibrate"></i> Tester la vibration
+  <!-- ===== FILTRES ===== -->
+  <div class="filters-bar">
+    <input type="text" class="search-input" id="searchInput" placeholder="🔍 Rechercher un produit...">
+    <button class="filter-btn category-btn" id="categoryBtn">
+      <i class="fas fa-tag"></i> <span id="categoryLabel">Catégorie</span>
+      <i class="fas fa-chevron-down" style="font-size:10px;margin-left:4px;"></i>
     </button>
   </div>
 
-  <div class="card">
-    <div class="card-title">📝 Journal des <span>tests</span></div>
-    <div class="log-area" id="logArea">
-      <div class="log-entry">⏳ En attente des tests...</div>
-    </div>
+  <!-- ===== PRODUITS ===== -->
+  <div class="products-grid" id="productsGrid">
+    <!-- Skeletons -->
+    <div class="skeleton-card"><div class="skeleton-image"></div><div class="skeleton-content"><div class="skeleton-line w60"></div><div class="skeleton-line w40"></div><div class="skeleton-line w30"></div></div></div>
+    <div class="skeleton-card"><div class="skeleton-image"></div><div class="skeleton-content"><div class="skeleton-line w60"></div><div class="skeleton-line w40"></div><div class="skeleton-line w30"></div></div></div>
+    <div class="skeleton-card"><div class="skeleton-image"></div><div class="skeleton-content"><div class="skeleton-line w60"></div><div class="skeleton-line w40"></div><div class="skeleton-line w30"></div></div></div>
+    <div class="skeleton-card"><div class="skeleton-image"></div><div class="skeleton-content"><div class="skeleton-line w60"></div><div class="skeleton-line w40"></div><div class="skeleton-line w30"></div></div></div>
   </div>
 
 </main>
 
+<!-- ===== MODALE CATÉGORIES ===== -->
+<div class="modal-overlay" id="categoryModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="modal-title">
+        <i class="fas fa-tag"></i>
+        Choisir une <span>catégorie</span>
+      </div>
+      <button class="modal-close-btn" id="closeCategoryModal">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="category-grid" id="categoryGrid">
+        <div class="category-option selected" data-category="all">
+          <i class="fas fa-th-list"></i>
+          <span>Tous</span>
+        </div>
+        <div class="category-option" data-category="formation">
+          <i class="fas fa-graduation-cap"></i>
+          <span>Formation</span>
+        </div>
+        <div class="category-option" data-category="ebook">
+          <i class="fas fa-book"></i>
+          <span>E-book</span>
+        </div>
+        <div class="category-option" data-category="service">
+          <i class="fas fa-cogs"></i>
+          <span>Service</span>
+        </div>
+        <div class="category-option" data-category="template">
+          <i class="fas fa-file-code"></i>
+          <span>Template</span>
+        </div>
+        <div class="category-option" data-category="logiciel">
+          <i class="fas fa-laptop"></i>
+          <span>Logiciel</span>
+        </div>
+        <div class="category-option" data-category="autre">
+          <i class="fas fa-ellipsis-h"></i>
+          <span>Autre</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TOAST ===== -->
 <div class="toast" id="toast"></div>
+
+<!-- ================================================================ -->
+<!-- CONFIGURATION CENTRALISÉE -->
+<!-- ================================================================ -->
+<script src="config.js"></script>
 
 <!-- ================================================================ -->
 <!-- IMPORTS -->
@@ -260,8 +751,7 @@
   "imports": {
     "firebase/app": "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js",
     "firebase/auth": "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js",
-    "firebase/firestore": "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js",
-    "firebase/messaging": "https://www.gstatic.com/firebasejs/12.12.1/firebase-messaging.js"
+    "firebase/firestore": "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js"
   }
 }
 </script>
@@ -279,18 +769,21 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
 import { 
   getFirestore,
+  collection,
+  query,
+  where,
+  getDocs,
+  onSnapshot,
   doc,
-  getDoc
+  updateDoc,
+  increment,
+  orderBy
 } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
-import { 
-  getMessaging,
-  getToken
-} from "https://www.gstatic.com/firebasejs/12.12.1/firebase-messaging.js";
 
 // ================================================================
-// CONFIGURATION
+// CONFIGURATION FIREBASE
 // ================================================================
-var firebaseConfig = {
+const firebaseConfig = {
   apiKey: "AIzaSyBEbYuuUlNCLMBUHClv4UnyownNHw2q3_g",
   authDomain: "nexgen-39043.firebaseapp.com",
   projectId: "nexgen-39043",
@@ -300,374 +793,364 @@ var firebaseConfig = {
   measurementId: "G-HC2Q5DNKDR"
 };
 
-var VAPID_KEY = "BA8jFHMi3fNPkB4iAqib8GJnrq1_8KR2u_PyQjI2q5rp6rzmaGAsZ_aHm7TP1FqvXg4ZhOUBQUrQ6jpEf9qmrlM";
-
-var app = initializeApp(firebaseConfig);
-var auth = getAuth(app);
-var db = getFirestore(app);
-var messaging = getMessaging(app);
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
 setPersistence(auth, browserLocalPersistence);
 
 // ================================================================
-// TELEGRAM CONFIG
+// CATÉGORIES
 // ================================================================
-var TELEGRAM_BOT_TOKEN = "8283625921:AAEF--QKS9uqnz0K3j7SGkk7fsdRb3b8y8o";
-var TELEGRAM_CHAT_ID = "5212067028";
+const CATEGORIES = [
+  { id: 'all', icon: 'fa-th-list', label: 'Tous' },
+  { id: 'formation', icon: 'fa-graduation-cap', label: 'Formation' },
+  { id: 'ebook', icon: 'fa-book', label: 'E-book' },
+  { id: 'service', icon: 'fa-cogs', label: 'Service' },
+  { id: 'template', icon: 'fa-file-code', label: 'Template' },
+  { id: 'logiciel', icon: 'fa-laptop', label: 'Logiciel' },
+  { id: 'autre', icon: 'fa-ellipsis-h', label: 'Autre' }
+];
 
 // ================================================================
 // DOM
 // ================================================================
-var toast = document.getElementById('toast');
-var logArea = document.getElementById('logArea');
-var notifBadge = document.getElementById('notifBadge');
-var notifStatusText = document.getElementById('notifStatusText');
+const productsGrid = document.getElementById('productsGrid');
+const searchInput = document.getElementById('searchInput');
+const categoryBtn = document.getElementById('categoryBtn');
+const categoryLabel = document.getElementById('categoryLabel');
+const categoryModal = document.getElementById('categoryModal');
+const closeCategoryModal = document.getElementById('closeCategoryModal');
+const categoryGrid = document.getElementById('categoryGrid');
+const toast = document.getElementById('toast');
 
-var statusPermission = document.getElementById('statusPermission');
-var statusFCM = document.getElementById('statusFCM');
-var statusAuth = document.getElementById('statusAuth');
-var statusSW = document.getElementById('statusSW');
-var statusTelegram = document.getElementById('statusTelegram');
-
-var testPushBtn = document.getElementById('testPushBtn');
-var testTelegramBtn = document.getElementById('testTelegramBtn');
-var testVibrationBtn = document.getElementById('testVibrationBtn');
-
-var currentUser = null;
-var fcmToken = null;
-var isServiceWorkerReady = false;
+let currentUser = null;
+let allProducts = [];
+let filteredProducts = [];
+let selectedCategory = 'all';
+let isPageLoading = true;
+let notificationTimeout = null;
+let unsubscribeProducts = null;
 
 // ================================================================
 // TOAST
 // ================================================================
-function showToast(message, type) {
-  type = type || 'info';
+function showToast(message, type = 'info') {
   toast.textContent = message;
   toast.className = 'toast ' + type;
-  setTimeout(function() { toast.classList.add('show'); }, 50);
-  setTimeout(function() { toast.classList.remove('show'); }, 3000);
+  clearTimeout(notificationTimeout);
+  requestAnimationFrame(() => toast.classList.add('show'));
+  notificationTimeout = setTimeout(() => toast.classList.remove('show'), 4000);
 }
 
 // ================================================================
-// LOGS
+// FORMAT CURRENCY
 // ================================================================
-function addLog(message, type) {
-  type = type || 'info';
-  var entry = document.createElement('div');
-  entry.className = 'log-entry ' + type;
-  entry.textContent = '🕐 ' + new Date().toLocaleTimeString() + ' - ' + message;
-  logArea.appendChild(entry);
-  logArea.scrollTop = logArea.scrollHeight;
-  console.log('[LOG]', message);
+function formatCurrency(amount) {
+  if (!amount) return '0 FCFA';
+  return amount.toLocaleString('fr-FR') + ' FCFA';
 }
 
 // ================================================================
-// VÉRIFICATIONS
+// ESCAPE HTML
 // ================================================================
-function updateStatus(id, value, type) {
-  var el = document.getElementById(id);
-  if (!el) return;
-  el.textContent = value;
-  el.className = 'value ' + type;
+function escapeHtml(str) {
+  if (!str) return '';
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
 }
 
-function checkAll() {
-  // Permission
-  if (Notification.permission === 'granted') {
-    updateStatus('statusPermission', '✅ Autorisé', 'ok');
-  } else if (Notification.permission === 'denied') {
-    updateStatus('statusPermission', '❌ Bloqué', 'ko');
-  } else {
-    updateStatus('statusPermission', '⚠️ En attente', 'warning');
-  }
-
-  // Service Worker
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.ready.then(function(reg) {
-      isServiceWorkerReady = true;
-      updateStatus('statusSW', '✅ Actif', 'ok');
-      addLog('✅ Service Worker actif', 'success');
-    }).catch(function() {
-      updateStatus('statusSW', '❌ Inactif', 'ko');
-      addLog('❌ Service Worker inactif', 'error');
-    });
-  } else {
-    updateStatus('statusSW', '❌ Non supporté', 'ko');
-    addLog('❌ Service Worker non supporté', 'error');
-  }
-
-  // Utilisateur
-  if (currentUser) {
-    updateStatus('statusAuth', '✅ Connecté (' + currentUser.email + ')', 'ok');
-    addLog('✅ Utilisateur connecté: ' + currentUser.email, 'success');
-  } else {
-    updateStatus('statusAuth', '❌ Non connecté', 'ko');
-    addLog('❌ Utilisateur non connecté', 'error');
-  }
-
-  // FCM
-  if (fcmToken) {
-    updateStatus('statusFCM', '✅ Token OK', 'ok');
-    addLog('✅ Token FCM récupéré', 'success');
-  } else {
-    updateStatus('statusFCM', '⚠️ Non récupéré', 'warning');
-    addLog('⚠️ Token FCM non récupéré', 'warning');
-  }
-
-  // Telegram
-  if (TELEGRAM_BOT_TOKEN && TELEGRAM_BOT_TOKEN.length > 10) {
-    updateStatus('statusTelegram', '✅ Configuré', 'ok');
-  } else {
-    updateStatus('statusTelegram', '❌ Non configuré', 'ko');
-  }
-}
-
-// ================================================================
-// ENREGISTRER LE SERVICE WORKER
-// ================================================================
-function registerServiceWorker() {
-  if (!('serviceWorker' in navigator)) {
-    addLog('❌ Service Worker non supporté', 'error');
+function renderProducts(products) {
+  if (!products || products.length === 0) {
+    productsGrid.innerHTML = `
+      <div class="empty-state">
+        <i class="fas fa-box-open"></i>
+        <p>Aucun produit disponible</p>
+        <p class="sub">Soyez le premier à publier un produit !</p>
+      </div>
+    `;
     return;
   }
 
-  // ✅ Chemin corrigé pour le sous-dossier /ARVEXA/
-  navigator.serviceWorker.register('/Webtest/firebase-messaging-sw.js')
-    .then(function(reg) {
-      console.log('✅ SW enregistré pour /Webtest/');
-      addLog('✅ Service Worker enregistré pour /Webtest/', 'success');
-      isServiceWorkerReady = true;
-      updateStatus('statusSW', '✅ Actif', 'ok');
-      
-      // Vérifier si le SW est actif
-      if (reg.active) {
-        addLog('✅ Service Worker actif', 'success');
-      }
-    })
-    .catch(function(err) {
-      console.log('❌ SW erreur:', err);
-      addLog('❌ Service Worker erreur: ' + err.message, 'error');
-      updateStatus('statusSW', '❌ Erreur', 'ko');
-    });
-}
-
-// ================================================================
-// TEST NOTIFICATION PUSH
-// ================================================================
-async function testPushNotification() {
-  testPushBtn.disabled = true;
-  testPushBtn.innerHTML = '<span class="loader" style="display:inline-block;width:18px;height:18px;border:2px solid var(--bg-dark);border-radius:50%;border-top-color:transparent;animation:spin 0.6s linear infinite;"></span> Envoi...';
-
-  try {
-    addLog('🔔 Tentative d\'envoi d\'une notification push...', 'info');
-
-    // Vérifier si tout est prêt
-    if (!currentUser) {
-      addLog('❌ Utilisateur non connecté - Veuillez vous connecter', 'error');
-      showToast('❌ Connectez-vous d\'abord', 'error');
-      return;
+  let html = '';
+  products.forEach((product, index) => {
+    // ✅ Incrémenter les vues (une seule fois par session)
+    if (product.id && !hasViewedProduct(product.id)) {
+      incrementViews(product.id);
     }
 
-    if (!fcmToken) {
-      addLog('⚠️ Token FCM manquant - Demande de permission...', 'warning');
-      
-      // Demander la permission
-      var permission = await Notification.requestPermission();
-      
-      if (permission === 'granted') {
-        addLog('✅ Permission accordée', 'success');
-        
-        // Récupérer le token
-         var registration = await navigator.serviceWorker.getRegistration('/Webtest/');
-
-if (!registration) {
-  registration = await navigator.serviceWorker.register('/Webtest/firebase-messaging-sw.js');
-}
-
-var token = await getToken(messaging, {
-  vapidKey: VAPID_KEY,
-  serviceWorkerRegistration: registration
-});
-        if (token) {
-          fcmToken = token;
-          addLog('✅ Token récupéré: ' + token.substring(0, 15) + '...', 'success');
-          updateStatus('statusFCM', '✅ Token OK', 'ok');
-          showToast('✅ Token récupéré ! Réessayez.', 'success');
-          return;
-        }
-      } else {
-        addLog('❌ Permission refusée', 'error');
-        showToast('❌ Permission refusée', 'error');
-        return;
-      }
-    }
-
-    if (!isServiceWorkerReady) {
-      addLog('⏳ Service Worker non prêt - Attente...', 'warning');
-      await navigator.serviceWorker.ready;
-      isServiceWorkerReady = true;
-      addLog('✅ Service Worker prêt', 'success');
-    }
-
-    // ENVOYER LA NOTIFICATION
-    addLog('📤 Envoi de la notification push...', 'info');
-
-    // Méthode 1: Envoyer via l'API FCM (nécessite un token serveur)
-    // Méthode 2: Simuler une notification locale
-    // Pour le test, on utilise une notification locale
+    const categoryIcon = CATEGORIES.find(c => c.id === product.category)?.icon || 'fa-tag';
+    const categoryLabel = CATEGORIES.find(c => c.id === product.category)?.label || product.category || 'Général';
     
-    // Afficher une notification locale
-    if (Notification.permission === 'granted') {
-      var registration = await navigator.serviceWorker.ready;
+    const sellerName = product.userName || 'Vendeur';
+    const sellerWhatsApp = product.userWhatsApp || '';
+    const price = product.price || 0;
+    const title = product.title || 'Sans titre';
+    const description = product.description || '';
+    const views = product.views || 0;
+    const image = product.coverImage || 'data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27400%27 height=%27225%27%3E%3Crect fill=%27%231A3A2A%27 width=%27400%27 height=%27225%27/%3E%3Ctext x=%27200%27 y=%27120%27 text-anchor=%27middle%27 font-size=%2740%27 fill=%27%23B8860B%27%3E📦%3C/text%3E%3C/svg%3E';
 
-await registration.showNotification('🔔 Test ARVEXA', {
-  body: '✅ Votre notification fonctionne parfaitement !',
-  icon: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png',
-  badge: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png',
-  vibrate: [200, 100, 200],
-  data: {
-    url: '/Webtest/index.html'
-  }
-});
+    const cleanWhatsapp = sellerWhatsApp.replace(/\s/g, '');
+    const whatsappLink = cleanWhatsapp ? `https://wa.me/${cleanWhatsapp.replace('+', '')}?text=Bonjour%2C%20je%20suis%20int%C3%A9ress%C3%A9%20par%20votre%20produit%20%22${encodeURIComponent(title)}%22` : '#';
+    const callLink = cleanWhatsapp ? `tel:${cleanWhatsapp.replace('+', '')}` : '#';
 
-addLog('✅ Notification Service Worker affichée !', 'success');
-showToast('✅ Notification envoyée !', 'success');
-      
-      notification.onclick = function() {
-        window.focus();
-        notification.close();
-      };
-      
-      addLog('✅ Notification locale affichée !', 'success');
-      showToast('✅ Notification envoyée !', 'success');
-      if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
-    } else {
-      addLog('⚠️ Permission notification non accordée', 'warning');
-      showToast('⚠️ Permission notification non accordée', 'warning');
-    }
+    html += `
+      <div class="card" style="animation-delay: ${index * 0.05}s;">
+        <img src="${image}" alt="${escapeHtml(title)}" class="card-image" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27400%27 height=%27225%27%3E%3Crect fill=%27%231A3A2A%27 width=%27400%27 height=%27225%27/%3E%3Ctext x=%27200%27 y=%27120%27 text-anchor=%27middle%27 font-size=%2740%27 fill=%27%23B8860B%27%3E📦%3C/text%3E%3C/svg%3E'">
+        <div class="card-content">
+          <div class="card-category"><i class="fas ${categoryIcon}"></i> ${escapeHtml(categoryLabel)}</div>
+          <div class="card-title">${escapeHtml(title)}</div>
+          <div class="card-desc">${escapeHtml(description)}</div>
+          <div class="card-footer">
+            <span class="card-price">${formatCurrency(price)}</span>
+            <span class="card-seller"><i class="fas fa-user"></i> ${escapeHtml(sellerName)}</span>
+          </div>
+          <div class="card-actions">
+            ${sellerWhatsApp ? `
+              <a href="${whatsappLink}" target="_blank" class="btn-contact whatsapp">
+                <i class="fab fa-whatsapp"></i> WhatsApp
+              </a>
+              <a href="${callLink}" class="btn-contact call">
+                <i class="fas fa-phone"></i> Appel
+              </a>
+            ` : `
+              <span style="font-size:11px;color:var(--text-muted);">📱 Aucun contact</span>
+            `}
+          </div>
+          <div class="card-views"><i class="fas fa-eye"></i> ${views} vues</div>
+        </div>
+      </div>
+    `;
+  });
 
-  } catch (error) {
-    addLog('❌ Erreur: ' + error.message, 'error');
-    showToast('❌ Erreur: ' + error.message, 'error');
-  }
-
-  testPushBtn.disabled = false;
-  testPushBtn.innerHTML = '<i class="fas fa-bell"></i> Tester une notification push';
+  productsGrid.innerHTML = html;
 }
 
 // ================================================================
-// TEST TELEGRAM
+// GESTION DES VUES (sessionStorage)
 // ================================================================
-async function testTelegram() {
-  testTelegramBtn.disabled = true;
-  testTelegramBtn.innerHTML = '<span class="loader" style="display:inline-block;width:18px;height:18px;border:2px solid #fff;border-radius:50%;border-top-color:transparent;animation:spin 0.6s linear infinite;"></span> Envoi...';
+function hasViewedProduct(productId) {
+  const viewed = sessionStorage.getItem('boutique_vues');
+  if (!viewed) return false;
+  const viewedList = JSON.parse(viewed);
+  return viewedList.includes(productId);
+}
 
+function markProductViewed(productId) {
+  const viewed = sessionStorage.getItem('boutique_vues');
+  let viewedList = viewed ? JSON.parse(viewed) : [];
+  if (!viewedList.includes(productId)) {
+    viewedList.push(productId);
+    sessionStorage.setItem('boutique_vues', JSON.stringify(viewedList));
+  }
+}
+
+async function incrementViews(productId) {
+  if (!productId) return;
+  // ✅ Vérifier si déjà vu dans cette session
+  if (hasViewedProduct(productId)) return;
+  
   try {
-    addLog('📤 Envoi test Telegram...', 'info');
+    const productRef = doc(db, 'produits', productId);
+    await updateDoc(productRef, {
+      views: increment(1)
+    });
+    markProductViewed(productId);
+    console.log('👁️ Vue incrémentée pour:', productId);
+  } catch (error) {
+    console.error('Erreur incrément views:', error);
+  }
+}
 
-    var url = 'https://api.telegram.org/bot' + TELEGRAM_BOT_TOKEN + '/sendMessage';
-    var response = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        chat_id: TELEGRAM_CHAT_ID,
-        text: '🔔 <b>Test ARVEXA</b>\n\n✅ Cette notification Telegram fonctionne parfaitement !\n\n🕐 ' + new Date().toLocaleString('fr-FR'),
-        parse_mode: 'HTML',
-        disable_web_page_preview: true
-      })
+// ================================================================
+// FILTRER LES PRODUITS
+// ================================================================
+function filterProducts() {
+  const searchTerm = searchInput.value.toLowerCase().trim();
+  
+  filteredProducts = allProducts.filter(product => {
+    // Filtre catégorie
+    if (selectedCategory !== 'all' && product.category !== selectedCategory) {
+      return false;
+    }
+    // Filtre recherche
+    if (searchTerm) {
+      const title = (product.title || '').toLowerCase();
+      const desc = (product.description || '').toLowerCase();
+      const seller = (product.userName || '').toLowerCase();
+      if (!title.includes(searchTerm) && !desc.includes(searchTerm) && !seller.includes(searchTerm)) {
+        return false;
+      }
+    }
+    return true;
+  });
+
+  renderProducts(filteredProducts);
+}
+
+// ================================================================
+// CHARGER LES PRODUITS DEPUIS FIRESTORE
+// ================================================================
+function loadProducts() {
+  if (unsubscribeProducts) {
+    unsubscribeProducts();
+    unsubscribeProducts = null;
+  }
+
+  // Montrer les skeletons
+  productsGrid.innerHTML = '';
+  for (let i = 0; i < 8; i++) {
+    productsGrid.innerHTML += `
+      <div class="skeleton-card">
+        <div class="skeleton-image"></div>
+        <div class="skeleton-content">
+          <div class="skeleton-line w60"></div>
+          <div class="skeleton-line w40"></div>
+          <div class="skeleton-line w30"></div>
+        </div>
+      </div>
+    `;
+  }
+
+  const q = query(
+  collection(db, 'produits'),
+  where('status', '==', 'active')
+);
+
+  unsubscribeProducts = onSnapshot(q, (snapshot) => {
+    allProducts = [];
+    snapshot.forEach(doc => {
+      const data = doc.data();
+      // Vérifier que le produit a un WhatsApp
+      if (data.userWhatsApp) {
+        allProducts.push({
+          id: doc.id,
+          ...data
+        });
+      }
     });
 
-    var data = await response.json();
+    filterProducts();
 
-    if (data.ok) {
-      addLog('✅ Telegram envoyé avec succès !', 'success');
-      showToast('✅ Telegram envoyé !', 'success');
-    } else {
-      addLog('❌ Erreur Telegram: ' + (data.description || 'Inconnue'), 'error');
-      showToast('❌ Erreur Telegram', 'error');
-    }
-
-  } catch (error) {
-    addLog('❌ Erreur: ' + error.message, 'error');
-    showToast('❌ Erreur: ' + error.message, 'error');
-  }
-
-  testTelegramBtn.disabled = false;
-  testTelegramBtn.innerHTML = '<i class="fab fa-telegram"></i> Tester Telegram admin';
+  }, (error) => {
+    console.error('Erreur chargement produits:', error);
+    productsGrid.innerHTML = `
+      <div class="empty-state">
+        <i class="fas fa-exclamation-circle"></i>
+        <p>Erreur de chargement</p>
+        <p class="sub">Veuillez réessayer plus tard</p>
+      </div>
+    `;
+  });
 }
 
 // ================================================================
-// TEST VIBRATION
+// GESTION DE LA MODALE CATÉGORIES
 // ================================================================
-function testVibration() {
-  addLog('📳 Test vibration...', 'info');
-  if (navigator.vibrate) {
-    navigator.vibrate([200, 100, 300, 100, 200, 100, 300]);
-    addLog('✅ Vibration déclenchée !', 'success');
-    showToast('✅ Vibration activée !', 'success');
-  } else {
-    addLog('❌ Vibration non supportée', 'error');
-    showToast('❌ Vibration non supportée', 'error');
-  }
+function renderCategories() {
+  let html = '';
+  CATEGORIES.forEach(cat => {
+    const selected = cat.id === selectedCategory ? 'selected' : '';
+    html += `
+      <div class="category-option ${selected}" data-category="${cat.id}">
+        <i class="fas ${cat.icon}"></i>
+        <span>${cat.label}</span>
+      </div>
+    `;
+  });
+  categoryGrid.innerHTML = html;
+
+  document.querySelectorAll('.category-option').forEach(opt => {
+    opt.addEventListener('click', function() {
+      const category = this.dataset.category;
+      const label = CATEGORIES.find(c => c.id === category)?.label || 'Catégorie';
+      
+      selectedCategory = category;
+      categoryLabel.textContent = label;
+      
+      document.querySelectorAll('.category-option').forEach(o => o.classList.remove('selected'));
+      this.classList.add('selected');
+      
+      closeCategoryModalFn();
+      filterProducts();
+    });
+  });
 }
+
+function openCategoryModal() {
+  categoryModal.classList.add('show');
+}
+
+function closeCategoryModalFn() {
+  categoryModal.classList.remove('show');
+}
+
+categoryBtn.addEventListener('click', openCategoryModal);
+closeCategoryModal.addEventListener('click', closeCategoryModalFn);
+categoryModal.addEventListener('click', (e) => {
+  if (e.target === categoryModal) closeCategoryModalFn();
+});
 
 // ================================================================
 // ÉVÉNEMENTS
 // ================================================================
-testPushBtn.addEventListener('click', testPushNotification);
-testTelegramBtn.addEventListener('click', testTelegram);
-testVibrationBtn.addEventListener('click', testVibration);
+searchInput.addEventListener('input', filterProducts);
 
 // ================================================================
 // AUTH
 // ================================================================
-onAuthStateChanged(auth, async function(user) {
+let sessionUid = sessionStorage.getItem('session_uid');
+
+onAuthStateChanged(auth, (user) => {
   if (user) {
     currentUser = user;
     localStorage.setItem('ARVEXA_current_user', user.uid);
-
-    try {
-      var registration = await navigator.serviceWorker.ready;
-
-var token = await getToken(messaging, {
-  vapidKey: VAPID_KEY,
-  serviceWorkerRegistration: registration
-});
-      if (token) {
-        fcmToken = token;
-        addLog('✅ Token FCM: ' + token.substring(0, 15) + '...', 'success');
-        notifBadge.className = 'notif-badge';
-        notifStatusText.textContent = '✅';
-        updateStatus('statusFCM', '✅ Token OK', 'ok');
-      }
-    } catch (error) {
-      addLog('❌ Erreur récupération token: ' + error.message, 'error');
-      updateStatus('statusFCM', '⚠️ Erreur: ' + error.message.substring(0, 30), 'warning');
+    
+    if (sessionUid === user.uid) {
+      console.debug("✅ Session déjà validée, chargement rapide");
+      renderCategories();
+      loadProducts();
+      isPageLoading = false;
+      return;
     }
 
-    checkAll();
-    addLog('📋 Vérifications terminées', 'info');
-
+    renderCategories();
+    loadProducts();
+    isPageLoading = false;
   } else {
-    currentUser = null;
-    fcmToken = null;
-    notifBadge.className = 'notif-badge';
-    notifStatusText.textContent = '🔕';
-    checkAll();
-    addLog('👤 Utilisateur non connecté', 'warning');
+    if (isPageLoading) {
+      setTimeout(() => {
+        if (!auth.currentUser) {
+          const savedUid = localStorage.getItem('ARVEXA_current_user');
+          if (savedUid) {
+            if (!auth.currentUser) {
+              window.location.href = 'login.html';
+            }
+          } else {
+            window.location.href = 'login.html';
+          }
+        }
+      }, 3000);
+    } else {
+      const savedUid = localStorage.getItem('ARVEXA_current_user');
+      if (savedUid) {
+        setTimeout(() => {
+          if (!auth.currentUser) {
+            window.location.href = 'login.html';
+          }
+        }, 2000);
+      } else {
+        window.location.href = 'login.html';
+      }
+    }
   }
 });
 
-// ================================================================
-// INIT
-// ================================================================
-addLog('🚀 Page de test chargée', 'info');
-addLog('💡 Cliquez sur un bouton pour tester', 'info');
-
-// Enregistrer le Service Worker
-registerServiceWorker();
-
-console.log('🔔 ARVEXA - Page de test des notifications');
+console.debug('🛒 ARVEXA - Boutique chargée');
+console.debug('✅ Filtres par catégorie (modale)');
+console.debug('✅ Recherche par mot-clé');
+console.debug('✅ WhatsApp et Appel direct');
 </script>
 </body>
 </html>

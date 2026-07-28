@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes, viewport-fit=cover">
   <meta name="theme-color" content="#0A0A0A">
-  <meta name="description" content="ARVEXA - Assistant IA Universel">
+  <meta name="description" content="ARVEXA - Assistant IA">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="manifest" href="manifest.json">
@@ -333,20 +333,20 @@
     /* ===== MESSAGES ===== */
     .message {
       max-width: 80%;
-      padding: 10px 14px;
+      padding: 12px 16px;
       border-radius: 12px;
       font-size: 14px;
-      line-height: 1.5;
+      line-height: 1.6;
       animation: messageIn 0.3s ease-out;
       word-wrap: break-word;
       overflow-wrap: break-word;
+      color: var(--text-light);
     }
     @keyframes messageIn {
       from { opacity: 0; transform: translateY(10px) scale(0.97); }
       to { opacity: 1; transform: translateY(0) scale(1); }
     }
 
-    /* Message Utilisateur - Noir avec brillance */
     .message.user {
       align-self: flex-end;
       background: linear-gradient(135deg, #1A1A1A, #0A0A0A);
@@ -356,13 +356,12 @@
       border-bottom-right-radius: 4px;
     }
 
-    /* Message Assistant - Style épuré */
     .message.ia {
       align-self: flex-start;
       background: rgba(255, 255, 255, 0.02);
       border: 1px solid rgba(184, 134, 11, 0.06);
       border-bottom-left-radius: 4px;
-      color: #D4C8A8;
+      color: var(--text-light);
     }
 
     .message .msg-time {
@@ -374,38 +373,13 @@
     }
     .message.user .msg-time { color: var(--text-muted); }
 
-    .message .msg-strong {
-      font-weight: 600;
-      color: var(--accent);
-    }
-    .message.ia .msg-strong { color: #D4A017; }
-
-    .message .msg-block {
-      display: block;
-      margin: 6px 0 2px;
-    }
-    .message .msg-list {
-      padding-left: 18px;
-      margin: 4px 0;
-      list-style: none;
-    }
-    .message .msg-list li {
-      position: relative;
-      padding: 2px 0 2px 16px;
-    }
-    .message .msg-list li::before {
-      content: "•";
-      position: absolute;
-      left: 0;
-      color: var(--accent);
-    }
-
-    .message .msg-link {
+    /* ===== NAVIGATION BUTTON ===== */
+    .msg-link {
       display: inline-flex;
       align-items: center;
       gap: 8px;
       margin-top: 8px;
-      padding: 8px 14px;
+      padding: 10px 16px;
       background: rgba(184, 134, 11, 0.08);
       border: 1px solid rgba(184, 134, 11, 0.10);
       color: var(--accent);
@@ -413,11 +387,14 @@
       font-size: 13px;
       border-radius: 10px;
       text-decoration: none;
-      transition: var(--transition);
+      transition: all 0.3s ease;
       cursor: pointer;
     }
-    .message .msg-link:active { transform: scale(0.97); }
-    .message .msg-link:hover { background: rgba(184, 134, 11, 0.15); }
+    .msg-link:hover {
+      background: rgba(184, 134, 11, 0.15);
+      transform: translateY(-1px);
+    }
+    .msg-link:active { transform: scale(0.97); }
 
     /* ============================================================
        TYPING INDICATOR
@@ -447,9 +424,9 @@
       0%, 80%, 100% { transform: scale(0.6); opacity: 0.3; }
       40% { transform: scale(1); opacity: 1; }
     }
-
-    /* ============================================================
-       INPUT - COMPACT
+    
+        /* ============================================================
+       INPUT
        ============================================================ */
     .chat-input-wrapper {
       flex-shrink: 0;
@@ -459,9 +436,9 @@
 
     .chat-input-area {
       display: flex;
-      align-items: center;
+      align-items: flex-end;
       gap: 10px;
-      padding: 6px 12px;
+      padding: 8px 12px;
       background: rgba(10, 10, 10, 0.85);
       border: 1px solid rgba(184, 134, 11, 0.10);
       border-radius: 14px;
@@ -481,7 +458,7 @@
       min-width: 0;
     }
 
-    .chat-input-area input {
+    .chat-input-area textarea {
       width: 100%;
       padding: 8px 0;
       background: transparent;
@@ -490,12 +467,19 @@
       font-size: 14px;
       font-family: 'Inter', sans-serif;
       outline: none;
+      resize: none;
       min-height: 24px;
+      max-height: 150px;
+      line-height: 1.5;
+      overflow-y: auto;
     }
-    .chat-input-area input::placeholder {
+    .chat-input-area textarea::placeholder {
       color: var(--text-dim);
       opacity: 0.5;
     }
+    .chat-input-area textarea::-webkit-scrollbar { width: 2px; }
+    .chat-input-area textarea::-webkit-scrollbar-track { background: transparent; }
+    .chat-input-area textarea::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; }
 
     .chat-input-area .btn-group {
       display: flex;
@@ -505,8 +489,8 @@
     }
 
     .chat-input-area .btn-icon {
-      width: 34px;
-      height: 34px;
+      width: 38px;
+      height: 38px;
       border-radius: 50%;
       border: none;
       display: flex;
@@ -514,7 +498,7 @@
       justify-content: center;
       cursor: pointer;
       transition: var(--transition);
-      font-size: 15px;
+      font-size: 16px;
       flex-shrink: 0;
       touch-action: manipulation;
       background: transparent;
@@ -533,18 +517,6 @@
     }
     .chat-input-area .send-btn:hover { background: #9A7209; transform: scale(1.02); }
     .chat-input-area .send-btn:disabled { opacity: 0.4; }
-
-    .chat-input-area .mic-btn.listening {
-      background: rgba(138, 58, 58, 0.15);
-      border: 1px solid var(--danger);
-      color: var(--danger);
-      animation: pulseMic 1.2s ease-in-out infinite;
-    }
-    .chat-input-area .mic-btn.listening i { color: var(--danger); }
-    @keyframes pulseMic {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-    }
 
     /* ============================================================
        SKELETON
@@ -599,7 +571,7 @@
     .toast.error { border-color: var(--danger); color: var(--danger); }
     .toast.success { border-color: var(--success); color: var(--success); }
 
-        /* ============================================================
+    /* ============================================================
        RESPONSIVE
        ============================================================ */
     @media (max-width: 480px) {
@@ -608,18 +580,18 @@
       .user-name-header { font-size: 11px; max-width: 60px; }
       .ia-header .menu-toggle { width: 34px; height: 34px; font-size: 14px; min-width: 34px; }
       .message { max-width: 92%; font-size: 14px; padding: 10px 14px; }
-      .chat-input-area { padding: 4px 10px; border-radius: 12px; gap: 6px; }
-      .chat-input-area input { font-size: 13px; min-height: 20px; padding: 6px 0; }
-      .chat-input-area .btn-icon { width: 30px; height: 30px; font-size: 13px; }
+      .chat-input-area { padding: 6px 10px; border-radius: 12px; gap: 6px; }
+      .chat-input-area textarea { font-size: 13px; min-height: 20px; max-height: 120px; padding: 6px 0; }
+      .chat-input-area .btn-icon { width: 34px; height: 34px; font-size: 14px; }
       .chat-input-area .send-btn { width: 34px; height: 34px; font-size: 14px; }
       .chat-container { padding-top: calc(var(--header-height) + 8px); }
       .chat-messages { padding: 12px 4px 16px; gap: 10px; }
     }
 
     @media (min-width: 769px) {
-      .message { max-width: 75%; font-size: 15px; padding: 14px 18px; }
-      .chat-input-area { padding: 8px 16px; }
-      .chat-input-area input { font-size: 15px; }
+      .message { max-width: 75%; font-size: 15px; padding: 14px 20px; }
+      .chat-input-area { padding: 10px 16px; }
+      .chat-input-area textarea { font-size: 15px; }
       .sidebar { width: 320px; }
       .sidebar .chat-item { font-size: 15px; padding: 12px 16px; }
       .sidebar .new-chat-btn { font-size: 16px; padding: 16px 18px; }
@@ -691,7 +663,6 @@
   <div class="chat-container">
 
     <div class="chat-messages" id="chatMessages" role="log" aria-live="polite">
-      <!-- Skeleton loading initial -->
       <div class="skeleton-message" id="skeletonMessage">
         <div class="skeleton-line w60"></div>
         <div class="skeleton-line w40"></div>
@@ -705,16 +676,12 @@
       <span></span>
     </div>
 
-    <!-- INPUT COMPACT -->
     <div class="chat-input-wrapper">
       <div class="chat-input-area">
         <div class="input-wrapper">
-          <input type="text" id="chatInput" placeholder="Écrivez votre message..." aria-label="Saisir votre message" autocomplete="off">
+          <textarea id="chatInput" rows="1" placeholder="Écrivez votre message..." aria-label="Saisir votre message"></textarea>
         </div>
         <div class="btn-group">
-          <button class="btn-icon mic-btn" id="micBtn" title="Note vocale" aria-label="Dictée vocale">
-            <i class="fas fa-microphone" aria-hidden="true"></i>
-          </button>
           <button class="btn-icon send-btn" id="sendBtn" aria-label="Envoyer le message">
             <i class="fas fa-paper-plane" aria-hidden="true"></i>
           </button>
@@ -798,72 +765,88 @@ const MISTRAL_API_KEY = "0YyRAeP2p28zy8Bq2PJSWJZWVNevLMka";
 const MISTRAL_ENDPOINT = "https://api.mistral.ai/v1/chat/completions";
 
 // ================================================================
-// TOUTES LES PAGES ARVEXA
+// TOUTES LES PAGES ARVEXA (pour la connaissance)
 // ================================================================
 const PAGES = {
-  'accueil': { url: 'index.html', icon: 'fa-home', label: 'Accueil' },
-  'connexion': { url: 'login.html', icon: 'fa-sign-in-alt', label: 'Connexion' },
-  'inscription': { url: 'register.html', icon: 'fa-user-plus', label: 'Inscription' },
-  'profil': { url: 'profil.html', icon: 'fa-user', label: 'Profil' },
-  'recharger': { url: 'recharger.html', icon: 'fa-plus-circle', label: 'Recharger' },
-  'retrait': { url: 'retrait.html', icon: 'fa-arrow-down', label: 'Retrait' },
-  'activite': { url: 'activite.html', icon: 'fa-chart-pie', label: 'Activité' },
-  'parrainage': { url: 'parrainage.html', icon: 'fa-users', label: 'Parrainage' },
-  'ebooks': { url: 'ebooks.html', icon: 'fa-book', label: 'E-books' },
-  'formations': { url: 'formations.html', icon: 'fa-graduation-cap', label: 'Formations' },
-  'services': { url: 'services.html', icon: 'fa-cogs', label: 'Services' },
-  'avis': { url: 'avis.html', icon: 'fa-star', label: 'Avis' },
-  'forum': { url: 'forum.html', icon: 'fa-comments', label: 'Forum' },
-  'defis': { url: 'epargne.html', icon: 'fa-trophy', label: 'Défis' },
-  'vendre': { url: 'vendre.html', icon: 'fa-store', label: 'Vendre' },
-  'chat': { url: 'chat.html', icon: 'fa-robot', label: 'Assistant' },
-  'apropos': { url: 'about.html', icon: 'fa-info-circle', label: 'À Propos' }
+  'accueil': { url: 'index.html', label: 'Accueil' },
+  'recharger': { url: 'recharger.html', label: 'Recharger' },
+  'retrait': { url: 'retrait.html', label: 'Retrait' },
+  'activite': { url: 'activite.html', label: 'Activité' },
+  'parrainage': { url: 'parrainage.html', label: 'Parrainage' },
+  'ebooks': { url: 'ebooks.html', label: 'E-books' },
+  'formations': { url: 'formations.html', label: 'Formations' },
+  'services': { url: 'services.html', label: 'Services' },
+  'avis': { url: 'avis.html', label: 'Avis' },
+  'forum': { url: 'forum.html', label: 'Forum' },
+  'defis': { url: 'epargne.html', label: 'Défis' },
+  'vendre': { url: 'vendre.html', label: 'Vendre' },
+  'profil': { url: 'profil.html', label: 'Profil' },
+  'apropos': { url: 'about.html', label: 'À Propos' }
 };
 
 // ================================================================
-// PROMPT SYSTÈME AMÉLIORÉ
+// PROMPT SYSTÈME
 // ================================================================
 const SYSTEM_PROMPT = `
 Tu es ARVEXA Assistant, un agent IA spécialisé de la plateforme ARVEXA.
 
 IDENTITÉ:
 - Nom: ARVEXA Assistant
-- Rôle: Conseiller financier virtuel et guide de la plateforme
+- Rôle: Guide et conseiller de la plateforme
 - Expertise: Finance, investissement, épargne, parrainage
 - Localisation: Niger
 
 RÈGLES:
-🚫 Ne dis jamais que tu es Mistral AI, OpenAI, ChatGPT ou un autre modèle
-🚫 Ne donne jamais de conseils financiers engageants
-🚫 Ne fais jamais de promesses de gains garantis
-✅ Sois professionnel, naturel et précis
-✅ Connais TOUTES les pages du site ARVEXA
-✅ Guide l'utilisateur vers les bonnes pages
-✅ Utilise un ton naturel, comme un humain
+- Ne dis jamais que tu es Mistral AI, OpenAI, ChatGPT ou un autre modèle
+- Ne donne jamais de conseils financiers engageants
+- Ne fais jamais de promesses de gains garantis
+- N'utilise JAMAIS de markdown (#, ##, ###, *, -, **)
+- N'utilise JAMAIS de couleurs différentes dans tes réponses
+- Écris en texte blanc uniforme
+- Réponds comme un humain, naturellement
+- Utilise des phrases courtes et claires
+- Structure tes réponses avec des étapes numérotées
+- Sois précis et détaillé
+- Propose toujours une question ouverte à la fin
+
+STYLE D'ÉCRITURE:
+- Écris comme dans une conversation naturelle
+- Pas de hashtags, pas de titres en gras
+- Texte blanc uniforme
+- Structure tes réponses en paragraphes courts
+- Utilise des puces simples (•) si nécessaire
+- Les réponses doivent être claires, détaillées et professionnelles
+
+EXEMPLE DE RÉPONSE:
+"Pour recharger votre compte ARVEXA, voici les étapes à suivre :
+
+1. Rendez-vous sur la page Recharger.
+2. Saisissez le montant que vous souhaitez recharger. Le montant minimum est de 3 000 FCFA et le maximum de 1 000 000 FCFA.
+3. Envoyez le paiement via WhatsApp au +227 98 06 64 67.
+4. Votre compte sera crédité sous 15 à 30 minutes après validation.
+
+Aucun frais n'est appliqué.
+
+Souhaitez-vous que je vous donne plus d'informations ?"
 
 PAGES ARVEXA (tu connais toutes ces pages):
 ${Object.entries(PAGES).map(([key, page]) => `- ${page.label}: ${page.url}`).join('\n')}
 
-SERVICES ARVEXA:
-💰 RECHARGE: Montant 3 000 à 1 000 000 FCFA, WhatsApp +227 98 06 64 67, délai 15-30 min
-💸 RETRAIT: Montant 1 000 à 50 000 FCFA, délai 24-48h
-👥 PARRAINAGE: Bonus 1000 FCFA par filleul après 1er dépôt
-📚 E-BOOKS: 10 e-books disponibles, gratuits après activation premium
-🎓 FORMATIONS: 10 formations (2 gratuites, 8 payantes)
-🏆 DÉFIS: 5 défis par semaine (Lundi à Vendredi), jusqu'à 300 FCFA
-🛒 VENDRE: Publiez vos produits digitaux gratuitement
+SERVICES ARVEXA (informations à donner aux utilisateurs):
+- RECHARGE: Montant 3 000 à 1 000 000 FCFA, WhatsApp +227 98 06 64 67, délai 15-30 min, frais 0%
+- RETRAIT: Montant 1 000 à 50 000 FCFA, délai 24-48h, frais 3-5%
+- PARRAINAGE: Bonus 1000 FCFA par filleul après 1er dépôt, illimité
+- E-BOOKS: 10 e-books disponibles, gratuits après activation premium
+- FORMATIONS: 10 formations (2 gratuites, 8 payantes) de 4 000 à 10 000 FCFA
+- DÉFIS: 5 défis par semaine, jusqu'à 10 000 FCFA
+- VENDRE: Publiez vos produits digitaux gratuitement, 100% des ventes pour vous
+- FORUM: Espace d'échange communautaire
+- AVIS: Donnez votre avis sur ARVEXA
 
-STYLE DE RÉPONSE:
-- Naturel et professionnel (comme un humain)
-- Pas trop d'emojis (juste quelques-uns)
-- Phrases courtes et claires
-- Propose toujours une action ou une question ouverte
-- Quand l'utilisateur demande une page, donne la description et propose d'y accéder
-
-EXEMPLES DE RÉPONSES:
-- "Bonjour Jean, bienvenue sur ARVEXA. Je suis votre assistant. Comment puis-je vous aider aujourd'hui ?"
-- "La page Recharger vous permet d'alimenter votre compte. Le montant minimum est de 3 000 FCFA. Souhaitez-vous que je vous y redirige ?"
-- "Les e-books sont disponibles dans la bibliothèque. Il y a actuellement 10 titres sur la finance et l'entrepreneuriat."
+Quand l'utilisateur demande des informations sur une page, explique clairement ce qu'elle contient.
+Quand l'utilisateur demande une procédure, donne des étapes claires et numérotées.
+Ne propose JAMAIS d'effectuer des actions à la place de l'utilisateur.
+Guide l'utilisateur vers la page appropriée pour qu'il effectue l'action lui-même.
 `;
 
 // ================================================================
@@ -875,7 +858,6 @@ const menuToggle = document.getElementById('menuToggle');
 const chatMessages = document.getElementById('chatMessages');
 const chatInput = document.getElementById('chatInput');
 const sendBtn = document.getElementById('sendBtn');
-const micBtn = document.getElementById('micBtn');
 const typingIndicator = document.getElementById('typingIndicator');
 const chatList = document.getElementById('chatList');
 const newChatBtn = document.getElementById('newChatBtn');
@@ -892,9 +874,19 @@ let touchStartX = 0;
 let touchStartY = 0;
 let conversationHistory = [];
 let toastTimeout = null;
-let recognition = null;
-let isListening = false;
 let isProcessing = false;
+
+// ================================================================
+// AUTO-RESIZE TEXTAREA
+// ================================================================
+function autoResizeTextarea() {
+  if (!chatInput) return;
+  chatInput.style.height = 'auto';
+  chatInput.style.height = Math.min(chatInput.scrollHeight, 150) + 'px';
+}
+
+chatInput.addEventListener('input', autoResizeTextarea);
+chatInput.addEventListener('focus', autoResizeTextarea);
 
 // ================================================================
 // TOAST
@@ -967,71 +959,20 @@ function updateHeader(data) {
 }
 
 // ================================================================
-// RECONNAISSANCE VOCALE
+// BOUTON DE NAVIGATION
 // ================================================================
-function initSpeechRecognition() {
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SpeechRecognition) {
-    if (micBtn) micBtn.style.display = 'none';
-    return;
-  }
-  recognition = new SpeechRecognition();
-  recognition.lang = 'fr-FR';
-  recognition.continuous = false;
-  recognition.interimResults = true;
-
-  recognition.onstart = () => {
-    isListening = true;
-    if (micBtn) {
-      micBtn.classList.add('listening');
-      micBtn.innerHTML = '<i class="fas fa-circle" style="color: #8A3A3A; font-size:12px;"></i>';
-    }
-  };
-  recognition.onerror = (event) => { 
-    console.error('Erreur reconnaissance:', event.error); 
-    stopListening(); 
-    showToast('Erreur microphone. Réessayez.', 'error');
-  };
-  recognition.onend = () => { stopListening(); };
-  recognition.onresult = (event) => {
-    let transcript = '';
-    for (let i = event.resultIndex; i < event.results.length; i++) {
-      transcript += event.results[i][0].transcript;
-    }
-    if (chatInput) chatInput.value = transcript.trim();
-  };
-}
-
-function startListening() {
-  if (!recognition) { showToast('Reconnaissance vocale non supportée.', 'error'); return; }
-  if (isListening) { stopListening(); return; }
-  try { recognition.start(); } catch (error) { console.error('Erreur démarrage:', error); }
-}
-
-function stopListening() {
-  isListening = false;
-  if (micBtn) {
-    micBtn.classList.remove('listening');
-    micBtn.innerHTML = '<i class="fas fa-microphone"></i>';
-  }
-  try { if (recognition) recognition.stop(); } catch (error) {}
-}
-
-if (micBtn) {
-  micBtn.addEventListener('click', startListening);
-  micBtn.addEventListener('touchstart', (e) => {
-    e.preventDefault();
-    startListening();
-  });
+function createNavButton(pageUrl, label, icon) {
+  return `<a href="${pageUrl}" class="msg-link">
+    <i class="fas ${icon}"></i> ${label}
+  </a>`;
 }
 
 // ================================================================
 // AFFICHER UN MESSAGE
 // ================================================================
-function addMessage(text, sender, time) {
+function addMessage(text, sender, time, buttons) {
   if (!chatMessages) return;
   
-  // Supprimer le skeleton s'il existe
   if (skeletonMessage && skeletonMessage.style.display !== 'none') {
     skeletonMessage.style.display = 'none';
   }
@@ -1039,13 +980,17 @@ function addMessage(text, sender, time) {
   const div = document.createElement('div');
   div.className = `message ${sender}`;
   
-  let formattedText = text
-    .replace(/\n/g, '<br>')
-    .replace(/\*\*(.*?)\*\*/g, '<strong class="msg-strong">$1</strong>')
-    .replace(/^• /gm, '<span class="msg-block">• </span>')
-    .replace(/^\d+\. /gm, '<span class="msg-block">$&</span>');
+  let content = text;
   
-  div.innerHTML = `${formattedText}<span class="msg-time">${time || 'Maintenant'}</span>`;
+  if (buttons && buttons.length > 0) {
+    content += '<div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:6px;">';
+    buttons.forEach(btn => {
+      content += btn;
+    });
+    content += '</div>';
+  }
+  
+  div.innerHTML = `${content}<span class="msg-time">${time || 'Maintenant'}</span>`;
   chatMessages.appendChild(div);
   
   requestAnimationFrame(() => {
@@ -1054,10 +999,10 @@ function addMessage(text, sender, time) {
 }
 
 // ================================================================
-// APPEL MISTRAL AI AVEC GESTION DES RÉPONSES LONGUES
+// APPEL MISTRAL AI
 // ================================================================
 async function callMistral(userMessage) {
-  if (!MISTRAL_API_KEY || MISTRAL_API_KEY === 'VOTRE_CLE_API_MISTRAL') {
+  if (!MISTRAL_API_KEY || MISTRAL_API_KEY === '0YyRAeP2p28zy8Bq2PJSWJZWVNevLMka') {
     return simulateResponse(userMessage);
   }
 
@@ -1078,7 +1023,7 @@ async function callMistral(userMessage) {
         model: 'mistral-large-latest', 
         messages, 
         temperature: 0.7, 
-        max_tokens: 800  // ✅ Augmenté pour les réponses longues
+        max_tokens: 1000
       })
     });
 
@@ -1092,213 +1037,364 @@ async function callMistral(userMessage) {
 }
 
 // ================================================================
-// SIMULATION DE RÉPONSE (Fallback)
+// SIMULATION DE RÉPONSE (EXPLICATIONS UNIQUEMENT)
 // ================================================================
 function simulateResponse(text) {
   const lower = text.toLowerCase();
-  
+  const userName = userData?.prenom || '';
+  const balance = userData?.balance || 0;
+  const userId = userData?.id || userData?.customerId || 'ID';
+
   // --- BIENVENUE ---
   if (lower.includes('bonjour') || lower.includes('salut') || lower.includes('coucou') || lower.includes('hello')) {
-    const name = userData?.prenom || '';
-    return name 
-      ? `Bonjour ${name}, bienvenue sur ARVEXA. Je suis votre assistant. Comment puis-je vous aider aujourd'hui ?`
-      : 'Bonjour, bienvenue sur ARVEXA. Je suis votre assistant. Comment puis-je vous aider aujourd\'hui ?';
+    const name = userName || '';
+    const msg = name 
+      ? `Bonjour ${name}, je suis votre assistant ARVEXA.\n\nJe suis là pour vous guider sur la plateforme. Je peux vous expliquer comment fonctionnent les recharges, les retraits, le parrainage, les e-books, les formations, les défis et bien plus encore.\n\nN'hésitez pas à me poser des questions sur n'importe quel service ARVEXA.`
+      : `Bonjour, je suis votre assistant ARVEXA.\n\nJe suis là pour vous guider sur la plateforme. Je peux vous expliquer comment fonctionnent les recharges, les retraits, le parrainage, les e-books, les formations, les défis et bien plus encore.\n\nN'hésitez pas à me poser des questions sur n'importe quel service ARVEXA.`;
+    
+    const buttons = [
+      createNavButton('recharger.html', 'Recharger', 'fa-plus-circle'),
+      createNavButton('retrait.html', 'Retrait', 'fa-arrow-down'),
+      createNavButton('ebooks.html', 'E-books', 'fa-book'),
+      createNavButton('epargne.html', 'Défis', 'fa-trophy')
+    ];
+    return { text: msg, buttons };
   }
-  
+
   // --- RECHARGE ---
   if (lower.includes('recharg') || lower.includes('depot') || lower.includes('dépôt')) {
-    return `Pour recharger votre compte ARVEXA, rendez-vous sur la page Recharger.
+    const msg = `Pour recharger votre compte ARVEXA, voici les étapes à suivre :
 
-Le montant minimum est de 3 000 FCFA et le maximum de 1 000 000 FCFA.
-Le délai de traitement est de 15 à 30 minutes.
+1. Rendez-vous sur la page Recharger.
+2. Saisissez le montant que vous souhaitez recharger.
+   • Le montant minimum est de 3 000 FCFA.
+   • Le montant maximum est de 1 000 000 FCFA.
+3. Envoyez le paiement via WhatsApp au +227 98 06 64 67.
+4. Votre compte sera crédité sous 15 à 30 minutes après validation.
 
-Souhaitez-vous que je vous y redirige ?`;
+Aucun frais n'est appliqué.
+
+Souhaitez-vous que je vous donne plus d'informations sur la page Recharger ?`;
+    
+    const buttons = [
+      createNavButton('recharger.html', 'Aller à la page Recharger', 'fa-arrow-right')
+    ];
+    return { text: msg, buttons };
   }
-  
+
   // --- RETRAIT ---
   if (lower.includes('retrait') || lower.includes('retirer')) {
-    return `Pour retirer vos gains, rendez-vous sur la page Retrait.
+    const msg = `Pour retirer vos gains ARVEXA, voici les étapes à suivre :
 
-Le montant minimum est de 1 000 FCFA et le maximum de 50 000 FCFA.
+1. Rendez-vous sur la page Retrait.
+2. Saisissez le montant que vous souhaitez retirer.
+   • Le montant minimum est de 1 000 FCFA.
+   • Le montant maximum est de 50 000 FCFA.
+3. Choisissez votre opérateur de retrait.
+4. Envoyez la demande via WhatsApp.
+5. Votre retrait sera traité sous 24 à 48 heures.
+
 Des frais de 3 à 5% sont appliqués selon le montant.
-Le délai de traitement est de 24 à 48 heures.
 
-Souhaitez-vous que je vous y redirige ?`;
+Souhaitez-vous que je vous donne plus d'informations sur la page Retrait ?`;
+    
+    const buttons = [
+      createNavButton('retrait.html', 'Aller à la page Retrait', 'fa-arrow-right')
+    ];
+    return { text: msg, buttons };
   }
-  
-  // --- PARRAINAGE ---
-  if (lower.includes('parrainage') || lower.includes('filleul') || lower.includes('parrain')) {
-    return `Le programme de parrainage ARVEXA vous permet de gagner 1 000 FCFA par filleul après son premier dépôt.
 
-Il n'y a pas de limite de filleuls.
-Vous pouvez suivre vos parrainages en temps réel dans votre espace.
-
-Souhaitez-vous plus d'informations ?`;
-  }
-  
   // --- E-BOOKS ---
   if (lower.includes('ebook') || lower.includes('livre') || lower.includes('bibliothèque')) {
-    return `La bibliothèque ARVEXA propose 10 e-books sur la finance, l'investissement et l'entrepreneuriat.
+    const msg = `La bibliothèque ARVEXA propose 10 e-books sur la finance, l'investissement et l'entrepreneuriat.
 
-Parmi les titres disponibles :
-- 50 idées de business avec 0 FCFA
-- Les erreurs qui empêchent de devenir riche
-- Comment économiser intelligemment
+Voici les titres disponibles :
+1. 50 idées de business avec 0 FCFA.
+2. Les erreurs qui empêchent de devenir riche.
+3. Comment économiser et gérer son argent intelligemment.
+4. Le guide complet du freelancing.
+5. 100 outils IA gratuits pour gagner du temps.
+6. Les bases du marketing digital.
+7. Le guide du branding personnel.
+8. Comment créer plusieurs sources de revenus.
+9. Les secrets de la discipline et de la productivité.
+10. Le guide du e-commerce.
 
 Les e-books sont gratuits après activation de votre compte premium.
-Souhaitez-vous en savoir plus ?`;
+
+Pour les consulter, rendez-vous sur la page E-books.
+
+Souhaitez-vous en savoir plus sur un e-book en particulier ?`;
+    
+    const buttons = [
+      createNavButton('ebooks.html', 'Aller à la page E-books', 'fa-book')
+    ];
+    return { text: msg, buttons };
   }
-  
+
   // --- FORMATIONS ---
   if (lower.includes('formation') || lower.includes('cours') || lower.includes('apprendre')) {
-    return `ARVEXA propose 10 formations disponibles :
+    const msg = `ARVEXA propose 10 formations disponibles :
 
 🎓 2 formations gratuites :
-- Créer un business rentable avec l'IA
-- Créer un site web professionnel sans coder
+• Créer un business rentable avec l'IA.
+• Créer un site web professionnel sans coder.
 
 🔒 8 formations payantes (à partir de 4 000 FCFA) :
-- Freelance, E-commerce, Réseaux sociaux, Automatisation, SaaS, Copywriting, Business en ligne
+• Freelance et premiers clients.
+• E-commerce rentable.
+• Création de formation en ligne.
+• Réseaux sociaux (TikTok, Instagram, YouTube).
+• Automatisation IA et no-code.
+• SaaS avec l'IA.
+• Copywriting et vente.
+• Business en ligne jusqu'à 1 000 000 FCFA.
 
-Souhaitez-vous voir les formations disponibles ?`;
+Toutes les formations sont disponibles sur la page Formations.
+
+Souhaitez-vous en savoir plus sur une formation en particulier ?`;
+    
+    const buttons = [
+      createNavButton('formations.html', 'Aller à la page Formations', 'fa-graduation-cap')
+    ];
+    return { text: msg, buttons };
   }
-  
-  // --- DÉFIS ---
-  if (lower.includes('défi') || lower.includes('defi') || lower.includes('epargne')) {
-    return `Les défis hebdomadaires ARVEXA vous permettent de gagner jusqu'à 300 FCFA par semaine.
 
-📅 Lundi: Quiz Culture Générale (40 FCFA)
-📅 Mardi: Quiz ARVEXA (50 FCFA)
-📅 Mercredi: Jeu de Mémoire (60 FCFA)
-📅 Jeudi: Quiz Niger (70 FCFA)
-📅 Vendredi: Défi Spécial (80 FCFA)
-
-Chaque défi s'ouvre à minuit et se bloque une fois terminé.
-Souhaitez-vous voir les défis du jour ?`;
-  }
-  
-  // --- VENDRE ---
-  if (lower.includes('vendre') || lower.includes('vente') || lower.includes('produit')) {
-    return `La page Vendre vous permet de publier vos produits digitaux gratuitement.
-
-Vous pouvez vendre : formations, e-books, services, templates, logiciels.
-100% des ventes sont pour vous, aucune commission n'est prélevée.
-
-Souhaitez-vous publier un produit ?`;
-  }
-  
   // --- PROFIL / SOLDE ---
   if (lower.includes('solde') || lower.includes('portefeuille') || lower.includes('argent')) {
-    const balance = userData?.balance || 0;
-    return `Votre solde ARVEXA est actuellement de ${balance.toLocaleString('fr-FR')} FCFA.
+    const msg = `Voici vos informations ARVEXA :
 
-Vous pouvez consulter tous vos gains et transactions sur la page Activité.
-Souhaitez-vous voir votre activité ?`;
+👤 Nom : ${userName || 'Utilisateur'}
+🆔 ID : ${userId}
+💰 Solde : ${balance.toLocaleString('fr-FR')} FCFA
+
+Pour consulter tous vos gains et transactions en détail, rendez-vous sur la page Activité.
+
+Souhaitez-vous consulter votre activité complète ?`;
+    
+    const buttons = [
+      createNavButton('activite.html', 'Voir mon activité', 'fa-chart-pie'),
+      createNavButton('profil.html', 'Voir mon profil', 'fa-user')
+    ];
+    return { text: msg, buttons };
   }
-  
-  // --- PREMIUM ---
-  if (lower.includes('premium') || lower.includes('débloquer') || lower.includes('activer')) {
-    return `Pour devenir premium ARVEXA, effectuez votre premier dépôt de 3 000 FCFA.
 
-Une fois premium, vous aurez accès à :
-- Tous les e-books
-- Toutes les formations
-- La boutique
-- Le programme de parrainage
-- Les retraits de gains
-- Le forum communautaire
-- L'épargne programmable
+  // --- PARRAINAGE ---
+  if (lower.includes('parrainage') || lower.includes('filleul') || lower.includes('parrain')) {
+    const msg = `Le programme de parrainage ARVEXA vous permet de gagner de l'argent en invitant vos amis.
 
-Souhaitez-vous recharger votre compte maintenant ?`;
+Voici comment ça fonctionne :
+1. Vous avez un code de parrainage unique.
+2. Partagez ce code avec vos amis.
+3. Quand une personne s'inscrit avec votre code et effectue son premier dépôt (3 000 FCFA minimum), vous gagnez 1 000 FCFA.
+
+Avantages :
+• Pas de limite de filleuls.
+• Vous pouvez suivre vos parrainages en temps réel.
+• Paiement automatique après le 1er dépôt du filleul.
+
+Pour commencer, rendez-vous sur la page Parrainage.
+
+Souhaitez-vous plus d'informations ?`;
+    
+    const buttons = [
+      createNavButton('parrainage.html', 'Aller à la page Parrainage', 'fa-users')
+    ];
+    return { text: msg, buttons };
   }
-  
-  // --- ACTIVITÉ ---
-  if (lower.includes('activité') || lower.includes('statistique') || lower.includes('performance') || lower.includes('gains')) {
-    return `La page Activité vous permet de suivre toutes vos performances en temps réel :
 
-📊 Solde disponible
-📈 Total des revenus
-🏆 Gains des défis
-👥 Gains du parrainage
-❤️ Gains des likes forum
-🛒 Gains des ventes
+  // --- DÉFIS ---
+  if (lower.includes('défi') || lower.includes('defi') || lower.includes('epargne')) {
+    const msg = `Les défis hebdomadaires ARVEXA vous permettent de gagner jusqu'à 10 000 FCFA par semaine.
 
-Souhaitez-vous consulter votre activité ?`;
+📅 Lundi - Économie & Finance
+Récompense : 40 FCFA. Quiz sur les connaissances financières.
+
+📅 Mardi - Quiz ARVEXA
+Récompense : 50 FCFA. Que savez-vous sur ARVEXA ?
+
+📅 Mercredi - Digital & Tech
+Récompense : 60 FCFA. Quiz sur les outils digitaux et l'IA.
+
+📅 Jeudi - Afrique & Niger
+Récompense : 70 FCFA. Quiz sur l'histoire et la culture africaine.
+
+📅 Vendredi - Défi Spécial
+Récompense : 80 FCFA. Questions variées + rapidité.
+
+Chaque défi s'ouvre à minuit et se bloque une fois terminé.
+
+Pour participer, rendez-vous sur la page Défis.
+
+Souhaitez-vous voir les défis du jour ?`;
+    
+    const buttons = [
+      createNavButton('epargne.html', 'Aller à la page Défis', 'fa-trophy')
+    ];
+    return { text: msg, buttons };
   }
-  
+
+  // --- VENDRE ---
+  if (lower.includes('vendre') || lower.includes('vente') || lower.includes('produit')) {
+    const msg = `Pour vendre un produit digital sur ARVEXA, voici les étapes à suivre :
+
+1. Rendez-vous sur la page Vendre.
+2. Remplissez les informations de votre produit :
+   • Nom du produit.
+   • Catégorie (formation, e-book, service, template, logiciel, autre).
+   • Description détaillée.
+   • Prix en FCFA.
+   • Image de couverture.
+   • Numéro WhatsApp du vendeur.
+3. Publiez votre produit.
+
+Informations importantes :
+• La mise en vente est totalement gratuite.
+• 100% des ventes sont pour vous.
+• Aucune commission n'est prélevée.
+
+Pour publier votre produit, rendez-vous sur la page Vendre.
+
+Souhaitez-vous plus d'informations ?`;
+    
+    const buttons = [
+      createNavButton('vendre.html', 'Aller à la page Vendre', 'fa-store')
+    ];
+    return { text: msg, buttons };
+  }
+
   // --- FORUM ---
   if (lower.includes('forum') || lower.includes('discussion') || lower.includes('communauté')) {
-    return `Le forum ARVEXA est l'espace d'échange de la communauté.
+    const msg = `Le forum ARVEXA est l'espace d'échange de la communauté.
 
 Vous pouvez :
-- Créer des sujets de discussion
-- Répondre aux autres membres
-- Gagner 100 FCFA pour 50 likes sur vos sujets
+• Créer des sujets de discussion.
+• Répondre aux autres membres.
+• Gagner 100 FCFA pour 50 likes sur vos sujets.
+
+Les sujets sont classés par catégories : Investissement, Finance, Épargne, Parrainage, Entrepreneuriat, Autre.
+
+Pour participer, rendez-vous sur la page Forum.
 
 Souhaitez-vous visiter le forum ?`;
+    
+    const buttons = [
+      createNavButton('forum.html', 'Aller au forum', 'fa-comments')
+    ];
+    return { text: msg, buttons };
   }
-  
+
   // --- AVIS ---
   if (lower.includes('avis') || lower.includes('évaluation') || lower.includes('note')) {
-    return `La page Avis vous permet de partager votre expérience sur ARVEXA.
+    const msg = `La page Avis vous permet de partager votre expérience sur ARVEXA.
 
-Donnez une note de 1 à 5 étoiles et partagez votre opinion.
-Votre avis aide la communauté à grandir.
+Vous pouvez :
+• Donner une note de 1 à 5 étoiles.
+• Partager votre opinion sur la plateforme.
+• Lire les avis des autres utilisateurs.
+
+Votre avis aide la communauté à grandir et à s'améliorer.
+
+Pour donner votre avis, rendez-vous sur la page Avis.
 
 Souhaitez-vous donner votre avis ?`;
+    
+    const buttons = [
+      createNavButton('avis.html', 'Aller à la page Avis', 'fa-star')
+    ];
+    return { text: msg, buttons };
   }
-  
-  // --- PROPOS ---
-  if (lower.includes('apropos') || lower.includes('à propos') || lower.includes('qui sommes')) {
-    return `ARVEXA est une plateforme d'affiliation et de finance créée au Niger.
 
-Notre mission : aider chacun à construire son avenir financier.
-Nos valeurs : transparence, sécurité, croissance durable.
+  // --- SERVICES ---
+  if (lower.includes('service') || lower.includes('services')) {
+    const msg = `ARVEXA propose plusieurs services pour vous aider à gérer vos finances et gagner de l'argent :
 
-Souhaitez-vous en savoir plus sur ARVEXA ?`;
+💰 Recharge
+💸 Retrait
+👥 Parrainage
+📚 E-books
+🎓 Formations
+🏆 Défis
+🛒 Vendre
+💬 Forum
+⭐ Avis
+
+Pour découvrir tous les services, rendez-vous sur la page Services.
+
+Souhaitez-vous en savoir plus sur un service en particulier ?`;
+    
+    const buttons = [
+      createNavButton('services.html', 'Voir tous les services', 'fa-cogs')
+    ];
+    return { text: msg, buttons };
   }
-  
+
   // --- REDIRECTION VERS UNE PAGE ---
   if (lower.includes('page') || lower.includes('lien') || lower.includes('rediriger') || lower.includes('aller')) {
     const pageMatch = Object.entries(PAGES).find(([key, page]) => 
       lower.includes(key) || lower.includes(page.label.toLowerCase())
     );
     if (pageMatch) {
-      const [, page] = pageMatch;
-      return `Je vous propose d'aller sur la page ${page.label}.
-
-${page.label === 'Recharger' ? 'Vous pourrez y effectuer votre recharge en quelques clics.' :
-page.label === 'Retrait' ? 'Vous pourrez y retirer vos gains en toute sécurité.' :
-page.label === 'E-books' ? 'Vous y trouverez tous les e-books disponibles.' :
-page.label === 'Formations' ? 'Vous y découvrirez toutes nos formations.' :
-page.label === 'Vendre' ? 'Vous pourrez y publier vos produits.' :
-page.label === 'Parrainage' ? 'Vous pourrez y suivre vos parrainages.' :
-'Vous y trouverez toutes les informations dont vous avez besoin.'}
-
-Souhaitez-vous y accéder maintenant ?`;
+      const [key, page] = pageMatch;
+      const descriptions = {
+        'recharger': 'Vous pourrez y recharger votre compte en quelques clics.',
+        'retrait': 'Vous pourrez y retirer vos gains en toute sécurité.',
+        'ebooks': 'Vous y trouverez tous les e-books disponibles.',
+        'formations': 'Vous y découvrirez toutes nos formations.',
+        'vendre': 'Vous pourrez y publier vos produits.',
+        'parrainage': 'Vous pourrez y suivre vos parrainages.',
+        'defis': 'Vous y verrez les défis du jour.',
+        'activite': 'Vous y verrez toutes vos performances.',
+        'profil': 'Vous pourrez y gérer vos informations personnelles.',
+        'forum': 'Vous y trouverez la communauté ARVEXA.',
+        'avis': 'Vous pourrez y donner votre avis.',
+        'services': 'Vous y verrez tous les services disponibles.'
+      };
+      
+      const desc = descriptions[key] || 'Vous y trouverez toutes les informations dont vous avez besoin.';
+      
+      const msg = `Je vous propose d'aller sur la page ${page.label}.\n\n${desc}\n\nCliquez sur le bouton ci-dessous pour y accéder.`;
+      
+      const buttons = [
+        createNavButton(page.url, `Aller à ${page.label}`, 'fa-arrow-right')
+      ];
+      return { text: msg, buttons };
     }
   }
   
-  // --- RÉPONSE GÉNÉRIQUE ---
-  return `Je comprends votre demande. Pour mieux vous aider, je vous propose de consulter les pages suivantes :
+    // --- RÉPONSE GÉNÉRIQUE ---
+  const msg = `Je comprends votre demande. ARVEXA propose plusieurs services pour vous aider à gérer vos finances et gagner de l'argent.
 
-🏠 Accueil : index.html
-💰 Recharger : recharger.html
-💸 Retrait : retrait.html
-📚 E-books : ebooks.html
-🎓 Formations : formations.html
-👥 Parrainage : parrainage.html
-🏆 Défis : epargne.html
-🛒 Vendre : vendre.html
+Voici les principales pages du site :
+• Accueil : index.html
+• Recharger : recharger.html
+• Retrait : retrait.html
+• E-books : ebooks.html
+• Formations : formations.html
+• Parrainage : parrainage.html
+• Défis : epargne.html
+• Vendre : vendre.html
+• Forum : forum.html
+• Avis : avis.html
+• Services : services.html
 
 Pouvez-vous préciser votre demande afin que je puisse mieux vous orienter ?`;
+  
+  const buttons = [
+    createNavButton('index.html', 'Aller à l\'accueil', 'fa-home')
+  ];
+  return { text: msg, buttons };
 }
 
 // ================================================================
 // RÉPONDRE
 // ================================================================
 async function getResponse(text) {
-  return await callMistral(text);
+  const result = await callMistral(text);
+  if (typeof result === 'string') {
+    return { text: result, buttons: [] };
+  }
+  return result;
 }
 
 // ================================================================
@@ -1313,7 +1409,6 @@ async function sendMessage() {
   sendBtn.disabled = true;
   const timeStr = formatTime();
 
-  // Créer une nouvelle conversation si nécessaire
   if (!currentChatId) {
     const chatId = 'chat_' + Date.now();
     const newChat = {
@@ -1336,12 +1431,11 @@ async function sendMessage() {
     }
   }
 
-  // Ajouter le message utilisateur
   addMessage(text, 'user', timeStr);
   chatInput.value = '';
+  autoResizeTextarea();
   conversationHistory.push({ sender: 'user', text });
 
-  // Sauvegarder dans Firestore
   try {
     const chatRef = doc(db, 'ia_chats', currentChatId);
     const chatSnap = await getDoc(chatRef);
@@ -1355,28 +1449,23 @@ async function sendMessage() {
     console.error('Erreur sauvegarde message:', error);
   }
 
-  // Afficher le typing indicator
   typingIndicator.classList.add('show');
   if (chatMessages) chatMessages.scrollTop = chatMessages.scrollHeight;
 
-  // Attendre un peu puis répondre
   setTimeout(async () => {
-    // ✅ Le typing indicator disparaît EN MÊME TEMPS que la réponse apparaît
     const response = await getResponse(text);
     const responseTime = formatTime();
 
-    // ✅ Supprimer le typing indicator ET ajouter la réponse en même temps
     typingIndicator.classList.remove('show');
-    conversationHistory.push({ sender: 'ia', text: response });
-    addMessage(response, 'ia', responseTime);
+    conversationHistory.push({ sender: 'ia', text: response.text });
+    addMessage(response.text, 'ia', responseTime, response.buttons);
 
-    // Sauvegarder la réponse
     try {
       const chatRef2 = doc(db, 'ia_chats', currentChatId);
       const chatSnap2 = await getDoc(chatRef2);
       if (chatSnap2.exists()) {
         const chat = chatSnap2.data();
-        const messages = [...(chat.messages || []), { sender: 'ia', text: response, time: responseTime }];
+        const messages = [...(chat.messages || []), { sender: 'ia', text: response.text, time: responseTime }];
         await updateDoc(chatRef2, { messages, updatedAt: new Date().toISOString() });
       }
     } catch (error) {
@@ -1388,7 +1477,7 @@ async function sendMessage() {
     isProcessing = false;
     sendBtn.disabled = false;
     chatInput.focus();
-  }, 600 + Math.random() * 400);
+  }, 800 + Math.random() * 400);
 }
 
 // ================================================================
@@ -1471,8 +1560,8 @@ function renderChatList() {
             conversationHistory = [];
             const name = userData?.prenom || '';
             const welcomeMsg = name 
-              ? `Bonjour ${name}, bienvenue sur ARVEXA. Je suis votre assistant. Comment puis-je vous aider aujourd'hui ?`
-              : 'Bonjour, bienvenue sur ARVEXA. Je suis votre assistant. Comment puis-je vous aider aujourd\'hui ?';
+              ? `Bonjour ${name}, je suis votre assistant ARVEXA. Comment puis-je vous aider aujourd'hui ?`
+              : 'Bonjour, je suis votre assistant ARVEXA. Comment puis-je vous aider aujourd\'hui ?';
             if (chatMessages) {
               chatMessages.innerHTML = '';
               addMessage(welcomeMsg, 'ia', 'Maintenant');
@@ -1504,8 +1593,8 @@ async function createNewChat() {
     conversationHistory = [];
     const name = userData?.prenom || '';
     const welcomeMsg = name 
-      ? `Bonjour ${name}, bienvenue sur ARVEXA. Je suis votre assistant. Comment puis-je vous aider aujourd'hui ?`
-      : 'Bonjour, bienvenue sur ARVEXA. Je suis votre assistant. Comment puis-je vous aider aujourd\'hui ?';
+      ? `Bonjour ${name}, je suis votre assistant ARVEXA. Comment puis-je vous aider aujourd'hui ?`
+      : 'Bonjour, je suis votre assistant ARVEXA. Comment puis-je vous aider aujourd\'hui ?';
     if (chatMessages) {
       chatMessages.innerHTML = '';
       addMessage(welcomeMsg, 'ia', 'Maintenant');
@@ -1534,12 +1623,11 @@ async function loadChat(chatId) {
             conversationHistory.push({ sender: msg.sender, text: msg.text });
           }
         });
-        // Si pas de messages, afficher le message de bienvenue
         if ((chat.messages || []).length === 0) {
           const name = userData?.prenom || '';
           const welcomeMsg = name 
-            ? `Bonjour ${name}, bienvenue sur ARVEXA. Je suis votre assistant. Comment puis-je vous aider aujourd'hui ?`
-            : 'Bonjour, bienvenue sur ARVEXA. Je suis votre assistant. Comment puis-je vous aider aujourd\'hui ?';
+            ? `Bonjour ${name}, je suis votre assistant ARVEXA. Comment puis-je vous aider aujourd'hui ?`
+            : 'Bonjour, je suis votre assistant ARVEXA. Comment puis-je vous aider aujourd\'hui ?';
           addMessage(welcomeMsg, 'ia', 'Maintenant');
         }
       }
@@ -1604,7 +1692,6 @@ if (chatInput) {
       sendMessage();
     }
   });
-  // Focus automatique sur l'input
   chatInput.focus();
 }
 
@@ -1662,22 +1749,19 @@ window.addEventListener('pageshow', function(event) {
 // ================================================================
 let authChecked = false;
 
-// Chargement rapide depuis le cache
 loadFromCache();
 
-// Afficher le message de bienvenue si les données sont en cache
 if (userData) {
   const name = userData.prenom || '';
   const welcomeMsg = name 
-    ? `Bonjour ${name}, bienvenue sur ARVEXA. Je suis votre assistant. Comment puis-je vous aider aujourd'hui ?`
-    : 'Bonjour, bienvenue sur ARVEXA. Je suis votre assistant. Comment puis-je vous aider aujourd\'hui ?';
+    ? `Bonjour ${name}, je suis votre assistant ARVEXA. Comment puis-je vous aider aujourd'hui ?`
+    : 'Bonjour, je suis votre assistant ARVEXA. Comment puis-je vous aider aujourd\'hui ?';
   if (chatMessages) {
     chatMessages.innerHTML = '';
     addMessage(welcomeMsg, 'ia', 'Maintenant');
     if (skeletonMessage) skeletonMessage.style.display = 'none';
   }
 } else {
-  // Afficher le skeleton si pas de cache
   if (skeletonMessage) skeletonMessage.style.display = 'block';
 }
 
@@ -1694,13 +1778,11 @@ onAuthStateChanged(auth, async (user) => {
         setCachedUserData(userData);
         updateHeader(userData);
         
-        // Mettre à jour le message de bienvenue
         const name = userData.prenom || '';
         const welcomeMsg = name 
-          ? `Bonjour ${name}, bienvenue sur ARVEXA. Je suis votre assistant. Comment puis-je vous aider aujourd'hui ?`
-          : 'Bonjour, bienvenue sur ARVEXA. Je suis votre assistant. Comment puis-je vous aider aujourd\'hui ?';
+          ? `Bonjour ${name}, je suis votre assistant ARVEXA. Comment puis-je vous aider aujourd'hui ?`
+          : 'Bonjour, je suis votre assistant ARVEXA. Comment puis-je vous aider aujourd\'hui ?';
         
-        // Ne remplacer que si c'est la première conversation ou si pas de messages
         if (chatMessages && chatMessages.children.length <= 1) {
           chatMessages.innerHTML = '';
           addMessage(welcomeMsg, 'ia', 'Maintenant');
@@ -1712,10 +1794,8 @@ onAuthStateChanged(auth, async (user) => {
     }
 
     listenChats();
-    // Charger la dernière conversation
     const cached = getChatsCache();
     if (cached.length > 0) {
-      // Trouver la dernière conversation active
       const lastChat = cached[0];
       if (lastChat && !currentChatId) {
         loadChat(lastChat.id);
@@ -1738,15 +1818,12 @@ onAuthStateChanged(auth, async (user) => {
   }
 });
 
-// ================================================================
-// INITIALISATION
-// ================================================================
-initSpeechRecognition();
-
-console.log('🤖 ARVEXA Assistant - Interface universelle');
-console.log('🎙️ Note vocale disponible');
-console.log('📚 Connaît toutes les pages ARVEXA');
-console.log('⚡ Cache prioritaire pour chargement < 2 secondes');
+console.debug('🤖 ARVEXA Assistant - Version Guide (v3.0)');
+console.debug('✅ Explique et guide uniquement');
+console.debug('✅ Étapes claires et numérotées');
+console.debug('✅ Boutons de navigation vers les pages');
+console.debug('✅ Pas d\'actions directes');
+console.debug('✅ Texte blanc uniforme');
 </script>
 </body>
-</html> ,
+</html>
