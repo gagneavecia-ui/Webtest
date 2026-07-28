@@ -436,43 +436,56 @@
       transition: var(--transition);
     }
 
-    /* ===== OPERATOR MODAL ===== */
-    .operator-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-      margin-top: 8px;
+    /* ===== PENDING INFO ===== */
+    .pending-info {
+      margin-bottom: 16px;
     }
-    .operator-option {
-      padding: 14px 12px;
-      border: 1px solid rgba(184, 134, 11, 0.08);
-      border-radius: 12px;
-      cursor: pointer;
-      transition: all 0.3s ease;
+    .pending-card {
+      background: rgba(184, 134, 11, 0.04);
+      border: 1px solid rgba(184, 134, 11, 0.10);
+      border-radius: var(--radius);
+      padding: 16px 18px;
       text-align: center;
-      background: rgba(10, 10, 10, 0.4);
     }
-    .operator-option:hover {
-      border-color: var(--accent);
-      background: rgba(184, 134, 11, 0.06);
-      transform: translateY(-2px);
-    }
-    .operator-option:active { transform: scale(0.96); }
-    .operator-option.selected {
-      border-color: var(--accent);
-      background: rgba(184, 134, 11, 0.10);
-    }
-    .operator-option img {
-      height: 28px;
-      width: auto;
-      object-fit: contain;
+    .pending-card .pending-icon {
+      font-size: 32px;
       display: block;
-      margin: 0 auto 4px;
+      margin-bottom: 4px;
     }
-    .operator-option span {
-      font-size: 12px;
+    .pending-card .pending-title {
+      font-weight: 600;
+      color: var(--accent);
+      font-size: 16px;
+    }
+    .pending-card .pending-details {
+      margin: 10px 0;
+      text-align: left;
+      background: rgba(10, 10, 10, 0.3);
+      border-radius: 10px;
+      padding: 10px 14px;
+    }
+    .pending-card .pending-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 0;
+      font-size: 13px;
+      color: var(--text-dim);
+      border-bottom: 1px solid rgba(255,255,255,0.02);
+    }
+    .pending-card .pending-row:last-child { border-bottom: none; }
+    .pending-card .pending-row span:last-child {
       color: var(--text-light);
       font-weight: 500;
+    }
+    .pending-card .pending-status {
+      font-size: 13px;
+      color: var(--accent);
+      font-weight: 500;
+      margin: 6px 0;
+    }
+    .pending-card .pending-note {
+      font-size: 11px;
+      color: var(--text-muted);
     }
 
     /* ===== WHATSAPP BUTTON ===== */
@@ -501,8 +514,8 @@
       transform: none;
     }
     .btn-whatsapp i { font-size: clamp(18px, 2vw, 24px); }
-
-    /* ===== HISTORIQUE ===== */
+    
+        /* ===== HISTORIQUE ===== */
     .history-list {
       display: flex;
       flex-direction: column;
@@ -741,28 +754,45 @@
       color: var(--text-light);
     }
     .modal-footer .btn-secondary:active { transform: scale(0.97); }
-    .modal-footer .btn-danger {
-      flex: 1;
-      padding: 12px 20px;
-      background: rgba(138, 58, 58, 0.10);
-      border: 1px solid rgba(138, 58, 58, 0.12);
+
+    /* ===== OPERATOR MODAL ===== */
+    .operator-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 8px;
+    }
+    .operator-option {
+      padding: 14px 12px;
+      border: 1px solid rgba(184, 134, 11, 0.08);
       border-radius: 12px;
-      color: #8A3A3A;
-      font-weight: 700;
-      font-size: 14px;
       cursor: pointer;
       transition: all 0.3s ease;
-      font-family: 'Inter', sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
+      text-align: center;
+      background: rgba(10, 10, 10, 0.4);
     }
-    .modal-footer .btn-danger:hover {
-      background: rgba(138, 58, 58, 0.18);
-      border-color: rgba(138, 58, 58, 0.20);
+    .operator-option:hover {
+      border-color: var(--accent);
+      background: rgba(184, 134, 11, 0.06);
+      transform: translateY(-2px);
     }
-    .modal-footer .btn-danger:active { transform: scale(0.97); }
+    .operator-option:active { transform: scale(0.96); }
+    .operator-option.selected {
+      border-color: var(--accent);
+      background: rgba(184, 134, 11, 0.10);
+    }
+    .operator-option img {
+      height: 28px;
+      width: auto;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto 4px;
+    }
+    .operator-option span {
+      font-size: 12px;
+      color: var(--text-light);
+      font-weight: 500;
+    }
 
     /* ============================================================
        TOAST
@@ -813,6 +843,7 @@
       .modal-header .modal-title { font-size: 17px; }
       .fee-display .fee-row { font-size: 12px; }
       .operator-selector .operator-display img { height: 20px; }
+      .pending-card .pending-details { padding: 8px 10px; }
     }
 
     @media (min-width: 601px) and (max-width: 900px) {
@@ -930,6 +961,30 @@
       <i class="fas fa-chevron-down arrow"></i>
     </div>
     <input type="hidden" id="selectedOperator" value="orange">
+  </div>
+
+  <!-- ===== DEMANDE EN ATTENTE ===== -->
+  <div class="pending-info" id="pendingInfo" style="display:none;">
+    <div class="pending-card">
+      <span class="pending-icon">⏳</span>
+      <div class="pending-title">Demande en attente</div>
+      <div class="pending-details">
+        <div class="pending-row">
+          <span>💰 Montant</span>
+          <span id="pendingAmount">0 FCFA</span>
+        </div>
+        <div class="pending-row">
+          <span>📅 Date</span>
+          <span id="pendingDate">-</span>
+        </div>
+        <div class="pending-row">
+          <span>📱 Opérateur</span>
+          <span id="pendingOperator">-</span>
+        </div>
+      </div>
+      <div class="pending-status">⏳ En attente de validation</div>
+      <div class="pending-note">Vous serez notifié dès que votre demande sera traitée.</div>
+    </div>
   </div>
 
   <!-- DELAI -->
@@ -1138,6 +1193,11 @@ var operatorModal = document.getElementById('operatorModal');
 var closeOperatorModal = document.getElementById('closeOperatorModal');
 var operatorGrid = document.getElementById('operatorGrid');
 
+var pendingInfo = document.getElementById('pendingInfo');
+var pendingAmount = document.getElementById('pendingAmount');
+var pendingDate = document.getElementById('pendingDate');
+var pendingOperator = document.getElementById('pendingOperator');
+
 var confirmModal = document.getElementById('confirmModal');
 var closeConfirmModal = document.getElementById('closeConfirmModal');
 var cancelConfirmBtn = document.getElementById('cancelConfirmBtn');
@@ -1149,10 +1209,12 @@ var currentAuthUser = null;
 var userData = null;
 var userBalance = 0;
 var unsubscribeHistory = null;
+var unsubscribePending = null;
 var notificationTimeout = null;
 var isPageLoading = true;
 var dataLoaded = false;
 var currentAmount = 0;
+var hasPendingWithdrawal = false;
 
 // ================================================================
 // GESTION DU CACHE
@@ -1231,11 +1293,11 @@ function calculateFees(amount) {
   
   let rate = 0;
   if (amount <= 10000) {
-    rate = 0.05; // 5%
+    rate = 0.05;
   } else if (amount <= 25000) {
-    rate = 0.04; // 4%
+    rate = 0.04;
   } else {
-    rate = 0.03; // 3%
+    rate = 0.03;
   }
   
   const fees = Math.round(amount * rate);
@@ -1313,9 +1375,70 @@ function notifyAdminWithdrawal(userName, userId, amount, operator, fees, net) {
 }
 
 // ================================================================
+// ✅ ÉCOUTE DES DEMANDES EN ATTENTE
+// ================================================================
+function listenPendingWithdrawal(uid) {
+  if (unsubscribePending) {
+    unsubscribePending();
+    unsubscribePending = null;
+  }
+
+  if (!uid) {
+    pendingInfo.style.display = 'none';
+    whatsappBtn.disabled = false;
+    whatsappBtn.innerHTML = '<i class="fab fa-whatsapp"></i> Envoyer la demande de retrait';
+    whatsappBtn.style.opacity = '1';
+    return;
+  }
+
+  const q = query(
+    collection(db, 'retraits'),
+    where('userId', '==', uid),
+    where('statut', '==', 'en_attente')
+  );
+
+  unsubscribePending = onSnapshot(q, (snapshot) => {
+    hasPendingWithdrawal = !snapshot.empty;
+
+    if (hasPendingWithdrawal) {
+      // Bloquer le bouton
+      whatsappBtn.disabled = true;
+      whatsappBtn.innerHTML = '⏳ Demande en attente...';
+      whatsappBtn.style.opacity = '0.5';
+
+      // Afficher les infos de la demande en attente
+      const data = snapshot.docs[0]?.data();
+      if (data) {
+        pendingAmount.textContent = formatCurrency(data.montant || 0);
+        pendingDate.textContent = data.date || 'Date inconnue';
+        pendingOperator.textContent = data.operator || 'Non spécifié';
+        pendingInfo.style.display = 'block';
+      }
+
+      showToast('⚠️ Vous avez déjà une demande de retrait en attente.', 'warning');
+
+    } else {
+      // Réactiver le bouton
+      whatsappBtn.disabled = false;
+      whatsappBtn.innerHTML = '<i class="fab fa-whatsapp"></i> Envoyer la demande de retrait';
+      whatsappBtn.style.opacity = '1';
+      pendingInfo.style.display = 'none';
+    }
+  }, (error) => {
+    console.error('Erreur écoute demandes en attente:', error);
+  });
+}
+
+// ================================================================
 // ENVOI DE LA DEMANDE
 // ================================================================
 async function sendWithdrawalRequest(amount) {
+  // ✅ Vérifier si une demande est déjà en attente
+  if (hasPendingWithdrawal) {
+    showToast('⚠️ Vous avez déjà une demande de retrait en attente.', 'warning');
+    return;
+  }
+
   // Désactiver le bouton
   whatsappBtn.disabled = true;
   whatsappBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi en cours...';
@@ -1439,6 +1562,14 @@ function updateAmountDisplay() {
 function updateWhatsAppLink(amount) {
   var feesData = calculateFees(amount);
   
+  // ✅ Vérifier si une demande est en attente
+  if (hasPendingWithdrawal) {
+    whatsappBtn.disabled = true;
+    whatsappBtn.innerHTML = '⏳ Demande en attente...';
+    whatsappBtn.style.opacity = '0.5';
+    return;
+  }
+  
   if (amount < MIN_WITHDRAWAL) {
     whatsappBtn.disabled = true;
     whatsappBtn.style.opacity = '0.5';
@@ -1478,6 +1609,12 @@ function showConfirmationModal() {
   var feesData = calculateFees(amount);
   if (feesData.net > userBalance) {
     showToast('Solde insuffisant.', 'warning');
+    return;
+  }
+  
+  // ✅ Vérifier si une demande est en attente
+  if (hasPendingWithdrawal) {
+    showToast('⚠️ Vous avez déjà une demande de retrait en attente.', 'warning');
     return;
   }
   
@@ -1640,6 +1777,12 @@ whatsappBtn.addEventListener('click', function(event) {
   
   if (!currentAuthUser || !currentUserId) {
     showToast('Veuillez vous reconnecter.', 'error');
+    return;
+  }
+  
+  // ✅ Vérifier si une demande est en attente
+  if (hasPendingWithdrawal) {
+    showToast('⚠️ Vous avez déjà une demande de retrait en attente.', 'warning');
     return;
   }
   
@@ -1839,6 +1982,7 @@ function loadUserData(uid) {
       
       setCachedUserData(userData);
       listenToHistory(uid);
+      listenPendingWithdrawal(uid);
       
       localStorage.setItem('ARVEXA_user_data', JSON.stringify(userData));
       sessionStorage.setItem('arvexa_loaded', 'true');
@@ -1856,12 +2000,6 @@ var sessionUid = sessionStorage.getItem('session_uid');
 // Chargement rapide depuis le cache
 loadFromCache();
 renderOperators();
-
-// Chargement des opérateurs
-var operatorImage = document.querySelector('#operatorDisplay img');
-if (operatorImage && operatorImage.src) {
-  // déjà fait
-}
 
 onAuthStateChanged(auth, function(user) {
   if (user) {
@@ -1933,6 +2071,7 @@ console.debug('✅ Frais: 3-5% selon montant');
 console.debug('✅ Sélecteur d\'opérateur (6 opérateurs)');
 console.debug('✅ Cache prioritaire pour chargement < 2 secondes');
 console.debug('✅ Modale de confirmation luxueuse');
+console.debug('✅ Blocage des demandes multiples en attente');
 </script>
 </body>
 </html>
