@@ -9,6 +9,9 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="manifest" href="manifest.json">
   <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
+  
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+  
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
   
@@ -33,6 +36,10 @@
       --transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
       --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
       --radius: 16px;
+      --blue: #4A7A8A;
+      --red: #D45A5A;
+      --purple: #8A6A7A;
+      --orange: #D4A017;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -45,10 +52,10 @@
       line-height: 1.6;
       min-height: 100vh;
       overflow-x: hidden;
-      padding-bottom: 80px;
       opacity: 0;
       animation: pageFadeIn 0.5s ease forwards;
       -webkit-overflow-scrolling: touch;
+      padding-bottom: 80px;
     }
 
     @keyframes pageFadeIn {
@@ -57,11 +64,10 @@
     }
 
     .gradient-bg {
-      position: fixed;
-      top: 0; left: 0;
+      position: fixed; top: 0; left: 0;
       width: 100%; height: 100%;
       z-index: -2;
-      background: radial-gradient(ellipse 40% 30% at 30% 20%, rgba(26, 58, 42, 0.08) 0%, transparent 70%),
+      background: radial-gradient(ellipse 40% 30% at 30% 20%, rgba(26, 58, 42, 0.10) 0%, transparent 70%),
                   linear-gradient(180deg, #0A0A0A 0%, #060606 100%);
       pointer-events: none;
     }
@@ -154,6 +160,7 @@
     .skeleton-text.w40 { width: 40%; }
     .skeleton-text.w30 { width: 30%; }
     .skeleton-value { height: 32px; width: 70%; border-radius: 8px; }
+    .skeleton-chart { height: 120px; width: 100%; border-radius: 8px; }
 
     .card {
       background: rgba(20, 20, 20, 0.7);
@@ -194,10 +201,10 @@
       margin-top: 4px;
     }
 
-    /* ===== STATS CARDS ===== */
+    /* ===== STATS ===== */
     .stats-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: 10px;
       margin-bottom: 18px;
     }
@@ -211,15 +218,12 @@
     }
     .stat-item:hover { border-color: rgba(184, 134, 11, 0.06); }
     .stat-item .stat-icon {
-      font-size: clamp(18px, 2vw, 24px);
+      font-size: clamp(16px, 1.8vw, 22px);
       margin-bottom: 2px;
     }
     .stat-item .stat-icon.gold { color: var(--accent); }
     .stat-item .stat-icon.green { color: var(--success); }
-    .stat-item .stat-icon.blue { color: #4A7A6A; }
-    .stat-item .stat-icon.purple { color: #8A6A7A; }
-    .stat-item .stat-icon.red { color: var(--danger); }
-
+    .stat-item .stat-icon.blue { color: var(--blue); }
     .stat-item .stat-value {
       font-family: 'Playfair Display', 'Georgia', serif;
       font-size: clamp(14px, 1.6vw, 18px);
@@ -234,18 +238,84 @@
       margin-top: 2px;
     }
 
+    /* ===== CHART CONTAINER ===== */
+    .chart-title {
+      font-family: 'Playfair Display', 'Georgia', serif;
+      font-size: clamp(15px, 1.8vw, 18px);
+      font-weight: 700;
+      color: var(--text-light);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .chart-title i { color: var(--accent); font-size: 16px; }
+
+    .chart-container {
+      width: 100%;
+      padding: 6px 0;
+      position: relative;
+    }
+    .chart-container canvas {
+      width: 100% !important;
+      height: auto !important;
+      max-height: 140px;
+      background: rgba(10,10,10,0.3);
+      border-radius: 8px;
+    }
+    .chart-empty {
+      text-align: center;
+      padding: 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+    .chart-empty i {
+      font-size: 28px;
+      opacity: 0.3;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    /* ===== CHART LEGEND ===== */
+    .chart-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 8px;
+    }
+    .chart-legend .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+    .chart-legend .legend-item .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .chart-legend .legend-item .dot.green { background: var(--success); }
+    .chart-legend .legend-item .dot.blue { background: var(--blue); }
+    .chart-legend .legend-item .dot.red { background: var(--red); }
+    .chart-legend .legend-item .dot.gold { background: var(--accent); }
+    .chart-legend .legend-item .dot.purple { background: var(--purple); }
+    .chart-legend .legend-item .dot.orange { background: var(--orange); }
+
     /* ===== FILTERS ===== */
     .filter-section {
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
     .filter-tabs {
       display: flex;
       gap: 6px;
       flex-wrap: wrap;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
     .filter-tab {
-      padding: 5px 12px;
+      padding: 4px 12px;
       border-radius: 20px;
       border: 1px solid rgba(184, 134, 11, 0.06);
       background: transparent;
@@ -266,12 +336,12 @@
       border-color: rgba(184, 134, 11, 0.1);
       color: var(--text-light);
     }
-    .filter-tab i { margin-right: 4px; font-size: 10px; }
+    .filter-tab i { margin-right: 4px; font-size: 9px; }
 
     .tx-count {
       font-size: 11px;
       color: var(--text-muted);
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       display: block;
     }
 
@@ -280,29 +350,28 @@
       display: flex;
       align-items: center;
       gap: 12px;
-      padding: 10px 0;
+      padding: 8px 0;
       border-bottom: 1px solid rgba(255, 255, 255, 0.03);
     }
     .transaction-item:last-child { border-bottom: none; }
 
     .transaction-item .tx-icon {
-      width: 36px;
-      height: 36px;
+      width: 32px;
+      height: 32px;
       border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 16px;
+      font-size: 14px;
       flex-shrink: 0;
     }
-    .transaction-item .tx-icon.depot { background: rgba(45, 125, 90, 0.12); color: var(--success); }
-    .transaction-item .tx-icon.retrait { background: rgba(138, 58, 58, 0.12); color: var(--danger); }
+    .transaction-item .tx-icon.depot { background: rgba(74, 122, 138, 0.15); color: var(--blue); }
+    .transaction-item .tx-icon.retrait { background: rgba(212, 90, 90, 0.15); color: var(--red); }
     .transaction-item .tx-icon.achat { background: rgba(184, 134, 11, 0.12); color: var(--accent); }
-    .transaction-item .tx-icon.vente { background: rgba(26, 58, 42, 0.2); color: #4A7A6A; }
-    .transaction-item .tx-icon.gain { background: rgba(45, 125, 90, 0.08); color: var(--success); }
+    .transaction-item .tx-icon.vente { background: rgba(45, 125, 90, 0.10); color: var(--success); }
     .transaction-item .tx-icon.parrainage { background: rgba(184, 134, 11, 0.10); color: var(--accent); }
-    .transaction-item .tx-icon.defi { background: rgba(99, 102, 241, 0.10); color: #6366F1; }
-    .transaction-item .tx-icon.forum_likes { background: rgba(255, 71, 87, 0.10); color: #FF4757; }
+    .transaction-item .tx-icon.defi { background: rgba(138, 106, 122, 0.10); color: var(--purple); }
+    .transaction-item .tx-icon.forum_likes { background: rgba(212, 160, 23, 0.10); color: var(--orange); }
 
     .transaction-item .tx-content { flex: 1; min-width: 0; }
     .transaction-item .tx-content .tx-title {
@@ -321,19 +390,8 @@
       flex-shrink: 0;
     }
     .transaction-item .tx-amount.positive { color: var(--success); }
-    .transaction-item .tx-amount.negative { color: var(--danger); }
-
-    .transaction-item .tx-status {
-      font-size: 9px;
-      padding: 2px 8px;
-      border-radius: 12px;
-      font-weight: 600;
-      display: inline-block;
-      margin-top: 2px;
-    }
-    .transaction-item .tx-status.valide { background: rgba(45, 125, 90, 0.12); color: var(--success); }
-    .transaction-item .tx-status.en_attente { background: rgba(184, 134, 11, 0.12); color: var(--accent); }
-    .transaction-item .tx-status.rejete { background: rgba(138, 58, 58, 0.12); color: var(--danger); }
+    .transaction-item .tx-amount.negative { color: var(--red); }
+    .transaction-item .tx-amount.neutral { color: var(--text-dim); }
 
     .tx-empty {
       text-align: center;
@@ -345,31 +403,6 @@
       opacity: 0.3;
       margin-bottom: 10px;
       display: block;
-    }
-
-    /* ===== CHART ===== */
-    .chart-container {
-      width: 100%;
-      padding: 6px 0;
-    }
-    .chart-container canvas {
-      width: 100% !important;
-      height: auto !important;
-      max-height: 160px;
-      background: rgba(10,10,10,0.3);
-      border-radius: 8px;
-    }
-    .chart-empty {
-      text-align: center;
-      padding: 20px;
-      color: var(--text-muted);
-      font-size: 13px;
-    }
-    .chart-empty i {
-      font-size: 28px;
-      opacity: 0.3;
-      display: block;
-      margin-bottom: 6px;
     }
 
     /* ============================================================
@@ -402,27 +435,22 @@
        RESPONSIVE
        ============================================================ */
     @media (max-width: 480px) {
-      .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 8px;
-      }
+      .stats-grid { grid-template-columns: repeat(3, 1fr); gap: 6px; }
       .stat-item { padding: 10px 6px; }
       .stat-item .stat-value { font-size: 14px; }
       .container { padding: 12px 4%; }
       .card { padding: 14px; }
-      .filter-tab { font-size: 9px; padding: 4px 10px; }
+      .filter-tab { font-size: 9px; padding: 3px 10px; }
+      .chart-legend { gap: 8px; }
+      .chart-legend .legend-item { font-size: 10px; }
     }
 
     @media (min-width: 601px) and (max-width: 768px) {
-      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .stats-grid { grid-template-columns: repeat(3, 1fr); }
     }
 
-    @media (min-width: 769px) and (max-width: 1024px) {
-      .stats-grid { grid-template-columns: repeat(4, 1fr); }
-    }
-
-    @media (min-width: 1025px) {
-      .stats-grid { grid-template-columns: repeat(4, 1fr); gap: 14px; }
+    @media (min-width: 769px) {
+      .stats-grid { grid-template-columns: repeat(3, 1fr); gap: 14px; }
     }
   </style>
 </head>
@@ -451,7 +479,7 @@
   <!-- STATS -->
   <div class="stats-grid">
     <div class="stat-item">
-      <div class="stat-icon gold"><i class="fas fa-coins"></i></div>
+      <div class="stat-icon gold"><i class="fas fa-wallet"></i></div>
       <div class="stat-value" id="statBalance">
         <span class="skeleton skeleton-value" style="width:60%;margin:0 auto;"></span>
       </div>
@@ -465,51 +493,58 @@
       <div class="stat-label">Revenus</div>
     </div>
     <div class="stat-item">
-      <div class="stat-icon blue"><i class="fas fa-trophy"></i></div>
-      <div class="stat-value" id="statDefis">
+      <div class="stat-icon blue"><i class="fas fa-arrow-down"></i></div>
+      <div class="stat-value" id="statDepots">
         <span class="skeleton skeleton-value" style="width:60%;margin:0 auto;"></span>
       </div>
-      <div class="stat-label">Défis</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-icon gold"><i class="fas fa-users"></i></div>
-      <div class="stat-value" id="statParrainages">
-        <span class="skeleton skeleton-value" style="width:60%;margin:0 auto;"></span>
-      </div>
-      <div class="stat-label">Parrainages</div>
+      <div class="stat-label">Dépôts</div>
     </div>
   </div>
 
-  <!-- CHART -->
+  <!-- GRAPHIQUE 1 : Évolution des revenus -->
   <div class="card">
-    <div class="card-title" style="font-family:'Playfair Display','Georgia',serif;font-size:clamp(16px,1.8vw,19px);font-weight:700;color:var(--text-light);margin-bottom:12px;">
-      📊 Évolution des <span style="color:var(--accent);font-style:italic;">gains</span>
-    </div>
+    <div class="chart-title"><i class="fas fa-chart-line"></i> Évolution des <span style="color:var(--accent);font-style:italic;">revenus</span></div>
     <div class="chart-container">
-      <canvas id="gainChart" height="160"></canvas>
+      <canvas id="gainChart" height="140"></canvas>
+    </div>
+    <div class="chart-legend">
+      <span class="legend-item"><span class="dot green"></span> Revenus</span>
     </div>
   </div>
 
-  <!-- BREAKDOWN -->
+  <!-- GRAPHIQUE 2 : Dépôts vs Retraits -->
   <div class="card">
-    <div class="card-title" style="font-family:'Playfair Display','Georgia',serif;font-size:clamp(16px,1.8vw,19px);font-weight:700;color:var(--text-light);margin-bottom:12px;">
-      📊 Répartition des <span style="color:var(--accent);font-style:italic;">revenus</span>
+    <div class="chart-title"><i class="fas fa-exchange-alt"></i> Transactions <span style="color:var(--accent);font-style:italic;">(Dépôts vs Retraits)</span></div>
+    <div class="chart-container">
+      <canvas id="depotRetraitChart" height="140"></canvas>
     </div>
-    <div id="breakdownContainer" style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;">
-      <div class="skeleton skeleton-text w60"></div>
-      <div class="skeleton skeleton-text w40"></div>
-      <div class="skeleton skeleton-text w50"></div>
-      <div class="skeleton skeleton-text w30"></div>
+    <div class="chart-legend">
+      <span class="legend-item"><span class="dot blue"></span> Dépôts</span>
+      <span class="legend-item"><span class="dot red"></span> Retraits</span>
+    </div>
+  </div>
+
+  <!-- GRAPHIQUE 3 : Répartition des revenus -->
+  <div class="card">
+    <div class="chart-title"><i class="fas fa-chart-pie"></i> Répartition des <span style="color:var(--accent);font-style:italic;">revenus</span></div>
+    <div class="chart-container">
+      <canvas id="repartitionChart" height="140"></canvas>
+    </div>
+    <div class="chart-legend" id="repartitionLegend">
+      <span class="legend-item"><span class="dot gold"></span> Parrainage</span>
+      <span class="legend-item"><span class="dot purple"></span> Défis</span>
+      <span class="legend-item"><span class="dot green"></span> Ventes</span>
+      <span class="legend-item"><span class="dot orange"></span> Likes forum</span>
     </div>
   </div>
 
   <!-- TRANSACTIONS -->
   <div class="card">
-    <div class="card-title" style="font-family:'Playfair Display','Georgia',serif;font-size:clamp(16px,1.8vw,19px);font-weight:700;color:var(--text-light);margin-bottom:12px;">
+    <div class="chart-title" style="font-size:clamp(15px,1.8vw,18px);">
       📋 Historique des <span style="color:var(--accent);font-style:italic;">activités</span>
     </div>
 
-    <!-- FILTRES TYPE -->
+    <!-- FILTRES -->
     <div class="filter-section">
       <div class="filter-tabs" id="typeFilters">
         <button class="filter-tab active" data-filter="all"><i class="fas fa-list"></i> Tout</button>
@@ -517,16 +552,6 @@
         <button class="filter-tab" data-filter="depot"><i class="fas fa-arrow-down"></i> Dépôts</button>
         <button class="filter-tab" data-filter="retrait"><i class="fas fa-arrow-up"></i> Retraits</button>
         <button class="filter-tab" data-filter="achat"><i class="fas fa-shopping-cart"></i> Achats</button>
-      </div>
-    </div>
-
-    <!-- FILTRES PÉRIODE -->
-    <div class="filter-section">
-      <div class="filter-tabs" id="periodFilters">
-        <button class="filter-tab" data-period="week">📆 Semaine</button>
-        <button class="filter-tab" data-period="month">📆 Mois</button>
-        <button class="filter-tab" data-period="year">📆 Année</button>
-        <button class="filter-tab active" data-period="all">📆 Tout</button>
       </div>
     </div>
 
@@ -564,43 +589,45 @@
 </script>
 
 <script type="module">
+<!-- ================================================================ -->
+<!-- IMPORTS -->
+<!-- ================================================================ -->
+<script type="importmap">
+{
+  "imports": {
+    "firebase/app": "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js",
+    "firebase/auth": "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js",
+    "firebase/firestore": "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js"
+  }
+}
+</script>
+
+<script type="module">
 // ================================================================
 // IMPORTS
 // ================================================================
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
 import { 
   getAuth, 
-  onAuthStateChanged, 
-  setPersistence, 
-  browserLocalPersistence 
+  onAuthStateChanged,
+  setPersistence,
+  browserLocalPersistence
 } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
 import { 
-  getFirestore, 
-  doc, 
+  getFirestore,
+  doc,
   getDoc,
-  getDocs,
-  collection, 
-  query, 
-  where, 
+  collection,
+  query,
+  where,
   onSnapshot,
   orderBy
 } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
 
 // ================================================================
-// CONFIGURATION
-// ================================================================
-var ADMIN_URL = 'https://nexgen-39043.web.app/admin';
-
-if (typeof APP_CONFIG !== 'undefined' && APP_CONFIG.ADMIN_URL) {
-  ADMIN_URL = APP_CONFIG.ADMIN_URL;
-}
-
-console.debug('🔗 ADMIN_URL:', ADMIN_URL);
-
-// ================================================================
 // CONFIGURATION FIREBASE
 // ================================================================
-var firebaseConfig = {
+const firebaseConfig = {
   apiKey: "AIzaSyBEbYuuUlNCLMBUHClv4UnyownNHw2q3_g",
   authDomain: "nexgen-39043.firebaseapp.com",
   projectId: "nexgen-39043",
@@ -610,34 +637,33 @@ var firebaseConfig = {
   measurementId: "G-HC2Q5DNKDR"
 };
 
-var app = initializeApp(firebaseConfig);
-var auth = getAuth(app);
-var db = getFirestore(app);
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
 setPersistence(auth, browserLocalPersistence);
 
 // ================================================================
 // DOM
 // ================================================================
-var statBalance = document.getElementById('statBalance');
-var statRevenus = document.getElementById('statRevenus');
-var statDefis = document.getElementById('statDefis');
-var statParrainages = document.getElementById('statParrainages');
-var transactionsList = document.getElementById('transactionsList');
-var txCount = document.getElementById('txCount');
-var toast = document.getElementById('toast');
-var canvas = document.getElementById('gainChart');
-var breakdownContainer = document.getElementById('breakdownContainer');
+const statBalance = document.getElementById('statBalance');
+const statRevenus = document.getElementById('statRevenus');
+const statDepots = document.getElementById('statDepots');
+const transactionsList = document.getElementById('transactionsList');
+const txCount = document.getElementById('txCount');
+const toast = document.getElementById('toast');
 
-var currentUser = null;
-var userData = null;
-var allActivities = [];
-var currentFilter = 'all';
-var currentPeriod = 'all';
-var unsubscribeAll = null;
-var notificationTimeout = null;
-var isPageLoading = true;
-var dataLoaded = false;
+const gainChart = document.getElementById('gainChart');
+const depotRetraitChart = document.getElementById('depotRetraitChart');
+const repartitionChart = document.getElementById('repartitionChart');
+
+let currentUser = null;
+let userData = null;
+let allActivities = [];
+let currentFilter = 'all';
+let unsubscribeAll = null;
+let notificationTimeout = null;
+let isPageLoading = true;
 
 // ================================================================
 // GESTION DU CACHE
@@ -674,17 +700,12 @@ function loadFromCache() {
 // ================================================================
 // TOAST
 // ================================================================
-function showToast(message, type) {
-  type = type || 'info';
+function showToast(message, type = 'info') {
   toast.textContent = message;
   toast.className = 'toast ' + type;
   clearTimeout(notificationTimeout);
-  requestAnimationFrame(function() {
-    toast.classList.add('show');
-  });
-  notificationTimeout = setTimeout(function() {
-    toast.classList.remove('show');
-  }, 3500);
+  requestAnimationFrame(() => toast.classList.add('show'));
+  notificationTimeout = setTimeout(() => toast.classList.remove('show'), 4000);
 }
 
 // ================================================================
@@ -700,7 +721,7 @@ function formatCurrency(amount) {
 function formatDate(dateStr) {
   if (!dateStr) return '-';
   try {
-    var d = new Date(dateStr);
+    const d = new Date(dateStr);
     return d.toLocaleDateString('fr-FR') + ' ' + d.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
   } catch(e) {
     return dateStr;
@@ -709,38 +730,24 @@ function formatDate(dateStr) {
 
 function escapeHtml(str) {
   if (!str) return '';
-  var div = document.createElement('div');
+  const div = document.createElement('div');
   div.textContent = str;
   return div.innerHTML;
 }
 
-function getTypeIcon(type) {
-  const icons = {
-    'depot': { icon: 'fa-arrow-down', cls: 'depot' },
-    'retrait': { icon: 'fa-arrow-up', cls: 'retrait' },
-    'achat': { icon: 'fa-shopping-cart', cls: 'achat' },
-    'vente': { icon: 'fa-hand-holding-usd', cls: 'vente' },
-    'gain': { icon: 'fa-coins', cls: 'gain' },
-    'parrainage': { icon: 'fa-users', cls: 'parrainage' },
-    'defi': { icon: 'fa-trophy', cls: 'defi' },
-    'forum_likes': { icon: 'fa-heart', cls: 'forum_likes' }
-  };
-  return icons[type] || { icon: 'fa-exchange-alt', cls: '' };
-}
-
-function getTypeLabel(type) {
-  const labels = {
-    'depot': 'Dépôt',
-    'retrait': 'Retrait',
-    'achat': 'Achat',
-    'vente': 'Vente',
-    'gain': 'Gain',
-    'parrainage': 'Parrainage',
-    'defi': 'Défi gagné',
-    'forum_likes': 'Likes forum'
-  };
-  return labels[type] || type;
-}
+// ================================================================
+// TYPES D'ACTIVITÉS
+// ================================================================
+const TYPE_CONFIG = {
+  'depot': { icon: 'fa-arrow-down', cls: 'depot', label: 'Dépôt', isPositive: true },
+  'retrait': { icon: 'fa-arrow-up', cls: 'retrait', label: 'Retrait', isPositive: false },
+  'achat': { icon: 'fa-shopping-cart', cls: 'achat', label: 'Achat', isPositive: false },
+  'vente': { icon: 'fa-hand-holding-usd', cls: 'vente', label: 'Vente', isPositive: true },
+  'parrainage': { icon: 'fa-users', cls: 'parrainage', label: 'Parrainage', isPositive: true },
+  'defi': { icon: 'fa-trophy', cls: 'defi', label: 'Défi', isPositive: true },
+  'forum_likes': { icon: 'fa-heart', cls: 'forum_likes', label: 'Likes forum', isPositive: true },
+  'gain': { icon: 'fa-coins', cls: 'gain', label: 'Gain', isPositive: true }
+};
 
 // ================================================================
 // UPDATE STATS
@@ -748,161 +755,208 @@ function getTypeLabel(type) {
 function updateStats(data) {
   if (!data) return;
   
-  var balance = data.balance || 0;
-  var gainsTotal = data.gainsTotal || 0;
-  var totalDefis = data.totalDefisGagnes || 0;
-  var referralsCount = data.referralsCount || 0;
+  const balance = data.balance || 0;
+  const gainsTotal = data.gainsTotal || 0;
+  const totalDepots = data.totalDepots || 0;
   
   statBalance.textContent = formatCurrency(balance);
   statRevenus.textContent = formatCurrency(gainsTotal);
-  statDefis.textContent = formatCurrency(totalDefis);
-  statParrainages.textContent = referralsCount || 0;
+  statDepots.textContent = formatCurrency(totalDepots);
 }
 
 // ================================================================
-// DRAW CHART
+// DESSINER LES GRAPHIQUES
 // ================================================================
-function drawChart(gains) {
-  var ctx = canvas.getContext('2d');
-  var width = canvas.width = canvas.parentElement.clientWidth || 400;
-  var height = canvas.height = 160;
+function drawGainChart(gains) {
+  const ctx = gainChart.getContext('2d');
+  const width = gainChart.width = gainChart.parentElement.clientWidth || 400;
+  const height = gainChart.height = 140;
   
   ctx.clearRect(0, 0, width, height);
 
   if (!gains || gains.length === 0 || gains.every(v => v === 0)) {
     ctx.fillStyle = '#5A5A4A';
-    ctx.font = '13px Inter, sans-serif';
+    ctx.font = '12px Inter, sans-serif';
     ctx.textAlign = 'center';
     ctx.fillText('Aucune donnée disponible', width/2, height/2);
     return;
   }
 
-  var max = Math.max.apply(null, gains) || 1;
-  var padding = { top: 20, bottom: 25, left: 30, right: 20 };
-  var chartWidth = width - padding.left - padding.right;
-  var chartHeight = height - padding.top - padding.bottom;
-  var barWidth = Math.min(chartWidth / gains.length * 0.5, 30);
-  var gap = chartWidth / gains.length;
+  const max = Math.max.apply(null, gains) || 1;
+  const padding = { top: 15, bottom: 20, left: 25, right: 10 };
+  const chartWidth = width - padding.left - padding.right;
+  const chartHeight = height - padding.top - padding.bottom;
+  const barWidth = Math.min(chartWidth / gains.length * 0.5, 25);
+  const gap = chartWidth / gains.length;
 
-  var colors = ['#B8860B', '#2D7D5A', '#4A7A6A', '#8A6A7A', '#D4A017', '#6366F1'];
+  // Couleurs dégradées
+  const colors = ['#2D7D5A', '#4A7A6A', '#B8860B', '#6366F1', '#D4A017'];
 
-  gains.forEach(function(value, index) {
-    var x = padding.left + (index * gap) + (gap - barWidth) / 2;
-    var barHeight = (value / max) * chartHeight;
-    var y = padding.top + chartHeight - barHeight;
+  gains.forEach((value, index) => {
+    const x = padding.left + (index * gap) + (gap - barWidth) / 2;
+    const barHeight = (value / max) * chartHeight;
+    const y = padding.top + chartHeight - barHeight;
 
-    ctx.fillStyle = colors[index % colors.length];
+    const gradient = ctx.createLinearGradient(x, y, x, padding.top + chartHeight);
+    gradient.addColorStop(0, colors[index % colors.length]);
+    gradient.addColorStop(1, colors[index % colors.length] + '44');
+    
+    ctx.fillStyle = gradient;
     ctx.beginPath();
     ctx.roundRect(x, y, barWidth, barHeight, 3);
     ctx.fill();
 
     ctx.fillStyle = '#F5F0E8';
-    ctx.font = '9px Inter, sans-serif';
+    ctx.font = '8px Inter, sans-serif';
     ctx.textAlign = 'center';
-    var displayVal = value >= 1000 ? (value/1000).toFixed(1) + 'K' : value;
+    const displayVal = value >= 1000 ? (value/1000).toFixed(1) + 'K' : value;
     ctx.fillText(displayVal, x + barWidth/2, y - 4);
   });
 
   ctx.fillStyle = '#5A5A4A';
-  ctx.font = '9px Inter, sans-serif';
+  ctx.font = '8px Inter, sans-serif';
   ctx.textAlign = 'center';
-  var labels = ['S1', 'S2', 'S3', 'S4', 'S5', 'S6'];
-  gains.forEach(function(_, index) {
-    var x = padding.left + (index * gap) + gap/2;
+  const labels = ['S1', 'S2', 'S3', 'S4', 'S5', 'S6'];
+  gains.forEach((_, index) => {
+    const x = padding.left + (index * gap) + gap/2;
     ctx.fillText(labels[index] || '', x, height - 4);
   });
 }
 
-// ================================================================
-// RENDER BREAKDOWN
-// ================================================================
-function renderBreakdown(activities) {
-  var gains = activities.filter(a => a.type === 'gain' || a.type === 'parrainage' || a.type === 'defi' || a.type === 'forum_likes' || a.type === 'vente');
+function drawDepotRetraitChart(depots, retraits) {
+  const ctx = depotRetraitChart.getContext('2d');
+  const width = depotRetraitChart.width = depotRetraitChart.parentElement.clientWidth || 400;
+  const height = depotRetraitChart.height = 140;
   
-  var breakdown = {
-    parrainage: 0,
-    defi: 0,
-    vente: 0,
-    forum_likes: 0
-  };
-  
-  gains.forEach(a => {
-    if (a.type === 'parrainage') breakdown.parrainage += a.montant || 0;
-    else if (a.type === 'defi') breakdown.defi += a.montant || 0;
-    else if (a.type === 'vente') breakdown.vente += a.montant || 0;
-    else if (a.type === 'forum_likes') breakdown.forum_likes += a.montant || 0;
-  });
-  
-  var total = breakdown.parrainage + breakdown.defi + breakdown.vente + breakdown.forum_likes;
-  
+  ctx.clearRect(0, 0, width, height);
+
+  const total = depots + retraits;
   if (total === 0) {
-    breakdownContainer.innerHTML = `
-      <div style="grid-column:1/-1;text-align:center;padding:20px;color:var(--text-muted);font-size:13px;">
-        <i class="fas fa-chart-pie" style="font-size:24px;opacity:0.2;display:block;margin-bottom:8px;"></i>
-        Aucun revenu pour le moment
-      </div>
-    `;
+    ctx.fillStyle = '#5A5A4A';
+    ctx.font = '12px Inter, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('Aucune donnée disponible', width/2, height/2);
     return;
   }
+
+  const padding = { top: 15, bottom: 20, left: 25, right: 25 };
+  const chartWidth = width - padding.left - padding.right;
+  const chartHeight = height - padding.top - padding.bottom;
+  const maxVal = Math.max(depots, retraits, 1);
   
-  var items = [
-    { label: '👥 Parrainage', value: breakdown.parrainage, color: 'var(--accent)' },
-    { label: '🏆 Défis', value: breakdown.defi, color: '#6366F1' },
-    { label: '🛒 Ventes', value: breakdown.vente, color: '#4A7A6A' },
-    { label: '❤️ Likes forum', value: breakdown.forum_likes, color: '#FF4757' }
-  ].filter(i => i.value > 0);
+  // Dépôts (bleu)
+  const barWidth = chartWidth * 0.25;
+  const gap = chartWidth * 0.2;
+  const center = width / 2;
   
-  var html = '';
-  items.forEach(function(item) {
-    var percent = Math.round((item.value / total) * 100);
-    html += `
-      <div style="background:rgba(10,10,10,0.3);border-radius:10px;padding:10px 12px;border:1px solid rgba(184,134,11,0.04);">
-        <div style="display:flex;justify-content:space-between;font-size:13px;">
-          <span style="color:var(--text-dim);">${item.label}</span>
-          <span style="color:var(--text-light);font-weight:600;">${formatCurrency(item.value)}</span>
-        </div>
-        <div style="width:100%;height:4px;background:rgba(255,255,255,0.04);border-radius:4px;margin-top:4px;overflow:hidden;">
-          <div style="width:${percent}%;height:100%;background:${item.color};border-radius:4px;transition:width 0.5s ease;"></div>
-        </div>
-        <div style="font-size:9px;color:var(--text-muted);margin-top:2px;text-align:right;">${percent}%</div>
-      </div>
-    `;
+  const depotHeight = (depots / maxVal) * chartHeight;
+  const retraitHeight = (retraits / maxVal) * chartHeight;
+  
+  // Dépôts
+  const x1 = center - gap - barWidth;
+  const y1 = padding.top + chartHeight - depotHeight;
+  const grad1 = ctx.createLinearGradient(x1, y1, x1, padding.top + chartHeight);
+  grad1.addColorStop(0, '#4A7A8A');
+  grad1.addColorStop(1, '#4A7A8A44');
+  ctx.fillStyle = grad1;
+  ctx.beginPath();
+  ctx.roundRect(x1, y1, barWidth, depotHeight, 4);
+  ctx.fill();
+  
+  // Retraits
+  const x2 = center + gap;
+  const y2 = padding.top + chartHeight - retraitHeight;
+  const grad2 = ctx.createLinearGradient(x2, y2, x2, padding.top + chartHeight);
+  grad2.addColorStop(0, '#D45A5A');
+  grad2.addColorStop(1, '#D45A5A44');
+  ctx.fillStyle = grad2;
+  ctx.beginPath();
+  ctx.roundRect(x2, y2, barWidth, retraitHeight, 4);
+  ctx.fill();
+  
+  // Labels
+  ctx.fillStyle = '#4A7A8A';
+  ctx.font = '10px Inter, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Dépôts', x1 + barWidth/2, padding.top + chartHeight + 14);
+  ctx.fillStyle = '#D45A5A';
+  ctx.fillText('Retraits', x2 + barWidth/2, padding.top + chartHeight + 14);
+  
+  // Valeurs
+  ctx.fillStyle = '#F5F0E8';
+  ctx.font = '9px Inter, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText(formatCurrency(depots), x1 + barWidth/2, y1 - 4);
+  ctx.fillText(formatCurrency(retraits), x2 + barWidth/2, y2 - 4);
+}
+
+function drawRepartitionChart(parrainage, defis, ventes, likes) {
+  const ctx = repartitionChart.getContext('2d');
+  const width = repartitionChart.width = repartitionChart.parentElement.clientWidth || 400;
+  const height = repartitionChart.height = 140;
+  
+  ctx.clearRect(0, 0, width, height);
+
+  const total = parrainage + defis + ventes + likes;
+  if (total === 0) {
+    ctx.fillStyle = '#5A5A4A';
+    ctx.font = '12px Inter, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('Aucune donnée disponible', width/2, height/2);
+    return;
+  }
+
+  const data = [
+    { value: parrainage, color: '#B8860B', label: 'Parrainage' },
+    { value: defis, color: '#8A6A7A', label: 'Défis' },
+    { value: ventes, color: '#2D7D5A', label: 'Ventes' },
+    { value: likes, color: '#D4A017', label: 'Likes forum' }
+  ].filter(d => d.value > 0);
+
+  // Dessiner en barres horizontales
+  const padding = { top: 10, bottom: 10, left: 80, right: 20 };
+  const chartWidth = width - padding.left - padding.right;
+  const chartHeight = height - padding.top - padding.bottom;
+  const barHeight = Math.min(20, chartHeight / data.length - 4);
+  const gap = 6;
+
+  data.forEach((item, index) => {
+    const percent = (item.value / total) * 100;
+    const barWidth = (percent / 100) * chartWidth;
+    const x = padding.left;
+    const y = padding.top + index * (barHeight + gap);
+    
+    ctx.fillStyle = item.color;
+    ctx.beginPath();
+    ctx.roundRect(x, y, barWidth, barHeight, 4);
+    ctx.fill();
+    
+    ctx.fillStyle = '#F5F0E8';
+    ctx.font = '9px Inter, sans-serif';
+    ctx.textAlign = 'right';
+    ctx.fillText(item.label, x - 6, y + barHeight/2 + 3);
+    
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#F5F0E8';
+    ctx.fillText(Math.round(percent) + '%', x + barWidth + 6, y + barHeight/2 + 3);
   });
-  
-  breakdownContainer.innerHTML = html;
 }
 
 // ================================================================
 // RENDER TRANSACTIONS
 // ================================================================
 function renderTransactions() {
-  var filtered = allActivities;
+  let filtered = allActivities;
   
-  // FILTRE PAR TYPE
   if (currentFilter !== 'all') {
     if (currentFilter === 'revenu') {
-      filtered = filtered.filter(function(t) {
-        return t.type === 'gain' || t.type === 'parrainage' || t.type === 'defi' || t.type === 'forum_likes' || t.type === 'vente';
-      });
+      filtered = filtered.filter(t => 
+        t.type === 'vente' || t.type === 'parrainage' || t.type === 'defi' || 
+        t.type === 'forum_likes' || t.type === 'gain'
+      );
     } else {
-      filtered = filtered.filter(function(t) {
-        return t.type === currentFilter;
-      });
+      filtered = filtered.filter(t => t.type === currentFilter);
     }
-  }
-  
-  // FILTRE PAR PÉRIODE
-  if (currentPeriod !== 'all') {
-    var now = new Date();
-    var cutoff = new Date(now);
-    if (currentPeriod === 'week') cutoff.setDate(now.getDate() - 7);
-    else if (currentPeriod === 'month') cutoff.setMonth(now.getMonth() - 1);
-    else if (currentPeriod === 'year') cutoff.setFullYear(now.getFullYear() - 1);
-    
-    filtered = filtered.filter(function(t) {
-      var date = new Date(t.timestamp || t.date || t.createdAt);
-      return date >= cutoff;
-    });
   }
 
   txCount.textContent = filtered.length + ' activité(s)';
@@ -912,78 +966,40 @@ function renderTransactions() {
     return;
   }
 
-  // Trier par date décroissante
-  filtered.sort(function(a, b) {
-    var dateA = new Date(a.timestamp || a.date || a.createdAt);
-    var dateB = new Date(b.timestamp || b.date || b.createdAt);
+  filtered.sort((a, b) => {
+    const dateA = new Date(a.timestamp || a.date || a.createdAt);
+    const dateB = new Date(b.timestamp || b.date || b.createdAt);
     return dateB - dateA;
   });
 
-  var html = '';
-  var display = filtered.slice(0, 50);
+  let html = '';
+  const display = filtered.slice(0, 50);
 
-  display.forEach(function(t) {
-    var isPositive = t.type === 'depot' || t.type === 'vente' || t.type === 'gain' || t.type === 'parrainage' || t.type === 'defi' || t.type === 'forum_likes';
-    var isNegative = t.type === 'retrait' || t.type === 'achat';
-    var amountClass = isPositive ? 'positive' : (isNegative ? 'negative' : '');
-    var sign = isPositive ? '+' : (isNegative ? '-' : '');
+  display.forEach(t => {
+    const config = TYPE_CONFIG[t.type] || TYPE_CONFIG['gain'];
+    const isPositive = config.isPositive !== undefined ? config.isPositive : true;
+    const amountClass = isPositive ? 'positive' : 'negative';
+    const sign = isPositive ? '+' : '-';
+    const label = config.label || 'Transaction';
+    const icon = config.icon || 'fa-exchange-alt';
+    const cls = config.cls || '';
 
-    var typeMap = getTypeIcon(t.type);
-    var icon = typeMap.icon;
-    var iconClass = typeMap.cls;
-    var label = getTypeLabel(t.type);
+    const montant = t.montant || t.amount || 0;
+    const date = t.timestamp || t.date || t.createdAt || '';
 
-    var status = t.statut || t.status || 'en_attente';
-    var statusClass = status === 'validé' || status === 'valide' || status === 'confirmed' ? 'valide' :
-                     (status === 'rejeté' || status === 'rejete' || status === 'rejected' ? 'rejete' : 'en_attente');
-    var statusText = statusClass === 'valide' ? '✅ Validé' :
-                     (statusClass === 'rejete' ? '❌ Rejeté' : '⏳ En attente');
-
-    var desc = t.description || t.productName || t.packName || t.sourceType || '';
-    var montant = t.montant || t.amount || 0;
-    var date = t.timestamp || t.date || t.createdAt || '';
-
-    html += '<div class="transaction-item">';
-    html += '<div class="tx-icon ' + iconClass + '"><i class="fas ' + icon + '"></i></div>';
-    html += '<div class="tx-content">';
-    html += '<div class="tx-title">' + label + (desc ? ' — ' + escapeHtml(desc) : '') + '</div>';
-    html += '<div class="tx-desc">' + formatDate(date) + '</div>';
-    html += '</div>';
-    html += '<div style="text-align:right;">';
-    html += '<div class="tx-amount ' + amountClass + '">' + sign + formatCurrency(montant) + '</div>';
-    html += '<span class="tx-status ' + statusClass + '">' + statusText + '</span>';
-    html += '</div>';
-    html += '</div>';
+    html += `
+      <div class="transaction-item">
+        <div class="tx-icon ${cls}"><i class="fas ${icon}"></i></div>
+        <div class="tx-content">
+          <div class="tx-title">${label}${t.description ? ' — ' + escapeHtml(t.description) : ''}</div>
+          <div class="tx-desc">${formatDate(date)}</div>
+        </div>
+        <div class="tx-amount ${amountClass}">${sign}${formatCurrency(montant)}</div>
+      </div>
+    `;
   });
 
   transactionsList.innerHTML = html;
-}
-
-// ================================================================
-// MISE À JOUR DU GRAPHIQUE
-// ================================================================
-function updateChart() {
-  var gains = [];
-  var now = new Date();
-  for (var i = 5; i >= 0; i--) {
-    var weekStart = new Date(now);
-    weekStart.setDate(now.getDate() - (i * 7 + 6));
-    var weekEnd = new Date(now);
-    weekEnd.setDate(now.getDate() - (i * 7));
-    
-    var total = 0;
-    allActivities.forEach(function(t) {
-      var date = new Date(t.timestamp || t.date || t.createdAt);
-      if (date >= weekStart && date <= weekEnd) {
-        var isGain = t.type === 'gain' || t.type === 'parrainage' || t.type === 'defi' || t.type === 'forum_likes' || t.type === 'vente';
-        if (isGain) {
-          total += t.montant || t.amount || 0;
-        }
-      }
-    });
-    gains.push(total);
-  }
-  drawChart(gains);
 }
 
 // ================================================================
@@ -996,24 +1012,21 @@ function loadActivitiesRealtime(userId) {
   }
   
   allActivities = [];
-  var collections = ['depots', 'retraits', 'achats', 'ventes', 'gains'];
-  var collectionData = {};
-  var loadingCount = collections.length;
   
-  // Fonction pour ajouter une activité
-  function addActivity(collectionName, docId, data) {
-    var typeMap = {
-      'depots': 'depot',
-      'retraits': 'retrait',
-      'achats': 'achat',
-      'ventes': 'vente',
-      'gains': 'gain'
-    };
+  // Sources de données
+  const collections = ['depots', 'retraits', 'achats', 'ventes', 'gains'];
+  let loadingCount = collections.length;
+
+  function processActivity(collectionName, docId, data) {
+    let type = collectionName === 'depots' ? 'depot' :
+               collectionName === 'retraits' ? 'retrait' :
+               collectionName === 'achats' ? 'achat' :
+               collectionName === 'ventes' ? 'vente' :
+               collectionName === 'gains' ? (data.type || 'gain') : 'gain';
     
-    // Déterminer le vrai type pour les gains
-    var type = typeMap[collectionName] || 'transaction';
+    // Pour les gains, utiliser le type spécifique
     if (collectionName === 'gains' && data.type) {
-      type = data.type; // parrainage, defi, forum_likes, vente
+      type = data.type;
     }
     
     allActivities.push({
@@ -1023,158 +1036,120 @@ function loadActivitiesRealtime(userId) {
       type: type
     });
   }
-  
-  // Écouter chaque collection
-  collections.forEach(function(collectionName) {
-    var q = query(
+
+  collections.forEach(collectionName => {
+    const q = query(
       collection(db, collectionName),
       where('userId', '==', userId)
     );
-    
-    var unsub = onSnapshot(q, function(snapshot) {
-      var updated = false;
+
+    const unsub = onSnapshot(q, (snapshot) => {
+      let updated = false;
       
-      snapshot.docChanges().forEach(function(change) {
-        var data = change.doc.data();
+      snapshot.docChanges().forEach(change => {
+        const data = change.doc.data();
         
         if (change.type === 'added') {
-          // Vérifier si déjà présent
-          var exists = allActivities.some(function(a) { 
-            return a.id === change.doc.id && a.collection === collectionName; 
-          });
+          const exists = allActivities.some(a => a.id === change.doc.id && a.collection === collectionName);
           if (!exists) {
-            addActivity(collectionName, change.doc.id, data);
+            processActivity(collectionName, change.doc.id, data);
             updated = true;
           }
         } else if (change.type === 'modified') {
-          var index = allActivities.findIndex(function(a) { 
-            return a.id === change.doc.id && a.collection === collectionName; 
-          });
+          const index = allActivities.findIndex(a => a.id === change.doc.id && a.collection === collectionName);
           if (index !== -1) {
             allActivities[index] = { ...allActivities[index], ...data };
             updated = true;
           } else {
-            addActivity(collectionName, change.doc.id, data);
+            processActivity(collectionName, change.doc.id, data);
             updated = true;
           }
         } else if (change.type === 'removed') {
-          allActivities = allActivities.filter(function(a) { 
-            return !(a.id === change.doc.id && a.collection === collectionName); 
-          });
+          allActivities = allActivities.filter(a => !(a.id === change.doc.id && a.collection === collectionName));
           updated = true;
         }
       });
       
       if (updated) {
         renderTransactions();
-        updateChart();
-        renderBreakdown(allActivities);
+        updateCharts();
       }
       
       loadingCount--;
-      if (loadingCount === 0) {
-        dataLoaded = true;
-      }
-    }, function(error) {
-      if (error.code !== 'aborted' && error.code !== 'cancelled') {
-        console.error('Erreur écoute ' + collectionName + ':', error);
-      }
+    }, (error) => {
+      console.error('Erreur écoute ' + collectionName + ':', error);
       loadingCount--;
     });
+  });
+}
+
+// ================================================================
+// METTRE À JOUR LES GRAPHIQUES
+// ================================================================
+function updateCharts() {
+  // 1. Gains par semaine (6 dernières semaines)
+  const now = new Date();
+  const weeklyGains = [];
+  for (let i = 5; i >= 0; i--) {
+    const weekStart = new Date(now);
+    weekStart.setDate(now.getDate() - (i * 7 + 6));
+    const weekEnd = new Date(now);
+    weekEnd.setDate(now.getDate() - (i * 7));
     
-    if (!collectionData[collectionName]) {
-      collectionData[collectionName] = { unsub: unsub };
+    let total = 0;
+    allActivities.forEach(t => {
+      const date = new Date(t.timestamp || t.date || t.createdAt);
+      if (date >= weekStart && date <= weekEnd) {
+        const isGain = t.type === 'vente' || t.type === 'parrainage' || t.type === 'defi' || 
+                       t.type === 'forum_likes' || t.type === 'gain';
+        if (isGain) {
+          total += t.montant || t.amount || 0;
+        }
+      }
+    });
+    weeklyGains.push(total);
+  }
+  drawGainChart(weeklyGains);
+
+  // 2. Dépôts vs Retraits (total)
+  let totalDepots = 0;
+  let totalRetraits = 0;
+  allActivities.forEach(t => {
+    if (t.type === 'depot') {
+      totalDepots += t.montant || t.amount || 0;
+    } else if (t.type === 'retrait') {
+      totalRetraits += t.montant || t.amount || 0;
     }
   });
-  
-  // Stocker les unsubscribe
-  window._unsubActivities = function() {
-    Object.values(collectionData).forEach(function(item) {
-      if (item.unsub) item.unsub();
-    });
-  };
+  drawDepotRetraitChart(totalDepots, totalRetraits);
+
+  // 3. Répartition des revenus
+  let parrainage = 0, defis = 0, ventes = 0, likes = 0;
+  allActivities.forEach(t => {
+    const montant = t.montant || t.amount || 0;
+    if (t.type === 'parrainage') parrainage += montant;
+    else if (t.type === 'defi') defis += montant;
+    else if (t.type === 'vente') ventes += montant;
+    else if (t.type === 'forum_likes') likes += montant;
+  });
+  drawRepartitionChart(parrainage, defis, ventes, likes);
+
+  // Mettre à jour les stats
+  if (userData) {
+    updateStats(userData);
+  }
 }
 
 // ================================================================
 // FILTRES
 // ================================================================
-document.querySelectorAll('#typeFilters .filter-tab').forEach(function(tab) {
+document.querySelectorAll('#typeFilters .filter-tab').forEach(tab => {
   tab.addEventListener('click', function() {
-    document.querySelectorAll('#typeFilters .filter-tab').forEach(function(t) {
-      t.classList.remove('active');
-    });
+    document.querySelectorAll('#typeFilters .filter-tab').forEach(t => t.classList.remove('active'));
     this.classList.add('active');
     currentFilter = this.dataset.filter;
     renderTransactions();
   });
-});
-
-document.querySelectorAll('#periodFilters .filter-tab').forEach(function(tab) {
-  tab.addEventListener('click', function() {
-    document.querySelectorAll('#periodFilters .filter-tab').forEach(function(t) {
-      t.classList.remove('active');
-    });
-    this.classList.add('active');
-    currentPeriod = this.dataset.period;
-    renderTransactions();
-  });
-});
-
-// ================================================================
-// AUTH
-// ================================================================
-var authChecked = false;
-var sessionUid = sessionStorage.getItem('session_uid');
-
-// Chargement rapide depuis le cache
-loadFromCache();
-
-onAuthStateChanged(auth, function(user) {
-  if (user) {
-    currentUser = user;
-    localStorage.setItem('ARVEXA_current_user', user.uid);
-    
-    if (sessionUid === user.uid) {
-      console.debug("✅ Session déjà validée, chargement rapide");
-      loadUserData(user.uid).then(function() {
-        loadActivitiesRealtime(user.uid);
-      });
-      isPageLoading = false;
-      return;
-    }
-
-    loadUserData(user.uid).then(function() {
-      loadActivitiesRealtime(user.uid);
-    });
-    isPageLoading = false;
-  } else {
-    if (isPageLoading) {
-      setTimeout(function() {
-        if (!auth.currentUser) {
-          var savedUid = localStorage.getItem('ARVEXA_current_user');
-          if (savedUid) {
-            if (!auth.currentUser) {
-              window.location.href = 'login.html';
-            }
-          } else {
-            window.location.href = 'login.html';
-          }
-        }
-      }, 3000);
-    } else {
-      var savedUid = localStorage.getItem('ARVEXA_current_user');
-      if (savedUid) {
-        setTimeout(function() {
-          if (!auth.currentUser) {
-            window.location.href = 'login.html';
-          }
-        }, 2000);
-      } else {
-        window.location.href = 'login.html';
-      }
-    }
-    authChecked = true;
-  }
 });
 
 // ================================================================
@@ -1182,8 +1157,8 @@ onAuthStateChanged(auth, function(user) {
 // ================================================================
 async function loadUserData(uid) {
   try {
-    var userRef = doc(db, 'users', uid);
-    var docSnap = await getDoc(userRef);
+    const userRef = doc(db, 'users', uid);
+    const docSnap = await getDoc(userRef);
     if (docSnap.exists()) {
       userData = docSnap.data();
       updateStats(userData);
@@ -1198,26 +1173,80 @@ async function loadUserData(uid) {
 }
 
 // ================================================================
+// AUTH
+// ================================================================
+let authChecked = false;
+let sessionUid = sessionStorage.getItem('session_uid');
+
+loadFromCache();
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    currentUser = user;
+    localStorage.setItem('ARVEXA_current_user', user.uid);
+    
+    if (sessionUid === user.uid) {
+      console.debug("✅ Session déjà validée, chargement rapide");
+      loadUserData(user.uid).then(() => {
+        loadActivitiesRealtime(user.uid);
+      });
+      isPageLoading = false;
+      return;
+    }
+
+    loadUserData(user.uid).then(() => {
+      loadActivitiesRealtime(user.uid);
+    });
+    isPageLoading = false;
+  } else {
+    if (isPageLoading) {
+      setTimeout(() => {
+        if (!auth.currentUser) {
+          const savedUid = localStorage.getItem('ARVEXA_current_user');
+          if (savedUid) {
+            if (!auth.currentUser) {
+              window.location.href = 'login.html';
+            }
+          } else {
+            window.location.href = 'login.html';
+          }
+        }
+      }, 3000);
+    } else {
+      const savedUid = localStorage.getItem('ARVEXA_current_user');
+      if (savedUid) {
+        setTimeout(() => {
+          if (!auth.currentUser) {
+            window.location.href = 'login.html';
+          }
+        }, 2000);
+      } else {
+        window.location.href = 'login.html';
+      }
+    }
+    authChecked = true;
+  }
+});
+
+// ================================================================
 // CACHE POUR RETOUR ARRIÈRE INSTANTANÉ
 // ================================================================
-window.addEventListener('pageshow', function(event) {
+window.addEventListener('pageshow', (event) => {
   if (event.persisted) {
     console.debug('📱 Page activité chargée depuis le cache');
     loadFromCache();
     if (userData) {
       updateStats(userData);
+      updateCharts();
       renderTransactions();
-      updateChart();
-      renderBreakdown(allActivities);
     }
   }
 });
 
-console.debug('📊 ARVEXA - Page Activité nouvelle génération');
-console.debug('✅ Toutes les sources de revenus affichées');
-console.debug('✅ Parrainage, Défis, Ventes, Likes forum');
-console.debug('✅ Cache prioritaire pour chargement < 2 secondes');
+console.debug('📊 ARVEXA - Page Activité nouvelle génération (v3.0)');
+console.debug('✅ 3 graphiques : évolution, dépôts/retraits, répartition');
+console.debug('✅ Couleurs : Bleu = dépôts, Rouge = retraits');
+console.debug('✅ Toutes les sources de revenus (parrainage, défis, ventes, likes)');
 </script>
-
 </body>
 </html>
