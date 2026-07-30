@@ -12,12 +12,10 @@
   <link rel="apple-touch-icon" href="icon.png">
   <link rel="icon" href="icon.png" type="image/png">
   
-  <!-- ===== FONTS ===== -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
   
-  <!-- ===== FONT AWESOME ===== -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <style>
@@ -297,7 +295,7 @@
     .actu-nav-btn:hover { border-color: rgba(184,134,11,0.12); color: var(--text-light); background: rgba(10,10,10,0.5); }
     .actu-nav-btn:disabled { opacity: 0.2; cursor: not-allowed; transform: none; }
 
-       /* ============================================================
+    /* ============================================================
        FOOTER
        ============================================================ */
     .footer { border-top: 1px solid rgba(184,134,11,0.03); padding: 28px 0 16px; text-align: center; margin-top: 20px; }
@@ -749,7 +747,6 @@
     <a href="formations.html" class="section-link">Voir tout <i class="fas fa-arrow-right"></i></a>
   </div>
   <div class="formations-list-horizontal">
-    <!-- Formation 1 - GRATUITE -->
     <a href="formations/formation_001.html" class="formation-card-horizontal">
       <div class="formation-horiz-img-wrap">
         <img src="formations/cover-ia.png" alt="IA" class="formation-horiz-img" loading="lazy"
@@ -765,8 +762,6 @@
         </div>
       </div>
     </a>
-    
-    <!-- Formation 2 - GRATUITE -->
     <a href="formations/formation_002.html" class="formation-card-horizontal">
       <div class="formation-horiz-img-wrap">
         <img src="formations/cover-site.png" alt="Site web" class="formation-horiz-img" loading="lazy"
@@ -1027,6 +1022,47 @@ function formatCurrency(amount) {
 }
 
 // ================================================================
+// CACHE PERFORMANCE
+// ================================================================
+function getCachedPerformance() {
+  try {
+    const cached = localStorage.getItem('ARVEXA_performance_cache');
+    if (!cached) return null;
+    const data = JSON.parse(cached);
+    const timestamp = data.timestamp || 0;
+    if (Date.now() - timestamp > 300000) return null;
+    return data.percent;
+  } catch(e) { return null; }
+}
+
+function setCachedPerformance(percent) {
+  try {
+    localStorage.setItem('ARVEXA_performance_cache', JSON.stringify({
+      percent: percent,
+      timestamp: Date.now()
+    }));
+  } catch(e) {}
+}
+
+// ================================================================
+// AFFICHER LE POURCENTAGE
+// ================================================================
+function updatePerformanceDisplay(percent) {
+  if (dailyPercentEl) {
+    dailyPercentEl.textContent = percent;
+  }
+  if (dailyReturnDisplay) {
+    if (percent > 0) {
+      dailyReturnDisplay.className = 'daily-perf positive';
+      dailyReturnDisplay.style.color = '#2D7D5A';
+    } else {
+      dailyReturnDisplay.className = 'daily-perf neutral';
+      dailyReturnDisplay.style.color = '#5A5A4A';
+    }
+  }
+}
+
+// ================================================================
 // AFFICHER LES DONNÉES - RAPIDE
 // ================================================================
 function updateUI(data) {
@@ -1035,10 +1071,8 @@ function updateUI(data) {
   var prenom = data.prenom || '';
   var displayName = prenom || 'Investisseur';
   
-  // Header
   userNameEl.textContent = displayName;
   
-  // Avatar
   if (data.avatarBase64) {
     userAvatarEl.style.backgroundImage = 'url(' + data.avatarBase64 + ')';
     userAvatarEl.style.backgroundSize = 'cover';
@@ -1062,7 +1096,6 @@ function updateUI(data) {
   menuUsername.textContent = displayName;
   menuUseremail.textContent = data.email || 'email@email.com';
   
-  // Stats
   var balance = data.balance || 0;
   statBalanceEl.innerHTML = formatCurrency(balance);
   
@@ -1074,30 +1107,30 @@ function updateUI(data) {
   
   statReferralsEl.innerHTML = data.referralsCount || 0;
   
-  // Performance quotidienne
-  calculateDailyPerformance();
+  // ✅ AFFICHAGE IMMÉDIAT DU POURCENTAGE (CACHE)
+  const cachedPercent = getCachedPerformance();
+  if (cachedPercent !== null) {
+    updatePerformanceDisplay(cachedPercent);
+  }
   
-  // Admin button
   checkAdminButton(currentUser);
-  
-  // Cache
   localStorage.setItem('ARVEXA_user_data', JSON.stringify(data));
-  
-  // Masquer l'écran de chargement
   hideLoadingScreen();
 }
 
 // ================================================================
-// CALCUL DE LA PERFORMANCE QUOTIDIENNE - AVEC DÉFIS
+// CALCUL DE LA PERFORMANCE QUOTIDIENNE - AVEC CACHE
 // ================================================================
 async function calculateDailyPerformance() {
   if (!currentUser) return;
 
+  // ✅ 1. AFFICHAGE IMMÉDIAT DEPUIS LE CACHE (déjà fait dans updateUI)
+  // ✅ 2. MISE À JOUR EN ARRIÈRE-PLAN
   try {
     const today = new Date().toISOString().split('T')[0];
     let totalGains = 0;
 
-    // ✅ 1. Gains de parrainage (depuis la collection 'gains')
+    // 1. Gains de parrainage (depuis la collection 'gains')
     const gainsQuery = query(
       collection(db, 'gains'),
       where('userId', '==', currentUser.uid),
@@ -1108,14 +1141,13 @@ async function calculateDailyPerformance() {
       totalGains += doc.data().montant || 0;
     });
 
-    // ✅ 2. Gains des défis (depuis le champ defisHebdo dans users)
+    // 2. Gains des défis (depuis defisHebdo)
     const userRef = doc(db, 'users', currentUser.uid);
     const userSnap = await getDoc(userRef);
     if (userSnap.exists()) {
       const userData = userSnap.data();
       const defisHebdo = userData.defisHebdo || {};
       
-      // Parcourir tous les défis et additionner les gains du jour
       Object.values(defisHebdo).forEach(defi => {
         if (defi.fait && defi.date) {
           const defiDate = new Date(defi.date).toISOString().split('T')[0];
@@ -1126,7 +1158,7 @@ async function calculateDailyPerformance() {
       });
     }
 
-    // ✅ 3. Gains des ventes
+    // 3. Gains des ventes
     const ventesQuery = query(
       collection(db, 'ventes'),
       where('userId', '==', currentUser.uid),
@@ -1137,41 +1169,40 @@ async function calculateDailyPerformance() {
       totalGains += doc.data().montant || 0;
     });
 
-    // ✅ 4. Calcul du pourcentage (objectif 5000 FCFA)
-    const target = 5000;
-    const performance = target > 0 ? (totalGains / target) * 100 : 0;
+    // 4. Calcul de l'objectif (moyenne des 30 derniers jours)
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+    const thirtyDaysStr = thirtyDaysAgo.toISOString().split('T')[0];
+
+    const allGainsQuery = query(
+      collection(db, 'gains'),
+      where('userId', '==', currentUser.uid),
+      where('date', '>=', thirtyDaysStr)
+    );
+    const allGainsSnap = await getDocs(allGainsQuery);
+    let totalMonth = 0;
+    let daysWithGains = 0;
+    allGainsSnap.forEach(doc => {
+      totalMonth += doc.data().montant || 0;
+      daysWithGains++;
+    });
+
+    const defaultTarget = APP_CONFIG?.PERFORMANCE?.OBJECTIF_QUOTIDIEN || 5000;
+    const dailyAverage = daysWithGains > 0 ? totalMonth / daysWithGains : defaultTarget;
+    const performance = dailyAverage > 0 ? (totalGains / dailyAverage) * 100 : 0;
     const displayPercent = Math.min(Math.round(performance), 200);
 
-    // ✅ 5. Mettre à jour l'affichage
-    const dailyPercentEl = document.getElementById('dailyPercent');
-    const dailyReturnDisplay = document.getElementById('dailyReturnDisplay');
-    
-    if (dailyPercentEl) {
-      dailyPercentEl.textContent = displayPercent;
-    }
-    
-    if (dailyReturnDisplay) {
-      if (displayPercent > 0) {
-        dailyReturnDisplay.className = 'daily-perf positive';
-        dailyReturnDisplay.style.color = '#2D7D5A';
-      } else {
-        dailyReturnDisplay.className = 'daily-perf neutral';
-        dailyReturnDisplay.style.color = '#5A5A4A';
-      }
-    }
+    // ✅ 3. MISE À JOUR DU CACHE
+    setCachedPerformance(displayPercent);
 
-    console.debug('📊 Performance du jour:', {
-      totalGains,
-      target,
-      performance: displayPercent + '%'
-    });
+    // ✅ 4. MISE À JOUR DE L'AFFICHAGE
+    updatePerformanceDisplay(displayPercent);
+
+    console.debug('📊 Performance mise à jour:', displayPercent + '%');
 
   } catch (error) {
     console.warn('Erreur calcul performance:', error);
-    const dailyPercentEl = document.getElementById('dailyPercent');
-    if (dailyPercentEl) {
-      dailyPercentEl.textContent = '0';
-    }
+    // ✅ Garde la valeur du cache
   }
 }
 
@@ -1245,7 +1276,7 @@ function loadActualites() {
 }
 
 // ================================================================
-// MENU SWIPE
+// MENU SWIPE - CORRIGÉ
 // ================================================================
 var touchStartX = 0, touchStartY = 0, isMenuOpen = false;
 var SWIPE_THRESHOLD = 30;
@@ -1268,12 +1299,14 @@ document.addEventListener('touchmove', function(e) {
   
   if (Math.abs(deltaY) > Math.abs(deltaX) * 1.2) return;
   
-  if (touchStartX < EDGE_THRESHOLD && deltaX > SWIPE_THRESHOLD && !isMenuOpen) {
+  // ✅ CORRECTION : Ouvrir en glissant de droite à gauche
+  if (touchStartX > window.innerWidth - EDGE_THRESHOLD && deltaX < -SWIPE_THRESHOLD && !isMenuOpen) {
     e.preventDefault();
     openMenu();
   }
   
-  if (isMenuOpen && deltaX < -SWIPE_THRESHOLD) {
+  // ✅ CORRECTION : Fermer en glissant de gauche à droite
+  if (isMenuOpen && deltaX > SWIPE_THRESHOLD) {
     e.preventDefault();
     closeMenu();
   }
@@ -1343,64 +1376,6 @@ function hideLoadingScreen() {
 }
 
 // ================================================================
-// FORCE CHECK GAINS
-// ================================================================
-async function forceCheckAndCreditGains() {
-  if (!currentUser || !userData) return false;
-  if (!userData.investments || userData.investments.length === 0) return false;
-  
-  var activeInvests = userData.investments.filter(function(i) { return i.status === 'active'; });
-  if (activeInvests.length === 0) return false;
-  
-  try {
-    var userRef = doc(db, "users", currentUser.uid);
-    var userDoc = await getDoc(userRef);
-    if (!userDoc.exists()) return false;
-    var data = userDoc.data();
-    var active = (data.investments || []).filter(function(i) { return i.status === 'active'; });
-    if (active.length === 0) return false;
-    var totalGain = 0, gainDetails = [], updated = false;
-    var now = new Date();
-    var updatedInvests = data.investments.slice();
-    for (var i = 0; i < updatedInvests.length; i++) {
-      var inv = updatedInvests[i];
-      if (inv.status === 'active') {
-        var last = new Date(inv.lastPayout || inv.createdAt || now);
-        var hours = (now - last) / (1000 * 3600);
-        if (hours >= 24) {
-          var days = Math.floor(hours / 24);
-          var remaining = inv.totalDays - inv.currentDay + 1;
-          var actual = Math.min(days, remaining);
-          if (actual > 0) {
-            var gain = inv.dailyReturn * actual;
-            totalGain += gain;
-            gainDetails.push({ pack: inv.packName || 'Investissement', gain: gain, days: actual });
-            inv.totalEarned = (inv.totalEarned || 0) + gain;
-            inv.currentDay += actual;
-            inv.lastPayout = now.toISOString();
-            updatedInvests[i] = inv;
-            updated = true;
-          }
-        }
-      }
-    }
-    if (updated && totalGain > 0) {
-      var newBalance = (data.balance || 0) + totalGain;
-      await updateDoc(userRef, {
-        balance: newBalance,
-        gainsTotal: (data.gainsTotal || 0) + totalGain,
-        investments: updatedInvests,
-        lastGainDate: now.toISOString()
-      });
-      var detailText = gainDetails.map(function(d) { return d.pack + ': +' + d.gain.toLocaleString('fr-FR') + ' FCFA'; }).join(', ');
-      showGainNotification('💰 Gains quotidiens', (detailText || '+' + totalGain.toLocaleString('fr-FR') + ' FCFA') + ' ajoutés à votre solde !');
-      return true;
-    }
-    return false;
-  } catch (error) { console.warn("Erreur gains:", error); return false; }
-}
-
-// ================================================================
 // CHARGER LES STATISTIQUES DES DÉFIS
 // ================================================================
 function loadDefisStats(uid) {
@@ -1441,7 +1416,7 @@ function listenToUser(uid) {
 // ================================================================
 window.addEventListener('pageshow', function(event) {
   if (event.persisted) {
-    console.log('📱 Page chargée depuis le cache');
+    console.debug('📱 Page chargée depuis le cache');
     var cachedUser = localStorage.getItem('ARVEXA_current_user');
     var cachedData = localStorage.getItem('ARVEXA_user_data');
     
@@ -1449,7 +1424,7 @@ window.addEventListener('pageshow', function(event) {
       try {
         var data = JSON.parse(cachedData);
         updateUI(data);
-        console.log('✅ Données chargées depuis localStorage');
+        console.debug('✅ Données chargées depuis localStorage');
         hideLoadingScreen();
       } catch(e) {}
     }
@@ -1461,7 +1436,6 @@ window.addEventListener('pageshow', function(event) {
 // ================================================================
 var sessionUid = sessionStorage.getItem('session_uid');
 
-// ✅ CHARGEMENT RAPIDE : D'abord le cache, puis Firebase
 function loadFromCache() {
   var cachedData = localStorage.getItem('ARVEXA_user_data');
   if (cachedData) {
@@ -1469,8 +1443,14 @@ function loadFromCache() {
       var data = JSON.parse(cachedData);
       userData = data;
       updateUI(data);
-      console.log('✅ Affichage rapide depuis le cache');
+      console.debug('✅ Affichage rapide depuis le cache');
       hideLoadingScreen();
+      
+      // ✅ Afficher le pourcentage depuis le cache
+      const cachedPercent = getCachedPerformance();
+      if (cachedPercent !== null) {
+        updatePerformanceDisplay(cachedPercent);
+      }
       return true;
     } catch(e) {}
   }
@@ -1483,16 +1463,14 @@ onAuthStateChanged(auth, async function(user) {
     currentUser = user;
     localStorage.setItem('ARVEXA_current_user', user.uid);
     
-    // Chargement rapide depuis le cache
     var cachedLoaded = loadFromCache();
     
-    // Si session déjà validée, chargement rapide
     if (sessionUid === user.uid) {
-      console.log("✅ Session déjà validée, chargement rapide");
+      console.debug("✅ Session déjà validée, chargement rapide");
       listenToUser(user.uid);
       loadActualites();
       loadDefisStats(user.uid);
-      setTimeout(function() { forceCheckAndCreditGains(); }, 2000);
+      setTimeout(function() { calculateDailyPerformance(); }, 2000);
       isPageLoading = false;
       return;
     }
@@ -1519,27 +1497,24 @@ onAuthStateChanged(auth, async function(user) {
       
       sessionStorage.setItem('session_uid', user.uid);
       
-      // Mise à jour avec les données fraîches
       updateUI(userData);
       listenToUser(user.uid);
       loadActualites();
       loadDefisStats(user.uid);
-      setTimeout(function() { forceCheckAndCreditGains(); }, 2000);
+      setTimeout(function() { calculateDailyPerformance(); }, 2000);
       isPageLoading = false;
       
     } catch (error) {
       console.warn('Erreur Firestore:', error);
-      // Déjà affiché depuis le cache, on continue
       loadActualites();
       isPageLoading = false;
     }
     
-    // Masquer l'écran de chargement si pas déjà fait
     setTimeout(hideLoadingScreen, 2000);
     
   } else {
     if (isPageLoading) {
-      console.log("⏳ Page en chargement, attente avant redirection...");
+      console.debug("⏳ Page en chargement, attente avant redirection...");
       setTimeout(function() {
         if (!auth.currentUser) {
           var savedUid = localStorage.getItem('ARVEXA_current_user');
@@ -1573,10 +1548,11 @@ onAuthStateChanged(auth, async function(user) {
 document.getElementById('userProfileBtn').addEventListener('click', function(e) { e.preventDefault(); window.location.href = 'profil.html'; });
 document.getElementById('logoLink').addEventListener('click', function(e) { e.preventDefault(); window.location.href = 'index.html'; });
 
-console.log("🚀 ARVEXA - Page d'accueil ULTRA-RAPIDE");
-console.log("✅ Chargement < 3 secondes avec cache prioritaire");
-console.log("✅ Performance quotidienne calculée en temps réel");
-console.log("✅ Menu SVG corrigé (plus de 4 tirets)");
+console.debug("🚀 ARVEXA - Page d'accueil optimisée (v3.0)");
+console.debug("✅ Swipe menu corrigé (droite→gauche pour ouvrir)");
+console.debug("✅ Performance avec cache (affichage immédiat)");
+console.debug("✅ Mise à jour en arrière-plan");
+console.debug("✅ Défilement fluide");
 </script>
 </body>
 </html>

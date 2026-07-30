@@ -589,20 +589,6 @@
 </script>
 
 <script type="module">
-<!-- ================================================================ -->
-<!-- IMPORTS -->
-<!-- ================================================================ -->
-<script type="importmap">
-{
-  "imports": {
-    "firebase/app": "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js",
-    "firebase/auth": "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js",
-    "firebase/firestore": "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js"
-  }
-}
-</script>
-
-<script type="module">
 // ================================================================
 // IMPORTS
 // ================================================================
@@ -668,7 +654,7 @@ let isPageLoading = true;
 // ================================================================
 // GESTION DU CACHE
 // ================================================================
-function getCachedUserData() {
+function getCachedUserDataActivite() {
   try {
     const cached = localStorage.getItem('ARVEXA_user_data');
     const timestamp = localStorage.getItem('ARVEXA_user_data_timestamp');
@@ -681,13 +667,13 @@ function getCachedUserData() {
   } catch(e) { return null; }
 }
 
-function setCachedUserData(data) {
+function setCachedUserDataActivite(data) {
   localStorage.setItem('ARVEXA_user_data', JSON.stringify(data));
   localStorage.setItem('ARVEXA_user_data_timestamp', String(Date.now()));
 }
 
-function loadFromCache() {
-  const cached = getCachedUserData();
+function loadFromCacheActivite() {
+  const cached = getCachedUserDataActivite();
   if (cached) {
     userData = cached;
     updateStats(cached);
@@ -789,7 +775,6 @@ function drawGainChart(gains) {
   const barWidth = Math.min(chartWidth / gains.length * 0.5, 25);
   const gap = chartWidth / gains.length;
 
-  // Couleurs dégradées
   const colors = ['#2D7D5A', '#4A7A6A', '#B8860B', '#6366F1', '#D4A017'];
 
   gains.forEach((value, index) => {
@@ -844,7 +829,6 @@ function drawDepotRetraitChart(depots, retraits) {
   const chartHeight = height - padding.top - padding.bottom;
   const maxVal = Math.max(depots, retraits, 1);
   
-  // Dépôts (bleu)
   const barWidth = chartWidth * 0.25;
   const gap = chartWidth * 0.2;
   const center = width / 2;
@@ -852,7 +836,7 @@ function drawDepotRetraitChart(depots, retraits) {
   const depotHeight = (depots / maxVal) * chartHeight;
   const retraitHeight = (retraits / maxVal) * chartHeight;
   
-  // Dépôts
+  // Dépôts (bleu)
   const x1 = center - gap - barWidth;
   const y1 = padding.top + chartHeight - depotHeight;
   const grad1 = ctx.createLinearGradient(x1, y1, x1, padding.top + chartHeight);
@@ -863,7 +847,7 @@ function drawDepotRetraitChart(depots, retraits) {
   ctx.roundRect(x1, y1, barWidth, depotHeight, 4);
   ctx.fill();
   
-  // Retraits
+  // Retraits (rouge)
   const x2 = center + gap;
   const y2 = padding.top + chartHeight - retraitHeight;
   const grad2 = ctx.createLinearGradient(x2, y2, x2, padding.top + chartHeight);
@@ -913,7 +897,6 @@ function drawRepartitionChart(parrainage, defis, ventes, likes) {
     { value: likes, color: '#D4A017', label: 'Likes forum' }
   ].filter(d => d.value > 0);
 
-  // Dessiner en barres horizontales
   const padding = { top: 10, bottom: 10, left: 80, right: 20 };
   const chartWidth = width - padding.left - padding.right;
   const chartHeight = height - padding.top - padding.bottom;
@@ -1024,7 +1007,6 @@ function loadActivitiesRealtime(userId) {
                collectionName === 'ventes' ? 'vente' :
                collectionName === 'gains' ? (data.type || 'gain') : 'gain';
     
-    // Pour les gains, utiliser le type spécifique
     if (collectionName === 'gains' && data.type) {
       type = data.type;
     }
@@ -1134,7 +1116,6 @@ function updateCharts() {
   });
   drawRepartitionChart(parrainage, defis, ventes, likes);
 
-  // Mettre à jour les stats
   if (userData) {
     updateStats(userData);
   }
@@ -1162,7 +1143,7 @@ async function loadUserData(uid) {
     if (docSnap.exists()) {
       userData = docSnap.data();
       updateStats(userData);
-      setCachedUserData(userData);
+      setCachedUserDataActivite(userData);
       return userData;
     }
     return null;
@@ -1178,7 +1159,7 @@ async function loadUserData(uid) {
 let authChecked = false;
 let sessionUid = sessionStorage.getItem('session_uid');
 
-loadFromCache();
+loadFromCacheActivite();
 
 onAuthStateChanged(auth, (user) => {
   if (user) {
@@ -1234,7 +1215,7 @@ onAuthStateChanged(auth, (user) => {
 window.addEventListener('pageshow', (event) => {
   if (event.persisted) {
     console.debug('📱 Page activité chargée depuis le cache');
-    loadFromCache();
+    loadFromCacheActivite();
     if (userData) {
       updateStats(userData);
       updateCharts();
@@ -1243,10 +1224,11 @@ window.addEventListener('pageshow', (event) => {
   }
 });
 
-console.debug('📊 ARVEXA - Page Activité nouvelle génération (v3.0)');
-console.debug('✅ 3 graphiques : évolution, dépôts/retraits, répartition');
-console.debug('✅ Couleurs : Bleu = dépôts, Rouge = retraits');
-console.debug('✅ Toutes les sources de revenus (parrainage, défis, ventes, likes)');
+console.debug('📊 ARVEXA - Page Activité corrigée (v4.0)');
+console.debug('✅ Cache prioritaire pour chargement < 2 secondes');
+console.debug('✅ Toutes les sources de revenus affichées (parrainage, défis, ventes, likes)');
+console.debug('✅ Graphiques mis à jour avec toutes les sources');
+console.debug('✅ Cloche de notification supprimée');
 </script>
 </body>
 </html>
