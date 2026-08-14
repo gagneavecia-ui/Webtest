@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <meta name="theme-color" content="#0A0A0A">
+  <meta name="description" content="ARVEXA - Cours BAC">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon.png">
+  <link rel="icon" href="icon.png" type="image/png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <title>ARVEXA · Cours</title>
+
+  <style>
+    /* ============================================================
+       ROOT — design system ARVEXA
+       ============================================================ */
+    :root {
+      --primary: #1A3A2A;
+      --primary-dark: #0A1A12;
+      --primary-light: #2A5A3A;
+      --accent: #B8860B;
+      --accent-dim: rgba(184, 134, 11, 0.08);
+      --success: #2D7D5A;
+      --danger: #8B3A3A;
+      --bg-dark: #0A0A0A;
+      --bg-surface: #141414;
+      --bg-card: rgba(20, 20, 20, 0.7);
+      --text-light: #F5F0E8;
+      --text-dim: #8A8A7A;
+      --text-muted: #5A5A4A;
+      --card-border: rgba(184, 134, 11, 0.06);
+      --glass-bg: rgba(26, 58, 42, 0.15);
+      --glass-border: rgba(184, 134, 11, 0.04);
+      --transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+      --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      --radius: 16px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html { scroll-behavior: smooth; -webkit-overflow-scrolling: touch; }
+    body {
+      font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-light);
+      font-size: 14px;
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
+      touch-action: pan-y;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 40px;
+    }
+
+    .gradient-bg {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
+      background: radial-gradient(ellipse 40% 30% at 30% 20%, rgba(26,58,42,0.12) 0%, transparent 70%),
+                  radial-gradient(ellipse 30% 20% at 70% 80%, rgba(184,134,11,0.02) 0%, transparent 60%),
+                  linear-gradient(180deg, #0A0A0A 0%, #060606 100%);
+    }
+    .glow { position: fixed; border-radius: 50%; filter: blur(80px); pointer-events: none; z-index: -1; opacity: 0.15; animation: glowMove 10s ease-in-out infinite alternate; }
+    .glow-1 { width: 350px; height: 350px; background: rgba(26,58,42,0.15); top: -80px; right: -80px; }
+    .glow-2 { width: 200px; height: 200px; background: rgba(184,134,11,0.03); bottom: 0; left: 0; animation-delay: -4s; }
+    @keyframes glowMove { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(30px,-20px) scale(1.1); } }
+
+    /* ============================================================
+       HEADER
+       ============================================================ */
+    .header {
+      display: flex; align-items: center; gap: 14px;
+      padding: 14px 5%; background: rgba(10,10,10,0.95); backdrop-filter: blur(12px);
+      position: sticky; top: 0; z-index: 100; border-bottom: 1px solid rgba(184,134,11,0.04);
+    }
+    .back-btn {
+      width: 34px; height: 34px; flex-shrink: 0; background: var(--glass-bg); border: 1px solid var(--glass-border);
+      border-radius: 10px; display: flex; align-items: center; justify-content: center;
+      color: var(--text-dim); text-decoration: none; transition: var(--transition); font-size: 14px;
+    }
+    .back-btn:active { transform: scale(0.92); }
+    .back-btn:hover { border-color: rgba(184,134,11,0.12); color: var(--text-light); }
+
+    .header-title {
+      flex: 1; font-size: 18px; font-weight: 700; font-family: 'Playfair Display', serif;
+      letter-spacing: 1px; color: var(--text-light); display: flex; align-items: center; gap: 8px;
+    }
+    .header-title span { color: var(--accent); font-style: italic; }
+
+    /* ============================================================
+       CONTAINER
+       ============================================================ */
+    .container { max-width: 600px; margin: 0 auto; padding: 16px 16px 40px; }
+
+    /* ============================================================
+       SECTION
+       ============================================================ */
+    .section-title {
+      font-size: 16px; font-weight: 600; font-family: 'Playfair Display', serif;
+      color: var(--text-light); margin-bottom: 14px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .section-title span { color: var(--accent); font-style: italic; }
+
+    /* ============================================================
+       CHAPITRE CARD
+       ============================================================ */
+    .chapitre-card {
+      background: var(--bg-card); backdrop-filter: blur(10px);
+      border: 1px solid var(--card-border); border-radius: var(--radius);
+      padding: 16px 18px; margin-bottom: 12px;
+      transition: var(--transition);
+      animation: fadeInUp 0.4s ease-out;
+    }
+    .chapitre-card:active { transform: scale(0.98); }
+    .chapitre-card:hover { border-color: rgba(184,134,11,0.1); }
+
+    .chapitre-titre {
+      font-size: 14px; font-weight: 600; color: var(--text-light);
+      margin-bottom: 10px;
+    }
+    .chapitre-num {
+      font-size: 10px; color: var(--text-muted); font-weight: 500;
+      background: rgba(184,134,11,0.04); padding: 2px 10px; border-radius: 12px;
+      display: inline-block;
+      margin-right: 8px;
+    }
+
+    .chapitre-actions {
+      display: flex; gap: 8px; flex-wrap: wrap;
+    }
+    .chapitre-btn {
+      flex: 1; min-width: 80px;
+      padding: 8px 12px; border: none; border-radius: 10px;
+      font-size: 11px; font-weight: 600; cursor: pointer; transition: var(--transition);
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      font-family: 'Inter', sans-serif; text-decoration: none;
+    }
+    .chapitre-btn:active { transform: scale(0.94); }
+
+    .chapitre-btn.cours {
+      background: rgba(184,134,11,0.08); color: var(--accent);
+      border: 1px solid rgba(184,134,11,0.06);
+    }
+    .chapitre-btn.cours:hover { background: rgba(184,134,11,0.15); }
+
+    .chapitre-btn.exercices {
+      background: rgba(26,58,42,0.12); color: #4A9A7A;
+      border: 1px solid rgba(26,58,42,0.06);
+    }
+    .chapitre-btn.exercices:hover { background: rgba(26,58,42,0.20); }
+
+    .chapitre-btn.correction {
+      background: rgba(138,58,58,0.08); color: #9A5A5A;
+      border: 1px solid rgba(138,58,58,0.06);
+    }
+    .chapitre-btn.correction:hover { background: rgba(138,58,58,0.14); }
+
+    /* ============================================================
+       EMPTY STATE
+       ============================================================ */
+    .empty-state { text-align: center; padding: 30px 20px; color: var(--text-muted); }
+    .empty-state i { font-size: 32px; opacity: 0.2; display: block; margin-bottom: 10px; }
+    .empty-state p { font-size: 13px; }
+
+    /* ============================================================
+       TOAST
+       ============================================================ */
+    .toast {
+      position: fixed; bottom: 80px; left: 50%;
+      transform: translateX(-50%) translateY(120px);
+      max-width: 90%; width: 400px; padding: 12px 18px; border-radius: 14px;
+      font-size: 13px; font-weight: 500;
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
+      z-index: 9999; text-align: center; box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      pointer-events: auto; cursor: pointer; opacity: 0; visibility: hidden;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; visibility: visible; }
+    .toast.hide { transform: translateX(-50%) translateY(120px); opacity: 0; visibility: hidden; }
+    .toast.success { background: #0D2A1F; border: 1px solid #2D7D5A; color: #2D7D5A; }
+    .toast.error { background: #2A0D0D; border: 1px solid #8A3A3A; color: #8A3A3A; }
+    .toast.warning { background: #2A1A0D; border: 1px solid #B8860B; color: #B8860B; }
+    .toast.info { background: #0D1A2A; border: 1px solid #4A7A8A; color: #4A7A8A; }
+
+    /* ============================================================
+       ANIMATIONS
+       ============================================================ */
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 480px) {
+      .header { padding: 10px 4%; }
+      .header-title { font-size: 16px; }
+      .chapitre-actions { gap: 6px; }
+      .chapitre-btn { font-size: 10px; padding: 6px 8px; min-width: 60px; }
+      .chapitre-card { padding: 14px; }
+    }
+    @media (min-width: 768px) {
+      .container { padding: 20px 24px; }
+      .chapitre-actions { gap: 10px; }
+      .chapitre-btn { font-size: 12px; padding: 10px 18px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="gradient-bg"></div>
+  <div class="glow glow-1"></div>
+  <div class="glow glow-2"></div>
+
+  <!-- HEADER -->
+  <div class="header">
+    <a href="bac.html" class="back-btn" aria-label="Retour"><i class="fas fa-arrow-left"></i></a>
+    <div class="header-title" id="matiereTitle">
+      <span id="matiereIcon">📐</span>
+      <span id="matiereNom">Chargement...</span>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <!-- CHAPITRES -->
+    <div class="section-title">📚 <span>Chapitres</span></div>
+    <div id="chapitresList">
+      <!-- Généré par JavaScript -->
+    </div>
+
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
+
+  <!-- ================================================================ -->
+  <!-- SCRIPTS -->
+  <!-- ================================================================ -->
+  <script type="importmap">
+  {
+    "imports": {
+      "firebase/app": "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js",
+      "firebase/auth": "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js",
+      "firebase/firestore": "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js"
+    }
+  }
+  </script>
+
+ <script type="module">
+    // ================================================================
+    // IMPORTS
+    // ================================================================
+    import { initializeApp } from "firebase/app";
+    import { getAuth, onAuthStateChanged, setPersistence, browserLocalPersistence } from "firebase/auth";
+    import { getFirestore, doc, onSnapshot } from "firebase/firestore";
+
+    // ================================================================
+    // FIREBASE CONFIG
+    // ================================================================
+    const firebaseConfig = {
+      apiKey: "AIzaSyBEbYuuUlNCLMBUHClv4UnyownNHw2q3_g",
+      authDomain: "nexgen-39043.firebaseapp.com",
+      projectId: "nexgen-39043",
+      storageBucket: "nexgen-39043.firebasestorage.app",
+      messagingSenderId: "619390144325",
+      appId: "1:619390144325:web:35d96b125501e4e8b1782c",
+      measurementId: "G-HC2Q5DNKDR"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    setPersistence(auth, browserLocalPersistence);
+
+    // ================================================================
+    // MAPPING DES IDS
+    // ================================================================
+    const MATIERE_MAP = {
+      'physique-chimie': 'physique',
+      'physique': 'physique',
+      'pc': 'physique',
+      'maths': 'maths',
+      'mathematiques': 'maths',
+      'svt': 'svt',
+      'francais': 'francais',
+      'français': 'francais',
+      'chimie': 'chimie'
+    };
+
+    // ================================================================
+    // DONNÉES PAR DÉFAUT — COMPLÈTES
+    // ================================================================
+    const DEFAULT_DATA = {
+      // ===== MATHÉMATIQUES =====
+      maths: {
+        nom: "Mathématiques",
+        icone: "📐",
+        id: "maths",
+        chapitres: [
+          { id: 1, titre: "Nombres complexes" },
+          { id: 2, titre: "Calcul de probabilités - Variable aléatoire" },
+          { id: 3, titre: "Fonction logarithme" },
+          { id: 4, titre: "Fonction exponentielle" },
+          { id: 5, titre: "Étude des fonctions numériques" },
+          { id: 6, titre: "Calcul intégral" },
+          { id: 7, titre: "Suites numériques" },
+          { id: 8, titre: "Équations différentielles" }
+        ]
+      },
+      // ===== PHYSIQUE =====
+      physique: {
+        nom: "Physique",
+        icone: "⚛️",
+        id: "physique",
+        chapitres: [
+          // Mécanique
+          { id: 1, titre: "Cinématique" },
+          { id: 2, titre: "Mouvement du centre d'inertie" },
+          { id: 3, titre: "Mouvement dans le champ de pesanteur" },
+          { id: 4, titre: "Mouvement de particules chargées" },
+          { id: 5, titre: "Oscillateurs mécaniques de translation" },
+          // Vibration et propagation
+          { id: 6, titre: "Généralités sur les vibrations" },
+          { id: 7, titre: "Propagation d'un phénomène vibratoire" },
+          { id: 8, titre: "Superposition de phénomènes vibratoires" },
+          { id: 9, titre: "Interférences d'ondes lumineuses" },
+          // Électromagnétisme
+          { id: 10, titre: "Champ magnétique" },
+          { id: 11, titre: "Force de Lorentz" },
+          { id: 12, titre: "Force de Laplace" },
+          { id: 13, titre: "Induction électromagnétique" },
+          { id: 14, titre: "Auto-Induction" },
+          // Oscillations électriques
+          { id: 15, titre: "Circuit oscillant LC" },
+          { id: 16, titre: "Circuit en régime sinusoïdal forcé" },
+          // Radioactivité
+          { id: 17, titre: "Radioactivité" },
+          // Sujets BAC
+          { id: 18, titre: "Sujets BAC 2010-2020" }
+        ]
+      },
+      // ===== CHIMIE =====
+      chimie: {
+        nom: "Chimie",
+        icone: "🧪",
+        id: "chimie",
+        chapitres: [
+          // Chimie générale
+          { id: 1, titre: "Solutions aqueuses" },
+          { id: 2, titre: "Solutions aqueuses d'acide chlorhydrique et d'hydroxyde de sodium" },
+          { id: 3, titre: "Couples acide / base" },
+          { id: 4, titre: "Réaction acide - base" },
+          { id: 5, titre: "Solution tampon" },
+          // Chimie organique
+          { id: 6, titre: "Alcools" },
+          { id: 7, titre: "Acides carboxyliques" },
+          { id: 8, titre: "Amines" },
+          { id: 9, titre: "Acides α aminés" }
+        ]
+      },
+      // ===== SVT =====
+      svt: {
+        nom: "SVT",
+        icone: "🧬",
+        id: "svt",
+        chapitres: [
+          { id: 1, titre: "Génétique" },
+          { id: 2, titre: "Évolution" },
+          { id: 3, titre: "Immunologie" },
+          { id: 4, titre: "Neurobiologie" },
+          { id: 5, titre: "Écologie" },
+          { id: 6, titre: "Biologie cellulaire" }
+        ]
+      },
+      // ===== FRANÇAIS =====
+      francais: {
+        nom: "Français",
+        icone: "📖",
+        id: "francais",
+        chapitres: [
+          { id: 1, titre: "Poésie" },
+          { id: 2, titre: "Roman" },
+          { id: 3, titre: "Théâtre" },
+          { id: 4, titre: "Argumentation" },
+          { id: 5, titre: "Littérature d'idées" },
+          { id: 6, titre: "Méthodologie de la dissertation" }
+        ]
+      }
+    };
+
+    // ================================================================
+    // DOM
+    // ================================================================
+    const matiereIcon = document.getElementById('matiereIcon');
+    const matiereNom = document.getElementById('matiereNom');
+    const chapitresList = document.getElementById('chapitresList');
+    const toast = document.getElementById('toast');
+
+    let currentUser = null;
+    let toastTimer = null;
+    let unsubscribeMatiere = null;
+
+    // ================================================================
+    // TOAST
+    // ================================================================
+    function showToast(message, type = 'info') {
+      if (toastTimer) { clearTimeout(toastTimer); toastTimer = null; }
+      toast.classList.remove('show', 'hide');
+      void toast.offsetWidth;
+      toast.textContent = message;
+      toast.className = 'toast ' + type;
+      requestAnimationFrame(() => toast.classList.add('show'));
+      toastTimer = setTimeout(() => {
+        toast.classList.remove('show');
+        toast.classList.add('hide');
+        toastTimer = null;
+      }, 3500);
+      toast.onclick = () => {
+        if (toastTimer) { clearTimeout(toastTimer); toastTimer = null; }
+        toast.classList.remove('show');
+        toast.classList.add('hide');
+      };
+    }
+
+    // ================================================================
+    // RENDRE LES CHAPITRES
+    // ================================================================
+    function renderChapitres(data) {
+      const chapitres = data.chapitres || [];
+
+      if (chapitres.length === 0) {
+        chapitresList.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-book-open"></i>
+            <p>Aucun chapitre disponible pour le moment</p>
+          </div>
+        `;
+        return;
+      }
+
+      let html = '';
+      chapitres.forEach((chap) => {
+        const basePath = `chapitres/bac/${data.id}/`;
+        html += `
+          <div class="chapitre-card">
+            <div class="chapitre-titre">
+              <span class="chapitre-num">Chapitre ${chap.id}</span>
+              ${chap.titre}
+            </div>
+            <div class="chapitre-actions">
+              <a href="${basePath}chapitre_${chap.id}.html" class="chapitre-btn cours">
+                <i class="fas fa-book"></i> Cours
+              </a>
+              <a href="${basePath}exercices_${chap.id}.html" class="chapitre-btn exercices">
+                <i class="fas fa-pen"></i> Exercices
+              </a>
+              <a href="${basePath}correction_${chap.id}.html" class="chapitre-btn correction">
+                <i class="fas fa-check-circle"></i> Correction
+              </a>
+            </div>
+          </div>
+        `;
+      });
+
+      chapitresList.innerHTML = html;
+    }
+
+    // ================================================================
+    // CHARGER LA MATIÈRE
+    // ================================================================
+    function loadMatiere(rawId) {
+      const matiereId = MATIERE_MAP[rawId] || rawId;
+
+      if (unsubscribeMatiere) {
+        unsubscribeMatiere();
+        unsubscribeMatiere = null;
+      }
+
+      const matiereRef = doc(db, 'cours_bac', matiereId);
+
+      unsubscribeMatiere = onSnapshot(matiereRef, (snap) => {
+        if (snap.exists()) {
+          const data = snap.data();
+          data.id = matiereId;
+          matiereIcon.textContent = data.icone || '📚';
+          matiereNom.textContent = data.nom || matiereId;
+          renderChapitres(data);
+        } else {
+          const defaultData = DEFAULT_DATA[matiereId];
+          if (defaultData) {
+            matiereIcon.textContent = defaultData.icone || '📚';
+            matiereNom.textContent = defaultData.nom || matiereId;
+            renderChapitres(defaultData);
+          } else {
+            showToast('⚠️ Matière introuvable', 'error');
+            setTimeout(() => { window.location.href = 'bac.html'; }, 1500);
+          }
+        }
+      }, (error) => {
+        console.warn('Erreur Firestore:', error);
+        const defaultData = DEFAULT_DATA[matiereId];
+        if (defaultData) {
+          matiereIcon.textContent = defaultData.icone || '📚';
+          matiereNom.textContent = defaultData.nom || matiereId;
+          renderChapitres(defaultData);
+        }
+      });
+    }
+
+    // ================================================================
+    // INIT
+    // ================================================================
+    function init() {
+      const params = new URLSearchParams(window.location.search);
+      const matiereId = params.get('id') || 'maths';
+
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          currentUser = user;
+          loadMatiere(matiereId);
+        } else {
+          window.location.href = 'login.html';
+        }
+      });
+    }
+
+    init();
+    console.log('📚 ARVEXA - Page matière (toutes matières)');
+  </script>
+</body>
+</html>

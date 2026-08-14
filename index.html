@@ -263,27 +263,64 @@
     .service-arrow { color: var(--text-muted); font-size: 11px; transition: var(--transition); }
     .service-item:hover .service-arrow { color: var(--accent); transform: translateX(2px); }
 
-    /* ===== ACTUALITÉS ===== */
+    /* ===== ACTUALITÉS AVEC ANIMATION FLUIDE ===== */
     .actualites-section { margin: 8px 0 24px; }
     .actu-card {
       background: rgba(20,20,20,0.4); backdrop-filter: blur(10px);
       border: 1px solid rgba(184,134,11,0.03); border-radius: 16px;
       padding: 18px 20px; transition: var(--transition); min-height: 120px;
       display: flex; flex-direction: column; justify-content: space-between;
+      position: relative;
+      overflow: hidden;
     }
     .actu-card:hover { border-color: rgba(184,134,11,0.06); background: rgba(20,20,20,0.6); }
-    .actu-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-    .actu-badge {
+    
+    /* Conteneur des slides avec animation */
+    .actu-slides-container {
+      position: relative;
+      width: 100%;
+      min-height: 80px;
+      overflow: hidden;
+    }
+    .actu-slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      opacity: 0;
+      transform: translateX(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+      pointer-events: none;
+    }
+    .actu-slide.active {
+      position: relative;
+      opacity: 1;
+      transform: translateX(0);
+      pointer-events: auto;
+    }
+    .actu-slide.exit {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+    .actu-slide .actu-card-header {
+      display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
+    }
+    .actu-slide .actu-badge {
       display: inline-block; font-size: 9px; font-weight: 600; padding: 2px 12px;
       border-radius: 20px; background: rgba(184,134,11,0.08); color: var(--accent);
       text-transform: uppercase; letter-spacing: 0.5px; flex-shrink: 0;
     }
-    .actu-badge.promotion { background: rgba(45,125,90,0.08); color: var(--success); }
-    .actu-badge.astuce { background: rgba(184,134,11,0.05); color: #D4A017; }
-    .actu-badge.update { background: rgba(26,58,42,0.15); color: #4A7A6A; }
-    .actu-date { font-size: 9px; color: var(--text-muted); opacity: 0.5; margin-left: auto; flex-shrink: 0; }
-    .actu-text { font-size: 13px; color: var(--text-light); line-height: 1.6; font-weight: 400; flex: 1; }
-    .actu-card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.03); }
+    .actu-slide .actu-badge.promotion { background: rgba(45,125,90,0.08); color: var(--success); }
+    .actu-slide .actu-badge.astuce { background: rgba(184,134,11,0.05); color: #D4A017; }
+    .actu-slide .actu-badge.update { background: rgba(26,58,42,0.15); color: #4A7A6A; }
+    .actu-slide .actu-date { font-size: 9px; color: var(--text-muted); opacity: 0.5; margin-left: auto; flex-shrink: 0; }
+    .actu-slide .actu-text { font-size: 13px; color: var(--text-light); line-height: 1.6; font-weight: 400; }
+
+    .actu-card-footer {
+      display: flex; justify-content: space-between; align-items: center; margin-top: 12px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.03);
+      position: relative;
+      z-index: 2;
+    }
     .actu-counter { font-size: 10px; color: var(--text-muted); opacity: 0.4; }
     .actu-nav-buttons { display: flex; gap: 6px; }
     .actu-nav-btn {
@@ -294,50 +331,36 @@
     .actu-nav-btn:active { transform: scale(0.92); }
     .actu-nav-btn:hover { border-color: rgba(184,134,11,0.12); color: var(--text-light); background: rgba(10,10,10,0.5); }
     .actu-nav-btn:disabled { opacity: 0.2; cursor: not-allowed; transform: none; }
+    
+    .actu-empty {
+      text-align: center; padding: 20px 0; color: var(--text-muted);
+      font-size: 13px;
+    }
+    .actu-empty i { font-size: 28px; opacity: 0.2; display: block; margin-bottom: 8px; }
 
     /* ============================================================
-       FOOTER
-       ============================================================ */
-    .footer { border-top: 1px solid rgba(184,134,11,0.03); padding: 28px 0 16px; text-align: center; margin-top: 20px; }
-    .footer-logo { font-size: 16px; font-weight: 700; font-family: 'Playfair Display', serif; letter-spacing: 2px; margin-bottom: 8px; color: var(--text-light); }
-    .footer-logo span { color: var(--accent); font-style: italic; }
-    .footer-text { color: var(--text-muted); font-size: 10px; font-weight: 300; margin-bottom: 14px; }
-    .footer-divider { width: 40px; height: 1px; background: linear-gradient(90deg, transparent, var(--accent), transparent); margin: 0 auto 14px; border-radius: 2px; opacity: 0.2; }
-    .social-links { display: flex; justify-content: center; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
-    .social-link {
-      width: 30px; height: 30px; background: var(--glass-bg); border: 1px solid var(--glass-border);
-      border-radius: 8px; display: flex; align-items: center; justify-content: center;
-      color: var(--text-muted); text-decoration: none; transition: var(--transition);
-      cursor: default; pointer-events: none;
-    }
-    .social-link:hover { color: var(--accent); border-color: rgba(184,134,11,0.06); }
-    .social-link.admin-link {
-      border-color: rgba(184,134,11,0.08); color: var(--accent); cursor: pointer; pointer-events: auto;
-      opacity: 0.4; transition: var(--transition);
-    }
-    .social-link.admin-link:hover { opacity: 1; border-color: var(--accent); transform: scale(1.05); }
-    .social-link.admin-link i { font-size: 12px; }
-    .footer-bottom { font-size: 9px; color: var(--text-muted); opacity: 0.4; font-weight: 300; }
-
-    /* ============================================================
-       MENU - SWIPE AMÉLIORÉ
+       MENU - ANIMATION FLUIDE AMÉLIORÉE
        ============================================================ */
     .menu-overlay {
       position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 2000;
-      visibility: hidden; opacity: 0; transition: opacity 0.25s ease, visibility 0.25s ease;
+      visibility: hidden; opacity: 0; transition: opacity 0.35s ease, visibility 0.35s ease;
       display: flex; touch-action: none;
     }
     .menu-overlay.active { visibility: visible; opacity: 1; }
     .menu-backdrop {
       position: absolute; top: 0; left: 0; right: 0; bottom: 0;
       background: rgba(3,3,3,0.5); backdrop-filter: blur(4px); cursor: default; touch-action: none;
+      transition: opacity 0.35s ease;
+      opacity: 0;
     }
+    .menu-overlay.active .menu-backdrop { opacity: 1; }
     .menu-sidebar {
-      margin-left: auto; width: 75%; max-width: 320px; height: 100%;
+      margin-left: auto; width: 78%; max-width: 320px; height: 100%;
       background: linear-gradient(180deg, #0A0A0A 0%, #141414 50%, #0A0A0A 100%);
       border-left: 1px solid rgba(184,134,11,0.03); padding: 20px 0;
-      transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+      transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
       display: flex; flex-direction: column; overflow-y: auto; touch-action: pan-y; will-change: transform;
+      box-shadow: -8px 0 40px rgba(0,0,0,0.3);
     }
     .menu-overlay.active .menu-sidebar { transform: translateX(0); }
     .menu-sidebar::-webkit-scrollbar { width: 2px; }
@@ -356,11 +379,21 @@
     .menu-close-btn:hover { background: rgba(184,134,11,0.04); color: var(--text-light); }
     .menu-close-btn:active { transform: scale(0.92); }
 
-    .menu-nav { flex: 1; padding: 14px 12px 20px; display: flex; flex-direction: column; gap: 2px; }
+    .menu-nav { flex: 1; padding: 12px 12px 16px; display: flex; flex-direction: column; gap: 2px; }
+    
+    .menu-section-title {
+      font-size: 9px; font-weight: 600; color: var(--text-muted); 
+      text-transform: uppercase; letter-spacing: 1.5px; 
+      padding: 8px 14px 4px; opacity: 0.4;
+      margin-top: 4px;
+    }
+    .menu-section-title:first-of-type { margin-top: 0; }
+
     .menu-link {
       display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: 10px;
       color: var(--text-dim); text-decoration: none; font-size: 13px; font-weight: 400;
-      transition: background 0.2s ease, color 0.2s ease;
+      transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+      position: relative;
     }
     .menu-link:active { transform: scale(0.96); }
     .menu-link i { width: 18px; font-size: 14px; color: var(--text-muted); transition: color 0.2s ease; }
@@ -372,7 +405,7 @@
     .menu-link.chat-link {
       border: 1px solid rgba(184,134,11,0.08);
       background: rgba(184,134,11,0.03);
-      margin-top: 4px;
+      margin-top: 2px;
     }
     .menu-link.chat-link i { color: var(--accent); }
     .menu-link.chat-link:hover { background: rgba(184,134,11,0.06); border-color: rgba(184,134,11,0.15); }
@@ -396,7 +429,7 @@
     .menu-version { text-align: center; font-size: 9px; color: var(--text-muted); opacity: 0.2; margin-top: 8px; font-weight: 300; }
 
     /* ============================================================
-       MODAL DÉCONNEXION UNIFORME
+       MODALE DÉCONNEXION - PETITE ET CENTRÉE
        ============================================================ */
     .modal-overlay-confirm {
       position: fixed;
@@ -421,8 +454,8 @@
       background: var(--bg-surface);
       border: 1px solid rgba(184, 134, 11, 0.12);
       border-radius: var(--radius);
-      padding: 32px 28px;
-      max-width: 380px;
+      padding: 24px 20px 20px;
+      max-width: 300px;
       width: 100%;
       text-align: center;
       transform: scale(0.9) translateY(20px);
@@ -434,50 +467,53 @@
     }
 
     .modal-confirm .icon {
-      font-size: 48px;
+      font-size: 32px;
       color: var(--danger);
       opacity: 0.3;
       display: block;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
     }
     .modal-confirm h3 {
-      font-size: 20px;
+      font-size: 17px;
       font-weight: 700;
       font-family: 'Playfair Display', 'Georgia', serif;
       color: var(--text-light);
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
     .modal-confirm h3 span {
       color: var(--accent);
       font-style: italic;
     }
     .modal-confirm p {
-      font-size: 14px;
+      font-size: 13px;
       color: var(--text-dim);
-      line-height: 1.6;
-      margin-bottom: 4px;
+      line-height: 1.5;
+      margin-bottom: 2px;
     }
     .modal-confirm .sub {
-      font-size: 12px;
+      font-size: 11px;
       color: var(--text-muted);
-      margin-bottom: 20px;
+      margin-bottom: 16px;
     }
     .modal-confirm .buttons {
       display: flex;
-      gap: 10px;
+      gap: 8px;
+      justify-content: center;
     }
     .modal-confirm .buttons .btn-cancel {
       flex: 1;
-      padding: 12px;
+      padding: 8px 12px;
+      max-width: 120px;
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid var(--card-border);
-      border-radius: 12px;
+      border-radius: 8px;
       color: var(--text-dim);
       font-weight: 600;
-      font-size: 14px;
+      font-size: 12px;
       cursor: pointer;
       transition: var(--transition);
       font-family: 'Inter', sans-serif;
+      text-align: center;
     }
     .modal-confirm .buttons .btn-cancel:active { transform: scale(0.96); }
     .modal-confirm .buttons .btn-cancel:hover {
@@ -486,20 +522,22 @@
     }
     .modal-confirm .buttons .btn-confirm {
       flex: 1;
-      padding: 12px;
+      padding: 8px 12px;
+      max-width: 120px;
       background: var(--danger);
       border: none;
-      border-radius: 12px;
+      border-radius: 8px;
       color: #fff;
       font-weight: 700;
-      font-size: 14px;
+      font-size: 12px;
       cursor: pointer;
       transition: var(--transition);
       font-family: 'Inter', sans-serif;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 6px;
+      text-align: center;
     }
     .modal-confirm .buttons .btn-confirm:active { transform: scale(0.96); }
     .modal-confirm .buttons .btn-confirm:hover { background: #6A2A2A; }
@@ -552,8 +590,8 @@
       .formation-horiz-img-wrap { width: 80px; min-width: 80px; }
       .logo-text { font-size: 16px; }
       .actu-card { padding: 14px 16px; }
-      .actu-text { font-size: 12px; }
-      .modal-confirm { padding: 24px 16px; }
+      .actu-slide .actu-text { font-size: 12px; }
+      .modal-confirm { padding: 20px 16px; max-width: 280px; }
     }
     @media (min-width: 768px) {
       .container { max-width: 700px; padding: 28px 24px 60px; }
@@ -588,6 +626,90 @@
       .formation-horiz-img { height: 120px; }
       .social-link { width: 34px; height: 34px; font-size: 14px; }
     }
+    
+    /* ============================================================
+   FOOTER
+   ============================================================ */
+.footer {
+  border-top: 1px solid rgba(184,134,11,0.03);
+  padding: 28px 0 16px;
+  text-align: center;
+  margin-top: 20px;
+}
+.footer-logo {
+  font-size: 16px;
+  font-weight: 700;
+  font-family: 'Playfair Display', serif;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+  color: var(--text-light);
+}
+.footer-logo span {
+  color: var(--accent);
+  font-style: italic;
+}
+.footer-text {
+  color: var(--text-muted);
+  font-size: 10px;
+  font-weight: 300;
+  margin-bottom: 14px;
+}
+.footer-divider {
+  width: 40px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  margin: 0 auto 14px;
+  border-radius: 2px;
+  opacity: 0.2;
+}
+.social-links {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.social-link {
+  width: 30px;
+  height: 30px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: var(--transition);
+  cursor: default;
+  pointer-events: none;
+}
+.social-link:hover {
+  color: var(--accent);
+  border-color: rgba(184,134,11,0.06);
+}
+.social-link.admin-link {
+  border-color: rgba(184,134,11,0.08);
+  color: var(--accent);
+  cursor: pointer;
+  pointer-events: auto;
+  opacity: 0.4;
+  transition: var(--transition);
+}
+.social-link.admin-link:hover {
+  opacity: 1;
+  border-color: var(--accent);
+  transform: scale(1.05);
+}
+.social-link.admin-link i {
+  font-size: 12px;
+}
+.footer-bottom {
+  font-size: 9px;
+  color: var(--text-muted);
+  opacity: 0.4;
+  font-weight: 300;
+}
   </style>
 </head>
 <body>
@@ -643,20 +765,40 @@
       <button class="menu-close-btn" id="menuCloseBtn"><i class="fas fa-times"></i></button>
     </div>
     <nav class="menu-nav">
-      <a href="index.html" class="menu-link active"><i class="fas fa-home"></i> Accueil</a>
-      <a href="ebooks.html" class="menu-link"><i class="fas fa-book"></i> E-books</a>
-      <a href="formations.html" class="menu-link"><i class="fas fa-graduation-cap"></i> Formations</a>
-      <a href="boutique.html" class="menu-link"><i class="fas fa-shopping-cart"></i> Achat</a>
-      <a href="epargne.html" class="menu-link"><i class="fas fa-trophy"></i> Défis</a>
-      <a href="vendre.html" class="menu-link"><i class="fas fa-store"></i> Vendre</a>
-      <a href="forum.html" class="menu-link"><i class="fas fa-comments"></i> Forum</a>
-      <a href="parrainage.html" class="menu-link"><i class="fas fa-users"></i> Parrainage</a>
+      <!-- 👤 Compte -->
+      <div class="menu-section-title">👤 Compte</div>
+      <a href="profil.html" class="menu-link"><i class="fas fa-user"></i> Mon Profil</a>
+      <a href="chat.html" class="menu-link chat-link"><i class="fas fa-robot"></i> Assistant ARVEXA</a>
+
+      <!-- 💰 Finances -->
+      <div class="menu-section-title">💰 Finances</div>
       <a href="recharger.html" class="menu-link"><i class="fas fa-plus-circle"></i> Recharger</a>
       <a href="retrait.html" class="menu-link"><i class="fas fa-arrow-down"></i> Retrait</a>
       <a href="activite.html" class="menu-link"><i class="fas fa-chart-pie"></i> Mon Activité</a>
+
+      <!-- 📚 Apprentissage -->
+      <div class="menu-section-title">📚 Apprentissage</div>
+      <a href="ebooks.html" class="menu-link"><i class="fas fa-book"></i> E-books</a>
+      <a href="formations.html" class="menu-link"><i class="fas fa-graduation-cap"></i> Formations</a>
+      <!-- 🏫 Éducation -->
+<div class="menu-section-title">🏫 Éducation</div>
+<a href="bac.html" class="menu-link edu-link"><i class="fas fa-award"></i> BAC</a>
+<a href="bepc.html" class="menu-link edu-link"><i class="fas fa-school"></i> BEPC</a>
+
+      <!-- 🛒 Services -->
+      <div class="menu-section-title">🛒 Services</div>
+      <a href="boutique.html" class="menu-link"><i class="fas fa-shopping-cart"></i> Achat</a>
+      <a href="vendre.html" class="menu-link"><i class="fas fa-store"></i> Vendre</a>
+      <a href="epargne.html" class="menu-link"><i class="fas fa-trophy"></i> Défis</a>
+
+      <!-- 💬 Communauté -->
+      <div class="menu-section-title">💬 Communauté</div>
+      <a href="forum.html" class="menu-link"><i class="fas fa-comments"></i> Forum</a>
+      <a href="parrainage.html" class="menu-link"><i class="fas fa-users"></i> Parrainage</a>
       <a href="avis.html" class="menu-link"><i class="fas fa-star"></i> Avis</a>
-      <a href="profil.html" class="menu-link"><i class="fas fa-user"></i> Mon Profil</a>
-      <a href="chat.html" class="menu-link chat-link"><i class="fas fa-robot"></i> Assistant ARVEXA</a>
+
+      <!-- ℹ️ À Propos -->
+      <div class="menu-section-title">ℹ️ Informations</div>
       <a href="about.html" class="menu-link about-link"><i class="fas fa-info-circle"></i> À Propos</a>
     </nav>
     <div class="menu-footer">
@@ -707,13 +849,13 @@
       <div class="main-stat-footer">
         <i class="fas fa-wallet"></i> Solde disponible
         <span class="daily-perf neutral" id="dailyReturnDisplay">
-          <i class="fas fa-chart-line"></i> <span id="dailyPercent">0</span>% aujourd'hui
+          <i class="fas fa-chart-line"></i> <span id="dailyPercent">0</span>%
         </span>
       </div>
     </div>
   </div>
 
-    <!-- ===== QUICK STATS ===== -->
+  <!-- ===== QUICK STATS ===== -->
   <div class="quick-stats">
     <div class="quick-stat-item">
       <div class="quick-stat-icon gold"><i class="fas fa-coins"></i></div>
@@ -821,7 +963,7 @@
     </a>
   </div>
 
-  <!-- ===== ACTUALITÉS ===== -->
+  <!-- ===== ACTUALITÉS AVEC ANIMATION FLUIDE ===== -->
   <div class="actualites-section">
     <div class="section-header">
       <div class="section-header-left">
@@ -830,15 +972,11 @@
       </div>
     </div>
     <div class="actu-card" id="actuCard">
-      <div>
-        <div class="actu-card-header">
-          <span class="actu-badge" id="actuBadge">📢 Nouveau</span>
-          <span class="actu-date" id="actuDate">Il y a 2 jours</span>
-        </div>
-        <p class="actu-text" id="actuText">Bienvenue sur ARVEXA ! Commencez votre parcours d'investissement dès aujourd'hui.</p>
+      <div class="actu-slides-container" id="actuSlidesContainer">
+        <!-- Slides générés par JS -->
       </div>
       <div class="actu-card-footer">
-        <span class="actu-counter" id="actuCounter">1 / 5</span>
+        <span class="actu-counter" id="actuCounter">1 / 1</span>
         <div class="actu-nav-buttons">
           <button class="actu-nav-btn" id="actuPrevBtn" disabled><i class="fas fa-chevron-left"></i></button>
           <button class="actu-nav-btn" id="actuNextBtn"><i class="fas fa-chevron-right"></i></button>
@@ -893,7 +1031,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
 import { 
   getFirestore, doc, getDoc, onSnapshot, updateDoc, setDoc,
-  collection, query, orderBy, where, getDocs
+  collection, query, orderBy, where, getDocs, addDoc
 } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
 
 // ================================================================
@@ -927,6 +1065,47 @@ if (typeof APP_CONFIG !== 'undefined') {
 }
 
 // ================================================================
+// ACTUALITÉS PAR DÉFAUT (créées dans Firestore si vide)
+// ================================================================
+var DEFAULT_ACTUALITES = [
+  { 
+    id: 'actu_1', 
+    badge: '📢 Bienvenue', 
+    badgeClass: '', 
+    text: 'Bienvenue sur ARVEXA ! Commencez votre parcours d\'investissement dès aujourd\'hui.', 
+    timestamp: Date.now() 
+  },
+  { 
+    id: 'actu_2', 
+    badge: '💡 Astuce', 
+    badgeClass: 'astuce', 
+    text: 'Réinvestissez vos gains mensuels pour profiter des intérêts composés et booster vos revenus.', 
+    timestamp: Date.now() - 86400000 
+  },
+  { 
+    id: 'actu_3', 
+    badge: '🎉 Promotion', 
+    badgeClass: 'promotion', 
+    text: 'Bonus de 500 FCFA offert pour tout nouveau parrainage valide jusqu\'au 31 mars 2026.', 
+    timestamp: Date.now() - 172800000 
+  },
+  { 
+    id: 'actu_4', 
+    badge: '📢 Nouveau', 
+    badgeClass: '', 
+    text: 'Nouveau plan d\'épargne "Performance" disponible à partir de 150 000 FCFA avec un rendement de 18%.', 
+    timestamp: Date.now() - 259200000 
+  },
+  { 
+    id: 'actu_5', 
+    badge: '✅ Mise à jour', 
+    badgeClass: 'update', 
+    text: 'L\'application ARVEXA est désormais plus rapide avec des temps de chargement réduits de 40%.', 
+    timestamp: Date.now() - 432000000 
+  }
+];
+
+// ================================================================
 // DOM - CACHÉ POUR PERFORMANCE
 // ================================================================
 var userNameEl = document.getElementById('userName');
@@ -947,9 +1126,7 @@ var menuUsername = document.getElementById('menuUsername');
 var menuUseremail = document.getElementById('menuUseremail');
 var menuLogoutBtn = document.getElementById('menuLogoutBtn');
 
-var actuText = document.getElementById('actuText');
-var actuBadge = document.getElementById('actuBadge');
-var actuDate = document.getElementById('actuDate');
+var actuSlidesContainer = document.getElementById('actuSlidesContainer');
 var actuCounter = document.getElementById('actuCounter');
 var actuPrevBtn = document.getElementById('actuPrevBtn');
 var actuNextBtn = document.getElementById('actuNextBtn');
@@ -970,6 +1147,10 @@ var unsubscribeUser = null;
 var unsubscribeActualites = null;
 var isPageLoading = true;
 var dataLoaded = false;
+
+var actualites = [];
+var currentActuIndex = 0;
+var actuAutoPlayInterval = null;
 
 // ================================================================
 // TOAST
@@ -1012,7 +1193,15 @@ function formatDate(dateStr) {
 }
 
 // ================================================================
-// FORMAT MONNAIE
+// FORMAT MONNAIE - COMPLET pour le solde principal
+// ================================================================
+function formatCurrencyFull(amount) {
+  if (!amount) return '0 FCFA';
+  return amount.toLocaleString('fr-FR') + ' FCFA';
+}
+
+// ================================================================
+// FORMAT MONNAIE - ABRÉGÉ pour les stats (k, M)
 // ================================================================
 function formatCurrency(amount) {
   if (!amount) return '0 FCFA';
@@ -1045,7 +1234,7 @@ function setCachedPerformance(percent) {
 }
 
 // ================================================================
-// AFFICHER LE POURCENTAGE
+// AFFICHER LE POURCENTAGE (basé sur le solde total)
 // ================================================================
 function updatePerformanceDisplay(percent) {
   if (dailyPercentEl) {
@@ -1060,6 +1249,22 @@ function updatePerformanceDisplay(percent) {
       dailyReturnDisplay.style.color = '#5A5A4A';
     }
   }
+}
+
+// ================================================================
+// CALCUL DU POURCENTAGE BASÉ SUR LE SOLDE
+// ================================================================
+function calculatePerformanceFromBalance(balance) {
+  // Si le solde est 0, on retourne 0
+  if (!balance || balance === 0) return 0;
+  
+  // On prend un objectif de base de 5000 FCFA
+  // Plus le solde est élevé, plus le pourcentage est bas
+  // Ex: 1000 FCFA = 10%, 5000 FCFA = 100%, 10000 FCFA = 200%
+  // On limite à 999%
+  const baseTarget = 5000;
+  const percent = Math.round((balance / baseTarget) * 100);
+  return Math.min(percent, 999);
 }
 
 // ================================================================
@@ -1096,9 +1301,11 @@ function updateUI(data) {
   menuUsername.textContent = displayName;
   menuUseremail.textContent = data.email || 'email@email.com';
   
+  // ✅ Solde principal : affichage COMPLET
   var balance = data.balance || 0;
-  statBalanceEl.innerHTML = formatCurrency(balance);
+  statBalanceEl.innerHTML = formatCurrencyFull(balance);
   
+  // ✅ Stats : affichage ABRÉGÉ (k, M)
   var totalRevenus = data.gainsTotal || 0;
   statRevenueEl.innerHTML = formatCurrency(totalRevenus);
   
@@ -1107,11 +1314,10 @@ function updateUI(data) {
   
   statReferralsEl.innerHTML = data.referralsCount || 0;
   
-  // ✅ AFFICHAGE IMMÉDIAT DU POURCENTAGE (CACHE)
-  const cachedPercent = getCachedPerformance();
-  if (cachedPercent !== null) {
-    updatePerformanceDisplay(cachedPercent);
-  }
+  // ✅ Pourcentage basé sur le solde
+  const perf = calculatePerformanceFromBalance(balance);
+  setCachedPerformance(perf);
+  updatePerformanceDisplay(perf);
   
   checkAdminButton(currentUser);
   localStorage.setItem('ARVEXA_user_data', JSON.stringify(data));
@@ -1119,161 +1325,211 @@ function updateUI(data) {
 }
 
 // ================================================================
-// CALCUL DE LA PERFORMANCE QUOTIDIENNE - AVEC CACHE
+// ACTUALITÉS - CRÉATION DANS FIRESTORE (one-time)
 // ================================================================
-async function calculateDailyPerformance() {
-  if (!currentUser) return;
-
-  // ✅ 1. AFFICHAGE IMMÉDIAT DEPUIS LE CACHE (déjà fait dans updateUI)
-  // ✅ 2. MISE À JOUR EN ARRIÈRE-PLAN
+async function createDefaultActualites() {
   try {
-    const today = new Date().toISOString().split('T')[0];
-    let totalGains = 0;
-
-    // 1. Gains de parrainage (depuis la collection 'gains')
-    const gainsQuery = query(
-      collection(db, 'gains'),
-      where('userId', '==', currentUser.uid),
-      where('date', '==', today)
-    );
-    const gainsSnap = await getDocs(gainsQuery);
-    gainsSnap.forEach(doc => {
-      totalGains += doc.data().montant || 0;
-    });
-
-    // 2. Gains des défis (depuis defisHebdo)
-    const userRef = doc(db, 'users', currentUser.uid);
-    const userSnap = await getDoc(userRef);
-    if (userSnap.exists()) {
-      const userData = userSnap.data();
-      const defisHebdo = userData.defisHebdo || {};
-      
-      Object.values(defisHebdo).forEach(defi => {
-        if (defi.fait && defi.date) {
-          const defiDate = new Date(defi.date).toISOString().split('T')[0];
-          if (defiDate === today) {
-            totalGains += defi.reward || 0;
-          }
-        }
+    const actualitesRef = collection(db, 'actualites');
+    const snapshot = await getDocs(actualitesRef);
+    
+    if (snapshot.empty) {
+      console.debug('📝 Création des actualités par défaut dans Firestore...');
+      var promises = DEFAULT_ACTUALITES.map(function(actu) {
+        // Supprimer l'id du document pour que Firestore en génère un
+        var { id, ...actuData } = actu;
+        return addDoc(actualitesRef, actuData);
       });
+      await Promise.all(promises);
+      console.debug('✅ Actualités créées dans Firestore');
+      return true;
     }
-
-    // 3. Gains des ventes
-    const ventesQuery = query(
-      collection(db, 'ventes'),
-      where('userId', '==', currentUser.uid),
-      where('date', '==', today)
-    );
-    const ventesSnap = await getDocs(ventesQuery);
-    ventesSnap.forEach(doc => {
-      totalGains += doc.data().montant || 0;
-    });
-
-    // 4. Calcul de l'objectif (moyenne des 30 derniers jours)
-    const thirtyDaysAgo = new Date();
-    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-    const thirtyDaysStr = thirtyDaysAgo.toISOString().split('T')[0];
-
-    const allGainsQuery = query(
-      collection(db, 'gains'),
-      where('userId', '==', currentUser.uid),
-      where('date', '>=', thirtyDaysStr)
-    );
-    const allGainsSnap = await getDocs(allGainsQuery);
-    let totalMonth = 0;
-    let daysWithGains = 0;
-    allGainsSnap.forEach(doc => {
-      totalMonth += doc.data().montant || 0;
-      daysWithGains++;
-    });
-
-    const defaultTarget = APP_CONFIG?.PERFORMANCE?.OBJECTIF_QUOTIDIEN || 5000;
-    const dailyAverage = daysWithGains > 0 ? totalMonth / daysWithGains : defaultTarget;
-    const performance = dailyAverage > 0 ? (totalGains / dailyAverage) * 100 : 0;
-    const displayPercent = Math.min(Math.round(performance), 200);
-
-    // ✅ 3. MISE À JOUR DU CACHE
-    setCachedPerformance(displayPercent);
-
-    // ✅ 4. MISE À JOUR DE L'AFFICHAGE
-    updatePerformanceDisplay(displayPercent);
-
-    console.debug('📊 Performance mise à jour:', displayPercent + '%');
-
+    console.debug('✅ Actualités déjà présentes dans Firestore');
+    return false;
   } catch (error) {
-    console.warn('Erreur calcul performance:', error);
-    // ✅ Garde la valeur du cache
+    console.warn('⚠️ Erreur création actualités:', error);
+    return false;
   }
 }
 
 // ================================================================
-// ACTUALITÉS
+// ACTUALITÉS - CHARGEMENT ET AFFICHAGE AVEC ANIMATION
 // ================================================================
-var defaultActualites = [
-  { id: 'default_1', badge: '📢 Bienvenue', badgeClass: '', text: 'Bienvenue sur ARVEXA ! Commencez votre parcours d\'investissement dès aujourd\'hui.', date: new Date().toISOString(), timestamp: Date.now() },
-  { id: 'default_2', badge: '💡 Astuce', badgeClass: 'astuce', text: 'Réinvestissez vos gains mensuels pour profiter des intérêts composés et booster vos revenus.', date: new Date(Date.now() - 86400000).toISOString(), timestamp: Date.now() - 86400000 },
-  { id: 'default_3', badge: '🎉 Promotion', badgeClass: 'promotion', text: 'Bonus de 500 FCFA offert pour tout nouveau parrainage valide jusqu\'au 31 mars 2026.', date: new Date(Date.now() - 172800000).toISOString(), timestamp: Date.now() - 172800000 },
-  { id: 'default_4', badge: '📢 Nouveau', badgeClass: '', text: 'Nouveau plan d\'épargne "Performance" disponible à partir de 150 000 FCFA avec un rendement de 18%.', date: new Date(Date.now() - 259200000).toISOString(), timestamp: Date.now() - 259200000 },
-  { id: 'default_5', badge: '✅ Mise à jour', badgeClass: 'update', text: 'L\'application ARVEXA est désormais plus rapide avec des temps de chargement réduits de 40%.', date: new Date(Date.now() - 432000000).toISOString(), timestamp: Date.now() - 432000000 }
-];
+function loadActualites() {
+  if (unsubscribeActualites) {
+    unsubscribeActualites();
+    unsubscribeActualites = null;
+  }
 
-var actualites = [];
-var currentActuIndex = 0;
+  var q = query(collection(db, 'actualites'), orderBy('timestamp', 'desc'));
 
-function displayActu(index) {
-  if (!actualites.length) {
-    actuText.textContent = 'Aucune actualité pour le moment. Revenez plus tard !';
-    actuBadge.textContent = '📢 Info';
-    actuBadge.className = 'actu-badge';
-    actuDate.textContent = '';
+  unsubscribeActualites = onSnapshot(q, function(snapshot) {
+    var data = [];
+    snapshot.forEach(function(snap) {
+      var docData = snap.data();
+      data.push({ 
+        id: snap.id, 
+        ...docData, 
+        badgeClass: docData.badgeClass || '',
+        timestamp: docData.timestamp || Date.now()
+      });
+    });
+    
+    actualites = data;
+    
+    if (actualites.length === 0) {
+      // Si aucune actualité, afficher un message
+      actuSlidesContainer.innerHTML = `
+        <div class="actu-slide active">
+          <div class="actu-empty">
+            <i class="fas fa-newspaper"></i>
+            Aucune actualité pour le moment
+          </div>
+        </div>
+      `;
+      actuCounter.textContent = '0 / 0';
+      actuPrevBtn.disabled = true;
+      actuNextBtn.disabled = true;
+      return;
+    }
+    
+    currentActuIndex = 0;
+    renderActuSlide(0);
+    
+    // Démarrer l'auto-play
+    startAutoPlay();
+    
+  }, function(error) {
+    console.warn('Erreur chargement actualités:', error);
+    // Fallback: afficher un message
+    actuSlidesContainer.innerHTML = `
+      <div class="actu-slide active">
+        <div class="actu-empty">
+          <i class="fas fa-exclamation-circle"></i>
+          Impossible de charger les actualités
+        </div>
+      </div>
+    `;
     actuCounter.textContent = '0 / 0';
     actuPrevBtn.disabled = true;
     actuNextBtn.disabled = true;
-    return;
-  }
+  });
+}
+
+// ================================================================
+// ACTUALITÉS - RENDU D'UN SLIDE AVEC ANIMATION
+// ================================================================
+function renderActuSlide(index) {
+  if (!actualites.length || index < 0 || index >= actualites.length) return;
+  
   var actu = actualites[index];
-  if (!actu) return;
-  actuText.textContent = actu.text || 'Pas de contenu';
-  actuBadge.textContent = actu.badge || '📢 Info';
-  actuBadge.className = 'actu-badge' + (actu.badgeClass ? ' ' + actu.badgeClass : '');
-  actuDate.textContent = formatDate(actu.date || actu.createdAt);
+  var badgeClass = actu.badgeClass || '';
+  var badgeIcon = actu.badge || '📢 Info';
+  
+  // Créer le HTML du slide
+  var slideHTML = `
+    <div class="actu-slide active" data-index="${index}">
+      <div class="actu-card-header">
+        <span class="actu-badge ${badgeClass}">${badgeIcon}</span>
+        <span class="actu-date">${formatDate(actu.createdAt || actu.timestamp)}</span>
+      </div>
+      <p class="actu-text">${actu.text || 'Pas de contenu'}</p>
+    </div>
+  `;
+  
+  // Remplacer le contenu avec animation
+  var currentSlides = actuSlidesContainer.querySelectorAll('.actu-slide');
+  
+  // Si un slide est déjà présent, faire l'animation de transition
+  if (currentSlides.length > 0) {
+    // Marquer l'ancien comme sortant
+    currentSlides.forEach(function(slide) {
+      slide.classList.remove('active');
+      slide.classList.add('exit');
+    });
+    
+    // Après la transition, remplacer le contenu
+    setTimeout(function() {
+      actuSlidesContainer.innerHTML = slideHTML;
+      // Petit délai pour que le nouveau slide s'affiche avec l'animation d'entrée
+      setTimeout(function() {
+        var newSlide = actuSlidesContainer.querySelector('.actu-slide');
+        if (newSlide) {
+          newSlide.classList.add('active');
+        }
+      }, 50);
+    }, 400);
+  } else {
+    // Premier chargement
+    actuSlidesContainer.innerHTML = slideHTML;
+    setTimeout(function() {
+      var newSlide = actuSlidesContainer.querySelector('.actu-slide');
+      if (newSlide) {
+        newSlide.classList.add('active');
+      }
+    }, 50);
+  }
+  
+  // Mettre à jour le compteur
   actuCounter.textContent = (index + 1) + ' / ' + actualites.length;
   actuPrevBtn.disabled = index === 0;
   actuNextBtn.disabled = index === actualites.length - 1;
 }
 
+// ================================================================
+// ACTUALITÉS - AUTO-PLAY
+// ================================================================
+function startAutoPlay() {
+  if (actuAutoPlayInterval) {
+    clearInterval(actuAutoPlayInterval);
+  }
+  
+  if (actualites.length <= 1) return;
+  
+  actuAutoPlayInterval = setInterval(function() {
+    var nextIndex = (currentActuIndex + 1) % actualites.length;
+    goToActu(nextIndex);
+  }, 6000);
+}
+
+function stopAutoPlay() {
+  if (actuAutoPlayInterval) {
+    clearInterval(actuAutoPlayInterval);
+    actuAutoPlayInterval = null;
+  }
+}
+
+function goToActu(index) {
+  if (!actualites.length || index < 0 || index >= actualites.length) return;
+  if (index === currentActuIndex) return;
+  
+  currentActuIndex = index;
+  renderActuSlide(index);
+  
+  // Redémarrer l'auto-play
+  stopAutoPlay();
+  startAutoPlay();
+}
+
+// ================================================================
+// ACTUALITÉS - ÉVÉNEMENTS DE NAVIGATION
+// ================================================================
 actuNextBtn.addEventListener('click', function() {
   if (currentActuIndex < actualites.length - 1) {
-    currentActuIndex++;
-    displayActu(currentActuIndex);
-  }
-});
-actuPrevBtn.addEventListener('click', function() {
-  if (currentActuIndex > 0) {
-    currentActuIndex--;
-    displayActu(currentActuIndex);
+    goToActu(currentActuIndex + 1);
   }
 });
 
-function loadActualites() {
-  if (unsubscribeActualites) { unsubscribeActualites(); unsubscribeActualites = null; }
-  var q = query(collection(db, 'actualites'), orderBy('timestamp', 'desc'));
-  unsubscribeActualites = onSnapshot(q, function(snapshot) {
-    var data = [];
-    snapshot.forEach(function(snap) {
-      var docData = snap.data();
-      data.push({ id: snap.id, ...docData, badgeClass: docData.badgeClass || '', timestamp: docData.timestamp || docData.createdAt || Date.now() });
-    });
-    actualites = data.length > 0 ? data : defaultActualites;
-    currentActuIndex = 0;
-    displayActu(0);
-  }, function(error) {
-    console.warn('Erreur actualités:', error);
-    actualites = defaultActualites;
-    currentActuIndex = 0;
-    displayActu(0);
-  });
-}
+actuPrevBtn.addEventListener('click', function() {
+  if (currentActuIndex > 0) {
+    goToActu(currentActuIndex - 1);
+  }
+});
+
+// Arrêter l'auto-play au survol/contact
+actuSlidesContainer.addEventListener('mouseenter', stopAutoPlay);
+actuSlidesContainer.addEventListener('mouseleave', startAutoPlay);
+actuSlidesContainer.addEventListener('touchstart', stopAutoPlay);
+actuSlidesContainer.addEventListener('touchend', startAutoPlay);
 
 // ================================================================
 // MENU SWIPE - CORRIGÉ
@@ -1282,8 +1538,19 @@ var touchStartX = 0, touchStartY = 0, isMenuOpen = false;
 var SWIPE_THRESHOLD = 30;
 var EDGE_THRESHOLD = 20;
 
-function openMenu() { if (isMenuOpen) return; isMenuOpen = true; menuOverlay.classList.add('active'); document.body.style.overflow = 'hidden'; }
-function closeMenu() { if (!isMenuOpen) return; isMenuOpen = false; menuOverlay.classList.remove('active'); document.body.style.overflow = ''; }
+function openMenu() { 
+  if (isMenuOpen) return; 
+  isMenuOpen = true; 
+  menuOverlay.classList.add('active'); 
+  document.body.style.overflow = 'hidden'; 
+}
+
+function closeMenu() { 
+  if (!isMenuOpen) return; 
+  isMenuOpen = false; 
+  menuOverlay.classList.remove('active'); 
+  document.body.style.overflow = ''; 
+}
 
 document.addEventListener('touchstart', function(e) {
   var touch = e.changedTouches[0];
@@ -1299,13 +1566,11 @@ document.addEventListener('touchmove', function(e) {
   
   if (Math.abs(deltaY) > Math.abs(deltaX) * 1.2) return;
   
-  // ✅ CORRECTION : Ouvrir en glissant de droite à gauche
   if (touchStartX > window.innerWidth - EDGE_THRESHOLD && deltaX < -SWIPE_THRESHOLD && !isMenuOpen) {
     e.preventDefault();
     openMenu();
   }
   
-  // ✅ CORRECTION : Fermer en glissant de gauche à droite
   if (isMenuOpen && deltaX > SWIPE_THRESHOLD) {
     e.preventDefault();
     closeMenu();
@@ -1446,7 +1711,7 @@ function loadFromCache() {
       console.debug('✅ Affichage rapide depuis le cache');
       hideLoadingScreen();
       
-      // ✅ Afficher le pourcentage depuis le cache
+      // Afficher le pourcentage depuis le cache
       const cachedPercent = getCachedPerformance();
       if (cachedPercent !== null) {
         updatePerformanceDisplay(cachedPercent);
@@ -1457,7 +1722,33 @@ function loadFromCache() {
   return false;
 }
 
-// ✅ CHARGEMENT COMPLET
+// ================================================================
+// INITIALISATION - ACTUALITÉS
+// ================================================================
+async function initActualites() {
+  try {
+    await createDefaultActualites();
+    loadActualites();
+  } catch (error) {
+    console.warn('Erreur initialisation actualités:', error);
+    // Fallback: afficher un message
+    actuSlidesContainer.innerHTML = `
+      <div class="actu-slide active">
+        <div class="actu-empty">
+          <i class="fas fa-newspaper"></i>
+          Actualités disponibles prochainement
+        </div>
+      </div>
+    `;
+    actuCounter.textContent = '0 / 0';
+    actuPrevBtn.disabled = true;
+    actuNextBtn.disabled = true;
+  }
+}
+
+// ================================================================
+// CHARGEMENT COMPLET
+// ================================================================
 onAuthStateChanged(auth, async function(user) {
   if (user) {
     currentUser = user;
@@ -1468,9 +1759,8 @@ onAuthStateChanged(auth, async function(user) {
     if (sessionUid === user.uid) {
       console.debug("✅ Session déjà validée, chargement rapide");
       listenToUser(user.uid);
-      loadActualites();
+      initActualites();
       loadDefisStats(user.uid);
-      setTimeout(function() { calculateDailyPerformance(); }, 2000);
       isPageLoading = false;
       return;
     }
@@ -1499,14 +1789,13 @@ onAuthStateChanged(auth, async function(user) {
       
       updateUI(userData);
       listenToUser(user.uid);
-      loadActualites();
+      initActualites();
       loadDefisStats(user.uid);
-      setTimeout(function() { calculateDailyPerformance(); }, 2000);
       isPageLoading = false;
       
     } catch (error) {
       console.warn('Erreur Firestore:', error);
-      loadActualites();
+      initActualites();
       isPageLoading = false;
     }
     
@@ -1548,11 +1837,13 @@ onAuthStateChanged(auth, async function(user) {
 document.getElementById('userProfileBtn').addEventListener('click', function(e) { e.preventDefault(); window.location.href = 'profil.html'; });
 document.getElementById('logoLink').addEventListener('click', function(e) { e.preventDefault(); window.location.href = 'index.html'; });
 
-console.debug("🚀 ARVEXA - Page d'accueil optimisée (v3.0)");
-console.debug("✅ Swipe menu corrigé (droite→gauche pour ouvrir)");
-console.debug("✅ Performance avec cache (affichage immédiat)");
-console.debug("✅ Mise à jour en arrière-plan");
-console.debug("✅ Défilement fluide");
+console.debug("🚀 ARVEXA - Page d'accueil optimisée (v4.0)");
+console.debug("✅ Solde principal affiché en complet");
+console.debug("✅ Pourcentage basé sur le solde total");
+console.debug("✅ Actualités depuis Firestore avec animation fluide");
+console.debug("✅ Menu réorganisé par catégories");
+console.debug("✅ Menu animation fluide");
+console.debug("✅ Modale de déconnexion plus petite et centrée");
 </script>
 </body>
 </html>

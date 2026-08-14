@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <meta name="theme-color" content="#0A0A0A">
+  <meta name="description" content="ARVEXA - Cours du BAC Terminale">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon.png">
+  <link rel="icon" href="icon.png" type="image/png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <title>BAC · ARVEXA</title>
+
+  <style>
+    /* ============================================================
+       ROOT — design system ARVEXA
+       ============================================================ */
+    :root {
+      --primary: #1A3A2A;
+      --primary-dark: #0A1A12;
+      --primary-light: #2A5A3A;
+      --accent: #B8860B;
+      --accent-dim: rgba(184, 134, 11, 0.08);
+      --success: #2D7D5A;
+      --danger: #8B3A3A;
+      --bg-dark: #0A0A0A;
+      --bg-surface: #141414;
+      --bg-card: rgba(20, 20, 20, 0.7);
+      --text-light: #F5F0E8;
+      --text-dim: #8A8A7A;
+      --text-muted: #5A5A4A;
+      --card-border: rgba(184, 134, 11, 0.06);
+      --glass-bg: rgba(26, 58, 42, 0.15);
+      --glass-border: rgba(184, 134, 11, 0.04);
+      --transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+      --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      --radius: 16px;
+      --whatsapp: #25D366;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html { scroll-behavior: smooth; -webkit-overflow-scrolling: touch; }
+    body {
+      font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-light);
+      font-size: 14px;
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
+      touch-action: pan-y;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* ===== ÉCRAN DE CHARGEMENT ===== */
+    #loadingScreen {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: var(--bg-dark); z-index: 9999;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    #loadingScreen.hide { opacity: 0; visibility: hidden; pointer-events: none; }
+    .loader-logo { font-size: 30px; margin-bottom: 16px; }
+    .loader-spinner { width: 36px; height: 36px; border: 3px solid rgba(184,134,11,0.1); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loader-text { margin-top: 14px; color: var(--text-muted); font-size: 12px; font-weight: 300; opacity: 0.6; }
+
+    /* ===== BACKGROUND AMBIANT ===== */
+    .gradient-bg {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
+      background: radial-gradient(ellipse 40% 30% at 30% 20%, rgba(26,58,42,0.12) 0%, transparent 70%),
+                  radial-gradient(ellipse 30% 20% at 70% 80%, rgba(184,134,11,0.02) 0%, transparent 60%),
+                  linear-gradient(180deg, #0A0A0A 0%, #060606 100%);
+    }
+    .glow { position: fixed; border-radius: 50%; filter: blur(80px); pointer-events: none; z-index: -1; opacity: 0.15; animation: glowMove 10s ease-in-out infinite alternate; }
+    .glow-1 { width: 350px; height: 350px; background: rgba(26,58,42,0.15); top: -80px; right: -80px; }
+    .glow-2 { width: 200px; height: 200px; background: rgba(184,134,11,0.03); bottom: 0; left: 0; animation-delay: -4s; }
+    @keyframes glowMove { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(30px,-20px) scale(1.1); } }
+
+    /* ============================================================
+       HEADER
+       ============================================================ */
+    .header {
+      display: flex; align-items: center; gap: 14px;
+      padding: 14px 5%; background: rgba(10,10,10,0.95); backdrop-filter: blur(12px);
+      position: sticky; top: 0; z-index: 100; border-bottom: 1px solid rgba(184,134,11,0.04);
+    }
+    .back-btn {
+      width: 34px; height: 34px; flex-shrink: 0; background: var(--glass-bg); border: 1px solid var(--glass-border);
+      border-radius: 10px; display: flex; align-items: center; justify-content: center;
+      color: var(--text-dim); text-decoration: none; transition: var(--transition); font-size: 14px;
+    }
+    .back-btn:active { transform: scale(0.92); }
+    .back-btn:hover { border-color: rgba(184,134,11,0.12); color: var(--text-light); }
+    .header-title { font-size: 18px; font-weight: 700; font-family: 'Playfair Display', serif; letter-spacing: 1px; color: var(--text-light); }
+    .header-title span { color: var(--accent); font-style: italic; }
+
+    /* ============================================================
+       CONTAINER
+       ============================================================ */
+    .container { max-width: 500px; margin: 0 auto; padding: 20px 16px 80px; }
+
+    /* ============================================================
+       HERO
+       ============================================================ */
+    .hero-section { margin-bottom: 22px; animation: fadeInUp 0.4s ease-out; }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(184,134,11,0.05); border: 1px solid rgba(184,134,11,0.1);
+      border-radius: 30px; padding: 4px 12px; margin-bottom: 14px;
+    }
+    .hero-badge span { color: var(--accent); font-size: 9px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; }
+    .hero-badge i { color: var(--accent); font-size: 8px; }
+    .hero-title { font-size: 26px; font-weight: 700; font-family: 'Playfair Display', serif; line-height: 1.25; margin-bottom: 10px; color: var(--text-light); }
+    .hero-title span { color: var(--accent); font-style: italic; }
+    .hero-description { font-size: 12.5px; color: var(--text-dim); font-weight: 300; }
+
+    /* ============================================================
+       QUICK STATS
+       ============================================================ */
+    .quick-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 20px 0 24px; animation: fadeInUp 0.5s ease-out; }
+    .quick-stat-item {
+      background: var(--bg-card); backdrop-filter: blur(10px); border: 1px solid var(--card-border);
+      border-radius: 14px; padding: 14px 8px; text-align: center; transition: var(--transition);
+    }
+    .quick-stat-item:hover { border-color: rgba(184,134,11,0.1); transform: translateY(-2px); }
+    .quick-stat-icon { font-size: 16px; margin-bottom: 6px; color: var(--accent); opacity: 0.7; }
+    .quick-stat-value { font-size: 18px; font-weight: 700; font-family: 'Playfair Display', serif; color: var(--text-light); }
+    .quick-stat-label { font-size: 8.5px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 400; margin-top: 2px; }
+
+    /* Anneau de progression */
+    .progress-ring-wrap { width: 34px; height: 34px; margin: 0 auto 6px; position: relative; }
+    .progress-ring {
+      width: 100%; height: 100%; border-radius: 50%;
+      background: conic-gradient(var(--accent) calc(var(--progress, 0) * 1%), rgba(184,134,11,0.08) 0);
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.6s ease;
+    }
+    .progress-ring::before {
+      content: ''; width: 24px; height: 24px; border-radius: 50%; background: var(--bg-surface);
+    }
+
+/* ============================================================
+   ACTIONS ROW — 3 boutons
+   ============================================================ */
+.actions-row {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 20px 0 24px;
+  animation: fadeInUp 0.5s ease-out;
+}
+
+.action-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--bg-card);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  text-decoration: none;
+  color: var(--text-light);
+  transition: var(--transition);
+  cursor: pointer;
+}
+.action-card:active { transform: scale(0.97); }
+.action-card:hover { border-color: rgba(184,134,11,0.1); background: rgba(20,20,20,0.85); }
+
+.action-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.action-info { flex: 1; min-width: 0; }
+.action-title { font-size: 13px; font-weight: 600; color: var(--text-light); display: block; }
+.action-desc { font-size: 11px; color: var(--text-muted); font-weight: 300; }
+
+.action-arrow { color: var(--text-muted); font-size: 12px; transition: var(--transition); }
+.action-card:hover .action-arrow { color: var(--accent); transform: translateX(2px); }
+
+/* Responsive */
+@media (max-width: 480px) {
+  .action-card { padding: 12px 14px; }
+  .action-icon { width: 38px; height: 38px; font-size: 16px; }
+  .action-title { font-size: 12px; }
+  .action-desc { font-size: 10px; }
+}
+
+    /* ============================================================
+       BANNIÈRE ABONNEMENT — AMÉLIORÉE
+       ============================================================ */
+    .sub-banner {
+      background: linear-gradient(135deg, rgba(20,20,20,0.95), rgba(10,10,10,0.98));
+      border: 1px solid rgba(184,134,11,0.1); border-radius: var(--radius); padding: 20px;
+      margin-bottom: 26px; position: relative; overflow: hidden; box-shadow: var(--shadow);
+      animation: fadeInUp 0.5s ease-out;
+    }
+    .sub-banner::before {
+      content: ''; position: absolute; top: -50%; right: -20%; width: 200%; height: 200%;
+      background: radial-gradient(ellipse at 70% 30%, rgba(184,134,11,0.04), transparent 60%);
+      pointer-events: none;
+    }
+    .sub-banner::after {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: 0.4;
+    }
+    .sub-banner.active { border-color: rgba(45,125,90,0.18); }
+    .sub-banner.active::after { background: linear-gradient(90deg, transparent, var(--success), transparent); }
+
+    .sub-banner-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; position: relative; z-index: 1; }
+    .sub-banner-label { font-size: 9px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.5px; font-weight: 500; margin-bottom: 4px; }
+    .sub-banner-status { font-size: 15px; font-weight: 700; font-family: 'Playfair Display', serif; color: var(--text-light); display: flex; align-items: center; gap: 8px; }
+    .sub-banner-status i { font-size: 12px; }
+    .sub-banner.active .sub-banner-status i { color: var(--success); }
+    .sub-banner:not(.active) .sub-banner-status i { color: var(--text-muted); }
+
+    .sub-days-badge {
+      flex-shrink: 0; background: rgba(45,125,90,0.1); border: 1px solid rgba(45,125,90,0.2);
+      color: var(--success); font-size: 10px; font-weight: 600; padding: 4px 10px; border-radius: 20px;
+      white-space: nowrap;
+    }
+    .sub-banner-sub { font-size: 11px; color: var(--text-dim); font-weight: 300; margin-top: 6px; position: relative; z-index: 1; }
+
+    .sub-banner-price {
+      display: flex; align-items: baseline; gap: 4px; margin-top: 10px; position: relative; z-index: 1;
+    }
+    .sub-banner-price .amount { font-size: 24px; font-weight: 700; font-family: 'Playfair Display', serif; color: var(--accent); }
+    .sub-banner-price .period { font-size: 11px; color: var(--text-muted); font-weight: 300; }
+
+    .sub-banner-btn {
+      margin-top: 14px; width: 100%; padding: 13px; font-size: 13px; font-weight: 700;
+      border: none; border-radius: 30px; cursor: pointer; transition: var(--transition);
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      font-family: 'Inter', sans-serif; position: relative; z-index: 1;
+    }
+    .sub-banner-btn.activate {
+      background: linear-gradient(135deg, var(--accent), #9A7209);
+      color: var(--bg-dark);
+      box-shadow: 0 4px 20px rgba(184,134,11,0.2);
+    }
+    .sub-banner-btn.activate:active { transform: scale(0.97); }
+    .sub-banner-btn.activate:hover { box-shadow: 0 6px 30px rgba(184,134,11,0.35); transform: translateY(-1px); }
+
+    .sub-banner-btn.access {
+      background: rgba(184,134,11,0.06);
+      color: var(--text-light);
+      border: 1px solid rgba(184,134,11,0.15);
+    }
+    .sub-banner-btn.access:active { transform: scale(0.97); }
+    .sub-banner-btn.access:hover { background: rgba(184,134,11,0.12); }
+
+    /* ============================================================
+       SECTION HEADER
+       ============================================================ */
+    .section-header { margin-bottom: 14px; display: flex; justify-content: space-between; align-items: baseline; }
+    .section-header-left { border-left: 2px solid var(--accent); padding-left: 10px; }
+    .section-subtitle { color: var(--accent); font-size: 9px; font-weight: 500; text-transform: uppercase; letter-spacing: 2px; opacity: 0.6; }
+    .section-title { font-size: 17px; font-weight: 700; font-family: 'Playfair Display', serif; color: var(--text-light); }
+    .section-title span { color: var(--accent); font-style: italic; }
+
+    /* ============================================================
+       GRILLE DES MATIÈRES
+       ============================================================ */
+    .subjects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 10px; }
+    .subject-card {
+      background: var(--bg-card); backdrop-filter: blur(10px); border: 1px solid var(--card-border);
+      border-radius: 14px; padding: 16px 14px; cursor: pointer; transition: var(--transition);
+      position: relative; overflow: hidden; animation: fadeInUp 0.5s ease-out;
+    }
+    .subject-card:active { transform: scale(0.97); }
+    .subject-card:hover { border-color: rgba(184,134,11,0.12); transform: translateY(-2px); background: rgba(20,20,20,0.85); }
+    .subject-card.locked { opacity: 0.5; }
+    .subject-card.locked:hover { opacity: 0.65; }
+    .subject-lock {
+      position: absolute; top: 10px; right: 10px; width: 22px; height: 22px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; font-size: 9px;
+      background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.06); color: var(--text-muted);
+    }
+    .subject-card:not(.locked) .subject-lock { color: var(--success); border-color: rgba(45,125,90,0.2); background: rgba(45,125,90,0.08); }
+    .subject-icon {
+      width: 40px; height: 40px; border-radius: 11px; display: flex; align-items: center; justify-content: center;
+      font-size: 17px; margin-bottom: 12px;
+    }
+    .subject-icon.gold { background: rgba(184,134,11,0.08); color: var(--accent); }
+    .subject-icon.green { background: rgba(45,125,90,0.08); color: var(--success); }
+    .subject-icon.blue { background: rgba(26,58,42,0.2); color: #6A9A8A; }
+    .subject-name { font-size: 13px; font-weight: 600; color: var(--text-light); margin-bottom: 3px; line-height: 1.3; }
+    .subject-chapters { font-size: 10.5px; color: var(--text-muted); font-weight: 300; }
+
+    /* ============================================================
+       MODALE ABONNEMENT — AMÉLIORÉE
+       ============================================================ */
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.88);
+      backdrop-filter: blur(16px); z-index: 3000; opacity: 0; visibility: hidden;
+      transition: all 0.35s ease; display: flex; align-items: flex-end; justify-content: center; padding: 0;
+    }
+    .modal-overlay.show { opacity: 1; visibility: visible; }
+
+    .modal-sheet {
+      background: linear-gradient(160deg, #141414 0%, #0A0A0A 100%);
+      border: 1px solid rgba(184,134,11,0.14);
+      border-radius: 24px 24px 0 0; padding: 32px 22px 28px;
+      max-width: 500px; width: 100%;
+      transform: translateY(100%); transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+      box-shadow: 0 -30px 80px rgba(0,0,0,0.6);
+      position: relative;
+      overflow: hidden;
+    }
+    .modal-overlay.show .modal-sheet { transform: translateY(0); }
+
+    .modal-sheet::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, transparent, var(--accent), var(--whatsapp), var(--accent), transparent);
+      background-size: 200% 100%;
+      animation: shimmerGold 3s ease-in-out infinite;
+      z-index: 10;
+    }
+    @keyframes shimmerGold {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    .modal-icon {
+      width: 56px; height: 56px; border-radius: 50%; background: rgba(184,134,11,0.08);
+      border: 1px solid rgba(184,134,11,0.15); display: flex; align-items: center; justify-content: center;
+      font-size: 22px; color: var(--accent); margin: 0 auto 14px;
+    }
+
+    .modal-sheet h3 {
+      font-size: 20px; font-weight: 700; font-family: 'Playfair Display', serif; color: var(--text-light);
+      text-align: center; margin-bottom: 4px;
+    }
+    .modal-sheet h3 span { color: var(--accent); font-style: italic; }
+    .modal-subject-name { text-align: center; font-size: 12px; color: var(--text-dim); font-weight: 300; margin-bottom: 18px; }
+
+    .modal-price-box {
+      background: rgba(184,134,11,0.05); border: 1px solid rgba(184,134,11,0.1);
+      border-radius: 14px; padding: 16px; text-align: center; margin-bottom: 18px;
+    }
+    .modal-price { font-size: 30px; font-weight: 700; font-family: 'Playfair Display', serif; color: var(--accent); }
+    .modal-price-period { font-size: 11px; color: var(--text-muted); font-weight: 400; margin-top: 2px; }
+
+    .modal-benefits { display: flex; flex-direction: column; gap: 10px; margin-bottom: 18px; }
+    .modal-benefit { display: flex; align-items: center; gap: 10px; font-size: 12.5px; color: var(--text-dim); font-weight: 300; }
+    .modal-benefit i { color: var(--success); font-size: 12px; width: 16px; text-align: center; flex-shrink: 0; }
+
+    /* ✅ WhatsApp dans la modale */
+    .modal-whatsapp {
+      display: flex; align-items: center; gap: 10px;
+      background: rgba(37, 211, 102, 0.06);
+      border: 1px solid rgba(37, 211, 102, 0.12);
+      border-radius: 12px; padding: 12px 14px; margin-bottom: 18px;
+    }
+    .modal-whatsapp .icon {
+      width: 36px; height: 36px; border-radius: 50%; background: var(--whatsapp);
+      display: flex; align-items: center; justify-content: center; color: #fff; font-size: 16px; flex-shrink: 0;
+    }
+    .modal-whatsapp .info { flex: 1; }
+    .modal-whatsapp .info .label { font-size: 9px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    .modal-whatsapp .info .number { font-size: 13px; font-weight: 600; color: var(--text-light); }
+
+    .modal-buttons { display: flex; gap: 10px; flex-direction: column; }
+    .modal-btn {
+      width: 100%; border-radius: 30px; padding: 14px; font-size: 13px; font-weight: 600;
+      cursor: pointer; transition: var(--transition); border: none; font-family: 'Inter', sans-serif;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .modal-btn:active { transform: scale(0.97); }
+    .modal-btn.secondary {
+      background: rgba(255,255,255,0.03); color: var(--text-dim);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .modal-btn.secondary:hover { background: rgba(255,255,255,0.06); color: var(--text-light); }
+    .modal-btn.whatsapp {
+      background: var(--whatsapp); color: #fff;
+      box-shadow: 0 4px 20px rgba(37, 211, 102, 0.2);
+    }
+    .modal-btn.whatsapp:hover { box-shadow: 0 6px 30px rgba(37, 211, 102, 0.35); transform: translateY(-1px); }
+
+    @media (min-width: 420px) {
+      .modal-overlay { align-items: center; }
+      .modal-sheet { border-radius: 24px; max-height: 90vh; overflow-y: auto; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ÉCRAN DE CHARGEMENT -->
+  <div id="loadingScreen">
+    <div class="loader-logo">🎓</div>
+    <div class="loader-spinner"></div>
+    <div class="loader-text">Chargement des cours...</div>
+  </div>
+
+  <div class="gradient-bg"></div>
+  <div class="glow glow-1"></div>
+  <div class="glow glow-2"></div>
+
+  <!-- HEADER -->
+  <div class="header">
+    <a href="index.html" class="back-btn" aria-label="Retour à l'accueil"><i class="fas fa-arrow-left"></i></a>
+    <div class="header-title">🎓 <span>BAC</span></div>
+  </div>
+
+  <div class="container">
+
+        <!-- HERO -->
+    <div class="hero-section">
+      <div class="hero-badge"><i class="fas fa-circle"></i><span>BAC · Terminale</span></div>
+      <h1 class="hero-title">Préparez-vous pour le <span>BAC</span></h1>
+      <p class="hero-description">4 matières · Cours complets · Exercices corrigés</p>
+
+      <!-- Boutons actions -->
+<div class="actions-row">
+  <a href="groupe.html" class="action-card">
+    <div class="action-icon" style="background:rgba(37,211,102,0.08);color:#25D366;">
+      <i class="fas fa-comments"></i>
+    </div>
+    <div class="action-info">
+      <span class="action-title">Groupe d'échange</span>
+      <span class="action-desc">Posez vos questions</span>
+    </div>
+    <i class="fas fa-chevron-right action-arrow"></i>
+  </a>
+
+  <a href="ia-assistant.html" class="action-card">
+    <div class="action-icon" style="background:rgba(74,144,217,0.08);color:#4A90D9;">
+      <i class="fas fa-robot"></i>
+    </div>
+    <div class="action-info">
+      <span class="action-title">Assistant IA</span>
+      <span class="action-desc">Aide pour les cours</span>
+    </div>
+    <i class="fas fa-chevron-right action-arrow"></i>
+  </a>
+
+  <a href="astuces.html" class="action-card">
+    <div class="action-icon" style="background:rgba(139,107,232,0.08);color:#8B6FE8;">
+      <i class="fas fa-lightbulb"></i>
+    </div>
+    <div class="action-info">
+      <span class="action-title">Astuces</span>
+      <span class="action-desc">Des idées pour avancer</span>
+    </div>
+    <i class="fas fa-chevron-right action-arrow"></i>
+  </a>
+</div>
+
+    <!-- BANNIÈRE ABONNEMENT -->
+    <div class="sub-banner" id="subBanner">
+      <div class="sub-banner-top">
+        <div>
+          <div class="sub-banner-label">Abonnement BAC</div>
+          <div class="sub-banner-status" id="subStatusText"><i class="fas fa-lock"></i> Vérification...</div>
+          <div class="sub-banner-sub" id="subSubtext"></div>
+        </div>
+        <div class="sub-days-badge" id="subDaysBadge" style="display:none;"></div>
+      </div>
+
+      <div class="sub-banner-price">
+        <span class="amount">1000 FCFA</span>
+        <span class="period">/ 2 semaines</span>
+      </div>
+
+      <button class="sub-banner-btn" id="subBannerBtn">
+        <i class="fas fa-crown"></i><span id="subBannerBtnText">Activer</span>
+      </button>
+    </div>
+
+    <!-- GRILLE DES MATIÈRES -->
+    <div class="section-header">
+      <div class="section-header-left">
+        <div class="section-subtitle">Programme</div>
+        <div class="section-title">Les <span>matières</span></div>
+      </div>
+    </div>
+
+    <div class="subjects-grid" id="subjectsGrid"></div>
+
+  </div>
+
+  <!-- ============================================================
+     MODALE ABONNEMENT — AMÉLIORÉE
+     ============================================================ -->
+  <div class="modal-overlay" id="subModal">
+    <div class="modal-sheet">
+      <div class="modal-icon"><i class="fas fa-lock"></i></div>
+      <h3>Abonnement <span>requis</span></h3>
+      <div class="modal-subject-name" id="modalSubjectName">Débloquez toutes les matières du BAC</div>
+
+      <div class="modal-price-box">
+        <div class="modal-price">1000 FCFA</div>
+        <div class="modal-price-period">pour 2 semaines d'accès</div>
+      </div>
+
+      <div class="modal-benefits">
+        <div class="modal-benefit"><i class="fas fa-check-circle"></i> Accès aux 4 matières</div>
+        <div class="modal-benefit"><i class="fas fa-check-circle"></i> Chapitres complets</div>
+        <div class="modal-benefit"><i class="fas fa-check-circle"></i> Exercices corrigés</div>
+        <div class="modal-benefit"><i class="fas fa-check-circle"></i> Quiz interactifs</div>
+        <div class="modal-benefit"><i class="fas fa-check-circle"></i> Suivi de progression</div>
+      </div>
+
+      <!-- ✅ WhatsApp intégré -->
+      <div class="modal-whatsapp">
+        <div class="icon"><i class="fab fa-whatsapp"></i></div>
+        <div class="info">
+          <div class="label">Contactez-nous sur WhatsApp</div>
+          <div class="number">+227 98 06 64 67</div>
+        </div>
+      </div>
+
+      <div class="modal-buttons">
+        <button class="modal-btn secondary" id="modalLaterBtn">✕ Plus tard</button>
+        <button class="modal-btn whatsapp" id="modalActivateBtn">
+          <i class="fab fa-whatsapp"></i> Contacter sur WhatsApp
+        </button>
+      </div>
+    </div>
+  </div>
+
+    <script type="module">
+    // ================================================================
+    // IMPORTS FIREBASE
+    // ================================================================
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
+    import {
+      getAuth, onAuthStateChanged, setPersistence, browserLocalPersistence
+    } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
+    import {
+      getFirestore, doc, onSnapshot, addDoc, collection
+    } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
+
+    // ================================================================
+    // FIREBASE
+    // ================================================================
+    var firebaseConfig = {
+      apiKey: "AIzaSyBEbYuuUlNCLMBUHClv4UnyownNHw2q3_g",
+      authDomain: "nexgen-39043.firebaseapp.com",
+      projectId: "nexgen-39043",
+      storageBucket: "nexgen-39043.firebasestorage.app",
+      messagingSenderId: "619390144325",
+      appId: "1:619390144325:web:35d96b125501e4e8b1782c",
+      measurementId: "G-HC2Q5DNKDR"
+    };
+    var app = initializeApp(firebaseConfig);
+    var auth = getAuth(app);
+    var db = getFirestore(app);
+    setPersistence(auth, browserLocalPersistence);
+
+    // ================================================================
+    // CONFIG
+    // ================================================================
+    var WHATSAPP_NUMBER = "22798064667";
+    var MONTANT_ABONNEMENT = 1000;
+
+    // ================================================================
+    // DONNÉES DES MATIÈRES (4 matières)
+    // ================================================================
+    const SUBJECTS = [
+  { id: 'maths', name: 'Mathématiques', icon: 'fa-square-root-variable', color: 'gold' },
+  { id: 'physique', name: 'Physique', icon: 'fa-flask', color: 'blue' },
+  { id: 'chimie', name: 'Chimie', icon: 'fa-vial', color: 'green' },
+  { id: 'svt', name: 'SVT', icon: 'fa-dna', color: 'green' },
+  { id: 'francais', name: 'Français', icon: 'fa-book-open', color: 'gold' },
+  { id: 'bac-sujets', name: 'Sujets BAC', icon: 'fa-file-alt', color: 'purple' }
+];
+
+    var subjectsGrid = document.getElementById('subjectsGrid');
+    var subModal = document.getElementById('subModal');
+    var modalSubjectName = document.getElementById('modalSubjectName');
+    var subBanner = document.getElementById('subBanner');
+    var subStatusText = document.getElementById('subStatusText');
+    var subSubtext = document.getElementById('subSubtext');
+    var subDaysBadge = document.getElementById('subDaysBadge');
+    var subBannerBtn = document.getElementById('subBannerBtn');
+    var subBannerBtnText = document.getElementById('subBannerBtnText');
+
+    var currentUser = null;
+    var isAbonnementActif = false;
+    var pendingSubject = null;
+
+    // ================================================================
+    // RENDU DE LA GRILLE DES MATIÈRES
+    // ================================================================
+    function renderSubjects() {
+      subjectsGrid.innerHTML = SUBJECTS.map(function (s) {
+        var lockedClass = isAbonnementActif ? '' : ' locked';
+        var lockIcon = isAbonnementActif ? 'fa-lock-open' : 'fa-lock';
+        return (
+          '<div class="subject-card' + lockedClass + '" data-id="' + s.id + '">' +
+            '<div class="subject-lock"><i class="fas ' + lockIcon + '"></i></div>' +
+            '<div class="subject-icon ' + s.color + '"><i class="fas ' + s.icon + '"></i></div>' +
+            '<div class="subject-name">' + s.name + '</div>' +
+            '<div class="subject-chapters"></div>' +
+          '</div>'
+        );
+      }).join('');
+
+      document.querySelectorAll('.subject-card').forEach(function (card) {
+        card.addEventListener('click', function () {
+          var subject = SUBJECTS.find(function (s) { return s.id === card.dataset.id; });
+          if (isAbonnementActif) {
+            window.location.href = 'matiere.html?filiere=bac&id=' + subject.id;
+          } else {
+            openModal(subject);
+          }
+        });
+      });
+    }
+
+    // ================================================================
+    // CHARGER LES DONNÉES DEPUIS FIRESTORE
+    // ================================================================
+    function loadDataFromFirestore() {
+  onSnapshot(collection(db, 'cours_bac'), function (snapshot) {
+    var totalChapitres = 0;
+    var totalExercices = 0;
+
+    snapshot.forEach(function (doc) {
+      var data = doc.data();
+      var id = doc.id;
+      var subject = SUBJECTS.find(function (s) { return s.id === id; });
+
+      if (subject) {
+        var chapitres = data.chapitres || [];
+        var exercices = data.exercices || [];
+        subject.chapters = chapitres.length;
+        subject.exercices = exercices.length;
+        totalChapitres += chapitres.length;
+        totalExercices += exercices.length;
+      }
+    });
+    
+    renderSubjects();
+  }, function (error) {
+    console.warn('Erreur Firestore:', error);
+    renderSubjects();
+  });
+}
+
+    // ================================================================
+    // BANNIÈRE ABONNEMENT
+    // ================================================================
+    function updateBanner(abonnement) {
+      var now = new Date();
+      var dateFin = abonnement && abonnement.dateFin ? new Date(abonnement.dateFin) : null;
+      isAbonnementActif = !!(abonnement && abonnement.actif && dateFin && dateFin > now);
+
+      if (isAbonnementActif) {
+        var joursRestants = Math.max(1, Math.ceil((dateFin - now) / 86400000));
+        subBanner.classList.add('active');
+        subStatusText.innerHTML = '<i class="fas fa-check-circle"></i> Abonnement actif';
+        subSubtext.textContent = 'Accès complet aux 4 matières du BAC';
+        subDaysBadge.style.display = 'inline-block';
+        subDaysBadge.textContent = joursRestants + ' jour' + (joursRestants > 1 ? 's' : '') + ' restant' + (joursRestants > 1 ? 's' : '');
+        
+        // ✅ Cache le bouton d'activation
+        subBannerBtn.style.display = 'none';
+        
+      } else {
+        subBanner.classList.remove('active');
+        var expire = !!(abonnement && dateFin && dateFin <= now);
+        subStatusText.innerHTML = '<i class="fas fa-lock"></i> ' + (expire ? 'Abonnement expiré' : 'Abonnement inactif');
+        subSubtext.textContent = expire ? "Réactivez pour continuer vos cours" : 'Activez pour débloquer les 4 matières';
+        subDaysBadge.style.display = 'none';
+        
+        // ✅ Affiche le bouton d'activation
+        subBannerBtn.style.display = 'flex';
+        subBannerBtnText.textContent = 'Activer';
+        subBannerBtn.className = 'sub-banner-btn activate';
+      }
+
+      renderSubjects();
+    }
+
+    // ✅ Événement du bouton : ouvre la modale
+    subBannerBtn.addEventListener('click', function () {
+      openModal(null);
+    });
+
+    // ================================================================
+    // MODALE
+    // ================================================================
+    function openModal(subject) {
+      pendingSubject = subject;
+      modalSubjectName.textContent = subject ? ('Débloquez « ' + subject.name + ' » et tout le programme BAC') : 'Débloquez toutes les matières du BAC';
+      subModal.classList.add('show');
+    }
+
+    function closeModal() {
+      subModal.classList.remove('show');
+    }
+
+    document.getElementById('modalLaterBtn').addEventListener('click', closeModal);
+    subModal.addEventListener('click', function (e) {
+      if (e.target === subModal) closeModal();
+    });
+
+    document.getElementById('modalActivateBtn').addEventListener('click', function () {
+      var uid = currentUser ? currentUser.uid : 'inconnu';
+      var email = currentUser ? (currentUser.email || '') : '';
+      var texte = 'Bonjour ARVEXA, je souhaite activer mon abonnement BAC (1000 FCFA / 2 semaines).%0AMon identifiant : ' + uid + (email ? ('%0AEmail : ' + email) : '');
+
+      if (currentUser) {
+        try {
+          addDoc(collection(db, 'demandes_abonnement_bac'), {
+            uid: uid,
+            email: email,
+            montant: MONTANT_ABONNEMENT,
+            statut: 'en_attente',
+            createdAt: new Date().toISOString()
+          });
+        } catch (err) {
+          console.warn('Erreur enregistrement demande:', err);
+        }
+      }
+
+      window.open('https://wa.me/' + WHATSAPP_NUMBER + '?text=' + texte, '_blank');
+      closeModal();
+    });
+
+    // ================================================================
+    // PROGRESSION
+    // ================================================================
+    function updateProgress() {
+      try {
+        var raw = localStorage.getItem('ARVEXA_bac_progress');
+        var data = raw ? JSON.parse(raw) : {};
+        var values = SUBJECTS.map(function (s) { return data[s.id] || 0; });
+        var avg = Math.round(values.reduce(function (a, b) { return a + b; }, 0) / values.length);
+        document.getElementById('progressValue').textContent = avg + '%';
+        document.getElementById('progressRing').style.setProperty('--progress', avg);
+      } catch (e) {}
+    }
+
+    function hideLoadingScreen() {
+      document.getElementById('loadingScreen').classList.add('hide');
+    }
+
+    // ================================================================
+    // AUTH + FIRESTORE
+    // ================================================================
+    onAuthStateChanged(auth, function (user) {
+      if (!user) {
+        window.location.href = 'login.html';
+        return;
+      }
+      currentUser = user;
+      var userRef = doc(db, 'users', user.uid);
+
+      onSnapshot(userRef, function (snap) {
+        var data = snap.exists() ? snap.data() : {};
+        var abonnement = data.education && data.education.bac ? data.education.bac.abonnement : null;
+        updateBanner(abonnement);
+        updateProgress();
+        hideLoadingScreen();
+      }, function (error) {
+        console.warn('Erreur Firestore:', error);
+        updateBanner(null);
+        updateProgress();
+        hideLoadingScreen();
+      });
+    });
+
+    // ================================================================
+    // INIT
+    // ================================================================
+    loadDataFromFirestore();
+    renderSubjects();
+  </script>
+</body>
+</html>
