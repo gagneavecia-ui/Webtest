@@ -363,6 +363,9 @@
       box-shadow: -8px 0 40px rgba(0,0,0,0.3);
     }
     .menu-overlay.active .menu-sidebar { transform: translateX(0); }
+    .menu-overlay.dragging { visibility: visible; opacity: 1; transition: none; }
+    .menu-overlay.dragging .menu-sidebar,
+    .menu-overlay.dragging .menu-backdrop { transition: none; }
     .menu-sidebar::-webkit-scrollbar { width: 2px; }
     .menu-sidebar::-webkit-scrollbar-track { background: transparent; }
     .menu-sidebar::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; opacity: 0.2; }
@@ -1121,6 +1124,7 @@ var menuOverlay = document.getElementById('menuOverlay');
 var menuBtn = document.getElementById('menuBtn');
 var menuCloseBtn = document.getElementById('menuCloseBtn');
 var menuBackdrop = document.getElementById('menuBackdrop');
+var menuSidebar = document.getElementById('menuSidebar');
 var menuAvatar = document.getElementById('menuAvatar');
 var menuUsername = document.getElementById('menuUsername');
 var menuUseremail = document.getElementById('menuUseremail');
@@ -1532,21 +1536,21 @@ actuSlidesContainer.addEventListener('touchstart', stopAutoPlay);
 actuSlidesContainer.addEventListener('touchend', startAutoPlay);
 
 // ================================================================
-// MENU SWIPE - CORRIGÉ
+// MENU SWIPE - le panneau (côté droit) suit le doigt, puis s'aligne
 // ================================================================
 var touchStartX = 0, touchStartY = 0, isMenuOpen = false;
-var SWIPE_THRESHOLD = 30;
-var EDGE_THRESHOLD = 20;
+var isDragging = false;
+var dragSidebarWidth = 0;
+var SWIPE_OPEN_ZONE = 70; // zone au bord droit pour démarrer l'ouverture
+var MOVE_THRESHOLD = 10;  // déplacement mini avant de considérer que c'est un glissement (pas un tap)
 
 function openMenu() { 
-  if (isMenuOpen) return; 
   isMenuOpen = true; 
   menuOverlay.classList.add('active'); 
   document.body.style.overflow = 'hidden'; 
 }
 
 function closeMenu() { 
-  if (!isMenuOpen) return; 
   isMenuOpen = false; 
   menuOverlay.classList.remove('active'); 
   document.body.style.overflow = ''; 
@@ -1556,26 +1560,83 @@ document.addEventListener('touchstart', function(e) {
   var touch = e.changedTouches[0];
   touchStartX = touch.screenX;
   touchStartY = touch.screenY;
+
+  // Un tap sur le bouton menu ou le bouton fermer reste un simple clic, jamais un glissement
+  if (e.target.closest('#menuBtn, #menuCloseBtn')) {
+    isDragging = false;
+    return;
+  }
+
+  var startsInOpenZone = touchStartX > window.innerWidth - SWIPE_OPEN_ZONE && !isMenuOpen;
+  var startsWhileOpen = isMenuOpen;
+
+  if (startsInOpenZone || startsWhileOpen) {
+    isDragging = true;
+    dragSidebarWidth = menuSidebar.getBoundingClientRect().width;
+  } else {
+    isDragging = false;
+  }
 }, { passive: true });
 
 document.addEventListener('touchmove', function(e) {
-  if (!e.cancelable) return;
+  if (!isDragging) return;
   var touch = e.changedTouches[0];
   var deltaX = touch.screenX - touchStartX;
   var deltaY = touch.screenY - touchStartY;
   
   if (Math.abs(deltaY) > Math.abs(deltaX) * 1.2) return;
-  
-  if (touchStartX > window.innerWidth - EDGE_THRESHOLD && deltaX < -SWIPE_THRESHOLD && !isMenuOpen) {
-    e.preventDefault();
-    openMenu();
+
+  // Tant qu'il n'y a pas de vrai déplacement, on ne fait rien : ça laisse
+  // les taps (même avec un petit tremblement du doigt) déclencher leur clic normal
+  if (Math.abs(deltaX) < MOVE_THRESHOLD) return;
+
+  if (!e.cancelable) return;
+  e.preventDefault();
+
+  menuOverlay.classList.add('dragging');
+
+  var progress;
+  if (isMenuOpen) {
+    // part de 0 (ouvert) vers 1 (fermé) si on glisse vers la droite
+    progress = Math.min(1, Math.max(0, deltaX / dragSidebarWidth));
+  } else {
+    // part de 1 (fermé) vers 0 (ouvert) si on glisse vers la gauche
+    progress = Math.min(1, Math.max(0, 1 + deltaX / dragSidebarWidth));
   }
-  
-  if (isMenuOpen && deltaX > SWIPE_THRESHOLD) {
-    e.preventDefault();
-    closeMenu();
-  }
+
+  menuSidebar.style.transform = 'translateX(' + (progress * 100) + '%)';
+  menuBackdrop.style.opacity = String(1 - progress);
 }, { passive: false });
+
+document.addEventListener('touchend', function(e) {
+  if (!isDragging) return;
+  isDragging = false;
+
+  var touch = e.changedTouches[0];
+  var deltaX = touch.screenX - touchStartX;
+  var draggedRatio = deltaX / dragSidebarWidth;
+
+  menuOverlay.classList.remove('dragging');
+  menuSidebar.style.transform = '';
+  menuBackdrop.style.opacity = '';
+
+  // Un simple tap ne doit rien changer : les clics sur les liens du menu ouvert restent normaux
+  var MIN_DRAG_PX = 12;
+  if (Math.abs(deltaX) < MIN_DRAG_PX) {
+    isMenuOpen ? openMenu() : closeMenu();
+    return;
+  }
+
+  var OPEN_RATIO = 0.35;
+
+  if (isMenuOpen) {
+    if (draggedRatio > OPEN_RATIO) closeMenu();
+    else openMenu();
+  } else {
+    if (draggedRatio < -OPEN_RATIO) openMenu();
+    else closeMenu();
+  }
+}, { passive: true });
 
 menuBtn.addEventListener('click', function(e) { e.preventDefault(); isMenuOpen ? closeMenu() : openMenu(); });
 menuCloseBtn.addEventListener('click', closeMenu);
