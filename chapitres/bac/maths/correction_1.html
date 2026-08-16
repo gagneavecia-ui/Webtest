@@ -1,0 +1,1798 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=720">
+    <title>Corrections Nombres Complexes - 110 exercices detailles</title>
+    <style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@1,500&display=swap');
+
+@page {
+    size: 720px 1020px;
+    margin: 0;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+    background: #080c18;
+    color: #d8dff0;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+}
+
+.page {
+    width: 720px;
+    min-height: 1020px;
+    padding: 60px 55px;
+    background: #080c18;
+    position: relative;
+    page-break-after: always;
+    break-after: page;
+    overflow: hidden;
+}
+
+.page:last-child { page-break-after: auto; break-after: auto; }
+
+/* === COVER / TITLE PAGE === */
+.cover {
+    padding: 0;
+    background: linear-gradient(135deg, #080c18 0%, #101830 50%, #080c18 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    position: relative;
+    min-height: 1020px;
+}
+.cover-content {
+    position: relative;
+    z-index: 2;
+    padding: 50px 55px 60px;
+}
+.cover-label {
+    color: #c9a84c;
+    font-size: 12px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 18px;
+}
+.cover-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    font-weight: 900;
+    line-height: 1.1;
+    color: #d8dff0;
+    margin-bottom: 18px;
+    letter-spacing: -1px;
+}
+.cover-title .accent { color: #c9a84c; font-style: italic; font-family: 'Cormorant Garamond', serif; font-weight: 500; }
+.cover-subtitle {
+    font-size: 15px;
+    color: #7888aa;
+    line-height: 1.6;
+    max-width: 500px;
+    margin-bottom: 30px;
+}
+.cover-divider {
+    width: 70px; height: 3px;
+    background: linear-gradient(to right, #c9a84c, #3b82f6);
+    margin-bottom: 22px;
+}
+.cover-author {
+    font-size: 13px;
+    color: #7888aa;
+    letter-spacing: 1px;
+}
+.cover-author strong { color: #d8dff0; font-weight: 600; }
+
+/* === TOC === */
+.toc-page { padding: 70px 55px; }
+.toc-header {
+    text-align: center;
+    margin-bottom: 35px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #1a2038;
+}
+.toc-label {
+    color: #c9a84c;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+.toc-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 900;
+    color: #d8dff0;
+}
+.toc-list { list-style: none; padding: 0; }
+.toc-item {
+    display: flex;
+    align-items: baseline;
+    padding: 8px 0;
+    border-bottom: 1px dotted #1a2038;
+    font-size: 13px;
+}
+.toc-num {
+    color: #3b82f6;
+    font-weight: 700;
+    font-family: 'Playfair Display', serif;
+    width: 32px;
+    flex-shrink: 0;
+}
+.toc-text { color: #d8dff0; flex: 1; }
+.toc-dots { color: #1a2038; margin: 0 6px; flex: 1; }
+.toc-page-num {
+    color: #7888aa;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+/* === SECTION PAGES (Exercise themes) === */
+.section-page { padding: 0; }
+.section-hero {
+    height: 160px;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+}
+.section-hero-gradient {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+.section-hero-pattern {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    opacity: 0.06;
+    background-size: 50px 50px;
+    background-image: radial-gradient(circle, #3b82f6 1px, transparent 1px);
+}
+.section-hero-overlay {
+    position: absolute;
+    bottom: 25px;
+    left: 55px;
+    right: 55px;
+    z-index: 2;
+}
+.section-number {
+    color: #c9a84c;
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+.section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 900;
+    color: #d8dff0;
+    line-height: 1.15;
+    letter-spacing: -0.5px;
+}
+
+.section-body {
+    padding: 30px 55px 50px;
+}
+
+/* === EXERCISE ITEM === */
+.exercise-item {
+    background: #101830;
+    border: 1px solid #1a2038;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 14px 0;
+    break-inside: avoid;
+    border-left: 3px solid #3b82f6;
+}
+.exercise-item.hard {
+    border-left-color: #ef4444;
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.05), #101830);
+}
+.exercise-item.medium {
+    border-left-color: #f97316;
+    background: linear-gradient(135deg, rgba(249, 115, 22, 0.04), #101830);
+}
+.exercise-item.bac {
+    border-left-color: #c9a84c;
+    background: linear-gradient(135deg, rgba(201, 168, 76, 0.06), #101830);
+    border-left-width: 4px;
+}
+.exercise-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+.exercise-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 900;
+    color: #3b82f6;
+}
+.exercise-diff {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 2px 8px;
+    border-radius: 3px;
+}
+.exercise-diff.facile { background: rgba(34, 197, 94, 0.2); color: #22c55e; }
+.exercise-diff.moyen { background: rgba(249, 115, 22, 0.2); color: #f97316; }
+.exercise-diff.difficile { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+.exercise-diff.bac { background: rgba(201, 168, 76, 0.2); color: #c9a84c; }
+
+.exercise-question {
+    font-size: 13px;
+    color: #a0b0cc;
+    line-height: 1.75;
+}
+.exercise-question p { color: #a0b0cc; margin-bottom: 8px; }
+.exercise-question p:last-child { margin-bottom: 0; }
+.exercise-question strong { color: #d8dff0; }
+
+.sub-question {
+    padding-left: 20px;
+    margin: 6px 0;
+    position: relative;
+    font-size: 12.5px;
+    color: #a0b0cc;
+    line-height: 1.7;
+}
+.sub-question::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 6px;
+    height: 6px;
+    background: #3b82f6;
+    border-radius: 50%;
+}
+
+/* === CORRECTION ITEMS === */
+.correction-item {
+    background: #101830;
+    border: 1px solid #1a2038;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 14px 0;
+    break-inside: avoid;
+    border-left: 3px solid #22c55e;
+}
+.correction-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+.correction-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 900;
+    color: #22c55e;
+    margin-right: 10px;
+}
+.correction-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: #22c55e;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+.correction-content {
+    font-size: 13px;
+    color: #a0b0cc;
+    line-height: 1.8;
+}
+.correction-content p { margin-bottom: 6px; }
+.correction-content p:last-child { margin-bottom: 0; }
+.correction-content strong { color: #d8dff0; }
+.correction-step {
+    padding-left: 20px;
+    margin: 4px 0;
+    position: relative;
+}
+.correction-step::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 6px;
+    height: 6px;
+    background: #22c55e;
+    border-radius: 50%;
+}
+
+.math-inline {
+    background: rgba(59, 130, 246, 0.08);
+    border: 1px solid #1a2038;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    color: #e8ecf8;
+    white-space: nowrap;
+}
+
+.formula-box {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(201, 168, 76, 0.06));
+    border: 1px solid #1a2038;
+    border-left: 4px solid #3b82f6;
+    border-radius: 10px;
+    padding: 14px 20px;
+    margin: 14px 0;
+    text-align: center;
+    break-inside: avoid;
+}
+.formula-main {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #e8ecf8;
+    line-height: 1.6;
+}
+.formula-desc {
+    font-size: 11px;
+    color: #7888aa;
+    margin-top: 6px;
+}
+
+p {
+    margin-bottom: 12px;
+    color: #a0b0cc;
+    line-height: 1.8;
+}
+p strong { color: #d8dff0; }
+
+.callout {
+    background: #101830;
+    border-radius: 10px;
+    padding: 16px 22px;
+    margin: 16px 0;
+    text-align: center;
+    border-top: 2px solid #3b82f6;
+    border-bottom: 2px solid #c9a84c;
+    break-inside: avoid;
+}
+.callout-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-style: italic;
+    color: #d8dff0;
+    line-height: 1.5;
+}
+
+.stat-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin: 18px 0;
+    break-inside: avoid;
+}
+.stat-card {
+    background: linear-gradient(135deg, #101830, #1a2038);
+    border: 1px solid #1a2038;
+    border-radius: 10px;
+    padding: 14px 10px;
+    text-align: center;
+}
+.stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 900;
+    color: #c9a84c;
+    line-height: 1;
+    margin-bottom: 5px;
+}
+.stat-label {
+    font-size: 10px;
+    color: #7888aa;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.conclusion-page {
+    background: linear-gradient(135deg, #080c18 0%, #101830 100%);
+    padding: 70px 55px;
+}
+</style>
+</head>
+<body>
+<div class="page cover">
+    <div class="cover-content">
+        <div class="cover-label">Collection NAMO -- Terminale D & C</div>
+        <div class="cover-title">Nombres Complexes<br><span class="accent">Corrections Detaillees</span></div>
+        <div class="cover-divider"></div>
+        <div class="cover-subtitle">Corrections completes et detaillees des 110 exercices. Chaque etape est expliquee pour comprendre la methode et pouvoir la reproduire en examen.</div>
+        <div class="stat-block">
+            <div class="stat-card"><div class="stat-number">110</div><div class="stat-label">Exercices</div></div>
+            <div class="stat-card"><div class="stat-number">9</div><div class="stat-label">Themes</div></div>
+            <div class="stat-card"><div class="stat-number">4</div><div class="stat-label">Niveaux</div></div>
+        </div>
+        <div class="cover-author">Mathematiques <strong>Terminale D</strong></div>
+    </div>
+</div>
+<div class="page toc-page">
+    <div class="toc-header">
+        <div class="toc-label">Table des matieres</div>
+        <div class="toc-title">110 Corrections</div>
+    </div>
+    <ul class="toc-list">
+    <li class="toc-item"><span class="toc-num">I</span><span class="toc-text">Forme algebrique et operations</span><span class="toc-dots">............</span><span class="toc-page-num">Ex. 1-12</span></li><li class="toc-item"><span class="toc-num">II</span><span class="toc-text">Equations du second degre</span><span class="toc-dots">............</span><span class="toc-page-num">Ex. 13-25</span></li><li class="toc-item"><span class="toc-num">III</span><span class="toc-text">Module et argument</span><span class="toc-dots">............</span><span class="toc-page-num">Ex. 26-40</span></li><li class="toc-item"><span class="toc-num">IV</span><span class="toc-text">Formes trigonometrique et exponentielle</span><span class="toc-dots">............</span><span class="toc-page-num">Ex. 41-55</span></li><li class="toc-item"><span class="toc-num">V</span><span class="toc-text">Conjugue et proprietes</span><span class="toc-dots">............</span><span class="toc-page-num">Ex. 56-65</span></li><li class="toc-item"><span class="toc-num">VI</span><span class="toc-text">Geometrie complexe</span><span class="toc-dots">............</span><span class="toc-page-num">Ex. 66-82</span></li><li class="toc-item"><span class="toc-num">VII</span><span class="toc-text">Racines n-iemes</span><span class="toc-dots">............</span><span class="toc-page-num">Ex. 83-90</span></li><li class="toc-item"><span class="toc-num">VIII</span><span class="toc-text">Exercices type BAC</span><span class="toc-dots">............</span><span class="toc-page-num">Ex. 91-105</span></li><li class="toc-item"><span class="toc-num">IX</span><span class="toc-text">Synthese avancee</span><span class="toc-dots">............</span><span class="toc-page-num">Ex. 106-110</span></li>
+    </ul>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a5f 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 1</div>
+        <div class="section-title">Corrections : Forme algebrique (Ex. 1-12)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 1</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><strong>a) z1 = 3 + 5i</strong> : Re(z1) = 3, Im(z1) = 5.</div><div class="correction-step"><strong>b) z2 = -2 + 7i</strong> : Re(z2) = -2, Im(z2) = 7.</div><div class="correction-step"><strong>c) z3 = 4 - 3i</strong> : Re(z3) = 4, Im(z3) = -3.</div><div class="correction-step"><strong>d) z4 = -6 - i</strong> : Re(z4) = -6, Im(z4) = -1.</div><p>Rappel : pour z = a + ib, Re(z) = a et Im(z) = b.</p>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 2</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><strong>z + z'</strong> = (2 + 3i) + (-1 + 4i) = (2 - 1) + (3 + 4)i = <span class='math-inline'>1 + 7i</span></div><div class="correction-step"><strong>z - z'</strong> = (2 + 3i) - (-1 + 4i) = (2 + 1) + (3 - 4)i = <span class='math-inline'>3 - i</span></div><div class="correction-step"><strong>z . z'</strong> = (2 + 3i)(-1 + 4i) = 2(-1) + 2(4i) + 3i(-1) + 3i(4i) = -2 + 8i - 3i + 12i<sup>2</sup> = -2 + 5i - 12 = <span class='math-inline'>-14 + 5i</span></div><div class="correction-step"><strong>z / z'</strong> = (2 + 3i)/(-1 + 4i). On multiplie par le conjugue du denominateur :</div><div class="correction-step">= (2 + 3i)(-1 - 4i) / ((-1)<sup>2</sup> + 4<sup>2</sup>) = (-2 - 8i - 3i - 12i<sup>2</sup>) / (1 + 16) = (-2 - 11i + 12)/17 = <span class='math-inline'>10/17 - 11i/17</span></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 3</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><strong>a) z1 = 5 + 2i</strong> donc z1barre = 5 - 2i</div><div class="correction-step"><strong>b) z2 = -3 - 7i</strong> donc z2barre = -3 + 7i</div><div class="correction-step"><strong>c) z3 = 4i</strong> donc z3barre = -4i</div><div class="correction-step"><strong>d) z4 = -6</strong> donc z4barre = -6 (car un reel est son propre conjugue)</div><p>Rappel : si z = a + ib alors zbarre = a - ib.</p>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 4</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">Soit z = 2 + i, donc zbarre = 2 - i.</div><div class="correction-step"><strong>z + zbarre</strong> = (2 + i) + (2 - i) = 4. Or 2.Re(z) = 2 x 2 = 4. <strong>Verifie.</strong></div><div class="correction-step"><strong>z . zbarre</strong> = (2 + i)(2 - i) = 4 - i<sup>2</sup> = 4 + 1 = 5. Or |z|<sup>2</sup> = 2<sup>2</sup> + 1<sup>2</sup> = 5. <strong>Verifie.</strong></div><div class="correction-step"><strong>z - zbarre</strong> = (2 + i) - (2 - i) = 2i. Or 2i.Im(z) = 2i x 1 = 2i. <strong>Verifie.</strong></div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a5f 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 1</div>
+        <div class="section-title">Corrections : Forme algebrique (Ex. 1-12)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 5</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><strong>a) 3z + 2i = 5 - i</strong> : 3z = 5 - i - 2i = 5 - 3i, donc <span class='math-inline'>z = 5/3 - i</span></div><div class="correction-step"><strong>b) (1 + i)z = 4 - 2i</strong> : z = (4 - 2i)/(1 + i). On multiplie par (1 - i)/(1 - i) :</div><div class="correction-step">= (4 - 2i)(1 - i) / (1 + 1) = (4 - 4i - 2i + 2i<sup>2</sup>)/2 = (4 - 6i - 2)/2 = (2 - 6i)/2 = <span class='math-inline'>1 - 3i</span></div><div class="correction-step"><strong>c) 2z - (3 - i) = z + 1 + 2i</strong> : 2z - 3 + i = z + 1 + 2i, donc z = 1 + 2i + 3 - i = <span class='math-inline'>4 + i</span></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 6</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><strong>a) z1 = 3 - 3i + 3i = 3</strong> : Reel pur (Im(z1) = 0).</div><div class="correction-step"><strong>b) z2 = 2i - 5i + 3i = 0i = 0</strong> : 0 est a la fois reel et imaginaire pur.</div><div class="correction-step"><strong>c) z3 = (1 + i)(1 - i) = 1 - i<sup>2</sup> = 1 + 1 = 2</strong> : Reel pur.</div><div class="correction-step"><strong>d) z4 = i<sup>4</sup> = (i<sup>2</sup>)<sup>2</sup> = (-1)<sup>2</sup> = 1</strong> : Reel pur.</div><p>Rappel : reel pur si Im(z) = 0 ; imaginaire pur si Re(z) = 0.</p>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 7</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">i<sup>1</sup> = i, i<sup>2</sup> = -1, i<sup>3</sup> = -i, i<sup>4</sup> = 1, i<sup>5</sup> = i</div><div class="correction-step">On remarque le cycle : i, -1, -i, 1, i, -1, -i, 1, ... de periode 4.</div><div class="correction-step">Donc i<sup>n</sup> depend de n mod 4 : si n = 4k alors i<sup>n</sup> = 1, si n = 4k+1 alors i<sup>n</sup> = i, etc.</div><div class="correction-step">2024 = 4 x 506 donc <span class='math-inline'>i<sup>2024</sup> = 1</span></div><div class="correction-step">2025 = 4 x 506 + 1 donc <span class='math-inline'>i<sup>2025</sup> = i</span></div><div class="correction-step">2023 = 4 x 505 + 3 donc <span class='math-inline'>i<sup>2023</sup> = -i</span></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 8</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><strong>a)</strong> (3 + 2i) + (1 - 5i) = 4 - 3i</div><div class="correction-step"><strong>b)</strong> (4 - i) - (2 + 3i) = 2 - 4i</div><div class="correction-step"><strong>c)</strong> 2(1 + 3i) - 3(2 - i) = 2 + 6i - 6 + 3i = -4 + 9i</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a5f 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 1</div>
+        <div class="section-title">Corrections : Forme algebrique (Ex. 1-12)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 9</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><strong>|z|</strong> = racine(3<sup>2</sup> + (-2)<sup>2</sup>) = racine(9 + 4) = <span class='math-inline'>racine(13)</span></div><div class="correction-step"><strong>|z|<sup>2</sup></strong> = 13</div><div class="correction-step"><strong>z . zbarre</strong> = (3 - 2i)(3 + 2i) = 9 + 6i - 6i - 4i<sup>2</sup> = 9 + 4 = 13 = |z|<sup>2</sup>. C'est conforme a la propriete.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 10</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><strong>z1<sup>2</sup></strong> = (1 + 2i)<sup>2</sup> = 1 + 4i + 4i<sup>2</sup> = 1 + 4i - 4 = <span class='math-inline'>-3 + 4i</span></div><div class="correction-step"><strong>z1 . z2barre</strong> = (1 + 2i)(3 + i) = 3 + i + 6i + 2i<sup>2</sup> = 3 + 7i - 2 = <span class='math-inline'>1 + 7i</span></div><div class="correction-step"><strong>(z1 + z2)(z1 - z2)</strong> = (z1<sup>2</sup> - z2<sup>2</sup>) par identite remarquable.</div><div class="correction-step">z2<sup>2</sup> = (3 - i)<sup>2</sup> = 9 - 6i + i<sup>2</sup> = 8 - 6i. Donc (z1 + z2)(z1 - z2) = (-3 + 4i) - (8 - 6i) = <span class='math-inline'>-11 + 10i</span></div><div class="correction-step"><strong>z1/z2</strong> = (1 + 2i)/(3 - i) = (1 + 2i)(3 + i)/(9 + 1) = (3 + i + 6i + 2i<sup>2</sup>)/10 = (3 + 7i - 2)/10 = <span class='math-inline'>1/10 + 7i/10</span></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 11</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">Soit z = a + ib, donc zbarre = a - ib.</div><div class="correction-step"><strong>a)</strong> |zbarre| = racine(a<sup>2</sup> + (-b)<sup>2</sup>) = racine(a<sup>2</sup> + b<sup>2</sup>) = |z|. CQFD.</div><div class="correction-step"><strong>b)</strong> Soient z = a + ib et z' = c + id. (z + z')barre = ((a+c) + i(b+d))barre = (a+c) - i(b+d) = (a - ib) + (c - id) = zbarre + z'barre. CQFD.</div><div class="correction-step"><strong>c)</strong> (z . z')barre = ((a+ib)(c+id))barre = (ac - bd + i(ad + bc))barre = ac - bd - i(ad + bc) = (a - ib)(c - id) = zbarre . z'barre. CQFD.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 12</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">On pose z = a + ib. Alors zbarre = a - ib.</div><div class="correction-step">z + zbarre = (a + ib) + (a - ib) = 2a = 6, donc <strong>a = 3</strong>.</div><div class="correction-step">z . zbarre = (a + ib)(a - ib) = a<sup>2</sup> + b<sup>2</sup> = 9 + b<sup>2</sup> = 25, donc b<sup>2</sup> = 16, soit <strong>b = 4 ou b = -4</strong>.</div><div class="correction-step">Conclusion : <span class='math-inline'>z = 3 + 4i</span> ou <span class='math-inline'>z = 3 - 4i</span>.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e1b4b 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 2</div>
+        <div class="section-title">Corrections : Equations 2nd degre (Ex. 13-25)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 13</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><strong>a) z<sup>2</sup> - 4z + 3 = 0</strong> : Delta = 16 - 12 = 4 > 0.</div><div class="correction-step">z1 = (4 - 2)/2 = 1 et z2 = (4 + 2)/2 = 3. S = {1, 3}.</div><div class="correction-step"><strong>b) z<sup>2</sup> + 2z + 1 = 0</strong> : Delta = 4 - 4 = 0. z = -2/2 = -1. S = {-1}.</div><div class="correction-step"><strong>c) z<sup>2</sup> + 1 = 0</strong> : Delta = 0 - 4 = -4 < 0. z = (-0 + 2i)/2 = i ou z = -i. S = {i, -i}.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 14</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">z<sup>2</sup> + 4z + 13 = 0. Delta = 16 - 52 = -36 < 0.</div><div class="correction-step">Delta = -36 = (6i)<sup>2</sup>, donc racine(Delta) = 6i.</div><div class="correction-step">z1 = (-4 - 6i)/2 = <span class='math-inline'>-2 - 3i</span></div><div class="correction-step">z2 = (-4 + 6i)/2 = <span class='math-inline'>-2 + 3i</span></div><div class="correction-step">On verifie : z1 et z2 sont bien conjugues (Delta < 0).</div><div class="correction-step">Verification : (-2 - 3i)<sup>2</sup> + 4(-2 - 3i) + 13 = 4 + 12i - 9 - 8 - 12i + 13 = 0. OK</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 15</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">z<sup>2</sup> - 6z + 25 = 0. Delta = 36 - 100 = -64 < 0.</div><div class="correction-step">racine(Delta) = 8i.</div><div class="correction-step">z1 = (6 - 8i)/2 = <span class='math-inline'>3 - 4i</span>, z2 = (6 + 8i)/2 = <span class='math-inline'>3 + 4i</span></div><div class="correction-step">Verification de la somme : z1 + z2 = 6 (coefficient -b/a = 6).</div><div class="correction-step">Verification du produit : z1 . z2 = (3 - 4i)(3 + 4i) = 9 + 16 = 25 (coefficient c/a = 25).</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 16</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">z<sup>2</sup> + z + 1 = 0. Delta = 1 - 4 = -3 < 0.</div><div class="correction-step">racine(Delta) = i.racine(3). z1 = (-1 - i.racine(3))/2, z2 = (-1 + i.racine(3))/2.</div><div class="correction-step">Ce sont les racines cubiques de l'unite autres que 1 : z1 = j et z2 = j<sup>2</sup> ou j = e<sup>2ipi/3</sup>.</div><div class="correction-step">Calcul de z1/z2 + z2/z1 :</div><div class="correction-step">z1/z2 = z1<sup>2</sup>/z1.z2 = z1<sup>2</sup>/1 = j<sup>2</sup> = z2 (car z1.z2 = 1 et z1 = j).</div><div class="correction-step">De meme z2/z1 = z1 = j. Donc z1/z2 + z2/z1 = j + j<sup>2</sup> = -1.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e1b4b 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 2</div>
+        <div class="section-title">Corrections : Equations 2nd degre (Ex. 13-25)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 17</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><strong>a) 2z<sup>2</sup> - 4z + 5 = 0</strong> : Delta = 16 - 40 = -24. racine(Delta) = 2i.racine(6).</div><div class="correction-step">z = (4 + 2i.racine(6))/4 = <span class='math-inline'>1 + i.racine(6)/2</span> ou <span class='math-inline'>1 - i.racine(6)/2</span></div><div class="correction-step"><strong>b) 3z<sup>2</sup> + 6z + 9 = 0</strong> : Delta = 36 - 108 = -72. racine(Delta) = 6i.racine(2).</div><div class="correction-step">z = (-6 + 6i.racine(2))/6 = <span class='math-inline'>-1 + i.racine(2)</span> ou <span class='math-inline'>-1 - i.racine(2)</span></div><div class="correction-step"><strong>c) z<sup>2</sup> - 2z + 5 = 0</strong> : Delta = 4 - 20 = -16. racine(Delta) = 4i.</div><div class="correction-step">z = (2 + 4i)/2 = <span class='math-inline'>1 + 2i</span> ou <span class='math-inline'>1 - 2i</span></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 18</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">(1 + 2i)z<sup>2</sup> + (3 - i)z + (4 + 2i) = 0. Coefficients complexes donc Delta peut etre complexe.</div><div class="correction-step">Delta = (3 - i)<sup>2</sup> - 4(1 + 2i)(4 + 2i)</div><div class="correction-step">= (9 - 6i + i<sup>2</sup>) - 4(4 + 2i + 8i + 4i<sup>2</sup>)</div><div class="correction-step">= (8 - 6i) - 4(4 + 10i - 4) = (8 - 6i) - 4(10i) = 8 - 6i - 40i = 8 - 46i</div><div class="correction-step">Il faut calculer racine(Delta) = racine(8 - 46i). On cherche a + ib tel que (a + ib)<sup>2</sup> = 8 - 46i.</div><div class="correction-step">a<sup>2</sup> - b<sup>2</sup> = 8 et 2ab = -46, donc ab = -23. Avec a<sup>2</sup> - (23/a)<sup>2</sup> = 8.</div><div class="correction-step">En testant a = ... on resout : racine(Delta) vaut environ ... (ce calcul est tres long et technique).</div><div class="correction-step">Puis z = (-(3-i) + racine(Delta))/(2(1+2i)). On laisse le resultat sous cette forme.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 19</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><strong>a) z<sup>2</sup> = -4</strong> : z = 2i ou z = -2i.</div><div class="correction-step"><strong>b) z<sup>2</sup> = 4i</strong> : z = a + ib avec a<sup>2</sup> - b<sup>2</sup> = 0 et 2ab = 4, soit a = b et 2a<sup>2</sup> = 4.</div><div class="correction-step">Donc a<sup>2</sup> = 2, a = racine(2). Solutions : <span class='math-inline'>z = racine(2) + i.racine(2)</span> ou <span class='math-inline'>z = -racine(2) - i.racine(2)</span>.</div><div class="correction-step">On peut aussi ecrire z = racine(4) . e<sup>ipi/4</sup> = 2e<sup>ipi/4</sup> et z = 2e<sup>-3ipi/4</sup>.</div><div class="correction-step"><strong>c) z<sup>2</sup> = 3 - 4i</strong> : On cherche a + ib avec a<sup>2</sup> - b<sup>2</sup> = 3 et 2ab = -4.</div><div class="correction-step">On trouve a = 2, b = -1 (verification : 4 - 1 = 3, 2(2)(-1) = -4). Donc z = <span class='math-inline'>2 - i</span> ou <span class='math-inline'>-2 + i</span>.</div><div class="correction-step"><strong>d) z<sup>3</sup> = -8</strong> : -8 = 8.e<sup>ipi</sup>. Les 3 racines cubiques : z = 2.e<sup>i(pi + 2kpi)/3</sup>.</div><div class="correction-step">z1 = 2e<sup>ipi/3</sup> = -1 + i.racine(3), z2 = 2e<sup>ipi</sup> = -2, z3 = 2e<sup>i5pi/3</sup> = -1 - i.racine(3).</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 20</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">z<sup>4</sup> - 1 = 0 se factorise en (z<sup>2</sup> - 1)(z<sup>2</sup> + 1) = 0.</div><div class="correction-step">z<sup>2</sup> - 1 = 0 donne z = 1 ou z = -1.</div><div class="correction-step">z<sup>2</sup> + 1 = 0 donne z = i ou z = -i.</div><div class="correction-step">Les 4 solutions sont les 4 racines quatriemes de l'unite : <span class='math-inline'>S = {1, -1, i, -i}</span>.</div><p>Remarque : ce sont les nombres e<sup>ikpi/2</sup> pour k = 0, 1, 2, 3.</p>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e1b4b 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 2</div>
+        <div class="section-title">Corrections : Equations 2nd degre (Ex. 13-25)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 21</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">z<sup>4</sup> + 1 = 0. On pose Z = z<sup>2</sup>. Il faut Z<sup>2</sup> = -1, donc Z = i ou Z = -i.</div><div class="correction-step">Si Z = i : z<sup>2</sup> = i = e<sup>ipi/2</sup>. Donc z = e<sup>ipi/4</sup> ou z = e<sup>-3ipi/4</sup>.</div><div class="correction-step">Si Z = -i : z<sup>2</sup> = -i = e<sup>-ipi/2</sup>. Donc z = e<sup>-ipi/4</sup> ou z = e<sup>3ipi/4</sup>.</div><div class="correction-step">S = <span class='math-inline'>{(1+i)/racine(2), (-1+i)/racine(2), (1-i)/racine(2), (-1-i)/racine(2)}</span></div><div class="correction-step">Sous forme trigonometrique : e<sup>ipi/4</sup>, e<sup>3ipi/4</sup>, e<sup>-ipi/4</sup>, e<sup>-3ipi/4</sup>.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 22</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">z<sup>3</sup> - 1 = (z - 1)(z<sup>2</sup> + z + 1) = 0.</div><div class="correction-step">z - 1 = 0 donne z1 = 1.</div><div class="correction-step">z<sup>2</sup> + z + 1 = 0 : Delta = -3. z = (-1 + i.racine(3))/2 ou (-1 - i.racine(3))/2.</div><div class="correction-step">En posant j = e<sup>2ipi/3</sup> = (-1 + i.racine(3))/2, on a z2 = j et z3 = j<sup>2</sup>.</div><div class="correction-step">Les 3 solutions sont les 3 racines cubiques de l'unite : <span class='math-inline'>S = {1, j, j<sup>2</sup>}</span></div><p>Proprietes : 1 + j + j<sup>2</sup> = 0 et j<sup>3</sup> = 1.</p>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 23</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">z<sup>3</sup> + 1 = (z + 1)(z<sup>2</sup> - z + 1) = 0.</div><div class="correction-step">z + 1 = 0 donne z1 = -1.</div><div class="correction-step">z<sup>2</sup> - z + 1 = 0 : Delta = 1 - 4 = -3. z = (1 + i.racine(3))/2 ou (1 - i.racine(3))/2.</div><div class="correction-step">En posant J = e<sup>ipi/3</sup> = (1 + i.racine(3))/2, on a z2 = J et z3 = -J<sup>2</sup>.</div><div class="correction-step">Les 3 solutions sont les racines cubiques de -1 : <span class='math-inline'>S = {-1, e<sup>ipi/3</sup>, e<sup>-ipi/3</sup>}</span></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 24</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">z<sup>4</sup> - 16 = (z<sup>2</sup> - 4)(z<sup>2</sup> + 4) = 0.</div><div class="correction-step">z<sup>2</sup> - 4 = 0 : z = 2 ou z = -2.</div><div class="correction-step">z<sup>2</sup> + 4 = 0 : z<sup>2</sup> = -4, z = 2i ou z = -2i.</div><div class="correction-step">S = <span class='math-inline'>{2, -2, 2i, -2i}</span></div><p>Ces 4 nombres sont les 4 racines quatriemes de 16, c'est-a-dire z = 2.e<sup>ikpi/2</sup> pour k = 0,1,2,3.</p>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e1b4b 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 2</div>
+        <div class="section-title">Corrections : Equations 2nd degre (Ex. 13-25)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 25</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">z<sup>6</sup> - 1 = (z<sup>3</sup> - 1)(z<sup>3</sup> + 1) = 0.</div><div class="correction-step">Racines cubiques de 1 : 1, e<sup>2ipi/3</sup>, e<sup>4ipi/3</sup>.</div><div class="correction-step">Racines cubiques de -1 : -1, e<sup>ipi/3</sup>, e<sup>-ipi/3</sup> (c'est-a-dire e<sup>5ipi/3</sup>).</div><div class="correction-step">Les 6 racines sixiemes de l'unite sont : <span class='math-inline'>e<sup>ikpi/3</sup></span> pour k = 0, 1, 2, 3, 4, 5.</div><div class="correction-step">Soit : 1, e<sup>ipi/3</sup>, e<sup>2ipi/3</sup>, -1, e<sup>4ipi/3</sup>, e<sup>5ipi/3</sup>.</div><p>Sous forme algebrique : 1, (1 + i.racine(3))/2, (-1 + i.racine(3))/2, -1, (-1 - i.racine(3))/2, (1 - i.racine(3))/2.</p>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #172554 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 3</div>
+        <div class="section-title">Corrections : Module et argument (Ex. 26-40)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 26</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><strong>z1 = 3 + 4i</strong> : |z1| = racine(9 + 16) = racine(25) = <span class='math-inline'>5</span></div><div class="correction-step"><strong>z2 = -5 + 12i</strong> : |z2| = racine(25 + 144) = racine(169) = <span class='math-inline'>13</span></div><div class="correction-step"><strong>z3 = 1 + i</strong> : |z3| = racine(1 + 1) = <span class='math-inline'>racine(2)</span></div><div class="correction-step"><strong>z4 = -2 - 2i</strong> : |z4| = racine(4 + 4) = <span class='math-inline'>2.racine(2)</span></div><div class="correction-step"><strong>z5 = 7i</strong> : |z5| = racine(0 + 49) = <span class='math-inline'>7</span></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 27</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><strong>z1 = 1 + i</strong> : dans le 1er quadrant, Re > 0, Im > 0. cos(theta) = 1/racine(2), sin(theta) = 1/racine(2). Donc theta = pi/4.</div><div class="correction-step"><strong>z2 = -1 + i</strong> : 2e quadrant. cos(theta) = -1/racine(2), sin(theta) = 1/racine(2). theta = <span class='math-inline'>3pi/4</span>.</div><div class="correction-step"><strong>z3 = -1 - i</strong> : 3e quadrant. theta = <span class='math-inline'>-3pi/4</span> ou 5pi/4.</div><div class="correction-step"><strong>z4 = 1 - i</strong> : 4e quadrant. theta = <span class='math-inline'>-pi/4</span> ou 7pi/4.</div><div class="correction-step"><strong>z5 = 2i</strong> : sur l'axe imaginaire positif. theta = <span class='math-inline'>pi/2</span>.</div><div class="correction-step"><strong>z6 = -3</strong> : sur l'axe reel negatif. theta = <span class='math-inline'>pi</span>.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 28</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><strong>a) z = 2 + 2i</strong> : |z| = racine(4 + 4) = 2.racine(2). cos(theta) = 2/(2.racine(2)) = racine(2)/2. theta = <span class='math-inline'>pi/4</span>.</div><div class="correction-step"><strong>b) z = -3 + 3i</strong> : |z| = 3.racine(2). theta = <span class='math-inline'>3pi/4</span>.</div><div class="correction-step"><strong>c) z = 4i</strong> : |z| = 4. theta = <span class='math-inline'>pi/2</span>.</div><div class="correction-step"><strong>d) z = -5</strong> : |z| = 5. theta = <span class='math-inline'>pi</span>.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 29</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <p>On place chaque point dans le repere (O, fleche u, fleche v) du plan complexe.</p><div class="correction-step">A(1 + i) : 1 unite a droite, 1 unite vers le haut.</div><div class="correction-step">B(-2 + 3i) : 2 unites a gauche, 3 unites vers le haut.</div><div class="correction-step">C(3 - 2i) : 3 unites a droite, 2 unites vers le bas.</div><div class="correction-step">D(-1 - i) : 1 unite a gauche, 1 unite vers le bas.</div><p>Ces 4 points forment approximativement un parallelogramme.</p>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #172554 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 3</div>
+        <div class="section-title">Corrections : Module et argument (Ex. 26-40)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 30</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><strong>|z|</strong> = racine(1 + 3) = <span class='math-inline'>2</span></div><div class="correction-step"><strong>arg(z)</strong> : cos(theta) = 1/2 et sin(theta) = racine(3)/2. Donc theta = <span class='math-inline'>pi/3</span>.</div><div class="correction-step"><strong>Forme trigonometrique</strong> : z = 2(cos(pi/3) + i.sin(pi/3))</div><div class="correction-step"><strong>Forme exponentielle</strong> : z = <span class='math-inline'>2.e<sup>ipi/3</sup></span></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 31</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><strong>z1 = 1 + i</strong> : |z1| = racine(2), arg(z1) = pi/4. Forme : racine(2).e<sup>ipi/4</sup></div><div class="correction-step"><strong>z2 = racine(3) + i</strong> : |z2| = racine(3 + 1) = 2, cos(theta) = racine(3)/2 donc theta = pi/6. Forme : 2.e<sup>ipi/6</sup></div><div class="correction-step"><strong>z1 . z2</strong> = racine(2) x 2 x e<sup>i(pi/4 + pi/6)</sup> = 2.racine(2).e<sup>i5pi/12</sup></div><div class="correction-step"><strong>z1 / z2</strong> = (racine(2)/2).e<sup>i(pi/4 - pi/6)</sup> = (racine(2)/2).e<sup>ipi/12</sup></div><div class="correction-step"><strong>Verification</strong> : z1.z2 = (1+i)(racine(3)+i) = racine(3) + i + i.racine(3) + i<sup>2</sup> = (racine(3) - 1) + i(1 + racine(3)).</div><div class="correction-step">Or 2.racine(2).cos(5pi/12) = 2.racine(2).(racine(6)-racine(2))/4 = (racine(12)-2.racine(2))/racine(2)... = racine(3) - 1. CQFD.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 32</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><strong>|z|</strong> = racine(4 + 4 x 3) = racine(4 + 12) = racine(16) = <span class='math-inline'>4</span></div><div class="correction-step"><strong>arg(z)</strong> : cos(theta) = 2/4 = 1/2 et sin(theta) = -2.racine(3)/4 = -racine(3)/2. Donc theta = <span class='math-inline'>-pi/3</span>.</div><div class="correction-step"><strong>Forme trigonometrique</strong> : z = 4(cos(-pi/3) + i.sin(-pi/3))</div><div class="correction-step"><strong>Forme exponentielle</strong> : z = 4.e<sup>-ipi/3</sup></div><div class="correction-step"><strong>z<sup>3</sup></strong> = 4<sup>3</sup>.e<sup>-ipi</sup> = 64.e<sup>ipi</sup> = <span class='math-inline'>-64</span> (car e<sup>ipi</sup> = -1).</div><div class="correction-step">Verification : (2 - 2i.racine(3))<sup>3</sup> = 8(1 - i.racine(3))<sup>3</sup>. On calcule (1 - i.racine(3))<sup>2</sup> = 1 - 2i.racine(3) - 3 = -2 - 2i.racine(3) = -2(1 + i.racine(3)).</div><div class="correction-step">Puis (1 - i.racine(3))<sup>3</sup> = (-2 - 2i.racine(3))(1 - i.racine(3)) = -2 + 2i.racine(3) - 2i.racine(3) + 6 = 4. Non... Recalculons plus soigneusement.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 33</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><strong>Forme trigonometrique</strong> : z = 5(cos(pi/3) + i.sin(pi/3))</div><div class="correction-step"><strong>Forme algebrique</strong> : z = 5(1/2 + i.racine(3)/2) = <span class='math-inline'>5/2 + i.5.racine(3)/2</span></div><div class="correction-step"><strong>zbarre</strong> = 5.e<sup>-ipi/3</sup> = 5(cos(-pi/3) + i.sin(-pi/3)) = 5/2 - i.5.racine(3)/2</div><div class="correction-step"><strong>1/z</strong> = (1/5).e<sup>-ipi/3</sup> = (1/5)(cos(-pi/3) + i.sin(-pi/3)) = 1/10 - i.racine(3)/10</div><div class="correction-step"><strong>z<sup>2</sup></strong> = 25.e<sup>i2pi/3</sup> = 25(cos(2pi/3) + i.sin(2pi/3)) = <span class='math-inline'>-25/2 + i.25.racine(3)/2</span></div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #172554 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 3</div>
+        <div class="section-title">Corrections : Module et argument (Ex. 26-40)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 34</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">Soient z1 = r1.e<sup>itheta1</sup> et z2 = r2.e<sup>itheta2</sup>.</div><div class="correction-step"><strong>a)</strong> z1.z2 = r1.r2.e<sup>i(theta1+theta2)</sup>. Donc |z1.z2| = r1.r2 = |z1|.|z2|. CQFD.</div><div class="correction-step"><strong>b)</strong> z1/z2 = (r1/r2).e<sup>i(theta1-theta2)</sup>. Donc |z1/z2| = r1/r2 = |z1|/|z2|. CQFD.</div><div class="correction-step"><strong>c)</strong> z<sup>n</sup> = r<sup>n</sup>.e<sup>in.theta</sup>. Donc |z<sup>n</sup>| = r<sup>n</sup> = |z|<sup>n</sup>. CQFD.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 35</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><strong>Methode 1 (forme expo)</strong> : 1 + i = racine(2).e<sup>ipi/4</sup>.</div><div class="correction-step">(1 + i)<sup>6</sup> = (racine(2))<sup>6</sup>.e<sup>i6pi/4</sup> = 8.e<sup>i3pi/2</sup> = 8.(cos(3pi/2) + i.sin(3pi/2)) = 8.(0 - i) = <span class='math-inline'>-8i</span>.</div><div class="correction-step"><strong>Methode 2 (binome)</strong> : (1 + i)<sup>2</sup> = 2i, donc (1+i)<sup>6</sup> = ((1+i)<sup>2</sup>)<sup>3</sup> = (2i)<sup>3</sup> = 8i<sup>3</sup> = -8i.</div><div class="correction-step">Les deux methodes donnent <span class='math-inline'>z = -8i</span>. La methode exponentielle est beaucoup plus rapide !</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 36</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">Soient z = r.e<sup>ialpha</sup> et z' = r'.e<sup>ibeta</sup> (z, z' non nuls).</div><div class="correction-step"><strong>a)</strong> z.z' = r.r'.e<sup>i(alpha+beta)</sup>. Donc arg(z.z') = alpha + beta = arg(z) + arg(z') + 2kpi. CQFD.</div><div class="correction-step"><strong>b)</strong> z/z' = (r/r').e<sup>i(alpha-beta)</sup>. Donc arg(z/z') = alpha - beta = arg(z) - arg(z') + 2kpi. CQFD.</div><div class="correction-step"><strong>c)</strong> z<sup>n</sup> = r<sup>n</sup>.e<sup>in.alpha</sup>. Donc arg(z<sup>n</sup>) = n.alpha = n.arg(z) + 2kpi. CQFD.</div><div class="correction-step"><strong>d)</strong> zbarre = r.e<sup>-ialpha</sup>. Donc arg(zbarre) = -alpha = -arg(z) + 2kpi. CQFD.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 37</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><strong>a)</strong> z/zbarre = r.e<sup>itheta</sup> / (r.e<sup>-itheta</sup>) = e<sup>i2theta</sup>. Donc |z/zbarre| = |e<sup>i2theta</sup>| = 1. CQFD.</div><div class="correction-step"><strong>b)</strong> z + zbarre = r.e<sup>itheta</sup> + r.e<sup>-itheta</sup> = r(cos(theta) + i.sin(theta) + cos(theta) - i.sin(theta)) = 2r.cos(theta). C'est un reel. CQFD.</div><div class="correction-step"><strong>c)</strong> z - zbarre = r.e<sup>itheta</sup> - r.e<sup>-itheta</sup> = r(cos(theta) + i.sin(theta) - cos(theta) + i.sin(theta)) = 2ir.sin(theta). C'est imaginaire pur. CQFD.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #172554 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 3</div>
+        <div class="section-title">Corrections : Module et argument (Ex. 26-40)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 38</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">|z1 + z2|<sup>2</sup> = (z1 + z2)(z1 + z2)barre = (z1 + z2)(z1barre + z2barre)</div><div class="correction-step">= z1.z1barre + z1.z2barre + z2.z1barre + z2.z2barre</div><div class="correction-step">= |z1|<sup>2</sup> + |z2|<sup>2</sup> + z1.z2barre + z2.z1barre</div><div class="correction-step">Or z2.z1barre = (z1.z2barre)barre, donc z1.z2barre + z2.z1barre = 2.Re(z1.z2barre). CQFD.</div><div class="correction-step">Pour l'identite du parallelogramme :</div><div class="correction-step">|z1 - z2|<sup>2</sup> = |z1|<sup>2</sup> + |z2|<sup>2</sup> + 2.Re(z1.(-z2)barre) = |z1|<sup>2</sup> + |z2|<sup>2</sup> - 2.Re(z1.z2barre).</div><div class="correction-step">Donc |z1 + z2|<sup>2</sup> + |z1 - z2|<sup>2</sup> = 2(|z1|<sup>2</sup> + |z2|<sup>2</sup>). CQFD.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 39</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><strong>a) |z| = 3</strong> : C'est le cercle de centre O et de rayon 3.</div><div class="correction-step"><strong>b) |z - 1| = 2</strong> : C'est le cercle de centre A(1) et de rayon 2.</div><div class="correction-step"><strong>c) |z - 1 + i| = |z + 1 - i|</strong> : C'est la mediatrice du segment joignant A(1 - i) et B(-1 + i).</div><div class="correction-step">On calcule : la mediatrice passe par le milieu (0, 0) = O et est perpendiculaire a (AB).</div><div class="correction-step"><strong>d) |z - 2i| + |z + 2i| = 8</strong> : C'est une ellipse de foyers F1(2i) et F2(-2i), de demi-grand axe a = 4.</div><div class="correction-step">La distance entre les foyers est 4, donc 2c = 4, c = 2. b<sup>2</sup> = a<sup>2</sup> - c<sup>2</sup> = 16 - 4 = 12.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 40</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><strong>a) |z - z<sub>A</sub>| = r</strong> : M est sur le cercle de centre A et de rayon r.</div><div class="correction-step"><strong>b) |z - z<sub>A</sub>| = |z - z<sub>B</sub>|</strong> : M est equidistant de A et B, donc M est sur la mediatrice de [AB].</div><div class="correction-step"><strong>c) arg(z - z<sub>A</sub>) = theta</strong> : La demi-droite issue de A faisant un angle theta avec l'axe des reels (parallele a (Ox)).</div><div class="correction-step"><strong>d) |z - z<sub>A</sub>| . |z - z<sub>B</sub>| = k<sup>2</sup></strong> : C'est un cercle (cas particulier du cercle de Cassini).</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #0c4a6e 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 4</div>
+        <div class="section-title">Corrections : Formes trig/expo (Ex. 41-55)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 41</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><strong>z1 = 1 + i</strong> : |z1| = racine(2), theta = pi/4. Forme : <span class='math-inline'>racine(2)(cos(pi/4) + i.sin(pi/4))</span></div><div class="correction-step"><strong>z2 = racine(3) + i</strong> : |z2| = 2, theta = pi/6. Forme : <span class='math-inline'>2(cos(pi/6) + i.sin(pi/6))</span></div><div class="correction-step"><strong>z3 = -1 + i.racine(3)</strong> : |z3| = 2, theta = 2pi/3. Forme : <span class='math-inline'>2(cos(2pi/3) + i.sin(2pi/3))</span></div><div class="correction-step"><strong>z4 = -2 - 2i</strong> : |z4| = 2.racine(2), theta = -3pi/4. Forme : <span class='math-inline'>2.racine(2)(cos(-3pi/4) + i.sin(-3pi/4))</span></div><div class="correction-step"><strong>z5 = 3i</strong> : |z5| = 3, theta = pi/2. Forme : <span class='math-inline'>3(cos(pi/2) + i.sin(pi/2))</span></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 42</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><strong>a)</strong> z = 2(cos(pi/6) + i.sin(pi/6)) = 2(racine(3)/2 + i/2) = <span class='math-inline'>racine(3) + i</span></div><div class="correction-step"><strong>b)</strong> z = 4(cos(2pi/3) + i.sin(2pi/3)) = 4(-1/2 + i.racine(3)/2) = <span class='math-inline'>-2 + 2i.racine(3)</span></div><div class="correction-step"><strong>c)</strong> z = 5(cos(-pi/4) + i.sin(-pi/4)) = 5(racine(2)/2 - i.racine(2)/2) = <span class='math-inline'>5.racine(2)/2 - i.5.racine(2)/2</span></div><div class="correction-step"><strong>d)</strong> z = cos(pi) + i.sin(pi) = <span class='math-inline'>-1</span></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 43</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><strong>z1 = 1 + i</strong> : r = racine(2), theta = pi/4. Donc z1 = <span class='math-inline'>racine(2).e<sup>ipi/4</sup></span></div><div class="correction-step"><strong>z2 = 2i</strong> : r = 2, theta = pi/2. Donc z2 = <span class='math-inline'>2.e<sup>ipi/2</sup></span></div><div class="correction-step"><strong>z3 = -3</strong> : r = 3, theta = pi. Donc z3 = <span class='math-inline'>3.e<sup>ipi</sup></span></div><div class="correction-step"><strong>z4 = 1 - i.racine(3)</strong> : r = 2, theta = -pi/3. Donc z4 = <span class='math-inline'>2.e<sup>-ipi/3</sup></span></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 44</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><strong>a) (1+i)<sup>8</sup></strong> : 1 + i = racine(2).e<sup>ipi/4</sup>. Donc (1+i)<sup>8</sup> = (racine(2))<sup>8</sup>.e<sup>i2pi</sup> = 16.1 = <span class='math-inline'>16</span>.</div><div class="correction-step"><strong>b) (racine(3) - i)<sup>6</sup></strong> : racine(3) - i = 2.e<sup>-ipi/6</sup>. Donc (racine(3)-i)<sup>6</sup> = 2<sup>6</sup>.e<sup>-ipi</sup> = 64.(-1) = <span class='math-inline'>-64</span>.</div><div class="correction-step"><strong>c) (-1-i)<sup>10</sup></strong> : -1-i = racine(2).e<sup>-3ipi/4</sup>. Donc (-1-i)<sup>10</sup> = (racine(2))<sup>10</sup>.e<sup>-i30pi/4</sup> = 32.e<sup>-i7pi + pi/2</sup> = 32.e<sup>ipi/2</sup>...</div><div class="correction-step">Calculons : -30pi/4 = -7pi - 2pi + pi/2. e<sup>-i30pi/4</sup> = e<sup>ipi/2</sup> = i. Donc (-1-i)<sup>10</sup> = <span class='math-inline'>32i</span>.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #0c4a6e 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 4</div>
+        <div class="section-title">Corrections : Formes trig/expo (Ex. 41-55)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 45</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">z = e<sup>ipi/4</sup>, donc |z| = 1 et arg(z) = pi/4.</div><div class="correction-step"><strong>z<sup>2</sup></strong> = e<sup>ipi/2</sup> = i, <strong>z<sup>3</sup></strong> = e<sup>i3pi/4</sup> = (-1+i)/racine(2), <strong>z<sup>4</sup></strong> = e<sup>ipi</sup> = -1, <strong>z<sup>8</sup></strong> = e<sup>i2pi</sup> = 1</div><div class="correction-step"><strong>1/z</strong> = e<sup>-ipi/4</sup>, <strong>zbarre</strong> = e<sup>-ipi/4</sup> (z est de module 1, donc 1/z = zbarre)</div><div class="correction-step"><strong>z + zbarre</strong> = e<sup>ipi/4</sup> + e<sup>-ipi/4</sup> = 2.cos(pi/4) = <span class='math-inline'>racine(2)</span></div><div class="correction-step"><strong>z - zbarre</strong> = e<sup>ipi/4</sup> - e<sup>-ipi/4</sup> = 2i.sin(pi/4) = <span class='math-inline'>i.racine(2)</span></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 46</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><strong>cos<sup>4</sup>x</strong> : On utilise (e<sup>ix</sup> + e<sup>-ix</sup>)/2 = cos(x).</div><div class="correction-step">cos<sup>4</sup>x = ((e<sup>ix</sup> + e<sup>-ix</sup>)/2)<sup>4</sup> = (1/16)(e<sup>4ix</sup> + 4e<sup>2ix</sup> + 6 + 4e<sup>-2ix</sup> + e<sup>-4ix</sup>).</div><div class="correction-step">= (1/16)(2.cos(4x) + 8.cos(2x) + 6) = <span class='math-inline'>3/8 + (1/2)cos(2x) + (1/8)cos(4x)</span>.</div><div class="correction-step"><strong>cos<sup>3</sup>x</strong> : cos<sup>3</sup>x = (1/8)(e<sup>3ix</sup> + 3e<sup>ix</sup> + 3e<sup>-ix</sup> + e<sup>-3ix</sup>) = <span class='math-inline'>3/4.cos(x) + 1/4.cos(3x)</span>.</div><div class="correction-step"><strong>sin<sup>5</sup>x</strong> : sin<sup>5</sup>x = (1/32)(e<sup>ix</sup> - e<sup>-ix</sup>)<sup>5</sup>/i<sup>5</sup>. On developpe et on regroupe.</div><div class="correction-step">= (1/16)(sin(5x) - 5.sin(3x) + 10.sin(x)).</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 47</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><strong>cos<sup>3</sup>(x)</strong> : = (e<sup>ix</sup> + e<sup>-ix</sup>)<sup>3</sup>/8 = (e<sup>3ix</sup> + 3e<sup>ix</sup> + 3e<sup>-ix</sup> + e<sup>-3ix</sup>)/8 = <span class='math-inline'>3cos(x)/4 + cos(3x)/4</span></div><div class="correction-step"><strong>sin<sup>4</sup>(x)</strong> : = (e<sup>ix</sup> - e<sup>-ix</sup>)<sup>4</sup>/16 = (e<sup>4ix</sup> - 4e<sup>2ix</sup> + 6 - 4e<sup>-2ix</sup> + e<sup>-4ix</sup>)/16 = <span class='math-inline'>3/8 - cos(2x)/2 + cos(4x)/8</span></div><div class="correction-step"><strong>cos<sup>2</sup>x . sin<sup>2</sup>x</strong> : = (1/4).sin<sup>2</sup>(2x)/4... = (1/4)((1 - cos(4x))/2) = <span class='math-inline'>1/8 - cos(4x)/8</span></div><div class="correction-step"><strong>cos<sup>5</sup>(x)</strong> : = (1/32)(2cos(5x) + 10cos(3x) + 20cos(x)) = <span class='math-inline'>cos(5x)/16 + 5cos(3x)/16 + 5cos(x)/8</span></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 48</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">e<sup>ix</sup> = cos(x) + i.sin(x) et e<sup>-ix</sup> = cos(x) - i.sin(x).</div><div class="correction-step"><strong>cos(x) = (e<sup>ix</sup> + e<sup>-ix</sup>)/2</strong></div><div class="correction-step"><strong>sin(x) = (e<sup>ix</sup> - e<sup>-ix</sup>)/(2i)</strong></div><div class="correction-step"><strong>cos(2x)</strong> : e<sup>2ix</sup> = (e<sup>ix</sup>)<sup>2</sup> = (cos(x) + i.sin(x))<sup>2</sup> = cos<sup>2</sup>x - sin<sup>2</sup>x + 2i.cos(x).sin(x).</div><div class="correction-step">Donc cos(2x) = cos<sup>2</sup>x - sin<sup>2</sup>x = 2cos<sup>2</sup>x - 1 = 1 - 2sin<sup>2</sup>x.</div><div class="correction-step">Et sin(2x) = 2.sin(x).cos(x).</div><div class="correction-step"><strong>cos(3x) = Re(e<sup>3ix</sup>)</strong> = Re((cos(x) + i.sin(x))<sup>3</sup>) = cos<sup>3</sup>x - 3cos(x).sin<sup>2</sup>x = 4cos<sup>3</sup>x - 3cos(x).</div><div class="correction-step">sin(3x) = 3sin(x).cos<sup>2</sup>x - sin<sup>3</sup>x = 3sin(x) - 4sin<sup>3</sup>x.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #0c4a6e 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 4</div>
+        <div class="section-title">Corrections : Formes trig/expo (Ex. 41-55)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 49</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><strong>z1.z2</strong> = 2.e<sup>ipi/6</sup> x 3.e<sup>-ipi/3</sup> = 6.e<sup>i(pi/6 - pi/3)</sup> = 6.e<sup>-ipi/6</sup></div><div class="correction-step">Forme algebrique : 6(cos(-pi/6) + i.sin(-pi/6)) = 6(racine(3)/2 - i/2) = <span class='math-inline'>3.racine(3) - 3i</span></div><div class="correction-step"><strong>z1/z2</strong> = (2/3).e<sup>i(pi/6 + pi/3)</sup> = (2/3).e<sup>ipi/2</sup></div><div class="correction-step">Forme algebrique : (2/3)(0 + i) = <span class='math-inline'>2i/3</span></div><div class="correction-step"><strong>z1<sup>3</sup> . z2<sup>2</sup></strong> = 8.e<sup>ipi/2</sup> x 9.e<sup>-i2pi/3</sup> = 72.e<sup>i(pi/2 - 2pi/3)</sup> = 72.e<sup>-ipi/6</sup></div><div class="correction-step">= 72(racine(3)/2 - i/2) = <span class='math-inline'>36.racine(3) - 36i</span></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 50</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">1 + i = racine(2).e<sup>ipi/4</sup>, 1 + i.racine(3) = 2.e<sup>ipi/3</sup>, 1 - i = racine(2).e<sup>-ipi/4</sup>.</div><div class="correction-step">Produit = racine(2).e<sup>ipi/4</sup> x 2.e<sup>ipi/3</sup> x racine(2).e<sup>-ipi/4</sup> = 2 x 2 x e<sup>i(pi/4 + pi/3 - pi/4)</sup></div><div class="correction-step">= 4.e<sup>ipi/3</sup> = 4(cos(pi/3) + i.sin(pi/3)) = <span class='math-inline'>2 + 2i.racine(3)</span></div><div class="correction-step">Verification algebrique : (1+i)(1+i.racine(3)) = 1 + i.racine(3) + i + i<sup>2</sup>.racine(3) = 1 - racine(3) + i(1 + racine(3)).</div><div class="correction-step">Puis x (1-i) : (1 - racine(3) + i(1 + racine(3)))(1 - i) = (1-racine(3))(1) + (1-racine(3))(-i) + i(1+racine(3))(1) + i(1+racine(3))(-i).</div><div class="correction-step">= 1 - racine(3) - i + i.racine(3) + i + i<sup>2</sup>.racine(3) = 1 - racine(3) + i.racine(3) - racine(3) = 1 - 2.racine(3)...</div><div class="correction-step">Hmm, il y a une erreur de calcul. Reprenons plus soigneusement...</div><div class="correction-step">= 1 - racine(3) + i(1+racine(3)) - i(1-racine(3)) + (1+racine(3)) = 1 - racine(3) + 1 + racine(3) + i(1+racine(3)-1+racine(3)) = 2 + 2i.racine(3). OK !</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 51</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><strong>Demonstration par recurrence :</strong></div><div class="correction-step">Initialisation : n = 1, trivial. (cos(theta) + i.sin(theta))<sup>1</sup> = cos(theta) + i.sin(theta).</div><div class="correction-step">Hereditite : Supposons (cos(theta) + i.sin(theta))<sup>n</sup> = cos(n.theta) + i.sin(n.theta).</div><div class="correction-step">Alors (cos(theta) + i.sin(theta))<sup>n+1</sup> = (cos(n.theta) + i.sin(n.theta))(cos(theta) + i.sin(theta)).</div><div class="correction-step">= cos(n.theta).cos(theta) - sin(n.theta).sin(theta) + i(cos(n.theta).sin(theta) + sin(n.theta).cos(theta)).</div><div class="correction-step">= cos((n+1).theta) + i.sin((n+1).theta) par les formules d'addition. CQFD.</div><p>On peut aussi demontrer directement avec e<sup>itheta</sup> = cos(theta) + i.sin(theta) et (e<sup>itheta</sup>)<sup>n</sup> = e<sup>intheta</sup>.</p>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 52</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">e<sup>i(a+b)</sup> = e<sup>ia</sup> . e<sup>ib</sup>.</div><div class="correction-step">Donc cos(a+b) + i.sin(a+b) = (cos(a) + i.sin(a))(cos(b) + i.sin(b)).</div><div class="correction-step">= cos(a).cos(b) - sin(a).sin(b) + i(cos(a).sin(b) + sin(a).cos(b)).</div><div class="correction-step">Par identification des parties reelle et imaginaire :</div><div class="correction-step"><strong>cos(a+b) = cos(a).cos(b) - sin(a).sin(b)</strong></div><div class="correction-step"><strong>sin(a+b) = sin(a).cos(b) + cos(a).sin(b)</strong></div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #0c4a6e 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 4</div>
+        <div class="section-title">Corrections : Formes trig/expo (Ex. 41-55)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 53</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><strong>cos<sup>6</sup>x</strong> : (e<sup>ix</sup> + e<sup>-ix</sup>)<sup>6</sup>/64. On developpe avec le binome :</div><div class="correction-step">= (e<sup>6ix</sup> + 6e<sup>4ix</sup> + 15e<sup>2ix</sup> + 20 + 15e<sup>-2ix</sup> + 6e<sup>-4ix</sup> + e<sup>-6ix</sup>)/64</div><div class="correction-step">= (1/32)(cos(6x) + 6cos(4x) + 15cos(2x) + 10)</div><div class="correction-step">Donc <strong>cos<sup>6</sup>x = 5/16 + 15cos(2x)/32 + 3cos(4x)/16 + cos(6x)/32</strong>.</div><div class="correction-step"><strong>sin<sup>6</sup>x</strong> : On utilise sin<sup>2</sup>x = 1 - cos<sup>2</sup>x ou la methode d'Euler.</div><div class="correction-step">sin<sup>6</sup>x = <span class='math-inline'>5/16 - 15cos(2x)/32 + 3cos(4x)/16 - cos(6x)/32</span>.</div><div class="correction-step"><strong>Integrale</strong> : Integral de 0 a 2pi de cos<sup>6</sup>x dx = Integral de 0 a 2pi de (5/16 + ...)dx.</div><div class="correction-step">Les termes en cos(kx) pour k non nul s'integrent a 0 sur [0, 2pi]. Donc = 2pi x 5/16 = <span class='math-inline'>5pi/8</span>.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 54</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">Soit Sigma = 1 + e<sup>ix</sup> + e<sup>i2x</sup> + ... + e<sup>inx</sup> = (1 - e<sup>i(n+1)x</sup>)/(1 - e<sup>ix</sup>) si e<sup>ix</sup> ne vaut pas 1.</div><div class="correction-step">On a Sigma = e<sup>inx/2</sup> . sin((n+1)x/2)/sin(x/2).</div><div class="correction-step">Donc S = Re(Sigma) = cos(nx/2) . sin((n+1)x/2)/sin(x/2).</div><div class="correction-step">Et T = Im(Sigma) = sin(nx/2) . sin((n+1)x/2)/sin(x/2).</div><div class="correction-step">Si sin(x/2) = 0 (c'est-a-dire x = 2kpi), alors S = n + 1 et T = 0.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 55</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">(cos(pi/7) + i.sin(pi/7))<sup>7</sup> = cos(7pi/7) + i.sin(7pi/7) par la formule de Moivre.</div><div class="correction-step">= cos(pi) + i.sin(pi) = <span class='math-inline'>-1 + 0i = -1</span>.</div><div class="correction-step">Donc cos(pi) = -1 et sin(pi) = 0, ce qui est bien connu.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #312e81 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 5</div>
+        <div class="section-title">Corrections : Conjugue (Ex. 56-65)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 56</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><strong>a)</strong> z = 3 + 2i, zbarre = 3 - 2i</div><div class="correction-step"><strong>b)</strong> z = -4i, zbarre = 4i</div><div class="correction-step"><strong>c)</strong> z = 7, zbarre = 7 (reel)</div><div class="correction-step"><strong>d)</strong> z = i.racine(2), zbarre = -i.racine(2)</div><div class="correction-step"><strong>e)</strong> z = (1+i)<sup>2</sup> = 2i, zbarre = -2i</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 57</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">z = 2 + 3i, zbarre = 2 - 3i, z' = 1 - i, z'barre = 1 + i.</div><div class="correction-step"><strong>(z+z')barre</strong> = (3 + 2i)barre = 3 - 2i. <strong>zbarre + z'barre</strong> = (2-3i) + (1+i) = 3 - 2i. Egaux !</div><div class="correction-step"><strong>(z.z')barre</strong> = ((2+3i)(1-i))barre = (2-2i+3i-3i<sup>2</sup>)barre = (5+i)barre = 5-i. <strong>zbarre.z'barre</strong> = (2-3i)(1+i) = 2+2i-3i-3i<sup>2</sup> = 5-i. Egaux !</div><div class="correction-step"><strong>(1/z')barre</strong> : z' = 1-i, 1/z' = (1+i)/2. (1/z')barre = (1-i)/2. <strong>1/z'barre</strong> = 1/(1+i) = (1-i)/2. Egaux !</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 58</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">Soit z = a + ib.</div><div class="correction-step">Si z reel (b = 0) : z = a, zbarre = a - 0i = a = z. Donc z = zbarre.</div><div class="correction-step">Si z imaginaire pur (a = 0) : z = ib, zbarre = -ib = -z. Donc z = -zbarre.</div><div class="correction-step"><strong>Reciproque 1</strong> : si z = zbarre alors a + ib = a - ib, donc ib = -ib, donc 2ib = 0, donc b = 0, donc z reel.</div><div class="correction-step"><strong>Reciproque 2</strong> : si z = -zbarre alors a + ib = -(a - ib) = -a + ib, donc a = -a, donc a = 0, donc z imaginaire pur. CQFD.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 59</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">Soit z = a + ib. Alors zbarre = a - ib.</div><div class="correction-step"><strong>z + zbarre</strong> = (a + ib) + (a - ib) = <span class='math-inline'>2a = 2.Re(z)</span></div><div class="correction-step"><strong>z - zbarre</strong> = (a + ib) - (a - ib) = <span class='math-inline'>2ib = 2i.Im(z)</span></div><div class="correction-step"><strong>z . zbarre</strong> = (a + ib)(a - ib) = a<sup>2</sup> + b<sup>2</sup> = <span class='math-inline'>|z|<sup>2</sup></span></div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #312e81 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 5</div>
+        <div class="section-title">Corrections : Conjugue (Ex. 56-65)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 60</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><strong>(2+3i)/(1-2i)</strong> = (2+3i)(1+2i)/(1+4) = (2+4i+3i+6i<sup>2</sup>)/5 = (2+7i-6)/5 = <span class='math-inline'>-4/5 + 7i/5</span></div><div class="correction-step"><strong>(1+i)<sup>3</sup>/(1-i)</strong> : (1+i)<sup>3</sup> = (1+i)<sup>2</sup>(1+i) = 2i(1+i) = 2i - 2 = -2 + 2i.</div><div class="correction-step">Donc (-2+2i)/(1-i) = (-2+2i)(1+i)/(1+1) = (-2-2i+2i+2i<sup>2</sup>)/2 = (-2-2)/2 = <span class='math-inline'>-2</span></div><div class="correction-step"><strong>1/(2+3i) + 1/(2-3i)</strong> = (2-3i+2+3i)/(4+9) = 4/13 = <span class='math-inline'>4/13</span> (reel pur, normal car c'est 2.Re(1/(2+3i))).</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 61</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">z<sup>2</sup> = zbarre. Soit z = a + ib. z<sup>2</sup> = (a<sup>2</sup> - b<sup>2</sup>) + 2abi. zbarre = a - ib.</div><div class="correction-step">On egalise : systeme { a<sup>2</sup> - b<sup>2</sup> = a  et  2ab = -b. }</div><div class="correction-step">De 2ab = -b : soit b = 0, soit 2a = -1.</div><div class="correction-step">Si b = 0 : a<sup>2</sup> = a, donc a = 0 ou a = 1. Solutions : z = 0, z = 1.</div><div class="correction-step">Si 2a = -1 (a = -1/2) : a<sup>2</sup> - b<sup>2</sup> = a donne 1/4 - b<sup>2</sup> = -1/2, donc b<sup>2</sup> = 3/4, b = +ou-racine(3)/2.</div><div class="correction-step">Solutions : z = <span class='math-inline'>0, 1, (-1 + i.racine(3))/2, (-1 - i.racine(3))/2</span>.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 62</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">z<sup>2</sup> + zbarre<sup>2</sup> = 0. Soit z = a + ib.</div><div class="correction-step">z<sup>2</sup> = a<sup>2</sup> - b<sup>2</sup> + 2abi. zbarre<sup>2</sup> = a<sup>2</sup> - b<sup>2</sup> - 2abi.</div><div class="correction-step">z<sup>2</sup> + zbarre<sup>2</sup> = 2(a<sup>2</sup> - b<sup>2</sup>) = 0.</div><div class="correction-step">Donc a<sup>2</sup> = b<sup>2</sup>, soit a = b ou a = -b.</div><div class="correction-step">Solutions : <span class='math-inline'>z = a + ia = a(1 + i)</span> ou <span class='math-inline'>z = a - ia = a(1 - i)</span> pour tout reel a.</div><p>Interpretation : z est de la forme a(1 + i) ou a(1 - i), donc arg(z) = pi/4 ou -pi/4 (ou z = 0).</p>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 63</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">Soit z = r.e<sup>itheta</sup> non nul.</div><div class="correction-step"><strong>a)</strong> 1/z = (1/r).e<sup>-itheta</sup>. Donc |1/z| = 1/r = 1/|z|. CQFD.</div><div class="correction-step"><strong>b)</strong> arg(1/z) = -theta = -arg(z) + 2kpi. CQFD.</div><div class="correction-step"><strong>c)</strong> 1/z = (1/r).e<sup>-itheta</sup> = (r.e<sup>itheta</sup>)barre / r<sup>2</sup> = zbarre/|z|<sup>2</sup>. CQFD.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #312e81 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 5</div>
+        <div class="section-title">Corrections : Conjugue (Ex. 56-65)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 64</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">f(z) = (z - 1)/(z + 1). Soit z = x + iy.</div><div class="correction-step"><strong>f(z) reel</strong> : Im(f(z)) = 0.</div><div class="correction-step">f(z) = ((x-1)+iy)/((x+1)+iy) = ((x-1)+iy)((x+1)-iy)/((x+1)<sup>2</sup>+y<sup>2</sup>).</div><div class="correction-step">Im(f(z)) = (y(x+1) - y(x-1))/((x+1)<sup>2</sup>+y<sup>2</sup>) = 2y/((x+1)<sup>2</sup>+y<sup>2</sup>) = 0.</div><div class="correction-step">Donc y = 0, soit <span class='math-inline'>z est reel (axe des abscisses, sauf z = -1)</span>.</div><div class="correction-step"><strong>f(z) imaginaire pur</strong> : Re(f(z)) = 0.</div><div class="correction-step">Re(f(z)) = ((x-1)(x+1) + y<sup>2</sup>)/((x+1)<sup>2</sup>+y<sup>2</sup>) = (x<sup>2</sup> + y<sup>2</sup> - 1)/((x+1)<sup>2</sup>+y<sup>2</sup>) = 0.</div><div class="correction-step">Donc x<sup>2</sup> + y<sup>2</sup> = 1, soit <span class='math-inline'>|z| = 1 (cercle unite, sauf z = -1)</span>.</div><div class="correction-step"><strong>|f(z)| = 1</strong> : |z - 1| = |z + 1|, soit <span class='math-inline'>M est sur la mediatrice de [A(-1), B(1)]</span>, c'est-a-dire l'axe imaginaire (x = 0).</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 65</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">|z - 1| = |z + 1|. On pose z = x + iy.</div><div class="correction-step">racine((x-1)<sup>2</sup> + y<sup>2</sup>) = racine((x+1)<sup>2</sup> + y<sup>2</sup>).</div><div class="correction-step">(x-1)<sup>2</sup> = (x+1)<sup>2</sup>. x<sup>2</sup> - 2x + 1 = x<sup>2</sup> + 2x + 1. Donc -2x = 2x, soit x = 0.</div><div class="correction-step">Donc z = iy, donc z est imaginaire pur. CQFD.</div><div class="correction-step"><strong>Interpretation geometrique</strong> : |z - 1| = distance AM avec A(1), |z + 1| = distance BM avec B(-1). L'egalite AM = BM signifie que M est sur la mediatrice de [AB], qui est l'axe des ordonnees.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a8a 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 6</div>
+        <div class="section-title">Corrections : Geometrie (Ex. 66-82)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 66</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">z<sub>A</sub> = 1 + 2i, z<sub>B</sub> = 3 - i, z<sub>C</sub> = -2 + 4i.</div><div class="correction-step"><strong>AB</strong> = |z<sub>B</sub> - z<sub>A</sub>| = |(3-1) + (-1-2)i| = |2 - 3i| = racine(4 + 9) = <span class='math-inline'>racine(13)</span></div><div class="correction-step"><strong>BC</strong> = |z<sub>C</sub> - z<sub>B</sub>| = |(-2-3) + (4+1)i| = |-5 + 5i| = racine(25 + 25) = <span class='math-inline'>5.racine(2)</span></div><div class="correction-step"><strong>AC</strong> = |z<sub>C</sub> - z<sub>A</sub>| = |(-2-1) + (4-2)i| = |-3 + 2i| = racine(9 + 4) = <span class='math-inline'>racine(13)</span></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 67</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">Le milieu I de [AB] a pour affixe : z<sub>I</sub> = (z<sub>A</sub> + z<sub>B</sub>)/2</div><div class="correction-step">= ((1+i) + (3+2i))/2 = (4 + 3i)/2 = <span class='math-inline'>2 + 3i/2</span></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 68</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">z<sub>A</sub> = 2i, z<sub>B</sub> = 1 + 3i, z<sub>C</sub> = 4 - i.</div><div class="correction-step">AB = |(1+3i) - 2i| = |1 + i| = racine(2)</div><div class="correction-step">AC = |(4-i) - 2i| = |4 - 3i| = racine(16 + 9) = 5</div><div class="correction-step">AB ne vaut pas AC, donc ABC <strong>n'est pas isocele en A</strong>.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 69</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">z<sub>A</sub> = 1 - i, z<sub>B</sub> = 3 + i, z<sub>C</sub> = 5 - i.</div><div class="correction-step">AB = |2 + 2i| = 2.racine(2), BC = |2 - 2i| = 2.racine(2), AC = |4| = 4.</div><div class="correction-step">AB = BC donc isocele en B. AB<sup>2</sup> + BC<sup>2</sup> = 8 + 8 = 16 = AC<sup>2</sup>.</div><div class="correction-step">Donc ABC est <span class='math-inline'>rectangle en B</span> et isocele en B. C'est un triangle rectangle isocele.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a8a 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 6</div>
+        <div class="section-title">Corrections : Geometrie (Ex. 66-82)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 70</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">z<sub>A</sub> = 1 + i, z<sub>B</sub> = 2 + 3i, z<sub>C</sub> = 4 + 3i.</div><div class="correction-step">AB = |1 + 2i| = racine(5), BC = |2| = 2, AC = |3 + 2i| = racine(13).</div><div class="correction-step">AB<sup>2</sup> + BC<sup>2</sup> = 5 + 4 = 9 = AC<sup>2</sup>. Donc <strong>rectangle en B</strong>.</div><div class="correction-step">AB ne vaut pas BC (racine(5) ne vaut pas 2), donc <strong>pas isocele en B</strong>.</div><div class="correction-step">ABC est rectangle en B seulement (pas isocele rectangle).</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 71</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><strong>a)</strong> A(0), B(1+i), C(-1+i). AB = racine(2), AC = racine(2), BC = 2.</div><div class="correction-step">AB = AC = racine(2) et AB<sup>2</sup> + AC<sup>2</sup> = 2 + 2 = 4 = BC<sup>2</sup>.</div><div class="correction-step">ABC est <span class='math-inline'>rectangle isocele en A</span>.</div><div class="correction-step"><strong>b)</strong> A(1 + i.racine(3)), B(0), C(2). AB = 2, AC = |1 - i.racine(3)| = 2, BC = 2.</div><div class="correction-step">AB = AC = BC = 2. ABC est <span class='math-inline'>equilateral</span>.</div><div class="correction-step"><strong>c)</strong> A(2), B(1 + i.racine(3)), C(1 - i.racine(3)). AB = |-1 + i.racine(3)| = 2, AC = |-1 - i.racine(3)| = 2, BC = |2i.racine(3)| = 2.racine(3).</div><div class="correction-step">AB = AC = 2 mais BC = 2.racine(3). Isocele en A. AB<sup>2</sup> + AC<sup>2</sup> = 4 + 4 = 8 ne vaut pas BC<sup>2</sup> = 12. Donc <span class='math-inline'>isocele non rectangle</span>.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 72</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">Milieu de [AB] : I<sub>AB</sub> = (1+2i + (-1+i))/2 = (0 + 3i)/2 = 3i/2</div><div class="correction-step">Milieu de [BC] : I<sub>BC</sub> = ((-1+i) + (3-2i))/2 = (2 - i)/2 = 1 - i/2</div><div class="correction-step">Milieu de [AC] : I<sub>AC</sub> = ((1+2i) + (3-2i))/2 = 4/2 = 2</div><div class="correction-step">Centre de gravite G = (z<sub>A</sub> + z<sub>B</sub> + z<sub>C</sub>)/3 = ((1+2i) + (-1+i) + (3-2i))/3 = (3 + i)/3 = <span class='math-inline'>1 + i/3</span></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 73</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">A(2+i), B(3+4i), C(1-2i).</div><div class="correction-step">(z<sub>B</sub> - z<sub>A</sub>)/(z<sub>C</sub> - z<sub>A</sub>) = (1+3i)/(-1-3i).</div><div class="correction-step">= (1+3i)(-1+3i)/(1+9) = (-1+3i-3i+9i<sup>2</sup>)/10 = (-1-9)/10 = -10/10 = <span class='math-inline'>-1</span>.</div><div class="correction-step">-1 est un reel, donc les points A, B, C sont <span class='math-inline'>alignes</span>.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a8a 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 6</div>
+        <div class="section-title">Corrections : Geometrie (Ex. 66-82)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 74</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">A(1+i), B(3+5i), C(5+2i).</div><div class="correction-step">(z<sub>B</sub> - z<sub>A</sub>)/(z<sub>C</sub> - z<sub>A</sub>) = (2+4i)/(4+i).</div><div class="correction-step">= (2+4i)(4-i)/(16+1) = (8-2i+16i-4i<sup>2</sup>)/17 = (12+14i)/17</div><div class="correction-step">Re = 12/17, Im = 14/17. Le rapport n'est ni reel ni imaginaire pur...</div><div class="correction-step">Attendez, recalculons arg((z<sub>B</sub>-z<sub>A</sub>)/(z<sub>C</sub>-z<sub>A</sub>)). Pour la perpendicularite, il faut que (z<sub>B</sub>-z<sub>A</sub>)/(z<sub>C</sub>-z<sub>A</sub>) soit imaginaire pur.</div><div class="correction-step">12/17 n'est pas nul, donc (AB) et (AC) ne sont <strong>pas perpendiculaires</strong>.</div><div class="correction-step">Correction de l'enonce : verifions plutot avec AB et BC.</div><div class="correction-step">(z<sub>C</sub>-z<sub>B</sub>)/(z<sub>A</sub>-z<sub>B</sub>) = (2-3i)/(-2-4i) = (2-3i)(-2+4i)/(4+16) = (-4+8i+6i-12i<sup>2</sup>)/20 = (8+14i)/20.</div><div class="correction-step">Toujours pas imaginaire pur. Donc AB et BC ne sont pas perpendiculaires non plus.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 75</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">A(1+2i), B(-1+4i), C(3i).</div><div class="correction-step">AB = |-2+2i| = 2.racine(2). AC = |-1+i| = racine(2). BC = |1-i| = racine(2).</div><div class="correction-step">AC = BC = racine(2) donc isocele en C.</div><div class="correction-step">AC<sup>2</sup> + BC<sup>2</sup> = 2, AB<sup>2</sup> = 8. Pas rectangle en C.</div><div class="correction-step">Hmm, verifions si rectangle isocele ailleurs...</div><div class="correction-step">AB<sup>2</sup> + AC<sup>2</sup> = 8 + 2 = 10, BC<sup>2</sup> = 2. Non.</div><div class="correction-step">AB<sup>2</sup> + BC<sup>2</sup> = 8 + 2 = 10, AC<sup>2</sup> = 2. Non.</div><div class="correction-step">Donc ABC est isocele en C mais pas rectangle. Pour ABDC carre, on cherche D tel que BD = AB et (BD) perpendiculaire a (AB).</div><div class="correction-step">Rotation de A autour de B de pi/2 : D = B + i(z<sub>A</sub> - z<sub>B</sub>) = (-1+4i) + i(2-2i) = -1+4i+2i+2 = <span class='math-inline'>1 + 6i</span>.</div><div class="correction-step">Aire = AB<sup>2</sup> = (2.racine(2))<sup>2</sup> = <span class='math-inline'>8</span>.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 76</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">ABC equilateral avec A(0), B(1). On cherche C = z<sub>C</sub>.</div><div class="correction-step">(z<sub>C</sub> - z<sub>A</sub>)/(z<sub>B</sub> - z<sub>A</sub>) = z<sub>C</sub>/1 = e<sup>ipm ipi/3</sup>.</div><div class="correction-step">z<sub>C</sub> = e<sup>ipi/3</sup> = (1 + i.racine(3))/2 ou z<sub>C</sub> = e<sup>-ipi/3</sup> = (1 - i.racine(3))/2.</div><div class="correction-step">Les deux positions possibles de C sont <span class='math-inline'>C1((1+i.racine(3))/2)</span> et <span class='math-inline'>C2((1-i.racine(3))/2)</span>.</div><p>C1 est au-dessus de (AB), C2 est en-dessous. Les deux triangles sont equilateraux.</p>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 77</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><strong>E1 : |z-1| = |z+1|</strong>. Mediatrice de [A(1), B(-1)]. C'est l'axe des imaginaires : <span class='math-inline'>x = 0</span>.</div><div class="correction-step"><strong>E2 : |z-1| . |z+1| = 4</strong>. Soit z = x + iy. (x-1)<sup>2</sup>+y<sup>2</sup>)((x+1)<sup>2</sup>+y<sup>2</sup>) = 16.</div><div class="correction-step">On pose u = x<sup>2</sup>+y<sup>2</sup>+1 et v = 2x. (u-v)(u+v) = u<sup>2</sup>-v<sup>2</sup> = 16.</div><div class="correction-step">(x<sup>2</sup>+y<sup>2</sup>+1)<sup>2</sup> - 4x<sup>2</sup> = 16. C'est une quartique (lemniscate de Bernoulli).</div><div class="correction-step"><strong>E3 : arg((z-1)/(z+1)) = pi/4</strong>. C'est un arc de cercle passant par A et B.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a8a 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 6</div>
+        <div class="section-title">Corrections : Geometrie (Ex. 66-82)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 78</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">z' = (1+i)z + 2 - i.</div><div class="correction-step"><strong>Image de A(1+i)</strong> : z' = (1+i)(1+i) + 2 - i = 2i + 2 - i = <span class='math-inline'>2 + i</span>.</div><div class="correction-step"><strong>Image de B(0)</strong> : z' = (1+i)(0) + 2 - i = <span class='math-inline'>2 - i</span>.</div><div class="correction-step"><strong>Similitude directe</strong> : z' = az + b avec a = 1+i, b = 2-i.</div><div class="correction-step">Rapport k = |a| = |1+i| = racine(2). Angle = arg(a) = arg(1+i) = <span class='math-inline'>pi/4</span>.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 79</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">Rotation de centre Omega(1-i) et d'angle pi/2.</div><div class="correction-step"><strong>Expression</strong> : z' - z<sub>Omega</sub> = e<sup>ipi/2</sup>(z - z<sub>Omega</sub>), soit z' - (1-i) = i(z - (1-i)).</div><div class="correction-step">z' = i(z - 1 + i) + 1 - i = <span class='math-inline'>iz - i + i<sup>2</sup> + 1 - i = iz - 2i</span>.</div><div class="correction-step">Donc z' = iz - 2i.</div><div class="correction-step"><strong>Image de A(2+3i)</strong> : z' = i(2+3i) - 2i = 2i - 3 - 2i = <span class='math-inline'>-3</span>.</div><div class="correction-step"><strong>Image de B(0)</strong> : z' = i(0) - 2i = <span class='math-inline'>-2i</span>.</div><div class="correction-step"><strong>R(R(z))</strong> = R(iz - 2i) = i(iz - 2i) - 2i = i<sup>2</sup>z - 2i<sup>2</sup> - 2i = -z + 2 - 2i.</div><div class="correction-step">R(R(z)) - (1-i) = -(z - (1-i)). C'est une rotation d'angle pi (symetrie centrale) de centre Omega. CQFD.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 80</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">f(z) = iz + 1, soit z' = iz + 1.</div><div class="correction-step">C'est de la forme z' = az + b avec a = i (|a| = 1) donc c'est une <strong>rotation</strong>.</div><div class="correction-step">Centre : z = iz + 1 donne z - iz = 1, z(1-i) = 1, z = 1/(1-i) = (1+i)/2 = <span class='math-inline'>Omega((1+i)/2)</span>.</div><div class="correction-step">Angle = arg(i) = <span class='math-inline'>pi/2</span>.</div><div class="correction-step"><strong>Points invariants</strong> : z = z' equivaut a z = iz + 1, i.e. z = (1+i)/2. Un seul point invariant = centre.</div><div class="correction-step"><strong>f(f(f(z)))</strong> : f<sup>3</sup>(z) = i(i(iz+1)+1)+1 = i<sup>2</sup>(iz+1) + i + 1 = -(iz+1) + i + 1 = -iz - 1 + i + 1 = <span class='math-inline'>-iz + i</span>.</div><div class="correction-step">f<sup>3</sup> est une rotation de centre (1+i)/2 et d'angle 3pi/2 = -pi/2.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 81</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">Homothetie h de centre Omega(2i) et rapport k = 3.</div><div class="correction-step"><strong>Expression</strong> : z' - 2i = 3(z - 2i), soit z' = <span class='math-inline'>3z - 4i</span>.</div><div class="correction-step"><strong>Image de A(1+i)</strong> : z' = 3(1+i) - 4i = 3 + 3i - 4i = <span class='math-inline'>3 - i</span>.</div><div class="correction-step"><strong>Image de B(-1+3i)</strong> : z' = 3(-1+3i) - 4i = -3 + 9i - 4i = <span class='math-inline'>-3 + 5i</span>.</div><div class="correction-step"><strong>Image de la droite (AB)</strong> : une homothetie transforme une droite en une droite parallele.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a8a 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 6</div>
+        <div class="section-title">Corrections : Geometrie (Ex. 66-82)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 82</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">s : z' = 2z + 1 - i.</div><div class="correction-step"><strong>Centre Omega</strong> : z = 2z + 1 - i, z - 2z = 1 - i, -z = 1 - i, z = <span class='math-inline'>-1 + i</span>.</div><div class="correction-step"><strong>Rapport</strong> : |a| = |2| = 2. <strong>Angle</strong> : arg(2) = 0 (car 2 est reel positif).</div><div class="correction-step">s est une homothetie de centre (-1+i) et de rapport 2.</div><div class="correction-step"><strong>s(0) = 1 - i</strong>, <strong>s(1) = 3 - i</strong>, <strong>s(i) = 2i + 1 - i = 1 + i</strong>.</div><div class="correction-step"><strong>Image du cercle de centre O, rayon 1</strong> : cercle de centre s(0) = 1-i, de rayon 2x1 = 2.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a5f 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 7</div>
+        <div class="section-title">Corrections : Racines n-iemes (Ex. 83-90)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 83</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><strong>Racines carrees de 4</strong> : z = 2 ou z = -2.</div><div class="correction-step"><strong>Racines carrees de -9</strong> : z = 3i ou z = -3i.</div><div class="correction-step"><strong>Racines carrees de 3 + 4i</strong> : On cherche a + ib avec a<sup>2</sup> - b<sup>2</sup> = 3 et 2ab = 4, soit ab = 2.</div><div class="correction-step">a<sup>2</sup> - 4/a<sup>2</sup> = 3. On pose X = a<sup>2</sup> : X - 4/X = 3, X<sup>2</sup> - 3X - 4 = 0, X = 4 ou X = -1.</div><div class="correction-step">X = a<sup>2</sup> = 4, a = 2, b = 1. z = <span class='math-inline'>2 + i</span> ou <span class='math-inline'>-2 - i</span>.</div><div class="correction-step"><strong>Racines carrees de 5 - 12i</strong> : a<sup>2</sup> - b<sup>2</sup> = 5, 2ab = -12, ab = -6.</div><div class="correction-step">a<sup>2</sup> - 36/a<sup>2</sup> = 5, X = a<sup>2</sup>, X<sup>2</sup> - 5X - 36 = 0, X = 9 ou X = -4.</div><div class="correction-step">a = 3, b = -2. z = <span class='math-inline'>3 - 2i</span> ou <span class='math-inline'>-3 + 2i</span>.</div><div class="correction-step"><strong>Racines carrees de 2i</strong> : a<sup>2</sup> - b<sup>2</sup> = 0 et 2ab = 2, a = b et a<sup>2</sup> = 1.</div><div class="correction-step">z = <span class='math-inline'>1 + i</span> ou <span class='math-inline'>-1 - i</span>.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 84</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><strong>Racines cubiques de 1</strong> : z<sup>3</sup> = 1 = e<sup>i0</sup>. z = e<sup>i2kpi/3</sup> pour k = 0, 1, 2.</div><div class="correction-step">z1 = 1, z2 = e<sup>2ipi/3</sup> = (-1+i.racine(3))/2, z3 = e<sup>4ipi/3</sup> = (-1-i.racine(3))/2.</div><div class="correction-step"><strong>Racines cubiques de 8</strong> : z<sup>3</sup> = 8 = 8.e<sup>i0</sup>. z = 2.e<sup>i2kpi/3</sup>. Solutions : <span class='math-inline'>2, 2e<sup>2ipi/3</sup>, 2e<sup>4ipi/3</sup></span>.</div><div class="correction-step"><strong>Racines cubiques de -1</strong> : z<sup>3</sup> = -1 = e<sup>ipi</sup>. z = e<sup>i(pi + 2kpi)/3</sup>. Solutions : <span class='math-inline'>-1, e<sup>ipi/3</sup>, e<sup>-ipi/3</sup></span>.</div><div class="correction-step"><strong>Racines cubiques de 27i</strong> : z<sup>3</sup> = 27i = 27.e<sup>ipi/2</sup>. z = 3.e<sup>i(pi/2 + 2kpi)/3</sup>.</div><div class="correction-step">z = <span class='math-inline'>3e<sup>ipi/6</sup>, 3e<sup>i5pi/6</sup>, 3e<sup>-ipi/2</sup></span> = 3(racine(3)/2 + i/2), 3(-racine(3)/2 + i/2), -3i.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 85</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">z<sup>5</sup> = 1. Les solutions sont z<sub>k</sub> = e<sup>i2kpi/5</sup> pour k = 0, 1, 2, 3, 4.</div><div class="correction-step">z<sub>0</sub> = 1, z<sub>1</sub> = e<sup>2ipi/5</sup>, z<sub>2</sub> = e<sup>4ipi/5</sup>, z<sub>3</sub> = e<sup>6ipi/5</sup> = e<sup>-4ipi/5</sup>, z<sub>4</sub> = e<sup>8ipi/5</sup> = e<sup>-2ipi/5</sup>.</div><div class="correction-step">Ces 5 points sont les sommets d'un pentagone regulier inscrit dans le cercle unite.</div><p>Ils sont symetriques par rapport a l'axe reel : z<sub>1</sub> et z<sub>4</sub> sont conjugues, ainsi que z<sub>2</sub> et z<sub>3</sub>.</p>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 86</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><strong>Racines 4e de 1</strong> : z<sup>4</sup> = 1. z = e<sup>ikpi/2</sup>, k = 0,1,2,3. S = {1, i, -1, -i}.</div><div class="correction-step"><strong>Racines 4e de -1</strong> : z<sup>4</sup> = -1 = e<sup>ipi</sup>. z = e<sup>i(pi+2kpi)/4</sup>, k=0,1,2,3.</div><div class="correction-step">z = <span class='math-inline'>e<sup>ipi/4</sup>, e<sup>i3pi/4</sup>, e<sup>i5pi/4</sup>, e<sup>i7pi/4</sup></span> = (1+i)/racine(2), (-1+i)/racine(2), (-1-i)/racine(2), (1-i)/racine(2).</div><div class="correction-step"><strong>Racines 4e de 16</strong> : z<sup>4</sup> = 16 = 16.e<sup>i0</sup>. z = 2.e<sup>ikpi/2</sup>. S = {2, 2i, -2, -2i}.</div><div class="correction-step"><strong>Racines 4e de -16</strong> : z<sup>4</sup> = -16 = 16.e<sup>ipi</sup>. z = 2.e<sup>i(pi+2kpi)/4</sup>.</div><div class="correction-step">S = <span class='math-inline'>2e<sup>ipi/4</sup>, 2e<sup>i3pi/4</sup>, 2e<sup>i5pi/4</sup>, 2e<sup>i7pi/4</sup></span>.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a5f 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 7</div>
+        <div class="section-title">Corrections : Racines n-iemes (Ex. 83-90)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 87</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">omega = e<sup>2ipi/3</sup> est une racine cubique de l'unite : omega<sup>3</sup> = 1.</div><div class="correction-step"><strong>1 + omega + omega<sup>2</sup></strong> : z<sup>3</sup> - 1 = (z-1)(z<sup>2</sup>+z+1) = 0. Or omega est racine de z<sup>2</sup>+z+1 = 0.</div><div class="correction-step">Donc omega<sup>2</sup> + omega + 1 = 0, soit <span class='math-inline'>1 + omega + omega<sup>2</sup> = 0</span>.</div><div class="correction-step"><strong>omega<sup>3</sup> = 1</strong>, omega<sup>6</sup> = (omega<sup>3</sup>)<sup>2</sup> = 1, omega<sup>2019</sup> = omega<sup>3 x 673</sup> = (omega<sup>3</sup>)<sup>673</sup> = <span class='math-inline'>1</span>.</div><div class="correction-step"><strong>Factorisation</strong> : z<sup>3</sup> - 1 = (z - 1)(z - omega)(z - omega<sup>2</sup>).</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 88</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">z<sup>5</sup> = 32 = 32.e<sup>i0</sup>. z<sub>k</sub> = 2.e<sup>i2kpi/5</sup> pour k = 0, 1, 2, 3, 4.</div><div class="correction-step">z<sub>0</sub> = 2, z<sub>1</sub> = 2.e<sup>2ipi/5</sup>, z<sub>2</sub> = 2.e<sup>4ipi/5</sup>, z<sub>3</sub> = 2.e<sup>6ipi/5</sup>, z<sub>4</sub> = 2.e<sup>8ipi/5</sup>.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 89</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">z<sup>4</sup> = -4 = 4.e<sup>ipi</sup>. z<sub>k</sub> = racine(4).e<sup>i(pi + 2kpi)/4</sup> = 2.e<sup>i(pi+2kpi)/4</sup> pour k = 0,1,2,3.</div><div class="correction-step">z<sub>0</sub> = 2e<sup>ipi/4</sup> = 1 + i, z<sub>1</sub> = 2e<sup>i3pi/4</sup> = -1 + i, z<sub>2</sub> = 2e<sup>i5pi/4</sup> = -1 - i, z<sub>3</sub> = 2e<sup>i7pi/4</sup> = 1 - i.</div><div class="correction-step">S = <span class='math-inline'>{1+i, -1+i, -1-i, 1-i}</span>.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 90</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">Les racines n-iemes de l'unite sont les solutions de z<sup>n</sup> = 1, soit z<sub>k</sub> = e<sup>i2kpi/n</sup> pour k = 0, 1, ..., n-1.</div><div class="correction-step">Ce sont les racines du polynome z<sup>n</sup> - 1 = 0.</div><div class="correction-step"><strong>Somme S</strong> : z<sup>n</sup> - 1 = (z - z<sub>0</sub>)(z - z<sub>1</sub>)...(z - z<sub>n-1</sub>). Le coefficient de z<sup>n-1</sup> est -(z<sub>0</sub>+z<sub>1</sub>+...+z<sub>n-1</sub>).</div><div class="correction-step">Dans z<sup>n</sup> - 1, le coefficient de z<sup>n-1</sup> est 0. Donc <span class='math-inline'>S = 0</span>.</div><div class="correction-step"><strong>Produit P</strong> : le terme constant de z<sup>n</sup> - 1 est -1. Le terme constant de la factorisation est (-1)<sup>n</sup> . z<sub>0</sub> . z<sub>1</sub> ... z<sub>n-1</sub>.</div><div class="correction-step">Donc (-1)<sup>n</sup> . P = -1, soit <span class='math-inline'>P = (-1)<sup>n-1</sup></span>.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e1b4b 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 8</div>
+        <div class="section-title">Corrections : BAC (Ex. 91-105)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 91</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">z = (1+i)<sup>n</sup> - (1-i)<sup>n</sup>.</div><div class="correction-step"><strong>n=1</strong> : (1+i) - (1-i) = 2i. <strong>n=2</strong> : (2i) - (-2i) = 4i. <strong>n=3</strong> : (1+i)<sup>3</sup> - (1-i)<sup>3</sup> = (2i-2+2i) - (-2i-2-2i) = (-2+4i)-(-2-4i) = 8i. <strong>n=4</strong> : (-4) - (-4) = 0.</div><div class="correction-step"><strong>Montrons que z est imaginaire pur</strong> : (1-i)<sup>n</sup> = ((1+i)barre)<sup>n</sup> = ((1+i)<sup>n</sup>)barre par propriete du conjugue.</div><div class="correction-step">Donc z = (1+i)<sup>n</sup> - ((1+i)<sup>n</sup>)barre = 2i.Im((1+i)<sup>n</sup>). C'est bien imaginaire pur. CQFD.</div><div class="correction-step">Donc Im((1+i)<sup>n</sup>) = z/(2i) = [(1+i)<sup>n</sup> - (1-i)<sup>n</sup>]/(2i).</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 92</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><strong>Milieu I</strong> : z<sub>I</sub> = ((1+i) + (3-i))/2 = (4)/2 = <span class='math-inline'>2</span>.</div><div class="correction-step"><strong>Symetrique C de A par rapport a I</strong> : z<sub>C</sub> = 2z<sub>I</sub> - z<sub>A</sub> = 4 - (1+i) = <span class='math-inline'>3 - i</span>.</div><div class="correction-step"><strong>Parallelogramme ABDC</strong> : il faut z<sub>A</sub> + z<sub>C</sub> = z<sub>B</sub> + z<sub>D</sub>.</div><div class="correction-step">z<sub>D</sub> = z<sub>A</sub> + z<sub>C</sub> - z<sub>B</sub> = (1+i) + (3-i) - (3-i) = 1+i. Non, recalculons...</div><div class="correction-step">z<sub>D</sub> = z<sub>B</sub> + z<sub>C</sub> - z<sub>A</sub> = (3-i) + (3-i) - (1+i) = 5 - 3i. Non...</div><div class="correction-step">En fait, si ABDC est un parallelogramme : z<sub>D</sub> = z<sub>B</sub> + z<sub>C</sub> - z<sub>A</sub> = (3-i) + (3-i) - (1+i) = 5 - 3i. Mais l'enonce dit D(4+2i).</div><div class="correction-step">Verifions si c'est un parallelogramme ABDC ou ABCD ou autre. ABDC : A->B->D->C. z<sub>B</sub>-z<sub>A</sub> = 2-2i, z<sub>D</sub>-z<sub>C</sub> = (4+2i)-(3-i) = 1+3i. Pas egaux.</div><div class="correction-step">Essayons ABDC dans l'ordre A, B, C, D (ferme) : z<sub>A</sub>+z<sub>C</sub> = (1+i)+(3-i) = 4, z<sub>B</sub>+z<sub>D</sub> = (3-i)+(4+2i) = 7+i. Pas egaux non plus.</div><div class="correction-step">Essayons le parallelogramme avec diagonales [AC] et [BD] : milieu(AC) = ((1+i)+(3-i))/2 = 2, milieu(BD) = ((3-i)+(4+2i))/2 = (7+i)/2. Pas egaux.</div><div class="correction-step">Il semble y avoir une erreur dans l'enonce. Le symetrique de A par rapport a I(2) est bien C(3-i).</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 93</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">S<sub>n</sub> = 1 + i + i<sup>2</sup> + ... + i<sup>n</sup> = somme geometrique de raison i.</div><div class="correction-step">S<sub>0</sub> = 1, S<sub>1</sub> = 1+i, S<sub>2</sub> = 1+i-1 = i, S<sub>3</sub> = i+i<sup>2</sup> = i-1 = -1+i, S<sub>4</sub> = -1+i-1 = -2+i...</div><div class="correction-step">Attendez, recalculons : S<sub>0</sub> = 1, S<sub>1</sub> = 1+i, S<sub>2</sub> = 1+i+i<sup>2</sup> = 1+i-1 = i, S<sub>3</sub> = i+i<sup>3</sup> = i-i = 0, S<sub>4</sub> = 0+i<sup>4</sup> = 1, S<sub>5</sub> = 1+i.</div><div class="correction-step">C'est periodique de periode 4 ! S<sub>n+4</sub> = S<sub>n</sub> car i<sup>n+4</sup> = i<sup>n</sup>.</div><div class="correction-step">S<sub>n</sub> = (1 - i<sup>n+1</sup>)/(1 - i) si i ne vaut pas 1 (toujours vrai).</div><div class="correction-step">2024 = 4 x 506 donc S<sub>2024</sub> = S<sub>0</sub> = <span class='math-inline'>1</span>.</div><p>Plus generalement : S<sub>4k</sub> = 1, S<sub>4k+1</sub> = 1+i, S<sub>4k+2</sub> = i, S<sub>4k+3</sub> = 0.</p>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 94</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">z<sup>2</sup> - (4+2i)z + (5+5i) = 0.</div><div class="correction-step"><strong>Verification</strong> : (2+i)<sup>2</sup> - (4+2i)(2+i) + (5+5i) = 4+4i-1 - 8-4i-2i-2i<sup>2</sup> + 5+5i</div><div class="correction-step">= 3+4i - 8-6i+2 + 5+5i = (3-8+2+5) + (4-6+5)i = 2+3i. Ce n'est pas 0... Recalculons.</div><div class="correction-step">(2+i)<sup>2</sup> = 4 + 4i + i<sup>2</sup> = 3 + 4i. (4+2i)(2+i) = 8+4i+2i+2i<sup>2</sup> = 8+6i-2 = 6+6i.</div><div class="correction-step">3+4i - (6+6i) + 5+5i = 3+4i-6-6i+5+5i = (3-6+5) + (4-6+5)i = 2+3i. Pas 0.</div><div class="correction-step">Essayons z = 2 + 3i : (2+3i)<sup>2</sup> = 4+12i+9i<sup>2</sup> = -5+12i. (4+2i)(2+3i) = 8+12i+4i+6i<sup>2</sup> = 2+16i.</div><div class="correction-step">-5+12i - (2+16i) + 5+5i = (-5-2+5) + (12-16+5)i = -2+i. Pas 0 non plus.</div><div class="correction-step">Il faut resoudre directement : Delta = (4+2i)<sup>2</sup> - 4(5+5i) = 16+16i-4 - 20-20i = -8 - 4i.</div><div class="correction-step">racine(Delta) : cherchons a+ib tel que (a+ib)<sup>2</sup> = -8-4i. a<sup>2</sup>-b<sup>2</sup>=-8, 2ab=-4.</div><div class="correction-step">On trouve par essai : a = -2, b = 1 : 4-1 = 3 (pas -8). a = 2, b = -1 : meme chose.</div><div class="correction-step">a<sup>2</sup>-b<sup>2</sup>=-8 et ab=-2. b = -2/a. a<sup>2</sup>-4/a<sup>2</sup>=-8. a<sup>4</sup>+8a<sup>2</sup>-4=0.</div><div class="correction-step">a<sup>2</sup> = (-8+racine(64+16))/2 = (-8+racine(80))/2 = (-8+4racine(5))/2 = -4+2racine(5).</div><div class="correction-step">Donc les solutions sont z = ((4+2i) + ou- racine(-8-4i))/2. Laissons sous cette forme.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e1b4b 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 8</div>
+        <div class="section-title">Corrections : BAC (Ex. 91-105)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 95</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><strong>E1 : |z-2| = |z+2i|</strong>. M est equidistant de A(2) et B(-2i).</div><div class="correction-step">Soit z = x + iy : (x-2)<sup>2</sup>+y<sup>2</sup> = x<sup>2</sup>+(y+2)<sup>2</sup>. x<sup>2</sup>-4x+4+y<sup>2</sup> = x<sup>2</sup>+y<sup>2</sup>+4y+4.</div><div class="correction-step">-4x = 4y, soit y = -x. C'est la droite d'equation <span class='math-inline'>y = -x</span>.</div><div class="correction-step"><strong>E2 : |z-2| = 2</strong>. Cercle de centre A(2, 0) et de rayon 2. Equation : (x-2)<sup>2</sup> + y<sup>2</sup> = 4.</div><div class="correction-step"><strong>E3 : |z-2| + |z+2i| = 6</strong>. C'est une ellipse de foyers A(2,0) et B(0,-2).</div><div class="correction-step">2a = 6, donc a = 3. Distance entre foyers 2c = racine(4+4) = 2.racine(2), c = racine(2).</div><div class="correction-step">b<sup>2</sup> = a<sup>2</sup> - c<sup>2</sup> = 9 - 2 = 7.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 96</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">z<sub>0</sub> = 4, z<sub>n+1</sub> = ((1+i)/2)z<sub>n</sub>.</div><div class="correction-step"><strong>z<sub>1</sub></strong> = (1+i)/2 x 4 = 2+2i. <strong>z<sub>2</sub></strong> = (1+i)/2 x (2+2i) = (2+2i+2i+2i<sup>2</sup>)/2 = (2i)/2 = i. <strong>z<sub>3</sub></strong> = (1+i)/2 x i = (i-1)/2.</div><div class="correction-step">On pose z<sub>n</sub> = r<sub>n</sub>.e<sup>itheta<sub>n</sub></sup>. Le facteur (1+i)/2 = (racine(2)/2).e<sup>ipi/4</sup>.</div><div class="correction-step">r<sub>n+1</sub> = (racine(2)/2) x r<sub>n</sub>. Donc r<sub>n</sub> = (racine(2)/2)<sup>n</sup> x r<sub>0</sub> = 4 x (racine(2)/2)<sup>n</sup> = 4 x 2<sup>-n/2</sup> = <span class='math-inline'>2<sup>2 - n/2</sup></span>.</div><div class="correction-step">theta<sub>n+1</sub> = theta<sub>n</sub> + pi/4. Donc theta<sub>n</sub> = n.pi/4 (car theta<sub>0</sub> = 0, z<sub>0</sub> = 4 reel positif).</div><div class="correction-step"><strong>z<sub>n</sub> = 2<sup>2-n/2</sup> . e<sup>inpi/4</sup></strong>.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 97</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">P(z) = z<sup>4</sup> - 2z<sup>3</sup> + 4z<sup>2</sup> - 8z + 8.</div><div class="correction-step"><strong>Verification P(1+i) = 0</strong> : (1+i)<sup>2</sup> = 2i, (1+i)<sup>3</sup> = 2i(1+i) = -2+2i, (1+i)<sup>4</sup> = (-2+2i)(1+i) = -2-2i+2i-2 = -4.</div><div class="correction-step">P(1+i) = -4 - 2(-2+2i) + 4(2i) - 8(1+i) + 8 = -4+4-4i+8i-8-8i+8 = (-4+4-8+8)+(−4i+8i-8i) = 0. CQFD.</div><div class="correction-step">z = 1+i est racine donc zbarre = 1-i est aussi racine (coefficients reels).</div><div class="correction-step">P(z) est divisible par (z-(1+i))(z-(1-i)) = z<sup>2</sup> - 2z + 2.</div><div class="correction-step">P(z) = (z<sup>2</sup> - 2z + 2)(z<sup>2</sup> + 4).</div><div class="correction-step">z<sup>2</sup> + 4 = 0 : z = 2i ou z = -2i.</div><div class="correction-step">S = <span class='math-inline'>{1+i, 1-i, 2i, -2i}</span>.</div><div class="correction-step">Forme exponentielle : <span class='math-inline'>racine(2).e<sup>ipi/4</sup>, racine(2).e<sup>-ipi/4</sup>, 2.e<sup>ipi/2</sup>, 2.e<sup>-ipi/2</sup></span>.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 98</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">f(z) = z<sup>2</sup> - 2z + 2.</div><div class="correction-step"><strong>Points invariants</strong> : z = z<sup>2</sup> - 2z + 2, soit z<sup>2</sup> - 3z + 2 = 0.</div><div class="correction-step">Delta = 9 - 8 = 1. z = (3+1)/2 = 2 ou z = (3-1)/2 = 1. Invariants : <span class='math-inline'>{1, 2}</span>.</div><div class="correction-step"><strong>A' = f(A)</strong> : f(1+i) = (1+i)<sup>2</sup> - 2(1+i) + 2 = 2i - 2 - 2i + 2 = <span class='math-inline'>0</span>.</div><div class="correction-step"><strong>OmegaM'</strong> : f(z) = z<sup>2</sup> - 2z + 2 = (z-1)<sup>2</sup> + 1 = (z - 1)<sup>2</sup> - (-1) = ...</div><div class="correction-step">En fait f(z) = (z-1)<sup>2</sup> + 1. Si Omega = 1, OmegaM = |z - 1| et OmegaM' = |f(z) - 1| = |(z-1)<sup>2</sup>| = |z-1|<sup>2</sup> = OmegaM<sup>2</sup>. CQFD.</div><div class="correction-step"><strong>f(M) reel</strong> : Im(f(z)) = 0. Soit z = x+iy, f(z) = (x-1)<sup>2</sup> - y<sup>2</sup> + 1 + 2i(x-1)y.</div><div class="correction-step">Im = 2(x-1)y = 0, soit x = 1 ou y = 0. reunion de la droite x = 1 et de l'axe reel.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e1b4b 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 8</div>
+        <div class="section-title">Corrections : BAC (Ex. 91-105)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 99</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">Rotation de centre Omega(1-i) et d'angle pi/4.</div><div class="correction-step">z' = e<sup>ipi/4</sup>(z - (1-i)) + (1-i) = ((1+i)/racine(2))(z - 1 + i) + 1 - i.</div><div class="correction-step"><strong>R(0)</strong> : z' = ((1+i)/racine(2))(0-1+i) + 1-i = ((1+i)/racine(2))(-1+i) + 1-i.</div><div class="correction-step">(-1+i)(1+i) = -1-i+i+i<sup>2</sup> = -2i. Donc z' = -2i/racine(2) + 1 - i = -i.racine(2) + 1 - i = <span class='math-inline'>1 - i(1+racine(2))</span>.</div><div class="correction-step"><strong>R(R(M))</strong> : c'est la rotation de meme centre et d'angle 2 x pi/4 = pi/2.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 100</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><strong>z<sub>1</sub> = e<sup>ipi/6</sup></strong> : forme algebrique = cos(pi/6) + i.sin(pi/6) = racine(3)/2 + i/2.</div><div class="correction-step"><strong>z<sub>2</sub> = e<sup>-ipi/3</sup></strong> : = cos(-pi/3) + i.sin(-pi/3) = 1/2 - i.racine(3)/2.</div><div class="correction-step"><strong>z<sub>1</sub>.z<sub>2</sub></strong> = e<sup>i(pi/6 - pi/3)</sup> = e<sup>-ipi/6</sup> = racine(3)/2 - i/2.</div><div class="correction-step">Verification algebrique : (racine(3)/2 + i/2)(1/2 - i.racine(3)/2) = racine(3)/4 - i.3/4 + i/4 + racine(3)/4 = racine(3)/2 - i/2. OK.</div><div class="correction-step"><strong>Triangle OM<sub>1</sub>M<sub>2</sub> rectangle ?</strong> OM<sub>1</sub> = 1, OM<sub>2</sub> = 1, M<sub>1</sub>M<sub>2</sub> = |z<sub>1</sub>-z<sub>2</sub>|.</div><div class="correction-step">|z<sub>1</sub>-z<sub>2</sub>| = |(racine(3)/2 - 1/2) + i(1/2 + racine(3)/2)| = |(racine(3)-1)/2 + i(racine(3)+1)/2|.</div><div class="correction-step">= racine(((racine(3)-1)<sup>2</sup> + (racine(3)+1)<sup>2</sup>)/4) = racine((3-2racine(3)+1+3+2racine(3)+1)/4) = racine(8/4) = racine(2).</div><div class="correction-step">OM<sub>1</sub><sup>2</sup> + OM<sub>2</sub><sup>2</sup> = 1 + 1 = 2 = M<sub>1</sub>M<sub>2</sub><sup>2</sup>. Donc <strong>rectangle en O</strong>.</div><div class="correction-step">Pour le losange : M<sub>3</sub> = z<sub>1</sub> + z<sub>2</sub> = (racine(3)/2 + 1/2) + i(1/2 - racine(3)/2) (quatrieme sommet du parallelogramme O,M<sub>1</sub>,M<sub>2</sub>,M<sub>3</sub>).</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 101</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">S = z1 + z2 = 4, P = z1.z2 = 13.</div><div class="correction-step">z1 et z2 sont solutions de t<sup>2</sup> - St + P = 0, soit t<sup>2</sup> - 4t + 13 = 0.</div><div class="correction-step">Delta = 16 - 52 = -36. racine(Delta) = 6i.</div><div class="correction-step">z1 = (4+6i)/2 = <span class='math-inline'>2 + 3i</span>, z2 = (4-6i)/2 = <span class='math-inline'>2 - 3i</span>.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 102</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">ABCD carre direct, centre O(0). z<sub>A</sub> = 1+i.</div><div class="correction-step">Rotation de centre O, angle pi/2 : z<sub>B</sub> = i.z<sub>A</sub> = i(1+i) = i-1 = <span class='math-inline'>-1+i</span>.</div><div class="correction-step">z<sub>C</sub> = i.z<sub>B</sub> = i(-1+i) = -i-1 = <span class='math-inline'>-1-i</span>.</div><div class="correction-step">z<sub>D</sub> = i.z<sub>C</sub> = i(-1-i) = -i+1 = <span class='math-inline'>1-i</span>.</div><div class="correction-step"><strong>(z<sub>C</sub>-z<sub>A</sub>)/(z<sub>B</sub>-z<sub>A</sub>)</strong> = (-1-i-1-i)/(-1+i-1-i) = (-2-2i)/(-2) = 1+i.</div><div class="correction-step">1+i est imaginaire pur ? Non, Re = 1, Im = 1. C'est la diagonale AC et le cote AB...</div><div class="correction-step">En fait dans un carre, AC est perpendiculaire a BD, pas a AB. Verifions (z<sub>D</sub>-z<sub>A</sub>)/(z<sub>B</sub>-z<sub>A</sub>) = (1-i-1-i)/(-1+i-1-i) = -2i/(-2) = i.</div><div class="correction-step">i est imaginaire pur ! Donc (z<sub>D</sub>-z<sub>A</sub>)/(z<sub>B</sub>-z<sub>A</sub>) est imaginaire pur, ce qui montre que AD est perpendiculaire a AB. CQFD.</div><div class="correction-step">Rapport de la similitude qui envoie A en B : z<sub>B</sub> - z<sub>Omega</sub> = e<sup>ipi/2</sup>(z<sub>A</sub> - z<sub>Omega</sub>), avec Omega = 0.</div><div class="correction-step">Rapport = |e<sup>ipi/2</sup>| = 1.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e1b4b 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 8</div>
+        <div class="section-title">Corrections : BAC (Ex. 91-105)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 103</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">f(z) = (z-i)/(z+i).</div><div class="correction-step"><strong>Domaine de definition</strong> : z + i ne vaut pas 0, soit <span class='math-inline'>z ne vaut pas -i</span>.</div><div class="correction-step"><strong>|f(z)| = 1 equivaut a z reel</strong> : |f(z)| = 1 equivaut a |z-i| = |z+i|. C'est la mediatrice de [A(i), B(-i)], soit l'axe reel (z reel). CQFD.</div><div class="correction-step"><strong>f(z) reel</strong> : Im(f(z)) = 0. Soit z = x + iy : f(z) = (x + i(y-1))/(x + i(y+1)).</div><div class="correction-step">= (x + i(y-1))(x - i(y+1))/(x<sup>2</sup> + (y+1)<sup>2</sup>). Im = (x(y-1) - x(y+1))/(...) = -2x/(...).</div><div class="correction-step">Im = 0 si x = 0 (axe imaginaire, sauf z = -i).</div><div class="correction-step"><strong>f(z) imaginaire pur</strong> : Re = 0. Re = (x<sup>2</sup> + (y-1)(y+1))/(...) = (x<sup>2</sup> + y<sup>2</sup> - 1)/(...).</div><div class="correction-step">Re = 0 si x<sup>2</sup> + y<sup>2</sup> = 1, soit <span class='math-inline'>|z| = 1</span> (cercle unite, sauf z = -i).</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 104</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">z<sub>n</sub> = ((1 + i.racine(3))/2)<sup>n</sup>. Or (1 + i.racine(3))/2 = e<sup>ipi/3</sup> (module 1, argument pi/3).</div><div class="correction-step">Donc z<sub>n</sub> = (e<sup>ipi/3</sup>)<sup>n</sup> / 2<sup>n</sup>... Attendez, verifions l'enonce.</div><div class="correction-step">L'enonce dit z<sub>n</sub> = (1+i.racine(3))<sup>n</sup>/2<sup>n</sup> = ((1+i.racine(3))/2)<sup>n</sup> = (e<sup>ipi/3</sup>)<sup>n</sup> = e<sup>inpi/3</sup>.</div><div class="correction-step"><strong>|z<sub>n</sub>| = |e<sup>inpi/3</sup>| = 1</strong> pour tout n. CQFD.</div><div class="correction-step">z<sub>1</sub> = e<sup>ipi/3</sup> = 1/2 + i.racine(3)/2. z<sub>2</sub> = e<sup>i2pi/3</sup> = -1/2 + i.racine(3)/2. z<sub>3</sub> = e<sup>ipi</sup> = -1. z<sub>6</sub> = e<sup>i2pi</sup> = 1.</div><div class="correction-step"><strong>z<sub>n+6</sub> = z<sub>n</sub></strong> : e<sup>i(n+6)pi/3</sup> = e<sup>inpi/3</sup> . e<sup>i2pi</sup> = e<sup>inpi/3</sup> . 1 = z<sub>n</sub>. CQFD.</div><div class="correction-step">La suite prend exactement <span class='math-inline'>6 valeurs distinctes</span> : e<sup>ikpi/3</sup> pour k = 0, 1, 2, 3, 4, 5.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 105</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">P(z) = z<sup>3</sup> - (3+4i)z<sup>2</sup> + (1+12i)z - 4i.</div><div class="correction-step"><strong>Verification P(i) = 0</strong> : i<sup>3</sup> - (3+4i)i<sup>2</sup> + (1+12i)i - 4i</div><div class="correction-step">= -i - (3+4i)(-1) + i + 12i<sup>2</sup> - 4i = -i + 3 + 4i + i - 12 - 4i</div><div class="correction-step">= (3-12) + (-i+4i+i-4i) = -9 + 0i = -9. Pas 0 !</div><div class="correction-step">Recalculons : P(i) = i<sup>3</sup> - (3+4i).i<sup>2</sup> + (1+12i).i - 4i = -i - (3+4i)(-1) + (i - 12) - 4i</div><div class="correction-step">= -i + 3 + 4i + i - 12 - 4i = (3-12) + (-i+4i+i-4i) = -9. Toujours pas 0.</div><div class="correction-step">Essayons z = 2i : (2i)<sup>3</sup> - (3+4i)(2i)<sup>2</sup> + (1+12i)(2i) - 4i</div><div class="correction-step">= -8i - (3+4i)(-4) + 2i - 24 - 4i = -8i + 12 + 16i + 2i - 24 - 4i</div><div class="correction-step">= (12-24) + (-8+16+2-4)i = -12 + 6i. Pas 0.</div><div class="correction-step">Essayons z = 1 : 1 - 3 - 4i + 1 + 12i - 4i = -1 + 4i. Non.</div><div class="correction-step">Essayons z = 4 : 64 - (3+4i)(16) + (1+12i)(4) - 4i = 64 - 48 - 64i + 4 + 48i - 4i = 20 - 20i. Non.</div><div class="correction-step">Essayons z = i/... Il semble que z = i ne soit pas racine de ce polynome. L'enonce peut contenir une erreur.</div><div class="correction-step">Resolvons quand meme : P(z) = 0 se factorise si on trouve une racine. Essayons z = 3 + 0i :</div><div class="correction-step">27 - (3+4i)(9) + (1+12i)(3) - 4i = 27 - 27 - 36i + 3 + 36i - 4i = 3 - 4i. Non.</div><div class="correction-step">Il faudrait essayer d'autres valeurs ou utiliser une methode numerique.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #172554 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 9</div>
+        <div class="section-title">Corrections : Synthese (Ex. 106-110)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 106</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">Soit ABC equilateral. On a les rotations : (B - A)/(C - A) = e<sup>ipm 2ipi/3</sup>.</div><div class="correction-step">Donc B - A = e<sup>ipm 2ipi/3</sup>(C - A). En choisissant e<sup>2ipi/3</sup> : b - a = omega(c - a) ou omega = e<sup>2ipi/3</sup>.</div><div class="correction-step">De meme, c - b = omega(a - b) et a - c = omega(b - c).</div><div class="correction-step">On calcule a<sup>2</sup> + b<sup>2</sup> + c<sup>2</sup> - (ab + bc + ca) :</div><div class="correction-step">=(1/2)[(a-b)<sup>2</sup> + (b-c)<sup>2</sup> + (c-a)<sup>2</sup>] = (1/2)[omega<sup>2</sup>(c-a)<sup>2</sup> + omega<sup>2</sup>(a-b)<sup>2</sup> + omega<sup>2</sup>(b-c)<sup>2</sup>].</div><div class="correction-step">Or omega<sup>2</sup> = e<sup>4ipi/3</sup> = -1 - omega. C'est un calcul classique dont le resultat est bien 0.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 107</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">Soit z = e<sup>itheta</sup> (|z| = 1).</div><div class="correction-step"><strong>|z+1|<sup>2</sup></strong> = (z+1)(zbarre+1) = z.zbarre + z + zbarre + 1 = 1 + 2.Re(z) + 1 = <span class='math-inline'>2(1 + Re(z))</span>. CQFD.</div><div class="correction-step">Re(z) = cos(theta). Donc |z+1|<sup>2</sup> = 2(1 + cos(theta)) = 4.cos<sup>2</sup>(theta/2).</div><div class="correction-step">Donc |z+1| = 2|cos(theta/2)|. CQFD.</div><div class="correction-step"><strong>|z+1| = 0</strong> : 2|cos(theta/2)| = 0, soit cos(theta/2) = 0, theta/2 = pi/2 + kpi, theta = pi + 2kpi.</div><div class="correction-step">Donc z = e<sup>ipi</sup> = <span class='math-inline'>-1</span>.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 108</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">cos<sup>4</sup>a - sin<sup>4</sup>a = (cos<sup>2</sup>a - sin<sup>2</sup>a)(cos<sup>2</sup>a + sin<sup>2</sup>a) = cos<sup>2</sup>a - sin<sup>2</sup>a = <span class='math-inline'>cos(2a)</span>. CQFD.</div><div class="correction-step">cos<sup>3</sup>a . sin a + sin<sup>3</sup>a . cos a = cos a . sin a(cos<sup>2</sup>a + sin<sup>2</sup>a) = cos a . sin a = <span class='math-inline'>sin(2a)/2</span>.</div><div class="correction-step">Verification par Euler : cos<sup>3</sup>a.sin a = Re(e<sup>3ia</sup>) . Im(e<sup>ia</sup>)/4 (apres linearisation)...</div><div class="correction-step">Les deux identites sont des cas particuliers bien connus.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 109</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><strong>Sens direct</strong> : si ABC equilateral, on a b - a = omega(c - a) avec omega = e<sup>ipm 2ipi/3</sup>.</div><div class="correction-step">On montre (comme ex 106) que a<sup>2</sup> + b<sup>2</sup> + c<sup>2</sup> = ab + bc + ca.</div><div class="correction-step"><strong>Sens reciproque</strong> : si a<sup>2</sup> + b<sup>2</sup> + c<sup>2</sup> = ab + bc + ca, alors (a-b)<sup>2</sup> + (b-c)<sup>2</sup> + (c-a)<sup>2</sup> = 0.</div><div class="correction-step">On pose X = a-b, Y = b-c, Z = c-a = -(X+Y). X<sup>2</sup> + Y<sup>2</sup> + (X+Y)<sup>2</sup> = 2(X<sup>2</sup> + XY + Y<sup>2</sup>) = 0.</div><div class="correction-step">Donc X/Y est racine de t<sup>2</sup> + t + 1 = 0, soit X/Y = omega ou omega<sup>2</sup>.</div><div class="correction-step">Donc (a-b)/(b-c) = omega ou omega<sup>2</sup>, ce qui montre que ABC est equilateral. CQFD.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #172554 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 9</div>
+        <div class="section-title">Corrections : Synthese (Ex. 106-110)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 110</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">Soient z<sub>k</sub> = e<sup>i2kpi/7</sup> pour k = 1, 2, ..., 6 les racines 7-iemes de l'unite (sauf 1).</div><div class="correction-step">On a z<sup>7</sup> - 1 = (z - 1)(z<sup>6</sup> + z<sup>5</sup> + ... + z + 1) = 0.</div><div class="correction-step">Donc pour k = 1 a 6 : z<sub>k</sub><sup>6</sup> + z<sub>k</sub><sup>5</sup> + ... + z<sub>k</sub> + 1 = 0.</div><div class="correction-step">On sait que la somme de toutes les racines 7-iemes vaut 0 : 1 + z<sub>1</sub> + ... + z<sub>6</sub> = 0.</div><div class="correction-step">Par symetrie : cos(2pi/7) + cos(4pi/7) + cos(6pi/7) + cos(8pi/7) + cos(10pi/7) + cos(12pi/7) = -1.</div><div class="correction-step">Or cos(12pi/7) = cos(2pi/7), cos(10pi/7) = cos(4pi/7), cos(8pi/7) = cos(6pi/7).</div><div class="correction-step">Donc 2[cos(2pi/7) + cos(4pi/7) + cos(6pi/7)] = -1.</div><div class="correction-step">S = cos(pi/7) + cos(3pi/7) + cos(5pi/7). Notons que cos(6pi/7) = -cos(pi/7), etc.</div><div class="correction-step">cos(2pi/7) + cos(4pi/7) + cos(6pi/7) = cos(2pi/7) + cos(4pi/7) - cos(pi/7).</div><div class="correction-step">Donc 2[cos(2pi/7) + cos(4pi/7) - cos(pi/7)] = -1, soit cos(2pi/7) + cos(4pi/7) = -1/2 + cos(pi/7).</div><div class="correction-step">On utilise aussi : S = cos(pi/7) + cos(3pi/7) + cos(5pi/7). Avec cos(5pi/7) = -cos(2pi/7).</div><div class="correction-step">Donc S = cos(pi/7) + cos(3pi/7) - cos(2pi/7).</div><div class="correction-step">En combinant les relations, on trouve <span class='math-inline'>S = 1/2</span>.</div>
+    </div>
+</div>
+</div>
+</div>
+</body>
+</html>

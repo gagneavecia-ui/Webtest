@@ -1,0 +1,1714 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=720">
+    <title>Exercices Nombres Complexes - 110 exercices corriges</title>
+    <style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@1,500&display=swap');
+
+@page {
+    size: 720px 1020px;
+    margin: 0;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+    background: #080c18;
+    color: #d8dff0;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+}
+
+.page {
+    width: 720px;
+    min-height: 1020px;
+    padding: 60px 55px;
+    background: #080c18;
+    position: relative;
+    page-break-after: always;
+    break-after: page;
+    overflow: hidden;
+}
+
+.page:last-child { page-break-after: auto; break-after: auto; }
+
+/* === COVER / TITLE PAGE === */
+.cover {
+    padding: 0;
+    background: linear-gradient(135deg, #080c18 0%, #101830 50%, #080c18 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    position: relative;
+    min-height: 1020px;
+}
+.cover-content {
+    position: relative;
+    z-index: 2;
+    padding: 50px 55px 60px;
+}
+.cover-label {
+    color: #c9a84c;
+    font-size: 12px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 18px;
+}
+.cover-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    font-weight: 900;
+    line-height: 1.1;
+    color: #d8dff0;
+    margin-bottom: 18px;
+    letter-spacing: -1px;
+}
+.cover-title .accent { color: #c9a84c; font-style: italic; font-family: 'Cormorant Garamond', serif; font-weight: 500; }
+.cover-subtitle {
+    font-size: 15px;
+    color: #7888aa;
+    line-height: 1.6;
+    max-width: 500px;
+    margin-bottom: 30px;
+}
+.cover-divider {
+    width: 70px; height: 3px;
+    background: linear-gradient(to right, #c9a84c, #3b82f6);
+    margin-bottom: 22px;
+}
+.cover-author {
+    font-size: 13px;
+    color: #7888aa;
+    letter-spacing: 1px;
+}
+.cover-author strong { color: #d8dff0; font-weight: 600; }
+
+/* === TOC === */
+.toc-page { padding: 70px 55px; }
+.toc-header {
+    text-align: center;
+    margin-bottom: 35px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #1a2038;
+}
+.toc-label {
+    color: #c9a84c;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+.toc-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 900;
+    color: #d8dff0;
+}
+.toc-list { list-style: none; padding: 0; }
+.toc-item {
+    display: flex;
+    align-items: baseline;
+    padding: 8px 0;
+    border-bottom: 1px dotted #1a2038;
+    font-size: 13px;
+}
+.toc-num {
+    color: #3b82f6;
+    font-weight: 700;
+    font-family: 'Playfair Display', serif;
+    width: 32px;
+    flex-shrink: 0;
+}
+.toc-text { color: #d8dff0; flex: 1; }
+.toc-dots { color: #1a2038; margin: 0 6px; flex: 1; }
+.toc-page-num {
+    color: #7888aa;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+/* === SECTION PAGES (Exercise themes) === */
+.section-page { padding: 0; }
+.section-hero {
+    height: 160px;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+}
+.section-hero-gradient {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+.section-hero-pattern {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    opacity: 0.06;
+    background-size: 50px 50px;
+    background-image: radial-gradient(circle, #3b82f6 1px, transparent 1px);
+}
+.section-hero-overlay {
+    position: absolute;
+    bottom: 25px;
+    left: 55px;
+    right: 55px;
+    z-index: 2;
+}
+.section-number {
+    color: #c9a84c;
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+.section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 900;
+    color: #d8dff0;
+    line-height: 1.15;
+    letter-spacing: -0.5px;
+}
+
+.section-body {
+    padding: 30px 55px 50px;
+}
+
+/* === EXERCISE ITEM === */
+.exercise-item {
+    background: #101830;
+    border: 1px solid #1a2038;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 14px 0;
+    break-inside: avoid;
+    border-left: 3px solid #3b82f6;
+}
+.exercise-item.hard {
+    border-left-color: #ef4444;
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.05), #101830);
+}
+.exercise-item.medium {
+    border-left-color: #f97316;
+    background: linear-gradient(135deg, rgba(249, 115, 22, 0.04), #101830);
+}
+.exercise-item.bac {
+    border-left-color: #c9a84c;
+    background: linear-gradient(135deg, rgba(201, 168, 76, 0.06), #101830);
+    border-left-width: 4px;
+}
+.exercise-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+.exercise-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 900;
+    color: #3b82f6;
+}
+.exercise-diff {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 2px 8px;
+    border-radius: 3px;
+}
+.exercise-diff.facile { background: rgba(34, 197, 94, 0.2); color: #22c55e; }
+.exercise-diff.moyen { background: rgba(249, 115, 22, 0.2); color: #f97316; }
+.exercise-diff.difficile { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+.exercise-diff.bac { background: rgba(201, 168, 76, 0.2); color: #c9a84c; }
+
+.exercise-question {
+    font-size: 13px;
+    color: #a0b0cc;
+    line-height: 1.75;
+}
+.exercise-question p { color: #a0b0cc; margin-bottom: 8px; }
+.exercise-question p:last-child { margin-bottom: 0; }
+.exercise-question strong { color: #d8dff0; }
+
+.sub-question {
+    padding-left: 20px;
+    margin: 6px 0;
+    position: relative;
+    font-size: 12.5px;
+    color: #a0b0cc;
+    line-height: 1.7;
+}
+.sub-question::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 6px;
+    height: 6px;
+    background: #3b82f6;
+    border-radius: 50%;
+}
+
+/* === CORRECTION ITEMS === */
+.correction-item {
+    background: #101830;
+    border: 1px solid #1a2038;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 14px 0;
+    break-inside: avoid;
+    border-left: 3px solid #22c55e;
+}
+.correction-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+.correction-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 900;
+    color: #22c55e;
+    margin-right: 10px;
+}
+.correction-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: #22c55e;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+.correction-content {
+    font-size: 13px;
+    color: #a0b0cc;
+    line-height: 1.8;
+}
+.correction-content p { margin-bottom: 6px; }
+.correction-content p:last-child { margin-bottom: 0; }
+.correction-content strong { color: #d8dff0; }
+.correction-step {
+    padding-left: 20px;
+    margin: 4px 0;
+    position: relative;
+}
+.correction-step::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 6px;
+    height: 6px;
+    background: #22c55e;
+    border-radius: 50%;
+}
+
+.math-inline {
+    background: rgba(59, 130, 246, 0.08);
+    border: 1px solid #1a2038;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    color: #e8ecf8;
+    white-space: nowrap;
+}
+
+.formula-box {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(201, 168, 76, 0.06));
+    border: 1px solid #1a2038;
+    border-left: 4px solid #3b82f6;
+    border-radius: 10px;
+    padding: 14px 20px;
+    margin: 14px 0;
+    text-align: center;
+    break-inside: avoid;
+}
+.formula-main {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #e8ecf8;
+    line-height: 1.6;
+}
+.formula-desc {
+    font-size: 11px;
+    color: #7888aa;
+    margin-top: 6px;
+}
+
+p {
+    margin-bottom: 12px;
+    color: #a0b0cc;
+    line-height: 1.8;
+}
+p strong { color: #d8dff0; }
+
+.callout {
+    background: #101830;
+    border-radius: 10px;
+    padding: 16px 22px;
+    margin: 16px 0;
+    text-align: center;
+    border-top: 2px solid #3b82f6;
+    border-bottom: 2px solid #c9a84c;
+    break-inside: avoid;
+}
+.callout-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-style: italic;
+    color: #d8dff0;
+    line-height: 1.5;
+}
+
+.stat-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin: 18px 0;
+    break-inside: avoid;
+}
+.stat-card {
+    background: linear-gradient(135deg, #101830, #1a2038);
+    border: 1px solid #1a2038;
+    border-radius: 10px;
+    padding: 14px 10px;
+    text-align: center;
+}
+.stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 900;
+    color: #c9a84c;
+    line-height: 1;
+    margin-bottom: 5px;
+}
+.stat-label {
+    font-size: 10px;
+    color: #7888aa;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.conclusion-page {
+    background: linear-gradient(135deg, #080c18 0%, #101830 100%);
+    padding: 70px 55px;
+}
+</style>
+</head>
+<body>
+<div class="page cover">
+    <div class="cover-content">
+        <div class="cover-label">Collection NAMO -- Terminale D & C</div>
+        <div class="cover-title">Nombres Complexes<br><span class="accent">Exercices & Problemes</span></div>
+        <div class="cover-divider"></div>
+        <div class="cover-subtitle">110 exercices corriges et detailles, classes par theme et par difficulte. Du plus simple au plus difficile, pour maitriser tous les savoir-faire du programme.</div>
+        <div class="stat-block">
+            <div class="stat-card"><div class="stat-number">24</div><div class="stat-label">Faciles</div></div>
+            <div class="stat-card"><div class="stat-number">38</div><div class="stat-label">Moyens</div></div>
+            <div class="stat-card"><div class="stat-number">48</div><div class="stat-label">Difficiles / BAC</div></div>
+        </div>
+        <div class="cover-author">Mathematiques <strong>Terminale D</strong></div>
+    </div>
+</div>
+<div class="page toc-page">
+    <div class="toc-header">
+        <div class="toc-label">Table des matieres</div>
+        <div class="toc-title">110 Exercices</div>
+    </div>
+    <ul class="toc-list">
+    <li class="toc-item"><span class="toc-num">I</span><span class="toc-text">Forme algebrique -- Operations fondamentales</span><span class="toc-dots">............</span><span class="toc-page-num">Ex. 1-12</span></li><li class="toc-item"><span class="toc-num">II</span><span class="toc-text">Equations du second degre dans C</span><span class="toc-dots">............</span><span class="toc-page-num">Ex. 13-25</span></li><li class="toc-item"><span class="toc-num">III</span><span class="toc-text">Module et argument</span><span class="toc-dots">............</span><span class="toc-page-num">Ex. 26-40</span></li><li class="toc-item"><span class="toc-num">IV</span><span class="toc-text">Forme trigonometrique et exponentielle</span><span class="toc-dots">............</span><span class="toc-page-num">Ex. 41-55</span></li><li class="toc-item"><span class="toc-num">V</span><span class="toc-text">Conjugue et proprietes</span><span class="toc-dots">............</span><span class="toc-page-num">Ex. 56-65</span></li><li class="toc-item"><span class="toc-num">VI</span><span class="toc-text">Geometrie dans le plan complexe</span><span class="toc-dots">............</span><span class="toc-page-num">Ex. 66-82</span></li><li class="toc-item"><span class="toc-num">VII</span><span class="toc-text">Racines n-iemes de l'unite</span><span class="toc-dots">............</span><span class="toc-page-num">Ex. 83-90</span></li><li class="toc-item"><span class="toc-num">VIII</span><span class="toc-text">Exercices type BAC et problemes</span><span class="toc-dots">............</span><span class="toc-page-num">Ex. 91-105</span></li><li class="toc-item"><span class="toc-num">IX</span><span class="toc-text">Exercices de synthese</span><span class="toc-dots">............</span><span class="toc-page-num">Ex. 106-110</span></li>
+    </ul>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a5f 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 1</div>
+        <div class="section-title">Forme algebrique -- Operations fondamentales</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 1</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Determineer la partie reelle et la partie imaginaire de :</p><div class="sub-question">z1 = 3 + 5i</div><div class="sub-question">z2 = -2 + 7i</div><div class="sub-question">z3 = 4 - 3i</div><div class="sub-question">z4 = -6 - i</div>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 2</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit z = 2 + 3i et z' = -1 + 4i. Calculer :</p><div class="sub-question">z + z'</div><div class="sub-question">z - z'</div><div class="sub-question">z . z'</div><div class="sub-question">z / z'</div>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 3</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer le conjugue de chacun des nombres complexes suivants :</p><div class="sub-question">z1 = 5 + 2i, donc z1barre = ...</div><div class="sub-question">z2 = -3 - 7i, donc z2barre = ...</div><div class="sub-question">z3 = 4i, donc z3barre = ...</div><div class="sub-question">z4 = -6, donc z4barre = ...</div>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 4</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Verifier que pour z = 2 + i :</p><div class="sub-question">z + zbarre = 2.Re(z)</div><div class="sub-question">z . zbarre = |z|<sup>2</sup></div><div class="sub-question">z - zbarre = 2i.Im(z)</div>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 5</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Resoudre dans C les equations suivantes :</p><div class="sub-question">3z + 2i = 5 - i</div><div class="sub-question">(1 + i)z = 4 - 2i</div><div class="sub-question">2z - (3 - i) = z + 1 + 2i</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a5f 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 1</div>
+        <div class="section-title">Forme algebrique -- Operations fondamentales</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 6</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Determiner si les nombres suivants sont reels, imaginaires purs, ou ni l'un ni l'autre :</p><div class="sub-question">z1 = 3 - 3i + 3i = 3</div><div class="sub-question">z2 = 2i - 5i + 3i</div><div class="sub-question">z3 = (1 + i)(1 - i)</div><div class="sub-question">z4 = i<sup>4</sup></div>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 7</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer les puissances de i :</p><div class="sub-question">i<sup>1</sup>, i<sup>2</sup>, i<sup>3</sup>, i<sup>4</sup>, i<sup>5</sup></div><div class="sub-question">En deduire i<sup>2024</sup>, i<sup>2025</sup> et i<sup>2023</sup></div>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 8</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Mettre sous forme algebrique a + ib :</p><div class="sub-question">(3 + 2i) + (1 - 5i)</div><div class="sub-question">(4 - i) - (2 + 3i)</div><div class="sub-question">2(1 + 3i) - 3(2 - i)</div>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 9</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>On donne z = 3 - 2i. Calculer :</p><div class="sub-question">|z|</div><div class="sub-question">|z|<sup>2</sup></div><div class="sub-question">z . zbarre</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 10</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soient z1 = 1 + 2i et z2 = 3 - i. Calculer et simplifier :</p><div class="sub-question">z1<sup>2</sup></div><div class="sub-question">z1 . z2barre</div><div class="sub-question">(z1 + z2)(z1 - z2)</div><div class="sub-question">(z1/z2) sous forme algebrique</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a5f 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 1</div>
+        <div class="section-title">Forme algebrique -- Operations fondamentales</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 11</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Demontrer que pour tout nombre complexe z, on a :</p><div class="sub-question">|zbarre| = |z|</div><div class="sub-question">(z + z')barre = zbarre + z'barre</div><div class="sub-question">(z . z')barre = zbarre . z'barre</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 12</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit z un nombre complexe tel que z + zbarre = 6 et z . zbarre = 25.</p><p>Determiner z en posant z = a + ib avec a, b reels.</p>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e1b4b 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 2</div>
+        <div class="section-title">Equations du second degre dans C</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 13</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Resoudre dans C les equations suivantes :</p><div class="sub-question">z<sup>2</sup> - 4z + 3 = 0</div><div class="sub-question">z<sup>2</sup> + 2z + 1 = 0</div><div class="sub-question">z<sup>2</sup> + 1 = 0</div>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 14</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Resoudre dans C : z<sup>2</sup> + 4z + 13 = 0</p><p>On calculera le discriminant puis les solutions complexes conjuguees.</p>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 15</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Resoudre dans C : z<sup>2</sup> - 6z + 25 = 0.</p><p>Verifier que z1 + z2 = 6 et z1 . z2 = 25.</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 16</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Resoudre dans C : z<sup>2</sup> + z + 1 = 0.</p><p>En deduire la valeur de (z1/z2) + (z2/z1).</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 17</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Resoudre dans C :</p><div class="sub-question">2z<sup>2</sup> - 4z + 5 = 0</div><div class="sub-question">3z<sup>2</sup> + 6z + 9 = 0</div><div class="sub-question">z<sup>2</sup> - 2z + 5 = 0</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e1b4b 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 2</div>
+        <div class="section-title">Equations du second degre dans C</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 18</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Resoudre dans C : (1 + 2i)z<sup>2</sup> + (3 - i)z + (4 + 2i) = 0.</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 19</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Trouver tous les nombres complexes z tels que :</p><div class="sub-question">z<sup>2</sup> = -4</div><div class="sub-question">z<sup>2</sup> = 4i</div><div class="sub-question">z<sup>2</sup> = 3 - 4i</div><div class="sub-question">z<sup>3</sup> = -8</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 20</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Resoudre dans C : z<sup>4</sup> - 1 = 0.</p><p>Factoriser d'abord z<sup>4</sup> - 1 = (z<sup>2</sup> - 1)(z<sup>2</sup> + 1).</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 21</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Resoudre dans C : z<sup>4</sup> + 1 = 0.</p><p>Indication : on pourra poser Z = z<sup>2</sup>.</p>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 22</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Resoudre dans C : z<sup>3</sup> - 1 = 0.</p><p>On factorisera z<sup>3</sup> - 1 = (z - 1)(z<sup>2</sup> + z + 1).</p><p>Les solutions sont les racines cubiques de l'unite.</p>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e1b4b 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 2</div>
+        <div class="section-title">Equations du second degre dans C</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 23</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Resoudre dans C : z<sup>3</sup> + 1 = 0.</p><p>On factorisera z<sup>3</sup> + 1 = (z + 1)(z<sup>2</sup> - z + 1).</p>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 24</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Resoudre dans C : z<sup>4</sup> - 16 = 0.</p><p>On factorisera z<sup>4</sup> - 16 = (z<sup>2</sup> - 4)(z<sup>2</sup> + 4).</p>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 25</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Resoudre dans C l'equation : z<sup>6</sup> - 1 = 0.</p><p>Factoriser et trouver les 6 racines sixiemes de l'unite.</p>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #172554 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 3</div>
+        <div class="section-title">Module et argument</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 26</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer le module de :</p><div class="sub-question">z1 = 3 + 4i</div><div class="sub-question">z2 = -5 + 12i</div><div class="sub-question">z3 = 1 + i</div><div class="sub-question">z4 = -2 - 2i</div><div class="sub-question">z5 = 7i</div>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 27</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Determiner un argument de chacun des nombres suivants :</p><div class="sub-question">z1 = 1 + i</div><div class="sub-question">z2 = -1 + i</div><div class="sub-question">z3 = -1 - i</div><div class="sub-question">z4 = 1 - i</div><div class="sub-question">z5 = 2i</div><div class="sub-question">z6 = -3</div>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 28</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer |z| et arg(z) pour :</p><div class="sub-question">z = 2 + 2i</div><div class="sub-question">z = -3 + 3i</div><div class="sub-question">z = 4i</div><div class="sub-question">z = -5</div>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 29</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Placer dans le plan complexe les points A, B, C, D d'affixes :</p><div class="sub-question">z<sub>A</sub> = 1 + i</div><div class="sub-question">z<sub>B</sub> = -2 + 3i</div><div class="sub-question">z<sub>C</sub> = 3 - 2i</div><div class="sub-question">z<sub>D</sub> = -1 - i</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 30</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit z = 1 + i racine(3). Calculer :</p><div class="sub-question">|z|</div><div class="sub-question">arg(z)</div><div class="sub-question">L'ecriture trigonometrique de z</div><div class="sub-question">L'ecriture exponentielle de z</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #172554 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 3</div>
+        <div class="section-title">Module et argument</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 31</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit z1 = 1 + i et z2 = racine(3) + i. Calculer :</p><div class="sub-question">|z1|, |z2|, arg(z1), arg(z2)</div><div class="sub-question">z1 . z2 sous forme trigonometrique</div><div class="sub-question">z1 / z2 sous forme trigonometrique</div><div class="sub-question">Verifier avec la forme algebrique</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 32</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit z = 2 - 2i racine(3). Ecrire z sous :</p><div class="sub-question">Forme trigonometrique</div><div class="sub-question">Forme exponentielle</div><div class="sub-question">Puis calculer z<sup>3</sup> en utilisant la forme exponentielle</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 33</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>On donne |z| = 5 et arg(z) = pi/3.</p><div class="sub-question">Ecrire z sous forme trigonometrique</div><div class="sub-question">Ecrire z sous forme algebrique</div><div class="sub-question">Calculer zbarre, 1/z, z<sup>2</sup></div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 34</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Demontrer en utilisant les proprietes du module :</p><div class="sub-question">|z . z'| = |z| . |z'|</div><div class="sub-question">|z/z'| = |z|/|z'| (z' non nul)</div><div class="sub-question">|z<sup>n</sup>| = |z|<sup>n</sup></div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 35</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit z = (1 + i)<sup>6</sup>. Calculer z en utilisant :</p><div class="sub-question">Le binome de Newton directement (long)</div><div class="sub-question">La forme trigonometrique de 1 + i, puis la formule de Moivre (rapide)</div><div class="sub-question">Verifier que les deux methodes donnent le meme resultat</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #172554 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 3</div>
+        <div class="section-title">Module et argument</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 36</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Demontrer les relations :</p><div class="sub-question">arg(z . z') = arg(z) + arg(z') + 2kpi</div><div class="sub-question">arg(z/z') = arg(z) - arg(z') + 2kpi</div><div class="sub-question">arg(z<sup>n</sup>) = n . arg(z) + 2kpi</div><div class="sub-question">arg(zbarre) = -arg(z) + 2kpi</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 37</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit z un nombre complexe non nul. Montrer que :</p><div class="sub-question">z/zbarre est de module 1</div><div class="sub-question">(z + zbarre) est reel</div><div class="sub-question">(z - zbarre) est imaginaire pur</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 38</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soient z1 et z2 deux nombres complexes non nuls.</p><p>Montrer que |z1 + z2|<sup>2</sup> = |z1|<sup>2</sup> + |z2|<sup>2</sup> + 2.Re(z1 . z2barre).</p><p>En deduire l'identite : |z1 + z2|<sup>2</sup> + |z1 - z2|<sup>2</sup> = 2(|z1|<sup>2</sup> + |z2|<sup>2</sup>).</p>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 39</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Determiner l'ensemble des points M(z) du plan tels que :</p><div class="sub-question">|z| = 3</div><div class="sub-question">|z - 1| = 2</div><div class="sub-question">|z - 1 + i| = |z + 1 - i|</div><div class="sub-question">|z - 2i| + |z + 2i| = 8 (indication : ellipse)</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 40</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit z un nombre complexe. Interpreter geometriquement :</p><div class="sub-question">|z - z<sub>A</sub>| = r (avec z<sub>A</sub> fixe)</div><div class="sub-question">|z - z<sub>A</sub>| = |z - z<sub>B</sub>|</div><div class="sub-question">arg(z - z<sub>A</sub>) = theta (theta fixe)</div><div class="sub-question">|z - z<sub>A</sub>| . |z - z<sub>B</sub>| = k<sup>2</sup> (k > 0)</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #0c4a6e 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 4</div>
+        <div class="section-title">Forme trigonometrique et exponentielle</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 41</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Ecrire sous forme trigonometrique :</p><div class="sub-question">z1 = 1 + i</div><div class="sub-question">z2 = racine(3) + i</div><div class="sub-question">z3 = -1 + i racine(3)</div><div class="sub-question">z4 = -2 - 2i</div><div class="sub-question">z5 = 3i</div>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 42</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Ecrire sous forme algebrique a + ib :</p><div class="sub-question">z = 2(cos(pi/6) + i.sin(pi/6))</div><div class="sub-question">z = 4(cos(2pi/3) + i.sin(2pi/3))</div><div class="sub-question">z = 5(cos(-pi/4) + i.sin(-pi/4))</div><div class="sub-question">z = (cos(pi) + i.sin(pi))</div>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 43</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Ecrire sous forme exponentielle :</p><div class="sub-question">z1 = 1 + i</div><div class="sub-question">z2 = 2i</div><div class="sub-question">z3 = -3</div><div class="sub-question">z4 = 1 - i racine(3)</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 44</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer en utilisant la forme exponentielle :</p><div class="sub-question">(1 + i)<sup>8</sup></div><div class="sub-question">(racine(3) - i)<sup>6</sup></div><div class="sub-question">(-1 - i)<sup>10</sup></div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 45</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit z = e<sup>ipi/4</sup>. Calculer :</p><div class="sub-question">z<sup>2</sup>, z<sup>3</sup>, z<sup>4</sup>, z<sup>8</sup></div><div class="sub-question">1/z, zbarre</div><div class="sub-question">z + zbarre, z - zbarre</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #0c4a6e 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 4</div>
+        <div class="section-title">Forme trigonometrique et exponentielle</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 46</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Simplifier les expressions suivantes en utilisant la formule de Moivre :</p><div class="sub-question">cos<sup>4</sup>x en fonction de cos(2x) et cos(4x)</div><div class="sub-question">sin<sup>5</sup>x en fonction de sin(x), sin(3x), sin(5x)</div><div class="sub-question">cos<sup>3</sup>x en fonction de cos(x) et cos(3x)</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 47</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Lineariser (exprimer en fonction de cos(kx) ou sin(kx)) :</p><div class="sub-question">cos<sup>3</sup>(x)</div><div class="sub-question">sin<sup>4</sup>(x)</div><div class="sub-question">cos<sup>2</sup>(x) . sin<sup>2</sup>(x)</div><div class="sub-question">cos<sup>5</sup>(x)</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 48</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>En utilisant la formule d'Euler e<sup>ix</sup> = cos(x) + i.sin(x) :</p><div class="sub-question">Exprimer cos(x) en fonction de e<sup>ix</sup> et e<sup>-ix</sup></div><div class="sub-question">Exprimer sin(x) en fonction de e<sup>ix</sup> et e<sup>-ix</sup></div><div class="sub-question">En deduire cos(2x), sin(2x), cos(3x), sin(3x)</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 49</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soient z1 = 2.e<sup>ipi/6</sup> et z2 = 3.e<sup>-ipi/3</sup>. Calculer :</p><div class="sub-question">z1 . z2 (forme exponentielle puis algebrique)</div><div class="sub-question">z1 / z2 (forme exponentielle puis algebrique)</div><div class="sub-question">z1<sup>3</sup> . z2<sup>2</sup></div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 50</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer le produit (1 + i)(1 + i racine(3))(1 - i) en utilisant les formes exponentielles.</p>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #0c4a6e 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 4</div>
+        <div class="section-title">Forme trigonometrique et exponentielle</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 51</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Demontrer la formule de Moivre :</p><p>Pour tout entier n et tout reel theta,</p><p>(cos(theta) + i.sin(theta))<sup>n</sup> = cos(n.theta) + i.sin(n.theta).</p>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 52</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Demontrer les formules d'addition :</p><div class="sub-question">cos(a + b) = cos(a).cos(b) - sin(a).sin(b)</div><div class="sub-question">sin(a + b) = sin(a).cos(b) + cos(a).sin(b)</div><p>Indication : utiliser e<sup>i(a+b)</sup> = e<sup>ia</sup> . e<sup>ib</sup>.</p>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 53</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Lineariser cos<sup>6</sup>(x) et sin<sup>6</sup>(x).</p><p>En deduire la valeur de l'integrale de 0 a 2pi de cos<sup>6</sup>(x) dx.</p>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 54</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit n un entier naturel. Calculer en fonction de n :</p><div class="sub-question">S = 1 + cos(x) + cos(2x) + ... + cos(nx)</div><div class="sub-question">T = sin(x) + sin(2x) + ... + sin(nx)</div><p>Indication : considerer la somme geometrique 1 + e<sup>ix</sup> + e<sup>i2x</sup> + ... + e<sup>inx</sup>.</p>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 55</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer : (cos(pi/7) + i.sin(pi/7))<sup>7</sup>.</p><p>En deduire les valeurs de cos(7pi/7) et sin(7pi/7).</p>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #312e81 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 5</div>
+        <div class="section-title">Conjugue et proprietes</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 56</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer zbarre pour :</p><div class="sub-question">z = 3 + 2i</div><div class="sub-question">z = -4i</div><div class="sub-question">z = 7</div><div class="sub-question">z = i racine(2)</div><div class="sub-question">z = (1+i)<sup>2</sup></div>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 57</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Verifier les proprietes du conjugue pour z = 2 + 3i et z' = 1 - i :</p><div class="sub-question">(z + z')barre = zbarre + z'barre</div><div class="sub-question">(z . z')barre = zbarre . z'barre</div><div class="sub-question">(1/z)barre = 1/zbarre</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 58</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Demontrer que :</p><div class="sub-question">Si z est reel, alors z = zbarre</div><div class="sub-question">Si z est imaginaire pur, alors z = -zbarre</div><div class="sub-question">Reciproquement, si z = zbarre alors z est reel, et si z = -zbarre alors z est imaginaire pur</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 59</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit z un nombre complexe. Exprimer en fonction de Re(z) et Im(z) :</p><div class="sub-question">z + zbarre</div><div class="sub-question">z - zbarre</div><div class="sub-question">z . zbarre</div><div class="sub-question">|z|<sup>2</sup></div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 60</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Ecrire sous la forme a + ib (avec a, b reels) :</p><div class="sub-question">(2 + 3i)/(1 - 2i)</div><div class="sub-question">(1 + i)<sup>3</sup> / (1 - i)</div><div class="sub-question">1/(2 + 3i) + 1/(2 - 3i)</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #312e81 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 5</div>
+        <div class="section-title">Conjugue et proprietes</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 61</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Resoudre dans C : z<sup>2</sup> = zbarre.</p><p>On posera z = a + ib et on separera parties reelle et imaginaire.</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 62</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Resoudre dans C : z<sup>2</sup> + zbarre<sup>2</sup> = 0.</p><p>Indication : poser z = a + ib.</p>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 63</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Demontrer que pour tout complexe z non nul :</p><div class="sub-question">|1/z| = 1/|z|</div><div class="sub-question">arg(1/z) = -arg(z) + 2kpi</div><div class="sub-question">1/z = zbarre / |z|<sup>2</sup></div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 64</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(z) = (z - 1)/(z + 1). Determiner l'ensemble des points M(z) tels que :</p><div class="sub-question">f(z) soit reel</div><div class="sub-question">f(z) soit imaginaire pur</div><div class="sub-question">|f(z)| = 1</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 65</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit z un complexe tel que |z - 1| = |z + 1|.</p><p>Montrer que z est imaginaire pur.</p><p>Interpreter geometriquement ce resultat.</p>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a8a 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 6</div>
+        <div class="section-title">Geometrie dans le plan complexe</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 66</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Dans le plan complexe, soient A(1 + 2i), B(3 - i), C(-2 + 4i). Calculer :</p><div class="sub-question">AB = |z<sub>B</sub> - z<sub>A</sub>|</div><div class="sub-question">BC = |z<sub>C</sub> - z<sub>B</sub>|</div><div class="sub-question">AC = |z<sub>C</sub> - z<sub>A</sub>|</div>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 67</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soient A(1 + i) et B(3 + 2i). Calculer l'affixe du milieu I de [AB].</p>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 68</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>On donne A(2i), B(1 + 3i), C(4 - i). Verifier si ABC est isocele en A.</p><p>On comparera AB et AC.</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 69</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>On donne A(1 - i), B(3 + i), C(5 - i).</p><div class="sub-question">Calculer AB, BC, AC</div><div class="sub-question">Quel est la nature du triangle ABC ?</div><div class="sub-question">Verifier que ABC est rectangle en B</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 70</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soient A(1 + i), B(2 + 3i), C(4 + 3i).</p><div class="sub-question">Calculer AB, BC, AC</div><div class="sub-question">Montrer que ABC est isocele rectangle</div><div class="sub-question">En quel sommet est-il rectangle ?</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a8a 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 6</div>
+        <div class="section-title">Geometrie dans le plan complexe</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 71</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Determiner la nature du triangle ABC avec :</p><div class="sub-question">A(0), B(1 + i), C(-1 + i)</div><div class="sub-question">A(1 + i racine(3)), B(0), C(2)</div><div class="sub-question">A(2), B(1 + i racine(3)), C(1 - i racine(3))</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 72</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit ABC un triangle avec A(1 + 2i), B(-1 + i), C(3 - 2i).</p><p>Calculer les affixes des milieux de chaque cote.</p><p>Determiner l'affixe du centre de gravite G du triangle.</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 73</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Montrer que les points A(2 + i), B(3 + 4i) et C(1 - 2i) sont alignes.</p><p>On montrera que (z<sub>B</sub> - z<sub>A</sub>)/(z<sub>C</sub> - z<sub>A</sub>) est reel.</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 74</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soient A(1 + i), B(3 + 5i), C(5 + 2i).</p><p>Montrer que (AB) et (AC) sont perpendiculaires.</p><p>Indication : (z<sub>B</sub> - z<sub>A</sub>)/(z<sub>C</sub> - z<sub>A</sub>) est imaginaire pur.</p>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 75</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>On considere les points A(1 + 2i), B(-1 + 4i) et C(3i).</p><div class="sub-question">Montrer que ABC est rectangle isocele</div><div class="sub-question">Trouver l'affixe du point D tel que ABDC est un carre</div><div class="sub-question">Calculer l'aire du carre ABDC</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a8a 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 6</div>
+        <div class="section-title">Geometrie dans le plan complexe</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 76</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit ABC un triangle equilateral avec A(0), B(1), et on cherche C.</p><div class="sub-question">Determiner les affixes possibles de C</div><div class="sub-question">On utilisera le fait que (z<sub>C</sub> - z<sub>A</sub>)/(z<sub>B</sub> - z<sub>A</sub>) = e<sup>ipm i pi/3</sup></div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 77</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Dans le plan complexe, on donne A(1) et B(-1).</p><div class="sub-question">Determiner l'ensemble E1 des points M(z) tels que |z - 1| = |z + 1|</div><div class="sub-question">Determiner l'ensemble E2 des points M(z) tels que |z - 1| . |z + 1| = 4</div><div class="sub-question">Determiner l'ensemble E3 des points M(z) tels que arg((z-1)/(z+1)) = pi/4</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 78</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit la transformation T : z -> z' = (1 + i)z + 2 - i.</p><div class="sub-question">Quelle est l'image du point A(1 + i) ?</div><div class="sub-question">Quelle est l'image de B(0) ?</div><div class="sub-question">Montrer que T est une similitude directe</div><div class="sub-question">Determiner le rapport et l'angle de cette similitude</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 79</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit la rotation R de centre Omega(1 + i) et d'angle pi/2.</p><div class="sub-question">Ecrire l'expression complexe de cette rotation</div><div class="sub-question">Determiner l'image du point A(2 + 3i)</div><div class="sub-question">Determiner l'image du point B(0)</div><div class="sub-question">Verifier que R(R(z)) est une rotation d'angle pi</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 80</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(z) = iz + 1. On pose z' = f(z).</p><div class="sub-question">Reconnaitre la nature de la transformation f</div><div class="sub-question">Determiner le centre et l'angle</div><div class="sub-question">Quels sont les points invariants (z' = z) ?</div><div class="sub-question">Calculer f(f(f(z))) et interpreter</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a8a 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 6</div>
+        <div class="section-title">Geometrie dans le plan complexe</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 81</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit l'homothetie h de centre Omega(2i) et de rapport k = 3.</p><div class="sub-question">Ecrire z' en fonction de z</div><div class="sub-question">Calculer l'image de A(1 + i)</div><div class="sub-question">Calculer l'image de B(-1 + 3i)</div><div class="sub-question">Determiner l'image de la droite (AB)</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 82</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit la similitude s : z' = 2z + 1 - i.</p><div class="sub-question">Determiner le centre Omega de cette similitude</div><div class="sub-question">Quel est le rapport ? Quel est l'angle ?</div><div class="sub-question">Calculer s(0), s(1), s(i)</div><div class="sub-question">Determiner l'image du cercle de centre A(0) et de rayon 1</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a5f 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 7</div>
+        <div class="section-title">Racines n-iemes de l'unite</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 83</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Determiner les racines carrees complexes de :</p><div class="sub-question">4</div><div class="sub-question">-9</div><div class="sub-question">3 + 4i</div><div class="sub-question">5 - 12i</div><div class="sub-question">2i</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 84</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer les racines cubiques de :</p><div class="sub-question">1 (racines cubiques de l'unite)</div><div class="sub-question">8</div><div class="sub-question">-1</div><div class="sub-question">27i</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 85</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Determiner les 5 racines cinquiemes de l'unite, c'est-a-dire les solutions de z<sup>5</sup> = 1.</p><p>Les representer dans le plan complexe.</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 86</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Determiner les 4 racines quatriemes de :</p><div class="sub-question">1</div><div class="sub-question">-1</div><div class="sub-question">16</div><div class="sub-question">-16</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 87</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit omega = e<sup>2ipi/3</sup> une racine cubique de l'unite.</p><div class="sub-question">Calculer 1 + omega + omega<sup>2</sup></div><div class="sub-question">Calculer omega<sup>3</sup>, omega<sup>6</sup>, omega<sup>2019</sup></div><div class="sub-question">Factoriser z<sup>3</sup> - 1 en utilisant omega</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a5f 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 7</div>
+        <div class="section-title">Racines n-iemes de l'unite</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 88</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Resoudre dans C l'equation z<sup>5</sup> = 32.</p><p>On ecrira 32 sous forme exponentielle, puis on trouvera les 5 solutions.</p>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 89</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Resoudre dans C : z<sup>4</sup> = -4.</p><p>On mettra -4 sous forme exponentielle.</p>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 90</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soient z<sub>1</sub>, z<sub>2</sub>, ..., z<sub>n</sub> les n racines n-iemes de l'unite.</p><div class="sub-question">Calculer leur somme S = z<sub>1</sub> + z<sub>2</sub> + ... + z<sub>n</sub></div><div class="sub-question">Calculer leur produit P = z<sub>1</sub> . z<sub>2</sub> . ... . z<sub>n</sub></div><p>Indication : utiliser le polynome z<sup>n</sup> - 1 et ses coefficients.</p>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e1b4b 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 8</div>
+        <div class="section-title">Exercices type BAC et problemes</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 91</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p><strong>Exercice type BAC - Partie A :</strong> Soit z = (1 + i)<sup>n</sup> - (1 - i)<sup>n</sup>.</p><div class="sub-question">Calculer z pour n = 1, 2, 3, 4</div><div class="sub-question">Montrer que z est imaginaire pur pour tout n</div><div class="sub-question">En deduire la valeur de Im((1 + i)<sup>n</sup>)</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 92</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p><strong>Exercice type BAC - Partie B :</strong> Le plan complexe est rapporte a un repere orthonormal.</p><p>On considere les points A et B d'affixes respectives z<sub>A</sub> = 1 + i et z<sub>B</sub> = 3 - i.</p><div class="sub-question">Placer A et B</div><div class="sub-question">Calculer l'affixe du milieu I de [AB]</div><div class="sub-question">Calculer l'affixe du symetrique C de A par rapport a I</div><div class="sub-question">Verifier que ABDC est un parallelogramme avec D(4 + 2i)</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 93</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p><strong>Exercice type BAC :</strong> Pour tout entier naturel n, on pose S<sub>n</sub> = 1 + i + i<sup>2</sup> + ... + i<sup>n</sup>.</p><div class="sub-question">Calculer S<sub>n</sub> pour n = 0, 1, 2, 3, 4, 5</div><div class="sub-question">Exprimer S<sub>n</sub> en fonction de n (distinguer les cas)</div><div class="sub-question">En deduire S<sub>2024</sub></div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 94</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p><strong>Exercice type BAC :</strong> On considere l'equation (E) : z<sup>2</sup> - (4 + 2i)z + 5 + 5i = 0.</p><div class="sub-question">Verifier que z = 2 + i est solution de (E)</div><div class="sub-question">En deduire l'autre solution</div><div class="sub-question">Ecrire chaque solution sous forme exponentielle</div><div class="sub-question">Calculer le module et l'argument de chaque solution</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 95</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p><strong>Exercice type BAC :</strong> Dans le plan complexe, on considere le point A d'affixe 2 et le point B d'affixe -2i.</p><div class="sub-question">Determiner l'ensemble (E1) des points M(z) tels que |z - 2| = |z + 2i|</div><div class="sub-question">Determiner l'ensemble (E2) des points M(z) tels que |z - 2| = 2</div><div class="sub-question">Determiner l'ensemble (E3) des points M(z) tels que |z - 2| + |z + 2i| = 6</div><div class="sub-question">Representer ces ensembles</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e1b4b 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 8</div>
+        <div class="section-title">Exercices type BAC et problemes</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 96</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p><strong>Exercice type BAC :</strong> On definit la suite (z<sub>n</sub>) par z<sub>0</sub> = 4 et z<sub>n+1</sub> = (1 + i)/2 . z<sub>n</sub> pour tout n.</p><div class="sub-question">Calculer z<sub>1</sub>, z<sub>2</sub>, z<sub>3</sub></div><div class="sub-question">On pose z<sub>n</sub> = r<sub>n</sub> . e<sup>itheta<sub>n</sub></sup>. Etablir une relation entre r<sub>n</sub> et r<sub>n+1</sub></div><div class="sub-question">En deduire r<sub>n</sub> en fonction de n</div><div class="sub-question">Que peut-on dire de theta<sub>n</sub> ?</div><div class="sub-question">En deduire z<sub>n</sub> sous forme exponentielle en fonction de n</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 97</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p><strong>Exercice type BAC :</strong> On considere le polynome P(z) = z<sup>4</sup> - 2z<sup>3</sup> + 4z<sup>2</sup> - 8z + 8.</p><div class="sub-question">Verifier que P(1 + i) = 0</div><div class="sub-question">En deduire une factorisation de P(z)</div><div class="sub-question">Resoudre P(z) = 0 dans C</div><div class="sub-question">Ecrire les solutions sous forme exponentielle</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 98</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p><strong>Exercice type BAC :</strong> Soit f l'application du plan complexe definie par : z' = z<sup>2</sup> - 2z + 2.</p><div class="sub-question">Determiner les points invariants de f (z' = z)</div><div class="sub-question">Soit A(1 + i). Calculer l'affixe de A' = f(A)</div><div class="sub-question">Soit Omega(1). Montrer que OmegaM' = OmegaM<sup>2</sup> ou M' = f(M)</div><div class="sub-question">Determiner l'ensemble des points M tels que f(M) soit sur l'axe reel</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 99</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p><strong>Exercice type BAC :</strong> Soit la rotation R de centre Omega(1 - i) et d'angle pi/4.</p><div class="sub-question">Ecrire l'expression complexe de R</div><div class="sub-question">Determiner R(0)</div><div class="sub-question">Determiner l'image de la droite d'equation y = x</div><div class="sub-question">Soit M un point d'affixe z. Determiner R(R(M)) - quelle est cette transformation ?</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 100</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p><strong>Exercice type BAC :</strong> On considere les nombres complexes z<sub>1</sub> = e<sup>ipi/6</sup> et z<sub>2</sub> = e<sup>-ipi/3</sup>.</p><div class="sub-question">Ecrire z<sub>1</sub> et z<sub>2</sub> sous forme algebrique</div><div class="sub-question">Placer les points M<sub>1</sub> et M<sub>2</sub> d'affixes z<sub>1</sub> et z<sub>2</sub></div><div class="sub-question">Calculer z<sub>1</sub> . z<sub>2</sub> sous forme exponentielle et algebrique</div><div class="sub-question">Montrer que le triangle OM<sub>1</sub>M<sub>2</sub> est rectangle</div><div class="sub-question">Determiner l'affixe du point M<sub>3</sub> tel que OM<sub>1</sub>M<sub>2</sub>M<sub>3</sub> est un losange</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e1b4b 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 8</div>
+        <div class="section-title">Exercices type BAC et problemes</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 101</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p><strong>Exercice type BAC :</strong> Resoudre le systeme dans C :</p><p>z1 + z2 = 4</p><p>z1 . z2 = 13</p><div class="sub-question">On posera S = z1 + z2 et P = z1 . z2</div><div class="sub-question">Resoudre l'equation du second degre associee</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 102</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p><strong>Exercice type BAC :</strong> On considere la figure suivante dans le plan complexe :</p><p>ABCD est un carre direct de centre O. On pose z<sub>A</sub> = 1 + i.</p><div class="sub-question">Determiner les affixes de B, C, D (on pourra utiliser la rotation de centre O d'angle pi/2)</div><div class="sub-question">Verifier que (z<sub>C</sub> - z<sub>A</sub>)/(z<sub>B</sub> - z<sub>A</sub>) est imaginaire pur</div><div class="sub-question">Calculer le rapport de la similitude qui transforme A en B</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 103</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p><strong>Exercice type BAC - Probleme :</strong> Partie 1 : Soit f(z) = (z - i)/(z + i).</p><div class="sub-question">Determiner l'ensemble de definition de f</div><div class="sub-question">Montrer que pour tout z du domaine, |f(z)| = 1 equivaut a z est reel</div><div class="sub-question">Determiner {z : f(z) est reel}</div><div class="sub-question">Determiner {z : f(z) est imaginaire pur}</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 104</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p><strong>Exercice type BAC - Probleme :</strong> Partie 2 : Suite complexe.</p><p>On definit z<sub>n</sub> = (1 + i racine(3))<sup>n</sup> / 2<sup>n</sup> pour n entier naturel.</p><div class="sub-question">Montrer que |z<sub>n</sub>| = 1 pour tout n</div><div class="sub-question">Calculer z<sub>1</sub>, z<sub>2</sub>, z<sub>3</sub>, z<sub>6</sub></div><div class="sub-question">Montrer que z<sub>n+6</sub> = z<sub>n</sub> pour tout n</div><div class="sub-question">Combien de valeurs distinctes la suite prend-elle ?</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 105</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p><strong>Exercice type BAC - Probleme :</strong> On considere P(z) = z<sup>3</sup> - (3 + 4i)z<sup>2</sup> + (1 + 12i)z - 4i.</p><div class="sub-question">Verifier que z = i est racine de P</div><div class="sub-question">Factoriser P(z) par (z - i)</div><div class="sub-question">Resoudre P(z) = 0 dans C</div><div class="sub-question">Calculer le produit des racines et verifier avec les coefficients</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #172554 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 9</div>
+        <div class="section-title">Exercices de synthese avancee</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 106</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p><strong>Exercice synthese :</strong> Soient a, b, c trois nombres complexes formant un triangle equilateral.</p><p>Montrer que a<sup>2</sup> + b<sup>2</sup> + c<sup>2</sup> = ab + bc + ca.</p><p>On pourra utiliser le fait que b - a = e<sup>ipm 2ipi/3</sup>(c - a).</p>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 107</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p><strong>Exercice synthese :</strong> Soit z un nombre complexe de module 1.</p><div class="sub-question">Montrer que |z + 1|<sup>2</sup> = 2(1 + Re(z))</div><div class="sub-question">En deduire que |z + 1| = 2|cos(theta/2)| ou theta = arg(z)</div><div class="sub-question">Pour quelles valeurs de theta a-t-on |z + 1| = 0 ?</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 108</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p><strong>Exercice synthese :</strong> Montrer que pour tous reels a et b :</p><p>cos<sup>4</sup>(a) - sin<sup>4</sup>(a) = cos(2a)</p><p>cos<sup>3</sup>(a) . sin(a) + sin<sup>3</sup>(a) . cos(a) = sin(2a)/4</p><p>En utilisant les formules d'Euler et la linearisation.</p>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 109</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p><strong>Exercice synthese :</strong> Soit ABC un triangle. On note a, b, c les affixes des sommets.</p><p>Montrer que ABC est equilateral si et seulement si a<sup>2</sup> + b<sup>2</sup> + c<sup>2</sup> = ab + bc + ca.</p><p>On traitera les deux sens de l'equivalence.</p>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 110</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p><strong>Exercice synthese :</strong> Calculer la somme :</p><p>S = cos(pi/7) + cos(3pi/7) + cos(5pi/7)</p><p>Indication : on pourra considerer les racines 7-iemes de l'unite et leurs parties reelles.</p>
+    </div>
+</div>
+</div>
+</div>
+</body>
+</html>
