@@ -1,0 +1,1515 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exercices - Etude des Fonctions Numeriques</title>
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@1,500&display=swap');
+
+@page {
+    size: 720px 1020px;
+    margin: 0;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+    background: #080c18;
+    color: #d8dff0;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+}
+
+.page {
+    width: 720px;
+    min-height: 1020px;
+    padding: 60px 55px;
+    background: #080c18;
+    position: relative;
+    page-break-after: always;
+    break-after: page;
+    overflow: hidden;
+}
+
+.page:last-child { page-break-after: auto; break-after: auto; }
+
+/* === COVER / TITLE PAGE === */
+.cover {
+    padding: 0;
+    background: linear-gradient(135deg, #080c18 0%, #101830 50%, #080c18 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    position: relative;
+    min-height: 1020px;
+}
+.cover-content {
+    position: relative;
+    z-index: 2;
+    padding: 50px 55px 60px;
+}
+.cover-label {
+    color: #c9a84c;
+    font-size: 12px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 18px;
+}
+.cover-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    font-weight: 900;
+    line-height: 1.1;
+    color: #d8dff0;
+    margin-bottom: 18px;
+    letter-spacing: -1px;
+}
+.cover-title .accent { color: #c9a84c; font-style: italic; font-family: 'Cormorant Garamond', serif; font-weight: 500; }
+.cover-subtitle {
+    font-size: 15px;
+    color: #7888aa;
+    line-height: 1.6;
+    max-width: 500px;
+    margin-bottom: 30px;
+}
+.cover-divider {
+    width: 70px; height: 3px;
+    background: linear-gradient(to right, #c9a84c, #3b82f6);
+    margin-bottom: 22px;
+}
+.cover-author {
+    font-size: 13px;
+    color: #7888aa;
+    letter-spacing: 1px;
+}
+.cover-author strong { color: #d8dff0; font-weight: 600; }
+
+/* === TOC === */
+.toc-page { padding: 70px 55px; }
+.toc-header {
+    text-align: center;
+    margin-bottom: 35px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #1a2038;
+}
+.toc-label {
+    color: #c9a84c;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+.toc-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 900;
+    color: #d8dff0;
+}
+.toc-list { list-style: none; padding: 0; }
+.toc-item {
+    display: flex;
+    align-items: baseline;
+    padding: 8px 0;
+    border-bottom: 1px dotted #1a2038;
+    font-size: 13px;
+}
+.toc-num {
+    color: #3b82f6;
+    font-weight: 700;
+    font-family: 'Playfair Display', serif;
+    width: 32px;
+    flex-shrink: 0;
+}
+.toc-text { color: #d8dff0; flex: 1; }
+.toc-dots { color: #1a2038; margin: 0 6px; flex: 1; }
+.toc-page-num {
+    color: #7888aa;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+/* === SECTION PAGES (Exercise themes) === */
+.section-page { padding: 0; }
+.section-hero {
+    height: 160px;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+}
+.section-hero-gradient {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+.section-hero-pattern {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    opacity: 0.06;
+    background-size: 50px 50px;
+    background-image: radial-gradient(circle, #3b82f6 1px, transparent 1px);
+}
+.section-hero-overlay {
+    position: absolute;
+    bottom: 25px;
+    left: 55px;
+    right: 55px;
+    z-index: 2;
+}
+.section-number {
+    color: #c9a84c;
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+.section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 900;
+    color: #d8dff0;
+    line-height: 1.15;
+    letter-spacing: -0.5px;
+}
+
+.section-body {
+    padding: 30px 55px 50px;
+}
+
+/* === EXERCISE ITEM === */
+.exercise-item {
+    background: #101830;
+    border: 1px solid #1a2038;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 14px 0;
+    break-inside: avoid;
+    border-left: 3px solid #3b82f6;
+}
+.exercise-item.hard {
+    border-left-color: #ef4444;
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.05), #101830);
+}
+.exercise-item.medium {
+    border-left-color: #f97316;
+    background: linear-gradient(135deg, rgba(249, 115, 22, 0.04), #101830);
+}
+.exercise-item.bac {
+    border-left-color: #c9a84c;
+    background: linear-gradient(135deg, rgba(201, 168, 76, 0.06), #101830);
+    border-left-width: 4px;
+}
+.exercise-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+.exercise-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 900;
+    color: #3b82f6;
+}
+.exercise-diff {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 2px 8px;
+    border-radius: 3px;
+}
+.exercise-diff.facile { background: rgba(34, 197, 94, 0.2); color: #22c55e; }
+.exercise-diff.moyen { background: rgba(249, 115, 22, 0.2); color: #f97316; }
+.exercise-diff.difficile { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+.exercise-diff.bac { background: rgba(201, 168, 76, 0.2); color: #c9a84c; }
+
+.exercise-question {
+    font-size: 13px;
+    color: #a0b0cc;
+    line-height: 1.75;
+}
+.exercise-question p { color: #a0b0cc; margin-bottom: 8px; }
+.exercise-question p:last-child { margin-bottom: 0; }
+.exercise-question strong { color: #d8dff0; }
+
+.sub-question {
+    padding-left: 20px;
+    margin: 6px 0;
+    position: relative;
+    font-size: 12.5px;
+    color: #a0b0cc;
+    line-height: 1.7;
+}
+.sub-question::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 6px;
+    height: 6px;
+    background: #3b82f6;
+    border-radius: 50%;
+}
+
+/* === CORRECTION ITEMS === */
+.correction-item {
+    background: #101830;
+    border: 1px solid #1a2038;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 14px 0;
+    break-inside: avoid;
+    border-left: 3px solid #22c55e;
+}
+.correction-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+.correction-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 900;
+    color: #22c55e;
+    margin-right: 10px;
+}
+.correction-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: #22c55e;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+.correction-content {
+    font-size: 13px;
+    color: #a0b0cc;
+    line-height: 1.8;
+}
+.correction-content p { margin-bottom: 6px; }
+.correction-content p:last-child { margin-bottom: 0; }
+.correction-content strong { color: #d8dff0; }
+.correction-step {
+    padding-left: 20px;
+    margin: 4px 0;
+    position: relative;
+}
+.correction-step::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 6px;
+    height: 6px;
+    background: #22c55e;
+    border-radius: 50%;
+}
+
+.math-inline {
+    background: rgba(59, 130, 246, 0.08);
+    border: 1px solid #1a2038;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    color: #e8ecf8;
+    white-space: nowrap;
+}
+
+.formula-box {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(201, 168, 76, 0.06));
+    border: 1px solid #1a2038;
+    border-left: 4px solid #3b82f6;
+    border-radius: 10px;
+    padding: 14px 20px;
+    margin: 14px 0;
+    text-align: center;
+    break-inside: avoid;
+}
+.formula-main {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #e8ecf8;
+    line-height: 1.6;
+}
+.formula-desc {
+    font-size: 11px;
+    color: #7888aa;
+    margin-top: 6px;
+}
+
+p {
+    margin-bottom: 12px;
+    color: #a0b0cc;
+    line-height: 1.8;
+}
+p strong { color: #d8dff0; }
+
+.callout {
+    background: #101830;
+    border-radius: 10px;
+    padding: 16px 22px;
+    margin: 16px 0;
+    text-align: center;
+    border-top: 2px solid #3b82f6;
+    border-bottom: 2px solid #c9a84c;
+    break-inside: avoid;
+}
+.callout-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-style: italic;
+    color: #d8dff0;
+    line-height: 1.5;
+}
+
+.stat-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin: 18px 0;
+    break-inside: avoid;
+}
+.stat-card {
+    background: linear-gradient(135deg, #101830, #1a2038);
+    border: 1px solid #1a2038;
+    border-radius: 10px;
+    padding: 14px 10px;
+    text-align: center;
+}
+.stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 900;
+    color: #c9a84c;
+    line-height: 1;
+    margin-bottom: 5px;
+}
+.stat-label {
+    font-size: 10px;
+    color: #7888aa;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.conclusion-page {
+    background: linear-gradient(135deg, #080c18 0%, #101830 100%);
+    padding: 70px 55px;
+}
+
+</style>
+</head>
+<body>
+<div class="page cover"><div class="cover-content"><div class="cover-label">Terminale D/C -- Mathematiques</div><div class="cover-title">Exercices :<br/><span class="accent">Fonctions Numeriques</span></div><div class="cover-subtitle">110 exercices corriges couvrant domaines de definition, continuite, derivation, variations, extrema, limites, asymptotes et convexite.</div><div class="cover-divider"></div><div class="cover-author">Collection <strong>NAMO</strong> -- Terminale D/C</div></div></div>
+<div class="page toc-page"><div class="toc-header"><div class="toc-label">Sommaire</div><div class="toc-title">Table des matieres</div></div><div class="toc-list"><div class="toc-item"><div class="toc-num">1</div><div class="toc-text">Domaine de definition et ensemble d'image</div><div class="toc-dots">.</div><div class="toc-page-num">3</div></div>
+<div class="toc-item"><div class="toc-num">2</div><div class="toc-text">Continuite et theoreme des valeurs intermediaires</div><div class="toc-dots">.</div><div class="toc-page-num">5</div></div>
+<div class="toc-item"><div class="toc-num">3</div><div class="toc-text">Calcul de derivees</div><div class="toc-dots">.</div><div class="toc-page-num">7</div></div>
+<div class="toc-item"><div class="toc-num">4</div><div class="toc-text">Sens de variation et tableau de variation</div><div class="toc-dots">.</div><div class="toc-page-num">9</div></div>
+<div class="toc-item"><div class="toc-num">5</div><div class="toc-text">Recherche d'extrema</div><div class="toc-dots">.</div><div class="toc-page-num">12</div></div>
+<div class="toc-item"><div class="toc-num">6</div><div class="toc-text">Parite et periodicite</div><div class="toc-dots">.</div><div class="toc-page-num">14</div></div>
+<div class="toc-item"><div class="toc-num">7</div><div class="toc-text">Limites et asymptotes</div><div class="toc-dots">.</div><div class="toc-page-num">16</div></div>
+<div class="toc-item"><div class="toc-num">8</div><div class="toc-text">Convexite et points d'inflexion</div><div class="toc-dots">.</div><div class="toc-page-num">19</div></div>
+<div class="toc-item"><div class="toc-num">9</div><div class="toc-text">Etudes completes type BAC</div><div class="toc-dots">.</div><div class="toc-page-num">21</div></div>
+</div></div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a5f 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 1</div>
+        <div class="section-title">Domaine de definition et ensemble d'image</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 1</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Determiner le domaine de definition de f(x) = (3x - 1) / (x<sup>2</sup> - 9).</p>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 2</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Determiner le domaine de definition de g(x) = racine(2x + 6).</p>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 3</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Determiner le domaine de definition de h(x) = ln(x - 4) + 1.</p>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 4</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Determiner le domaine de definition de k(x) = e<sup>x</sup> / (x + 2).</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 5</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Determiner le domaine de definition de f(x) = ln(x<sup>2</sup> - 4) + racine(5 - x).</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 6</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Determiner le domaine de definition de f(x) = 1 / (x - 1) + ln(x + 3) + racine(4 - x<sup>2</sup>).</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 7</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Determiner le domaine de definition de f(x) = (e<sup>x</sup> - 1) / (ln(x) - 1).</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 8</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = (x<sup>2</sup> + 1) / (x<sup>2</sup> - 1). Determiner D<sub>f</sub> puis calculer f(0), f(2) et f(-1). Lesquelles de ces valeurs existent ?</p>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 9</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Determiner le domaine de definition de f(x) = ln(racine(x + 1) - 2).</p>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 10</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Determiner le domaine de definition de f(x) = racine(ln(x) + 1).</p>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 11</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = 1 / (e<sup>x</sup> - e<sup>-x</sup>). Determiner D<sub>f</sub>. Montrer que f est impaire.</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 12</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Determiner l'ensemble d'image de f(x) = -x<sup>2</sup> + 4x - 3 definie sur R, puis de g(x) = 2e<sup>x</sup> + 1 definie sur R.</p>
+    </div>
+</div>
+</div>
+</div><div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e1b4b 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 2</div>
+        <div class="section-title">Continuite et theoreme des valeurs intermediaires</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 13</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>La fonction f(x) = x<sup>2</sup> + 1 est-elle continue sur R ? Justifier.</p>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 14</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>La fonction f(x) = 1/x est-elle continue sur R ? Si non, preciser sur quel ensemble elle est continue.</p>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 15</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = (x<sup>2</sup> - 4) / (x - 2). f est-elle continue en x = 2 ? Que se passe-t-il si on pose f(2) = 4 ?</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 16</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>En utilisant le theoreme des valeurs intermediaires, montrer que l'equation x<sup>3</sup> - 2x - 5 = 0 admet au moins une solution dans [2, 3].</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 17</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Montrer que l'equation e<sup>x</sup> = 3x + 1 admet au moins une solution dans [0, 2].</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 18</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Montrer que l'equation x<sup>3</sup> + x = 10 admet une unique solution dans [1, 3].</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 19</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = x<sup>3</sup> - 3x + 1. Montrer que l'equation f(x) = 0 admet exactement trois solutions reelles. Encadrer chacune a 0,1 pres.</p>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 20</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Montrer que l'equation ln(x) = x - 2 admet exactement deux solutions. Encadrer la plus grande a 0,01 pres par dichotomie.</p>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 21</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = e<sup>x</sup>/x. Montrer que l'equation f(x) = 3 admet exactement deux solutions sur ]0, +inf[.</p>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 22</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Montrer que pour tout reel k, l'equation x<sup>3</sup> + 3x = k admet une unique solution dans R.</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 23</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f definie par f(x) = 2x + 1 si x &lt; 0, f(x) = x<sup>2</sup> si x >= 0. f est-elle continue en 0 ?</p>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 24</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>On considere f(x) = (x<sup>3</sup> + x - 1) / (x<sup>2</sup> + 1).</p><div class="sub-question">a) Montrer que f est continue sur R.</div><div class="sub-question">b) Montrer que l'equation f(x) = 0 admet une unique solution alpha sur R.</div><div class="sub-question">c) Donner un encadrement de alpha d'amplitude 0,1.</div>
+    </div>
+</div>
+</div>
+</div><div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #172554 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 3</div>
+        <div class="section-title">Calcul de derivees</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 25</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer la derivee de f(x) = 5x<sup>3</sup> - 2x<sup>2</sup> + 7x - 4.</p>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 26</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer la derivee de f(x) = (x + 1)(x - 3).</p>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 27</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer la derivee de f(x) = 3x<sup>4</sup> - 2/x.</p>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 28</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer la derivee de f(x) = e<sup>3x+1</sup>.</p>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 29</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer la derivee de f(x) = ln(2x + 1).</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 30</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer la derivee de f(x) = x<sup>2</sup> x e<sup>x</sup>.</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 31</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer la derivee de f(x) = (2x + 1) / (x - 3).</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 32</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer la derivee de f(x) = x<sup>2</sup> x ln(x).</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 33</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer la derivee de f(x) = e<sup>-x<sup>2</sup></sup>.</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 34</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer la derivee de f(x) = ln(x<sup>2</sup> + 1).</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 35</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer la derivee de f(x) = racine(3x - 1).</p>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 36</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer la derivee de f(x) = e<sup>x</sup> / (e<sup>x</sup> + 1).</p>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 37</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer la derivee de f(x) = x x e<sup>-x</sup> x ln(x) sur ]0, +inf[.</p>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 38</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer la derivee de f(x) = (ln(x))<sup>2</sup> / x sur ]0, +inf[.</p>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 39</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer la derivee seconde de f(x) = x<sup>3</sup> - 3x<sup>2</sup> + 2.</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 40</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer la derivee de f(x) = (x<sup>2</sup> - 1) x e<sup>-x</sup>. Montrer que f'(x) = e<sup>-x</sup>(-x<sup>2</sup> + 2x + 1).</p>
+    </div>
+</div>
+</div>
+</div><div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #0c4a6e 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 4</div>
+        <div class="section-title">Sens de variation et tableau de variation</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 41</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = -2x<sup>2</sup> + 8x - 5. Calculer f'(x), determiner son signe et dresser le tableau de variation de f.</p>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 42</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = x<sup>3</sup> - 3x. Etudier les variations de f sur R.</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 43</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = (x<sup>2</sup> + 1) / (x<sup>2</sup> - 1). Calculer f'(x) et etudier les variations de f.</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 44</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = x x e<sup>-x</sup> sur R. Etudier les variations de f et determiner son extremum.</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 45</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = (x - 1)<sup>2</sup> x e<sup>x</sup>. Calculer f'(x) et etudier les variations de f.</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 46</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = ln(x<sup>2</sup> + 1). Etudier les variations de f sur R.</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 47</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = x - 1 + ln(x) sur ]0, +inf[. Etudier les variations de f.</p>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 48</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = e<sup>2x</sup> - (x + 1)<sup>2</sup> x e<sup>x</sup>. Etudier les variations de f sur R.</p>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 49</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = (x<sup>2</sup> + x + 1) / (x + 1)<sup>2</sup> sur R prive de -1. Etudier les variations de f.</p>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 50</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = x + ln(x + 1) sur ]-1, +inf[. Etudier les variations de f et montrer que f(x) >= 0 pour tout x > 0.</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 51</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = 2x<sup>3</sup> + 3x<sup>2</sup> - 12x + 5. Dresser le tableau de variation complet de f.</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 52</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = (x<sup>2</sup> - 4) / x sur R*. Etudier les variations de f.</p>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 53</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = x<sup>2</sup> - 2x + ln(x<sup>2</sup> + 1). Montrer que f(x) >= -1 pour tout x reel.</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 54</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = e<sup>x</sup> - x - 1. Etudier les variations de f et en deduire le signe de e<sup>x</sup> - x - 1.</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 55</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = x<sup>3</sup> - 12x + 1. Determiner le nombre de solutions de l'equation f(x) = 0.</p>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 56</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = (1 - x)<sup>2</sup> x e<sup>x</sup>. Montrer que f admet un maximum en x = 1.</p>
+    </div>
+</div>
+</div>
+</div><div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #312e81 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 5</div>
+        <div class="section-title">Recherche d'extrema</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 57</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = -x<sup>2</sup> + 6x - 5. Determiner l'extremum de f (nature et coordonnees).</p>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 58</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = x<sup>2</sup> - 4x + 7. Determiner le minimum de f et la valeur de x en laquelle il est atteint.</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 59</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = x<sup>3</sup> - 3x + 2. Determiner les extrema locaux de f en utilisant f' et f''.</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 60</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = 2e<sup>x</sup> - x<sup>2</sup>. Determiner les extrema de f sur R.</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 61</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = ln(x) - x + 1 sur ]0, +inf[. Determiner l'extremum de f et preciser sa nature.</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 62</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = x<sup>4</sup> - 4x<sup>3</sup> + 6x<sup>2</sup> - 4x + 1. Montrer que f admet un minimum en x = 1.</p>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 63</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = (x<sup>2</sup> - 3x + 3) / (x - 1) sur R prive de 1. Determiner les extrema de f.</p>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 64</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Determiner le maximum et le minimum de f(x) = x<sup>3</sup> - 3x sur [-2, 3].</p>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 65</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = x<sup>2</sup> x e<sup>-x</sup>. Determiner les extrema de f sur R. Calculer f(0), f(2) et les limites.</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 66</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Une boite sans couvercle de volume V = 108 cm<sup>3</sup> est un pave droit a base carree. Determiner les dimensions qui minimisent la surface de la boite.</p>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 67</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = x + 2/x + ln(x) sur ]0, +inf[. Montrer que f admet un minimum et calculer sa valeur.</p>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 68</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>On veut enclore un champ rectangulaire adjacent a un mur (pas de cloture le long du mur) avec 100 m de cloture. Determiner les dimensions du champ qui maximisent l'aire.</p>
+    </div>
+</div>
+</div>
+</div><div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a8a 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 6</div>
+        <div class="section-title">Parite et periodicite</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 69</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Etudier la parite de f(x) = x<sup>4</sup> - 2x<sup>2</sup> + 1.</p>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 70</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Etudier la parite de f(x) = x<sup>3</sup> - 3x.</p>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 71</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Etudier la parite de f(x) = x<sup>2</sup> + x + 1.</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 72</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Etudier la parite de f(x) = e<sup>x<sup>2</sup></sup> - 1.</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 73</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Etudier la parite de f(x) = x x e<sup>-x<sup>2</sup></sup>.</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 74</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Etudier la parite de f(x) = ln(x<sup>2</sup> + 1). En deduire une propriete de la courbe.</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 75</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Montrer que f(x) = cos(x) est paire et que g(x) = sin(x) est impaire. Que dire de h(x) = cos(x) + sin(x) ?</p>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 76</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f une fonction impaire continue sur [-3, 3] telle que f(1) = 2 et f(-2) = -5. Calculer f(-1), f(2) et f(0).</p>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 77</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = (e<sup>x</sup> - e<sup>-x</sup>) / (e<sup>x</sup> + e<sup>-x</sup>). Montrer que f est impaire. En deduire que f(0) = 0.</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 78</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = x<sup>2</sup> - 4 definie sur [-3, 3]. Montrer que f est paire. En deduire le minimum et le maximum de f sur [-3, 3].</p>
+    </div>
+</div>
+</div>
+</div><div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a5f 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 7</div>
+        <div class="section-title">Limites et asymptotes</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 79</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer les limites de f(x) = 3x<sup>2</sup> - 2x + 1 en +inf et -inf.</p>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 80</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer les limites de f(x) = (2x - 1) / (x + 3) en +inf, -inf et aux points ou f n'est pas definie.</p>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 81</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer lim e<sup>x</sup> / (x<sup>2</sup> + 1) en +inf et en -inf.</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 82</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer lim (x<sup>2</sup> - x + 1) / (2x<sup>2</sup> + 3) en +inf.</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 83</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer lim (x<sup>3</sup> - 1) / (x<sup>2</sup> + 2x) en +inf.</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 84</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer lim (racine(x + 1) - racine(x)) en +inf.</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 85</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer lim (x<sup>2</sup> - 4) / (x - 2) quand x tend vers 2.</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 86</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Determiner les asymptotes de f(x) = (2x + 1) / (x - 3) (horizontales et verticales).</p>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 87</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer lim x<sup>2</sup> x e<sup>-x</sup> en +inf.</p>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 88</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Montrer que la droite d'equation y = x + 1 est asymptote oblique a la courbe de f(x) = x + 1 + e<sup>-x</sup> en +inf.</p>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 89</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer lim (ln(x) / x) en +inf et lim (x x ln(x)) en 0<sup>+</sup>.</p>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 90</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = (x<sup>2</sup> + x - 1) / (x - 1). Determiner toutes les asymptotes de la courbe de f.</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 91</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer lim (e<sup>x</sup> - 1) / x quand x tend vers 0.</p>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 92</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer lim (ln(x + 1)) / x quand x tend vers 0.</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 93</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = (3x<sup>2</sup> + 2x + 1) / (x<sup>2</sup> + 1). Determiner les asymptotes et le signe de f(x).</p>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 94</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = x<sup>2</sup> x e<sup>-x</sup>. Etudier les limites de f en +inf et -inf. En deduire les asymptotes eventuelles.</p>
+    </div>
+</div>
+</div>
+</div><div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e1b4b 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 8</div>
+        <div class="section-title">Convexite et points d'inflexion</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 95</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = x<sup>2</sup>. Calculer f''(x) et en deduire la convexite de f.</p>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 96</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = ln(x) sur ]0, +inf[. Calculer f''(x) et en deduire la convexite de f.</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 97</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = x<sup>3</sup> - 6x<sup>2</sup> + 9x + 1. Etudier la convexite de f et determiner le point d'inflexion.</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 98</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = e<sup>x</sup> + x<sup>2</sup>. Etudier la convexite de f sur R.</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 99</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = x<sup>3</sup> - 3x. Determiner les points d'inflexion de f.</p>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 100</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = (x<sup>2</sup> - 1) x e<sup>-x</sup>. Etudier la convexite de f et determiner les abscisses des points d'inflexion.</p>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 101</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = ln(x<sup>2</sup> + 1). Montrer que la courbe de f admet exactement deux points d'inflexion. Calculer leurs abscisses.</p>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 102</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Montrer que la fonction exponentielle est convexe sur R. En deduire que pour tout x, e<sup>x</sup> >= 1 + x.</p>
+    </div>
+</div>
+</div>
+</div><div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #172554 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 9</div>
+        <div class="section-title">Etudes completes type BAC</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 103</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = (x<sup>2</sup> - 1) / (x<sup>2</sup> + 1) definie sur R.</p><div class="sub-question">a) Determiner les limites de f en +inf et -inf.</div><div class="sub-question">b) Montrer que f est paire. Que peut-on en deduire ?</div><div class="sub-question">c) Calculer f'(x) et dresser le tableau de variation de f.</div><div class="sub-question">d) En deduire le nombre de solutions de f(x) = k selon les valeurs de k.</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 104</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = (x - 1)<sup>2</sup> x e<sup>x</sup> definie sur R.</p><div class="sub-question">a) Calculer les limites de f en +inf et -inf.</div><div class="sub-question">b) Calculer f'(x) et factoriser f'(x).</div><div class="sub-question">c) Etudier les variations de f.</div><div class="sub-question">d) Determiner le minimum de f et la valeur en laquelle il est atteint.</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 105</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = x<sup>2</sup> x e<sup>-x</sup> definie sur R.</p><div class="sub-question">a) Calculer les limites de f en +inf et -inf. Interpreter.</div><div class="sub-question">b) Calculer f'(x) et etudier son signe.</div><div class="sub-question">c) Dresser le tableau de variation de f.</div><div class="sub-question">d) Etudier la convexite de f.</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 106</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = ln(x) - (x - 1)/x definie sur ]0, +inf[.</p><div class="sub-question">a) Calculer la limite de f en 0<sup>+</sup> et en +inf.</div><div class="sub-question">b) Calculer f'(x) et etudier les variations de f.</div><div class="sub-question">c) Montrer que f(x) >= 0 pour tout x > 0.</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 107</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = e<sup>2x</sup> - 2e<sup>x</sup> - x definie sur R.</p><div class="sub-question">a) Calculer les limites de f en +inf et -inf.</div><div class="sub-question">b) Calculer f'(x) = e<sup>x</sup>(2e<sup>x</sup> - 2). Etudier les variations de f.</div><div class="sub-question">c) Montrer que l'equation f(x) = 0 admet exactement deux solutions.</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 108</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = (2x<sup>2</sup> + x - 1) / (x + 1) definie sur R prive de -1.</p><div class="sub-question">a) Determiner les limites aux bornes du domaine.</div><div class="sub-question">b) Montrer qu'il existe une asymptote oblique y = 2x - 1 en +inf et -inf.</div><div class="sub-question">c) Etudier les variations de f.</div><div class="sub-question">d) Tracer l'allure de la courbe en indiquant les asymptotes.</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 109</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>On considere f(x) = x<sup>3</sup> - 3x - 4.</p><div class="sub-question">a) Etudier les variations de f.</div><div class="sub-question">b) Montrer que l'equation f(x) = 0 admet une unique solution alpha sur [2, 3].</div><div class="sub-question">c) Determiner un encadrement de alpha d'amplitude 0,01.</div><div class="sub-question">d) Etudier la convexite de f.</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 110</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = (e<sup>x</sup> - 1) / (e<sup>x</sup> + 1) definie sur R.</p><div class="sub-question">a) Montrer que f est impaire.</div><div class="sub-question">b) Calculer les limites de f en +inf et -inf. En deduire les asymptotes.</div><div class="sub-question">c) Calculer f'(x) = 2e<sup>x</sup> / (e<sup>x</sup> + 1)<sup>2</sup>. En deduire les variations.</div><div class="sub-question">d) Montrer que pour tout x, 0 &lt; f(x) &lt; 1.</div>
+    </div>
+</div>
+</div>
+</div></body>
+</html>

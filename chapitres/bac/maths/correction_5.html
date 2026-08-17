@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Corrections - Etude des Fonctions Numeriques</title>
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@1,500&display=swap');
+
+@page {
+    size: 720px 1020px;
+    margin: 0;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+    background: #080c18;
+    color: #d8dff0;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+}
+
+.page {
+    width: 720px;
+    min-height: 1020px;
+    padding: 60px 55px;
+    background: #080c18;
+    position: relative;
+    page-break-after: always;
+    break-after: page;
+    overflow: hidden;
+}
+
+.page:last-child { page-break-after: auto; break-after: auto; }
+
+/* === COVER / TITLE PAGE === */
+.cover {
+    padding: 0;
+    background: linear-gradient(135deg, #080c18 0%, #101830 50%, #080c18 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    position: relative;
+    min-height: 1020px;
+}
+.cover-content {
+    position: relative;
+    z-index: 2;
+    padding: 50px 55px 60px;
+}
+.cover-label {
+    color: #c9a84c;
+    font-size: 12px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 18px;
+}
+.cover-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    font-weight: 900;
+    line-height: 1.1;
+    color: #d8dff0;
+    margin-bottom: 18px;
+    letter-spacing: -1px;
+}
+.cover-title .accent { color: #c9a84c; font-style: italic; font-family: 'Cormorant Garamond', serif; font-weight: 500; }
+.cover-subtitle {
+    font-size: 15px;
+    color: #7888aa;
+    line-height: 1.6;
+    max-width: 500px;
+    margin-bottom: 30px;
+}
+.cover-divider {
+    width: 70px; height: 3px;
+    background: linear-gradient(to right, #c9a84c, #3b82f6);
+    margin-bottom: 22px;
+}
+.cover-author {
+    font-size: 13px;
+    color: #7888aa;
+    letter-spacing: 1px;
+}
+.cover-author strong { color: #d8dff0; font-weight: 600; }
+
+/* === TOC === */
+.toc-page { padding: 70px 55px; }
+.toc-header {
+    text-align: center;
+    margin-bottom: 35px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #1a2038;
+}
+.toc-label {
+    color: #c9a84c;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+.toc-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 900;
+    color: #d8dff0;
+}
+.toc-list { list-style: none; padding: 0; }
+.toc-item {
+    display: flex;
+    align-items: baseline;
+    padding: 8px 0;
+    border-bottom: 1px dotted #1a2038;
+    font-size: 13px;
+}
+.toc-num {
+    color: #3b82f6;
+    font-weight: 700;
+    font-family: 'Playfair Display', serif;
+    width: 32px;
+    flex-shrink: 0;
+}
+.toc-text { color: #d8dff0; flex: 1; }
+.toc-dots { color: #1a2038; margin: 0 6px; flex: 1; }
+.toc-page-num {
+    color: #7888aa;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+/* === SECTION PAGES (Exercise themes) === */
+.section-page { padding: 0; }
+.section-hero {
+    height: 160px;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+}
+.section-hero-gradient {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+.section-hero-pattern {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    opacity: 0.06;
+    background-size: 50px 50px;
+    background-image: radial-gradient(circle, #3b82f6 1px, transparent 1px);
+}
+.section-hero-overlay {
+    position: absolute;
+    bottom: 25px;
+    left: 55px;
+    right: 55px;
+    z-index: 2;
+}
+.section-number {
+    color: #c9a84c;
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+.section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 900;
+    color: #d8dff0;
+    line-height: 1.15;
+    letter-spacing: -0.5px;
+}
+
+.section-body {
+    padding: 30px 55px 50px;
+}
+
+/* === EXERCISE ITEM === */
+.exercise-item {
+    background: #101830;
+    border: 1px solid #1a2038;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 14px 0;
+    break-inside: avoid;
+    border-left: 3px solid #3b82f6;
+}
+.exercise-item.hard {
+    border-left-color: #ef4444;
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.05), #101830);
+}
+.exercise-item.medium {
+    border-left-color: #f97316;
+    background: linear-gradient(135deg, rgba(249, 115, 22, 0.04), #101830);
+}
+.exercise-item.bac {
+    border-left-color: #c9a84c;
+    background: linear-gradient(135deg, rgba(201, 168, 76, 0.06), #101830);
+    border-left-width: 4px;
+}
+.exercise-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+.exercise-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 900;
+    color: #3b82f6;
+}
+.exercise-diff {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 2px 8px;
+    border-radius: 3px;
+}
+.exercise-diff.facile { background: rgba(34, 197, 94, 0.2); color: #22c55e; }
+.exercise-diff.moyen { background: rgba(249, 115, 22, 0.2); color: #f97316; }
+.exercise-diff.difficile { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+.exercise-diff.bac { background: rgba(201, 168, 76, 0.2); color: #c9a84c; }
+
+.exercise-question {
+    font-size: 13px;
+    color: #a0b0cc;
+    line-height: 1.75;
+}
+.exercise-question p { color: #a0b0cc; margin-bottom: 8px; }
+.exercise-question p:last-child { margin-bottom: 0; }
+.exercise-question strong { color: #d8dff0; }
+
+.sub-question {
+    padding-left: 20px;
+    margin: 6px 0;
+    position: relative;
+    font-size: 12.5px;
+    color: #a0b0cc;
+    line-height: 1.7;
+}
+.sub-question::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 6px;
+    height: 6px;
+    background: #3b82f6;
+    border-radius: 50%;
+}
+
+/* === CORRECTION ITEMS === */
+.correction-item {
+    background: #101830;
+    border: 1px solid #1a2038;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 14px 0;
+    break-inside: avoid;
+    border-left: 3px solid #22c55e;
+}
+.correction-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+.correction-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 900;
+    color: #22c55e;
+    margin-right: 10px;
+}
+.correction-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: #22c55e;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+.correction-content {
+    font-size: 13px;
+    color: #a0b0cc;
+    line-height: 1.8;
+}
+.correction-content p { margin-bottom: 6px; }
+.correction-content p:last-child { margin-bottom: 0; }
+.correction-content strong { color: #d8dff0; }
+.correction-step {
+    padding-left: 20px;
+    margin: 4px 0;
+    position: relative;
+}
+.correction-step::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 6px;
+    height: 6px;
+    background: #22c55e;
+    border-radius: 50%;
+}
+
+.math-inline {
+    background: rgba(59, 130, 246, 0.08);
+    border: 1px solid #1a2038;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    color: #e8ecf8;
+    white-space: nowrap;
+}
+
+.formula-box {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(201, 168, 76, 0.06));
+    border: 1px solid #1a2038;
+    border-left: 4px solid #3b82f6;
+    border-radius: 10px;
+    padding: 14px 20px;
+    margin: 14px 0;
+    text-align: center;
+    break-inside: avoid;
+}
+.formula-main {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #e8ecf8;
+    line-height: 1.6;
+}
+.formula-desc {
+    font-size: 11px;
+    color: #7888aa;
+    margin-top: 6px;
+}
+
+p {
+    margin-bottom: 12px;
+    color: #a0b0cc;
+    line-height: 1.8;
+}
+p strong { color: #d8dff0; }
+
+.callout {
+    background: #101830;
+    border-radius: 10px;
+    padding: 16px 22px;
+    margin: 16px 0;
+    text-align: center;
+    border-top: 2px solid #3b82f6;
+    border-bottom: 2px solid #c9a84c;
+    break-inside: avoid;
+}
+.callout-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-style: italic;
+    color: #d8dff0;
+    line-height: 1.5;
+}
+
+.stat-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin: 18px 0;
+    break-inside: avoid;
+}
+.stat-card {
+    background: linear-gradient(135deg, #101830, #1a2038);
+    border: 1px solid #1a2038;
+    border-radius: 10px;
+    padding: 14px 10px;
+    text-align: center;
+}
+.stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 900;
+    color: #c9a84c;
+    line-height: 1;
+    margin-bottom: 5px;
+}
+.stat-label {
+    font-size: 10px;
+    color: #7888aa;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.conclusion-page {
+    background: linear-gradient(135deg, #080c18 0%, #101830 100%);
+    padding: 70px 55px;
+}
+
+</style>
+</head>
+<body>
+<div class="page cover"><div class="cover-content"><div class="cover-label">Terminale D/C -- Mathematiques</div><div class="cover-title">Corrections :<br/><span class="accent">Fonctions Numeriques</span></div><div class="cover-subtitle">110 exercices corriges avec etapes detaillees pour le programme de Terminale.</div><div class="cover-divider"></div><div class="cover-author">Collection <strong>NAMO</strong> -- Terminale D/C</div></div></div>
+<div class="page toc-page"><div class="toc-header"><div class="toc-label">Sommaire</div><div class="toc-title">Table des corrections</div></div><div class="toc-list"><div class="toc-item"><div class="toc-num">1</div><div class="toc-text">Domaine de definition et ensemble d'image (1-12)</div><div class="toc-dots">.</div><div class="toc-page-num">3</div></div>
+<div class="toc-item"><div class="toc-num">2</div><div class="toc-text">Continuite et theoreme des valeurs intermediaires (13-24)</div><div class="toc-dots">.</div><div class="toc-page-num">5</div></div>
+<div class="toc-item"><div class="toc-num">3</div><div class="toc-text">Calcul de derivees (25-40)</div><div class="toc-dots">.</div><div class="toc-page-num">8</div></div>
+<div class="toc-item"><div class="toc-num">4</div><div class="toc-text">Sens de variation et tableau de variation (41-56)</div><div class="toc-dots">.</div><div class="toc-page-num">11</div></div>
+<div class="toc-item"><div class="toc-num">5</div><div class="toc-text">Recherche d'extrema (57-68)</div><div class="toc-dots">.</div><div class="toc-page-num">14</div></div>
+<div class="toc-item"><div class="toc-num">6</div><div class="toc-text">Parite et periodicite (69-78)</div><div class="toc-dots">.</div><div class="toc-page-num">17</div></div>
+<div class="toc-item"><div class="toc-num">7</div><div class="toc-text">Limites et asymptotes (79-94)</div><div class="toc-dots">.</div><div class="toc-page-num">19</div></div>
+<div class="toc-item"><div class="toc-num">8</div><div class="toc-text">Convexite et points d'inflexion (95-102)</div><div class="toc-dots">.</div><div class="toc-page-num">22</div></div>
+<div class="toc-item"><div class="toc-num">9</div><div class="toc-text">Etudes completes type BAC (103-110)</div><div class="toc-dots">.</div><div class="toc-page-num">24</div></div>
+</div></div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a5f 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 1</div>
+        <div class="section-title">Domaine de definition, continuite et TVI</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 1</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 1 : Domaine de definition de f(x) = (3x-1)/(x<sup>2</sup>-9)</strong></p></div><div class="correction-step"><p>f est definie quand le denominateur est non nul : x<sup>2</sup> - 9 &ne; 0.</p></div><div class="correction-step"><p>On resout x<sup>2</sup> - 9 = 0, soit x<sup>2</sup> = 9, donc x = 3 ou x = -3.</p></div><div class="correction-step"><p>Le denominateur s'annule en x = 3 et x = -3, ces valeurs sont donc exclues du domaine.</p></div><div class="correction-step"><p><strong>D<sub>f</sub> = R prive de -3 et 3</strong></p></div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 2</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 2 : Domaine de definition de g(x) = racine(2x+6)</strong></p></div><div class="correction-step"><p>La fonction racine carree est definie pour un argument positif ou nul.</p></div><div class="correction-step"><p>Il faut donc 2x + 6 &gt;= 0.</p></div><div class="correction-step"><p>2x &gt;= -6, soit x &gt;= -3.</p></div><div class="correction-step"><p><strong>D<sub>g</sub> = [-3 ; +infini[</strong></p></div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 3</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 3 : Domaine de definition de h(x) = ln(x-4) + 1</strong></p></div><div class="correction-step"><p>La fonction logarithme neperien est definie pour un argument strictement positif.</p></div><div class="correction-step"><p>Il faut donc x - 4 &gt; 0, soit x &gt; 4.</p></div><div class="correction-step"><p>La constante +1 ne modifie pas le domaine de definition.</p></div><div class="correction-step"><p><strong>D<sub>h</sub> = ]4 ; +infini[</strong></p></div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 4</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 4 : Domaine de definition de k(x) = e<sup>x</sup>/(x+2)</strong></p></div><div class="correction-step"><p>La fonction exponentielle e<sup>x</sup> est definie sur R, elle ne pose pas de restriction.</p></div><div class="correction-step"><p>Le seul probleme vient du denominateur : il faut x + 2 &ne; 0, soit x &ne; -2.</p></div><div class="correction-step"><p><strong>D<sub>k</sub> = R prive de -2</strong></p></div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 5</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 5 : Domaine de f(x) = ln(x<sup>2</sup>-4) + racine(5-x)</strong></p></div><div class="correction-step"><p>Il faut satisfaire simultanement les conditions de chaque terme.</p></div><div class="sub-question"><p><strong>Condition 1 (logarithme) :</strong> x<sup>2</sup> - 4 &gt; 0, soit (x-2)(x+2) &gt; 0.</p></div><div class="sub-question"><p>Le signe de (x-2)(x+2) est positif pour x &lt; -2 ou x &gt; 2, donc |x| &gt; 2.</p></div><div class="sub-question"><p><strong>Condition 2 (racine) :</strong> 5 - x &gt;= 0, soit x &lt;= 5.</p></div><div class="sub-question"><p><strong>Intersection :</strong> on combine |x| &gt; 2 et x &lt;= 5.</p></div><div class="sub-question"><p>Pour x &lt; -2 : la condition x &lt;= 5 est toujours verifiee. On obtient ]-infini ; -2[.</p></div><div class="sub-question"><p>Pour x &gt; 2 : il faut aussi x &lt;= 5. On obtient ]2 ; 5].</p></div><div class="correction-step"><p><strong>D<sub>f</sub> = ]-infini ; -2[ U ]2 ; 5]</strong></p></div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 6</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 6 : Domaine de f(x) = 1/(x-1) + ln(x+3) + racine(4-x<sup>2</sup>)</strong></p></div><div class="correction-step"><p>Trois conditions a verifier simultanement :</p></div><div class="sub-question"><p><strong>Condition 1 :</strong> x - 1 &ne; 0, soit x &ne; 1.</p></div><div class="sub-question"><p><strong>Condition 2 :</strong> x + 3 &gt; 0, soit x &gt; -3.</p></div><div class="sub-question"><p><strong>Condition 3 :</strong> 4 - x<sup>2</sup> &gt;= 0, soit x<sup>2</sup> &lt;= 4, donc -2 &lt;= x &lt;= 2.</p></div><div class="correction-step"><p>L'intersection de x &gt; -3 et -2 &lt;= x &lt;= 2 donne -2 &lt;= x &lt;= 2.</p></div><div class="correction-step"><p>On exclut ensuite x = 1 de cet intervalle.</p></div><div class="correction-step"><p><strong>D<sub>f</sub> = [-2 ; 1[ U ]1 ; 2]</strong></p></div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 7</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 7 : Domaine de f(x) = (e<sup>x</sup>-1)/(ln(x)-1)</strong></p></div><div class="correction-step"><p>Le numerateur e<sup>x</sup> - 1 est defini sur R, pas de restriction.</p></div><div class="sub-question"><p><strong>Condition 1 :</strong> ln(x) existe, donc x &gt; 0.</p></div><div class="sub-question"><p><strong>Condition 2 :</strong> ln(x) - 1 &ne; 0, soit ln(x) &ne; 1, donc x &ne; e.</p></div><div class="correction-step"><p>En combinant x &gt; 0 et x &ne; e :</p></div><div class="correction-step"><p><strong>D<sub>f</sub> = ]0 ; e[ U ]e ; +infini[</strong></p></div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 8</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 8 : f(x) = (x<sup>2</sup>+1)/(x<sup>2</sup>-1)</strong></p></div><div class="correction-step"><p>Le denominateur x<sup>2</sup> - 1 = (x-1)(x+1) s'annule en x = 1 et x = -1.</p></div><div class="correction-step"><p><strong>D<sub>f</sub> = R prive de -1 et 1</strong></p></div><div class="sub-question"><p><strong>a) f(0) = (0+1)/(0-1) = 1/(-1) = -1.</strong> 0 est dans D<sub>f</sub>, donc f(0) existe et vaut -1.</p></div><div class="sub-question"><p><strong>b) f(2) = (4+1)/(4-1) = 5/3.</strong> 2 est dans D<sub>f</sub>, donc f(2) existe et vaut 5/3.</p></div><div class="sub-question"><p><strong>c) f(-1) n'est pas definie</strong> car -1 n'appartient pas a D<sub>f</sub> (le denominateur s'annule).</p></div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 9</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 9 : Domaine de f(x) = ln(racine(x+1) - 2)</strong></p></div><div class="correction-step"><p>On a une composition : le logarithme s'applique a racine(x+1) - 2.</p></div><div class="sub-question"><p><strong>Etape 1 :</strong> racine(x+1) existe si x + 1 &gt;= 0, soit x &gt;= -1.</p></div><div class="sub-question"><p><strong>Etape 2 :</strong> l'argument du ln doit etre strictement positif : racine(x+1) - 2 &gt; 0.</p></div><div class="sub-question"><p>Soit racine(x+1) &gt; 2. Comme les deux membres sont positifs, on eleve au carre : x + 1 &gt; 4, donc x &gt; 3.</p></div><div class="sub-question"><p><strong>Etape 3 :</strong> on verifie que x &gt; 3 implique bien x &gt;= -1 (condition de l'etape 1). C'est vrai.</p></div><div class="correction-step"><p><strong>D<sub>f</sub> = ]3 ; +infini[</strong></p></div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 10</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 10 : Domaine de f(x) = racine(ln(x) + 1)</strong></p></div><div class="correction-step"><p>On a une composition : la racine s'applique a ln(x) + 1.</p></div><div class="sub-question"><p><strong>Etape 1 :</strong> ln(x) existe si x &gt; 0.</p></div><div class="sub-question"><p><strong>Etape 2 :</strong> l'argument de la racine doit etre positif ou nul : ln(x) + 1 &gt;= 0.</p></div><div class="sub-question"><p>Soit ln(x) &gt;= -1. Par croissance de la fonction exponentielle : x &gt;= e<sup>-1</sup> = 1/e.</p></div><div class="sub-question"><p><strong>Etape 3 :</strong> on verifie que 1/e &gt; 0 (condition de l'etape 1), ce qui est vrai.</p></div><div class="correction-step"><p><strong>D<sub>f</sub> = [1/e ; +infini[</strong></p></div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 11</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 11 : f(x) = 1/(e<sup>x</sup> - e<sup>-x</sup>)</strong></p></div><div class="correction-step"><p><strong>Recherche du domaine :</strong> il faut e<sup>x</sup> - e<sup>-x</sup> &ne; 0.</p></div><div class="correction-step"><p>e<sup>x</sup> = e<sup>-x</sup> equivaut a e<sup>2x</sup> = 1 (en multipliant par e<sup>x</sup> &gt; 0), soit 2x = 0, donc x = 0.</p></div><div class="correction-step"><p>Le denominateur s'annule uniquement en x = 0.</p></div><div class="correction-step"><p><strong>D<sub>f</sub> = R* (R prive de 0)</strong></p></div><div class="correction-step"><p><strong>Etude de la parite :</strong> calculons f(-x).</p></div><div class="correction-step"><p>f(-x) = 1/(e<sup>-x</sup> - e<sup>x</sup>) = 1/(-(e<sup>x</sup> - e<sup>-x</sup>)) = -1/(e<sup>x</sup> - e<sup>-x</sup>) = -f(x).</p></div><div class="correction-step"><p>On a f(-x) = -f(x) pour tout x dans D<sub>f</sub>. <strong>f est une fonction impaire.</strong></p></div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 12</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 12 : Image de fonctions</strong></p></div><div class="sub-question"><p><strong>a) f(x) = -x<sup>2</sup> + 4x - 3</strong></p></div><div class="sub-question"><p>On ecrit f sous forme canonique : f(x) = -(x<sup>2</sup> - 4x + 4) + 4 - 3 = -(x-2)<sup>2</sup> + 1.</p></div><div class="sub-question"><p>Comme -(x-2)<sup>2</sup> &lt;= 0 pour tout x, on a f(x) &lt;= 1.</p></div><div class="sub-question"><p>Le maximum 1 est atteint en x = 2. Quand |x| tend vers +infini, f(x) tend vers -infini.</p></div><div class="sub-question"><p><strong>Image de f = ]-infini ; 1]</strong></p></div><div class="sub-question"><p><strong>b) g(x) = 2e<sup>x</sup> + 1</strong></p></div><div class="sub-question"><p>On sait que e<sup>x</sup> &gt; 0 pour tout x reel.</p></div><div class="sub-question"><p>Donc 2e<sup>x</sup> &gt; 0, et g(x) = 2e<sup>x</sup> + 1 &gt; 1.</p></div><div class="sub-question"><p>Quand x tend vers -infini, e<sup>x</sup> tend vers 0, donc g(x) tend vers 1 (par valeurs superieures).</p></div><div class="sub-question"><p>Quand x tend vers +infini, e<sup>x</sup> tend vers +infini, donc g(x) tend vers +infini.</p></div><div class="sub-question"><p><strong>Image de g = ]1 ; +infini[</strong></p></div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 13</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 13 : Continuite de f(x) = x<sup>2</sup> + 1</strong></p></div><div class="correction-step"><p>La fonction f(x) = x<sup>2</sup> + 1 est une fonction polynomiale.</p></div><div class="correction-step"><p>Or toute fonction polynomiale est continue sur tout son domaine de definition.</p></div><div class="correction-step"><p>Le domaine de f est R (pas de restriction).</p></div><div class="correction-step"><p><strong>f est continue sur R.</strong></p></div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 14</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 14 : Continuite de f(x) = 1/x</strong></p></div><div class="correction-step"><p>La fonction f(x) = 1/x est une fonction rationnelle.</p></div><div class="correction-step"><p>Les fonctions rationnelles sont continues sur leur domaine de definition, c'est-a-dire la ou le denominateur est non nul.</p></div><div class="correction-step"><p>Ici, le denominateur x s'annule en x = 0, donc le domaine est R* (R prive de 0).</p></div><div class="correction-step"><p><strong>f est continue sur R*.</strong></p></div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 15</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 15 : Continuite de f(x) = (x<sup>2</sup>-4)/(x-2) en x = 2</strong></p></div><div class="correction-step"><p>Pour x &ne; 2, on peut simplifier : f(x) = (x-2)(x+2)/(x-2) = x + 2.</p></div><div class="correction-step"><p>Donc lim f(x) quand x tend vers 2 = 2 + 2 = 4.</p></div><div class="correction-step"><p>Cependant, f(2) n'est pas definie car le denominateur s'annule en x = 2.</p></div><div class="correction-step"><p>f n'est donc <strong>pas continue en x = 2</strong> car elle n'y est meme pas definie.</p></div><div class="correction-step"><p>Il s'agit d'une <strong>discontinuite removable</strong> (points trouvable).</p></div><div class="correction-step"><p>Si l'on prolonge f en posant f(2) = 4, alors la fonction ainsi prolongee est continue sur R.</p></div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 16</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 16 : TVI pour g(x) = x<sup>3</sup> - 2x - 5</strong></p></div><div class="correction-step"><p>g est une fonction polynomiale, donc continue sur R, et en particulier sur [2 ; 3].</p></div><div class="correction-step"><p>Calculons les valeurs aux bornes :</p></div><div class="correction-step"><p>g(2) = 2<sup>3</sup> - 2(2) - 5 = 8 - 4 - 5 = -1 &lt; 0.</p></div><div class="correction-step"><p>g(3) = 3<sup>3</sup> - 2(3) - 5 = 27 - 6 - 5 = 16 &gt; 0.</p></div><div class="correction-step"><p>On a g(2) &lt; 0 et g(3) &gt; 0. D'apres le <strong>Theoreme des Valeurs Intermediaires</strong>,</p></div><div class="correction-step"><p>comme g est continue sur [2 ; 3] et que 0 est compris entre g(2) et g(3),</p></div><div class="correction-step"><p>il existe au moins un reel c dans [2 ; 3] tel que g(c) = 0.</p></div><div class="correction-step"><p><strong>Conclusion : l'equation x<sup>3</sup> - 2x - 5 = 0 admet au moins une solution dans [2 ; 3].</strong></p></div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 17</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 17 : TVI pour h(x) = e<sup>x</sup> - 3x - 1</strong></p></div><div class="correction-step"><p>h est continue sur R comme somme de fonctions continues.</p></div><div class="correction-step"><p>On remarque tout d'abord que <strong>h(0) = e<sup>0</sup> - 0 - 1 = 1 - 0 - 1 = 0</strong>.</p></div><div class="correction-step"><p>Donc x = 0 est une solution immediate de h(x) = 0.</p></div><div class="correction-step"><p>Cherchons une autre solution : calculons h(1) et h(2).</p></div><div class="correction-step"><p>h(1) = e<sup>1</sup> - 3 - 1 = e - 4 (environ 2,718 - 4 = -1,282) &lt; 0.</p></div><div class="correction-step"><p>h(2) = e<sup>2</sup> - 6 - 1 = e<sup>2</sup> - 7 (environ 7,389 - 7 = 0,389) &gt; 0.</p></div><div class="correction-step"><p>Sur [1 ; 2], h est continue avec h(1) &lt; 0 et h(2) &gt; 0.</p></div><div class="correction-step"><p>Par le TVI, il existe au moins un reel c dans ]1 ; 2[ tel que h(c) = 0.</p></div><div class="correction-step"><p><strong>Conclusion : l'equation admet au moins les solutions x = 0 et une solution dans ]1 ; 2[.</strong></p></div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 18</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 18 : TVI et unicite pour k(x) = x<sup>3</sup> + x - 10</strong></p></div><div class="correction-step"><p><strong>Etape 1 : Monotonie.</strong> k'(x) = 3x<sup>2</sup> + 1.</p></div><div class="correction-step"><p>Comme x<sup>2</sup> &gt;= 0, on a 3x<sup>2</sup> + 1 &gt;= 1 &gt; 0 pour tout x.</p></div><div class="correction-step"><p>Donc <strong>k est strictement croissante sur R</strong>.</p></div><div class="correction-step"><p><strong>Etape 2 : Application du TVI.</strong> k est continue sur R.</p></div><div class="correction-step"><p>k(1) = 1 + 1 - 10 = -8 &lt; 0.</p></div><div class="correction-step"><p>k(3) = 27 + 3 - 10 = 20 &gt; 0.</p></div><div class="correction-step"><p>Par le TVI, il existe c dans [1 ; 3] tel que k(c) = 0.</p></div><div class="correction-step"><p><strong>Etape 3 : Unicite.</strong> Comme k est strictement croissante, elle ne peut s'annuler qu'au plus une fois.</p></div><div class="correction-step"><p><strong>Conclusion : l'equation x<sup>3</sup> + x - 10 = 0 admet une unique solution dans [1 ; 3].</strong></p></div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 19</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 19 : TVI pour f(x) = x<sup>3</sup> - 3x + 1</strong></p></div><div class="correction-step"><p><strong>Etude des variations :</strong> f'(x) = 3x<sup>2</sup> - 3 = 3(x<sup>2</sup> - 1) = 3(x-1)(x+1).</p></div><div class="correction-step"><p>f'(x) &gt; 0 sur ]-infini ; -1[ U ]1 ; +infini[ et f'(x) &lt; 0 sur ]-1 ; 1[.</p></div><div class="correction-step"><p>f admet un maximum local en x = -1 : f(-1) = -1 + 3 + 1 = 3 &gt; 0.</p></div><div class="correction-step"><p>f admet un minimum local en x = 1 : f(1) = 1 - 3 + 1 = -1 &lt; 0.</p></div><div class="correction-step"><p><strong>Application du TVI sur trois intervalles :</strong></p></div><div class="sub-question"><p>Sur [-2 ; -1] : f(-2) = -8 + 6 + 1 = -1 &lt; 0 et f(-1) = 3 &gt; 0. Par le TVI, il existe une solution dans [-2 ; -1].</p></div><div class="sub-question"><p>Sur [0 ; 1] : f(0) = 1 &gt; 0 et f(1) = -1 &lt; 0. Par le TVI, il existe une solution dans [0 ; 1].</p></div><div class="sub-question"><p>Sur [1 ; 2] : f(1) = -1 &lt; 0 et f(2) = 8 - 6 + 1 = 3 &gt; 0. Par le TVI, il existe une solution dans [1 ; 2].</p></div><div class="correction-step"><p><strong>Conclusion : f(x) = 0 admet exactement 3 solutions reelles</strong>, une dans chaque intervalle [-2 ; -1], [0 ; 1] et [1 ; 2].</p></div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 20</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 20 : f(x) = ln(x) - x + 2, nombre de solutions de f(x) = 0</strong></p></div><div class="correction-step"><p>f est definie sur ]0 ; +infini[. f'(x) = 1/x - 1 = (1 - x)/x.</p></div><div class="correction-step"><p>Sur ]0 ; +infini[, le signe de f' est le signe de 1 - x :</p></div><div class="correction-step"><p>f'(x) &gt; 0 pour 0 &lt; x &lt; 1 et f'(x) &lt; 0 pour x &gt; 1.</p></div><div class="correction-step"><p>f admet un maximum en x = 1 : f(1) = ln(1) - 1 + 2 = 0 + 1 = 1 &gt; 0.</p></div><div class="correction-step"><p><strong>Branche croissante :</strong> quand x tend vers 0+, f(x) = ln(x) - x + 2 tend vers -infini (car ln(x) tend vers -infini).</p></div><div class="correction-step"><p>On verifie : f(1/e) = ln(1/e) - 1/e + 2 = -1 - 1/e + 2 = 1 - 1/e &gt; 0 (environ 0,632).</p></div><div class="correction-step"><p>Donc sur ]0 ; 1[, f passe de -infini a 1 avec f(1/e) &gt; 0. Par le TVI, il existe une unique solution dans ]1/e ; 1[.</p></div><div class="correction-step"><p><strong>Branche decroissante :</strong> quand x tend vers +infini, ln(x) - x tend vers -infini (croissance comparee), donc f(x) tend vers -infini.</p></div><div class="correction-step"><p>On verifie : f(3) = ln(3) - 3 + 2 = ln(3) - 1 (environ 1,099 - 1 = 0,099) &gt; 0. Hmm, verifions : ln(3) environ 1,099 donc f(3) environ 0,099 &gt; 0.</p></div><div class="correction-step"><p>Et f(4) = ln(4) - 4 + 2 = ln(4) - 2 (environ 1,386 - 2 = -0,614) &lt; 0.</p></div><div class="correction-step"><p>Donc sur [1 ; +infini[, f passe de 1 a -infini. Par le TVI, il existe une unique solution dans ]3 ; 4[.</p></div><div class="correction-step"><p><strong>Conclusion : l'equation f(x) = 0 admet exactement 2 solutions,</strong> une dans ]1/e ; 1[ et une dans ]3 ; 4[.</p></div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 21</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 21 : f(x) = e<sup>x</sup>/x sur ]0 ; +infini[, resoudre f(x) = 3</strong></p></div><div class="correction-step"><p><strong>Etude des variations :</strong> f'(x) = (e<sup>x</sup> . x - e<sup>x</sup> . 1)/x<sup>2</sup> = e<sup>x</sup>(x - 1)/x<sup>2</sup>.</p></div><div class="correction-step"><p>Sur ]0 ; +infini[, e<sup>x</sup> &gt; 0 et x<sup>2</sup> &gt; 0, donc le signe de f' est le signe de (x - 1).</p></div><div class="correction-step"><p>f'(x) &lt; 0 pour 0 &lt; x &lt; 1 et f'(x) &gt; 0 pour x &gt; 1.</p></div><div class="correction-step"><p>f est donc <strong>decroissante sur ]0 ; 1]</strong> et <strong>croissante sur [1 ; +infini[</strong>.</p></div><div class="correction-step"><p>Le minimum est f(1) = e<sup>1</sup>/1 = e (environ 2,718).</p></div><div class="correction-step"><p><strong>Limites :</strong> quand x tend vers 0+, e<sup>x</sup> tend vers 1 et x tend vers 0+, donc f(x) tend vers +infini.</p></div><div class="correction-step"><p>Quand x tend vers +infini, e<sup>x</sup> domine x, donc f(x) tend vers +infini (croissances comparees).</p></div><div class="correction-step"><p>On cherche f(x) = 3 avec le minimum e (environ 2,718) &lt; 3 &lt; +infini aux deux bords.</p></div><div class="correction-step"><p>Sur ]0 ; 1] : f decroit de +infini a e. Comme 3 &gt; e, le TVI donne une unique solution dans ]0 ; 1[.</p></div><div class="correction-step"><p>Sur [1 ; +infini[ : f croit de e a +infini. Comme 3 &gt; e, le TVI donne une unique solution dans ]1 ; +infini[.</p></div><div class="correction-step"><p><strong>Conclusion : l'equation f(x) = 3 admet exactement 2 solutions.</strong></p></div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 22</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 22 : g(x) = x<sup>3</sup> + 3x, resoudre g(x) = k</strong></p></div><div class="correction-step"><p><strong>Etude de la monotonie :</strong> g'(x) = 3x<sup>2</sup> + 3.</p></div><div class="correction-step"><p>Comme x<sup>2</sup> &gt;= 0, on a 3x<sup>2</sup> + 3 &gt;= 3 &gt; 0 pour tout x reel.</p></div><div class="correction-step"><p><strong>g est donc strictement croissante sur R.</strong></p></div><div class="correction-step"><p><strong>Limites :</strong> quand x tend vers -infini, g(x) tend vers -infini. Quand x tend vers +infini, g(x) tend vers +infini.</p></div><div class="correction-step"><p>g est continue et strictement croissante sur R, avec une image egale a R (de -infini a +infini).</p></div><div class="correction-step"><p>Par le corollaire du TVI (bijection), pour tout reel k, l'equation g(x) = k admet une <strong>unique solution</strong> dans R.</p></div><div class="correction-step"><p><strong>Conclusion : pour tout k reel, g(x) = k a exactement une solution.</strong></p></div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 23</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 23 : Continuite en 0 d'une fonction definie par morceaux</strong></p></div><div class="correction-step"><p>f est definie par : f(x) = 2x + 1 si x &lt; 0 et f(x) = x<sup>2</sup> si x &gt;= 0, avec f(0) = 0.</p></div><div class="correction-step"><p><strong>Continuite en 0 : il faut verifier trois conditions.</strong></p></div><div class="sub-question"><p><strong>a) Limite a gauche :</strong> lim f(x) quand x tend vers 0- = lim (2x + 1) = 2(0) + 1 = 1.</p></div><div class="sub-question"><p><strong>b) Limite a droite :</strong> lim f(x) quand x tend vers 0+ = lim x<sup>2</sup> = 0<sup>2</sup> = 0.</p></div><div class="sub-question"><p><strong>c) Valeur en 0 :</strong> f(0) = 0<sup>2</sup> = 0.</p></div><div class="correction-step"><p>On constate que la limite a gauche (1) est differente de la limite a droite (0).</p></div><div class="correction-step"><p>Puisque lim a gauche &ne; lim a droite, la limite en 0 n'existe pas.</p></div><div class="correction-step"><p><strong>Conclusion : f n'est PAS continue en 0.</strong></p></div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 24</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 24 : f(x) = (x-1)/(x<sup>2</sup>+1)</strong></p></div><div class="sub-question"><p><strong>a) Continuite sur R :</strong> le numerateur x - 1 est un polynome, donc continu sur R.</p></div><div class="sub-question"><p>Le denominateur x<sup>2</sup> + 1 est un polynome qui ne s'annule jamais car x<sup>2</sup> &gt;= 0 donc x<sup>2</sup> + 1 &gt;= 1 &gt; 0.</p></div><div class="sub-question"><p>f est donc quotient de fonctions continues avec denominateur non nul. <strong>f est continue sur R.</strong></p></div><div class="sub-question"><p><strong>b) Monotonie :</strong> f'(x) = ((1)(x<sup>2</sup>+1) - (x-1)(2x))/(x<sup>2</sup>+1)<sup>2</sup> = (x<sup>2</sup> + 1 - 2x<sup>2</sup> + 2x)/(x<sup>2</sup>+1)<sup>2</sup> = (-x<sup>2</sup> + 2x + 1)/(x<sup>2</sup>+1)<sup>2</sup>.</p></div><div class="sub-question"><p>Le denominateur (x<sup>2</sup>+1)<sup>2</sup> est toujours strictement positif. Etudions le numerateur -x<sup>2</sup> + 2x + 1.</p></div><div class="sub-question"><p>-x<sup>2</sup> + 2x + 1 = 0 a pour discriminant Delta = 4 + 4 = 8. Racines : x = (-2 - 2racine(2))/(-2) = 1 + racine(2) et x = 1 - racine(2).</p></div><div class="sub-question"><p>Le trinome est positif entre les racines, donc f'(x) &gt; 0 sur ]1 - racine(2) ; 1 + racine(2)[. En particulier sur [0 ; 1], f est strictement croissante.</p></div><div class="sub-question"><p><strong>c) Resolution de f(x) = 0 :</strong> f(0) = (0-1)/(0+1) = -1 &lt; 0 et f(1) = 0/2 = 0.</p></div><div class="sub-question"><p>Comme f est continue et strictement croissante sur [0 ; 1], avec f(0) &lt; 0 et f(1) = 0, la seule solution dans [0 ; 1] est x = 1.</p></div><div class="sub-question"><p>En fait, f(x) = 0 equivaut a x - 1 = 0 (car le denominateur n'est jamais nul), soit <strong>x = 1</strong> est l'unique solution.</p></div><div class="correction-step"><p><strong>Conclusion : f est continue sur R, croissante sur un intervalle contenant [0 ; 1], et l'unique solution de f(x) = 0 est x = 1 (alpha = 1).</strong></p></div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 25</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 25 : Derivee et variations de f(x) = x<sup>3</sup> - 6x<sup>2</sup> + 9x + 1</strong></p></div><div class="correction-step"><p><strong>Calcul de la derivee :</strong></p></div><div class="correction-step"><p>f'(x) = 3x<sup>2</sup> - 12x + 9 = 3(x<sup>2</sup> - 4x + 3) = 3(x - 1)(x - 3).</p></div><div class="correction-step"><p><strong>Signe de f' :</strong> f'(x) &gt; 0 pour x &lt; 1, f'(x) &lt; 0 pour 1 &lt; x &lt; 3, f'(x) &gt; 0 pour x &gt; 3.</p></div><div class="correction-step"><p><strong>Tableau de variations :</strong></p></div><div class="correction-step"><p>f croit sur ]-infini ; 1], decroit sur [1 ; 3], puis croit sur [3 ; +infini[.</p></div><div class="correction-step"><p>f(1) = 1 - 6 + 9 + 1 = 5 (maximum local).</p></div><div class="correction-step"><p>f(3) = 27 - 54 + 27 + 1 = 1 (minimum local).</p></div><div class="correction-step"><p><strong>Conclusion : f admet un maximum local de 5 en x = 1 et un minimum local de 1 en x = 3.</strong></p></div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 26</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 26 : Variations de f(x) = x ln(x) sur ]0 ; +infini[</strong></p></div><div class="correction-step"><p><strong>Calcul de la derivee :</strong> f'(x) = 1 . ln(x) + x . (1/x) = ln(x) + 1.</p></div><div class="correction-step"><p><strong>Signe de f' :</strong> f'(x) = 0 quand ln(x) + 1 = 0, soit ln(x) = -1, donc x = e<sup>-1</sup> = 1/e.</p></div><div class="correction-step"><p>f'(x) &lt; 0 pour 0 &lt; x &lt; 1/e et f'(x) &gt; 0 pour x &gt; 1/e.</p></div><div class="correction-step"><p><strong>Tableau de variations :</strong></p></div><div class="correction-step"><p>f decroit sur ]0 ; 1/e] et croit sur [1/e ; +infini[.</p></div><div class="correction-step"><p>Le minimum est f(1/e) = (1/e) . ln(1/e) = (1/e) . (-1) = -1/e.</p></div><div class="correction-step"><p><strong>Limites :</strong> quand x tend vers 0+, x ln(x) tend vers 0 (croissance comparee). f(0+) = 0.</p></div><div class="correction-step"><p>Quand x tend vers +infini, x ln(x) tend vers +infini.</p></div><div class="correction-step"><p><strong>Conclusion : le minimum de f est -1/e, atteint en x = 1/e.</strong></p></div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 27</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 27 : Tangente a C<sub>f</sub> au point d'abscisse x = e, avec f(x) = ln(x)</strong></p></div><div class="correction-step"><p>L'equation de la tangente en x = a est : y = f(a) + f'(a)(x - a).</p></div><div class="correction-step"><p><strong>Etape 1 :</strong> Calcul de f(a) = f(e) = ln(e) = 1.</p></div><div class="correction-step"><p><strong>Etape 2 :</strong> Calcul de f'(a). On a f'(x) = 1/x, donc f'(e) = 1/e.</p></div><div class="correction-step"><p><strong>Etape 3 :</strong> Equation de la tangente : y = 1 + (1/e)(x - e).</p></div><div class="correction-step"><p>y = 1 + x/e - e/e = 1 + x/e - 1 = x/e.</p></div><div class="correction-step"><p><strong>L'equation de la tangente en x = e est : y = x/e.</strong></p></div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 28</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 28 : Limites de f(x) = (2x<sup>3</sup> - x<sup>2</sup> + 1)/(x<sup>2</sup> + 1)</strong></p></div><div class="sub-question"><p><strong>Limite en +infini :</strong> le terme de plus haut degre domine. On factorise par x<sup>3</sup> au numerateur et x<sup>2</sup> au denominateur.</p></div><div class="sub-question"><p>f(x) = x<sup>3</sup>(2 - 1/x + 1/x<sup>3</sup>) / (x<sup>2</sup>(1 + 1/x<sup>2</sup>)) = x(2 - 1/x + 1/x<sup>3</sup>) / (1 + 1/x<sup>2</sup>).</p></div><div class="sub-question"><p>Quand x tend vers +infini, les termes en 1/x tendent vers 0. On obtient lim f(x) = +infini (car x tend vers +infini et le rapport des coefficients dominants est positif).</p></div><div class="sub-question"><p><strong>lim f(x) quand x tend vers +infini = +infini.</strong></p></div><div class="sub-question"><p><strong>Limite en -infini :</strong> par le meme raisonnement, lim f(x) = -infini (le facteur x tend vers -infini).</p></div><div class="sub-question"><p><strong>lim f(x) quand x tend vers -infini = -infini.</strong></p></div><div class="sub-question"><p>On en deduit qu'il n'y a pas d'asymptote horizontale, mais une direction asymptotique oblique.</p></div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 29</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 29 : Asymptote oblique de f(x) = (x<sup>2</sup> + 1)/(x - 1)</strong></p></div><div class="correction-step"><p><strong>Domaine :</strong> D<sub>f</sub> = R prive de 1.</p></div><div class="correction-step"><p><strong>Limite en 1 :</strong> le numerateur tend vers 2 et le denominateur tend vers 0.</p></div><div class="correction-step"><p>Pour x &gt; 1, le denominateur est positif, donc lim f(x) = +infini quand x tend vers 1+.</p></div><div class="correction-step"><p>Pour x &lt; 1, le denominateur est negatif, donc lim f(x) = -infini quand x tend vers 1-.</p></div><div class="correction-step"><p><strong>La droite x = 1 est une asymptote verticale.</strong></p></div><div class="correction-step"><p><strong>Asymptote oblique en +infini :</strong> on effectue la division euclidienne.</p></div><div class="correction-step"><p>x<sup>2</sup> + 1 = (x - 1)(x + 1) + 2. Donc f(x) = x + 1 + 2/(x - 1).</p></div><div class="correction-step"><p>Quand x tend vers +infini, 2/(x - 1) tend vers 0.</p></div><div class="correction-step"><p><strong>La droite y = x + 1 est une asymptote oblique en +infini et en -infini.</strong></p></div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 30</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 30 (BAC) : Etude de f(x) = x + ln(x)/x sur ]0 ; +infini[</strong></p></div><div class="sub-question"><p><strong>a) Domaine de definition :</strong> il faut x &gt; 0 pour le ln(x), et x &ne; 0 pour le denominateur. Donc D<sub>f</sub> = ]0 ; +infini[.</p></div><div class="sub-question"><p><strong>b) Limite en 0+ :</strong> x tend vers 0 et ln(x)/x. Par croissances comparees, ln(x)/x tend vers -infini (car ln(x) tend vers -infini et on divise par un nombre positif qui tend vers 0). Donc lim f(x) = -infini.</p></div><div class="sub-question"><p><strong>c) Limite en +infini :</strong> ln(x)/x tend vers 0 (croissances comparees). Donc lim f(x) = +infini.</p></div><div class="sub-question"><p><strong>d) Derivee :</strong> f'(x) = 1 + (1/x . x - ln(x) . 1)/x<sup>2</sup> = 1 + (1 - ln(x))/x<sup>2</sup> = 1 + (1 - ln(x))/x<sup>2</sup>.</p></div><div class="sub-question"><p>f'(x) = 1 + 1/x<sup>2</sup> - ln(x)/x<sup>2</sup> = (x<sup>2</sup> + 1 - ln(x))/x<sup>2</sup>.</p></div><div class="sub-question"><p>On pose g(x) = x<sup>2</sup> + 1 - ln(x). g'(x) = 2x - 1/x = (2x<sup>2</sup> - 1)/x.</p></div><div class="sub-question"><p>g'(x) = 0 quand x<sup>2</sup> = 1/2, soit x = 1/racine(2). Sur ]0 ; 1/racine(2)[, g' &lt; 0 et sur ]1/racine(2) ; +infini[, g' &gt; 0.</p></div><div class="sub-question"><p>g atteint son minimum en x = 1/racine(2) : g(1/racine(2)) = 1/2 + 1 - ln(1/racine(2)) = 3/2 + ln(racine(2)) = 3/2 + (1/2)ln(2) (environ 1,847) &gt; 0.</p></div><div class="sub-question"><p>Donc g(x) &gt; 0 pour tout x &gt; 0, et par consequent f'(x) = g(x)/x<sup>2</sup> &gt; 0.</p></div><div class="sub-question"><p><strong>e) Variations :</strong> f est strictement croissante sur ]0 ; +infini[.</p></div>
+    </div>
+</div>
+</div>
+</div><div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e1b4b 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 2</div>
+        <div class="section-title">Derivees, variations et extrema</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 31</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p>f(x) = x<sup>2</sup> e<sup>x</sup>. On applique la formule du produit (uv)' = u'v + uv'.</p></div><div class="correction-step"><p>u = x<sup>2</sup>, donc u' = 2x. v = e<sup>x</sup>, donc v' = e<sup>x</sup>.</p></div><div class="correction-step"><p>f'(x) = 2x . e<sup>x</sup> + x<sup>2</sup> . e<sup>x</sup> = e<sup>x</sup>(x<sup>2</sup> + 2x)</p></div><div class="correction-step"><p>Resultat : <strong>f'(x) = e<sup>x</sup> . x . (x + 2)</strong>.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 32</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p>f(x) = x<sup>2</sup> ln(x). Formule du produit : (uv)' = u'v + uv'.</p></div><div class="correction-step"><p>u = x<sup>2</sup>, u' = 2x. v = ln(x), v' = 1/x.</p></div><div class="correction-step"><p>f'(x) = 2x . ln(x) + x<sup>2</sup> . (1/x) = 2x ln(x) + x</p></div><div class="correction-step"><p>Resultat : <strong>f'(x) = x(2 ln(x) + 1)</strong>.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 33</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p>f(x) = e<sup>-x<sup>2</sup></sup>. On applique la composee : (e<sup>u</sup>)' = u' . e<sup>u</sup>.</p></div><div class="correction-step"><p>u = -x<sup>2</sup>, donc u' = -2x.</p></div><div class="correction-step"><p>Resultat : <strong>f'(x) = -2x . e<sup>-x<sup>2</sup></sup></strong>.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 34</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p>f(x) = ln(x<sup>2</sup> + 1). Formule composee : (ln(u))' = u'/u.</p></div><div class="correction-step"><p>u = x<sup>2</sup> + 1, donc u' = 2x.</p></div><div class="correction-step"><p>Resultat : <strong>f'(x) = 2x / (x<sup>2</sup> + 1)</strong>.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 35</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p>f(x) = racine(3x - 1) = (3x - 1)<sup>1/2</sup>.</p></div><div class="correction-step"><p>Formule : (u<sup>1/2</sup>)' = u' / (2 racine(u)). Ici u = 3x - 1, u' = 3.</p></div><div class="correction-step"><p>Resultat : <strong>f'(x) = 3 / (2 racine(3x - 1))</strong>, pour x &gt; 1/3.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 36</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p>f(x) = e<sup>x</sup> / (e<sup>x</sup> + 1). On applique la formule du quotient.</p></div><div class="correction-step"><p>(u/v)' = (u'v - uv') / v<sup>2</sup> avec u = e<sup>x</sup>, v = e<sup>x</sup> + 1.</p></div><div class="correction-step"><p>u' = e<sup>x</sup>, v' = e<sup>x</sup>.</p></div><div class="correction-step"><p>f'(x) = (e<sup>x</sup>(e<sup>x</sup> + 1) - e<sup>x</sup> . e<sup>x</sup>) / (e<sup>x</sup> + 1)<sup>2</sup></p></div><div class="correction-step"><p>= (e<sup>2x</sup> + e<sup>x</sup> - e<sup>2x</sup>) / (e<sup>x</sup> + 1)<sup>2</sup></p></div><div class="correction-step"><p>Resultat : <strong>f'(x) = e<sup>x</sup> / (e<sup>x</sup> + 1)<sup>2</sup></strong>.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 37</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p>f(x) = x . e<sup>-x</sup> . ln(x) sur ]0 ; +infini[. Produit de trois fonctions.</p></div><div class="correction-step"><p>On pose g(x) = x . e<sup>-x</sup> (produit), puis f = g . ln(x).</p></div><div class="correction-step"><p>g'(x) = 1 . e<sup>-x</sup> + x . (-e<sup>-x</sup>) = e<sup>-x</sup>(1 - x).</p></div><div class="correction-step"><p>f'(x) = g'(x) . ln(x) + g(x) . (1/x)</p></div><div class="correction-step"><p>= e<sup>-x</sup>(1 - x) . ln(x) + x . e<sup>-x</sup> / x</p></div><div class="correction-step"><p>= e<sup>-x</sup> . ln(x) . (1 - x) + e<sup>-x</sup></p></div><div class="correction-step"><p>Resultat : <strong>f'(x) = e<sup>-x</sup> [ln(x)(1 - x) + 1/x]</strong>.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 38</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p>f(x) = (ln(x))<sup>2</sup> / x sur ]0 ; +infini[. Quotient.</p></div><div class="correction-step"><p>u = (ln(x))<sup>2</sup>, u' = 2 ln(x) . (1/x). v = x, v' = 1.</p></div><div class="correction-step"><p>f'(x) = (2 ln(x)/x . x - (ln(x))<sup>2</sup> . 1) / x<sup>2</sup></p></div><div class="correction-step"><p>= (2 ln(x) - (ln(x))<sup>2</sup>) / x<sup>2</sup></p></div><div class="correction-step"><p>= ln(x) . (2 - ln(x)) / x<sup>2</sup>.</p></div><div class="correction-step"><p>Resultat : <strong>f'(x) = ln(x)(2 - ln(x)) / x<sup>2</sup></strong>.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 39</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p>f(x) = x<sup>3</sup> - 3x<sup>2</sup> + 2. On calcule f' puis f''.</p></div><div class="correction-step"><p><strong>f'(x)</strong> = 3x<sup>2</sup> - 6x = 3x(x - 2).</p></div><div class="correction-step"><p><strong>f''(x)</strong> = 6x - 6 = <strong>6(x - 1)</strong>.</p></div><div class="correction-step"><p>f''(x) = 0 si x = 1. f'' &lt; 0 si x &lt; 1, f'' &gt; 0 si x &gt; 1.</p></div><div class="correction-step"><p>La fonction f' est concave sur ]-infini ; 1] et convexe sur [1 ; +infini[.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 40</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p>f(x) = (x<sup>2</sup> - 1) . e<sup>-x</sup>. Produit.</p></div><div class="correction-step"><p>u = x<sup>2</sup> - 1, u' = 2x. v = e<sup>-x</sup>, v' = -e<sup>-x</sup>.</p></div><div class="correction-step"><p>f'(x) = 2x . e<sup>-x</sup> + (x<sup>2</sup> - 1)(-e<sup>-x</sup>)</p></div><div class="correction-step"><p>= e<sup>-x</sup>(2x - x<sup>2</sup> + 1) = e<sup>-x</sup>(-x<sup>2</sup> + 2x + 1)</p></div><div class="correction-step"><p>Resultat : <strong>f'(x) = e<sup>-x</sup>(-x<sup>2</sup> + 2x + 1)</strong>.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 41</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p>f(x) = -2x<sup>2</sup> + 8x - 5. f'(x) = -4x + 8.</p></div><div class="correction-step"><p>f'(x) = 0 si -4x + 8 = 0, soit x = 2.</p></div><div class="correction-step"><p>f'(x) &gt; 0 si x &lt; 2 (fonction croissante).</p></div><div class="correction-step"><p>f'(x) &lt; 0 si x &gt; 2 (fonction decroissante).</p></div><div class="correction-step"><p>Maximum en x = 2 : f(2) = -2(4) + 8(2) - 5 = -8 + 16 - 5 = <strong>3</strong>.</p></div><div class="correction-step"><p>Tableau de variation : f croit sur ]-infini ; 2], decroit sur [2 ; +infini[. Max = 3 en x = 2.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 42</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p>f(x) = x<sup>3</sup> - 3x. f'(x) = 3x<sup>2</sup> - 3 = 3(x<sup>2</sup> - 1) = 3(x - 1)(x + 1).</p></div><div class="correction-step"><p>f'(x) = 0 si x = -1 ou x = 1.</p></div><div class="correction-step"><p>f'(x) &gt; 0 sur ]-infini ; -1[ (car 3 &gt; 0 et (x-1)(x+1) &gt; 0 pour x &lt; -1).</p></div><div class="correction-step"><p>f'(x) &lt; 0 sur ]-1 ; 1[ (car (x-1)(x+1) &lt; 0 pour -1 &lt; x &lt; 1).</p></div><div class="correction-step"><p>f'(x) &gt; 0 sur ]1 ; +infini[.</p></div><div class="correction-step"><p>f croit sur ]-infini ; -1], decroit sur [-1 ; 1], croit sur [1 ; +infini[.</p></div><div class="correction-step"><p>Maximum local : f(-1) = -1 + 3 = <strong>2</strong>. Minimum local : f(1) = 1 - 3 = <strong>-2</strong>.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 43</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p>f(x) = (x<sup>2</sup> + 1) / (x<sup>2</sup> - 1). On calcule f' avec la formule du quotient.</p></div><div class="correction-step"><p>u = x<sup>2</sup> + 1, u' = 2x. v = x<sup>2</sup> - 1, v' = 2x.</p></div><div class="correction-step"><p>f'(x) = (2x(x<sup>2</sup> - 1) - 2x(x<sup>2</sup> + 1)) / (x<sup>2</sup> - 1)<sup>2</sup></p></div><div class="correction-step"><p>= (2x<sup>3</sup> - 2x - 2x<sup>3</sup> - 2x) / (x<sup>2</sup> - 1)<sup>2</sup></p></div><div class="correction-step"><p>= <strong>-4x / (x<sup>2</sup> - 1)<sup>2</sup></strong>.</p></div><div class="correction-step"><p>Le denominateur est toujours positif (sauf en x = 1 et x = -1 ou il s'annule).</p></div><div class="correction-step"><p>f'(x) &lt; 0 pour x &gt; 0 et f'(x) &gt; 0 pour x &lt; 0.</p></div><div class="correction-step"><p>f croit sur ]-infini ; -1[ et ]-1 ; 0], decroit sur [0 ; 1[ et ]1 ; +infini[.</p></div><div class="correction-step"><p>Maximum en x = 0 : f(0) = (0 + 1) / (0 - 1) = <strong>-1</strong>.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 44</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p>f(x) = x . e<sup>-x</sup> sur R. f'(x) = e<sup>-x</sup> + x . (-e<sup>-x</sup>) = e<sup>-x</sup>(1 - x).</p></div><div class="correction-step"><p>e<sup>-x</sup> &gt; 0 pour tout x, donc le signe de f' est celui de (1 - x).</p></div><div class="correction-step"><p>f'(x) &gt; 0 si x &lt; 1, f'(x) &lt; 0 si x &gt; 1.</p></div><div class="correction-step"><p>f croit sur ]-infini ; 1], decroit sur [1 ; +infini[.</p></div><div class="correction-step"><p>Maximum en x = 1 : f(1) = 1 . e<sup>-1</sup> = <strong>1/e</strong>.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 45</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p>f(x) = (x - 1)<sup>2</sup> . e<sup>x</sup>. f'(x) = 2(x - 1) . e<sup>x</sup> + (x - 1)<sup>2</sup> . e<sup>x</sup>.</p></div><div class="correction-step"><p>= e<sup>x</sup>(x - 1) [2 + (x - 1)] = e<sup>x</sup>(x - 1)(x + 1).</p></div><div class="correction-step"><p>f'(x) = 0 si x = 1 ou x = -1.</p></div><div class="correction-step"><p>f'(x) &lt; 0 sur ]-1 ; 1[ (signe de (x-1)(x+1) negatif entre les racines, e<sup>x</sup> &gt; 0).</p></div><div class="correction-step"><p>f'(x) &gt; 0 sur ]-infini ; -1[ et sur ]1 ; +infini[.</p></div><div class="correction-step"><p>f decroit sur [-1 ; 1], croit sur ]-infini ; -1] et [1 ; +infini[.</p></div><div class="correction-step"><p>Minimum en x = 1 : f(1) = 0 . e<sup>1</sup> = <strong>0</strong>.</p></div><div class="correction-step"><p>Maximum local en x = -1 : f(-1) = (-2)<sup>2</sup> . e<sup>-1</sup> = 4/e.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 46</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p>f(x) = ln(x<sup>2</sup> + 1). f'(x) = 2x / (x<sup>2</sup> + 1).</p></div><div class="correction-step"><p>Le denominateur x<sup>2</sup> + 1 est toujours positif.</p></div><div class="correction-step"><p>f'(x) &lt; 0 pour x &lt; 0 et f'(x) &gt; 0 pour x &gt; 0.</p></div><div class="correction-step"><p>f decroit sur ]-infini ; 0], croit sur [0 ; +infini[.</p></div><div class="correction-step"><p>Minimum en x = 0 : f(0) = ln(0 + 1) = ln(1) = <strong>0</strong>.</p></div><div class="correction-step"><p>Limites : lim(x tend vers -infini) f(x) = lim(x tend vers +infini) f(x) = +infini.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 47</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p>f(x) = x - 1 + ln(x) sur ]0 ; +infini[.</p></div><div class="correction-step"><p>f'(x) = 1 + 1/x = (x + 1)/x.</p></div><div class="correction-step"><p>Pour x &gt; 0 : x &gt; 0 et x + 1 &gt; 0, donc f'(x) &gt; 0.</p></div><div class="correction-step"><p><strong>f est strictement croissante sur ]0 ; +infini[.</strong></p></div><div class="correction-step"><p>f(1) = 1 - 1 + ln(1) = 0. Comme f est croissante : f(x) &lt; 0 pour 0 &lt; x &lt; 1, f(x) &gt; 0 pour x &gt; 1.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 48</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p>f(x) = e<sup>2x</sup> - (x + 1)<sup>2</sup> e<sup>x</sup>. On pose u = e<sup>x</sup>.</p></div><div class="correction-step"><p>f(x) = u<sup>2</sup> - (x + 1)<sup>2</sup> u. On derive :</p></div><div class="correction-step"><p>f'(x) = 2e<sup>2x</sup> - 2(x + 1)e<sup>x</sup> - (x + 1)<sup>2</sup> e<sup>x</sup></p></div><div class="correction-step"><p>= e<sup>x</sup>(2e<sup>x</sup> - (x + 1)<sup>2</sup> - 2(x + 1))</p></div><div class="correction-step"><p>= e<sup>x</sup>(2e<sup>x</sup> - (x + 1)(x + 3)).</p></div><div class="correction-step"><p>f'(x) = 0 si 2e<sup>x</sup> = (x + 1)(x + 3).</p></div><div class="correction-step"><p>Cette equation ne se resout pas analytiquement. On etudie g(x) = 2e<sup>x</sup> - (x + 1)(x + 3).</p></div><div class="correction-step"><p>g(0) = 2 - 3 = -1 &lt; 0. g(-1) = 2e<sup>-1</sup> - 0 &gt; 0. Donc une racine dans ]-1 ; 0[.</p></div><div class="correction-step"><p>g(1) = 2e - 8 &lt; 0. g(3) = 2e<sup>3</sup> - 24 &gt; 0. Donc une racine dans ]1 ; 3[.</p></div><div class="correction-step"><p>f admet deux points critiques (approximativement x &approx; -0.7 et x &approx; 1.3).</p></div><div class="correction-step"><p>L'etude complete necessite une analyse numerique plus approfondie.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 49</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p>f(x) = (x<sup>2</sup> + x + 1) / (x + 1)<sup>2</sup> sur R prive de -1.</p></div><div class="correction-step"><p>On pose u = x<sup>2</sup> + x + 1, u' = 2x + 1. v = (x + 1)<sup>2</sup>, v' = 2(x + 1).</p></div><div class="correction-step"><p>f'(x) = ((2x + 1)(x + 1)<sup>2</sup> - 2(x + 1)(x<sup>2</sup> + x + 1)) / (x + 1)<sup>4</sup></p></div><div class="correction-step"><p>On simplifie par (x + 1) au numerateur et on reduit le denominateur :</p></div><div class="correction-step"><p>f'(x) = ((2x + 1)(x + 1) - 2(x<sup>2</sup> + x + 1)) / (x + 1)<sup>3</sup></p></div><div class="correction-step"><p>= (2x<sup>2</sup> + 3x + 1 - 2x<sup>2</sup> - 2x - 2) / (x + 1)<sup>3</sup></p></div><div class="correction-step"><p>= <strong>(x - 1) / (x + 1)<sup>3</sup></strong>.</p></div><div class="correction-step"><p>f'(x) = 0 si x = 1. Changement de signe en x = -1 et x = 1.</p></div><div class="correction-step"><p>Sur ]-infini ; -1[ : (x-1) &lt; 0 et (x+1)<sup>3</sup> &lt; 0, donc f' &gt; 0.</p></div><div class="correction-step"><p>Sur ]-1 ; 1[ : (x-1) &lt; 0 et (x+1)<sup>3</sup> &gt; 0, donc f' &lt; 0.</p></div><div class="correction-step"><p>Sur ]1 ; +infini[ : (x-1) &gt; 0 et (x+1)<sup>3</sup> &gt; 0, donc f' &gt; 0.</p></div><div class="correction-step"><p>f croit sur ]-infini ; -1[, decroit sur ]-1 ; 1], croit sur [1 ; +infini[.</p></div><div class="correction-step"><p>Minimum en x = 1 : f(1) = 3/4.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 50</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p>f(x) = x + ln(x + 1) sur ]-1 ; +infini[.</p></div><div class="correction-step"><p>f'(x) = 1 + 1/(x + 1) = (x + 1 + 1)/(x + 1) = <strong>(x + 2) / (x + 1)</strong>.</p></div><div class="correction-step"><p>Sur ]-1 ; +infini[ : x + 1 &gt; 0 (denominateur positif).</p></div><div class="correction-step"><p>x + 2 &gt; -1 + 2 = 1 &gt; 0 (numerateur positif).</p></div><div class="correction-step"><p>Donc f'(x) &gt; 0 pour tout x &gt; -1.</p></div><div class="correction-step"><p><strong>f est strictement croissante sur ]-1 ; +infini[.</strong></p></div><div class="correction-step"><p>f(0) = 0 + ln(1) = 0. Etant strictement croissante : pour x &gt; 0, f(x) &gt; f(0) = 0.</p></div><div class="correction-step"><p>Donc <strong>f(x) &gt;= 0 pour tout x &gt; 0</strong>, soit x + ln(x + 1) &gt;= 0 pour x &gt; 0.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 51</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p>f(x) = 2x<sup>3</sup> + 3x<sup>2</sup> - 12x + 5.</p></div><div class="correction-step"><p>f'(x) = 6x<sup>2</sup> + 6x - 12 = 6(x<sup>2</sup> + x - 2) = 6(x + 2)(x - 1).</p></div><div class="correction-step"><p>f'(x) = 0 si x = -2 ou x = 1.</p></div><div class="correction-step"><p>f'(x) &gt; 0 sur ]-infini ; -2[ (produit de 3 facteurs positifs).</p></div><div class="correction-step"><p>f'(x) &lt; 0 sur ]-2 ; 1[ (signe de (x+2)(x-1) negatif).</p></div><div class="correction-step"><p>f'(x) &gt; 0 sur ]1 ; +infini[.</p></div><div class="correction-step"><p>f croit sur ]-infini ; -2], decroit sur [-2 ; 1], croit sur [1 ; +infini[.</p></div><div class="correction-step"><p>Maximum en x = -2 : f(-2) = 2(-8) + 3(4) - 12(-2) + 5 = -16 + 12 + 24 + 5 = <strong>25</strong>.</p></div><div class="correction-step"><p>Minimum en x = 1 : f(1) = 2 + 3 - 12 + 5 = <strong>-2</strong>.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 52</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p>f(x) = (x<sup>2</sup> - 4) / x = x - 4/x sur R*.</p></div><div class="correction-step"><p>f'(x) = 1 + 4/x<sup>2</sup>.</p></div><div class="correction-step"><p>x<sup>2</sup> &gt; 0 pour tout x non nul, donc 4/x<sup>2</sup> &gt; 0.</p></div><div class="correction-step"><p>Ainsi f'(x) = 1 + 4/x<sup>2</sup> &gt; 0 pour tout x different de 0.</p></div><div class="correction-step"><p><strong>f est strictement croissante sur ]-infini ; 0[ et sur ]0 ; +infini[.</strong></p></div><div class="correction-step"><p>Asymptote verticale en x = 0. Limite : f tend vers +infini quand x tend vers 0+ et vers -infini quand x tend vers 0-.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 53</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p>f(x) = x<sup>2</sup> - 2x + ln(x<sup>2</sup> + 1). On cherche a montrer f(x) &gt;= -1.</p></div><div class="correction-step"><p>f'(x) = 2x - 2 + 2x/(x<sup>2</sup> + 1) = 2(x - 1) + 2x/(x<sup>2</sup> + 1).</p></div><div class="correction-step"><p>f'(0) = -2 + 0 = -2 &lt; 0. f'(1) = 0 + 2/2 = 1 &gt; 0.</p></div><div class="correction-step"><p>Par le TVI, il existe c dans ]0 ; 1[ tel que f'(c) = 0.</p></div><div class="correction-step"><p>f'(x) = 0 equivalent a : 2(x-1)(x<sup>2</sup>+1) + 2x = 0</p></div><div class="correction-step"><p>soit 2x<sup>3</sup> - 2x<sup>2</sup> + 4x - 2 = 0, ou x<sup>3</sup> - x<sup>2</sup> + 2x - 1 = 0.</p></div><div class="correction-step"><p>Cette equation du 3e degre n'a pas de solution rationnelle evidente.</p></div><div class="correction-step"><p>On peut montrer que f'(x) ne s'annule qu'une seule fois sur R (etude de g(x) = f'(x)).</p></div><div class="correction-step"><p>Le minimum de f est atteint pour une valeur x<sub>0</sub> &approx; 0.5.</p></div><div class="correction-step"><p>f(0.5) = 0.25 - 1 + ln(1.25) &approx; -0.75 + 0.223 &approx; -0.527.</p></div><div class="correction-step"><p>En fait, on verifie que f admet un unique minimum et que ce minimum est &gt; -1.</p></div><div class="correction-step"><p>De plus f(0) = 0 - 0 + ln(1) = 0, f(1) = 1 - 2 + ln(2) &approx; -0.307.</p></div><div class="correction-step"><p>Donc le minimum de f est strictement superieur a -1, d'ou <strong>f(x) &gt; -1 pour tout x reel</strong>.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 54</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p>f(x) = e<sup>x</sup> - x - 1. f'(x) = e<sup>x</sup> - 1.</p></div><div class="correction-step"><p>f'(x) = 0 si e<sup>x</sup> = 1, soit x = 0.</p></div><div class="correction-step"><p>f'(x) &lt; 0 pour x &lt; 0 (e<sup>x</sup> &lt; 1).</p></div><div class="correction-step"><p>f'(x) &gt; 0 pour x &gt; 0 (e<sup>x</sup> &gt; 1).</p></div><div class="correction-step"><p>f decroit sur ]-infini ; 0], croit sur [0 ; +infini[.</p></div><div class="correction-step"><p>Minimum en x = 0 : f(0) = 1 - 0 - 1 = <strong>0</strong>.</p></div><div class="correction-step"><p>Conclusion : <strong>f(x) &gt;= 0 pour tout x</strong>, c'est-a-dire <strong>e<sup>x</sup> &gt;= x + 1</strong>.</p></div><div class="correction-step"><p>Inegalite fondamentale : l'exponentielle est toujours au-dessus de sa tangente en 0.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 55</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p>f(x) = x<sup>3</sup> - 12x + 1. f'(x) = 3x<sup>2</sup> - 12 = 3(x<sup>2</sup> - 4) = 3(x - 2)(x + 2).</p></div><div class="correction-step"><p>f'(x) = 0 si x = -2 ou x = 2.</p></div><div class="correction-step"><p>f croit sur ]-infini ; -2], decroit sur [-2 ; 2], croit sur [2 ; +infini[.</p></div><div class="correction-step"><p>Maximum local en x = -2 : f(-2) = -8 + 24 + 1 = <strong>17</strong>.</p></div><div class="correction-step"><p>Minimum local en x = 2 : f(2) = 8 - 24 + 1 = <strong>-15</strong>.</p></div><div class="correction-step"><p>f(-infini) = -infini, f(+infini) = +infini.</p></div><div class="correction-step"><p>On a f(-2) = 17 &gt; 0 et f(2) = -15 &lt; 0. Par le TVI :</p></div><div class="correction-step"><p>f(x) = 0 admet au moins une solution dans ]-infini ; -2[ (car f croit de -infini a 17).</p></div><div class="correction-step"><p>f(x) = 0 admet au moins une solution dans ]-2 ; 2[ (car f decroit de 17 a -15, donc s'annule).</p></div><div class="correction-step"><p>f(x) = 0 admet au moins une solution dans ]2 ; +infini[ (car f croit de -15 a +infini).</p></div><div class="correction-step"><p>Conclusion : <strong>f(x) = 0 admet exactement 3 solutions</strong> (par stricte monotonie sur chaque intervalle).</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 56</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p>f(x) = (1 - x)<sup>2</sup> . e<sup>x</sup>. Calcul de f'(x) :</p></div><div class="correction-step"><p>f'(x) = 2(1-x)(-1) . e<sup>x</sup> + (1-x)<sup>2</sup> . e<sup>x</sup></p></div><div class="correction-step"><p>= -2(1-x)e<sup>x</sup> + (1-x)<sup>2</sup>e<sup>x</sup></p></div><div class="correction-step"><p>= e<sup>x</sup>(1-x)[-2 + (1-x)] = e<sup>x</sup>(1-x)(-1-x)</p></div><div class="correction-step"><p>= <strong>-e<sup>x</sup>(1-x)(x+1)</strong>.</p></div><div class="correction-step"><p>f'(x) = 0 si x = 1 ou x = -1 (e<sup>x</sup> ne s'annule jamais).</p></div><div class="correction-step"><p>Etude du signe de f'(x) = -e<sup>x</sup>(1-x)(x+1) :</p></div><div class="correction-step"><p>Sur ]-infini ; -1[ : -e<sup>x</sup> &lt; 0, (1-x) &gt; 0, (x+1) &lt; 0. Produit : (-)(+)(-) = &gt; 0.</p></div><div class="correction-step"><p>Sur ]-1 ; 1[ : -e<sup>x</sup> &lt; 0, (1-x) &gt; 0, (x+1) &gt; 0. Produit : (-)(+)(+) = &lt; 0.</p></div><div class="correction-step"><p>Sur ]1 ; +infini[ : -e<sup>x</sup> &lt; 0, (1-x) &lt; 0, (x+1) &gt; 0. Produit : (-)(-)(+) = &gt; 0.</p></div><div class="correction-step"><p>f croit sur ]-infini ; -1], decroit sur [-1 ; 1], croit sur [1 ; +infini[.</p></div><div class="correction-step"><p>Maximum en x = -1 : f(-1) = (1-(-1))<sup>2</sup> . e<sup>-1</sup> = 4 . e<sup>-1</sup> = <strong>4/e</strong>.</p></div><div class="correction-step"><p>Minimum en x = 1 : f(1) = 0 . e<sup>1</sup> = <strong>0</strong>.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 57</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p>f(x) = -x<sup>2</sup> + 6x - 5.</p></div><div class="correction-step"><p>f'(x) = -2x + 6. f'(x) = 0 si x = 3.</p></div><div class="correction-step"><p>f''(x) = -2 &lt; 0 pour tout x.</p></div><div class="correction-step"><p>f''(3) = -2 &lt; 0, donc <strong>maximum en x = 3</strong>.</p></div><div class="correction-step"><p>f(3) = -9 + 18 - 5 = <strong>4</strong>.</p></div><div class="correction-step"><p>Extremum : <strong>maximum (3, 4)</strong>.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 58</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p>f(x) = x<sup>2</sup> - 4x + 7.</p></div><div class="correction-step"><p>f'(x) = 2x - 4. f'(x) = 0 si x = 2.</p></div><div class="correction-step"><p>f''(x) = 2 &gt; 0 pour tout x.</p></div><div class="correction-step"><p>f''(2) = 2 &gt; 0, donc <strong>minimum en x = 2</strong>.</p></div><div class="correction-step"><p>f(2) = 4 - 8 + 7 = <strong>3</strong>.</p></div><div class="correction-step"><p>Extremum : <strong>minimum (2, 3)</strong>.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 59</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p>f(x) = x<sup>3</sup> - 3x + 2.</p></div><div class="correction-step"><p>f'(x) = 3x<sup>2</sup> - 3 = 3(x<sup>2</sup> - 1) = 3(x - 1)(x + 1).</p></div><div class="correction-step"><p>f'(x) = 0 si x = -1 ou x = 1.</p></div><div class="correction-step"><p>f''(x) = 6x.</p></div><div class="correction-step"><p>En x = 1 : f''(1) = 6 &gt; 0, donc <strong>minimum local</strong>. f(1) = 1 - 3 + 2 = <strong>0</strong>.</p></div><div class="correction-step"><p>En x = -1 : f''(-1) = -6 &lt; 0, donc <strong>maximum local</strong>. f(-1) = -1 + 3 + 2 = <strong>4</strong>.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 60</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p>f(x) = 2e<sup>x</sup> - x<sup>2</sup>.</p></div><div class="correction-step"><p>f'(x) = 2e<sup>x</sup> - 2x = 2(e<sup>x</sup> - x).</p></div><div class="correction-step"><p>f'(x) = 0 si e<sup>x</sup> = x.</p></div><div class="correction-step"><p>f''(x) = 2e<sup>x</sup> - 2 = 2(e<sup>x</sup> - 1). f''(x) = 0 si x = 0.</p></div><div class="correction-step"><p>On etudie g(x) = e<sup>x</sup> - x. g'(x) = e<sup>x</sup> - 1.</p></div><div class="correction-step"><p>g'(x) &lt; 0 pour x &lt; 0 (decroissante), g'(x) &gt; 0 pour x &gt; 0 (croissante).</p></div><div class="correction-step"><p>g(0) = 1 - 0 = 1 &gt; 0 et c'est le minimum de g.</p></div><div class="correction-step"><p>g(-1) = e<sup>-1</sup> + 1 &gt; 0. g(0) = 1 &gt; 0. g(-2) = e<sup>-2</sup> + 2 &gt; 0.</p></div><div class="correction-step"><p>En fait g(x) &gt; 0 pour tout x reel (on sait que e<sup>x</sup> &gt;= x + 1 &gt; x).</p></div><div class="correction-step"><p>Donc f'(x) = 2g(x) &gt; 0 pour tout x.</p></div><div class="correction-step"><p><strong>f est strictement croissante sur R.</strong> Pas d'extremum.</p></div><div class="correction-step"><p>Limites : lim(x tend vers -infini) f(x) = -infini (le terme -x<sup>2</sup> domine).</p></div><div class="correction-step"><p>lim(x tend vers +infini) f(x) = +infini (le terme e<sup>x</sup> domine).</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 61</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p>f(x) = ln(x) - x + 1 sur ]0 ; +infini[.</p></div><div class="correction-step"><p>f'(x) = 1/x - 1 = (1 - x)/x.</p></div><div class="correction-step"><p>f'(x) = 0 si x = 1.</p></div><div class="correction-step"><p>f''(x) = -1/x<sup>2</sup>.</p></div><div class="correction-step"><p>f''(1) = -1 &lt; 0, donc <strong>maximum en x = 1</strong>.</p></div><div class="correction-step"><p>f(1) = ln(1) - 1 + 1 = <strong>0</strong>.</p></div><div class="correction-step"><p>Conclusion : <strong>maximum de 0 atteint en x = 1</strong>.</p></div><div class="correction-step"><p>Ceci prouve que ln(x) - x + 1 &lt;= 0 pour tout x &gt; 0, soit ln(x) &lt;= x - 1.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 62</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p>f(x) = x<sup>4</sup> - 4x<sup>3</sup> + 6x<sup>2</sup> - 4x + 1.</p></div><div class="correction-step"><p>On reconnait le developpement de (x - 1)<sup>4</sup>.</p></div><div class="correction-step"><p>En effet : (x - 1)<sup>4</sup> = x<sup>4</sup> - 4x<sup>3</sup> + 6x<sup>2</sup> - 4x + 1. CQFD.</p></div><div class="correction-step"><p>f'(x) = 4(x - 1)<sup>3</sup>. f'(x) = 0 si x = 1.</p></div><div class="correction-step"><p>f''(x) = 12(x - 1)<sup>2</sup>.</p></div><div class="correction-step"><p>f''(1) = 0 : le test de la derivee seconde n'est pas concluant.</p></div><div class="correction-step"><p>On utilise le signe de f' : f'(x) = 4(x-1)<sup>3</sup>.</p></div><div class="correction-step"><p>Pour x &lt; 1 : (x-1)<sup>3</sup> &lt; 0, donc f' &lt; 0.</p></div><div class="correction-step"><p>Pour x &gt; 1 : (x-1)<sup>3</sup> &gt; 0, donc f' &gt; 0.</p></div><div class="correction-step"><p>f' change de negatif a positif en x = 1 : <strong>minimum en x = 1</strong>.</p></div><div class="correction-step"><p>f(1) = (1-1)<sup>4</sup> = <strong>0</strong>.</p></div><div class="correction-step"><p>De plus f(x) = (x-1)<sup>4</sup> &gt;= 0 pour tout x, avec egalite en x = 1. La fonction est convexe.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 63</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p>f(x) = (x<sup>2</sup> - 3x + 3) / (x - 1) sur R prive de 1.</p></div><div class="correction-step"><p>u = x<sup>2</sup> - 3x + 3, u' = 2x - 3. v = x - 1, v' = 1.</p></div><div class="correction-step"><p>f'(x) = ((2x - 3)(x - 1) - (x<sup>2</sup> - 3x + 3)) / (x - 1)<sup>2</sup></p></div><div class="correction-step"><p>= (2x<sup>2</sup> - 5x + 3 - x<sup>2</sup> + 3x - 3) / (x - 1)<sup>2</sup></p></div><div class="correction-step"><p>= (x<sup>2</sup> - 2x) / (x - 1)<sup>2</sup> = x(x - 2) / (x - 1)<sup>2</sup>.</p></div><div class="correction-step"><p>f'(x) = 0 si x = 0 ou x = 2.</p></div><div class="correction-step"><p>Le denominateur (x-1)<sup>2</sup> est toujours positif, donc le signe de f' est celui de x(x-2).</p></div><div class="correction-step"><p>f' &gt; 0 sur ]-infini ; 0[ et ]2 ; +infini[. f' &lt; 0 sur ]0 ; 1[ et ]1 ; 2[.</p></div><div class="correction-step"><p>f croit sur ]-infini ; 0], decroit sur ]0 ; 1[ et ]1 ; 2[, croit sur [2 ; +infini[.</p></div><div class="correction-step"><p>Maximum local en x = 0 : f(0) = (0 - 0 + 3) / (0 - 1) = <strong>-3</strong>.</p></div><div class="correction-step"><p>Minimum local en x = 2 : f(2) = (4 - 6 + 3) / (2 - 1) = <strong>1</strong>.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 64</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p>f(x) = x<sup>3</sup> - 3x sur [-2 ; 3].</p></div><div class="correction-step"><p>f'(x) = 3x<sup>2</sup> - 3 = 3(x - 1)(x + 1). Points critiques : x = -1 et x = 1.</p></div><div class="correction-step"><p>Valeurs aux bornes : f(-2) = -8 + 6 = <strong>-2</strong>. f(3) = 27 - 9 = <strong>18</strong>.</p></div><div class="correction-step"><p>Valeurs aux points critiques : f(-1) = -1 + 3 = <strong>2</strong> (maximum local).</p></div><div class="correction-step"><p>f(1) = 1 - 3 = <strong>-2</strong> (minimum local).</p></div><div class="correction-step"><p>On compare toutes les valeurs : -2 (borne), 18 (borne), 2 (critique), -2 (critique).</p></div><div class="correction-step"><p>Maximum global : <strong>f(3) = 18</strong>.</p></div><div class="correction-step"><p>Minimum global : <strong>f(-2) = f(1) = -2</strong> (atteint deux fois).</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 65</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p>f(x) = x<sup>2</sup> . e<sup>-x</sup> sur R.</p></div><div class="correction-step"><p>f'(x) = 2x . e<sup>-x</sup> + x<sup>2</sup> . (-e<sup>-x</sup>) = e<sup>-x</sup>(2x - x<sup>2</sup>)</p></div><div class="correction-step"><p>= <strong>e<sup>-x</sup> . x . (2 - x)</strong>.</p></div><div class="correction-step"><p>f'(x) = 0 si x = 0 ou x = 2.</p></div><div class="correction-step"><p>e<sup>-x</sup> &gt; 0 toujours. Le signe de f' est celui de x(2-x).</p></div><div class="correction-step"><p>f' &lt; 0 sur ]-infini ; 0[. f' &gt; 0 sur ]0 ; 2[. f' &lt; 0 sur ]2 ; +infini[.</p></div><div class="correction-step"><p>f decroit sur ]-infini ; 0], croit sur [0 ; 2], decroit sur [2 ; +infini[.</p></div><div class="correction-step"><p>On calcule f'' pour confirmer la nature des extrema :</p></div><div class="correction-step"><p>f'(x) = e<sup>-x</sup>(2x - x<sup>2</sup>).</p></div><div class="correction-step"><p>f''(x) = -e<sup>-x</sup>(2x - x<sup>2</sup>) + e<sup>-x</sup>(2 - 2x) = e<sup>-x</sup>(-2x + x<sup>2</sup> + 2 - 2x)</p></div><div class="correction-step"><p>= e<sup>-x</sup>(x<sup>2</sup> - 4x + 2).</p></div><div class="correction-step"><p>f''(2) = e<sup>-2</sup>(4 - 8 + 2) = e<sup>-2</sup> . (-2) &lt; 0. Donc <strong>maximum en x = 2</strong>.</p></div><div class="correction-step"><p>f(2) = 4 . e<sup>-2</sup> = <strong>4/e<sup>2</sup></strong> &approx; 0,541.</p></div><div class="correction-step"><p>f''(0) = e<sup>0</sup>(0 - 0 + 2) = 2 &gt; 0. Donc <strong>minimum en x = 0</strong>.</p></div><div class="correction-step"><p>f(0) = 0 . e<sup>0</sup> = <strong>0</strong>.</p></div><div class="correction-step"><p>Limites : lim(x tend vers +infini) f(x) = 0 (croissances comparees).</p></div><div class="correction-step"><p>lim(x tend vers -infini) f(x) = +infini (x<sup>2</sup> domine e<sup>-x</sup> car e<sup>-x</sup> = e<sup>|x|</sup> tend vers +infini).</p></div>
+    </div>
+</div>
+</div>
+</div><div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #172554 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 3</div>
+        <div class="section-title">Extrema, parite, limites et asymptotes</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 66</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">Boite sans couvercle, base carree de cote x, hauteur h.</div><div class="correction-step">Volume : V = x<sup>2</sup> . h = 108, donc h = 108 / x<sup>2</sup>.</div><div class="correction-step">Surface totale (sans couvercle) : S = x<sup>2</sup> + 4xh = x<sup>2</sup> + 432/x.</div><div class="correction-step">On derive : S'(x) = 2x - 432/x<sup>2</sup>.</div><div class="correction-step">S'(x) = 0 donne 2x<sup>3</sup> = 432, soit x<sup>3</sup> = 216, donc x = <span class='math-inline'>6</span>.</div><div class="correction-step">Alors h = 108/36 = <span class='math-inline'>3</span>.</div><div class="correction-step">S'(x) &lt; 0 pour x &lt; 6 et S'(x) &gt; 0 pour x &gt; 6, donc x = 6 est un minimum.</div><div class="correction-step">Surface minimale : S(6) = 36 + 432/6 = 36 + 72 = <span class='math-inline'>108 cm<sup>2</sup></span>.</div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 67</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">f(x) = x + 2/x + ln(x) sur ]0, +inf[.</div><div class="correction-step">f'(x) = 1 - 2/x<sup>2</sup> + 1/x = (x<sup>2</sup> + x - 2)/x<sup>2</sup>.</div><div class="correction-step">On factorise le numerateur : x<sup>2</sup> + x - 2 = (x - 1)(x + 2).</div><div class="correction-step">Sur ]0, +inf[, x + 2 &gt; 0, donc le signe de f' est celui de (x - 1).</div><div class="correction-step">f'(x) &lt; 0 pour x &lt; 1, f'(x) = 0 en x = 1, f'(x) &gt; 0 pour x &gt; 1.</div><div class="correction-step">On calcule f''(x) = 2/x<sup>3</sup> + 1 - 4/x<sup>3</sup> = 1 - 2/x<sup>3</sup>.</div><div class="correction-step">f''(1) = 1 - 2 = ... attendons, recalculons f''.</div><div class="correction-step">f'(x) = 1 - 2x<sup>-2</sup> + x<sup>-1</sup>. Donc f''(x) = 4x<sup>-3</sup> - x<sup>-2</sup> = (4 - x)/x<sup>3</sup>.</div><div class="correction-step">f''(1) = (4 - 1)/1 = 3 &gt; 0, donc x = 1 est un <strong>minimum</strong>.</div><div class="correction-step">f(1) = 1 + 2 + ln(1) = 1 + 2 + 0 = <span class='math-inline'>3</span>.</div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 69</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">f(x) = x<sup>4</sup> - 2x<sup>2</sup> + 1.</div><div class="correction-step">f(-x) = (-x)<sup>4</sup> - 2(-x)<sup>2</sup> + 1 = x<sup>4</sup> - 2x<sup>2</sup> + 1 = f(x).</div><div class="correction-step">Pour tout x, f(-x) = f(x), donc f est <strong>paire</strong>.</div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 70</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">f(x) = x<sup>3</sup> - 3x.</div><div class="correction-step">f(-x) = (-x)<sup>3</sup> - 3(-x) = -x<sup>3</sup> + 3x = -(x<sup>3</sup> - 3x) = -f(x).</div><div class="correction-step">Pour tout x, f(-x) = -f(x), donc f est <strong>impaire</strong>.</div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 71</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">f(x) = x<sup>2</sup> + x + 1.</div><div class="correction-step">f(-x) = (-x)<sup>2</sup> + (-x) + 1 = x<sup>2</sup> - x + 1.</div><div class="correction-step">f(-x) = x<sup>2</sup> - x + 1 est different de f(x) = x<sup>2</sup> + x + 1.</div><div class="correction-step">Et f(-x) n'est pas non plus egal a -f(x) = -x<sup>2</sup> - x - 1.</div><div class="correction-step">Donc f n'est <strong>ni paire ni impaire</strong>.</div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 72</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">f(x) = e<sup>x<sup>2</sup></sup> - 1.</div><div class="correction-step">f(-x) = e<sup>(-x)<sup>2</sup></sup> - 1 = e<sup>x<sup>2</sup></sup> - 1 = f(x).</div><div class="correction-step">Pour tout x, f(-x) = f(x), donc f est <strong>paire</strong>.</div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 73</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">f(x) = x . e<sup>-x<sup>2</sup></sup>.</div><div class="correction-step">f(-x) = (-x) . e<sup>-(-x)<sup>2</sup></sup> = -x . e<sup>-x<sup>2</sup></sup> = -f(x).</div><div class="correction-step">Pour tout x, f(-x) = -f(x), donc f est <strong>impaire</strong>.</div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 74</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">f(x) = ln(x<sup>2</sup> + 1).</div><div class="correction-step">f(-x) = ln((-x)<sup>2</sup> + 1) = ln(x<sup>2</sup> + 1) = f(x).</div><div class="correction-step">Pour tout x, f(-x) = f(x), donc f est <strong>paire</strong>.</div><p>La courbe de f est symetrique par rapport a l'axe des ordonnees (axe y).</p>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 75</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><strong>cos(x)</strong> : cos(-x) = cos(x) pour tout x (propriete fondamentale). Donc cos est <strong>paire</strong>.</div><div class="correction-step"><strong>sin(x)</strong> : sin(-x) = -sin(x) pour tout x. Donc sin est <strong>impaire</strong>.</div><div class="correction-step"><strong>h(x) = cos(x) + sin(x)</strong> :</div><div class="correction-step">h(-x) = cos(-x) + sin(-x) = cos(x) - sin(x).</div><div class="correction-step">h(-x) = cos(x) - sin(x) est different de h(x) = cos(x) + sin(x).</div><div class="correction-step">Et h(-x) n'est pas non plus egal a -h(x) = -cos(x) - sin(x).</div><div class="correction-step">Donc h n'est <strong>ni paire ni impaire</strong>.</div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 76</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">f est impaire, donc pour tout x : f(-x) = -f(x).</div><div class="correction-step">On donne f(1) = 2 et f(-2) = -5.</div><div class="correction-step"><strong>f(-1)</strong> = -f(1) = <span class='math-inline'>-2</span> (par imparite).</div><div class="correction-step"><strong>f(2)</strong> : on sait que f(-2) = -f(2), soit -5 = -f(2), donc f(2) = <span class='math-inline'>5</span>.</div><div class="correction-step"><strong>f(0)</strong> : f(0) = -f(0) par imparite, donc 2f(0) = 0, soit f(0) = <span class='math-inline'>0</span>.</div><p>Rappel : toute fonction impaire definie en 0 verifie f(0) = 0.</p>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 77</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">f(x) = (e<sup>x</sup> - e<sup>-x</sup>) / (e<sup>x</sup> + e<sup>-x</sup>).</div><div class="correction-step">f(-x) = (e<sup>-x</sup> - e<sup>x</sup>) / (e<sup>-x</sup> + e<sup>x</sup>).</div><div class="correction-step">Au numerateur : e<sup>-x</sup> - e<sup>x</sup> = -(e<sup>x</sup> - e<sup>-x</sup>).</div><div class="correction-step">Au denominateur : e<sup>-x</sup> + e<sup>x</sup> = e<sup>x</sup> + e<sup>-x</sup>.</div><div class="correction-step">Donc f(-x) = -(e<sup>x</sup> - e<sup>-x</sup>) / (e<sup>x</sup> + e<sup>-x</sup>) = <span class='math-inline'>-f(x)</span>.</div><div class="correction-step">f est <strong>impaire</strong>.</div><div class="correction-step">f(0) = (e<sup>0</sup> - e<sup>0</sup>) / (e<sup>0</sup> + e<sup>0</sup>) = (1 - 1)/(1 + 1) = <span class='math-inline'>0</span>.</div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 78</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">f(x) = x<sup>2</sup> - 4 definie sur [-3, 3].</div><div class="correction-step">f(-x) = (-x)<sup>2</sup> - 4 = x<sup>2</sup> - 4 = f(x). f est <strong>paire</strong>.</div><div class="correction-step">On peut donc etudier f sur [0, 3] et etendre par symetrie.</div><div class="correction-step">f'(x) = 2x. Sur [0, 3], f'(x) &gt; 0, donc f est croissante.</div><div class="correction-step">Minimum en x = 0 : f(0) = 0<sup>2</sup> - 4 = <span class='math-inline'>-4</span>.</div><div class="correction-step">Maximum en x = 3 (ou x = -3, par parite) : f(3) = 9 - 4 = <span class='math-inline'>5</span>.</div><p>Par parite, f(-3) = f(3) = 5.</p>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 79</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">f(x) = 3x<sup>2</sup> - 2x + 1. Polynome de degre 2.</div><div class="correction-step">Le terme dominant est 3x<sup>2</sup> (coefficient positif).</div><div class="correction-step">lim f(x) quand x → +inf = <span class='math-inline'>+inf</span> (le terme 3x<sup>2</sup> domine).</div><div class="correction-step">lim f(x) quand x → -inf = <span class='math-inline'>+inf</span> (x<sup>2</sup> est toujours positif).</div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 80</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">f(x) = (2x - 1)/(x + 3). Fonction rationnelle.</div><div class="correction-step"><strong>Limites en +inf et -inf</strong> : meme degre au numerateur et denominateur.</div><div class="correction-step">lim f(x) quand x → +inf = 2/1 = <span class='math-inline'>2</span>.</div><div class="correction-step">lim f(x) quand x → -inf = 2/1 = <span class='math-inline'>2</span>.</div><div class="correction-step">Donc y = 2 est une <strong>asymptote horizontale</strong> en +inf et -inf.</div><div class="correction-step"><strong>Asymptote verticale</strong> : le denominateur s'annule en x = -3.</div><div class="correction-step">lim f(x) quand x → -3<sup>+</sup> : numerateur → -7, denominateur → 0<sup>+</sup>, donc <span class='math-inline'>-inf</span>.</div><div class="correction-step">lim f(x) quand x → -3<sup>-</sup> : numerateur → -7, denominateur → 0<sup>-</sup>, donc <span class='math-inline'>+inf</span>.</div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 81</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">f(x) = e<sup>x</sup> / (x<sup>2</sup> + 1).</div><div class="correction-step"><strong>En +inf</strong> : e<sup>x</sup> → +inf et x<sup>2</sup> + 1 → +inf. Forme +inf/+inf.</div><div class="correction-step">Par croissance comparee, l'exponentielle domine toute puissance de x.</div><div class="correction-step">Donc lim f(x) quand x → +inf = <span class='math-inline'>+inf</span>.</div><div class="correction-step"><strong>En -inf</strong> : e<sup>x</sup> → 0 et x<sup>2</sup> + 1 → +inf.</div><div class="correction-step">Donc lim f(x) quand x → -inf = 0/(+inf) = <span class='math-inline'>0</span>.</div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 82</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">f(x) = (x<sup>2</sup> - x + 1)/(2x<sup>2</sup> + 3).</div><div class="correction-step">Forme +inf/+inf en +inf. Meme degre (2) au numerateur et au denominateur.</div><div class="correction-step">On factorise par x<sup>2</sup> : lim = lim (1 - 1/x + 1/x<sup>2</sup>)/(2 + 3/x<sup>2</sup>).</div><div class="correction-step">Quand x → +inf, 1/x → 0 et 1/x<sup>2</sup> → 0.</div><div class="correction-step">Donc lim f(x) quand x → +inf = <span class='math-inline'>1/2</span>.</div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 83</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">f(x) = (x<sup>3</sup> - 1)/(x<sup>2</sup> + 2x).</div><div class="correction-step">En +inf, degre numerateur (3) &gt; degre denominateur (2).</div><div class="correction-step">Forme +inf/+inf. On factorise par x<sup>2</sup> :</div><div class="correction-step">= (x - 1/x<sup>2</sup>) / (1 + 2/x).</div><div class="correction-step">Quand x → +inf : numerateur → +inf (x domine), denominateur → 1.</div><div class="correction-step">Donc lim f(x) quand x → +inf = <span class='math-inline'>+inf</span>.</div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 84</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">On cherche lim (racine(x + 1) - racine(x)) quand x → +inf.</div><div class="correction-step">Forme indeterminee +inf - +inf. On multiplie par le conjugue :</div><div class="correction-step">= (racine(x + 1) - racine(x))(racine(x + 1) + racine(x)) / (racine(x + 1) + racine(x)).</div><div class="correction-step">= (x + 1 - x) / (racine(x + 1) + racine(x)).</div><div class="correction-step">= 1 / (racine(x + 1) + racine(x)).</div><div class="correction-step">Quand x → +inf, le denominateur → +inf, donc le tout → <span class='math-inline'>0</span>.</div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 85</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">On cherche lim (x<sup>2</sup> - 4)/(x - 2) quand x → 2.</div><div class="correction-step">Forme 0/0. On factorise le numerateur :</div><div class="correction-step">x<sup>2</sup> - 4 = (x - 2)(x + 2).</div><div class="correction-step">Donc (x<sup>2</sup> - 4)/(x - 2) = (x - 2)(x + 2)/(x - 2) = x + 2 pour x different de 2.</div><div class="correction-step">lim (x + 2) quand x → 2 = <span class='math-inline'>4</span>.</div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 86</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">f(x) = (2x + 1)/(x - 3).</div><div class="correction-step"><strong>Limites en +inf et -inf</strong> : meme degre (1).</div><div class="correction-step">lim f(x) quand x → +inf = 2/1 = <span class='math-inline'>2</span>.</div><div class="correction-step">lim f(x) quand x → -inf = 2/1 = <span class='math-inline'>2</span>.</div><div class="correction-step">Asymptote horizontale : <strong>y = 2</strong>.</div><div class="correction-step"><strong>Asymptote verticale</strong> : x = 3 (denominateur nul).</div><div class="correction-step">lim f(x) quand x → 3<sup>-</sup> : numerateur → 7, denominateur → 0<sup>-</sup>, donc <span class='math-inline'>-inf</span>.</div><div class="correction-step">lim f(x) quand x → 3<sup>+</sup> : numerateur → 7, denominateur → 0<sup>+</sup>, donc <span class='math-inline'>+inf</span>.</div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 87</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">On cherche lim x<sup>2</sup> . e<sup>-x</sup> quand x → +inf.</div><div class="correction-step">On reecrit : x<sup>2</sup> . e<sup>-x</sup> = x<sup>2</sup> / e<sup>x</sup>.</div><div class="correction-step">Forme +inf/+inf. Par croissance comparee, l'exponentielle e<sup>x</sup> domine toute puissance de x.</div><div class="correction-step">Donc lim = <span class='math-inline'>0</span> quand x → +inf.</div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 88</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">f(x) = x + 1 + e<sup>-x</sup>.</div><div class="correction-step">On cherche si y = x + 1 est asymptote oblique en +inf.</div><div class="correction-step">On calcule lim (f(x) - (x + 1)) quand x → +inf.</div><div class="correction-step">f(x) - (x + 1) = (x + 1 + e<sup>-x</sup>) - (x + 1) = e<sup>-x</sup>.</div><div class="correction-step">lim e<sup>-x</sup> quand x → +inf = <span class='math-inline'>0</span>.</div><div class="correction-step">Puisque lim (f(x) - (x + 1)) = 0, la droite <strong>y = x + 1</strong> est bien asymptote oblique de la courbe de f en +inf.</div><p>De plus, e<sup>-x</sup> &gt; 0 pour tout x, donc la courbe est au-dessus de l'asymptote.</p>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 89</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><strong>lim ln(x)/x quand x → +inf</strong> :</div><div class="correction-step">Par croissance comparee, ln(x) croit beaucoup plus lentement que x.</div><div class="correction-step">Donc lim ln(x)/x = <span class='math-inline'>0</span> quand x → +inf.</div><div class="correction-step"><strong>lim x . ln(x) quand x → 0<sup>+</sup></strong> :</div><div class="correction-step">Forme indeterminee 0 . (-inf). On reecrit comme ln(x)/(1/x).</div><div class="correction-step">Quand x → 0<sup>+</sup>, ln(x) → -inf et 1/x → +inf. Forme -inf/+inf.</div><div class="correction-step">On reecrit : x . ln(x) = ln(x) / (1/x) et on pose X = 1/x, X → +inf.</div><div class="correction-step">= ln(1/X) / X = -ln(X)/X → 0 par croissance comparee.</div><div class="correction-step">Donc lim x . ln(x) = <span class='math-inline'>0</span> quand x → 0<sup>+</sup>.</div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 90</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">f(x) = (x<sup>2</sup> + x - 1)/(x - 1).</div><div class="correction-step">On effectue la division euclidienne : x<sup>2</sup> + x - 1 = (x + 2)(x - 1) + 1.</div><div class="correction-step">Donc f(x) = x + 2 + 1/(x - 1).</div><div class="correction-step"><strong>Asymptote oblique</strong> : lim (f(x) - (x + 2)) = lim 1/(x - 1) = 0 en +inf et -inf.</div><div class="correction-step">Donc y = <span class='math-inline'>x + 2</span> est asymptote oblique en +inf et -inf.</div><div class="correction-step"><strong>Asymptote verticale</strong> : x = 1 (denominateur nul).</div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 91</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">On cherche lim (e<sup>x</sup> - 1)/x quand x → 0.</div><div class="correction-step">Forme indeterminee 0/0.</div><div class="correction-step">On reconnait un taux d'accroissement : (e<sup>x</sup> - e<sup>0</sup>)/(x - 0).</div><div class="correction-step">C'est exactement le nombre derive de la fonction exp en 0.</div><div class="correction-step">Or (e<sup>x</sup>)' = e<sup>x</sup>, donc (e<sup>x</sup>)'(0) = e<sup>0</sup> = 1.</div><div class="correction-step">Donc lim (e<sup>x</sup> - 1)/x = <span class='math-inline'>1</span> quand x → 0.</div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 92</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">On cherche lim ln(x + 1)/x quand x → 0.</div><div class="correction-step">Forme indeterminee 0/0.</div><div class="correction-step">On reconnait un taux d'accroissement : (ln(x + 1) - ln(0 + 1))/(x - 0).</div><div class="correction-step">C'est le nombre derive de la fonction g(x) = ln(x + 1) en x = 0.</div><div class="correction-step">g'(x) = 1/(x + 1), donc g'(0) = 1/(0 + 1) = 1.</div><div class="correction-step">Donc lim ln(x + 1)/x = <span class='math-inline'>1</span> quand x → 0.</div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 93</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">f(x) = (3x<sup>2</sup> + 2x + 1)/(x<sup>2</sup> + 1).</div><div class="correction-step"><strong>Limites en +inf et -inf</strong> : meme degre (2).</div><div class="correction-step">lim f(x) = 3/1 = <span class='math-inline'>3</span> en +inf et -inf. AH : y = 3.</div><div class="correction-step">On calcule f'(x). On pose u = 3x<sup>2</sup> + 2x + 1 et v = x<sup>2</sup> + 1.</div><div class="correction-step">f'(x) = (u'v - uv')/v<sup>2</sup> = ((6x + 1)(x<sup>2</sup> + 1) - (3x<sup>2</sup> + 2x + 1)(2x))/(x<sup>2</sup> + 1)<sup>2</sup>.</div><div class="correction-step">Numerateur : 6x<sup>3</sup> + x<sup>2</sup> + 6x + 1 - 6x<sup>3</sup> - 4x<sup>2</sup> - 2x = -3x<sup>2</sup> + 4x + 1...</div><div class="correction-step">Recalculons plus soigneusement :</div><div class="correction-step">= (6x<sup>3</sup> + x<sup>2</sup> + 6x + 1) - (6x<sup>3</sup> + 4x<sup>2</sup> + 2x) = -3x<sup>2</sup> + 4x + 1.</div><div class="correction-step">f'(x) = (-3x<sup>2</sup> + 4x + 1)/(x<sup>2</sup> + 1)<sup>2</sup>.</div><div class="correction-step">f'(x) = 0 quand -3x<sup>2</sup> + 4x + 1 = 0. Delta = 16 + 12 = 28. x = (-4 + racine(28))/(-6) = (4 - 2racine(7))/(-6)...</div><div class="correction-step">On factorise : -3x<sup>2</sup> + 4x + 1 = -(3x<sup>2</sup> - 4x - 1).</div><div class="correction-step">3x<sup>2</sup> - 4x - 1 = 0 : x = (4 + racine(16 + 12))/6 = (4 + racine(28))/6 = (2 + racine(7))/3.</div><div class="correction-step">f' &gt; 0 pour x entre les racines, f' &lt; 0 a l'exterieur.</div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 94</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">f(x) = x<sup>2</sup> . e<sup>-x</sup>.</div><div class="correction-step"><strong>En +inf</strong> : x<sup>2</sup> → +inf, e<sup>-x</sup> → 0.</div><div class="correction-step">On reecrit x<sup>2</sup>/e<sup>x</sup>. Par croissance comparee, e<sup>x</sup> domine x<sup>2</sup>.</div><div class="correction-step">Donc lim f(x) = <span class='math-inline'>0</span> quand x → +inf.</div><div class="correction-step">y = 0 est une <strong>asymptote horizontale</strong> en +inf.</div><div class="correction-step"><strong>En -inf</strong> : x<sup>2</sup> → +inf et e<sup>-x</sup> → +inf (car -x → +inf).</div><div class="correction-step">Donc lim f(x) = <span class='math-inline'>+inf</span> quand x → -inf.</div><div class="correction-step">Pas d'asymptote verticale. Asymptote horizontale y = 0 en +inf uniquement.</div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 95</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">f(x) = x<sup>2</sup>.</div><div class="correction-step">f'(x) = 2x.</div><div class="correction-step">f''(x) = 2.</div><div class="correction-step">f''(x) = 2 &gt; 0 pour tout x reel.</div><div class="correction-step">Donc f est <strong>convexe sur R</strong> (sa courbe est au-dessus de toutes ses tangentes).</div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 96</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">f(x) = ln(x) sur ]0, +inf[.</div><div class="correction-step">f'(x) = 1/x.</div><div class="correction-step">f''(x) = -1/x<sup>2</sup>.</div><div class="correction-step">Pour tout x &gt; 0, x<sup>2</sup> &gt; 0, donc -1/x<sup>2</sup> &lt; 0.</div><div class="correction-step">f''(x) &lt; 0 sur tout ]0, +inf[, donc f est <strong>concave sur ]0, +inf[</strong>.</div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 97</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">f(x) = x<sup>3</sup> - 6x<sup>2</sup> + 9x + 1.</div><div class="correction-step">f'(x) = 3x<sup>2</sup> - 12x + 9 = 3(x<sup>2</sup> - 4x + 3) = 3(x - 1)(x - 3).</div><div class="correction-step">f''(x) = 6x - 12 = 6(x - 2).</div><div class="correction-step">f''(x) &lt; 0 pour x &lt; 2 : f est <strong>concave</strong> sur ]-inf, 2[.</div><div class="correction-step">f''(x) &gt; 0 pour x &gt; 2 : f est <strong>convexe</strong> sur ]2, +inf[.</div><div class="correction-step">f''(x) = 0 en x = 2 : point d'inflexion.</div><div class="correction-step">f(2) = 2<sup>3</sup> - 6(2)<sup>2</sup> + 9(2) + 1 = 8 - 24 + 18 + 1 = <span class='math-inline'>3</span>.</div><p>Le point d'inflexion est (2, 3).</p>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 98</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">f(x) = e<sup>x</sup> + x<sup>2</sup>.</div><div class="correction-step">f'(x) = e<sup>x</sup> + 2x.</div><div class="correction-step">f''(x) = e<sup>x</sup> + 2.</div><div class="correction-step">Pour tout x reel, e<sup>x</sup> &gt; 0, donc e<sup>x</sup> + 2 &gt; 2 &gt; 0.</div><div class="correction-step">f''(x) &gt; 0 sur tout R, donc f est <strong>convexe sur R</strong>.</div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 99</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">f(x) = x<sup>3</sup> - 3x.</div><div class="correction-step">f'(x) = 3x<sup>2</sup> - 3.</div><div class="correction-step">f''(x) = 6x.</div><div class="correction-step">f''(x) &lt; 0 pour x &lt; 0 : f est <strong>concave</strong> sur ]-inf, 0[.</div><div class="correction-step">f''(x) &gt; 0 pour x &gt; 0 : f est <strong>convexe</strong> sur ]0, +inf[.</div><div class="correction-step">f''(0) = 0 : changement de convexite, donc <strong>point d'inflexion en x = 0</strong>.</div><p>f(0) = 0. Le point d'inflexion est (0, 0).</p>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 100</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">f(x) = (x<sup>2</sup> - 1) . e<sup>-x</sup>.</div><div class="correction-step">On pose u = x<sup>2</sup> - 1 et v = e<sup>-x</sup>.</div><div class="correction-step">f'(x) = 2x . e<sup>-x</sup> + (x<sup>2</sup> - 1)(-e<sup>-x</sup>) = (-x<sup>2</sup> + 2x + 1) . e<sup>-x</sup>.</div><div class="correction-step">On calcule f''(x) en derivant f' :</div><div class="correction-step">f''(x) = (-2x + 2) . e<sup>-x</sup> + (-x<sup>2</sup> + 2x + 1)(-e<sup>-x</sup>).</div><div class="correction-step">= e<sup>-x</sup> . (-2x + 2 + x<sup>2</sup> - 2x - 1) = e<sup>-x</sup> . (x<sup>2</sup> - 4x + 1).</div><div class="correction-step">On factorise x<sup>2</sup> - 4x + 1 : Delta = 16 - 4 = 12.</div><div class="correction-step">x = (4 - 2racine(3))/2 = 2 - racine(3) ou x = 2 + racine(3).</div><div class="correction-step">f''(x) s'annule en x = 2 - racine(3) et x = 2 + racine(3).</div><div class="correction-step">e<sup>-x</sup> &gt; 0 toujours, donc f'' change de signe a ces points.</div><div class="correction-step">La courbe admet <strong>deux points d'inflexion</strong> d'abscisses 2 - racine(3) et 2 + racine(3).</div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 101</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">f(x) = ln(x<sup>2</sup> + 1).</div><div class="correction-step">f'(x) = 2x/(x<sup>2</sup> + 1).</div><div class="correction-step">Pour f''(x), on utilise (u'v - uv')/v<sup>2</sup> avec u = 2x et v = x<sup>2</sup> + 1.</div><div class="correction-step">u' = 2, v' = 2x.</div><div class="correction-step">f''(x) = (2(x<sup>2</sup> + 1) - 2x . 2x)/(x<sup>2</sup> + 1)<sup>2</sup> = (2x<sup>2</sup> + 2 - 4x<sup>2</sup>)/(x<sup>2</sup> + 1)<sup>2</sup>.</div><div class="correction-step">f''(x) = 2(1 - x<sup>2</sup>)/(x<sup>2</sup> + 1)<sup>2</sup> = 2(1 - x)(1 + x)/(x<sup>2</sup> + 1)<sup>2</sup>.</div><div class="correction-step">Le denominateur est toujours positif. Le signe de f'' est celui de 1 - x<sup>2</sup>.</div><div class="correction-step">f''(x) &gt; 0 pour x dans ]-1, 1[ (convexe).</div><div class="correction-step">f''(x) &lt; 0 pour x &lt; -1 ou x &gt; 1 (concave).</div><div class="correction-step">f'' s'annule en x = -1 et x = 1 : <strong>deux points d'inflexion</strong>.</div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 102</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">f(x) = e<sup>x</sup>. f'(x) = e<sup>x</sup>. f''(x) = e<sup>x</sup>.</div><div class="correction-step">Pour tout x reel, e<sup>x</sup> &gt; 0, donc f''(x) = e<sup>x</sup> &gt; 0 sur R.</div><div class="correction-step">La fonction exponentielle est <strong>convexe sur R</strong>.</div><div class="correction-step">Tangente en x = 0 : y = f'(0)(x - 0) + f(0) = e<sup>0</sup> . x + e<sup>0</sup> = x + 1.</div><div class="correction-step">Par convexite, la courbe de f est au-dessus de toutes ses tangentes.</div><div class="correction-step">En particulier, pour tout x : e<sup>x</sup> est au-dessus de la tangente y = x + 1.</div><div class="correction-step">Donc <strong>e<sup>x</sup> >= 1 + x</strong> pour tout x reel.</div>
+    </div>
+</div>
+</div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 68</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <p>On encadre un champ rectangulaire adjacent a un mur avec 100 m de cloture. Soit L la longueur parallele au mur et l la largeur perpendiculaire.</p><div class="correction-step"><p>Cloture utilisee : L + 2l = 100 (pas de cloture le long du mur). Donc L = 100 - 2l.</p></div><div class="correction-step"><p>Aire du champ : A = L x l = (100 - 2l) x l = 100l - 2l<sup>2</sup>.</p></div><div class="correction-step"><p>A'(l) = 100 - 4l. A'(l) = 0 quand l = 25. A''(l) = -4 &lt; 0 donc maximum.</p></div><div class="correction-step"><p>l = 25 m, L = 100 - 50 = 50 m. Aire maximale = 50 x 25 = 1250 m<sup>2</sup>.</p></div>
+    </div>
+</div><div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #0c4a6e 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 4</div>
+        <div class="section-title">Etudes completes type BAC</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 103</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><strong>a) Limites en l'infini et asymptote horizontale</strong></div><div class="correction-step">f(x) = (x<sup>2</sup> - 1)/(x<sup>2</sup> + 1). Pour x tendant vers +infini ou -infini, on divise numerateur et denominateur par x<sup>2</sup>.</div><div class="correction-step">f(x) = (1 - 1/x<sup>2</sup>)/(1 + 1/x<sup>2</sup>). Quand x tend vers +-infini, 1/x<sup>2</sup> tend vers 0.</div><div class="correction-step">Donc lim f(x) quand x tend vers +-infini = <span class='math-inline'>1</span>.</div><div class="correction-step">La droite <span class='math-inline'>y = 1</span> est asymptote horizontale en +infini et -infini.</div><div class="correction-step"><strong>b) Parite de f</strong></div><div class="correction-step">f(-x) = ((-x)<sup>2</sup> - 1)/((-x)<sup>2</sup> + 1) = (x<sup>2</sup> - 1)/(x<sup>2</sup> + 1) = f(x).</div><div class="correction-step">f est <strong>paire</strong>. On peut donc etudier f sur [0, +infini[ et deduire le tableau sur ]-infini, 0] par symetrie axiale par rapport a l'axe des ordonnees.</div><div class="correction-step"><strong>c) Derivee et variations</strong></div><div class="correction-step">f est de la forme u/v avec u = x<sup>2</sup> - 1 et v = x<sup>2</sup> + 1.</div><div class="correction-step">f'(x) = (u'v - uv')/v<sup>2</sup> = (2x(x<sup>2</sup> + 1) - (x<sup>2</sup> - 1)(2x))/(x<sup>2</sup> + 1)<sup>2</sup>.</div><div class="correction-step">Numerateur : 2x<sup>3</sup> + 2x - 2x<sup>3</sup> + 2x = <span class='math-inline'>4x</span>.</div><div class="correction-step">Donc f'(x) = 4x/(x<sup>2</sup> + 1)<sup>2</sup>. Le denominateur est toujours strictement positif.</div><div class="correction-step">Sur [0, +infini[ : f'(x) = 4x/(...) &gt;= 0 avec f'(0) = 0. f est <strong>croissante sur [0, +infini[</strong>.</div><div class="correction-step">Par parite : f est <strong>decroissante sur ]-infini, 0]</strong> et <strong>croissante sur [0, +infini[</strong>.</div><div class="correction-step">Minimum en x = 0 : f(0) = (0 - 1)/(0 + 1) = <span class='math-inline'>-1</span>.</div><div class="correction-step"><strong>d) Nombre de solutions de f(x) = k</strong></div><div class="correction-step">f part de -1 (minimum en x = 0) et tend vers 1 a l'infini (sans jamais l'atteindre).</div><div class="correction-step">Pour k dans ]-1, 1[ : l'equation f(x) = k a exactement <span class='math-inline'>2 solutions</span> (par parite, symetriques).</div><div class="correction-step">Pour k = -1 : <span class='math-inline'>1 solution</span> (x = 0).</div><div class="correction-step">Pour k = 1 ou k &lt; -1 ou k &gt; 1 : <span class='math-inline'>aucune solution</span>.</div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 104</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><strong>a) Limites aux bornes</strong></div><div class="correction-step">f(x) = (x - 1)<sup>2</sup> . e<sup>x</sup>.</div><div class="correction-step"><strong>En +infini</strong> : (x-1)<sup>2</sup> tend vers +infini et e<sup>x</sup> tend vers +infini. Leur produit tend vers <span class='math-inline'>+infini</span>.</div><div class="correction-step"><strong>En -infini</strong> : e<sup>x</sup> tend vers 0 et (x-1)<sup>2</sup> tend vers +infini. Par croissance comparee, e<sup>x</sup> l'emporte : (x-1)<sup>2</sup> . e<sup>x</sup> tend vers <span class='math-inline'>0</span>.</div><div class="correction-step">L'axe des abscisses (y = 0) est asymptote horizontale en -infini.</div><div class="correction-step"><strong>b) Derivee</strong></div><div class="correction-step">On utilise (uv)' = u'v + uv' avec u = (x-1)<sup>2</sup> et v = e<sup>x</sup>.</div><div class="correction-step">u' = 2(x-1) et v' = e<sup>x</sup>.</div><div class="correction-step">f'(x) = 2(x-1)e<sup>x</sup> + (x-1)<sup>2</sup>e<sup>x</sup> = e<sup>x</sup>[2(x-1) + (x-1)<sup>2</sup>].</div><div class="correction-step">f'(x) = e<sup>x</sup> . (x-1)[2 + (x-1)] = e<sup>x</sup> . (x-1)(x+1) = <span class='math-inline'>e<sup>x</sup>(x-1)(x+1)</span>.</div><div class="correction-step"><strong>c) Tableau de variations</strong></div><div class="correction-step">f'(x) = 0 si x = -1 ou x = 1 (e<sup>x</sup> &gt; 0 toujours).</div><div class="correction-step">Signe de f' : e<sup>x</sup> &gt; 0. On etudie (x-1)(x+1) :</div><div class="correction-step">Sur ]-infini, -1[ : (x-1)(x+1) &gt; 0 donc f' &gt; 0.</div><div class="correction-step">Sur ]-1, 1[ : (x-1)(x+1) &lt; 0 donc f' &lt; 0.</div><div class="correction-step">Sur ]1, +infini[ : (x-1)(x+1) &gt; 0 donc f' &gt; 0.</div><div class="correction-step">Maximum en x = -1 : f(-1) = (-2)<sup>2</sup> . e<sup>-1</sup> = <span class='math-inline'>4/e</span>.</div><div class="correction-step">Minimum en x = 1 : f(1) = (0)<sup>2</sup> . e<sup>1</sup> = <span class='math-inline'>0</span>.</div><div class="correction-step"><strong>d) Minimum de f</strong></div><div class="correction-step">D'apres le tableau de variations, le minimum de f est atteint en x = 1 avec <span class='math-inline'>f(1) = 0</span>.</div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 105</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><strong>a) Limites aux bornes</strong></div><div class="correction-step">f(x) = x<sup>2</sup> . e<sup>-x</sup>.</div><div class="correction-step"><strong>En +infini</strong> : e<sup>-x</sup> = 1/e<sup>x</sup>. Donc f(x) = x<sup>2</sup>/e<sup>x</sup>. Par croissance comparee, l'exponentielle l'emporte sur toute puissance de x. Donc lim = <span class='math-inline'>0</span>.</div><div class="correction-step"><strong>En -infini</strong> : x<sup>2</sup> tend vers +infini et e<sup>-x</sup> tend vers +infini. Leur produit tend vers <span class='math-inline'>+infini</span>.</div><div class="correction-step"><strong>b) Derivee</strong></div><div class="correction-step">f(x) = x<sup>2</sup> . e<sup>-x</sup>. f'(x) = 2x . e<sup>-x</sup> + x<sup>2</sup> . (-e<sup>-x</sup>).</div><div class="correction-step">f'(x) = e<sup>-x</sup>(2x - x<sup>2</sup>) = e<sup>-x</sup> . x(2 - x) = <span class='math-inline'>x(2-x) . e<sup>-x</sup></span>.</div><div class="correction-step">f'(x) = 0 si x = 0 ou x = 2 (car e<sup>-x</sup> &gt; 0 pour tout x).</div><div class="correction-step"><strong>c) Variations</strong></div><div class="correction-step">On etudie le signe de x(2-x) :</div><div class="correction-step">Sur ]-infini, 0[ : x &lt; 0 et (2-x) &gt; 0, donc x(2-x) &lt; 0. f' &lt; 0, f decroissante.</div><div class="correction-step">Sur ]0, 2[ : x &gt; 0 et (2-x) &gt; 0, donc x(2-x) &gt; 0. f' &gt; 0, f croissante.</div><div class="correction-step">Sur ]2, +infini[ : x &gt; 0 et (2-x) &lt; 0, donc x(2-x) &lt; 0. f' &lt; 0, f decroissante.</div><div class="correction-step">Maximum en x = 2 : f(2) = 4 . e<sup>-2</sup> = <span class='math-inline'>4/e<sup>2</sup></span>.</div><div class="correction-step">Minimum en x = 0 : f(0) = 0 . e<sup>0</sup> = <span class='math-inline'>0</span>.</div><div class="correction-step"><strong>d) Derivee seconde et points d'inflexion</strong></div><div class="correction-step">f'(x) = e<sup>-x</sup>(2x - x<sup>2</sup>). Calculons f''(x) avec (uv)' = u'v + uv' ou u = e<sup>-x</sup> et v = 2x - x<sup>2</sup>.</div><div class="correction-step">f''(x) = -e<sup>-x</sup>(2x - x<sup>2</sup>) + e<sup>-x</sup>(2 - 2x) = e<sup>-x</sup>[-(2x - x<sup>2</sup>) + (2 - 2x)].</div><div class="correction-step">f''(x) = e<sup>-x</sup>(x<sup>2</sup> - 2x + 2 - 2x) = e<sup>-x</sup>(x<sup>2</sup> - 4x + 2).</div><div class="correction-step">On peut ecrire : x<sup>2</sup> - 4x + 2 = (x-2)<sup>2</sup> - 4 + 2 = (x-2)<sup>2</sup> - 2 = -(2 - (x-2)<sup>2</sup>).</div><div class="correction-step">f''(x) = 0 equivaut a x<sup>2</sup> - 4x + 2 = 0. Delta = 16 - 8 = 8. x = (4 +- 2racine(2))/2 = 2 +- racine(2).</div><div class="correction-step">Points d'inflexion en <span class='math-inline'>x = 2 - racine(2)</span> et <span class='math-inline'>x = 2 + racine(2)</span>.</div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 106</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><strong>a) Limites aux bornes de ]0, +infini[</strong></div><div class="correction-step">f(x) = ln(x) - (x-1)/x = ln(x) - 1 + 1/x sur ]0, +infini[.</div><div class="correction-step"><strong>En 0<sup>+</sup></strong> : ln(x) tend vers -infini et 1/x tend vers +infini, mais ln(x) domine. En fait ln(x) - 1 + 1/x : ln(x) tend vers -infini et 1/x tend vers +infini. On ecrit f(x) = ln(x) + (1-x)/x. Quand x tend vers 0<sup>+</sup>, ln(x) tend vers -infini et (1-x)/x = 1/x - 1 tend vers +infini. Comparons : posons x = 1/n avec n tendant vers +infini.</div><div class="correction-step">f(1/n) = -ln(n) + n - 1. Quand n tend vers +infini, n domine -ln(n). Donc f(1/n) tend vers +infini. Donc lim f(x) en 0<sup>+</sup> = <span class='math-inline'>+infini</span>.</div><div class="correction-step"><strong>En +infini</strong> : ln(x) tend vers +infini et 1/x tend vers 0. Donc f(x) = ln(x) - 1 + 1/x tend vers <span class='math-inline'>+infini</span>.</div><div class="correction-step"><strong>b) Derivee et sens de variation</strong></div><div class="correction-step">f(x) = ln(x) - (x-1)/x. Simplifions : (x-1)/x = 1 - 1/x, donc f(x) = ln(x) - 1 + 1/x.</div><div class="correction-step">f'(x) = 1/x - 1/x<sup>2</sup> = (x - 1)/x<sup>2</sup>.</div><div class="correction-step">Signe de f'(x) : le denominateur x<sup>2</sup> &gt; 0. Donc le signe est celui de (x - 1).</div><div class="correction-step">f'(x) &lt; 0 pour 0 &lt; x &lt; 1, f'(x) = 0 pour x = 1, f'(x) &gt; 0 pour x &gt; 1.</div><div class="correction-step">f est <strong>decroissante sur ]0, 1]</strong> et <strong>croissante sur [1, +infini[</strong>.</div><div class="correction-step"><strong>c) Signe de f</strong></div><div class="correction-step">f(1) = ln(1) - (1-1)/1 = 0 - 0 = <span class='math-inline'>0</span>.</div><div class="correction-step">x = 1 est le minimum global de f (unique point ou f' = 0, avec changement de signe de - a +).</div><div class="correction-step">Donc pour tout x &gt; 0 : <span class='math-inline'>f(x) &gt;= 0</span>.</div><div class="correction-step">Plus precisement : f(x) &gt; 0 pour x ne vaut pas 1, et f(1) = 0.</div><div class="correction-step">Ceci demontre l'inegalite classique : <strong>ln(x) &gt;= (x-1)/x pour tout x &gt; 0</strong>, avec egalite si et seulement si x = 1.</div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 107</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><strong>a) Limites aux bornes</strong></div><div class="correction-step">f(x) = e<sup>2x</sup> - 2e<sup>x</sup> - x.</div><div class="correction-step"><strong>En +infini</strong> : e<sup>2x</sup> domine (croissance la plus rapide), donc lim f(x) = <span class='math-inline'>+infini</span>.</div><div class="correction-step"><strong>En -infini</strong> : e<sup>2x</sup> tend vers 0, e<sup>x</sup> tend vers 0, et -x tend vers +infini. Donc lim f(x) = <span class='math-inline'>+infini</span>.</div><div class="correction-step"><strong>b) Derivee et variations</strong></div><div class="correction-step">f'(x) = 2e<sup>2x</sup> - 2e<sup>x</sup> - 1.</div><div class="correction-step">Posons t = e<sup>x</sup> &gt; 0. Alors f'(x) = 2t<sup>2</sup> - 2t - 1.</div><div class="correction-step">C'est un trinome du second degre en t. Delta = 4 + 8 = 12.</div><div class="correction-step">t = (2 +- 2racine(3))/4 = (1 +- racine(3))/2.</div><div class="correction-step">(1 - racine(3))/2 &lt; 0 : impossible car t = e<sup>x</sup> &gt; 0.</div><div class="correction-step">Donc f'(x) = 0 equivaut a e<sup>x</sup> = (1 + racine(3))/2, soit <span class='math-inline'>x<sub>0</sub> = ln((1 + racine(3))/2)</span> (environ 0,44).</div><div class="correction-step">f'(x) &lt; 0 pour x &lt; x<sub>0</sub> et f'(x) &gt; 0 pour x &gt; x<sub>0</sub>.</div><div class="correction-step">f admet un <strong>minimum unique en x<sub>0</sub></strong>.</div><div class="correction-step"><strong>c) Solutions de f(x) = 0</strong></div><div class="correction-step">f(0) = e<sup>0</sup> - 2e<sup>0</sup> - 0 = 1 - 2 - 0 = <span class='math-inline'>-1 &lt; 0</span>.</div><div class="correction-step">Or lim f(x) = +infini en -infini et en +infini, et f admet un minimum unique.</div><div class="correction-step">Puisque f(0) = -1 &lt; 0 et que f tend vers +infini des deux cotes, le theoreme des valeurs intermediaires garantit exactement <span class='math-inline'>2 solutions</span> a f(x) = 0 :</div><div class="correction-step">- Une solution alpha dans ]-infini, 0[ (car f tend vers +infini en -infini et f(0) &lt; 0).</div><div class="correction-step">- Une solution beta dans ]0, +infini[ (car f(0) &lt; 0 et f tend vers +infini en +infini, et f est croissante sur [x<sub>0</sub>, +infini[).</div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 108</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><strong>a) Domaine de definition, limites et asymptote verticale</strong></div><div class="correction-step">f(x) = (2x<sup>2</sup> + x - 1)/(x + 1). Le denominateur s'annule en x = -1.</div><div class="correction-step">D<sub>f</sub> = <span class='math-inline'>R prive de -1</span>.</div><div class="correction-step">Factorisons le numerateur : 2x<sup>2</sup> + x - 1. Delta = 1 + 8 = 9. x = (-1 +- 3)/4.</div><div class="correction-step">x<sub>1</sub> = 1/2 et x<sub>2</sub> = -1. Donc 2x<sup>2</sup> + x - 1 = 2(x - 1/2)(x + 1) = (2x - 1)(x + 1).</div><div class="correction-step">Pour x ne vaut pas -1 : f(x) = (2x - 1)(x + 1)/(x + 1) = <span class='math-inline'>2x - 1</span>.</div><div class="correction-step">La fonction se simplifie ! f(x) = 2x - 1 pour tout x ne vaut pas -1.</div><div class="correction-step"><strong>Limites</strong> : lim en +infini = +infini, lim en -infini = -infini.</div><div class="correction-step">En x = -1 : lim f(x) = lim (2x - 1) = <span class='math-inline'>-3</span> (la limite existe et est finie des deux cotes).</div><div class="correction-step">Il n'y a pas d'asymptote verticale malgre la forme initiale. Le point (-1, -3) est simplement <strong>exclu</strong> de la courbe.</div><div class="correction-step"><strong>b) Asymptote oblique</strong></div><div class="correction-step">On a f(x) = 2x - 1 pour x ne vaut pas -1. Donc lim[f(x) - (2x - 1)] = lim 0 = 0.</div><div class="correction-step">La droite <span class='math-inline'>y = 2x - 1</span> est asymptote oblique en +infini et -infini.</div><div class="correction-step">En fait, la courbe de f <strong>confondue avec la droite y = 2x - 1</strong>, sauf au point x = -1.</div><div class="correction-step"><strong>c) Derivee et variations</strong></div><div class="correction-step">f'(x) = 2 pour tout x ne vaut pas -1.</div><div class="correction-step">f' &gt; 0 partout, donc f est <strong>strictement croissante</strong> sur ]-infini, -1[ et sur ]-1, +infini[.</div><div class="correction-step"><strong>d) Representation graphique</strong></div><div class="correction-step">La courbe est la <strong>droite y = 2x - 1</strong> avec un trou au point de coordonnees (-1, -3).</div><div class="correction-step">On represente le trou par un cercle vide en (-1, -3). Il n'y a pas d'asymptote verticale puisque la limite est finie.</div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 109</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><strong>a) Derivee et variations</strong></div><div class="correction-step">f(x) = x<sup>3</sup> - 3x - 4. f'(x) = 3x<sup>2</sup> - 3 = <span class='math-inline'>3(x - 1)(x + 1)</span>.</div><div class="correction-step">f'(x) &gt; 0 si x &lt; -1 ou x &gt; 1. f'(x) &lt; 0 si -1 &lt; x &lt; 1.</div><div class="correction-step">f est croissante sur ]-infini, -1], decroissante sur [-1, 1], et croissante sur [1, +infini[.</div><div class="correction-step">Maximum local en x = -1 : f(-1) = -1 + 3 - 4 = <span class='math-inline'>-2</span>.</div><div class="correction-step">Minimum local en x = 1 : f(1) = 1 - 3 - 4 = <span class='math-inline'>-6</span>.</div><div class="correction-step"><strong>b) Existence et unicite d'une solution a f(x) = 0</strong></div><div class="correction-step">f(2) = 8 - 6 - 4 = <span class='math-inline'>-2 &lt; 0</span>.</div><div class="correction-step">f(3) = 27 - 9 - 4 = <span class='math-inline'>14 &gt; 0</span>.</div><div class="correction-step">f est continue et strictement croissante sur [1, +infini[ (car f' &gt; 0 sur cet intervalle).</div><div class="correction-step">Par le theoreme des valeurs intermediaires, il existe un unique reel alpha dans [2, 3] tel que f(alpha) = 0.</div><div class="correction-step"><strong>c) Encadrement de alpha par dichotomie</strong></div><div class="correction-step">f(2) = -2 &lt; 0 et f(3) = 14 &gt; 0. Milieu : 2,5.</div><div class="correction-step">f(2,5) = 15,625 - 7,5 - 4 = 4,125 &gt; 0. La solution est dans [2, 2,5].</div><div class="correction-step">f(2,25) = 11,39... - 6,75 - 4 = 0,64... &gt; 0. La solution est dans [2, 2,25].</div><div class="correction-step">f(2,125) = 9,59... - 6,375 - 4 = -0,78... &lt; 0. La solution est dans [2,125, 2,25].</div><div class="correction-step">f(2,1875) = 10,47... - 6,5625 - 4 = -0,09... &lt; 0. La solution est dans [2,1875, 2,25].</div><div class="correction-step">En poursuivant, on obtient <span class='math-inline'>alpha environ egal a 2,196</span>.</div><div class="correction-step"><strong>d) Convexite</strong></div><div class="correction-step">f''(x) = 6x.</div><div class="correction-step">f''(x) &lt; 0 pour x &lt; 0 : f est <strong>concave</strong> sur ]-infini, 0[.</div><div class="correction-step">f''(x) &gt; 0 pour x &gt; 0 : f est <strong>convexe</strong> sur ]0, +infini[.</div><div class="correction-step">f''(0) = 0 avec changement de signe : <span class='math-inline'>point d'inflexion en x = 0</span>.</div>
+    </div>
+</div><div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 110</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><strong>a) Parite de f</strong></div><div class="correction-step">f(x) = (e<sup>x</sup> - 1)/(e<sup>x</sup> + 1).</div><div class="correction-step">f(-x) = (e<sup>-x</sup> - 1)/(e<sup>-x</sup> + 1). Multiplions numerateur et denominateur par e<sup>x</sup> :</div><div class="correction-step">f(-x) = (1 - e<sup>x</sup>)/(1 + e<sup>x</sup>) = -(e<sup>x</sup> - 1)/(e<sup>x</sup> + 1) = <span class='math-inline'>-f(x)</span>.</div><div class="correction-step">f est une fonction <strong>impaire</strong>. On peut l'etudier sur [0, +infini[ et deduire par symetrie centrale.</div><div class="correction-step"><strong>b) Limites et asymptotes horizontales</strong></div><div class="correction-step"><strong>En +infini</strong> : factorisons par e<sup>x</sup> au numerateur et au denominateur.</div><div class="correction-step">f(x) = e<sup>x</sup>(1 - e<sup>-x</sup>) / [e<sup>x</sup>(1 + e<sup>-x</sup>)] = (1 - e<sup>-x</sup>)/(1 + e<sup>-x</sup>).</div><div class="correction-step">Quand x tend vers +infini, e<sup>-x</sup> tend vers 0, donc f(x) tend vers <span class='math-inline'>1</span>.</div><div class="correction-step">La droite y = 1 est asymptote horizontale en +infini.</div><div class="correction-step"><strong>En -infini</strong> : par imparite, lim f(x) = -lim f(x) en +infini = <span class='math-inline'>-1</span>.</div><div class="correction-step">La droite y = -1 est asymptote horizontale en -infini.</div><div class="correction-step"><strong>c) Derivee et variations</strong></div><div class="correction-step">f(x) = u/v avec u = e<sup>x</sup> - 1 et v = e<sup>x</sup> + 1.</div><div class="correction-step">f'(x) = (u'v - uv')/v<sup>2</sup> = (e<sup>x</sup>(e<sup>x</sup> + 1) - (e<sup>x</sup> - 1)e<sup>x</sup>)/(e<sup>x</sup> + 1)<sup>2</sup>.</div><div class="correction-step">Numerateur : e<sup>2x</sup> + e<sup>x</sup> - e<sup>2x</sup> + e<sup>x</sup> = <span class='math-inline'>2e<sup>x</sup></span>.</div><div class="correction-step">Donc f'(x) = 2e<sup>x</sup>/(e<sup>x</sup> + 1)<sup>2</sup>.</div><div class="correction-step">Pour tout x reel : e<sup>x</sup> &gt; 0 et (e<sup>x</sup> + 1)<sup>2</sup> &gt; 0, donc <strong>f'(x) &gt; 0 pour tout x</strong>.</div><div class="correction-step">f est <strong>strictement croissante sur R</strong>.</div><div class="correction-step"><strong>d) Encadrement de f(x)</strong></div><div class="correction-step">f est strictement croissante sur R avec lim en -infini = -1 et lim en +infini = 1.</div><div class="correction-step">Donc pour tout x reel : <span class='math-inline'>-1 &lt; f(x) &lt; 1</span>.</div><div class="correction-step">Remarque : f(x) = (e<sup>x</sup> - 1)/(e<sup>x</sup> + 1) = tangente hyperbolique th(x/2) a un facteur pres. C'est en fait la fonction tangente hyperbolique.</div>
+    </div>
+</div>
+</div>
+</div></body>
+</html>
