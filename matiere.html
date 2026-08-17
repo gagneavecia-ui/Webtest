@@ -445,26 +445,30 @@
 
       let html = '';
       chapitres.forEach((chap) => {
-        const basePath = `chapitres/bac/${data.id}/`;
-        html += `
-          <div class="chapitre-card">
-            <div class="chapitre-titre">
-              <span class="chapitre-num">Chapitre ${chap.id}</span>
-              ${chap.titre}
-            </div>
-            <div class="chapitre-actions">
-              <a href="${basePath}chapitre_${chap.id}.html" class="chapitre-btn cours">
-                <i class="fas fa-book"></i> Cours
-              </a>
-              <a href="${basePath}exercices_${chap.id}.html" class="chapitre-btn exercices">
-                <i class="fas fa-pen"></i> Exercices
-              </a>
-              <a href="${basePath}correction_${chap.id}.html" class="chapitre-btn correction">
-                <i class="fas fa-check-circle"></i> Correction
-              </a>
-            </div>
-          </div>
-        `;
+const basePath = `chapitres/bac/${data.id}/`;
+
+html += `
+  <div class="chapitre-card">
+    <div class="chapitre-titre">
+      <span class="chapitre-num">Chapitre ${chap.id}</span>
+      ${chap.titre}
+    </div>
+    <div class="chapitre-actions">
+      <!-- ✅ Cours → chapitre.html?type=cours -->
+      <a href="chapitre.html?matiere=${data.id}&chapitre=${chap.id}&type=cours" class="chapitre-btn cours">
+        <i class="fas fa-book"></i> Cours
+      </a>
+      <!-- ✅ Exercices → chapitre.html?type=exercices -->
+      <a href="chapitre.html?matiere=${data.id}&chapitre=${chap.id}&type=exercices" class="chapitre-btn exercices">
+        <i class="fas fa-pen"></i> Exercices
+      </a>
+      <!-- ✅ Correction → chapitre.html?type=correction -->
+      <a href="chapitre.html?matiere=${data.id}&chapitre=${chap.id}&type=correction" class="chapitre-btn correction">
+        <i class="fas fa-check-circle"></i> Correction
+      </a>
+    </div>
+  </div>
+`;
       });
 
       chapitresList.innerHTML = html;
