@@ -1,0 +1,1271 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=720"><title>Calcul de Probabilites - Variable Aleatoire - Cours Complet</title><style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@1,500&display=swap');
+
+@page { size: 720px 1020px; margin: 0; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { background: #080c18; color: #d8dff0; font-family: 'Inter', sans-serif; font-size: 14px; line-height: 1.7; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+.page { width: 720px; min-height: 1020px; padding: 60px 55px; background: #080c18; position: relative; page-break-after: always; break-after: page; overflow: hidden; }
+.page:last-child { page-break-after: auto; break-after: auto; }
+
+.cover { padding: 0; background: linear-gradient(135deg, #080c18 0%, #101830 50%, #080c18 100%); display: flex; flex-direction: column; justify-content: flex-end; position: relative; }
+.cover-content { position: relative; z-index: 2; padding: 50px 55px 60px; }
+.cover-label { color: #c9a84c; font-size: 12px; letter-spacing: 4px; text-transform: uppercase; font-weight: 600; margin-bottom: 18px; }
+.cover-title { font-family: 'Playfair Display', serif; font-size: 42px; font-weight: 900; line-height: 1.1; color: #d8dff0; margin-bottom: 18px; letter-spacing: -1px; }
+.cover-title .accent { color: #c9a84c; font-style: italic; font-family: 'Cormorant Garamond', serif; font-weight: 500; }
+.cover-subtitle { font-size: 15px; color: #7888aa; line-height: 1.6; max-width: 500px; margin-bottom: 30px; }
+.cover-divider { width: 70px; height: 3px; background: linear-gradient(to right, #c9a84c, #3b82f6); margin-bottom: 22px; }
+.cover-author { font-size: 13px; color: #7888aa; letter-spacing: 1px; }
+.cover-author strong { color: #d8dff0; font-weight: 600; }
+
+.toc-page { padding: 70px 55px; }
+.toc-header { text-align: center; margin-bottom: 35px; padding-bottom: 20px; border-bottom: 1px solid #1a2038; }
+.toc-label { color: #c9a84c; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; font-weight: 600; margin-bottom: 10px; }
+.toc-title { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 900; color: #d8dff0; }
+.toc-list { list-style: none; padding: 0; }
+.toc-item { display: flex; align-items: baseline; padding: 8px 0; border-bottom: 1px dotted #1a2038; font-size: 13px; }
+.toc-num { color: #3b82f6; font-weight: 700; font-family: 'Playfair Display', serif; width: 32px; flex-shrink: 0; }
+.toc-text { color: #d8dff0; flex: 1; }
+.toc-dots { color: #1a2038; margin: 0 6px; flex: 1; }
+.toc-page-num { color: #7888aa; font-weight: 600; font-size: 12px; }
+
+.intro-page { padding: 70px 55px; }
+.intro-eyebrow { color: #c9a84c; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; font-weight: 600; margin-bottom: 14px; }
+.intro-title { font-family: 'Playfair Display', serif; font-size: 34px; font-weight: 900; color: #d8dff0; line-height: 1.15; margin-bottom: 20px; }
+.intro-title .accent { color: #c9a84c; font-style: italic; font-family: 'Cormorant Garamond', serif; font-weight: 500; }
+.intro-divider { width: 60px; height: 2px; background: linear-gradient(to right, #c9a84c, #3b82f6); margin: 18px 0 28px; }
+.intro-text { color: #a0b0cc; line-height: 1.85; margin-bottom: 16px; }
+.intro-text strong { color: #d8dff0; }
+
+.chapter-page { padding: 0; }
+.chapter-hero { height: 180px; position: relative; display: flex; align-items: flex-end; overflow: hidden; }
+.chapter-hero-gradient { position: absolute; inset: 0; z-index: 1; }
+.chapter-hero-pattern { position: absolute; inset: 0; z-index: 0; opacity: 0.06; background-size: 50px 50px; background-image: radial-gradient(circle, #3b82f6 1px, transparent 1px); }
+.chapter-hero-overlay { position: absolute; bottom: 30px; left: 55px; right: 55px; z-index: 2; }
+.chapter-number { color: #c9a84c; font-family: 'Playfair Display', serif; font-size: 14px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 6px; }
+.chapter-title { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 900; color: #d8dff0; line-height: 1.15; letter-spacing: -0.5px; }
+.chapter-title .accent { color: #c9a84c; font-style: italic; font-family: 'Cormorant Garamond', serif; font-weight: 500; }
+.chapter-body { padding: 35px 55px 55px; }
+
+.section { margin-bottom: 22px; break-inside: avoid; }
+.section-subtitle { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: #3b82f6; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid #1a2038; }
+.section-subtitle::before { content: ''; display: inline-block; width: 6px; height: 6px; background: #c9a84c; border-radius: 50%; margin-right: 8px; vertical-align: middle; margin-bottom: 3px; }
+
+p { margin-bottom: 12px; color: #a0b0cc; line-height: 1.8; }
+p strong { color: #d8dff0; }
+p em { color: #d8dff0; font-style: italic; }
+
+.formula-box { background: linear-gradient(135deg, rgba(59,130,246,0.1), rgba(201,168,76,0.06)); border: 1px solid #1a2038; border-left: 4px solid #3b82f6; border-radius: 10px; padding: 18px 24px; margin: 18px 0; text-align: center; break-inside: avoid; }
+.formula-main { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: #e8ecf8; line-height: 1.6; }
+.formula-desc { font-size: 12px; color: #7888aa; margin-top: 8px; line-height: 1.5; }
+.formula-box-gold { border-left-color: #c9a84c; background: linear-gradient(135deg, rgba(201,168,76,0.1), rgba(59,130,246,0.04)); }
+
+.table-wrap { margin: 18px 0; break-inside: avoid; overflow: hidden; border-radius: 8px; border: 1px solid #1a2038; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+thead th { background: linear-gradient(135deg, #101830, #1a2038); color: #3b82f6; padding: 12px 10px; text-align: left; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; border-bottom: 2px solid #3b82f6; }
+tbody td { padding: 10px; border-bottom: 1px solid #1a2038; color: #a0b0cc; vertical-align: top; }
+tbody tr:nth-child(even) td { background: rgba(59,130,246,0.03); }
+tbody tr:last-child td { border-bottom: none; }
+td strong { color: #d8dff0; }
+
+.card { background: #101830; border: 1px solid #1a2038; border-radius: 10px; padding: 18px 20px; margin: 16px 0; break-inside: avoid; }
+.card-label { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; margin-bottom: 8px; display: inline-block; padding: 3px 10px; border-radius: 4px; }
+
+.tip-box { background: linear-gradient(135deg, rgba(59,130,246,0.1), rgba(59,130,246,0.02)); border-left: 4px solid #3b82f6; }
+.tip-box .card-label { background: rgba(59,130,246,0.2); color: #60a5fa; }
+.tip-box p { color: #a0b0cc; margin-bottom: 0; }
+
+.warning-box { background: linear-gradient(135deg, rgba(239,68,68,0.1), rgba(239,68,68,0.02)); border-left: 4px solid #ef4444; }
+.warning-box .card-label { background: rgba(239,68,68,0.2); color: #ef4444; }
+.warning-box p { color: #a0b0cc; margin-bottom: 0; }
+
+.key-box { background: linear-gradient(135deg, rgba(201,168,76,0.12), rgba(201,168,76,0.02)); border-left: 4px solid #c9a84c; }
+.key-box .card-label { background: rgba(201,168,76,0.25); color: #f0ebe3; }
+.key-box p { color: #d8dff0; margin-bottom: 0; }
+
+.exercise-box { background: linear-gradient(135deg, rgba(168,85,247,0.1), rgba(168,85,247,0.02)); border-left: 4px solid #a855f7; }
+.exercise-box .card-label { background: rgba(168,85,247,0.2); color: #c084fc; }
+.exercise-box p { color: #a0b0cc; margin-bottom: 8px; }
+.exercise-box p:last-child { margin-bottom: 0; }
+
+.remember-box { background: linear-gradient(135deg, rgba(34,197,94,0.1), rgba(34,197,94,0.02)); border-left: 4px solid #22c55e; }
+.remember-box .card-label { background: rgba(34,197,94,0.2); color: #22c55e; }
+.remember-box p { color: #a0b0cc; margin-bottom: 0; }
+
+.callout { background: #101830; border-radius: 10px; padding: 16px 22px; margin: 16px 0; text-align: center; border-top: 2px solid #3b82f6; border-bottom: 2px solid #c9a84c; break-inside: avoid; }
+.callout-text { font-family: 'Cormorant Garamond', serif; font-size: 17px; font-style: italic; color: #d8dff0; line-height: 1.5; }
+
+.bullet-list { padding-left: 0; list-style: none; margin: 10px 0; }
+.bullet-list li { position: relative; padding-left: 22px; margin-bottom: 8px; color: #a0b0cc; line-height: 1.7; }
+.bullet-list li::before { content: ''; position: absolute; left: 0; top: 9px; width: 8px; height: 8px; background: linear-gradient(135deg, #c9a84c, #3b82f6); border-radius: 50%; }
+.bullet-list li strong { color: #d8dff0; }
+
+.steps { margin: 18px 0; }
+.step { display: flex; margin-bottom: 14px; break-inside: avoid; }
+.step-number { flex-shrink: 0; width: 34px; height: 34px; background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: #d8dff0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-family: 'Playfair Display', serif; font-size: 15px; margin-right: 14px; box-shadow: 0 2px 8px rgba(59,130,246,0.3); }
+.step-content { flex: 1; padding-top: 4px; }
+.step-content strong { color: #d8dff0; display: block; margin-bottom: 3px; font-size: 13px; }
+.step-content p { color: #a0b0cc; font-size: 12px; margin-bottom: 0; line-height: 1.6; }
+
+.comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0; break-inside: avoid; }
+.comparison-col { background: #101830; border-radius: 10px; padding: 16px; border-top: 3px solid #3b82f6; }
+.comparison-col.bad { border-top-color: #ef4444; }
+.comparison-col.good { border-top-color: #22c55e; }
+.comparison-title { font-family: 'Playfair Display', serif; font-size: 14px; font-weight: 700; color: #d8dff0; margin-bottom: 10px; }
+.comparison-col ul { padding-left: 16px; }
+.comparison-col li { font-size: 11px; color: #a0b0cc; margin-bottom: 5px; line-height: 1.5; }
+
+.stat-block { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 18px 0; break-inside: avoid; }
+.stat-card { background: linear-gradient(135deg, #101830, #1a2038); border: 1px solid #1a2038; border-radius: 10px; padding: 14px 10px; text-align: center; }
+.stat-number { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 900; color: #c9a84c; line-height: 1; margin-bottom: 5px; }
+.stat-label { font-size: 10px; color: #7888aa; text-transform: uppercase; letter-spacing: 1px; }
+
+.math-inline { background: rgba(59,130,246,0.08); border: 1px solid #1a2038; padding: 2px 8px; border-radius: 4px; font-family: 'Playfair Display', serif; font-size: 15px; color: #e8ecf8; white-space: nowrap; }
+
+.example-block { background: #0d1224; border: 1px solid #1a2038; border-radius: 10px; padding: 18px 22px; margin: 16px 0; break-inside: avoid; }
+.example-label { font-size: 11px; font-weight: 700; color: #c9a84c; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; }
+.example-content { font-size: 13px; color: #a0b0cc; line-height: 1.8; }
+.example-content .math-inline { display: inline-block; margin: 2px 0; }
+
+.solution-block { background: rgba(34,197,94,0.05); border: 1px dashed #22c55e; border-radius: 10px; padding: 16px 22px; margin: 12px 0; break-inside: avoid; }
+.solution-label { font-size: 11px; font-weight: 700; color: #22c55e; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; }
+.solution-content { font-size: 13px; color: #a0b0cc; line-height: 1.8; }
+
+.conclusion-page { background: linear-gradient(135deg, #080c18 0%, #101830 100%); padding: 70px 55px; }
+</style></head><body>
+<div class="page cover">
+<div class="cover-content">
+    <div class="cover-label">Cours complet</div>
+    <div class="cover-title">Calcul de<br><span class="accent">Probabilites</span><br>Variable Aleatoire</div>
+    <div class="cover-divider"></div>
+    <div class="cover-subtitle">Cours complet de Terminale D et C : de la theorie des ensembles aux lois de probabilites discretes et continues.</div>
+    <div class="cover-author"><strong>Programme officiel</strong> - Mathematiques Terminale</div>
+</div>
+</div>
+<div class="page toc-page">
+    <div class="toc-header">
+        <div class="toc-label">Table des matieres</div>
+        <div class="toc-title">Calcul de Probabilites</div>
+    </div>
+    <ul class="toc-list"><li class="toc-item"><span class="toc-num">01</span><span class="toc-text">Vocabulaire et concepts fondamentaux</span><span class="toc-dots">............................................................</span><span class="toc-page-num">3</span></li><li class="toc-item"><span class="toc-num">02</span><span class="toc-text">Analyse combinatoire et denombrement</span><span class="toc-dots">............................................................</span><span class="toc-page-num">5</span></li><li class="toc-item"><span class="toc-num">03</span><span class="toc-text">Probabilites sur un univers fini</span><span class="toc-dots">............................................................</span><span class="toc-page-num">7</span></li><li class="toc-item"><span class="toc-num">04</span><span class="toc-text">Probabilites conditionnelles et independance</span><span class="toc-dots">............................................................</span><span class="toc-page-num">9</span></li><li class="toc-item"><span class="toc-num">05</span><span class="toc-text">Formule des probabilites totales et theoreme de Bayes</span><span class="toc-dots">............................................................</span><span class="toc-page-num">11</span></li><li class="toc-item"><span class="toc-num">06</span><span class="toc-text">Variable aleatoire reelle - Lois de probabilite</span><span class="toc-dots">............................................................</span><span class="toc-page-num">13</span></li><li class="toc-item"><span class="toc-num">07</span><span class="toc-text">Esperance mathematique</span><span class="toc-dots">............................................................</span><span class="toc-page-num">15</span></li><li class="toc-item"><span class="toc-num">08</span><span class="toc-text">Variance et ecart-type</span><span class="toc-dots">............................................................</span><span class="toc-page-num">17</span></li><li class="toc-item"><span class="toc-num">09</span><span class="toc-text">Fonction de repartition</span><span class="toc-dots">............................................................</span><span class="toc-page-num">19</span></li><li class="toc-item"><span class="toc-num">10</span><span class="toc-text">Loi binomiale</span><span class="toc-dots">............................................................</span><span class="toc-page-num">21</span></li><li class="toc-item"><span class="toc-num">11</span><span class="toc-text">Loi de Poisson</span><span class="toc-dots">............................................................</span><span class="toc-page-num">23</span></li><li class="toc-item"><span class="toc-num">12</span><span class="toc-text">Loi hypergeometrique et loi geometrique</span><span class="toc-dots">............................................................</span><span class="toc-page-num">25</span></li><li class="toc-item"><span class="toc-num">13</span><span class="toc-text">Loi uniforme et lois continues</span><span class="toc-dots">............................................................</span><span class="toc-page-num">27</span></li><li class="toc-item"><span class="toc-num">14</span><span class="toc-text">Couple de variables aleatoires</span><span class="toc-dots">............................................................</span><span class="toc-page-num">29</span></li><li class="toc-item"><span class="toc-num">15</span><span class="toc-text">Theoreme central limite et loi normale</span><span class="toc-dots">............................................................</span><span class="toc-page-num">31</span></li><li class="toc-item"><span class="toc-num">16</span><span class="toc-text">Methodes de resolution et schemas</span><span class="toc-dots">............................................................</span><span class="toc-page-num">33</span></li><li class="toc-item"><span class="toc-num">17</span><span class="toc-text">Resume des formules essentielles</span><span class="toc-dots">............................................................</span><span class="toc-page-num">35</span></li></ul></div>
+<div class="page intro-page">
+    <div class="intro-eyebrow">Cours complet</div>
+    <h1 class="intro-title">Calcul de<br><span class="accent">Probabilites</span><br>Variable Aleatoire</h1>
+    <div class="intro-divider"></div>
+    <p class="intro-text">Ce cours complet sur le calcul de probabilites et les variables aleatoires est concu pour vous accompagner pas a pas dans la maitrise de ce chapitre fondamental des mathematiques de Terminale. Chaque notion est expliquee de maniere progressive et detaillee, avec de nombreux exemples concrets et des demonstrations completes.</p>
+    <p class="intro-text">Les probabilites sont omnipresentes dans la vie quotidienne et dans tous les domaines scientifiques. De la meteo a la finance, de la biologie a l'informatique, la maitrise du calcul des probabilites est un outil essentiel pour prendre des decisions eclairees et comprendre le monde qui nous entoure. Les variables aleatoires permettent de quantifier les resultats d'une experience et d'en extraire des mesures de tendance et de dispersion.</p>
+    <p class="intro-text">Vous apprendrez dans ce cours a modeliser des situations reelles, a calculer des probabilites dans des contextes varies, et a utiliser les lois de probabilites classiques (binomiale, Poisson, hypergeometrique, normale). Chaque concept est illustre par des exemples detailles et des exercices d'application.</p>
+    <div class="stat-block"><div class="stat-card"><div class="stat-number">17</div><div class="stat-label">Chapitres</div></div><div class="stat-card"><div class="stat-number">50+</div><div class="stat-label">Exemples</div></div><div class="stat-card"><div class="stat-number">100+</div><div class="stat-label">Formules</div></div></div>
+    <p class="intro-text">Prenez votre temps, faites les exercices a chaque fin de chapitre, et n'hesitez pas a relire les passages qui vous semblent difficiles. La comprehension des probabilites se construit etape par etape, et chaque chapitre s'appuie sur les precedents.</p>
+    <div class="callout"><div class="callout-text">Les probabilites sont la science de l'incertitude maitrisee. Plus vous pratiquez, plus les resultats aleatoires deviennent previsibles.</div></div>
+</div>
+<div class="page chapter-page">
+<div class="chapter-hero">
+    <div class="chapter-hero-pattern"></div>
+    <div class="chapter-hero-gradient" style="linear-gradient(135deg, #1e3a5f 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="chapter-hero-overlay">
+        <div class="chapter-number">Chapitre 1</div>
+        <div class="chapter-title">Vocabulaire et concepts fondamentaux</div>
+    </div>
+</div>
+<div class="chapter-body">
+
+<div class="section-subtitle">1.1 Experience aleatoire</div>
+<p>Une <strong>experience aleatoire</strong> (ou epreuve) est une experience dont le resultat ne peut pas etre predetermine avec certitude avant sa realisation. Chaque repetition de l'experience peut donner un resultat different. Le lancer d'un de, le tirage d'une carte, ou le choix au hasard d'une personne dans un groupe sont des exemples d'experiences aleatoires.</p>
+
+<p>L'ensemble de tous les resultats possibles d'une experience aleatoire est appele l'<strong>univers</strong>, note generalement par la lettre grecque Omega (grand Omega). Chaque element de Omega est un <strong>evenement elementaire</strong> ou <strong>issue</strong> de l'experience.</p>
+
+<div class="example-block"><div class="example-label">Exemple 1 - Lancer d'un de a six faces</div><div class="example-content">
+<p>L'univers est : <span class="math-inline">Omega = {1, 2, 3, 4, 5, 6}</span></p>
+<p>Il contient 6 evenements elementaires. Chaque face du de represente une issue possible de l'experience.</p>
+</div></div>
+
+<div class="example-block"><div class="example-label">Exemple 2 - Lancer d'une piece</div><div class="example-content">
+<p>L'univers est : <span class="math-inline">Omega = {Pile, Face}</span></p>
+<p>Il contient 2 evenements elementaires. Cette experience est aussi appelee epreuve de Bernoulli.</p>
+</div></div>
+
+<div class="example-block"><div class="example-label">Exemple 3 - Tirage d'une carte dans un jeu de 32</div><div class="example-content">
+<p>L'univers est l'ensemble des 32 cartes. <span class="math-inline">Card(Omega) = 32</span></p>
+<p>Chaque carte est un evenement elementaire.</p>
+</div></div>
+
+<div class="section-subtitle">1.2 Evenements</div>
+<p>Un <strong>evenement</strong> est une partie (sous-ensemble) de l'univers Omega. On dit que l'evenement est <strong>realise</strong> lorsque le resultat de l'experience appartient a cet ensemble. Les evenements se notent generalement par des lettres majuscules : A, B, C...</p>
+
+<p>Il existe plusieurs types d'evenements particuliers que l'on rencontre frequemment dans les exercices :</p>
+
+<ul class="bullet-list"><li><strong>Evenement certain</strong> : l'univers Omega lui-meme. Il est toujours realise. <span class="math-inline">P(Omega) = 1</span></li><li><strong>Evenement impossible</strong> : l'ensemble vide, note par la lettre grecque omega minuscule. Il n'est jamais realise. <span class="math-inline">P({}) = 0</span></li><li><strong>Evenement elementaire</strong> : un singleton, c'est-a-dire un ensemble contenant exactement une issue</li><li><strong>Evenement contraire</strong> : si A est un evenement, son contraire est le complementaire de A dans Omega, note <span class="math-inline">A barre</span> (A avec une barre au-dessus). Il contient toutes les issues qui ne sont pas dans A</li></ul>
+
+<div class="card key-box"><div class="card-label">A retenir</div><p>Si A est un evenement, alors : P(A barre) = 1 - P(A). Cette relation fondamentale est utilisee dans de tres nombreux exercices.</p></div>
+
+<div class="section-subtitle">1.3 Operations sur les evenements</div>
+<p>On peut combiner les evenements a l'aide des operations ensemblistes classiques. Ces operations sont essentielles pour modeliser des situations complexes a partir d'evenements simples.</p>
+
+<div class="formula-box"><div class="formula-main">A union B : au moins l'un des deux evenements se realise</div><div class="formula-desc">Union (OU logique)</div></div>
+<div class="formula-box"><div class="formula-main">A inter B : les deux evenements se realisent simultanement</div><div class="formula-desc">Intersection (ET logique)</div></div>
+
+<p>Deux evenements A et B sont dits <strong>incompatibles</strong> (ou disjoints) si leur intersection est vide, c'est-a-dire <span class="math-inline">A inter B = ensemble vide</span>. Dans ce cas, ils ne peuvent pas se realiser en meme temps.</p>
+
+<p>Si A et B sont incompatibles, on a : <span class="math-inline">P(A union B) = P(A) + P(B)</span>. Cette propriete est la base du calcul des probabilites pour les evenements disjoints, et elle s'etend a un nombre fini d'evenements deux a deux incompatibles.</p>
+
+<div class="card warning-box"><div class="card-label">Attention</div><p>Ne pas confondre evenements incompatibles et evenements independants. Deux evenements incompatibles ne peuvent pas se produire simultanement, tandis que deux evenements independants sont tels que la realisation de l'un n'affecte pas la probabilite de l'autre.</p></div>
+
+<div class="section-subtitle">1.4 Langage ensembliste et probabilites</div>
+<p>Il est essentiel de savoir passer du langage ensembliste au langage probabiliste et inversement. Ce tableau recapitule les correspondances fondamentales qui sont utilisees dans tous les exercices et les problemes de probabilites.</p>
+
+<div class="table-wrap"><table><thead><tr><th>Langage ensembliste</th><th>Langage probabiliste</th><th>Notation</th></tr></thead><tbody><tr><td>Univers Omega</td><td>Evenement certain</td><td>Omega</td></tr><tr><td>Ensemble vide</td><td>Evenement impossible</td><td>Ensemble vide</td></tr><tr><td>Partie de Omega</td><td>Evenement</td><td>A, B, C...</td></tr><tr><td>Singleton {{x}}</td><td>Evenement elementaire</td><td>{x}</td></tr><tr><td>Complementaire de A</td><td>Evenement contraire de A</td><td>A barre</td></tr><tr><td>A union B</td><td>A ou B (au moins un)</td><td>A union B</td></tr><tr><td>A inter B</td><td>A et B (les deux)</td><td>A inter B</td></tr><tr><td>A inter B = vide</td><td>A et B incompatibles</td><td>A inter B = ensemble vide</td></tr></tbody></table></div>
+
+<div class="card tip-box"><div class="card-label">Conseil</div><p>Dans chaque exercice, commencez par definir clairement l'univers Omega et les evenements A, B, C... Cela vous aidera a structurer votre raisonnement et a eviter les erreurs.</p></div>
+
+</div>
+</div>
+<div class="page chapter-page">
+<div class="chapter-hero">
+    <div class="chapter-hero-pattern"></div>
+    <div class="chapter-hero-gradient" style="linear-gradient(135deg, #1e1b4b 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="chapter-hero-overlay">
+        <div class="chapter-number">Chapitre 2</div>
+        <div class="chapter-title">Analyse combinatoire et denombrement</div>
+    </div>
+</div>
+<div class="chapter-body">
+
+<div class="section-subtitle">2.1 Factorielle d'un entier</div>
+<p>En analyse combinatoire, la <strong>factorielle</strong> d'un entier naturel n est le produit de tous les entiers positifs inferieurs ou egaux a n. La factorielle est notee par un point d'exclamation apres le nombre, par exemple n! (prononcee "n factorielle").</p>
+
+<div class="formula-box formula-box-gold"><div class="formula-main">n! = n x (n-1) x (n-2) x ... x 2 x 1</div><div class="formula-desc">Factorielle de n</div></div>
+<div class="formula-box formula-box-gold"><div class="formula-main">Par convention : 0! = 1 et 1! = 1</div><div class="formula-desc">Cas particuliers</div></div>
+
+<div class="example-block"><div class="example-label">Exemples de factorielles</div><div class="example-content">
+<p><span class="math-inline">3! = 3 x 2 x 1 = 6</span></p>
+<p><span class="math-inline">5! = 5 x 4 x 3 x 2 x 1 = 120</span></p>
+<p><span class="math-inline">7! = 5040</span></p>
+<p><span class="math-inline">10! = 3 628 800</span></p>
+</div></div>
+
+<div class="card key-box"><div class="card-label">Propriete fondamentale</div><p>n! = n x (n-1)! . Cette relation de recurrence permet de calculer toute factorielle a partir de la precedente. Elle est tres utilisee dans les simplifications d'expressions combinatoires.</p></div>
+
+<div class="section-subtitle">2.2 Arrangements</div>
+<p>Un <strong>arrangement</strong> de p elements parmi n (avec p inferieur ou egal a n) est une suite ordonnee de p elements choisis parmi n. L'ordre compte dans un arrangement : les arrangements (A, B) et (B, A) sont differents si A est different de B.</p>
+
+<div class="formula-box formula-box-gold"><div class="formula-main">A(n,p) = n! / (n-p)!</div><div class="formula-desc">Nombre d'arrangements de p elements parmi n</div></div>
+
+<p>Cette formule compte le nombre de facons de choisir p objets parmi n, en tenant compte de l'ordre. Par exemple, le nombre de facons d'attribuer 3 prix (or, argent, bronze) a 10 athletes est A(10,3) = 720.</p>
+
+<div class="example-block"><div class="example-label">Exemple - Arrangements</div><div class="example-content">
+<p>Combien de mots de 3 lettres peut-on former avec les lettres A, B, C, D ?</p>
+<p>Ici n = 4 et p = 3 :</p>
+<p><span class="math-inline">A(4,3) = 4! / (4-3)! = 4! / 1! = 24</span></p>
+<p>On peut former 24 mots differents (ABC, ACB, BAC, BCA, CAB, CBA, ABD, ADB, ...).</p>
+</div></div>
+
+<div class="section-subtitle">2.3 Permutations</div>
+<p>Une <strong>permutation</strong> de n elements est un arrangement de n elements parmi n. C'est donc une reordering complete de l'ensemble. Le nombre de permutations de n elements est simplement n! (n factorielle).</p>
+
+<div class="formula-box formula-box-gold"><div class="formula-main">P(n) = n!</div><div class="formula-desc">Nombre de permutations de n elements</div></div>
+
+<div class="example-block"><div class="example-label">Exemple - Permutations</div><div class="example-content">
+<p>De combien de facons peut-on asseoir 5 personnes autour d'une table ?</p>
+<p><span class="math-inline">P(5) = 5! = 120</span></p>
+<p>S'il s'agit d'une table ronde (les rotations sont identiques), on divise par 5 : <span class="math-inline">120 / 5 = 24</span> facons.</p>
+</div></div>
+
+<div class="section-subtitle">2.4 Combinaisons</div>
+<p>Une <strong>combinaison</strong> de p elements parmi n (avec p inferieur ou egal a n) est un sous-ensemble non ordonne de p elements choisis parmi n. Contrairement aux arrangements, l'ordre ne compte pas dans une combinaison : {A, B} et {B, A} representent la meme combinaison.</p>
+
+<div class="formula-box formula-box-gold"><div class="formula-main">C(n,p) = n! / [p! x (n-p)!]</div><div class="formula-desc">Nombre de combinaisons de p elements parmi n</div></div>
+
+<p>Les combinaisons sont aussi notees avec la notation entre parentheses C avec n en bas et p en haut, ou avec le symbole "n parmi p" (un grand C avec n et p). Elles sont omnipresentes en probabilites car elles permettent de compter le nombre de sous-ensembles possibles.</p>
+
+<div class="example-block"><div class="example-label">Exemple - Combinaisons</div><div class="example-content">
+<p>Dans une classe de 30 eleves, on veut choisir 4 delegues. Combien de choix possibles ?</p>
+<p><span class="math-inline">C(30,4) = 30! / (4! x 26!) = 27 405</span></p>
+<p>L'ordre n'importe pas : choisir Alice puis Bob puis Clara puis David est le meme choix que choisir David puis Clara puis Bob puis Alice.</p>
+</div></div>
+
+<div class="section-subtitle">2.5 Proprietes des combinaisons</div>
+
+<div class="formula-box"><div class="formula-main">C(n,0) = C(n,n) = 1</div><div class="formula-desc">Choisir 0 ou n elements parmi n : 1 seule possibilite</div></div>
+<div class="formula-box"><div class="formula-main">C(n,1) = C(n,n-1) = n</div><div class="formula-desc">Choisir 1 ou n-1 elements parmi n</div></div>
+<div class="formula-box"><div class="formula-main">C(n,p) = C(n,n-p)</div><div class="formula-desc">Symetrie : choisir p elements revient a en exclure n-p</div></div>
+
+<div class="card key-box"><div class="card-label">Triangle de Pascal</div><p>C(n,p) = C(n-1,p-1) + C(n-1,p). Cette relation permet de construire le triangle de Pascal et de calculer les coefficients binomiaux recursivement.</p></div>
+
+<div class="formula-box"><div class="formula-main">(a + b) puissance n = Somme de k=0 a n de C(n,k) x a puissance (n-k) x b puissance k</div><div class="formula-desc">Formule du binome de Newton</div></div>
+
+<div class="card tip-box"><div class="card-label">Conseil pratique</div><p>Lorsqu'on pose un exercice de denombrement, identifiez d'abord si l'ordre compte ou non. Si l'ordre compte, utilisez les arrangements. Si l'ordre ne compte pas, utilisez les combinaisons. Puis determinez s'il y a remise ou non.</p></div>
+
+<div class="section-subtitle">2.6 Tableau recapitulatif des denombrements</div>
+
+<div class="table-wrap"><table><thead><tr><th>Situation</th><th>Formule</th><th>Exemple type</th></tr></thead><tbody><tr><td>Arrangement (ordre, sans remise)</td><td>A(n,p) = n!/(n-p)!</td><td>Podium parmi n athletes</td></tr><tr><td>Permutation (ordre, tous)</td><td>P(n) = n!</td><td>Tous les rangements de n objets</td></tr><tr><td>Combinaison (sans ordre, sans remise)</td><td>C(n,p) = n!/[p!(n-p)!]</td><td>Equipe de p joueurs parmi n</td></tr><tr><td>Arrangement avec remise</td><td>n puissance p</td><td>Codes de p chiffres parmi n</td></tr><tr><td>Combinaison avec remise</td><td>C(n+p-1,p)</td><td>Distribution de p objets identiques</td></tr></tbody></table></div>
+
+</div>
+</div>
+<div class="page chapter-page">
+<div class="chapter-hero">
+    <div class="chapter-hero-pattern"></div>
+    <div class="chapter-hero-gradient" style="linear-gradient(135deg, #172554 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="chapter-hero-overlay">
+        <div class="chapter-number">Chapitre 3</div>
+        <div class="chapter-title">Probabilites sur un univers fini</div>
+    </div>
+</div>
+<div class="chapter-body">
+
+<div class="section-subtitle">3.1 Definition d'une probabilite</div>
+<p>Soit un univers fini Omega. Une <strong>probabilite</strong> P est une application de l'ensemble des parties de Omega (tous les evenements possibles) dans l'intervalle [0, 1] qui verifie les trois axiomes fondamentaux suivants, poses par le mathematicien Andrei Kolmogorov.</p>
+
+<div class="steps"><div class="step"><div class="step-number">1</div><div class="step-content"><strong>Axiome 1 : Normalisation</strong><p>Pour tout evenement A, la probabilite est positive : 0 inferieur ou egal a P(A) inferieur ou egal a 1. La probabilite de l'evenement certain est 1 : P(Omega) = 1</p></div></div><div class="step"><div class="step-number">2</div><div class="step-content"><strong>Axiome 2 : Evenement certain</strong><p>La probabilite de l'univers entier est toujours egale a 1. Cela signifie qu'un des resultats possibles se produira obligatoirement</p></div></div><div class="step"><div class="step-number">3</div><div class="step-content"><strong>Axiome 3 : Additivite</strong><p>Si A et B sont deux evenements incompatibles (A inter B = ensemble vide), alors P(A union B) = P(A) + P(B). Cette propriete s'etend a tout nombre fini d'evenements deux a deux incompatibles</p></div></div></div>
+
+<div class="section-subtitle">3.2 Probabilite sur un univers equiprobable</div>
+<p>Dans le cas frequent ou tous les evenements elementaires ont la meme probabilite (situation d'<strong>equiprobabilite</strong>), le calcul de la probabilite d'un evenement A se simplifie considerablement. C'est la formule de Laplace, qui est la plus utilisee dans les exercices.</p>
+
+<div class="formula-box formula-box-gold"><div class="formula-main">P(A) = Card(A) / Card(Omega) = nombre de cas favorables / nombre de cas possibles</div><div class="formula-desc">Formule de Laplace (equiprobabilite)</div></div>
+
+<p>Cette formule dit que la probabilite d'un evenement A est le rapport entre le nombre de resultats favorables (ceux qui realisent A) et le nombre total de resultats possibles. Elle ne s'applique que si tous les resultats sont equiprobables.</p>
+
+<div class="example-block"><div class="example-label">Exemple 1 - Lancer d'un de equilibre</div><div class="example-content">
+<p>Quelle est la probabilite d'obtenir un nombre pair ?</p>
+<p><span class="math-inline">A = {2, 4, 6}</span>, donc Card(A) = 3 et Card(Omega) = 6</p>
+<p><span class="math-inline">P(A) = 3/6 = 1/2 = 0,5</span></p>
+<p>La probabilite d'obtenir un nombre pair est de 50%.</p>
+</div></div>
+
+<div class="example-block"><div class="example-label">Exemple 2 - Tirage dans un jeu de 32 cartes</div><div class="example-content">
+<p>Quelle est la probabilite de tirer un Roi ?</p>
+<p><span class="math-inline">P(Roi) = 4/32 = 1/8</span></p>
+<p>Quelle est la probabilite de tirer un coeur ou un Roi ?</p>
+<p><span class="math-inline">P(Coeur union Roi) = P(Coeur) + P(Roi) - P(Coeur inter Roi) = 8/32 + 4/32 - 1/32 = 11/32</span></p>
+</div></div>
+
+<div class="section-subtitle">3.3 Proprietes fondamentales</div>
+
+<div class="formula-box"><div class="formula-main">P(A barre) = 1 - P(A)</div><div class="formula-desc">Evenement contraire</div></div>
+<div class="formula-box"><div class="formula-main">P(ensemble vide) = 0</div><div class="formula-desc">Evenement impossible</div></div>
+<div class="formula-box"><div class="formula-main">P(A union B) = P(A) + P(B) - P(A inter B)</div><div class="formula-desc">Formule generale de la reunion (inclusion-exclusion)</div></div>
+
+<p>La formule d'inclusion-exclusion est essentielle : elle permet de calculer la probabilite de la reunion de deux evenements, meme s'ils ne sont pas incompatibles. Le terme P(A inter B) corrige le comptage double des issues appartenant aux deux evenements.</p>
+
+<div class="example-block"><div class="example-label">Exemple d'application de l'inclusion-exclusion</div><div class="example-content">
+<p>Dans une classe de 40 eleves : 25 aiment le football, 18 aiment le basket, et 8 aiment les deux.</p>
+<p>Probabilite qu'un eleve aime au moins un sport :</p>
+<p><span class="math-inline">P(F union B) = 25/40 + 18/40 - 8/40 = 35/40 = 7/8</span></p>
+<p>Probabilite qu'un eleve n'aime aucun sport : <span class="math-inline">1 - 7/8 = 1/8</span></p>
+</div></div>
+
+<div class="section-subtitle">3.4 Extension a trois evenements</div>
+<p>La formule d'inclusion-exclusion s'etend a trois evenements A, B et C. Cette formule plus generale est utile dans les exercices ou trois criteres sont impliques simultanement.</p>
+
+<div class="formula-box"><div class="formula-main">P(A union B union C) = P(A) + P(B) + P(C) - P(A inter B) - P(A inter C) - P(B inter C) + P(A inter B inter C)</div><div class="formula-desc">Inclusion-exclusion pour 3 evenements</div></div>
+
+<div class="card warning-box"><div class="card-label">Erreur frequente</div><p>N'oubliez pas de soustraire les intersections deux a deux ET de rajouter l'intersection des trois. Beaucoup d'eleves oublient le dernier terme et obtiennent un resultat incorrect.</p></div>
+
+<div class="card remember-box"><div class="card-label">Points cles du chapitre</div><p>Toujours verifier que la somme des probabilites de tous les evenements elementaires vaut 1. Toujours verifier que chaque probabilite est entre 0 et 1. Utiliser l'equiprobabilite uniquement quand tous les evenements elementaires ont la meme chance de se realiser.</p></div>
+
+</div>
+</div>
+<div class="page chapter-page">
+<div class="chapter-hero">
+    <div class="chapter-hero-pattern"></div>
+    <div class="chapter-hero-gradient" style="linear-gradient(135deg, #0c4a6e 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="chapter-hero-overlay">
+        <div class="chapter-number">Chapitre 4</div>
+        <div class="chapter-title">Probabilites conditionnelles et independance</div>
+    </div>
+</div>
+<div class="chapter-body">
+
+<div class="section-subtitle">4.1 Probabilite conditionnelle</div>
+<p>Soit un univers Omega muni d'une probabilite P, et soit B un evenement tel que P(B) soit strictement positif. La <strong>probabilite conditionnelle</strong> de A sachant B, notee P(A|B) ou P_B(A), est la probabilite que l'evenement A se realise sachant que l'evenement B est deja realise.</p>
+
+<div class="formula-box formula-box-gold"><div class="formula-main">P(A|B) = P(A inter B) / P(B)</div><div class="formula-desc">Probabilite conditionnelle de A sachant B (P(B) > 0)</div></div>
+
+<p>Cette formule est l'une des plus importantes en probabilites. Elle exprime que la probabilite de A sachant B est la probabilite de la reunion des deux evenements divisee par la probabilite de B. Autrement dit, on restreint l'univers a B et on calcule la proportion des cas ou A aussi se realise.</p>
+
+<div class="example-block"><div class="example-label">Exemple 1 - Urne avec boules colorees</div><div class="example-content">
+<p>Une urne contient 10 boules : 6 rouges et 4 noires. Parmi les rouges, 3 sont numerotees. Parmi les noires, 2 sont numerotees.</p>
+<p>On tire une boule au hasard. Quelle est la probabilite qu'elle soit rouge sachant qu'elle est numerotee ?</p>
+<p>Soit R = rouge, N = numerotee.</p>
+<p><span class="math-inline">P(R|N) = P(R inter N)/P(N) = (3/10)/(5/10) = 3/5</span></p>
+</div></div>
+
+<div class="example-block"><div class="example-label">Exemple 2 - Maladie et test</div><div class="example-content">
+<p>Dans une population, 2% des personnes sont malades. Le test detecte la maladie chez 95% des malades, mais donne un faux positif chez 10% des personnes saines.</p>
+<p>Probabilite d'etre malade sachant que le test est positif :</p>
+<p>Utilisons P(M) = 0,02, P(T|M) = 0,95, P(T|M barre) = 0,10</p>
+<p><span class="math-inline">P(T) = P(T|M)P(M) + P(T|M barre)P(M barre) = 0,95 x 0,02 + 0,10 x 0,98 = 0,117</span></p>
+<p><span class="math-inline">P(M|T) = P(T|M)P(M)/P(T) = 0,019/0,117 = 0,162 (environ 16,2%)</span></p>
+<p>Meme avec un test positif, il y a moins de 17% de chances d'etre reellement malade !</p>
+</div></div>
+
+<div class="section-subtitle">4.2 Formule des probabilites composees</div>
+<p>La probabilite de l'intersection de deux evenements peut s'exprimer en fonction de la probabilite conditionnelle. C'est la <strong>formule des probabilites composees</strong>, qui est un outil puissant pour les calculs en cascade.</p>
+
+<div class="formula-box"><div class="formula-main">P(A inter B) = P(A) x P(B|A) = P(B) x P(A|B)</div><div class="formula-desc">Probabilites composees</div></div>
+
+<p>Cette formule s'etend a plusieurs evenements. Par exemple, pour trois evenements A, B, C : P(A inter B inter C) = P(A) x P(B|A) x P(C|A inter B). On multiplie les probabilites conditionnelles en cascade.</p>
+
+<div class="example-block"><div class="example-label">Exemple - Tirages successifs sans remise</div><div class="example-content">
+<p>Une urne contient 5 boules rouges et 3 boules noires. On tire 3 boules successivement sans remise.</p>
+<p>Probabilite d'obtenir 3 rouges :</p>
+<p><span class="math-inline">P(R1 inter R2 inter R3) = (5/8) x (4/7) x (3/6) = 60/336 = 5/28</span></p>
+</div></div>
+
+<div class="section-subtitle">4.3 Evenements independants</div>
+<p>Deux evenements A et B sont dits <strong>independants</strong> si la realisation de l'un n'affecte pas la probabilite de realisation de l'autre. Cela se traduit mathematiquement par la condition d'egalite entre la probabilite conditionnelle et la probabilite marginale.</p>
+
+<div class="formula-box formula-box-gold"><div class="formula-main">P(A|B) = P(A) equivaut a P(B|A) = P(B)</div><div class="formula-desc">Condition d'independance (equivalente a P(A inter B) = P(A) x P(B))</div></div>
+<div class="formula-box"><div class="formula-main">P(A inter B) = P(A) x P(B)</div><div class="formula-desc">Condition d'independance (forme multiplicative)</div></div>
+
+<p>La forme multiplicative P(A inter B) = P(A) x P(B) est la plus utilisee en pratique car elle ne necessite pas de verifier au prealable que P(A) et P(B) sont non nuls. C'est la definition de reference de l'independance.</p>
+
+<div class="card warning-box"><div class="card-label">Attention - Independance vs Incompatibilite</div><p>Deux evenements incompatibles (A inter B = ensemble vide) ne sont generalement PAS independants. Si A inter B = ensemble vide, alors P(A inter B) = 0, et l'independance P(A inter B) = P(A) x P(B) ne serait verifiee que si P(A) = 0 ou P(B) = 0. En pratique, deux evenements incompatibles de probabilite non nulle ne sont JAMAIS independants.</p></div>
+
+<div class="section-subtitle">4.4 Independance mutuelle de plusieurs evenements</div>
+<p>Pour trois evenements A, B, C, on dit qu'ils sont <strong>mutuellement independants</strong> si toutes les paires sont independantes ET si l'intersection est aussi independante. C'est-a-dire que l'on doit verifier les 4 conditions simultanees.</p>
+
+<ul class="bullet-list"><li><span class="math-inline">P(A inter B) = P(A) x P(B)</span></li><li><span class="math-inline">P(A inter C) = P(A) x P(C)</span></li><li><span class="math-inline">P(B inter C) = P(B) x P(C)</span></li><li><span class="math-inline">P(A inter B inter C) = P(A) x P(B) x P(C)</span></li></ul>
+
+<p>Il ne suffit pas que les paires soient independantes pour que les trois evenements soient mutuellement independants. L'independance de l'intersection est une condition supplementaire necessaire.</p>
+
+<div class="card key-box"><div class="card-label">A retenir</div><p>L'independance est une notion mathematique precise. Dire "A n'affecte pas B" ne suffit pas pour affirmer l'independance. Il faut verifier la formule P(A inter B) = P(A) x P(B). En pratique, l'independance est souvent une hypothese du modele (pieces non truquees, tirages avec remise, etc.).</p></div>
+
+</div>
+</div>
+<div class="page chapter-page">
+<div class="chapter-hero">
+    <div class="chapter-hero-pattern"></div>
+    <div class="chapter-hero-gradient" style="linear-gradient(135deg, #312e81 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="chapter-hero-overlay">
+        <div class="chapter-number">Chapitre 5</div>
+        <div class="chapter-title">Formule des probabilites totales et theoreme de Bayes</div>
+    </div>
+</div>
+<div class="chapter-body">
+
+<div class="section-subtitle">5.1 Systeme complet d'evenements</div>
+<p>Un ensemble d'evenements {B_1, B_2, ..., B_n} forme un <strong>systeme complet d'evenements</strong> (ou partition de Omega) s'ils verifient trois conditions : ils sont deux a deux incompatibles, leur reunion est l'univers Omega tout entier, et chacun a une probabilite strictement positive.</p>
+
+<div class="formula-box"><div class="formula-main">B_i inter B_j = ensemble vide pour i different de j</div><div class="formula-desc">Incompatibilite mutuelle</div></div>
+<div class="formula-box"><div class="formula-main">B_1 union B_2 union ... union B_n = Omega</div><div class="formula-desc">Couverture de l'univers</div></div>
+<div class="formula-box"><div class="formula-main">P(B_i) > 0 pour tout i</div><div class="formula-desc">Probabilites strictement positives</div></div>
+
+<div class="example-block"><div class="example-label">Exemple de systeme complet</div><div class="example-content">
+<p>Dans un lycee, les eleves sont repartis en trois classes : Premiere, Seconde et Terminale. Chaque eleve appartient a exactement une classe. Les ensembles {Premiere, Seconde, Terminale} forment un systeme complet d'evenements.</p>
+</div></div>
+
+<div class="section-subtitle">5.2 Formule des probabilites totales</div>
+<p>Soit {B_1, B_2, ..., B_n} un systeme complet d'evenements et A un evenement quelconque. La <strong>formule des probabilites totales</strong> permet de calculer P(A) en decomposant A selon tous les cas possibles du systeme complet.</p>
+
+<div class="formula-box formula-box-gold"><div class="formula-main">P(A) = Somme de i=1 a n de P(A inter B_i) = Somme de i=1 a n de P(B_i) x P(A|B_i)</div><div class="formula-desc">Formule des probabilites totales</div></div>
+
+<p>Cette formule est extremement importante. Elle dit que la probabilite d'un evenement A est la somme des probabilites de A intersecte avec chaque element du systeme complet. Chaque terme P(B_i) x P(A|B_i) represente la probabilite que A se realise via le chemin B_i.</p>
+
+<div class="example-block"><div class="example-label">Exemple - Usines de production</div><div class="example-content">
+<p>Trois usines A, B et C produisent des pieces. L'usine A produit 50% des pieces, B 30% et C 20%. Les taux de defaut sont : 2% pour A, 3% pour B et 1% pour C. Quelle est la probabilite qu'une piece choisie au hasard soit defectueuse ?</p>
+<p>Soit D = piece defectueuse.</p>
+<p><span class="math-inline">P(D) = P(A)xP(D|A) + P(B)xP(D|B) + P(C)xP(D|C)</span></p>
+<p><span class="math-inline">P(D) = 0,50 x 0,02 + 0,30 x 0,03 + 0,20 x 0,01 = 0,010 + 0,009 + 0,002 = 0,021</span></p>
+<p>La probabilite qu'une piece soit defectueuse est de 2,1%.</p>
+</div></div>
+
+<div class="section-subtitle">5.3 Theoreme de Bayes</div>
+<p>Le <strong>theoreme de Bayes</strong> permet de "renverser" une probabilite conditionnelle. Si l'on connait P(A|B), le theoreme permet de calculer P(B|A). C'est l'un des theoremes les plus importants en statistiques et en intelligence artificielle.</p>
+
+<div class="formula-box formula-box-gold"><div class="formula-main">P(B_i|A) = P(B_i) x P(A|B_i) / P(A)</div><div class="formula-desc">Theoreme de Bayes (avec formule des probabilites totales pour P(A))</div></div>
+
+<p>Le theoreme de Bayes est utilise pour calculer la probabilite d'une cause sachant l'effet observe. Par exemple, connaissant le taux de defaut d'une machine et la proportion de pieces produites par cette machine, on peut calculer la probabilite qu'une piece defectueuse provienne de cette machine.</p>
+
+<div class="example-block"><div class="example-label">Exemple - Diagnostic medical</div><div class="example-content">
+<p>Une maladie touche 1% de la population. Un test a une sensibilite de 99% (P(T|M) = 0,99) et une specificite de 95% (P(T barre|M barre) = 0,95, donc P(T|M barre) = 0,05).</p>
+<p>Question : Quelle est la probabilite d'etre malade sachant que le test est positif ?</p>
+<p><span class="math-inline">P(M|T) = P(M) x P(T|M) / P(T)</span></p>
+<p><span class="math-inline">P(T) = P(M) x P(T|M) + P(M barre) x P(T|M barre) = 0,01 x 0,99 + 0,99 x 0,05 = 0,0099 + 0,0495 = 0,0594</span></p>
+<p><span class="math-inline">P(M|T) = 0,0099 / 0,0594 = 1/6 = 16,7%</span></p>
+<p>Bien que le test soit positif, il n'y a qu'environ 17% de chances d'etre malade !</p>
+</div></div>
+
+<div class="section-subtitle">5.4 Arbre de probabilites</div>
+<p>Les <strong>arbres de probabilites</strong> (ou arbres des probabilites conditionnelles) sont un outil graphique puissant pour visualiser et calculer les probabilites dans les experiences a plusieurs etapes. Chaque noeud represente un evenement, et chaque branche porte la probabilite conditionnelle correspondante.</p>
+
+<div class="steps"><div class="step"><div class="step-number">1</div><div class="step-content"><strong>Racine</strong><p>L'evenement de depart au sommet de l'arbre. Les branches qui partent de la racine portent les probabilites marginales P(B_i)</p></div></div><div class="step"><div class="step-number">2</div><div class="step-content"><strong>Niveau 2</strong><p>Apres le premier evenement, chaque branche porte la probabilite conditionnelle P(A|B_i) ou P(A barre|B_i)</p></div></div><div class="step"><div class="step-number">3</div><div class="step-content"><strong>Feuilles</strong><p>Les extremites de l'arbre representent les intersections. La probabilite d'un chemin est le produit des probabilites sur ce chemin</p></div></div></div>
+
+<div class="card key-box"><div class="card-label">Regle de l'arbre</div><p>La probabilite d'un chemin est le PRODUIT des probabilites sur les branches de ce chemin. La probabilite d'un evenement est la SOMME des probabilites des chemins menant a cet evenement.</p></div>
+
+<div class="card tip-box"><div class="card-label">Conseil methodologique</div><p>Dessinez toujours un arbre de probabilites dans les exercices a plusieurs etapes (tirages successifs, tests medicaux, chaine de production). Cela rend les calculs beaucoup plus clairs et evite les erreurs. Verifiez toujours que la somme des probabilites sur les branches partant d'un meme noeud vaut 1.</p></div>
+
+</div>
+</div>
+<div class="page chapter-page">
+<div class="chapter-hero">
+    <div class="chapter-hero-pattern"></div>
+    <div class="chapter-hero-gradient" style="linear-gradient(135deg, #1e3a8a 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="chapter-hero-overlay">
+        <div class="chapter-number">Chapitre 6</div>
+        <div class="chapter-title">Variable aleatoire reelle - Lois de probabilite</div>
+    </div>
+</div>
+<div class="chapter-body">
+
+<div class="section-subtitle">6.1 Definition d'une variable aleatoire</div>
+<p>Une <strong>variable aleatoire reelle</strong> (VAR) est une fonction qui associe a chaque issue d'une experience aleatoire un nombre reel. La variable aleatoire transforme ainsi un resultat d'experience (qui peut etre qualitatif) en une valeur numerique, ce qui permet d'effectuer des calculs.</p>
+
+<div class="formula-box formula-box-gold"><div class="formula-main">X : Omega flèche vers R</div><div class="formula-desc">X est une application de l'univers Omega vers l'ensemble des reels R</div></div>
+
+<p>On distingue deux types de variables aleatoires : les <strong>variables discretes</strong> qui prennent un nombre fini ou denombrable de valeurs, et les <strong>variables continues</strong> qui prennent des valeurs dans un intervalle de R. Dans ce cours, nous traitons principalement les variables discretes.</p>
+
+<div class="example-block"><div class="example-label">Exemples de variables aleatoires</div><div class="example-content">
+<p><strong>Lancer d'un de</strong> : X = le resultat. X prend les valeurs (1, 2, 3, 4, 5, 6)</p>
+<p><strong>Lancer de 3 pieces</strong> : X = nombre de piles obtenus. X prend les valeurs (0, 1, 2, 3)</p>
+<p><strong>Tirage de boules</strong> : X = gain associe a chaque couleur. X peut prendre des valeurs comme (-5, 0, 10, 20)</p>
+<p><strong>Temperature</strong> : X = temperature mesuree. C'est une variable continue (valeurs dans un intervalle)</p>
+</div></div>
+
+<div class="section-subtitle">6.2 Loi de probabilite d'une variable discrete</div>
+<p>La <strong>loi de probabilite</strong> d'une variable aleatoire discrete X est la donnee de toutes les valeurs que X peut prendre et de la probabilite associee a chaque valeur. On la represente generalement sous forme de tableau.</p>
+
+<p>Si X prend les valeurs x_1, x_2, ..., x_n avec les probabilites p_1, p_2, ..., p_n, la loi de probabilite est definie par la donnee de tous les couples (x_i, p_i).</p>
+
+<div class="formula-box"><div class="formula-main">Somme de i=1 a n de p_i = 1</div><div class="formula-desc">Condition de normalisation (la somme de toutes les probabilites vaut 1)</div></div>
+
+<div class="example-block"><div class="example-label">Exemple - Loi d'un de pipé</div><div class="example-content">
+<p>On lance un de pipé dont les probabilites d'obtenir chaque face sont les suivantes :</p>
+<div class="table-wrap"><table><thead><tr><th>x_i</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th></tr></thead><tbody><tr><td>P(X=x_i)</td><td>1/12</td><td>1/6</td><td>1/6</td><td>1/6</td><td>1/6</td><td>3/12</td></tr></tbody></table></div>
+<p>Verification : 1/12 + 1/6 + 1/6 + 1/6 + 1/6 + 3/12 = 1/12 + 2/12 + 2/12 + 2/12 + 2/12 + 3/12 = 12/12 = 1</p>
+</div></div>
+
+<div class="section-subtitle">6.3 Construction d'une loi de probabilite</div>
+<p>Pour construire la loi de probabilite d'une variable aleatoire, on suit une methode systematique en quatre etapes. Cette methode est applicable a presque tous les exercices.</p>
+
+<div class="steps"><div class="step"><div class="step-number">1</div><div class="step-content"><strong>Identifier les valeurs possibles</strong><p>Determiner toutes les valeurs x_1, x_2, ..., x_n que peut prendre X en analysant l'experience</p></div></div><div class="step"><div class="step-number">2</div><div class="step-content"><strong>Calculer chaque probabilite</strong><p>Pour chaque valeur x_i, calculer p_i = P(X = x_i) en utilisant les techniques vues dans les chapitres precedents (equiprobabilite, conditionnelles, etc.)</p></div></div><div class="step"><div class="step-number">3</div><div class="step-content"><strong>Verifier la normalisation</strong><p>S'assurer que la somme de toutes les probabilites vaut exactement 1. Si ce n'est pas le cas, il y a une erreur dans les calculs</p></div></div><div class="step"><div class="step-number">4</div><div class="step-content"><strong>Presenter en tableau</strong><p>Presenter le resultat sous forme d'un tableau avec les valeurs de X et les probabilites correspondantes</p></div></div></div>
+
+<div class="example-block"><div class="example-label">Exemple detaille - Jeu de loterie</div><div class="example-content">
+<p>Une loterie consiste a tirer une boule dans une urne contenant : 5 boules rouges, 3 boules vertes et 2 boules bleues. On gagne 10 euros si rouge, 5 euros si vert, et on perd 2 euros si bleue. Soit X le gain.</p>
+<p>Les valeurs possibles sont : x_1 = 10, x_2 = 5, x_3 = -2</p>
+<p>P(X = 10) = 5/10 = 1/2</p>
+<p>P(X = 5) = 3/10</p>
+<p>P(X = -2) = 2/10 = 1/5</p>
+<p>Verification : 1/2 + 3/10 + 1/5 = 5/10 + 3/10 + 2/10 = 10/10 = 1</p>
+</div></div>
+
+<div class="section-subtitle">6.4 Loi de probabilite d'une fonction de variable aleatoire</div>
+<p>Dans de nombreux exercices, on definit une nouvelle variable Y comme une fonction de X : Y = g(X). Pour determiner la loi de Y, on procede de la maniere suivante : on liste les valeurs de g(x_i) pour toutes les valeurs x_i de X, puis on regroupe les valeurs identiques en additionnant leurs probabilites.</p>
+
+<div class="example-block"><div class="example-label">Exemple</div><div class="example-content">
+<p>Si X a pour loi : P(X=1)=0,3, P(X=2)=0,5, P(X=3)=0,2 et Y = X carre :</p>
+<p>Y prend les valeurs : 1 (si X=1), 4 (si X=2), 9 (si X=3)</p>
+<p>P(Y=1) = 0,3, P(Y=4) = 0,5, P(Y=9) = 0,2</p>
+</div></div>
+
+<div class="card key-box"><div class="card-label">A retenir</div><p>La loi de probabilite est le point de depart de tout exercice sur les variables aleatoires. Maitrisez les quatre etapes de construction, et vous pourrez aborder tous les types d'exercices avec confiance.</p></div>
+
+</div>
+</div>
+<div class="page chapter-page">
+<div class="chapter-hero">
+    <div class="chapter-hero-pattern"></div>
+    <div class="chapter-hero-gradient" style="linear-gradient(135deg, #1e3a5f 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="chapter-hero-overlay">
+        <div class="chapter-number">Chapitre 7</div>
+        <div class="chapter-title">Esperance mathematique</div>
+    </div>
+</div>
+<div class="chapter-body">
+
+<div class="section-subtitle">7.1 Definition de l'esperance mathematique</div>
+<p>L'<strong>esperance mathematique</strong> d'une variable aleatoire discrete X est la moyenne ponderee de toutes les valeurs que X peut prendre, ou chaque valeur est ponderee par sa probabilite. C'est l'equivalent probabiliste de la moyenne arithmetique. On la note E(X).</p>
+
+<div class="formula-box formula-box-gold"><div class="formula-main">E(X) = Somme de i=1 a n de x_i x p_i = x_1 x p_1 + x_2 x p_2 + ... + x_n x p_n</div><div class="formula-desc">Esperance mathematique</div></div>
+
+<p>L'esperance represente la valeur moyenne que l'on obtiendrait si l'on repetait l'experience un tres grand nombre de fois. C'est le concept central en theorie des jeux, en assurance et en finance.</p>
+
+<div class="example-block"><div class="example-label">Exemple 1 - Gain moyen a un jeu</div><div class="example-content">
+<p>Un jeu coute 3 euros pour y jouer. On lance un de : si on obtient 6, on gagne 15 euros, sinon on ne gagne rien. Soit X le gain net.</p>
+<p>X prend les valeurs : 12 (gain net si 6) et -3 (perte nette sinon)</p>
+<p><span class="math-inline">E(X) = 12 x (1/6) + (-3) x (5/6) = 2 - 2,5 = -0,50</span></p>
+<p>L'esperance est negative (-0,50 euro) : le jeu est defavorable au joueur. En moyenne, on perd 50 centimes par partie.</p>
+</div></div>
+
+<div class="section-subtitle">7.2 Proprietes de l'esperance</div>
+
+<div class="formula-box"><div class="formula-main">E(a) = a pour toute constante a</div><div class="formula-desc">Esperance d'une constante</div></div>
+<div class="formula-box"><div class="formula-main">E(aX + b) = aE(X) + b</div><div class="formula-desc">Linearite de l'esperance (a et b constantes)</div></div>
+
+<p>La propriete de linearite est extremement utile. Elle permet de calculer l'esperance d'une transformation affine de X sans avoir a recalculer toute la loi de probabilite de la nouvelle variable.</p>
+
+<div class="example-block"><div class="example-label">Exemple d'application de la linearite</div><div class="example-content">
+<p>Si E(X) = 3,7, alors : E(2X + 5) = 2 x 3,7 + 5 = 12,4</p>
+<p>Si E(X) = -0,5, alors : E(-3X + 1) = -3 x (-0,5) + 1 = 2,5</p>
+</div></div>
+
+<div class="section-subtitle">7.3 Esperance de la somme de variables aleatoires</div>
+<p>Pour deux variables aleatoires X et Y (definies sur le meme espace probabilise), l'esperance de leur somme est la somme de leurs esperances. Cette propriete est valable que X et Y soient independantes ou non.</p>
+
+<div class="formula-box"><div class="formula-main">E(X + Y) = E(X) + E(Y)</div><div class="formula-desc">Additivite de l'esperance (sans condition d'independance)</div></div>
+
+<p>Si X et Y sont independantes, on a aussi la propriete de multiplicativite : E(X x Y) = E(X) x E(Y). Attention, cette derniere formule n'est valable QUE si X et Y sont independantes.</p>
+
+<div class="section-subtitle">7.4 Interpretation de l'esperance</div>
+<p>L'esperance a plusieurs interpretations importantes qui aident a comprendre sa signification dans les exercices et les applications pratiques :</p>
+
+<ul class="bullet-list"><li><strong>Loi des grands nombres</strong> : Si l'on repete l'experience n fois et que S_n est la somme des resultats, alors S_n/n tend vers E(X) quand n tend vers l'infini. C'est la loi faible des grands nombres</li><li><strong>Jeu equitable</strong> : Un jeu est dit equitable lorsque l'esperance du gain net est nulle, c'est-a-dire E(X) = 0. Le joueur n'est ni avantage ni desavantage sur le long terme</li><li><strong>Indicateur de centralite</strong> : L'esperance est le centre de gravite de la distribution de probabilite. Elle indique autour de quelle valeur les resultats se concentrent</li></ul>
+
+<div class="card warning-box"><div class="card-label">Attention</div><p>L'esperance n'est pas forcement une valeur que X peut prendre. Par exemple, si X est le resultat d'un de equitable, E(X) = 3,5, qui n'est pas une face du de. L'esperance est une moyenne theorique, pas un resultat possible.</p></div>
+
+<div class="section-subtitle">7.5 Esperance d'un indicateur</div>
+<p>Un cas frequent en probabilites est celui d'un <strong>indicatrice</strong> (variable de Bernoulli). Si A est un evenement et X = 1_A (X vaut 1 si A se realise, 0 sinon), alors l'esperance de X est simplement la probabilite de A.</p>
+
+<div class="formula-box formula-box-gold"><div class="formula-main">E(1_A) = P(A)</div><div class="formula-desc">Esperance d'une variable indicatrice</div></div>
+
+<p>Cette propriete est extremement utile pour calculer l'esperance d'une variable qui compte le nombre de realisations d'un evenement. Si X = X_1 + X_2 + ... + X_n ou chaque X_i est une indicatrice, alors E(X) = P(A_1) + P(A_2) + ... + P(A_n).</p>
+
+<div class="card tip-box"><div class="card-label">Conseil pratique</div><p>Pour calculer l'esperance d'une somme de variables de comptage, decomposez chaque variable en somme d'indicatrices. Cette technique (dite de linearite de l'esperance) evite de calculer la loi de la somme, qui peut etre tres complexe.</p></div>
+
+</div>
+</div>
+<div class="page chapter-page">
+<div class="chapter-hero">
+    <div class="chapter-hero-pattern"></div>
+    <div class="chapter-hero-gradient" style="linear-gradient(135deg, #1e1b4b 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="chapter-hero-overlay">
+        <div class="chapter-number">Chapitre 8</div>
+        <div class="chapter-title">Variance et ecart-type</div>
+    </div>
+</div>
+<div class="chapter-body">
+
+<div class="section-subtitle">8.1 Definition de la variance</div>
+<p>La <strong>variance</strong> d'une variable aleatoire X mesure la dispersion des valeurs de X autour de son esperance. Plus la variance est grande, plus les valeurs de X sont etalees autour de la moyenne. Plus elle est petite, plus les valeurs sont concentrees pres de la moyenne. On la note Var(X) ou V(X).</p>
+
+<div class="formula-box formula-box-gold"><div class="formula-main">Var(X) = Somme de i=1 a n de (x_i - E(X)) carre x p_i</div><div class="formula-desc">Variance (definition)</div></div>
+
+<p>La variance est la moyenne ponderee des carres des ecarts a l'esperance. Le carre est utilise pour eviter que les ecarts positifs et negatifs ne s'annulent mutuellement.</p>
+
+<div class="section-subtitle">8.2 Formule de Koenig-Huygens (formule pratique)</div>
+
+<p>En pratique, on utilise plus souvent la <strong>formule de Koenig-Huygens</strong> (aussi appelee theoreme de Steiner) qui est une forme equivalente mais beaucoup plus pratique a calculer. Elle evite de calculer les ecarts individuels a l'esperance.</p>
+
+<div class="formula-box formula-box-gold"><div class="formula-main">Var(X) = E(X carre) - [E(X)] carre</div><div class="formula-desc">Formule de Koenig-Huygens</div></div>
+
+<p>ou E(X carre) = Somme de x_i carre x p_i est le moment d'ordre 2. Cette formule est la plus utilisee en pratique car elle ne necessite qu'une seule operation de soustraction au lieu de calculer n ecarts.</p>
+
+<div class="steps"><div class="step"><div class="step-number">1</div><div class="step-content"><strong>Etape 1</strong><p>Calculer E(X) = Somme de x_i x p_i</p></div></div><div class="step"><div class="step-number">2</div><div class="step-content"><strong>Etape 2</strong><p>Calculer E(X carre) = Somme de (x_i au carre) x p_i</p></div></div><div class="step"><div class="step-number">3</div><div class="step-content"><strong>Etape 3</strong><p>Appliquer : Var(X) = E(X carre) - [E(X)] au carre</p></div></div></div>
+
+<div class="example-block"><div class="example-label">Exemple detaille</div><div class="example-content">
+<p>Soit X de loi : P(X=0)=0,2, P(X=1)=0,5, P(X=2)=0,3</p>
+<p><strong>Etape 1 :</strong> E(X) = 0 x 0,2 + 1 x 0,5 + 2 x 0,3 = 0 + 0,5 + 0,6 = 1,1</p>
+<p><strong>Etape 2 :</strong> E(X carre) = 0 x 0,2 + 1 x 0,5 + 4 x 0,3 = 0 + 0,5 + 1,2 = 1,7</p>
+<p><strong>Etape 3 :</strong> Var(X) = 1,7 - 1,1 x 1,1 = 1,7 - 1,21 = 0,49</p>
+</div></div>
+
+<div class="section-subtitle">8.3 Proprietes de la variance</div>
+
+<div class="formula-box"><div class="formula-main">Var(a) = 0 pour toute constante a</div><div class="formula-desc">La variance d'une constante est nulle</div></div>
+<div class="formula-box"><div class="formula-main">Var(aX + b) = a carre x Var(X)</div><div class="formula-desc">La variance est affectee par le carre du coefficient</div></div>
+
+<p>Contrairement a l'esperance, la variance n'est pas lineaire. Si l'on multiplie X par a, la variance est multipliee par a au carre (et non par a). L'addition d'une constante b ne modifie pas la variance, car la dispersion n'est pas affectee par une translation.</p>
+
+<div class="example-block"><div class="example-label">Exemples d'application</div><div class="example-content">
+<p>Si Var(X) = 4 :</p>
+<p>Var(3X + 2) = 9 x Var(X) = 9 x 4 = 36</p>
+<p>Var(-X) = (-1) au carre x Var(X) = 4 (la multiplication par -1 ne change pas la variance)</p>
+<p>Var(X + 10) = Var(X) = 4 (ajouter une constante ne change pas la dispersion)</p>
+</div></div>
+
+<div class="section-subtitle">8.4 Ecart-type</div>
+<p>L'<strong>ecart-type</strong> d'une variable aleatoire est la racine carree de la variance. Il s'exprime dans la meme unite que la variable X, ce qui le rend plus interpretable que la variance (qui est dans le carre de l'unite).</p>
+
+<div class="formula-box formula-box-gold"><div class="formula-main">sigma(X) = racine carree de Var(X)</div><div class="formula-desc">Ecart-type</div></div>
+
+<p>L'ecart-type est la mesure de dispersion la plus utilisee en statistiques et en probabilites. Il permet de comparer la dispersion de differentes variables aleatoires de maniere homogene.</p>
+
+<div class="example-block"><div class="example-label">Calcul de l'ecart-type</div><div class="example-content">
+<p>Si Var(X) = 0,49 (exemple precedent) :</p>
+<p><span class="math-inline">sigma(X) = racine carree de 0,49 = 0,7</span></p>
+<p>L'ecart-type est de 0,7, ce qui signifie que les valeurs de X s'ecartent en moyenne de 0,7 par rapport a l'esperance (1,1).</p>
+</div></div>
+
+<div class="section-subtitle">8.5 Variance d'une somme de variables</div>
+<div class="formula-box"><div class="formula-main">Var(X + Y) = Var(X) + Var(Y) + 2 x Cov(X,Y)</div><div class="formula-desc">Cas general</div></div>
+<div class="formula-box"><div class="formula-main">Var(X + Y) = Var(X) + Var(Y)</div><div class="formula-desc">Cas ou X et Y sont independantes (Cov(X,Y) = 0)</div></div>
+
+<p>La covariance Cov(X,Y) = E(XY) - E(X)E(Y) mesure la dependance lineaire entre X et Y. Si les variables sont independantes, la covariance est nulle et les variances s'ajoutent simplement.</p>
+
+<div class="card key-box"><div class="card-label">Formules a connaitre par coeur</div><p>E(X) pour le centre, Var(X) = E(X^2) - [E(X)]^2 pour la dispersion, sigma = racine de Var pour l'ecart-type. Ces trois formules suffisent pour resoudre la grande majorite des exercices.</p></div>
+
+</div>
+</div>
+<div class="page chapter-page">
+<div class="chapter-hero">
+    <div class="chapter-hero-pattern"></div>
+    <div class="chapter-hero-gradient" style="linear-gradient(135deg, #172554 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="chapter-hero-overlay">
+        <div class="chapter-number">Chapitre 9</div>
+        <div class="chapter-title">Fonction de repartition</div>
+    </div>
+</div>
+<div class="chapter-body">
+
+<div class="section-subtitle">9.1 Definition de la fonction de repartition</div>
+<p>La <strong>fonction de repartition</strong> d'une variable aleatoire X, notee F_X ou simplement F, associe a tout reel x la probabilite que X prenne une valeur inferieure ou egale a x. C'est un outil fondamental qui decrit completement la loi de probabilite d'une variable aleatoire.</p>
+
+<div class="formula-box formula-box-gold"><div class="formula-main">F(x) = P(X inferieur ou egal a x)</div><div class="formula-desc">Fonction de repartition</div></div>
+
+<div class="section-subtitle">9.2 Proprietes de la fonction de repartition</div>
+
+<ul class="bullet-list"><li>F est une fonction <strong>croissante</strong> : si a inferieur a b, alors F(a) inferieur ou egal a F(b)</li><li><span class="math-inline">limite quand x tend vers -infini de F(x) = 0</span> (quand x est tres negatif, il n'y a presque aucune chance que X soit inferieur a x)</li><li><span class="math-inline">limite quand x tend vers +infini de F(x) = 1</span> (quand x est tres grand, X est presque surement inferieur a x)</li><li>F est <strong>continue a droite</strong> en tout point</li><li><span class="math-inline">P(X = a) = F(a) - F(a-) = F(a) - limite a gauche de F en a</span></li></ul>
+
+<div class="section-subtitle">9.3 Construction de la fonction de repartition</div>
+<p>Pour une variable discrete, on construit F pas a pas. On classe les valeurs de X par ordre croissant, puis on accumule les probabilites. La fonction F est une fonction en escalier (constante par morceaux, avec des sauts aux valeurs de X).</p>
+
+<div class="steps"><div class="step"><div class="step-number">1</div><div class="step-content"><strong>Trier les valeurs</strong><p>Classer les valeurs x_1 < x_2 < ... < x_n par ordre croissant</p></div></div><div class="step"><div class="step-number">2</div><div class="step-content"><strong>Calculer les sauts</strong><p>F(x_i) = P(X inferieur ou egal a x_i) = somme des p_j pour j de 1 a i</p></div></div><div class="step"><div class="step-number">3</div><div class="step-content"><strong>Decrire F</strong><p>F(x) = 0 pour x < x_1, F(x) = p_1 pour x_1 inferieur ou egal a x < x_2, etc., F(x) = 1 pour x superieur ou egal a x_n</p></div></div></div>
+
+<div class="example-block"><div class="example-label">Exemple complet</div><div class="example-content">
+<p>Soit X de loi : P(X=-1)=0,2, P(X=0)=0,3, P(X=2)=0,4, P(X=5)=0,1</p>
+<p>Calcul de F :</p>
+<p>Pour x < -1 : F(x) = 0</p>
+<p>Pour -1 inferieur ou egal a x < 0 : F(x) = 0,2</p>
+<p>Pour 0 inferieur ou egal a x < 2 : F(x) = 0,2 + 0,3 = 0,5</p>
+<p>Pour 2 inferieur ou egal a x < 5 : F(x) = 0,5 + 0,4 = 0,9</p>
+<p>Pour x superieur ou egal a 5 : F(x) = 0,9 + 0,1 = 1</p>
+</div></div>
+
+<div class="section-subtitle">9.4 Calcul de probabilites avec F</div>
+<p>La fonction de repartition permet de calculer facilement toutes les probabilites d'intervalles :</p>
+
+<div class="formula-box"><div class="formula-main">P(a < X inferieur ou egal a b) = F(b) - F(a)</div><div class="formula-desc">Probabilite d'un intervalle semi-ouvert</div></div>
+<div class="formula-box"><div class="formula-main">P(X > a) = 1 - F(a)</div><div class="formula-desc">Probabilite de depasser a</div></div>
+<div class="formula-box"><div class="formula-main">P(X = a) = F(a) - F(a-) = taille du saut en a</div><div class="formula-desc">Probabilite d'un point</div></div>
+
+<p>Ces formules montrent que toute la loi de probabilite est encodee dans la fonction de repartition. C'est pourquoi F est si importante en theorie des probabilites.</p>
+
+<div class="section-subtitle">9.5 Representation graphique</div>
+
+<p>La representation graphique de F pour une variable discrete est une courbe en escalier. Chaque marche correspond a une valeur de X, et la hauteur de la marche est la probabilite de cette valeur. Cette representation permet de visualiser rapidement la distribution des probabilites.</p>
+
+<div class="card key-box"><div class="card-label">Utilite de F</div><p>La fonction de repartition est utilisee dans les exercices pour calculer P(a < X inferieur ou egal a b) = F(b) - F(a). Elle est aussi indispensable pour definir les lois continues, ou la probabilite d'un point est nulle et seul le calcul d'intervalles a un sens.</p></div>
+
+</div>
+</div>
+<div class="page chapter-page">
+<div class="chapter-hero">
+    <div class="chapter-hero-pattern"></div>
+    <div class="chapter-hero-gradient" style="linear-gradient(135deg, #0c4a6e 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="chapter-hero-overlay">
+        <div class="chapter-number">Chapitre 10</div>
+        <div class="chapter-title">Loi binomiale</div>
+    </div>
+</div>
+<div class="chapter-body">
+
+<div class="section-subtitle">10.1 Epreuve de Bernoulli</div>
+<p>Une <strong>epreuve de Bernoulli</strong> est une experience aleatoire qui n'a que deux issues possibles : un <strong>succes</strong> (note S) avec probabilite p, et un <strong>echec</strong> (note E) avec probabilite q = 1 - p. C'est le modele le plus simple en probabilites.</p>
+
+<div class="formula-box formula-box-gold"><div class="formula-main">P(S) = p et P(E) = 1 - p = q</div><div class="formula-desc">Epreuve de Bernoulli de parametre p</div></div>
+
+<div class="example-block"><div class="example-label">Exemples d'epreuves de Bernoulli</div><div class="example-content">
+<p>Lancer une piece : Succes = Pile (p = 1/2), Echec = Face (q = 1/2)</p>
+<p>Controler un produit : Succes = conforme (p = 0,97), Echec = defectueux (q = 0,03)</p>
+<p>Tirer une carte : Succes = As (p = 4/32 = 1/8), Echec = non-As (q = 7/8)</p>
+<p>Repondre a un QCM : Succes = bonne reponse (p = 1/4), Echec = mauvaise reponse (q = 3/4)</p>
+</div></div>
+
+<div class="section-subtitle">10.2 Loi de Bernoulli</div>
+<p>Soit X la variable aleatoire qui vaut 1 en cas de succes et 0 en cas d'echec. X suit la <strong>loi de Bernoulli</strong> de parametre p. C'est le modele de variable aleatoire le plus simple, mais aussi le plus fondamental.</p>
+
+<div class="table-wrap"><table><thead><tr><th>x_i</th><th>0</th><th>1</th></tr></thead><tbody><tr><td>P(X=x_i)</td><td>1-p</td><td>p</td></tr></tbody></table></div>
+
+<div class="formula-box"><div class="formula-main">E(X) = p</div><div class="formula-desc">Esperance d'une loi de Bernoulli</div></div>
+<div class="formula-box"><div class="formula-main">Var(X) = p(1-p) = pq</div><div class="formula-desc">Variance d'une loi de Bernoulli</div></div>
+
+<div class="section-subtitle">10.3 Schema de Bernoulli</div>
+<p>Un <strong>schema de Bernoulli</strong> est la repetition n fois, de maniere independante, d'une meme epreuve de Bernoulli de parametre p. A chaque repetition, la probabilite de succes reste p, et les resultats des differentes repetitions sont independants les uns des autres.</p>
+
+<p>L'independance des repetitions est essentielle : le resultat d'une epreuve ne doit pas influencer les suivantes. C'est le cas des tirages avec remise, des lancers successifs d'un de non pipe, etc.</p>
+
+<div class="section-subtitle">10.4 Loi binomiale</div>
+<p>Soit X la variable aleatoire qui compte le nombre de succes dans un schema de Bernoulli de n repetitions. X suit la <strong>loi binomiale</strong> de parametres n et p, notee B(n, p).</p>
+
+<div class="formula-box formula-box-gold"><div class="formula-main">P(X = k) = C(n,k) x p puissance k x (1-p) puissance (n-k)</div><div class="formula-desc">Loi binomiale B(n, p)</div></div>
+
+<p>Cette formule donne la probabilite d'obtenir exactement k succes parmi n repetitions independantes. Le terme C(n,k) compte le nombre de facons de choisir les k positions des succes parmi n, p puissance k est la probabilite d'avoir k succes, et (1-p) puissance (n-k) est la probabilite d'avoir n-k echecs.</p>
+
+<div class="example-block"><div class="example-label">Exemple - 10 lancers d'une piece equilibree</div><div class="example-content">
+<p>On lance une piece 10 fois. X = nombre de piles. X suit B(10, 1/2).</p>
+<p>P(X = 5) = C(10,5) x (1/2) puissance 5 x (1/2) puissance 5 = 252 x 1/1024 = 63/256 = 0,246</p>
+<p>P(X = 0) = C(10,0) x (1/2) puissance 10 = 1/1024 = 0,00098</p>
+<p>P(X = 10) = C(10,10) x (1/2) puissance 10 = 1/1024 = 0,00098</p>
+</div></div>
+
+<div class="section-subtitle">10.5 Proprietes de la loi binomiale</div>
+
+<div class="formula-box"><div class="formula-main">E(X) = np</div><div class="formula-desc">Esperance de la loi binomiale</div></div>
+<div class="formula-box"><div class="formula-main">Var(X) = np(1-p) = npq</div><div class="formula-desc">Variance de la loi binomiale</div></div>
+<div class="formula-box"><div class="formula-main">sigma(X) = racine carree de np(1-p)</div><div class="formula-desc">Ecart-type</div></div>
+
+<p>L'esperance np est le nombre moyen de succes attendu sur n repetitions. La variance npq mesure la dispersion autour de cette moyenne.</p>
+
+<div class="section-subtitle">10.6 Conditions d'application</div>
+
+<div class="card key-box"><div class="card-label">Quand utiliser la loi binomiale</div><p>La loi binomiale s'applique quand les 4 conditions sont reunies : (1) On repete n fois la meme experience, (2) Chaque experience a 2 issues (succes/echec), (3) La probabilite p de succes est constante, (4) Les experiences sont independantes.</p></div>
+
+<div class="section-subtitle">10.7 Calcul pratique - Table de la loi binomiale</div>
+
+<p>Pour les calculs, on utilise souvent une calculatrice ou une table de la loi binomiale. Les calculatrices scientifiques proposent generalement les fonctions binomPdf (probabilite exacte P(X=k)) et binomCdf (probabilite cumulee P(X inferieur ou egal a k)).</p>
+
+<div class="example-block"><div class="example-label">Exercice type Bac</div><div class="example-content">
+<p>Dans une population, 30% des personnes prefèrent le the. On interroge 8 personnes au hasard (choix independants). Soit X le nombre de personnes preferant le the.</p>
+<p><strong>a)</strong> X suit la loi binomiale B(8, 0,3).</p>
+<p><strong>b)</strong> Probabilite qu'exactement 3 personnes preferent le the :</p>
+<p><span class="math-inline">P(X=3) = C(8,3) x 0,3 puissance 3 x 0,7 puissance 5 = 56 x 0,027 x 0,16807 = 0,2541</span></p>
+<p><strong>c)</strong> Probabilite qu'au moins une personne prefere le the :</p>
+<p><span class="math-inline">P(X superieur ou egal a 1) = 1 - P(X=0) = 1 - 0,7 puissance 8 = 1 - 0,0576 = 0,9424</span></p>
+</div></div>
+
+<div class="card tip-box"><div class="card-label">Conseil</div><p>Pour calculer P(X superieur ou egal a k), utilisez le complementaire : P(X superieur ou egal a k) = 1 - P(X inferieur ou egal a k-1). Cela simplifie les calculs et evite les erreurs de sommation.</p></div>
+
+</div>
+</div>
+<div class="page chapter-page">
+<div class="chapter-hero">
+    <div class="chapter-hero-pattern"></div>
+    <div class="chapter-hero-gradient" style="linear-gradient(135deg, #312e81 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="chapter-hero-overlay">
+        <div class="chapter-number">Chapitre 11</div>
+        <div class="chapter-title">Loi de Poisson</div>
+    </div>
+</div>
+<div class="chapter-body">
+
+<div class="section-subtitle">11.1 Introduction a la loi de Poisson</div>
+<p>La <strong>loi de Poisson</strong> (du mathematicien Simeon Denis Poisson) modelise le nombre d'evenements rares se produisant dans un intervalle donne (temps, espace, etc.) lorsque les evenements se produisent independamment les uns des autres a un taux moyen constant.</p>
+
+<p>Elle est aussi appelee <strong>loi des evenements rares</strong> car elle decrit des phenomenes qui se produisent peu frequemment mais de maniere reguliere : appels telephoniques dans un standard, erreurs de frappe dans un texte, pannes de machines, arrivées de clients dans une file d'attente, accidents routiers, etc.</p>
+
+<div class="section-subtitle">11.2 Definition de la loi de Poisson</div>
+<p>Une variable aleatoire X suit la <strong>loi de Poisson</strong> de parametre lambda (lambda > 0), notee P(lambda), si pour tout entier k superieur ou egal a 0 :</p>
+
+<div class="formula-box formula-box-gold"><div class="formula-main">P(X = k) = (e puissance -lambda) x (lambda puissance k) / k!</div><div class="formula-desc">Loi de Poisson P(lambda)</div></div>
+
+<p>ou e est la base du logarithme neperien (e = 2,71828...), lambda est le parametre de la loi (nombre moyen d'evenements), et k! est la factorielle de k.</p>
+
+<div class="example-block"><div class="example-label">Exemples de situations poissonniennes</div><div class="example-content">
+<p><strong>Appels telephoniques</strong> : Un standard recoit en moyenne 5 appels par minute. X = nombre d'appels en 1 minute suit P(5)</p>
+<p><strong>Erreurs de frappe</strong> : En moyenne 2 erreurs par page. X = nombre d'erreurs par page suit P(2)</p>
+<p><strong>Pannes de machines</strong> : En moyenne 0,5 panne par jour. X = nombre de pannes par jour suit P(0,5)</p>
+</div></div>
+
+<div class="section-subtitle">11.3 Proprietes de la loi de Poisson</div>
+
+<div class="formula-box"><div class="formula-main">E(X) = lambda</div><div class="formula-desc">Esperance (nombre moyen d'evenements)</div></div>
+<div class="formula-box"><div class="formula-main">Var(X) = lambda</div><div class="formula-desc">Variance (egale a l'esperance !)</div></div>
+
+<p>La propriete Var(X) = E(X) = lambda est caracteristique de la loi de Poisson. Si l'on observe que la variance d'un phenomene est environ egale a sa moyenne, il y a de fortes chances qu'il suive une loi de Poisson.</p>
+
+<div class="section-subtitle">11.4 Approximation de la binomiale par la loi de Poisson</div>
+
+<p>Lorsque n est grand et p est petit (evenements rares), la loi binomiale B(n, p) peut etre approchee par la loi de Poisson P(lambda) avec lambda = np. C'est le <strong>theoreme de Poisson</strong> (cas limite de la loi binomiale).</p>
+
+<div class="formula-box formula-box-gold"><div class="formula-main">Si n grand, p petit, np = lambda modere, alors B(n,p) est approchee par P(lambda = np)</div><div class="formula-desc">Approximation de Poisson</div></div>
+
+<p>En pratique, on utilise cette approximation quand n superieur ou egal a 30 et p inferieur ou egal a 0,1 (certains auteurs donnent np inferieur ou egal a 5 comme critere supplementaire). L'approximation est d'autant meilleure que n est grand et p est petit.</p>
+
+<div class="example-block"><div class="example-label">Exemple d'approximation</div><div class="example-content">
+<p>Une usine produit 1000 pieces par jour. La probabilite qu'une piece soit defectueuse est 0,005. Soit X le nombre de pieces defectueuses par jour.</p>
+<p>X suit B(1000, 0,005). Comme n = 1000 est grand et p = 0,005 est petit :</p>
+<p>On approche par P(lambda) avec lambda = 1000 x 0,005 = 5.</p>
+<p>Probabilite qu'il y ait exactement 3 pieces defectueuses :</p>
+<p><span class="math-inline">P(X=3) environ e puissance (-5) x 5 puissance 3 / 3! = 0,0067 x 125 / 6 = 0,1404</span></p>
+<p>Calcul exact avec la binomiale : P(X=3) = C(1000,3) x 0,005 puissance 3 x 0,995 puissance 997 = 0,1404 (identique a 10 puissance -4 pres)</p>
+</div></div>
+
+<div class="card warning-box"><div class="card-label">Attention</div><p>L'approximation de Poisson n'est valable QUE si p est petit. Si p est grand (par exemple p = 0,5), l'approximation de Poisson est tres mauvaise et il vaut mieux utiliser la loi binomiale directement ou l'approximation normale.</p></div>
+
+<div class="section-subtitle">11.5 Additivite de la loi de Poisson</div>
+
+<p>Si X et Y sont deux variables aleatoires independantes suivant respectivement P(lambda_1) et P(lambda_2), alors X + Y suit la loi P(lambda_1 + lambda_2). Cette propriete d'additivite est tres pratique pour combiner des evenements poissonniens.</p>
+
+<div class="example-block"><div class="example-label">Application</div><div class="example-content">
+<p>Un magasin recoit en moyenne 3 clients par heure le matin et 5 clients par heure l'apres-midi. Le nombre de clients par jour suit P(3 + 5) = P(8) si les arrivees matin et apres-midi sont independantes.</p>
+</div></div>
+
+<div class="card key-box"><div class="card-label">A retenir</div><p>La loi de Poisson modelise les evenements rares. Son parametre lambda est a la fois la moyenne et la variance. Elle sert aussi a approximer la loi binomiale quand n est grand et p est petit.</p></div>
+
+</div>
+</div>
+<div class="page chapter-page">
+<div class="chapter-hero">
+    <div class="chapter-hero-pattern"></div>
+    <div class="chapter-hero-gradient" style="linear-gradient(135deg, #1e3a8a 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="chapter-hero-overlay">
+        <div class="chapter-number">Chapitre 12</div>
+        <div class="chapter-title">Loi hypergeometrique et loi geometrique</div>
+    </div>
+</div>
+<div class="chapter-body">
+
+<div class="section-subtitle">12.1 Loi hypergeometrique</div>
+<p>La <strong>loi hypergeometrique</strong> modelise le nombre de succes lors de tirages successifs <strong>sans remise</strong> dans une population de taille N contenant K individus presentant le caractere etudie. Contrairement a la loi binomiale (tirages avec remise), ici la probabilite change a chaque tirage.</p>
+
+<div class="formula-box formula-box-gold"><div class="formula-main">P(X = k) = C(K,k) x C(N-K, n-k) / C(N, n)</div><div class="formula-desc">Loi hypergeometrique H(N, K, n)</div></div>
+
+<p>N = taille de la population, K = nombre d'individus ayant le caractere, n = nombre de tirages, k = nombre de succes observes. On choisit k individus parmi les K individus avec le caractere, et n-k individus parmi les N-K individus sans le caractere.</p>
+
+<div class="example-block"><div class="example-label">Exemple - Loterie</div><div class="example-content">
+<p>Dans un lot de 20 pieces, 3 sont defectueuses. On tire 5 pieces sans remise. Quelle est la probabilite d'obtenir exactement 1 piece defectueuse ?</p>
+<p><span class="math-inline">P(X=1) = C(3,1) x C(17,4) / C(20,5) = 3 x 2380 / 15504 = 7140/15504 = 0,4605</span></p>
+<p>Il y a environ 46% de chances d'obtenir exactement 1 piece defectueuse.</p>
+</div></div>
+
+<div class="section-subtitle">12.2 Proprietes de la loi hypergeometrique</div>
+
+<div class="formula-box"><div class="formula-main">E(X) = n x K/N</div><div class="formula-desc">Esperance (identique a la binomiale np avec p = K/N)</div></div>
+
+<p>L'esperance de la loi hypergeometrique est la meme que celle de la binomiale B(n, K/N). Cependant, la variance est differente (elle est plus petite car le tirage sans remise reduit la variabilite).</p>
+
+<div class="formula-box"><div class="formula-main">Var(X) = n x (K/N) x (1 - K/N) x (N-n)/(N-1)</div><div class="formula-desc">Variance hypergeometrique</div></div>
+
+<p>Le facteur (N-n)/(N-1) est le <strong>facteur de correction pour population finie</strong>. Quand N est grand par rapport a n, ce facteur est proche de 1 et la loi hypergeometrique se rapproche de la loi binomiale.</p>
+
+<div class="section-subtitle">12.3 Approximation par la loi binomiale</div>
+
+<p>Quand N est grand et n/N est petit (tirage d'un petit echantillon dans une grande population), la loi hypergeometrique H(N, K, n) peut etre approchee par la loi binomiale B(n, p = K/N).</p>
+
+<div class="card key-box"><div class="card-label">Regle pratique</div><p>On approche H(N,K,n) par B(n, K/N) quand n/N inferieur ou egal a 0,1 (la taille de l'echantillon ne depasse pas 10% de la population). C'est une approximation tres utilisee dans les sondages.</p></div>
+
+<div class="section-subtitle">12.4 Loi geometrique</div>
+<p>La <strong>loi geometrique</strong> modelise le nombre d'essais necessaires pour obtenir le premier succes dans une suite d'epreuves de Bernoulli independantes de parametre p. C'est le temps d'attente du premier succes.</p>
+
+<div class="formula-box formula-box-gold"><div class="formula-main">P(X = k) = (1-p) puissance (k-1) x p = q puissance (k-1) x p</div><div class="formula-desc">Loi geometrique de parametre p, pour k = 1, 2, 3, ...</div></div>
+
+<p>La probabilite que le premier succes arrive au k-ieme essai est : on a eu k-1 echecs consecutifs puis un succes. La probabilite de k-1 echecs est q puissance (k-1), et la probabilite du succes suivant est p.</p>
+
+<div class="example-block"><div class="example-label">Exemples d'utilisation</div><div class="example-content">
+<p><strong>Jeu de des</strong> : Nombre de lancers necessaires pour obtenir un 6. Si le de est equitable, X suit la loi geometrique de parametre p = 1/6.</p>
+<p>Probabilite que le premier 6 arrive au 3eme lancer : <span class="math-inline">P(X=3) = (5/6) au carre x (1/6) = 25/216 = 0,1157</span></p>
+<p><strong>Tir a l'arc</strong> : Nombre de tirs jusqu'au premier impact au centre. Si la probabilite de toucher le centre est 0,15, X suit G(0,15).</p>
+</div></div>
+
+<div class="section-subtitle">12.5 Proprietes de la loi geometrique</div>
+
+<div class="formula-box"><div class="formula-main">E(X) = 1/p</div><div class="formula-desc">Esperance : en moyenne 1/p essais pour le premier succes</div></div>
+<div class="formula-box"><div class="formula-main">Var(X) = (1-p)/p au carre = q/p au carre</div><div class="formula-desc">Variance</div></div>
+
+<p>L'esperance 1/p est intuitive : si la probabilite de succes est p, il faut en moyenne 1/p essais pour obtenir un succes. Par exemple, si p = 0,25, il faut en moyenne 4 essais.</p>
+
+<div class="formula-box"><div class="formula-main">P(X > k) = (1-p) puissance k = q puissance k</div><div class="formula-desc">Probabilite que le premier succes arrive apres le k-ieme essai</div></div>
+
+<div class="card tip-box"><div class="card-label">Conseil</div><p>Pour identifier si une situation suit une loi geometrique, cherchez la notion de "temps d'attente" ou "nombre d'essais jusqu'au premier succes". Si c'est le cas, et que les essais sont independants avec la meme probabilite p, alors c'est une loi geometrique.</p></div>
+
+</div>
+</div>
+<div class="page chapter-page">
+<div class="chapter-hero">
+    <div class="chapter-hero-pattern"></div>
+    <div class="chapter-hero-gradient" style="linear-gradient(135deg, #1e3a5f 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="chapter-hero-overlay">
+        <div class="chapter-number">Chapitre 13</div>
+        <div class="chapter-title">Loi uniforme et lois continues</div>
+    </div>
+</div>
+<div class="chapter-body">
+
+<div class="section-subtitle">13.1 Variables aleatoires continues</div>
+<p>Une variable aleatoire est dite <strong>continue</strong> si elle peut prendre n'importe quelle valeur dans un intervalle (ou une reunion d'intervalles) de nombres reels. Contrairement aux variables discretes, la probabilite qu'une variable continue prenne une valeur precise est nulle. On ne peut calculer que des probabilites d'intervalles.</p>
+
+<div class="formula-box"><div class="formula-main">P(X = a) = 0 pour tout reel a</div><div class="formula-desc">Probabilite ponctuelle nulle pour une variable continue</div></div>
+
+<div class="section-subtitle">13.2 Densite de probabilite</div>
+<p>Pour decrire la loi d'une variable aleatoire continue, on utilise une fonction appelee <strong>densite de probabilite</strong>, notee f. Cette fonction est positive et son integrale sur tout l'ensemble reel vaut 1.</p>
+
+<div class="formula-box"><div class="formula-main">f(x) superieur ou egal a 0 pour tout x</div><div class="formula-desc">Positivite de la densite</div></div>
+<div class="formula-box"><div class="formula-main">Integrale de -infini a +infini de f(x) dx = 1</div><div class="formula-desc">Normalisation (aire totale = 1)</div></div>
+
+<p>La probabilite que X appartienne a un intervalle [a, b] est l'aire sous la courbe de f entre a et b :</p>
+
+<div class="formula-box formula-box-gold"><div class="formula-main">P(a inferieur ou egal a X inferieur ou egal a b) = Integrale de a a b de f(x) dx</div><div class="formula-desc">Probabilite d'un intervalle</div></div>
+
+<div class="section-subtitle">13.3 Fonction de repartition d'une variable continue</div>
+
+<p>Pour une variable continue, la fonction de repartition est definie par :</p>
+
+<div class="formula-box"><div class="formula-main">F(x) = P(X inferieur ou egal a x) = Integrale de -infini a x de f(t) dt</div><div class="formula-desc">Fonction de repartition continue</div></div>
+
+<p>Contrairement au cas discret, F est ici une fonction continue (sans sauts). La densite f est la derivee de F : f(x) = F'(x). La probabilite d'un intervalle se calcule aussi par : P(a < X inferieur ou egal a b) = F(b) - F(a).</p>
+
+<div class="section-subtitle">13.4 Esperance et variance d'une variable continue</div>
+
+<div class="formula-box"><div class="formula-main">E(X) = Integrale de -infini a +infini de x f(x) dx</div><div class="formula-desc">Esperance d'une variable continue</div></div>
+<div class="formula-box"><div class="formula-main">Var(X) = Integrale de -infini a +infini de (x - E(X)) au carre f(x) dx = E(X au carre) - [E(X)] au carre</div><div class="formula-desc">Variance</div></div>
+
+<div class="section-subtitle">13.5 Loi uniforme sur [a, b]</div>
+<p>La <strong>loi uniforme</strong> sur un intervalle [a, b] est la loi continue la plus simple. Toutes les valeurs de l'intervalle [a, b] sont equiprobables. La densite est constante sur [a, b] et nulle en dehors.</p>
+
+<div class="formula-box formula-box-gold"><div class="formula-main">f(x) = 1/(b-a) pour x dans [a, b], et f(x) = 0 sinon</div><div class="formula-desc">Densite de la loi uniforme U[a, b]</div></div>
+
+<div class="formula-box"><div class="formula-main">E(X) = (a + b) / 2</div><div class="formula-desc">Esperance : milieu de l'intervalle</div></div>
+<div class="formula-box"><div class="formula-main">Var(X) = (b - a) au carre / 12</div><div class="formula-desc">Variance</div></div>
+
+<div class="example-block"><div class="example-label">Exemple - Bus</div><div class="example-content">
+<p>Un bus passe a un arret toutes les 15 minutes. Un passager arrive a un instant aleatoire uniformement reparti sur [0, 15]. Soit X le temps d'attente en minutes.</p>
+<p>X suit la loi uniforme U[0, 15].</p>
+<p><span class="math-inline">E(X) = (0+15)/2 = 7,5 minutes</span> (temps d'attente moyen)</p>
+<p>Probabilite d'attendre moins de 5 minutes : <span class="math-inline">P(X < 5) = 5/15 = 1/3</span></p>
+<p>Probabilite d'attendre plus de 10 minutes : <span class="math-inline">P(X > 10) = 5/15 = 1/3</span></p>
+</div></div>
+
+<div class="section-subtitle">13.6 Loi exponentielle</div>
+<p>La <strong>loi exponentielle</strong> de parametre lambda (lambda > 0) modelise les durees de vie ou les temps d'attente entre deux evenements dans un processus de Poisson. Elle est souvent utilisee en fiabilite et en theorie des files d'attente.</p>
+
+<div class="formula-box formula-box-gold"><div class="formula-main">f(x) = lambda x e puissance (-lambda x) pour x superieur ou egal a 0</div><div class="formula-desc">Loi exponentielle de parametre lambda</div></div>
+
+<div class="formula-box"><div class="formula-main">E(X) = 1/lambda</div><div class="formula-desc">Esperance (duree de vie moyenne)</div></div>
+<div class="formula-box"><div class="formula-main">Var(X) = 1/lambda au carre</div><div class="formula-desc">Variance</div></div>
+<div class="formula-box"><div class="formula-main">P(X > t) = e puissance (-lambda t)</div><div class="formula-desc">Probabilite de survie au-dela de t</div></div>
+
+<p>La propriete d'absence de memoire est unique a la loi exponentielle : P(X > s + t | X > s) = P(X > t). La duree de vie residuelle ne depend pas de la duree deja vecue.</p>
+
+<div class="card key-box"><div class="card-label">A retenir</div><p>Loi uniforme = equiprobabilite continue sur un intervalle. Loi exponentielle = temps d'attente dans un processus de Poisson. Les deux sont des lois continues fondamentales au programme.</p></div>
+
+</div>
+</div>
+<div class="page chapter-page">
+<div class="chapter-hero">
+    <div class="chapter-hero-pattern"></div>
+    <div class="chapter-hero-gradient" style="linear-gradient(135deg, #1e1b4b 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="chapter-hero-overlay">
+        <div class="chapter-number">Chapitre 14</div>
+        <div class="chapter-title">Couple de variables aleatoires</div>
+    </div>
+</div>
+<div class="chapter-body">
+
+<div class="section-subtitle">14.1 Couple de variables aleatoires discretes</div>
+<p>Dans de nombreux exercices, on considere simultanement deux variables aleatoires X et Y definies sur le meme espace probabilise. Le couple (X, Y) est lui-meme une variable aleatoire a valeurs dans le produit cartesien des ensembles de valeurs de X et Y.</p>
+
+<div class="section-subtitle">14.2 Loi jointe d'un couple</div>
+<p>La <strong>loi jointe</strong> du couple (X, Y) est la donnee de toutes les probabilites P(X = x_i et Y = y_j) pour toutes les valeurs possibles x_i de X et y_j de Y. On la represente par un tableau a double entree appele tableau de contingence.</p>
+
+<div class="example-block"><div class="example-label">Exemple de loi jointe</div><div class="example-content">
+<p>Soient X et Y definies par le tableau suivant :</p>
+<div class="table-wrap"><table><thead><tr><th>Y / X</th><th>0</th><th>1</th><th>Total</th></tr></thead><tbody><tr><td>0</td><td>0,2</td><td>0,3</td><td>0,5</td></tr><tr><td>1</td><td>0,1</td><td>0,2</td><td>0,3</td></tr><tr><td>2</td><td>0,1</td><td>0,1</td><td>0,2</td></tr><tr><td>Total</td><td>0,4</td><td>0,6</td><td>1,0</td></tr></tbody></table></div>
+<p>Verification : la somme de toutes les cases = 1.</p>
+</div></div>
+
+<div class="section-subtitle">14.3 Lois marginales</div>
+<p>Les <strong>lois marginales</strong> de X et Y sont les lois de probabilite de X et Y prises separement. Elles s'obtiennent en sommant les probabilites de la loi jointe.</p>
+
+<div class="formula-box"><div class="formula-main">P(X = x_i) = Somme sur j de P(X = x_i et Y = y_j)</div><div class="formula-desc">Loi marginale de X (somme en ligne)</div></div>
+<div class="formula-box"><div class="formula-main">P(Y = y_j) = Somme sur i de P(X = x_i et Y = y_j)</div><div class="formula-desc">Loi marginale de Y (somme en colonne)</div></div>
+
+<p>Dans le tableau de contingence, les lois marginales se trouvent dans la derniere ligne (pour X) et la derniere colonne (pour Y). On les appelle les "distributions marginales".</p>
+
+<div class="section-subtitle">14.4 Lois conditionnelles</div>
+<p>Les <strong>lois conditionnelles</strong> de Y sachant X = x_i sont les lois de probabilite de Y pour chaque valeur fixee de X. Elles s'obtiennent en divisant chaque case par le total de la ligne correspondante.</p>
+
+<div class="formula-box"><div class="formula-main">P(Y = y_j | X = x_i) = P(X = x_i et Y = y_j) / P(X = x_i)</div><div class="formula-desc">Loi conditionnelle de Y sachant X = x_i</div></div>
+
+<div class="section-subtitle">14.5 Independance de deux variables aleatoires</div>
+<p>Deux variables X et Y sont <strong>independantes</strong> si et seulement si pour tous les couples (x_i, y_j), la probabilite jointe est egale au produit des probabilites marginales.</p>
+
+<div class="formula-box formula-box-gold"><div class="formula-main">P(X = x_i et Y = y_j) = P(X = x_i) x P(Y = y_j) pour tous les i, j</div><div class="formula-desc">Condition d'independance</div></div>
+
+<p>Pour verifier l'independance, il suffit de trouver UN SEUL couple (x_i, y_j) qui ne verifie pas cette egalite pour affirmer que X et Y ne sont pas independantes. Pour prouver l'independance, il faut verifier la condition pour TOUS les couples.</p>
+
+<div class="section-subtitle">14.6 Covariance et correlation</div>
+<p>La <strong>covariance</strong> de X et Y mesure la dependance lineaire entre les deux variables. Le <strong>coefficient de correlation</strong> est la version normalisee de la covariance.</p>
+
+<div class="formula-box"><div class="formula-main">Cov(X, Y) = E(XY) - E(X)E(Y)</div><div class="formula-desc">Covariance</div></div>
+<div class="formula-box"><div class="formula-main">r(X, Y) = Cov(X, Y) / [sigma(X) x sigma(Y)]</div><div class="formula-desc">Coefficient de correlation lineaire</div></div>
+
+<p>La correlation est toujours comprise entre -1 et 1. Plus elle est proche de 1 ou -1, plus la dependance lineaire est forte. Une correlation de 0 signifie qu'il n'y a pas de dependance lineaire (mais il peut y avoir une dependance non lineaire).</p>
+
+<div class="formula-box"><div class="formula-main">Cov(X,Y) = 0 si X et Y independantes</div><div class="formula-desc">Propriete (la reciproque est fausse en general)</div></div>
+
+<div class="card key-box"><div class="card-label">Points importants</div><p>Independance implique covariance nulle, mais covariance nulle n'implique PAS independance. Pour l'independance, il faut verifier P(X=x, Y=y) = P(X=x) x P(Y=y) pour tous les couples.</p></div>
+
+</div>
+</div>
+<div class="page chapter-page">
+<div class="chapter-hero">
+    <div class="chapter-hero-pattern"></div>
+    <div class="chapter-hero-gradient" style="linear-gradient(135deg, #172554 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="chapter-hero-overlay">
+        <div class="chapter-number">Chapitre 15</div>
+        <div class="chapter-title">Theoreme central limite et loi normale</div>
+    </div>
+</div>
+<div class="chapter-body">
+
+<div class="section-subtitle">15.1 Theoreme central limite (TCL)</div>
+
+<p>Le <strong>theoreme central limite</strong> est l'un des resultats les plus importants en probabilites et en statistiques. Il affirme que la somme (ou la moyenne) d'un grand nombre de variables aleatoires independantes et identiquement distribuees tend vers une loi normale, quelle que soit la loi initiale des variables.</p>
+
+<div class="formula-box formula-box-gold"><div class="formula-main">Si X_1, X_2, ..., X_n sont i.i.d. de moyenne m et variance sigma au carre, alors (S_n - n m) / (sigma x racine de n) tend vers N(0,1) quand n tend vers l'infini</div><div class="formula-desc">Theoreme central limite</div></div>
+
+<p>Ce theoreme explique pourquoi la loi normale est si omnipresente dans la nature : des phenomenes qui resultent de l'addition de nombreux petits facteurs independants tendent naturellement vers une distribution normale. C'est le cas de la taille des individus, des erreurs de mesure, des fluctuations financieres, etc.</p>
+
+<div class="section-subtitle">15.2 Loi normale (gaussienne)</div>
+
+<p>Une variable aleatoire X suit la <strong>loi normale</strong> (ou loi de Gauss, ou loi de Laplace-Gauss) de parametres m et sigma, notee N(m, sigma au carre), si sa densite de probabilite est :</p>
+
+<div class="formula-box formula-box-gold"><div class="formula-main">f(x) = (1 / (sigma x racine de 2 pi)) x e puissance (-(x-m) au carre / (2 sigma au carre))</div><div class="formula-desc">Densite de la loi normale N(m, sigma au carre)</div></div>
+
+<p>La courbe de cette densite est en forme de cloche (courbe de Gauss), symetrique par rapport a m. Le parametre m est le centre de la distribution (la moyenne) et sigma mesure la dispersion (ecart-type). Environ 68% des valeurs sont dans [m - sigma, m + sigma], et environ 95% dans [m - 2 sigma, m + 2 sigma].</p>
+
+<div class="formula-box"><div class="formula-main">E(X) = m</div><div class="formula-desc">La moyenne est le premier parametre</div></div>
+<div class="formula-box"><div class="formula-main">Var(X) = sigma au carre</div><div class="formula-desc">La variance est le carre du second parametre</div></div>
+
+<div class="section-subtitle">15.3 Loi normale centree reduite</div>
+
+<p>La <strong>loi normale centree reduite</strong> N(0, 1) est la loi normale de moyenne 0 et d'ecart-type 1. Toute loi normale peut etre ramenee a la loi centree reduite par le changement de variable :</p>
+
+<div class="formula-box formula-box-gold"><div class="formula-main">Z = (X - m) / sigma suit N(0, 1) si X suit N(m, sigma au carre)</div><div class="formula-desc">Centrage et reduction</div></div>
+
+<p>Les tables de la loi normale ne sont tabulees que pour la loi centree reduite. Pour calculer des probabilites pour une loi normale quelconque, on commence par centrer et reduire, puis on utilise la table.</p>
+
+<div class="section-subtitle">15.4 Calcul pratique avec la loi normale</div>
+
+<div class="example-block"><div class="example-label">Exemple type</div><div class="example-content">
+<p>La taille des hommes adultes suit N(175 cm, 49 cm carre), donc m = 175 et sigma = 7.</p>
+<p><strong>a)</strong> Probabilite qu'un homme mesure entre 168 et 182 cm :</p>
+<p>Z1 = (168 - 175) / 7 = -1, Z2 = (182 - 175) / 7 = 1</p>
+<p><span class="math-inline">P(168 inferieur ou egal a X inferieur ou egal a 182) = P(-1 inferieur ou egal a Z inferieur ou egal a 1) = Phi(1) - Phi(-1) = 0,8413 - 0,1587 = 0,6827</span></p>
+<p><strong>b)</strong> Probabilite qu'un homme mesure plus de 190 cm :</p>
+<p>Z = (190 - 175) / 7 = 2,14</p>
+<p><span class="math-inline">P(X > 190) = P(Z > 2,14) = 1 - Phi(2,14) = 1 - 0,9838 = 0,0162</span></p>
+</div></div>
+
+<div class="section-subtitle">15.5 Approximation normale de la binomiale</div>
+
+<p>Lorsque n est grand et p n'est pas trop proche de 0 ou 1, la loi binomiale B(n, p) peut etre approchee par la loi normale N(np, npq). C'est le <strong>theoreme de Moivre-Laplace</strong> :</p>
+
+<div class="formula-box formula-box-gold"><div class="formula-main">B(n, p) est approchee par N(np, np(1-p)) quand n est grand</div><div class="formula-desc">Approximation normale de la binomiale</div></div>
+
+<p>En pratique, cette approximation est satisfaisante quand n superieur ou egal a 30 et np superieur ou egal a 5 et n(1-p) superieur ou egal a 5. On utilise souvent la correction de continuite : P(X = k) est approche par P(k - 0,5 inferieur ou egal a Y inferieur ou egal a k + 0,5) ou Y suit N(np, npq).</p>
+
+<div class="example-block"><div class="example-label">Approximation normale</div><div class="example-content">
+<p>On lance 100 fois une piece equilibree. X = nombre de piles suit B(100, 0,5).</p>
+<p>On approche par N(50, 25), donc N(50, 5 au carre), avec sigma = 5.</p>
+<p>Probabilite d'obtenir entre 45 et 55 piles :</p>
+<p><span class="math-inline">P(44,5 inferieur ou egal a Y inferieur ou egal a 55,5)</span> (avec correction de continuite)</p>
+<p><span class="math-inline">= P((44,5-50)/5 inferieur ou egal a Z inferieur ou egal a (55,5-50)/5)</span></p>
+<p><span class="math-inline">= P(-1,1 inferieur ou egal a Z inferieur ou egal a 1,1) = Phi(1,1) - Phi(-1,1) = 0,8643 - 0,1357 = 0,7286</span></p>
+</div></div>
+
+<div class="card tip-box"><div class="card-label">Regle pratique</div><p>Loi binomiale B(n,p) : si p petit, utiliser l'approximation de Poisson. Si n grand et np et n(1-p) grands, utiliser l'approximation normale. Sinon, calculer directement avec la formule binomiale.</p></div>
+
+</div>
+</div>
+<div class="page chapter-page">
+<div class="chapter-hero">
+    <div class="chapter-hero-pattern"></div>
+    <div class="chapter-hero-gradient" style="linear-gradient(135deg, #0c4a6e 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="chapter-hero-overlay">
+        <div class="chapter-number">Chapitre 16</div>
+        <div class="chapter-title">Methodes de resolution et schemas</div>
+    </div>
+</div>
+<div class="chapter-body">
+
+<div class="section-subtitle">16.1 Methode de resolution des exercices de probabilites</div>
+
+<p>Pour resoudre efficacement un exercice de probabilites, il existe une methode systematique en etapes. Suivre cette methode vous permettra de structurer votre raisonnement et d'eviter les erreurs courantes.</p>
+
+<div class="steps"><div class="step"><div class="step-number">1</div><div class="step-content"><strong>Etape 1 - Identifier l'experience</strong><p>Lisez attentivement l'enonce et identifiez l'experience aleatoire decrite. Qu'est-ce qu'on fait ? Quels sont les resultats possibles ?</p></div></div><div class="step"><div class="step-number">2</div><div class="step-content"><strong>Etape 2 - Definir l'univers et les evenements</strong><p>Definissez clairement Omega et les evenements A, B, C... avec des notations precises. Ecrivez "Soit A l'evenement..." pour chaque evenement.</p></div></div><div class="step"><div class="step-number">3</div><div class="step-content"><strong>Etape 3 - Identifier la situation probabiliste</strong><p>Est-ce une equiprobabilite ? Y a-t-il des probabilites conditionnelles ? S'agit-il d'un schema de Bernoulli ? D'un tirage avec ou sans remise ?</p></div></div><div class="step"><div class="step-number">4</div><div class="step-content"><strong>Etape 4 - Choisir les outils adaptes</strong><p>En fonction de la situation, choisissez les formules et methodes appropriees : formule de Laplace, arbres, probabilites conditionnelles, theoreme de Bayes, lois classiques...</p></div></div><div class="step"><div class="step-number">5</div><div class="step-content"><strong>Etape 5 - Calculer et verifier</strong><p>Effectuez les calculs et verifiez la coherence des resultats : sommes de probabilites egales a 1, valeurs entre 0 et 1, ordre de grandeur raisonnable.</p></div></div></div>
+
+<div class="section-subtitle">16.2 Schema de construction d'un arbre de probabilites</div>
+
+<p>L'arbre de probabilites est l'outil graphique le plus puissant pour les experiences a plusieurs etapes. Voici la methode de construction :</p>
+
+<div class="steps"><div class="step"><div class="step-number">1</div><div class="step-content"><strong>Racine</strong><p>Le premier evenement est a la racine. Les branches portent les probabilites P(B_1), P(B_2), ..., P(B_n)</p></div></div><div class="step"><div class="step-number">2</div><div class="step-content"><strong>Niveau 2</strong><p>Pour chaque branche du niveau 1, dessinez les branches conditionnelles P(A|B_i) et P(A barre|B_i)</p></div></div><div class="step"><div class="step-number">3</div><div class="step-content"><strong>Verification</strong><p>La somme des probabilites sur les branches partant d'un meme noeud doit etre 1</p></div></div><div class="step"><div class="step-number">4</div><div class="step-content"><strong>Calcul des chemins</strong><p>La probabilite d'un chemin est le produit des probabilites sur ses branches</p></div></div><div class="step"><div class="step-number">5</div><div class="step-content"><strong>Reunion</strong><p>P(A) = somme des probabilites des chemins menant a A (formule des probabilites totales)</p></div></div></div>
+
+<div class="section-subtitle">16.3 Methodes pour les variables aleatoires</div>
+
+<p>Quand un exercice implique une variable aleatoire, suivez cette methode specifique :</p>
+
+<div class="steps"><div class="step"><div class="step-number">1</div><div class="step-content"><strong>Identifier X</strong><p>Precisez ce que represente X et les valeurs qu'elle peut prendre</p></div></div><div class="step"><div class="step-number">2</div><div class="step-content"><strong>Calculer la loi</strong><p>Pour chaque valeur de X, calculez la probabilite correspondante. Presentez en tableau.</p></div></div><div class="step"><div class="step-number">3</div><div class="step-content"><strong>Verifier</strong><p>La somme des probabilites doit etre 1</p></div></div><div class="step"><div class="step-number">4</div><div class="step-content"><strong>Calculer E(X)</strong><p>Utilisez la formule E(X) = Somme de x_i p_i</p></div></div><div class="step"><div class="step-number">5</div><div class="step-content"><strong>Calculer Var(X)</strong><p>Utilisez la formule de Koenig-Huygens : Var(X) = E(X au carre) - [E(X)] au carre</p></div></div><div class="step"><div class="step-number">6</div><div class="step-content"><strong>Interpreter</strong><p>Donnez une interpretation concrete de E(X) et Var(X) dans le contexte de l'exercice</p></div></div></div>
+
+<div class="section-subtitle">16.4 Identifier la loi de probabilite appropriee</div>
+
+<div class="table-wrap"><table><thead><tr><th>Situation</th><th>Loi a utiliser</th><th>Parametres</th></tr></thead><tbody><tr><td>2 issues, 1 repetition</td><td>Bernoulli</td><td>p = probabilite de succes</td></tr><tr><td>n repetitions independantes, 2 issues</td><td>Binomiale</td><td>n = nombre d'essais, p = probabilite</td></tr><tr><td>Evenements rares, n grand, p petit</td><td>Poisson</td><td>lambda = np</td></tr><tr><td>Tirage sans remise dans population finie</td><td>Hypergeometrique</td><td>N, K, n</td></tr><tr><td>Temps d'attente du 1er succes</td><td>Geometrique</td><td>p = probabilite de succes</td></tr><tr><td>Equiprobabilite continue sur [a, b]</td><td>Uniforme</td><td>a, b</td></tr><tr><td>Duree de vie, temps d'attente</td><td>Exponentielle</td><td>lambda = 1/Esperance</td></tr><tr><td>Somme de nombreuses variables i.i.d.</td><td>Normale (TCL)</td><td>m = E(X), sigma = ecart-type</td></tr></tbody></table></div>
+
+<div class="section-subtitle">16.5 Erreurs frequentes a eviter</div>
+
+<div class="comparison"><div class="comparison-col bad"><div class="comparison-title">Erreurs courantes</div><ul><li>Oublier de verifier que la somme des probabilites vaut 1</li><li>Confondre "avec remise" et "sans remise"</li><li>Oublier la condition d'independance pour P(A inter B) = P(A)P(B)</li><li>Utiliser la formule de Laplace en situation non equiprobable</li><li>Confondre evenements incompatibles et evenements independants</li><li>Oublier la correction de continuite dans l'approximation normale</li></ul></div><div class="comparison-col good"><div class="comparison-title">Bonnes pratiques</div><ul><li>Toujours verifier : somme = 1 et 0 inferieur ou egal a p inferieur ou egal a 1</li><li>Preciser "avec remise" ou "sans remise" dans la modelisation</li><li>Verifier l'independance avant d'utiliser la formule multiplicative</li><li>Verifier l'equiprobabilite avant d'appliquer P(A) = Card(A)/Card(Omega)</li><li>Distinguer clairement incompatibilite et independance</li><li>Appliquer P(k-0,5 inferieur ou egal a Y inferieur ou egal a k+0,5)</li></ul></div></div>
+
+<div class="card key-box"><div class="card-label">Conseil final</div><p>La cle de la reussite en probabilites est la rigueur. Definissez toujours l'univers, les evenements et les hypotheses. Verifiez toujours vos resultats. Entrainez-vous regulierement avec des exercices de difficulte croissante.</p></div>
+
+</div>
+</div>
+<div class="page chapter-page">
+<div class="chapter-hero">
+    <div class="chapter-hero-pattern"></div>
+    <div class="chapter-hero-gradient" style="linear-gradient(135deg, #312e81 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="chapter-hero-overlay">
+        <div class="chapter-number">Chapitre 17</div>
+        <div class="chapter-title">Resume des formules essentielles</div>
+    </div>
+</div>
+<div class="chapter-body">
+
+<div class="section-subtitle">17.1 Analyse combinatoire</div>
+<div class="formula-box"><div class="formula-main">n! = n x (n-1) x ... x 2 x 1</div><div class="formula-desc">Factorielle (0! = 1)</div></div>
+
+<div class="table-wrap"><table><thead><tr><th>Denombrement</th><th>Formule</th><th>Quand l'utiliser</th></tr></thead><tbody><tr><td>Arrangement</td><td>A(n,p) = n!/(n-p)!</td><td>L'ordre compte, sans remise</td></tr><tr><td>Permutation</td><td>P(n) = n!</td><td>Arrangement de n parmi n</td></tr><tr><td>Combinaison</td><td>C(n,p) = n!/[p!(n-p)!]</td><td>L'ordre ne compte pas, sans remise</td></tr></tbody></table></div>
+
+<div class="formula-box"><div class="formula-main">C(n,p) = C(n,n-p) et C(n,p) = C(n-1,p-1) + C(n-1,p)</div><div class="formula-desc">Proprietes des combinaisons</div></div>
+
+<div class="section-subtitle">17.2 Probabilites fondamentales</div>
+<div class="formula-box"><div class="formula-main">P(A barre) = 1 - P(A)</div><div class="formula-desc">Evenement contraire</div></div>
+<div class="formula-box"><div class="formula-main">P(A union B) = P(A) + P(B) - P(A inter B)</div><div class="formula-desc">Inclusion-exclusion</div></div>
+<div class="formula-box"><div class="formula-main">P(A) = Card(A)/Card(Omega)</div><div class="formula-desc">Equiprobabilite (Laplace)</div></div>
+
+<div class="section-subtitle">17.3 Probabilites conditionnelles et Bayes</div>
+<div class="formula-box"><div class="formula-main">P(A|B) = P(A inter B)/P(B)</div><div class="formula-desc">Probabilite conditionnelle</div></div>
+<div class="formula-box"><div class="formula-main">P(A inter B) = P(A) x P(B|A)</div><div class="formula-desc">Probabilites composees</div></div>
+<div class="formula-box"><div class="formula-main">P(A) = Somme de P(B_i) x P(A|B_i)</div><div class="formula-desc">Probabilites totales (systeme complet {B_i})</div></div>
+<div class="formula-box"><div class="formula-main">P(B_i|A) = P(B_i) x P(A|B_i) / P(A)</div><div class="formula-desc">Theoreme de Bayes</div></div>
+
+<div class="section-subtitle">17.4 Lois discretes</div>
+<div class="table-wrap"><table><thead><tr><th>Loi</th><th>P(X=k)</th><th>E(X)</th><th>Var(X)</th></tr></thead><tbody><tr><td>Bernoulli B(p)</td><td>p si k=1, 1-p si k=0</td><td>p</td><td>p(1-p)</td></tr><tr><td>Binomiale B(n,p)</td><td>C(n,k) p^k (1-p)^(n-k)</td><td>np</td><td>np(1-p)</td></tr><tr><td>Poisson P(lambda)</td><td>e^(-lambda) lambda^k / k!</td><td>lambda</td><td>lambda</td></tr><tr><td>Hypergeometrique H(N,K,n)</td><td>C(K,k)C(N-K,n-k)/C(N,n)</td><td>nK/N</td><td>n(K/N)(1-K/N)(N-n)/(N-1)</td></tr><tr><td>Geometrique G(p)</td><td>(1-p)^(k-1) p</td><td>1/p</td><td>(1-p)/p^2</td></tr></tbody></table></div>
+
+<div class="section-subtitle">17.5 Lois continues</div>
+<div class="table-wrap"><table><thead><tr><th>Loi</th><th>Densite f(x)</th><th>E(X)</th><th>Var(X)</th></tr></thead><tbody><tr><td>Uniforme U[a,b]</td><td>1/(b-a) sur [a,b]</td><td>(a+b)/2</td><td>(b-a)^2/12</td></tr><tr><td>Exponentielle E(lambda)</td><td>lambda e^(-lambda x) pour x superieur ou egal a 0</td><td>1/lambda</td><td>1/lambda^2</td></tr><tr><td>Normale N(m, sigma^2)</td><td>(1/(sigma racine de 2pi)) e^(-(x-m)^2/(2 sigma^2))</td><td>m</td><td>sigma^2</td></tr></tbody></table></div>
+
+<div class="section-subtitle">17.6 Formules d'esperance et variance</div>
+<div class="formula-box"><div class="formula-main">E(aX + b) = aE(X) + b</div><div class="formula-desc">Linearite de l'esperance</div></div>
+<div class="formula-box"><div class="formula-main">E(X + Y) = E(X) + E(Y)</div><div class="formula-desc">Additivite (sans condition)</div></div>
+
+<div class="formula-box"><div class="formula-main">Var(aX + b) = a^2 Var(X)</div><div class="formula-desc">Transformation affine</div></div>
+<div class="formula-box"><div class="formula-main">Var(X + Y) = Var(X) + Var(Y)</div><div class="formula-desc">Additivite (independance)</div></div>
+
+<div class="formula-box"><div class="formula-main">Var(X) = E(X^2) - [E(X)]^2</div><div class="formula-desc">Koenig-Huygens</div></div>
+<div class="formula-box"><div class="formula-main">sigma(X) = racine carree de Var(X)</div><div class="formula-desc">Ecart-type</div></div>
+
+<div class="section-subtitle">17.7 Approximations</div>
+<div class="formula-box"><div class="formula-main">B(n,p) environ P(np) si n grand, p petit</div><div class="formula-desc">Poisson</div></div>
+<div class="formula-box"><div class="formula-main">B(n,p) environ N(np, npq) si n grand, np et nq superieur ou egal a 5</div><div class="formula-desc">Normale (Moivre-Laplace)</div></div>
+
+<div class="formula-box"><div class="formula-main">H(N,K,n) environ B(n, K/N) si n/N petit</div><div class="formula-desc">Binomiale</div></div>
+
+<div class="section-subtitle">17.8 Loi normale centree reduite</div>
+<div class="formula-box"><div class="formula-main">Z = (X - m) / sigma suit N(0,1)</div><div class="formula-desc">Centrage et reduction</div></div>
+
+<p>Pour la loi normale centree reduite N(0,1) : P(-1 inferieur ou egal a Z inferieur ou egal a 1) = 0,6827, P(-2 inferieur ou egal a Z inferieur ou egal a 2) = 0,9545, P(-3 inferieur ou egal a Z inferieur ou egal a 3) = 0,9973.</p>
+
+<div class="callout"><div class="callout-text">Ce resume contient toutes les formules essentielles du cours. Apprenez-les par coeur et entrainez-vous a les appliquer dans des exercices variés pour les maitriser completement.</div></div>
+
+</div>
+</div>
+<div class="page conclusion-page">
+    <div class="toc-label">Conclusion</div>
+    <h1 class="intro-title">Vous maitrisez maintenant<br><span class="accent">le calcul de probabilites</span></h1>
+    <div class="intro-divider"></div>
+    <p class="intro-text">Felicitations ! Vous avez parcouru l'integralite de ce cours sur le calcul de probabilites et les variables aleatoires. Du vocabulaire fondamental jusqu'aux lois classiques (binomiale, Poisson, hypergeometrique, normale), en passant par les probabilites conditionnelles, le theoreme de Bayes et les couples de variables, vous disposez maintenant d'un solide socle de connaissances.</p>
+    <p class="intro-text">Les probabilites sont un outil puissant utilise dans tous les domaines : sciences, ingenierie, medecine, economie, informatique, assurance. La maitrise de ces concepts vous donnera un avantage considerable dans vos etudes et dans votre vie professionnelle. Chaque exercice que vous resoluez renforce votre capacite a modeliser des situations reelles et a prendre des decisions eclairees face a l'incertitude.</p>
+    <p class="intro-text">Le secret de la reussite en probabilites est simple : <strong>la pratique reguliere</strong>. Resolvez des exercices chaque jour, variez les types de problemes, et n'hesitez pas a revenir sur ce cours quand vous avez un doute. Chaque notion que vous revoyez renforce votre comprehension.</p>
+    <div class="callout"><div class="callout-text">Le chemin de la maitrise est pave d'exercices. Continuez a pratiquer et les probabilites n'auront plus de secrets pour vous.</div></div>
+</div>
+</body></html>

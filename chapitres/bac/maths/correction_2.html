@@ -1,0 +1,1683 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=720">
+    <title>Corrections Probabilites - 110 exercices corriges</title>
+    <style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@1,500&display=swap');
+
+@page {
+    size: 720px 1020px;
+    margin: 0;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+    background: #080c18;
+    color: #d8dff0;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+}
+
+.page {
+    width: 720px;
+    min-height: 1020px;
+    padding: 60px 55px;
+    background: #080c18;
+    position: relative;
+    page-break-after: always;
+    break-after: page;
+    overflow: hidden;
+}
+
+.page:last-child { page-break-after: auto; break-after: auto; }
+
+/* === COVER / TITLE PAGE === */
+.cover {
+    padding: 0;
+    background: linear-gradient(135deg, #080c18 0%, #101830 50%, #080c18 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    position: relative;
+    min-height: 1020px;
+}
+.cover-content {
+    position: relative;
+    z-index: 2;
+    padding: 50px 55px 60px;
+}
+.cover-label {
+    color: #c9a84c;
+    font-size: 12px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 18px;
+}
+.cover-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    font-weight: 900;
+    line-height: 1.1;
+    color: #d8dff0;
+    margin-bottom: 18px;
+    letter-spacing: -1px;
+}
+.cover-title .accent { color: #c9a84c; font-style: italic; font-family: 'Cormorant Garamond', serif; font-weight: 500; }
+.cover-subtitle {
+    font-size: 15px;
+    color: #7888aa;
+    line-height: 1.6;
+    max-width: 500px;
+    margin-bottom: 30px;
+}
+.cover-divider {
+    width: 70px; height: 3px;
+    background: linear-gradient(to right, #c9a84c, #3b82f6);
+    margin-bottom: 22px;
+}
+.cover-author {
+    font-size: 13px;
+    color: #7888aa;
+    letter-spacing: 1px;
+}
+.cover-author strong { color: #d8dff0; font-weight: 600; }
+
+/* === TOC === */
+.toc-page { padding: 70px 55px; }
+.toc-header {
+    text-align: center;
+    margin-bottom: 35px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #1a2038;
+}
+.toc-label {
+    color: #c9a84c;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+.toc-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 900;
+    color: #d8dff0;
+}
+.toc-list { list-style: none; padding: 0; }
+.toc-item {
+    display: flex;
+    align-items: baseline;
+    padding: 8px 0;
+    border-bottom: 1px dotted #1a2038;
+    font-size: 13px;
+}
+.toc-num {
+    color: #3b82f6;
+    font-weight: 700;
+    font-family: 'Playfair Display', serif;
+    width: 32px;
+    flex-shrink: 0;
+}
+.toc-text { color: #d8dff0; flex: 1; }
+.toc-dots { color: #1a2038; margin: 0 6px; flex: 1; }
+.toc-page-num {
+    color: #7888aa;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+/* === SECTION PAGES (Exercise themes) === */
+.section-page { padding: 0; }
+.section-hero {
+    height: 160px;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+}
+.section-hero-gradient {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+.section-hero-pattern {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    opacity: 0.06;
+    background-size: 50px 50px;
+    background-image: radial-gradient(circle, #3b82f6 1px, transparent 1px);
+}
+.section-hero-overlay {
+    position: absolute;
+    bottom: 25px;
+    left: 55px;
+    right: 55px;
+    z-index: 2;
+}
+.section-number {
+    color: #c9a84c;
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+.section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 900;
+    color: #d8dff0;
+    line-height: 1.15;
+    letter-spacing: -0.5px;
+}
+
+.section-body {
+    padding: 30px 55px 50px;
+}
+
+/* === EXERCISE ITEM === */
+.exercise-item {
+    background: #101830;
+    border: 1px solid #1a2038;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 14px 0;
+    break-inside: avoid;
+    border-left: 3px solid #3b82f6;
+}
+.exercise-item.hard {
+    border-left-color: #ef4444;
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.05), #101830);
+}
+.exercise-item.medium {
+    border-left-color: #f97316;
+    background: linear-gradient(135deg, rgba(249, 115, 22, 0.04), #101830);
+}
+.exercise-item.bac {
+    border-left-color: #c9a84c;
+    background: linear-gradient(135deg, rgba(201, 168, 76, 0.06), #101830);
+    border-left-width: 4px;
+}
+.exercise-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+.exercise-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 900;
+    color: #3b82f6;
+}
+.exercise-diff {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 2px 8px;
+    border-radius: 3px;
+}
+.exercise-diff.facile { background: rgba(34, 197, 94, 0.2); color: #22c55e; }
+.exercise-diff.moyen { background: rgba(249, 115, 22, 0.2); color: #f97316; }
+.exercise-diff.difficile { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+.exercise-diff.bac { background: rgba(201, 168, 76, 0.2); color: #c9a84c; }
+
+.exercise-question {
+    font-size: 13px;
+    color: #a0b0cc;
+    line-height: 1.75;
+}
+.exercise-question p { color: #a0b0cc; margin-bottom: 8px; }
+.exercise-question p:last-child { margin-bottom: 0; }
+.exercise-question strong { color: #d8dff0; }
+
+.sub-question {
+    padding-left: 20px;
+    margin: 6px 0;
+    position: relative;
+    font-size: 12.5px;
+    color: #a0b0cc;
+    line-height: 1.7;
+}
+.sub-question::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 6px;
+    height: 6px;
+    background: #3b82f6;
+    border-radius: 50%;
+}
+
+/* === CORRECTION ITEMS === */
+.correction-item {
+    background: #101830;
+    border: 1px solid #1a2038;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 14px 0;
+    break-inside: avoid;
+    border-left: 3px solid #22c55e;
+}
+.correction-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+.correction-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 900;
+    color: #22c55e;
+    margin-right: 10px;
+}
+.correction-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: #22c55e;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+.correction-content {
+    font-size: 13px;
+    color: #a0b0cc;
+    line-height: 1.8;
+}
+.correction-content p { margin-bottom: 6px; }
+.correction-content p:last-child { margin-bottom: 0; }
+.correction-content strong { color: #d8dff0; }
+.correction-step {
+    padding-left: 20px;
+    margin: 4px 0;
+    position: relative;
+}
+.correction-step::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 6px;
+    height: 6px;
+    background: #22c55e;
+    border-radius: 50%;
+}
+
+.math-inline {
+    background: rgba(59, 130, 246, 0.08);
+    border: 1px solid #1a2038;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    color: #e8ecf8;
+    white-space: nowrap;
+}
+
+.formula-box {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(201, 168, 76, 0.06));
+    border: 1px solid #1a2038;
+    border-left: 4px solid #3b82f6;
+    border-radius: 10px;
+    padding: 14px 20px;
+    margin: 14px 0;
+    text-align: center;
+    break-inside: avoid;
+}
+.formula-main {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #e8ecf8;
+    line-height: 1.6;
+}
+.formula-desc {
+    font-size: 11px;
+    color: #7888aa;
+    margin-top: 6px;
+}
+
+p {
+    margin-bottom: 12px;
+    color: #a0b0cc;
+    line-height: 1.8;
+}
+p strong { color: #d8dff0; }
+
+.callout {
+    background: #101830;
+    border-radius: 10px;
+    padding: 16px 22px;
+    margin: 16px 0;
+    text-align: center;
+    border-top: 2px solid #3b82f6;
+    border-bottom: 2px solid #c9a84c;
+    break-inside: avoid;
+}
+.callout-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-style: italic;
+    color: #d8dff0;
+    line-height: 1.5;
+}
+
+.stat-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin: 18px 0;
+    break-inside: avoid;
+}
+.stat-card {
+    background: linear-gradient(135deg, #101830, #1a2038);
+    border: 1px solid #1a2038;
+    border-radius: 10px;
+    padding: 14px 10px;
+    text-align: center;
+}
+.stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 900;
+    color: #c9a84c;
+    line-height: 1;
+    margin-bottom: 5px;
+}
+.stat-label {
+    font-size: 10px;
+    color: #7888aa;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.conclusion-page {
+    background: linear-gradient(135deg, #080c18 0%, #101830 100%);
+    padding: 70px 55px;
+}
+</style>
+</head>
+<body>
+<div class="page cover">
+<div class="cover-content">
+    <div class="cover-label">Corrections detaillees</div>
+    <div class="cover-title">Corrections des<br><span class="accent">Exercices</span><br>Probabilites</div>
+    <div class="cover-divider"></div>
+    <div class="cover-subtitle">110 corrections detaillees et commentees, etape par etape, pour tous les exercices.</div>
+    <div class="cover-author"><strong>Programme officiel</strong> - Mathematiques Terminale</div>
+</div>
+</div>
+<div class="page">
+    <div class="stat-block">
+        <div class="stat-card"><div class="stat-number">110</div><div class="stat-label">Corrections</div></div>
+        <div class="stat-card"><div class="stat-number">10</div><div class="stat-label">Themes</div></div>
+        <div class="stat-card"><div class="stat-number">100%</div><div class="stat-label">Detaillees</div></div>
+    </div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a5f 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 1</div>
+        <div class="section-title">Corrections 1-5</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 1</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">a) Lancer d'un de a 6 faces : Omega = {{1, 2, 3, 4, 5, 6}}, Card(Omega) = 6.</div><div class="correction-step">b) Tirer une carte d'un jeu de 32 : Omega est l'ensemble des 32 cartes, Card(Omega) = 32.</div><div class="correction-step">c) Lancer une piece trois fois, X = nombre de piles : Omega = {{0, 1, 2, 3}}, Card(Omega) = 4.</div><div class="correction-step">d) Entier entre 1 et 20 : Omega = {{1, 2, 3, ..., 20}}, Card(Omega) = 20.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 2</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">Card(Omega) = 6 x 6 = 36 (couples possibles).</div><div class="correction-step">A = "somme = 7" : A = {{(1,6), (2,5), (3,4), (4,3), (5,2), (6,1)}}, Card(A) = 6.</div><div class="correction-step">B = "memes nombres" : B = {{(1,1), (2,2), (3,3), (4,4), (5,5), (6,6)}}, Card(B) = 6.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 3</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">a) A inter B = "l'eleve est un garcon avec des lunettes".</div><div class="correction-step">b) A union B = "l'eleve est un garcon OU porte des lunettes (ou les deux)".</div><div class="correction-step">c) A barre = "l'eleve n'est pas un garcon" = "l'eleve est une fille".</div><div class="correction-step">d) A inter B barre = "l'eleve est un garcon SANS lunettes".</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 4</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">Card(A) = 4 (4 rois dans 32 cartes).</div><div class="correction-step">Card(B) = 8 (8 coeurs dans 32 cartes).</div><div class="correction-step">Card(C) = 12 (4 rois + 4 dames + 4 valets = 12 figures).</div><div class="correction-step">Card(A inter B) = 1 (Roi de coeur). Card(A union B) = 4 + 8 - 1 = 11.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 5</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">a) De 1 a 10 : pairs = {{2,4,6,8,10}}, premiers = {{2,3,5,7}}. A inter B = {{2}} non vide donc NON incompatibles.</div><div class="correction-step">b) A = Pile, B = Face : A inter B = ensemble vide. OUI, incompatibles.</div><div class="correction-step">c) Rouge et Coeur : un coeur rouge existe. A inter B non vide. NON incompatibles.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a5f 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 2</div>
+        <div class="section-title">Corrections 6-10</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 6</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">a) A = {{1,3,5}} et B = {{2,4,6}} : A inter B = ensemble vide. OUI, incompatibles.</div><div class="correction-step">b) A inter B = ensemble vide.</div><div class="correction-step">c) A union B = {{1,2,3,4,5,6}} = Omega.</div><div class="correction-step">d) A barre = {{2,4,6}} = B et B barre = {{1,3,5}} = A.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 7</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">a) A = {{3,6,9,...,99}} : Card(A) = 99/3 = 33 elements.</div><div class="correction-step">b) B = {{5,10,15,...,100}} : Card(B) = 100/5 = 20 elements.</div><div class="correction-step">c) A inter B = {{15,30,45,...,90}} : Card(A inter B) = 90/15 = 6 elements.</div><div class="correction-step">d) Card(A union B) = 33 + 20 - 6 = 47. Verification : {{multiples de 3 ou 5 de 1 a 100}} = 47 elements.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 8</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">A inter B = {{c}}. A union B = {{a,b,c,d,e}}. A barre = {{d,e,f}}. B barre = {{a,b,f}}.</div><div class="correction-step">(A inter B) barre = {{a,b,d,e,f}} et A barre union B barre = {{a,b,d,e,f}}. Egalite verifiee (loi de Morgan).</div><div class="correction-step">(A union B) barre = {{f}} et A barre inter B barre = {{f}}. Egalite verifiee (loi de Morgan).</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 9</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">a) Omega = {{R1, R2, R3, R4, R5, V1, V2, V3, N1, N2}} (on distingue les boules), Card(Omega) = 10.</div><div class="correction-step">b) {R, V, N} est un systeme complet : R inter V = ensemble vide, R inter N = ensemble vide, V inter N = ensemble vide, et R union V union N = Omega. P(R)+P(V)+P(N) = 5/10+3/10+2/10 = 1.</div><div class="correction-step">c) B = "pas noire" = {{toutes les boules sauf N1, N2}} = R union V.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 10</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">a) Omega = {{PPP, PPF, PFP, PFF, FPP, FPF, FFP, FFF}}, Card(Omega) = 8.</div><div class="correction-step">b) A = "exactement 2 piles" = {{PPF, PFP, FPP}}, Card(A) = 3.</div><div class="correction-step">c) B barre = "aucun pile" = {{FFF}}. Donc Card(B) = 8 - 1 = 7.</div><div class="correction-step">d) Card(A) = 3, Card(B) = 7.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a5f 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 3</div>
+        <div class="section-title">Corrections 11-15</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 11</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">Par inclusion-exclusion pour 3 ensembles :</div><div class="correction-step">Card(A union B union C) = 40 + 35 + 25 - 15 - 10 - 8 + 5 = 72.</div><div class="correction-step">Elements dans aucun des trois evenements = 100 - 72 = 28.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 12</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">Par inclusion-exclusion :</div><div class="correction-step">Card(A union B union C) = 25 + 20 + 15 - 8 - 6 - 5 + 2 = 43.</div><div class="correction-step">Aucune langue : 50 - 43 = 7 personnes.</div><div class="correction-step">Exactement une langue : (25-8-6+2) + (20-8-5+2) + (15-6-5+2) = 13 + 9 + 6 = 28 personnes.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 13</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">3! = 6, 5! = 120.</div><div class="correction-step">C(6,2) = 15, C(6,4) = C(6,2) = 15.</div><div class="correction-step">A(7,3) = 7!/4! = 7x6x5 = 210.</div><div class="correction-step">C(10,3) = 10!/(3!x7!) = 120.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 14</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">C(n,0) = 1, C(n,1) = n, C(n,n) = 1.</div><div class="correction-step">C(8,2)/C(8,6) = 28/28 = 1 car C(8,2) = C(8,6).</div><div class="correction-step">A(n,n-1) = n!/(n-(n-1))! = n!/1! = n!</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 15</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">a) C(18,11) = C(18,7) = 31824 equipes possibles.</div><div class="correction-step">b) Le capitaine est fixe : on choisit 10 parmi 17 restants : C(17,10) = 19448 choix.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a5f 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 4</div>
+        <div class="section-title">Corrections 16-20</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 16</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">C(49,6) = 49!/(6!x43!) = 13 983 816 grilles differentes.</div><div class="correction-step">Environ 14 millions de grilles. La probabilite de gagner au premier rang est 1/C(49,6), soit environ 7,15 x 10 puissance -8.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 17</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">a) C(20,5) = 15504 comites possibles.</div><div class="correction-step">b) Exactement 2 femmes : C(8,2) x C(12,3) = 28 x 220 = 6160.</div><div class="correction-step">c) Au moins une femme = total - aucune femme = 15504 - C(12,5) = 15504 - 792 = 14712.</div><div class="correction-step">d) C(12,3) x C(8,2) = 220 x 28 = 6160 (identique a la question b).</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 18</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">a) Avec repetition : 6 puissance 4 = 1296 mots.</div><div class="correction-step">b) Sans repetition : A(6,4) = 6!/2! = 360 mots.</div><div class="correction-step">c) Commence par A : 1 x 5 x 4 x 3 = 60 mots (ou A(5,3) = 60).</div><div class="correction-step">d) A exactement une fois : C(5,3) x 4 = 10 x 4 = 40 mots (choix de 3 positions pour les non-A parmi 5, puis arrangements des 5 lettres restantes sur 3 places).</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 19</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">a) Delegue + suppleant (ordre compte) : A(30,2) = 30 x 29 = 870 choix.</div><div class="correction-step">b) Bureau de 3 : A(30,3) = 30 x 29 x 28 = 24360 choix.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 20</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">a) C(32,5) = 201 376 mains.</div><div class="correction-step">b) Paire exactement : C(8,1) x C(4,2) x C(7,3) x 4 puissance 3 = 8 x 6 x 35 x 64 = 107 520.</div><div class="correction-step">c) Brelan : C(8,1) x C(4,3) x C(7,2) x 4 puissance 2 = 8 x 4 x 21 x 16 = 10752.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a5f 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 5</div>
+        <div class="section-title">Corrections 21-25</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 21</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">a) C(n,k) = n!/(k!(n-k)!) et C(n,n-k) = n!/((n-k)!k!) : memes expressions.</div><div class="correction-step">b) Formule du triangle de Pascal : demontree par separation d'un ensemble de n+1 elements selon qu'il contient ou non l'element (n+1)-ieme.</div><div class="correction-step">c) C'est le developpement de (1+1) puissance n = 2 puissance n par le binome de Newton.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 22</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">Chaque boule a 3 choix (urne 1, 2 ou 3).</div><div class="correction-step">Par le principe multiplicatif : 3 puissance 4 = 81 repartitions possibles.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 23</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">Equiprobabilite : P = Card(A)/Card(Omega) = nb cas favorables/36.</div><div class="correction-step">P(pair) = 3/6 = 1/2. P(sup 4) = 2/6 = 1/3. P(multiple de 3) = 2/6 = 1/3.</div><div class="correction-step">P(1 ou 6) = 2/6 = 1/3.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 24</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">P(As) = 4/32 = 1/8. P(coeur) = 8/32 = 1/4.</div><div class="correction-step">P(figure rouge) = 6/32 = 3/16 (3 figures x 2 couleurs rouges).</div><div class="correction-step">P(As ou coeur) = 4/32 + 8/32 - 1/32 = 11/32.</div><div class="correction-step">P(ni As ni coeur) = 1 - 11/32 = 21/32.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 25</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">Card(Omega) = 6+4+5 = 15.</div><div class="correction-step">P(rouge) = 6/15 = 2/5. P(blanc ou noir) = (4+5)/15 = 9/15 = 3/5.</div><div class="correction-step">P(pas rouge) = 1 - 2/5 = 3/5.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a5f 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 6</div>
+        <div class="section-title">Corrections 26-30</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 26</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">Card(Omega) = 36.</div><div class="correction-step">P(somme=7) = 6/36 = 1/6. P(somme=12) = 1/36.</div><div class="correction-step">P(memes nombres) = 6/36 = 1/6. P(somme>9) = 6/36 = 1/6.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 27</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">P(fille) = 18/35.</div><div class="correction-step">P(garcon avec lunettes) = (17-12+7)/(35-18)... plutot : garcons avec lunettes = 12-7 = 5. P = 5/35 = 1/7.</div><div class="correction-step">P(fille ou lunettes) = 18/35 + 12/35 - 7/35 = 23/35.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 28</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">P(smartphone ou tablette) = 0,60 + 0,45 - 0,30 = 0,75.</div><div class="correction-step">P(aucun appareil) = 1 - 0,75 = 0,25.</div><div class="correction-step">P(exactement un seul) = (0,60-0,30) + (0,45-0,30) = 0,30 + 0,15 = 0,45.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 29</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">C(32,2) = 496 tirages possibles.</div><div class="correction-step">P(2 As) = C(4,2)/C(32,2) = 6/496 = 3/248.</div><div class="correction-step">P(meme couleur) = [C(8,2)+C(8,2)+C(8,2)+C(8,2)]/C(32,2) = 4x28/496 = 112/496 = 7/31.</div><div class="correction-step">P(exactement un Roi) = C(4,1)xC(28,1)/C(32,2) = 4x28/496 = 112/496 = 7/31.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 30</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">Equiprobabilite : Card(Omega) = 2 puissance 3 = 8.</div><div class="correction-step">P(3 piles) = 1/8. P(2 piles) = C(3,2)/8 = 3/8.</div><div class="correction-step">P(au moins un pile) = 1 - P(0 pile) = 1 - 1/8 = 7/8.</div><div class="correction-step">P(au plus 2 piles) = 1 - P(3 piles) = 1 - 1/8 = 7/8.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a5f 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 7</div>
+        <div class="section-title">Corrections 31-35</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 31</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">C(40,3) = 9880 tirages possibles.</div><div class="correction-step">P(3 memes couleurs) = 4 x C(10,3)/C(40,3) = 4x120/9880 = 480/9880 = 12/247.</div><div class="correction-step">P(3 couleurs differentes) = C(10,1) puissance 3 x 4!/C(40,3) = 1000x24/9880 = 24000/9880.</div><div class="correction-step">P(aucun coeur) = C(30,3)/C(40,3) = 4060/9880 = 203/494.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 32</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">Card(Omega) = 6 puissance 4 = 1296.</div><div class="correction-step">P(4 six) = 1/6 puissance 4 = 1/1296.</div><div class="correction-step">P(au moins un six) = 1 - (5/6) puissance 4 = 1 - 625/1296 = 671/1296.</div><div class="correction-step">P(aucun six) = (5/6) puissance 4 = 625/1296. P(exactement 2 six) = C(4,2)(1/6) au carre (5/6) au carre = 6 x 25/1296 = 150/1296 = 25/216.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 33</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">p = 1/4 pour chaque question.</div><div class="correction-step">P(toute correcte) = (1/4) puissance 10 = 1/1048576.</div><div class="correction-step">P(au moins 9 correctes) = C(10,9)(1/4) puissance 9(3/4) + (1/4) puissance 10 = 30/4 puissance 10 + 1/4 puissance 10 = 31/4 puissance 10.</div><div class="correction-step">P(au moins 1 correcte) = 1 - (3/4) puissance 10 = 1 - 59049/1048576 = 989527/1048576.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 34</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">C(52,5) = 2598960 mains.</div><div class="correction-step">P(quinte royale) = 4/C(52,5) = 4/2598960 = 1/649740.</div><div class="correction-step">P(carre) = 13 x C(4,4) x 48/C(52,5) = 13x48/2598960 = 624/2598960.</div><div class="correction-step">P(full) = 13xC(4,3) x 12xC(4,2)/C(52,5) = 13x4x12x6/2598960 = 3744/2598960.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 35</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">P(rouge) = P(choisir U1) x P(rouge|U1) + P(choisir U2) x P(rouge|U2)</div><div class="correction-step">= 0,5 x (4/10) + 0,5 x (3/10) = 0,2 + 0,15 = 0,35.</div><div class="correction-step">P(noir) = 1 - 0,35 = 0,65.</div><div class="correction-step">P(U1|rouge) = P(rouge|U1)P(U1)/P(rouge) = 0,2/0,35 = 4/7.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a5f 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 8</div>
+        <div class="section-title">Corrections 36-40</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 36</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">P(A|B) = P(A inter B)/P(B) = 0,2/0,5 = 0,4.</div><div class="correction-step">P(B|A) = P(A inter B)/P(A) = 0,2/0,4 = 0,5.</div><div class="correction-step">P(A inter B) = 0,2 et P(A)P(B) = 0,4x0,5 = 0,2. P(A inter B) = P(A)P(B) donc A et B sont independants.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 37</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">P(A) = 3/6 = 1/2, P(B) = 3/6 = 1/2, P(A inter B) = P({{4, 6}}) = 2/6 = 1/3.</div><div class="correction-step">P(A|B) = P(A inter B)/P(B) = (1/3)/(1/2) = 2/3.</div><div class="correction-step">P(A) x P(B) = 1/2 x 1/2 = 1/4 different de P(A inter B) = 1/3. Donc NON independants.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 38</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">P(yeux marrons|cheveux bruns) = 0,15/0,30 = 1/2.</div><div class="correction-step">P(cheveux bruns|yeux marrons) = 0,15/0,40 = 3/8.</div><div class="correction-step">P(yeux marrons) x P(cheveux bruns) = 0,40 x 0,30 = 0,12 different de P(inter) = 0,15. NON independants.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 39</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">P(2 rouges sans remise) = (5/8) x (4/7) = 20/56 = 5/14.</div><div class="correction-step">P(rouge puis noire) = (5/8) x (3/7) = 15/56.</div><div class="correction-step">P(couleurs differentes) = P(RN) + P(NR) = 15/56 + (3/8)(5/7) = 15/56 + 15/56 = 30/56 = 15/28.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 40</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">P(2 rouges avec remise) = (5/8) x (5/8) = 25/64.</div><div class="correction-step">P(rouge puis noire) = (5/8) x (3/8) = 15/64.</div><div class="correction-step">Comparaison : avec remise P(2R) = 25/64 = 0,391 ; sans remise P(2R) = 5/14 = 0,357. Sans remise, la probabilite diminue car il y a moins de rouges apres le premier tirage.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a5f 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 9</div>
+        <div class="section-title">Corrections 41-45</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 41</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">P(rouge) = 0,5 x (4/6) + 0,5 x (3/8) = 2/6 + 3/16 = 16/48 + 9/48 = 25/48.</div><div class="correction-step">P(rouge|U1) = 4/6 = 2/3.</div><div class="correction-step">P(U1|rouge) = P(rouge|U1)P(U1)/P(rouge) = (2/3)(1/2)/(25/48) = (1/3)/(25/48) = 48/75 = 16/25.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 42</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">P(T) = P(T|M)P(M) + P(T|M barre)P(M barre) = 0,95x0,02 + 0,02x0,98 = 0,019 + 0,0196 = 0,0386.</div><div class="correction-step">P(M|T) = P(T|M)P(M)/P(T) = 0,019/0,0386 = 0,4922 (environ 49,2%).</div><div class="correction-step">P(M|T barre) = P(T barre|M)P(M)/P(T barre) = 0,05x0,02/0,9614 = 0,001/0,9614 = 0,00104 (environ 0,1%).</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 43</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">P(D) = 0,50x0,02 + 0,30x0,03 + 0,20x0,05 = 0,010 + 0,009 + 0,010 = 0,029.</div><div class="correction-step">P(M1|D) = P(D|M1)P(M1)/P(D) = 0,010/0,029 = 10/29.</div><div class="correction-step">P(M3|bonne) = P(bonne|M3)P(M3)/P(bonne) = 0,95x0,20/0,971 = 0,190/0,971 = 190/971.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 44</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">P(3 As) = C(4,3)/C(32,3) = 4/4960 = 1/1240.</div><div class="correction-step">P(3 memes couleurs) = 4 x C(8,3)/C(32,3) = 4 x 56/4960 = 224/4960 = 14/310.</div><div class="correction-step">P(exactement 2 coeurs) = C(8,2) x C(24,1)/C(32,3) = 28x24/4960 = 672/4960 = 42/310.</div><div class="correction-step">P(Roi 3eme | pas de Roi dans les 2 premieres) = 4/30 (il reste 30 cartes dont 4 rois).</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 45</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">P(gagner) = 0,40x0,60 + 0,60x0,45 = 0,24 + 0,27 = 0,51.</div><div class="correction-step">P(servi|gagne) = P(gagne|servi)P(servi)/P(gagne) = 0,60x0,40/0,51 = 0,24/0,51 = 24/51 = 8/17.</div><div class="correction-step">Si P(gagner) = 0,55 avec P(servi) = 0,40 : 0,40xP(gagne|servi) + 0,60xP(gagne|recoit) = 0,55. C'est possible avec P(gagne|servi) = 0,625 par exemple. Coherent.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a5f 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 10</div>
+        <div class="section-title">Corrections 46-50</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 46</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">P(Pile) = (1/3)(1/2) + (1/3)(0,6) + (1/3)(0,3) = 1/6 + 1/5 + 1/10 = 5/30 + 6/30 + 3/30 = 14/30 = 7/15.</div><div class="correction-step">P(boite 1|Pile) = (1/3)(1/2)/(7/15) = (1/6)/(7/15) = 5/14.</div><div class="correction-step">P(boite 3|Pile) = (1/3)(0,3)/(7/15) = (1/10)/(7/15) = 3/14.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 47</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">P(A inter B) = P(A) x P(B|A) = 0,3 x 0,6 = 0,18.</div><div class="correction-step">P(B) = P(A inter B)/P(A|B) = 0,18/0,5 = 0,36.</div><div class="correction-step">P(A)P(B) = 0,3 x 0,36 = 0,108 different de P(A inter B) = 0,18. NON independants.</div><div class="correction-step">P(A barre|B barre) = P(A barre inter B barre)/P(B barre). P(A barre inter B barre) = 1 - P(A) - P(B) + P(A inter B) = 1 - 0,3 - 0,36 + 0,18 = 0,52. P(B barre) = 0,64. Donc P = 0,52/0,64 = 13/16.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 48</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">P(transports en commun) = P(bus ou metro) = P(bus) + P(metro) - P(bus et metro) = 0,40 + 0,25 - 0,15 = 0,50.</div><div class="correction-step">P(uniquement bus) = 0,40 - 0,15 = 0,25.</div><div class="correction-step">P(metro | transports communs) = P(metro inter TC)/P(TC) = 0,25/0,50 = 1/2.</div><div class="correction-step">P(bus)P(metro) = 0,40 x 0,25 = 0,10 different de P(bus inter metro) = 0,15. NON independants.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 49</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">Systeme complet : B1, B2, B3 sont disjoints et leur reunion = Omega. OUI.</div><div class="correction-step">P(A) = P(A|B1)P(B1) + P(A|B2)P(B2) + P(A|B3)P(B3). P(Bi) = Card(Bi)/8 = 3/8, 3/8, 2/8.</div><div class="correction-step">P(A|B1) = P(A inter B1)/P(B1). A = {{2,4,6,8}}, B1 = {{1,2,3}} : A inter B1 = {{2}}. Donc P(A|B1) = 1/3.</div><div class="correction-step">P(A|B2) = 2/3 (A inter B2 = {{4,6}}), P(A|B3) = 1/2 (A inter B3 = {{8}}).</div><div class="correction-step">P(A) = (1/3)(3/8) + (2/3)(3/8) + (1/2)(2/8) = 1/8 + 2/8 + 1/8 = 4/8 = 1/2.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 50</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">P(Pile) = (1/2)(1/2) + (1/2)(0,7) = 1/4 + 7/20 = 5/20 + 7/20 = 12/20 = 3/5.</div><div class="correction-step">P(P2|Pile) = P(Pile|P2)P(P2)/P(Pile) = (0,7)(1/2)/(3/5) = (7/20)/(3/5) = 7/12.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e1b4b 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 11</div>
+        <div class="section-title">Corrections 51-55</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 51</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">P(daltonien) = 0,60x0,05 + 0,40x0,02 = 0,030 + 0,008 = 0,038.</div><div class="correction-step">P(homme|daltonien) = P(daltonien|homme)P(homme)/P(daltonien) = 0,05x0,60/0,038 = 0,030/0,038 = 30/38 = 15/19.</div><div class="correction-step">P(femme|non daltonien) = P(non D|F)P(F)/P(non D) = 0,98x0,40/0,962 = 0,392/0,962 = 196/481.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 52</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">P(accident) = 0,50x0,02 + 0,35x0,05 + 0,15x0,10 = 0,010 + 0,0175 + 0,015 = 0,0425.</div><div class="correction-step">P(risque moyen|accident) = 0,35x0,05/0,0425 = 0,0175/0,0425 = 175/425 = 7/17.</div><div class="correction-step">P(risque faible|pas accident) = 0,50x0,98/0,9575 = 0,49/0,9575 = 4900/9575.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 53</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">P(reussir) = 0,40x0,70 + 0,35x0,80 + 0,25x0,60 = 0,28 + 0,28 + 0,15 = 0,71.</div><div class="correction-step">P(exercices|reussi) = 0,35x0,80/0,71 = 0,28/0,71 = 28/71.</div><div class="correction-step">P(videos|echoue) = 0,25x0,40/0,29 = 0,10/0,29 = 10/29.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 54</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">P(rouge) = 0,3x(1/3) + 0,5x(3/4) + 0,2x(2/4) = 0,1 + 0,375 + 0,1 = 0,575.</div><div class="correction-step">P(U2|rouge) = 0,5x0,75/0,575 = 0,375/0,575 = 375/575 = 15/23.</div><div class="correction-step">P(U1|noire) = 0,3x(2/3)/(1-0,575) = 0,2/0,425 = 200/425 = 8/17.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 55</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">Arbre : racine M(0,01)/M barre(0,99). M->T(0,98)/T barre(0,02). M barre->T(0,01)/T barre(0,99).</div><div class="correction-step">P(T) = 0,01x0,98 + 0,99x0,01 = 0,0098 + 0,0099 = 0,0197.</div><div class="correction-step">P(M|T) = 0,0098/0,0197 = 98/197 (environ 49,7%).</div><div class="correction-step">P(M barre|T) = 0,0099/0,0197 = 99/197 (environ 50,3% : faux positifs !)</div><div class="correction-step">P(M|T) est environ egal a P(M) : le test n'est pas tres discriminant pour une maladie rare.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e1b4b 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 12</div>
+        <div class="section-title">Corrections 56-60</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 56</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">P(defaut) = 0,30x0,01 + 0,25x0,02 + 0,20x0,03 + 0,25x0,015 = 0,003+0,005+0,006+0,00375 = 0,01775.</div><div class="correction-step">P(M3|defaut) = 0,20x0,03/0,01775 = 0,006/0,01775 = 600/1775 = 24/71.</div><div class="correction-step">P(M1|bonne) = 0,30x0,99/(1-0,01775) = 0,297/0,98225 = 29700/98225.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 57</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">Arbre : R(4/10)->R(3/10) ou N(7/10) ; N(6/10)->R(4/10) ou N(6/10).</div><div class="correction-step">P(2R) = (4/10)(3/10) = 12/100.</div><div class="correction-step">P(exactement 1R) = (4/10)(7/10) + (6/10)(4/10) = 28/100 + 24/100 = 52/100.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 58</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">Omega = {{GG, GF, FG, FF}} (G=garcon, F=fille). Equiprobabilite.</div><div class="correction-step">A = "au moins un garcon" = {{GG, GF, FG}}, Card(A) = 3. A inter {{GG}} = {{GG}}, donc P = 1/3.</div><div class="correction-step">Si l'aine est un garcon : Omega reduit = {{GG, GF}}. P(GG) = 1/2.</div><div class="correction-step">Difference : l'information "l'aine est un garcon" est plus precise que "au moins un garcon" et change l'univers.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 59</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">Arbre : As(4/32)->50 euros. Non-As(28/32)->6(1/6)->20 euros ; Non-6(5/6)->-5 euros.</div><div class="correction-step">P(50) = 4/32 = 1/8.</div><div class="correction-step">P(20) = (28/32)(1/6) = 28/192 = 7/48.</div><div class="correction-step">P(-5) = (28/32)(5/6) = 140/192 = 35/48.</div><div class="correction-step">P(gagner) = 1/8 + 7/48 = 6/48 + 7/48 = 13/48.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 60</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">P(antibiotiques) = 0,40x0,10 + 0,35x0,15 + 0,25x0,08 = 0,040 + 0,0525 + 0,020 = 0,1125.</div><div class="correction-step">P(Dr B|antibiotiques) = 0,35x0,15/0,1125 = 0,0525/0,1125 = 525/1125 = 7/15.</div><div class="correction-step">P(pas Dr B | antibiotiques) = 1 - 7/15 = 8/15.</div><div class="correction-step">P(Dr A | pas antibiotiques) = P(pas anti|Dr A)P(Dr A)/P(pas anti) = 0,90x0,40/0,8875 = 0,36/0,8875 = 3600/8875.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e1b4b 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 13</div>
+        <div class="section-title">Corrections 61-65</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 61</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">X prend les valeurs {{1, 2, 3, 4, 5, 6}}.</div><div class="correction-step">Equiprobabilite : P(X=k) = 1/6 pour k=1,...,6.</div><div class="correction-step">Somme : 6 x (1/6) = 1. Verifie.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 62</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">X prend les valeurs {{0, 1, 2, 3}}.</div><div class="correction-step">P(X=0) = 1/8, P(X=1) = 3/8, P(X=2) = 3/8, P(X=3) = 1/8.</div><div class="correction-step">Verification : 1/8 + 3/8 + 3/8 + 1/8 = 8/8 = 1.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 63</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">X = 10 si As (4 cas), X = 5 si figure sauf As (8 cas), X = 0 sinon (20 cas).</div><div class="correction-step">P(X=10) = 4/32 = 1/8. P(X=5) = 8/32 = 1/4. P(X=0) = 20/32 = 5/8.</div><div class="correction-step">Verification : 1/8 + 1/4 + 5/8 = 1/8 + 2/8 + 5/8 = 8/8 = 1.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 64</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">X = 3 si {{1,2}}, X = 1 si {{3,4,5}}, X = -4 si {{6}}.</div><div class="correction-step">P(X=3) = 2/6 = 1/3. P(X=1) = 3/6 = 1/2. P(X=-4) = 1/6.</div><div class="correction-step">E(X) = 3(1/3) + 1(1/2) + (-4)(1/6) = 1 + 0,5 - 2/3 = 5/6 environ 0,833.</div><div class="correction-step">Le jeu est favorable au joueur (E(X) > 0).</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 65</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">X = k au carre, k dans {{1,...,10}}. Valeurs : 1, 4, 9, 16, 25, 36, 49, 64, 81, 100.</div><div class="correction-step">P(X=1)=1/10, P(X=4)=1/10, P(X=9)=1/10, ..., P(X=100)=1/10.</div><div class="correction-step">E(X) = (1+4+9+16+25+36+49+64+81+100)/10 = 385/10 = 38,5.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e1b4b 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 14</div>
+        <div class="section-title">Corrections 66-70</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 66</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">X dans {{0, 1, 2}}.</div><div class="correction-step">P(X=0) = C(2,0)xC(4,2)/C(6,2) = 1x6/15 = 6/15 = 2/5.</div><div class="correction-step">P(X=1) = C(4,1)xC(2,1)/C(6,2) = 4x2/15 = 8/15.</div><div class="correction-step">P(X=2) = C(4,2)/C(6,2) = 6/15 = 2/5.</div><div class="correction-step">Verification : 6/15 + 8/15 + 6/15 = 20/15... ERREUR. Recalcul : C(6,2)=15. P(X=0)=C(2,2)xC(4,0)/15=1/15. P(X=1)=C(4,1)xC(2,1)/15=8/15. P(X=2)=C(4,2)xC(2,0)/15=6/15. Somme = 15/15=1.</div><div class="correction-step">C'est la loi hypergeometrique H(6, 4, 2).</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 67</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">E(X) = -2x0,1 + 0x0,4 + 1x0,3 + 3x0,2 = -0,2 + 0 + 0,3 + 0,6 = 0,7.</div><div class="correction-step">E(X au carre) = 4x0,1 + 0x0,4 + 1x0,3 + 9x0,2 = 0,4 + 0 + 0,3 + 1,8 = 2,5.</div><div class="correction-step">Var(X) = 2,5 - 0,49 = 2,01. sigma(X) = racine(2,01) environ 1,418.</div><div class="correction-step">P(X >= 0) = P(X=0) + P(X=1) + P(X=3) = 0,4 + 0,3 + 0,2 = 0,9.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 68</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">Y = 3X+2 : Y prend les valeurs 2, 5, 8.</div><div class="correction-step">P(Y=2) = 0,2, P(Y=5) = 0,5, P(Y=8) = 0,3.</div><div class="correction-step">Direct : E(Y) = 2x0,2 + 5x0,5 + 8x0,3 = 0,4 + 2,5 + 2,4 = 5,3.</div><div class="correction-step">Via E(X) : E(X) = 0x0,2+1x0,5+2x0,3 = 1,1. E(Y) = 3(1,1)+2 = 5,3. Verifie.</div><div class="correction-step">Var(Y) = 9 Var(X). Var(X) = E(X au carre)-[E(X)] au carre = 1,7-1,21 = 0,49. Var(Y) = 9x0,49 = 4,41.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 69</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">X = 2k si k=3,6 (double) ; X = -k si k=1,2,4,5.</div><div class="correction-step">X = -1(P=1/6), -2(1/6), 6(1/6), -4(1/6), -5(1/6), 12(1/6).</div><div class="correction-step">E(X) = (-1-2+6-4-5+12)/6 = 6/6 = 1.</div><div class="correction-step">Var(X) = (1+4+36+16+25+144)/6 - 1 = 226/6 - 1 = 37,67 - 1 = 36,67.</div><div class="correction-step">F(x) = 0 si x<-5 ; F(x)=1/6 si -5<=x<-4 ; F(x)=2/6 si -4<=x<-2 ; F(x)=3/6 si -2<=x<-1 ; F(x)=4/6 si -1<=x<6 ; F(x)=5/6 si 6<=x<12 ; F(x)=1 si x>=12.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 70</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">X prend les valeurs 1, 2, 3.</div><div class="correction-step">P(X=1) : 3 boules de la meme couleur parmi C(10,3)=120 : P = (C(5,3)+C(3,3)+C(2,3))/120 = (10+1+0)/120 = 11/120.</div><div class="correction-step">P(X=3) : 1 de chaque couleur : C(5,1)xC(3,1)xC(2,1)/120 = 5x3x2/120 = 30/120 = 1/4.</div><div class="correction-step">P(X=2) = 1 - 11/120 - 30/120 = 79/120.</div><div class="correction-step">E(X) = 1x11/120 + 2x79/120 + 3x30/120 = 11/120 + 158/120 + 90/120 = 259/120 environ 2,158.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e1b4b 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 15</div>
+        <div class="section-title">Corrections 71-75</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 71</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">Loi de X : P(X=-1)=0,2, P(X=2)=0,5, P(X=5)=0,3.</div><div class="correction-step">P(-1 <= X <= 2) = F(2) - F(-1-) = 0,7 - 0 = 0,7.</div><div class="correction-step">P(X > 2) = 1 - F(2) = 1 - 0,7 = 0,3.</div><div class="correction-step">E(X) = -1x0,2 + 2x0,5 + 5x0,3 = -0,2 + 1,0 + 1,5 = 2,3.</div><div class="correction-step">E(X au carre) = 1x0,2 + 4x0,5 + 25x0,3 = 0,2+2,0+7,5 = 9,7. Var(X) = 9,7 - 5,29 = 4,41.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 72</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">X dans {{1, 2, 3, ...}} (nombre de lancers jusqu'a Face).</div><div class="correction-step">P(X=1) = P(F) = 1/2. P(X=2) = P(P puis F) = (1/2) au carre = 1/4. P(X=3) = (1/2) puissance 3 = 1/8.</div><div class="correction-step">P(X=k) = (1/2) puissance k pour k = 1, 2, 3, ...</div><div class="correction-step">Loi geometrique de parametre p = 1/2.</div><div class="correction-step">E(X) = 1/p = 2 lancers en moyenne.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 73</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">E(X) = 1x0,3 + 2x0,4 + 3x0,3 = 0,3 + 0,8 + 0,9 = 2,0.</div><div class="correction-step">E(X au carre) = 1x0,3 + 4x0,4 + 9x0,3 = 0,3 + 1,6 + 2,7 = 4,6.</div><div class="correction-step">Var(X) = 4,6 - 4 = 0,6. sigma(X) = racine(0,6) environ 0,775.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 74</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">E(Y) = -1x0,2 + 0x0,5 + 2x0,2 + 5x0,1 = -0,2 + 0 + 0,4 + 0,5 = 0,7.</div><div class="correction-step">E(Y au carre) = 1x0,2 + 0 + 4x0,2 + 25x0,1 = 0,2 + 0,8 + 2,5 = 3,5.</div><div class="correction-step">Var(Y) = 3,5 - 0,49 = 3,01.</div><div class="correction-step">E(-2Y+3) = -2(0,7)+3 = 1,6. Var(-2Y+3) = 4 x 3,01 = 12,04.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 75</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">G = 10-2=8 si {{5,6}}, G = 0-2=-2 sinon.</div><div class="correction-step">P(G=8) = 2/6 = 1/3. P(G=-2) = 4/6 = 2/3.</div><div class="correction-step">E(G) = 8(1/3) + (-2)(2/3) = 8/3 - 4/3 = 4/3 environ 1,33.</div><div class="correction-step">E(G) > 0 : le jeu est favorable au joueur (en moyenne gain de 1,33 euros par partie).</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e1b4b 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 16</div>
+        <div class="section-title">Corrections 76-80</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 76</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">E(3X-1) = 3(5)-1 = 14. Var(3X-1) = 9x4 = 36.</div><div class="correction-step">E(2X+3) = 2(5)+3 = 13. Var(2X+3) = 4x4 = 16. sigma(2X+3) = 4.</div><div class="correction-step">E(X au carre) = Var(X) + [E(X)] au carre = 4 + 25 = 29.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 77</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">E(X+Y) = 3+5 = 8. Var(X+Y) = 2+4 = 6 (independance).</div><div class="correction-step">E(2X-3Y) = 2(3)-3(5) = 6-15 = -9. Var(2X-3Y) = 4(2)+9(4) = 8+36 = 44.</div><div class="correction-step">E(XY) = E(X)E(Y) = 15 (independance). Var(XY) necessite E(X au carre Y au carre), pas directement calculable sans plus d'info.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 78</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">5p + 2p = 1 donc 7p = 1, p = 1/7.</div><div class="correction-step">P(face 6) = 2p = 2/7, P(autres faces) = p = 1/7 chacune.</div><div class="correction-step">E(X) = (1+2+3+4+5)(1/7) + 6(2/7) = 15/7 + 12/7 = 27/7 environ 3,857.</div><div class="correction-step">E(X au carre) = (1+4+9+16+25)(1/7) + 36(2/7) = 55/7 + 72/7 = 127/7.</div><div class="correction-step">Var(X) = 127/7 - (27/7) au carre = 127/7 - 729/49 = (889-729)/49 = 160/49 environ 3,265.</div><div class="correction-step">De equilibre : E = 3,5, Var = 35/12 environ 2,917. Le pipe augmente la dispersion.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 79</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">S = 4X - Y penalty ou X = nb bonnes reponses, Y = nb mauvaises reponses. S = 4X - (3-X) = 5X - 3 (car Y = 3-X si pas d'absence) ou plus exactement S = 4B - (M + 0xA) ou B=bonnes, M=mauvaises.</div><div class="correction-step">Plus simplement : S = 4B - M (ou M = nb mauvaises, A=nb absences, B+M+A=3).</div><div class="correction-step">E(B) = 3x0,7 = 2,1. E(S) = 4(2,1) - E(M) = 8,4 - 3(0,3) = 8,4 - 0,9 = 7,5.</div><div class="correction-step">P(S > 0) = P(B >= 1) = 1 - P(B=0) = 1 - (0,3) puissance 3 = 1 - 0,027 = 0,973.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 80</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">X = X1 + X2 + X3, chaque Xi = resultat d'un de (1 a 6).</div><div class="correction-step">Direct : E(X) = E(X1)+E(X2)+E(X3) = 3 x 3,5 = 10,5.</div><div class="correction-step">Var(X) = 3 x Var(Xi) = 3 x 35/12 = 35/4 = 8,75.</div><div class="correction-step">sigma(X) = racine(8,75) environ 2,958.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e1b4b 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 17</div>
+        <div class="section-title">Corrections 81-85</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 81</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">Var(X) = E(X au carre) - [E(X)] au carre = 20 - 16 = 4.</div><div class="correction-step">Y = (X-4)/3. E(Y) = (4-4)/3 = 0. Var(Y) = Var(X)/9 = 4/9.</div><div class="correction-step">Y est la variable centree reduite de X : on soustrait la moyenne et on divise par l'ecart-type.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 82</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">E(X) = (1+2+...+n)/n = n(n+1)/(2n) = (n+1)/2.</div><div class="correction-step">E(X au carre) = (1+4+9+...+n au carre)/n = n(n+1)(2n+1)/(6n) = (n+1)(2n+1)/6.</div><div class="correction-step">Var(X) = (n+1)(2n+1)/6 - [(n+1)/2] au carre = (n+1)[2(2n+1) - 3(n+1)]/12 = (n+1)(n-1)/12 = (n au carre - 1)/12.</div><div class="correction-step">Pour n=10 : E(X) = 5,5, Var(X) = 99/12 = 8,25, sigma = racine(8,25) environ 2,872.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 83</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">S = nombre de succes parmi n epreuves de Bernoulli(p).</div><div class="correction-step">E(S) = np.</div><div class="correction-step">Var(S) = np(1-p).</div><div class="correction-step">S suit la loi binomiale B(n, p).</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 84</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">E(X+Y) = 5. Var(X+Y) = 1+4+2(0,5) = 6.</div><div class="correction-step">r(X,Y) = Cov(X,Y)/(sigma(X)sigma(Y)) = 0,5/(1x2) = 0,25.</div><div class="correction-step">Cov(X,Y) = 0,5 different de 0, donc X et Y ne sont PAS independants. (Remarque : si Cov=0 on ne peut pas conclure, mais Cov different de 0 implique NON independance.)</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 85</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">R = 2-1 = 1 (bonne qualite, vendu 2 euros, cout 1 euro) ou R = 0,5-1 = -0,5 (mauvaise qualite, vendu 0,50 euro, cout 1 euro).</div><div class="correction-step">P(R=1) = 0,8, P(R=-0,5) = 0,2.</div><div class="correction-step">E(R) = 1x0,8 + (-0,5)x0,2 = 0,8 - 0,1 = 0,7 euro/kilo. Beneficiaire en moyenne.</div><div class="correction-step">Var(R) = E(R au carre) - [E(R)] au carre = (1x0,8+0,25x0,2) - 0,49 = 0,85-0,49 = 0,36. sigma(R) = 0,6.</div><div class="correction-step">Gain moyen pour 1000 kg : 1000 x 0,7 = 700 euros.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e1b4b 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 18</div>
+        <div class="section-title">Corrections 86-90</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 86</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">B(5, 0,4). P(X=k) = C(5,k) x 0,4 puissance k x 0,6 puissance (5-k).</div><div class="correction-step">P(X=0) = 0,6 puissance 5 = 0,07776.</div><div class="correction-step">P(X=5) = 0,4 puissance 5 = 0,01024.</div><div class="correction-step">P(X=2) = C(5,2) x 0,4 au carre x 0,6 au cube = 10 x 0,16 x 0,216 = 0,3456.</div><div class="correction-step">E(X) = 5x0,4 = 2. Var(X) = 5x0,4x0,6 = 1,2.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 87</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">X suit B(10, 1/4).</div><div class="correction-step">P(X=0) = (3/4) puissance 10 = 0,0563.</div><div class="correction-step">P(X=10) = (1/4) puissance 10 = 9,54 x 10 puissance -7.</div><div class="correction-step">P(X=5) = C(10,5) x (1/4) puissance 5 x (3/4) puissance 5 = 252 x (3/4) puissance 10 = 0,0584.</div><div class="correction-step">E(X) = 10/4 = 2,5 bonnes reponses en moyenne sur 10.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 88</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">X suit B(8, 0,3).</div><div class="correction-step">P(X=0) = 0,7 puissance 8 = 0,0576.</div><div class="correction-step">P(X=8) = 0,3 puissance 8 = 0,0000656.</div><div class="correction-step">P(X=3) = C(8,3) x 0,3 au cube x 0,7 puissance 5 = 56 x 0,027 x 0,16807 = 0,2541.</div><div class="correction-step">P(X >= 5) = 1 - P(X <= 4) = 1 - [C(8,0)0,7 puissance 8 + C(8,1)0,3x0,7 puissance 7 + C(8,2)0,09x0,7 puissance 6 + C(8,3)0,027x0,7 puissance 5 + C(8,4)0,0081x0,7 puissance 4] environ 1 - 0,9429 = 0,0571.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 89</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">X suit B(20, 0,05).</div><div class="correction-step">P(X=0) = 0,95 puissance 20 = 0,3585.</div><div class="correction-step">P(X=2) = C(20,2) x 0,05 au carre x 0,95 puissance 18 = 190 x 0,0025 x 0,3972 = 0,1887.</div><div class="correction-step">P(X >= 1) = 1 - 0,95 puissance 20 = 0,6415.</div><div class="correction-step">P(X <= 3) = P(X=0)+P(X=1)+P(X=2)+P(X=3). P(X=1)=20x0,05x0,95 puissance 19=0,3774. P(X=3)=C(20,3)x0,05 au cube x 0,95 puissance 17=0,0596. Total=0,3585+0,3774+0,1887+0,0596=0,9842.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 90</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">X suit B(12, 1/6).</div><div class="correction-step">P(X=0) = (5/6) puissance 12 = 0,1122.</div><div class="correction-step">P(X=1) = 12 x (1/6) x (5/6) puissance 11 = 0,2692.</div><div class="correction-step">P(X >= 2) = 1 - P(X=0) - P(X=1) = 1 - 0,1122 - 0,2692 = 0,6186.</div><div class="correction-step">E(X) = 12/6 = 2 : en moyenne 2 six sur 12 lancers.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e1b4b 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 19</div>
+        <div class="section-title">Corrections 91-95</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 91</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">X suit B(8, 0,7).</div><div class="correction-step">P(X=5) = C(8,5) x 0,7 puissance 5 x 0,3 au cube = 56 x 0,16807 x 0,027 = 0,2541.</div><div class="correction-step">P(X >= 6) = C(8,6)0,7 puissance 6 x 0,3 au carre + C(8,7)0,7 puissance 7 x 0,3 + 0,7 puissance 8 = 28x0,1176x0,09 + 8x0,0824x0,3 + 0,0576 = 0,2960+0,1977+0,0576 = 0,5513.</div><div class="correction-step">P(X < 4) = P(X=0)+P(X=1)+P(X=2)+P(X=3) = 0,0000656+0,00122+0,0100+0,0467 = 0,0580.</div><div class="correction-step">P(aucune reussite en n tirs) < 0,01 : 0,3 puissance n < 0,01. n > ln(0,01)/ln(0,3) = -4,605/(-1,204) = 3,83. Donc n = 4 tirs minimum.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 92</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">X suit B(10, 0,6).</div><div class="correction-step">P(X=6) = C(10,6) x 0,6 puissance 6 x 0,4 puissance 4 = 210 x 0,04666 x 0,0256 = 0,2508.</div><div class="correction-step">P(X < 5) = P(X=0)+P(X=1)+P(X=2)+P(X=3)+P(X=4). P(X=0)=0,4 puissance 10=0,000105. P(X=1)=10x0,6x0,4 puissance 9=0,000157. P(X=2)=45x0,36x0,4 puissance 8=0,00106. P(X=3)=120x0,216x0,4 puissance 7=0,00425. P(X=4)=210x0,1296x0,4 puissance 6=0,01115. Total=0,01673.</div><div class="correction-step">P(7<=X<=9) = P(X=7)+P(X=8)+P(X=9) = 120x0,6 puissance 7x0,4 puissance 3+45x0,6 puissance 8x0,4 au carre+10x0,6 puissance 9x0,4 = 0,2150+0,1003+0,0186 = 0,3339.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 93</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">E(X) = np = 4. Var(X) = np(1-p) = 3.</div><div class="correction-step">Donc np = 4 et np - np au carre = 3, d'ou np au carre = 1, soit n x p au carre = 1.</div><div class="correction-step">De np=4 : n = 4/p. De np au carre=1 : (4/p)p au carre = 4p = 1, p = 1/4. Donc n = 16.</div><div class="correction-step">B(16, 1/4). P(X=0) = (3/4) puissance 16 = 0,0102.</div><div class="correction-step">P(X=4) = C(16,4)(1/4) puissance 4(3/4) puissance 12 = 1820x0,00391x0,0317 = 0,2252.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 94</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">X suit B(10, 0,75).</div><div class="correction-step">P(X=8) = C(10,8) x 0,75 puissance 8 x 0,25 au carre = 45 x 0,1001 x 0,0625 = 0,2816.</div><div class="correction-step">P(X >= 8) = P(X=8)+P(X=9)+P(X=10) = 0,2816 + 10x0,75 puissance 9x0,25 + 0,75 puissance 10 = 0,2816+0,1877+0,0563 = 0,5256.</div><div class="correction-step">E(X)=7,5 signifie que sur un grand nombre de matchs, le joueur marque en moyenne 7,5 lancers francs sur 10. Ce n'est pas une valeur observable pour un seul match, mais la tendance a long terme.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 95</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">Parmi les non vaccines, la probabilite de maladie est 0,4. On preleve 15 non vaccines.</div><div class="correction-step">X suit B(15, 0,4).</div><div class="correction-step">P(X=3) = C(15,3) x 0,4 au cube x 0,6 puissance 12 = 455 x 0,064 x 0,00218 = 0,0634.</div><div class="correction-step">P(X=0) = 0,6 puissance 15 = 0,000470.</div><div class="correction-step">P(X >= 5) = 1 - P(X <= 4). On calcule P(X=0)+P(X=1)+P(X=2)+P(X=3)+P(X=4) = 0,000470+15x0,4x0,6 puissance 14+... environ 0,4032. Donc P(X>=5) environ 0,5968.</div><div class="correction-step">Pour 15 vaccines : Y suit B(15, 0,05). P(Y=3) = C(15,3) x 0,05 au cube x 0,95 puissance 12 = 455 x 0,000125 x 0,5404 = 0,0307.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e1b4b 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 20</div>
+        <div class="section-title">Corrections 96-100</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 96</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">P(X=0) = e puissance (-3) x 3 puissance 0 / 0! = e puissance (-3) = 0,0498.</div><div class="correction-step">P(X=1) = e puissance (-3) x 3 / 1! = 0,1494.</div><div class="correction-step">P(X=2) = e puissance (-3) x 9 / 2! = 0,2240.</div><div class="correction-step">P(X=3) = e puissance (-3) x 27 / 6 = 0,2240.</div><div class="correction-step">E(X) = Var(X) = 3. P(X <= 2) = 0,0498 + 0,1494 + 0,2240 = 0,4232.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 97</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">X suit P(5).</div><div class="correction-step">P(X=3) = e puissance (-5) x 125/6 = 0,0067 x 20,833 = 0,1404.</div><div class="correction-step">P(X <= 2) = P(X=0)+P(X=1)+P(X=2) = 0,0067 + 0,0337 + 0,0842 = 0,1247.</div><div class="correction-step">P(X > 6) = 1 - P(X <= 6) = 1 - (0,0067+0,0337+0,0842+0,1404+0,1755+0,1462+0,1044) = 1 - 0,6916 = 0,3084.</div><div class="correction-step">P(4 <= X <= 7) = P(X=4)+P(X=5)+P(X=6)+P(X=7) = 0,1755+0,1755+0,1462+0,1044 = 0,6016.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 98</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">X = nb de defauts par jour. B(500, 0,01), n=500 grand, p=0,01 petit. Approximation : P(np) = P(5).</div><div class="correction-step">P(X=0) = e puissance (-5) = 0,0067.</div><div class="correction-step">P(X=3) = e puissance (-5) x 125/6 = 0,1404.</div><div class="correction-step">P(X=10) = e puissance (-5) x 5 puissance 10 / 3628800 = 0,0181.</div><div class="correction-step">P(X <= 5) = P(X=0)+...+P(X=5) = 0,0067+0,0337+0,0842+0,1404+0,1755+0,1755 = 0,6160.</div><div class="correction-step">P(X > 8) = 1 - P(X <= 8) = 1 - 0,9319 = 0,0681.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 99</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">X = nb de coeurs. C'est la loi hypergeometrique H(32, 8, 5).</div><div class="correction-step">P(X=0) = C(8,0)xC(24,5)/C(32,5) = 1x42504/201376 = 0,2111.</div><div class="correction-step">P(X=2) = C(8,2)xC(24,3)/C(32,5) = 28x2024/201376 = 56672/201376 = 0,2814.</div><div class="correction-step">P(X=5) = C(8,5)xC(24,0)/C(32,5) = 56/201376 = 0,000278.</div><div class="correction-step">E(X) = 5x8/32 = 5/4 = 1,25.</div><div class="correction-step">Approximation binomiale B(5, 1/4) : P(X=2) = C(5,2)(1/4) au carre (3/4) au cube = 10x0,0625x0,4219 = 0,2637. Comparaison : 0,2814 vs 0,2637. Bonne approximation.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 100</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">X = nb de lancers jusqu'au premier 6. Loi geometrique G(1/6).</div><div class="correction-step">P(X=k) = (5/6) puissance (k-1) x (1/6).</div><div class="correction-step">P(X=1) = 1/6. P(X=2) = (5/6)(1/6) = 5/36. P(X=3) = (5/6) au carre (1/6) = 25/216.</div><div class="correction-step">P(X <= 4) = (1/6)(1 + 5/6 + 25/36 + 125/216) = (1/6)(1 + 0,833 + 0,694 + 0,579) = (1/6)(3,107) = 0,5178.</div><div class="correction-step">P(X > 6) = (5/6) puissance 6 = 0,3349.</div><div class="correction-step">E(X) = 1/(1/6) = 6 lancers en moyenne.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #172554 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 21</div>
+        <div class="section-title">Corrections 101-105</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 101</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">X suit P(0,5).</div><div class="correction-step">P(X=0) = e puissance (-0,5) = 0,6065.</div><div class="correction-step">P(X=2) = e puissance (-0,5) x 0,25/2 = 0,6065 x 0,125 = 0,0758.</div><div class="correction-step">Sur 3 mois : Y suit P(1,5) (additivite : 0,5+0,5+0,5 = 1,5). P(Y >= 1) = 1 - e puissance (-1,5) = 1 - 0,2231 = 0,7769.</div><div class="correction-step">Sur 2 mois : Z suit P(1,0). P(Z=1) = e puissance (-1) x 1 = 0,3679.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 102</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">X = nb defauts. H(100, 10, 10).</div><div class="correction-step">P(X=0) = C(10,0)xC(90,10)/C(100,10) = C(90,10)/C(100,10) = 5,72 x 10 puissance 11 / 1,73 x 10 puissance 13 = 0,0331.</div><div class="correction-step">P(X=1) = C(10,1)xC(90,9)/C(100,10) = 10 x C(90,9) / C(100,10) = 0,1209.</div><div class="correction-step">P(X=2) = C(10,2)xC(90,8)/C(100,10) = 45 x C(90,8) / C(100,10) = 0,2155.</div><div class="correction-step">E(X) = 10x10/100 = 1. Var(X) = 10x(10/100)x(90/100)x(90/99) = 0,8182.</div><div class="correction-step">Approximation B(10, 0,1) : P(X=2) = C(10,2)x0,01x0,9 puissance 8 = 45x0,01x0,4305 = 0,1937. Comparaison : 0,2155 vs 0,1937.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 103</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">Z = X + Y suit P(5) (additivite : lambda=2+3=5).</div><div class="correction-step">P(Z=3) = e puissance (-5) x 125/6 = 0,1404.</div><div class="correction-step">P(Z=5) = e puissance (-5) x 5 puissance 5 / 120 = 0,1755.</div><div class="correction-step">P(Z=0) = e puissance (-5) = 0,0067.</div><div class="correction-step">P(Z <= 4) = P(Z=0)+P(Z=1)+P(Z=2)+P(Z=3)+P(Z=4) = 0,0067+0,0337+0,0842+0,1404+0,1755 = 0,4405.</div><div class="correction-step">E(Z) = 5, Var(Z) = 5.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 104</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">P(X=k) = P(0 echecs puis 1 succes) = (1-0,1) puissance k x 0,1 = 0,9 puissance k x 0,1.</div><div class="correction-step">P(X=0) = 0,1. P(X=1) = 0,09. P(X=2) = 0,081.</div><div class="correction-step">C'est la loi geometrique G(0,1).</div><div class="correction-step">E(X) = 1/0,1 = 10 echecs en moyenne avant le premier succes.</div><div class="correction-step">Var(X) = (1-0,1)/0,01 = 90.</div><div class="correction-step">P(X >= 5) = (0,9) puissance 5 = 0,5905.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 105</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">Poisson additive : sur 30 min avec lambda=4/min, lambda total = 4x30 = 120.</div><div class="correction-step">Z suit P(120). P(Z=120) = e puissance (-120) x 120 puissance 120 / 120!.</div><div class="correction-step">Pour lambda grand, on peut utiliser l'approximation normale N(120, 120). P(100 <= Z <= 140) = P((100-120)/racine(120) <= N(0,1) <= (140-120)/racine(120)) = P(-1,826 <= N(0,1) <= 1,826) = Phi(1,826)-Phi(-1,826) = 2Phi(1,826)-1 = 2x0,9659-1 = 0,9318.</div><div class="correction-step">P(Z < 90) = P(N(0,1) < (90-120)/10,95) = P(N(0,1) < -2,74) = 1-0,9969 = 0,0031.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #172554 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 22</div>
+        <div class="section-title">Corrections 106-110</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 106</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">M : P(M=25)=0,4, P(M=30)=0,35, P(M=40)=0,25. E(M) = 25x0,4+30x0,35+40x0,25 = 10+10,5+10 = 30,50 euros.</div><div class="correction-step">P(depense > 35) : depasse 35 si menu C (40 euros) avec ou sans dessert. P = 0,25.</div><div class="correction-step">P(D) = 0,4x0,10 + 0,35x0,15 + 0,25x0,20 = 0,04+0,0525+0,05 = 0,1425.</div><div class="correction-step">P(A|D) = P(D|A)P(A)/P(D) = 0,10x0,40/0,1425 = 0,04/0,1425 = 4/14,25 = 16/57.</div><div class="correction-step">Recette moyenne pour 200 clients : 200 x [30,50 + 8x0,1425] = 200 x 31,64 = 6328 euros.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 107</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">P(satisfait) = 0,60x0,90 + 0,40x0,75 = 0,54 + 0,30 = 0,84.</div><div class="correction-step">P(A|satisfait) = 0,54/0,84 = 9/14.</div><div class="correction-step">S = nombre de satisfaits parmi 5. S suit B(5, 0,84).</div><div class="correction-step">P(S=4) = C(5,4) x 0,84 puissance 4 x 0,16 = 5 x 0,4979 x 0,16 = 0,3983.</div><div class="correction-step">P(S >= 3) = P(S=3)+P(S=4)+P(S=5). P(S=3)=C(5,3)x0,84 au cube x 0,16 au carre = 10x0,5927x0,0256=0,1517. P(S=5)=0,84 puissance 5=0,4182. Total=0,1517+0,3983+0,4182=0,9682.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 108</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">G : conforme -> 50 euros (P=0,92), defectueux -> 30-20=10 euros (P=0,08).</div><div class="correction-step">P(G=50)=0,92, P(G=10)=0,08. E(G)=50x0,92+10x0,08=46+0,8=46,80 euros.</div><div class="correction-step">E(G au carre)=2500x0,92+100x0,08=2300+8=2308. Var(G)=2308-2190,24=117,76. sigma(G)=10,85.</div><div class="correction-step">J=500G. E(J)=500x46,80=23400 euros. Var(J)=250000x117,76=29440000. sigma(J)=racine(29440000)=5425,88 euros.</div><div class="correction-step">P(J > 24000) = P(G > 48) = P(G=50) = 0,92 (discret). Ou via TCL : P((J-23400)/5425,88 > (24000-23400)/5425,88) = P(N(0,1) > 0,111) = 1-0,544 = 0,456.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 109</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">P(fille) = 0,55, P(garcon) = 0,45.</div><div class="correction-step">P(sport) = P(sport|F)P(F) + P(sport|G)P(G) = 0,40x0,55 + 0,60x0,45 = 0,22 + 0,27 = 0,49.</div><div class="correction-step">P(fille|sport) = 0,22/0,49 = 22/49.</div><div class="correction-step">X = nb sportifs parmi 10. X suit B(10, 0,49).</div><div class="correction-step">P(X=5) = C(10,5) x 0,49 puissance 5 x 0,51 puissance 5 = 252 x 0,02825 x 0,03451 = 0,2456.</div><div class="correction-step">E(X) = 10 x 0,49 = 4,9. Var(X) = 10 x 0,49 x 0,51 = 2,499.</div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 110</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step">Arbre : R(4/32)->100 euros (jeu arrete). F figure non-Roi(8/32)->6:50 euros, pas 6:10 euros. N non-figure(20/32)->6:20 euros, pas 6:-5 euros.</div><div class="correction-step">Loi de G : P(G=100)=4/32=1/8. P(G=50)=(8/32)(1/6)=8/192. P(G=10)=(8/32)(5/6)=40/192. P(G=20)=(20/32)(1/6)=20/192. P(G=-5)=(20/32)(5/6)=100/192.</div><div class="correction-step">Verification : 1/8+8/192+40/192+20/192+100/192 = 24/192+8/192+40/192+20/192+100/192 = 192/192 = 1.</div><div class="correction-step">E(G) = 100(1/8) + 50(8/192) + 10(40/192) + 20(20/192) + (-5)(100/192) = 12,5 + 2,083 + 2,083 + 2,083 - 2,604 = 16,15 euros.</div><div class="correction-step">E(G au carre) = 10000(1/8)+2500(8/192)+100(40/192)+400(20/192)+25(100/192) = 1250+104,17+20,83+41,67+13,02 = 1429,69. Var(G) = 1429,69 - 260,82 = 1168,87. sigma(G) = 34,19.</div><div class="correction-step">P(G >= 20) = 1/8 + 8/192 + 40/192 + 20/192 = 24/192 + 68/192 = 92/192 = 23/48.</div><div class="correction-step">Gain net = E(G) - 15 = 16,15 - 15 = 1,15 > 0. Le joueur est gagnant en moyenne.</div>
+    </div>
+</div>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,1744 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=720">
+    <title>Exercices Fonction Logarithme - 112 exercices corriges</title>
+    <style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@1,500&display=swap');
+
+@page {
+    size: 720px 1020px;
+    margin: 0;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+    background: #080c18;
+    color: #d8dff0;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+}
+
+.page {
+    width: 720px;
+    min-height: 1020px;
+    padding: 60px 55px;
+    background: #080c18;
+    position: relative;
+    page-break-after: always;
+    break-after: page;
+    overflow: hidden;
+}
+
+.page:last-child { page-break-after: auto; break-after: auto; }
+
+/* === COVER / TITLE PAGE === */
+.cover {
+    padding: 0;
+    background: linear-gradient(135deg, #080c18 0%, #101830 50%, #080c18 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    position: relative;
+    min-height: 1020px;
+}
+.cover-content {
+    position: relative;
+    z-index: 2;
+    padding: 50px 55px 60px;
+}
+.cover-label {
+    color: #c9a84c;
+    font-size: 12px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 18px;
+}
+.cover-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    font-weight: 900;
+    line-height: 1.1;
+    color: #d8dff0;
+    margin-bottom: 18px;
+    letter-spacing: -1px;
+}
+.cover-title .accent { color: #c9a84c; font-style: italic; font-family: 'Cormorant Garamond', serif; font-weight: 500; }
+.cover-subtitle {
+    font-size: 15px;
+    color: #7888aa;
+    line-height: 1.6;
+    max-width: 500px;
+    margin-bottom: 30px;
+}
+.cover-divider {
+    width: 70px; height: 3px;
+    background: linear-gradient(to right, #c9a84c, #3b82f6);
+    margin-bottom: 22px;
+}
+.cover-author {
+    font-size: 13px;
+    color: #7888aa;
+    letter-spacing: 1px;
+}
+.cover-author strong { color: #d8dff0; font-weight: 600; }
+
+/* === TOC === */
+.toc-page { padding: 70px 55px; }
+.toc-header {
+    text-align: center;
+    margin-bottom: 35px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #1a2038;
+}
+.toc-label {
+    color: #c9a84c;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+.toc-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 900;
+    color: #d8dff0;
+}
+.toc-list { list-style: none; padding: 0; }
+.toc-item {
+    display: flex;
+    align-items: baseline;
+    padding: 8px 0;
+    border-bottom: 1px dotted #1a2038;
+    font-size: 13px;
+}
+.toc-num {
+    color: #3b82f6;
+    font-weight: 700;
+    font-family: 'Playfair Display', serif;
+    width: 32px;
+    flex-shrink: 0;
+}
+.toc-text { color: #d8dff0; flex: 1; }
+.toc-dots { color: #1a2038; margin: 0 6px; flex: 1; }
+.toc-page-num {
+    color: #7888aa;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+/* === SECTION PAGES (Exercise themes) === */
+.section-page { padding: 0; }
+.section-hero {
+    height: 160px;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+}
+.section-hero-gradient {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+.section-hero-pattern {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    opacity: 0.06;
+    background-size: 50px 50px;
+    background-image: radial-gradient(circle, #3b82f6 1px, transparent 1px);
+}
+.section-hero-overlay {
+    position: absolute;
+    bottom: 25px;
+    left: 55px;
+    right: 55px;
+    z-index: 2;
+}
+.section-number {
+    color: #c9a84c;
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+.section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 900;
+    color: #d8dff0;
+    line-height: 1.15;
+    letter-spacing: -0.5px;
+}
+
+.section-body {
+    padding: 30px 55px 50px;
+}
+
+/* === EXERCISE ITEM === */
+.exercise-item {
+    background: #101830;
+    border: 1px solid #1a2038;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 14px 0;
+    break-inside: avoid;
+    border-left: 3px solid #3b82f6;
+}
+.exercise-item.hard {
+    border-left-color: #ef4444;
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.05), #101830);
+}
+.exercise-item.medium {
+    border-left-color: #f97316;
+    background: linear-gradient(135deg, rgba(249, 115, 22, 0.04), #101830);
+}
+.exercise-item.bac {
+    border-left-color: #c9a84c;
+    background: linear-gradient(135deg, rgba(201, 168, 76, 0.06), #101830);
+    border-left-width: 4px;
+}
+.exercise-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+.exercise-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 900;
+    color: #3b82f6;
+}
+.exercise-diff {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 2px 8px;
+    border-radius: 3px;
+}
+.exercise-diff.facile { background: rgba(34, 197, 94, 0.2); color: #22c55e; }
+.exercise-diff.moyen { background: rgba(249, 115, 22, 0.2); color: #f97316; }
+.exercise-diff.difficile { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+.exercise-diff.bac { background: rgba(201, 168, 76, 0.2); color: #c9a84c; }
+
+.exercise-question {
+    font-size: 13px;
+    color: #a0b0cc;
+    line-height: 1.75;
+}
+.exercise-question p { color: #a0b0cc; margin-bottom: 8px; }
+.exercise-question p:last-child { margin-bottom: 0; }
+.exercise-question strong { color: #d8dff0; }
+
+.sub-question {
+    padding-left: 20px;
+    margin: 6px 0;
+    position: relative;
+    font-size: 12.5px;
+    color: #a0b0cc;
+    line-height: 1.7;
+}
+.sub-question::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 6px;
+    height: 6px;
+    background: #3b82f6;
+    border-radius: 50%;
+}
+
+/* === CORRECTION ITEMS === */
+.correction-item {
+    background: #101830;
+    border: 1px solid #1a2038;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 14px 0;
+    break-inside: avoid;
+    border-left: 3px solid #22c55e;
+}
+.correction-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+.correction-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 900;
+    color: #22c55e;
+    margin-right: 10px;
+}
+.correction-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: #22c55e;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+.correction-content {
+    font-size: 13px;
+    color: #a0b0cc;
+    line-height: 1.8;
+}
+.correction-content p { margin-bottom: 6px; }
+.correction-content p:last-child { margin-bottom: 0; }
+.correction-content strong { color: #d8dff0; }
+.correction-step {
+    padding-left: 20px;
+    margin: 4px 0;
+    position: relative;
+}
+.correction-step::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 6px;
+    height: 6px;
+    background: #22c55e;
+    border-radius: 50%;
+}
+
+.math-inline {
+    background: rgba(59, 130, 246, 0.08);
+    border: 1px solid #1a2038;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    color: #e8ecf8;
+    white-space: nowrap;
+}
+
+.formula-box {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(201, 168, 76, 0.06));
+    border: 1px solid #1a2038;
+    border-left: 4px solid #3b82f6;
+    border-radius: 10px;
+    padding: 14px 20px;
+    margin: 14px 0;
+    text-align: center;
+    break-inside: avoid;
+}
+.formula-main {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #e8ecf8;
+    line-height: 1.6;
+}
+.formula-desc {
+    font-size: 11px;
+    color: #7888aa;
+    margin-top: 6px;
+}
+
+p {
+    margin-bottom: 12px;
+    color: #a0b0cc;
+    line-height: 1.8;
+}
+p strong { color: #d8dff0; }
+
+.callout {
+    background: #101830;
+    border-radius: 10px;
+    padding: 16px 22px;
+    margin: 16px 0;
+    text-align: center;
+    border-top: 2px solid #3b82f6;
+    border-bottom: 2px solid #c9a84c;
+    break-inside: avoid;
+}
+.callout-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-style: italic;
+    color: #d8dff0;
+    line-height: 1.5;
+}
+
+.stat-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin: 18px 0;
+    break-inside: avoid;
+}
+.stat-card {
+    background: linear-gradient(135deg, #101830, #1a2038);
+    border: 1px solid #1a2038;
+    border-radius: 10px;
+    padding: 14px 10px;
+    text-align: center;
+}
+.stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 900;
+    color: #c9a84c;
+    line-height: 1;
+    margin-bottom: 5px;
+}
+.stat-label {
+    font-size: 10px;
+    color: #7888aa;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.conclusion-page {
+    background: linear-gradient(135deg, #080c18 0%, #101830 100%);
+    padding: 70px 55px;
+}
+</style>
+</head>
+<body>
+<div class="page cover">
+    <div class="cover-content">
+        <div class="cover-label">Cours Complet -- Terminale D & C</div>
+        <div class="cover-title">Fonction<br><span class="accent">Logarithme Neperien</span></div>
+        <div class="cover-divider"></div>
+        <div class="cover-subtitle">112 exercices corriges couvrant l'ensemble du programme : proprietes fondamentales, equations, etude de fonctions, limites, derivees, primitives, croissances comparees, logarithme decimal et sujets type BAC. Quatre niveaux de difficulte pour progresser methodiquement.</div>
+        <div class="stat-block">
+            <div class="stat-card"><div class="stat-number">112</div><div class="stat-label">Exercices</div></div>
+            <div class="stat-card"><div class="stat-number">9</div><div class="stat-label">Themes</div></div>
+            <div class="stat-card"><div class="stat-number">4</div><div class="stat-label">Niveaux</div></div>
+        </div>
+        <div class="cover-author">Mathematiques <strong>Terminale D</strong></div>
+    </div>
+</div>
+<div class="page toc-page">
+    <div class="toc-header">
+        <div class="toc-label">Table des matieres</div>
+        <div class="toc-title">112 Exercices</div>
+    </div>
+    <ul class="toc-list">
+    <li class="toc-item"><span class="toc-num">I</span><span class="toc-text">Proprietes fondamentales du logarithme</span><span class="toc-dots">............</span><span class="toc-page-num">Ex. 1-15</span></li><li class="toc-item"><span class="toc-num">II</span><span class="toc-text">Equations et inequations avec ln</span><span class="toc-dots">............</span><span class="toc-page-num">Ex. 16-30</span></li><li class="toc-item"><span class="toc-num">III</span><span class="toc-text">Etude de fonctions avec ln</span><span class="toc-dots">............</span><span class="toc-page-num">Ex. 31-45</span></li><li class="toc-item"><span class="toc-num">IV</span><span class="toc-text">Limites et asymptotes avec ln</span><span class="toc-dots">............</span><span class="toc-page-num">Ex. 46-58</span></li><li class="toc-item"><span class="toc-num">V</span><span class="toc-text">Derivees et primitives avec ln</span><span class="toc-dots">............</span><span class="toc-page-num">Ex. 59-70</span></li><li class="toc-item"><span class="toc-num">VI</span><span class="toc-text">Fonction ln composee</span><span class="toc-dots">............</span><span class="toc-page-num">Ex. 71-82</span></li><li class="toc-item"><span class="toc-num">VII</span><span class="toc-text">Croissances comparees</span><span class="toc-dots">............</span><span class="toc-page-num">Ex. 83-92</span></li><li class="toc-item"><span class="toc-num">VIII</span><span class="toc-text">Changement de base et log decimal</span><span class="toc-dots">............</span><span class="toc-page-num">Ex. 93-100</span></li><li class="toc-item"><span class="toc-num">IX</span><span class="toc-text">Exercices type BAC et problemes</span><span class="toc-dots">............</span><span class="toc-page-num">Ex. 101-112</span></li>
+    </ul>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a5f 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 1</div>
+        <div class="section-title">Proprietes fondamentales du logarithme</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 1</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer les valeurs exactes suivantes :</p><div class="sub-question">ln(1)</div><div class="sub-question">ln(e)</div><div class="sub-question">ln(e<sup>2</sup>)</div><div class="sub-question">ln(e<sup>0</sup>)</div><div class="sub-question">ln(1/e)</div><div class="sub-question">ln(e<sup>-3</sup>)</div>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 2</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Ecrire sous la forme k ln(a) ou k est un entier relatif :</p><div class="sub-question">ln(4)</div><div class="sub-question">ln(8)</div><div class="sub-question">ln(27)</div><div class="sub-question">ln(125)</div><div class="sub-question">ln(32)</div><div class="sub-question">ln(1/9)</div>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 3</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Simplifier les expressions suivantes en utilisant les proprietes du logarithme :</p><div class="sub-question">ln(e<sup>5</sup> . e<sup>3</sup>)</div><div class="sub-question">ln(e<sup>7</sup> / e<sup>2</sup>)</div><div class="sub-question">ln(e<sup>4</sup>) + ln(e<sup>6</sup>)</div><div class="sub-question">ln(e<sup>3</sup>) - ln(e<sup>8</sup>)</div><div class="sub-question">2 ln(e<sup>5</sup>) + 3 ln(e<sup>2</sup>)</div>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 4</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Resoudre les equations suivantes :</p><div class="sub-question">ln(x) = 0</div><div class="sub-question">ln(x) = 1</div><div class="sub-question">ln(x) = -2</div><div class="sub-question">ln(x) = 3</div><div class="sub-question">ln(x) = ln(5)</div><div class="sub-question">ln(x) = ln(e<sup>4</sup>)</div>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 5</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Determiner le domaine de definition des fonctions suivantes :</p><div class="sub-question">f(x) = ln(x)</div><div class="sub-question">f(x) = ln(x + 3)</div><div class="sub-question">f(x) = ln(2x - 1)</div><div class="sub-question">f(x) = ln(3 - x)</div><div class="sub-question">f(x) = ln(x<sup>2</sup> + 1)</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a5f 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 1</div>
+        <div class="section-title">Proprietes fondamentales du logarithme</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 6</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer :</p><div class="sub-question">e<sup>ln(3)</sup></div><div class="sub-question">e<sup>ln(7)</sup></div><div class="sub-question">e<sup>ln(e<sup>5</sup>)</sup></div><div class="sub-question">ln(e<sup>ln(2)</sup>)</div><div class="sub-question">e<sup>ln(1) + ln(5)</sup></div>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 7</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Verifier les egalites suivantes :</p><div class="sub-question">ln(6) = ln(2) + ln(3)</div><div class="sub-question">ln(10) = ln(2) + ln(5)</div><div class="sub-question">ln(1/8) = -3 ln(2)</div><div class="sub-question">ln(9) = 2 ln(3)</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 8</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Ecrire sous la forme a ln(2) + b ln(3) + c ln(5) avec a, b, c entiers :</p><div class="sub-question">ln(12)</div><div class="sub-question">ln(30)</div><div class="sub-question">ln(75)</div><div class="sub-question">ln(200)</div><div class="sub-question">ln(360)</div><div class="sub-question">ln(9/10)</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 9</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Simplifier les expressions suivantes :</p><div class="sub-question">A = ln(2) + ln(4) + ln(8)</div><div class="sub-question">B = ln(3) + ln(9) + ln(27)</div><div class="sub-question">C = 2 ln(5) - ln(10)</div><div class="sub-question">D = ln(6) + ln(10) - ln(15)</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 10</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Resoudre dans R les equations suivantes :</p><div class="sub-question">ln(x + 1) = 2</div><div class="sub-question">ln(2x - 3) = ln(5)</div><div class="sub-question">ln(x<sup>2</sup>) = ln(9)</div><div class="sub-question">ln(3x + 1) = 0</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a5f 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 1</div>
+        <div class="section-title">Proprietes fondamentales du logarithme</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 11</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Demontrer que pour tout x > 0 et tout n entier :</p><div class="sub-question">ln(x<sup>n</sup>) = n ln(x)</div><div class="sub-question">ln(1/x) = -ln(x)</div><div class="sub-question">ln(x . y) = ln(x) + ln(y) pour y > 0</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 12</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit a un reel strictement positif. Resoudre :</p><div class="sub-question">ln(x) = ln(a<sup>2</sup>)</div><div class="sub-question">ln(x<sup>2</sup>) = ln(a)</div><div class="sub-question">ln(ax) = 1</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 13</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Ecrire le plus simplement possible :</p><div class="sub-question">A = ln(x<sup>2</sup>) + ln(x) - 3 ln(x) pour x > 0</div><div class="sub-question">B = (ln(x<sup>2</sup>)) / (2 ln(x)) pour x > 0 et x different de 1</div><div class="sub-question">C = ln(x<sup>3</sup>) - ln(x) pour x > 0</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 14</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Resoudre le systeme :</p><p>ln(x) + ln(y) = ln(6)</p><p>ln(x) - ln(y) = ln(3)</p><p>avec x > 0 et y > 0.</p>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 15</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Resoudre dans R : ln(x<sup>2</sup> - 3x + 2) = 0.</p><p>On n'oubliera pas de verifier le domaine de definition.</p>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e1b4b 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 2</div>
+        <div class="section-title">Equations et inequations avec ln</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 16</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Resoudre les inequations suivantes :</p><div class="sub-question">ln(x) > 0</div><div class="sub-question">ln(x) < 1</div><div class="sub-question">ln(x) > ln(3)</div><div class="sub-question">ln(2x) < 0</div>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 17</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Resoudre dans R :</p><div class="sub-question">ln(3x - 1) < ln(8)</div><div class="sub-question">ln(x + 2) > ln(5)</div><div class="sub-question">ln(1 - x) < 0</div>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 18</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Comparer les nombres suivants sans calculatrice :</p><div class="sub-question">ln(3) et 1</div><div class="sub-question">ln(10) et 2</div><div class="sub-question">ln(e<sup>2</sup>) et 2</div><div class="sub-question">ln(0,5) et 0</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 19</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Resoudre dans R les equations suivantes :</p><div class="sub-question">ln(x) + ln(x - 1) = ln(6)</div><div class="sub-question">ln(x + 1) + ln(x - 2) = 0</div><div class="sub-question">ln(2x + 1) = ln(x) + ln(3)</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 20</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Resoudre dans R :</p><div class="sub-question">ln<sup>2</sup>(x) - 3 ln(x) + 2 = 0</div><div class="sub-question">2 ln<sup>2</sup>(x) + ln(x) - 1 = 0</div><div class="sub-question">(ln(x))<sup>2</sup> = 4</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e1b4b 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 2</div>
+        <div class="section-title">Equations et inequations avec ln</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 21</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Resoudre dans R :</p><div class="sub-question">ln(x) . (ln(x) - 2) = 0</div><div class="sub-question">e<sup>2ln(x)</sup> = 9</div><div class="sub-question">e<sup>ln(x) + 1</sup> = 2e</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 22</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Resoudre dans R les inequations :</p><div class="sub-question">ln(x) + 1 < 3</div><div class="sub-question">2 ln(x) - 1 > 0</div><div class="sub-question">-ln(x) > 2</div><div class="sub-question">ln(x<sup>2</sup>) > ln(x + 6)</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 23</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Resoudre dans R :</p><div class="sub-question">ln(x + 1) + ln(x - 1) = ln(3)</div><p>On etudiera le domaine de definition.</p>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 24</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Resoudre dans R l'equation :</p><p>ln(x + 2) - ln(x) = ln(3) - ln(x + 1)</p><p>On n'oubliera pas les conditions d'existence.</p>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 25</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Resoudre dans R le systeme :</p><p>e<sup>x</sup> + e<sup>y</sup> = e + 1</p><p>x + y = 1</p>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e1b4b 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 2</div>
+        <div class="section-title">Equations et inequations avec ln</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 26</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Resoudre dans R : ln(ln(x)) = 1.</p><p>On determinera successivement les domaines de definition intermediaires.</p>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 27</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Resoudre dans R :</p><div class="sub-question">e<sup>x</sup> = 5</div><div class="sub-question">e<sup>2x</sup> = e<sup>3</sup></div><div class="sub-question">e<sup>x<sup>2</sup> - 1</sup> = e</div><div class="sub-question">e<sup>x</sup> + e<sup>-x</sup> = 2</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 28</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Resoudre dans R l'inequation :</p><p>ln(x + 1) + ln(x - 1) > 2 ln(2)</p><p>On etudiera le domaine de definition et la monotonie du logarithme.</p>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 29</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Resoudre dans R :</p><p>(ln(x))<sup>3</sup> - 3(ln(x))<sup>2</sup> + 2 ln(x) = 0</p>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 30</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>Probleme : Soit l'equation (E) : ln(x) + ln(x - 1) = 1.</p><div class="sub-question">a) Determiner le domaine de definition de (E).</div><div class="sub-question">b) Resoudre (E).</div><div class="sub-question">c) En posant X = ln(x), resoudre : (ln(x))<sup>2</sup> - ln(x<sup>2</sup>) = 0</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #172554 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 3</div>
+        <div class="section-title">Etude de fonctions avec ln</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 31</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = ln(x) definie sur ]0 ; +infini[.</p><div class="sub-question">a) Calculer f(1), f(e), f(e<sup>2</sup>).</div><div class="sub-question">b) Determiner f'(x).</div><div class="sub-question">c) Dresser le tableau de variation de f.</div>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 32</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = 2 ln(x) + 1 definie sur ]0 ; +infini[.</p><div class="sub-question">a) Calculer la derivee f'(x).</div><div class="sub-question">b) En deduire le sens de variation de f.</div><div class="sub-question">c) Calculer f(1) et f(e).</div>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 33</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = ln(x) - x + 2 definie sur ]0 ; +infini[.</p><div class="sub-question">a) Calculer f'(x).</div><div class="sub-question">b) Resoudre f'(x) = 0.</div><div class="sub-question">c) Dresser le tableau de variation de f.</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 34</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = x ln(x) definie sur ]0 ; +infini[.</p><div class="sub-question">a) Calculer f'(x).</div><div class="sub-question">b) Determiner le signe de f'(x).</div><div class="sub-question">c) Dresser le tableau de variation de f.</div><div class="sub-question">d) Calculer les limites de f en 0<sup>+</sup> et en +infini.</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 35</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = ln(x) / x definie sur ]0 ; +infini[.</p><div class="sub-question">a) Calculer f'(x).</div><div class="sub-question">b) Dresser le tableau de variation de f.</div><div class="sub-question">c) En deduire le maximum de f.</div><div class="sub-question">d) Que vaut f(e) ? Interpreter.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #172554 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 3</div>
+        <div class="section-title">Etude de fonctions avec ln</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 36</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = ln(x<sup>2</sup> + 1) definie sur R.</p><div class="sub-question">a) Calculer f'(x).</div><div class="sub-question">b) Etudier les variations de f.</div><div class="sub-question">c) Quelle est la limite de f en -infini et +infini ?</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 37</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = ln(3x + 1) - x.</p><div class="sub-question">a) Determiner le domaine de definition de f.</div><div class="sub-question">b) Calculer f'(x) et etudier les variations de f.</div><div class="sub-question">c) Montrer que l'equation f(x) = 0 admet une unique solution alpha.</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 38</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = (ln(x))<sup>2</sup> definie sur ]0 ; +infini[.</p><div class="sub-question">a) Calculer f'(x).</div><div class="sub-question">b) Dresser le tableau de variation de f.</div><div class="sub-question">c) Calculer f(e), f(1) et f(e<sup>2</sup>).</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 39</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = x<sup>2</sup> - 2 ln(x) definie sur ]0 ; +infini[.</p><div class="sub-question">a) Calculer f'(x).</div><div class="sub-question">b) Resoudre f'(x) = 0.</div><div class="sub-question">c) Dresser le tableau de variation de f.</div><div class="sub-question">d) En deduire le minimum de f.</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 40</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Etudier les variations de la fonction f definie sur ]0 ; +infini[ par :</p><p>f(x) = x - 2 - 2 ln(x)</p><div class="sub-question">a) Calculer f'(x) et le signe de f'(x).</div><div class="sub-question">b) Dresser le tableau de variation.</div><div class="sub-question">c) En deduire le signe de f(x) sur ]0 ; +infini[.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #172554 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 3</div>
+        <div class="section-title">Etude de fonctions avec ln</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 41</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = (x<sup>2</sup> - 1) ln(x) definie sur ]0 ; +infini[.</p><div class="sub-question">a) Calculer f'(x).</div><div class="sub-question">b) Etudier les variations de f.</div><div class="sub-question">c) Determiner les extremums de f.</div><div class="sub-question">d) Calculer les limites aux bornes du domaine.</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 42</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = ln(x) / (x - 1) pour x > 0, x different de 1.</p><div class="sub-question">a) Calculer f'(x).</div><div class="sub-question">b) Etudier le signe de f'(x).</div><div class="sub-question">c) Dresser le tableau de variation.</div><div class="sub-question">d) Calculer la limite de f en 1 (par valeur superieure et inferieure).</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 43</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = ln(x) - (x - 1)/(x + 1) definie sur ]0 ; +infini[.</p><div class="sub-question">a) Calculer f'(x) et simplifier.</div><div class="sub-question">b) Etudier les variations de f.</div><div class="sub-question">c) En deduire que pour tout x > 0 : ln(x) >= (x - 1)/(x + 1).</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 44</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = x<sup>2</sup> ln(x) - x<sup>2</sup> + 1 definie sur ]0 ; +infini[.</p><div class="sub-question">a) Calculer f'(x).</div><div class="sub-question">b) Resoudre f'(x) = 0.</div><div class="sub-question">c) Dresser le tableau de variation de f.</div><div class="sub-question">d) En deduire le signe de x<sup>2</sup> ln(x) - x<sup>2</sup> + 1.</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 45</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>Probleme : Soit f(x) = (2 ln(x) - 1) / x definie sur ]0 ; +infini[.</p><div class="sub-question">a) Calculer f'(x) et etudier les variations de f.</div><div class="sub-question">b) Determiner les limites de f en 0<sup>+</sup> et +infini.</div><div class="sub-question">c) Tracer la courbe representative de f.</div><div class="sub-question">d) Resoudre graphiquement f(x) >= 0.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #0c4a6e 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 4</div>
+        <div class="section-title">Limites et asymptotes avec ln</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 46</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer les limites suivantes :</p><div class="sub-question">lim(x tend vers +infini) de ln(x)</div><div class="sub-question">lim(x tend vers 0<sup>+</sup>) de ln(x)</div><div class="sub-question">lim(x tend vers +infini) de ln(x) / x</div><div class="sub-question">lim(x tend vers 0<sup>+</sup>) de x ln(x)</div>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 47</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer les limites suivantes :</p><div class="sub-question">lim(x tend vers +infini) de ln(x) / x<sup>2</sup></div><div class="sub-question">lim(x tend vers +infini) de ln(x) / racine(x)</div><div class="sub-question">lim(x tend vers 0<sup>+</sup>) de ln(x<sup>2</sup>)</div>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 48</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer :</p><div class="sub-question">lim(x tend vers +infini) de ln(2x + 1)</div><div class="sub-question">lim(x tend vers +infini) de ln(x<sup>2</sup> + x)</div><div class="sub-question">lim(x tend vers 0<sup>+</sup>) de ln(1/x)</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 49</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Determiner les limites aux bornes du domaine de definition de :</p><div class="sub-question">f(x) = ln(x - 1)</div><div class="sub-question">f(x) = ln(x + 2)</div><div class="sub-question">f(x) = ln(3x - 1)</div><div class="sub-question">f(x) = x + ln(x)</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 50</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer les limites suivantes en utilisant les croissances comparees :</p><div class="sub-question">lim(x tend vers +infini) de (ln(x))<sup>2</sup> / x</div><div class="sub-question">lim(x tend vers 0<sup>+</sup>) de ln(x) / (1/x)</div><div class="sub-question">lim(x tend vers +infini) de e<sup>x</sup> / x</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #0c4a6e 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 4</div>
+        <div class="section-title">Limites et asymptotes avec ln</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 51</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = ln(x) / x + 1.</p><div class="sub-question">a) Calculer lim(x tend vers 0<sup>+</sup>) f(x).</div><div class="sub-question">b) Calculer lim(x tend vers +infini) f(x).</div><div class="sub-question">c) En deduire une asymptote oblique eventuelle.</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 52</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Determiner les asymptotes de la courbe representative de f(x) = ln(x) / x.</p><div class="sub-question">a) Asymptotes verticales eventuelles.</div><div class="sub-question">b) Asymptote horizontale en +infini.</div><div class="sub-question">c) Position de la courbe par rapport a l'asymptote.</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 53</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer :</p><div class="sub-question">lim(x tend vers 0<sup>+</sup>) de x . ln(x)</div><div class="sub-question">lim(x tend vers +infini) de ln(x) / (x - 1)</div><div class="sub-question">lim(x tend vers 0<sup>+</sup>) de (ln(x))<sup>2</sup></div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 54</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = x<sup>2</sup> + ln(x).</p><div class="sub-question">a) Calculer lim(x tend vers 0<sup>+</sup>) f(x).</div><div class="sub-question">b) Calculer lim(x tend vers +infini) f(x).</div><div class="sub-question">c) Montrer que f'(x) > 0 pour tout x > 0.</div><div class="sub-question">d) En deduire le tableau de variation complet.</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 55</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = (ln(x) - 1) / (x - e).</p><div class="sub-question">a) Determiner le domaine de definition.</div><div class="sub-question">b) Calculer la limite de f en e (en posant h = x - e).</div><div class="sub-question">c) Interpreter graphiquement le resultat.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #0c4a6e 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 4</div>
+        <div class="section-title">Limites et asymptotes avec ln</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 56</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer les limites suivantes :</p><div class="sub-question">lim(x tend vers +infini) de x<sup>n</sup> . e<sup>-x</sup> pour n = 1, 2, 3</div><div class="sub-question">lim(x tend vers 0<sup>+</sup>) de (ln(x))<sup>n</sup> pour n = 1, 2</div><div class="sub-question">lim(x tend vers +infini) de ln(x<sup>n</sup>) / x</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 57</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = ln(x + 1) - ln(x) pour x > 0.</p><div class="sub-question">a) Calculer lim(x tend vers 0<sup>+</sup>) f(x).</div><div class="sub-question">b) Calculer lim(x tend vers +infini) f(x).</div><div class="sub-question">c) Interpreter ces limites.</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 58</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>Probleme : Soit f(x) = (ln(x))<sup>2</sup> - 1 definie sur ]0 ; +infini[.</p><div class="sub-question">a) Calculer les limites de f en 0<sup>+</sup> et +infini.</div><div class="sub-question">b) Etudier les variations de f.</div><div class="sub-question">c) Determiner le nombre de solutions de f(x) = 0.</div><div class="sub-question">d) Calculer une valeur approchee de la solution superieure a 1.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #312e81 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 5</div>
+        <div class="section-title">Derivees et primitives avec ln</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 59</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer la derivee de chaque fonction :</p><div class="sub-question">f(x) = ln(3x)</div><div class="sub-question">f(x) = ln(x<sup>2</sup>)</div><div class="sub-question">f(x) = ln(x + 4)</div><div class="sub-question">f(x) = ln(2x + 1)</div><div class="sub-question">f(x) = ln(5 - x)</div>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 60</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Determiner une primitive de chaque fonction sur l'intervalle indique :</p><div class="sub-question">f(x) = 1/x sur ]0 ; +infini[</div><div class="sub-question">f(x) = 3/x sur ]0 ; +infini[</div><div class="sub-question">f(x) = 1/(x + 1) sur ]-1 ; +infini[</div><div class="sub-question">f(x) = 2/(2x + 1) sur ]-1/2 ; +infini[</div>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 61</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer la derivee de :</p><div class="sub-question">f(x) = ln(x<sup>3</sup>)</div><div class="sub-question">f(x) = ln(racine(x))</div><div class="sub-question">f(x) = ln(1/x)</div><div class="sub-question">f(x) = ln(x<sup>4</sup> / x)</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 62</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer les derivees suivantes :</p><div class="sub-question">f(x) = x ln(x)</div><div class="sub-question">f(x) = (ln(x))<sup>2</sup></div><div class="sub-question">f(x) = ln(x<sup>2</sup> + 1)</div><div class="sub-question">f(x) = ln(x) / x</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 63</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Determiner une primitive sur ]0 ; +infini[ de :</p><div class="sub-question">f(x) = (2x + 1)/(x<sup>2</sup> + x)</div><div class="sub-question">f(x) = 1/(x ln(x))</div><div class="sub-question">f(x) = (ln(x))<sup>3</sup> / x</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #312e81 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 5</div>
+        <div class="section-title">Derivees et primitives avec ln</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 64</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer la derivee de :</p><div class="sub-question">f(x) = ln(ln(x)) pour x > 1</div><div class="sub-question">f(x) = e<sup>ln(x)</sup> + ln(e<sup>x</sup>)</div><div class="sub-question">f(x) = ln(x + e<sup>x</sup>)</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 65</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer les integrales suivantes :</p><div class="sub-question">I = integrale de 1 a e de (1/x) dx</div><div class="sub-question">J = integrale de 1 a e<sup>2</sup> de (2/x) dx</div><div class="sub-question">K = integrale de 1 a 4 de (1/(2x)) dx</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 66</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer :</p><div class="sub-question">I = integrale de 1 a e de (ln(x))<sup>2</sup> / x dx</div><div class="sub-question">J = integrale de e a e<sup>2</sup> de (1 / (x ln(x))) dx</div><div class="sub-question">K = integrale de 1 a e de ln(x) dx (integration par parties)</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 67</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = ln(x + 1) + ln(x - 1) definie sur ]1 ; +infini[.</p><div class="sub-question">a) Simplifier f(x).</div><div class="sub-question">b) Calculer f'(x).</div><div class="sub-question">c) Calculer I = integrale de 2 a 3 de f'(x) dx</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 68</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>A l'aide d'integration par parties, calculer :</p><div class="sub-question">I = integrale de 1 a e de x ln(x) dx</div><div class="sub-question">J = integrale de 0 a 1 de ln(x + 1) dx (poser u = ln(x + 1), dv = dx)</div><div class="sub-question">K = integrale de 1 a e de (ln(x))<sup>2</sup> dx</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #312e81 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 5</div>
+        <div class="section-title">Derivees et primitives avec ln</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 69</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer l'aire comprise entre la courbe de f(x) = ln(x), l'axe des abscisses et les droites x = 1 et x = e.</p><p>On utilisera l'integration par parties.</p>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 70</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>Probleme : Soit f(x) = x - ln(x) definie sur ]0 ; +infini[.</p><div class="sub-question">a) Calculer f'(x) et etudier les variations.</div><div class="sub-question">b) En deduire que f(x) >= 1 pour tout x > 0.</div><div class="sub-question">c) Calculer I = integrale de 1 a e de f'(x) dx.</div><div class="sub-question">d) Interpreter geometriquement le resultat.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a8a 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 6</div>
+        <div class="section-title">Fonction ln composee</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 71</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Pour chaque fonction, donner le domaine de definition et calculer la derivee :</p><div class="sub-question">f(x) = ln(x<sup>2</sup> - 1)</div><div class="sub-question">f(x) = ln(2x + 3)</div><div class="sub-question">f(x) = ln(e<sup>x</sup> + 1)</div><div class="sub-question">f(x) = ln(1 - x<sup>2</sup>)</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 72</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Etudier les variations de :</p><div class="sub-question">f(x) = ln(x<sup>2</sup> - x - 2)</div><div class="sub-question">g(x) = ln(x<sup>2</sup> + x + 1)</div><p>On determinera d'abord le domaine de definition de chaque fonction.</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 73</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = ln(e<sup>2x</sup> - 1).</p><div class="sub-question">a) Determiner le domaine de definition.</div><div class="sub-question">b) Calculer f'(x).</div><div class="sub-question">c) Dresser le tableau de variation de f.</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 74</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Resoudre dans R les inequations :</p><div class="sub-question">ln(x<sup>2</sup> - 4) > ln(5)</div><div class="sub-question">ln(x<sup>2</sup> + 1) < 2</div><div class="sub-question">ln(1 - x<sup>2</sup>) <= ln(3)</div><div class="sub-question">ln(x<sup>2</sup> - 9) >= 0</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 75</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = ln(x) - ln(x - 1) - 1/(x - 1) pour x > 1.</p><div class="sub-question">a) Calculer f'(x) et simplifier le resultat.</div><div class="sub-question">b) En deduire les variations de f.</div><div class="sub-question">c) Calculer lim(x tend vers 1<sup>+</sup>) f(x) et lim(x tend vers +infini) f(x).</div><div class="sub-question">d) En deduire le signe de f(x).</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a8a 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 6</div>
+        <div class="section-title">Fonction ln composee</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 76</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = ln(1 + e<sup>x</sup>) definie sur R.</p><div class="sub-question">a) Verifier que f(x) = x + ln(1 + e<sup>-x</sup>).</div><div class="sub-question">b) En deduire lim(x tend vers -infini) f(x) et lim(x tend vers +infini) f(x) - x.</div><div class="sub-question">c) Calculer f'(x).</div><div class="sub-question">d) Dresser le tableau de variation et montrer que la courbe admet une asymptote oblique.</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 77</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = ln(cos(x)) definie sur ]-pi/2 ; pi/2[.</p><div class="sub-question">a) Calculer f'(x).</div><div class="sub-question">b) Etudier les variations de f sur [0 ; pi/2[.</div><div class="sub-question">c) Calculer lim(x tend vers pi/2<sup>-</sup>) f(x).</div><div class="sub-question">d) En deduire lim(x tend vers pi/2<sup>-</sup>) de f(x)/(pi/2 - x).</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 78</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = ln(x<sup>2</sup> + 2x + 2).</p><div class="sub-question">a) Montrer que x<sup>2</sup> + 2x + 2 > 0 pour tout x reel.</div><div class="sub-question">b) Calculer f'(x).</div><div class="sub-question">c) Etudier les variations de f.</div><div class="sub-question">d) Determiner le minimum de f.</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 79</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit g(x) = e<sup>x</sup> + e<sup>-x</sup> et f(x) = ln(g(x)).</p><div class="sub-question">a) Montrer que g(x) = 2 ch(x) et f(x) = ln(2 ch(x)).</div><div class="sub-question">b) Calculer f'(x) et montrer que f'(x) = th(x).</div><div class="sub-question">c) Etudier les variations de f.</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 80</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>Probleme : On considere f(x) = ln(x<sup>2</sup> + x + 1).</p><div class="sub-question">a) Justifier que f est definie sur R.</div><div class="sub-question">b) Calculer f'(x) et etudier les variations de f.</div><div class="sub-question">c) Montrer que la courbe de f admet une asymptote en -infini et +infini.</div><div class="sub-question">d) Etudier la position de la courbe par rapport a l'asymptote.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a8a 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 6</div>
+        <div class="section-title">Fonction ln composee</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 81</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = ln(1 + x<sup>2</sup>) - x.</p><div class="sub-question">a) Calculer f'(x).</div><div class="sub-question">b) Montrer que f'(x) a le meme signe que (1 - x)(1 + x)/(1 + x<sup>2</sup>).</div><div class="sub-question">c) Dresser le tableau de variation de f.</div><div class="sub-question">d) Montrer que l'equation f(x) = 0 admet exactement deux solutions.</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 82</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>Etude complete de f(x) = (x - 1) ln(x) definie sur ]0 ; +infini[.</p><div class="sub-question">a) Calculer f'(x) et etudier les variations.</div><div class="sub-question">b) Calculer les limites aux bornes.</div><div class="sub-question">c) Montrer que f s'annule en x = 1 et en donner le signe.</div><div class="sub-question">d) Calculer l'aire entre la courbe et l'axe des abscisses sur [1/e ; e].</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a5f 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 7</div>
+        <div class="section-title">Croissances comparees</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 83</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>En utilisant les croissances comparees, calculer :</p><div class="sub-question">lim(x tend vers +infini) de ln(x) / x</div><div class="sub-question">lim(x tend vers +infini) de x / ln(x)</div><div class="sub-question">lim(x tend vers 0<sup>+</sup>) de x ln(x)</div><div class="sub-question">lim(x tend vers 0<sup>+</sup>) de ln(x) / (1/x)</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 84</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer les limites suivantes :</p><div class="sub-question">lim(x tend vers +infini) de e<sup>x</sup> / x<sup>3</sup></div><div class="sub-question">lim(x tend vers +infini) de x<sup>n</sup> / e<sup>x</sup> pour n entier naturel</div><div class="sub-question">lim(x tend vers +infini) de e<sup>-x</sup> . x<sup>2</sup></div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 85</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Classer les fonctions suivantes par ordre de croissance en +infini :</p><div class="sub-question">f1(x) = x, f2(x) = ln(x), f3(x) = e<sup>x</sup>, f4(x) = x<sup>2</sup>, f5(x) = x ln(x)</div><p>Justifier a l'aide des croissances comparees.</p>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 86</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer les limites suivantes (forme indeterminee) :</p><div class="sub-question">lim(x tend vers +infini) de x - ln(x)</div><div class="sub-question">lim(x tend vers +infini) de e<sup>x</sup> - x<sup>10</sup></div><div class="sub-question">lim(x tend vers +infini) de (ln(x))<sup>3</sup> / x<sup>2</sup></div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 87</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer en utilisant les croissances comparees :</p><div class="sub-question">lim(x tend vers +infini) de (x<sup>2</sup> + x) . ln(x) / x<sup>3</sup></div><div class="sub-question">lim(x tend vers 0<sup>+</sup>) de x<sup>0.5</sup> . ln(x)</div><div class="sub-question">lim(x tend vers +infini) de e<sup>x</sup> / (x<sup>100</sup> + x<sup>50</sup>)</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a5f 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 7</div>
+        <div class="section-title">Croissances comparees</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 88</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f<sub>n</sub>(x) = ln(x) / x<sup>n</sup> definie sur ]0 ; +infini[ pour n entier naturel >= 1.</p><div class="sub-question">a) Calculer f<sub>n</sub>'(x).</div><div class="sub-question">b) Dresser le tableau de variation de f<sub>n</sub>.</div><div class="sub-question">c) Calculer le maximum de f<sub>n</sub>.</div><div class="sub-question">d) Que devient ce maximum quand n tend vers +infini ?</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 89</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Demontrer que pour tout x > 0 :</p><div class="sub-question">a) ln(x) < x (en etudiant f(x) = x - ln(x))</div><div class="sub-question">b) ln(x) <= x - 1 (en etudiant g(x) = ln(x) - x + 1)</div><div class="sub-question">c) e<sup>x</sup> >= x + 1 pour tout x reel</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 90</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>En utilisant les croissances comparees, demontrer que :</p><div class="sub-question">Pour tout n entier naturel, lim(x tend vers +infini) de e<sup>x</sup> / x<sup>n</sup> = +infini</div><div class="sub-question">Pour tout n entier naturel, lim(x tend vers +infini) de (ln(x))<sup>n</sup> / x = 0</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 91</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>Probleme de croissance comparee :</p><div class="sub-question">a) Montrer que pour tout x > 0, ln(x) < racine(x).</div><div class="sub-question">b) En deduire lim(x tend vers +infini) de ln(x) / racine(x).</div><div class="sub-question">c) Soit f(x) = e<sup>x</sup> / (1 + x<sup>2</sup>). Calculer la limite en +infini.</div><div class="sub-question">d) Interpreter graphiquement.</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 92</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>Probleme : On definit f<sub>n</sub>(x) = e<sup>x</sup> - x<sup>n</sup> pour n entier >= 1.</p><div class="sub-question">a) Montrer que lim(x tend vers +infini) f<sub>n</sub>(x) = +infini.</div><div class="sub-question">b) Montrer que f<sub>n</sub> s'annule au moins une fois sur ]0 ; +infini[.</div><div class="sub-question">c) Montrer que f<sub>n</sub>(x) tend vers -infini quand x tend vers -infini si n est impair.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e1b4b 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 8</div>
+        <div class="section-title">Changement de base et log decimal</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 93</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Exprimer en fonction de ln :</p><div class="sub-question">log<sub>10</sub>(100)</div><div class="sub-question">log<sub>10</sub>(1000)</div><div class="sub-question">log<sub>10</sub>(0,01)</div><div class="sub-question">log<sub>2</sub>(8)</div><div class="sub-question">log<sub>3</sub>(81)</div><div class="sub-question">log<sub>a</sub>(a<sup>n</sup>)</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 94</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>On rappelle que log<sub>a</sub>(x) = ln(x) / ln(a).</p><div class="sub-question">a) Calculer log<sub>2</sub>(16), log<sub>3</sub>(27), log<sub>5</sub>(125).</div><div class="sub-question">b) Simplifier log<sub>a</sub>(a<sup>x</sup>).</div><div class="sub-question">c) Montrer que log<sub>a</sub>(xy) = log<sub>a</sub>(x) + log<sub>a</sub>(y).</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 95</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer en utilisant le logarithme decimal :</p><div class="sub-question">log<sub>10</sub>(2) sachant que ln(2) = 0,693 et ln(10) = 2,303</div><div class="sub-question">log<sub>10</sub>(3) sachant que ln(3) = 1,099</div><div class="sub-question">log<sub>10</sub>(e)</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 96</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Resoudre dans R les equations :</p><div class="sub-question">log<sub>2</sub>(x) = 3</div><div class="sub-question">log<sub>3</sub>(x) = -1</div><div class="sub-question">log<sub>5</sub>(2x + 1) = 2</div><div class="sub-question">log<sub>10</sub>(x<sup>2</sup>) = 1</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 97</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Demontrer les proprietes suivantes pour tout a > 0, a different de 1 :</p><div class="sub-question">log<sub>a</sub>(1/x) = -log<sub>a</sub>(x)</div><div class="sub-question">log<sub>a</sub>(x<sup>n</sup>) = n . log<sub>a</sub>(x)</div><div class="sub-question">log<sub>a</sub>(x<sup>p</sup>) = p . log<sub>a</sub>(x)</div><div class="sub-question">log<sub>a<sup>b</sup></sub>(x) = log<sub>a</sub>(x) / b</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e1b4b 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 8</div>
+        <div class="section-title">Changement de base et log decimal</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 98</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>On considere le pH d'une solution : pH = -log<sub>10</sub>[H<sub>3</sub>O<sup>+</sup>].</p><div class="sub-question">a) Si [H<sub>3</sub>O<sup>+</sup>] = 10<sup>-3</sup> mol/L, calculer le pH.</div><div class="sub-question">b) Si pH = 7, calculer la concentration en ions H<sub>3</sub>O<sup>+</sup>.</div><div class="sub-question">c) Si [H<sub>3</sub>O<sup>+</sup>] = 2 . 10<sup>-5</sup>, calculer le pH arrondi a 0,1 pres.</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 99</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>L'intensite sonore en decibels est donnee par :</p><p>L = 10 . log<sub>10</sub>(I / I<sub>0</sub>) ou I<sub>0</sub> = 10<sup>-12</sup> W/m<sup>2</sup>.</p><div class="sub-question">a) Calculer L pour I = 10<sup>-6</sup> W/m<sup>2</sup>.</div><div class="sub-question">b) Un son de 90 dB a quelle intensite ?</div><div class="sub-question">c) Montrer que doubler l'intensite augmente le niveau de 3 dB environ.</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 100</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>Probleme : Etude du logarithme decimal.</p><div class="sub-question">a) Soit f(x) = log<sub>10</sub>(x) = ln(x) / ln(10). Calculer f'(x).</div><div class="sub-question">b) Tracer le tableau de variation de f.</div><div class="sub-question">c) Resoudre log<sub>10</sub>(x) + log<sub>10</sub>(x + 1) = 1.</div><div class="sub-question">d) En chimie, si pH = 5,2, calculer [H<sub>3</sub>O<sup>+</sup>].</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #172554 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 9</div>
+        <div class="section-title">Exercices type BAC et problemes</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 101</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>BAC 2024 : Soit f(x) = (2x - 1) - (x - 1) ln(x) definie sur ]0 ; +infini[.</p><div class="sub-question">a) Calculer f(1).</div><div class="sub-question">b) Calculer f'(x) et montrer que f'(x) = 1 - ln(x).</div><div class="sub-question">c) Dresser le tableau de variation de f.</div><div class="sub-question">d) Montrer que l'equation f(x) = 0 admet une unique solution alpha dans ]0 ; +infini[.</div><div class="sub-question">e) Donner un encadrement de alpha a 10<sup>-2</sup> pres.</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 102</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>BAC : On considere la suite (u<sub>n</sub>) definie par u<sub>0</sub> = 1 et u<sub>n+1</sub> = u<sub>n</sub> . e<sup>-u<sub>n</sub></sup> pour n >= 0.</p><div class="sub-question">a) Calculer u<sub>1</sub>, u<sub>2</sub>, u<sub>3</sub>.</div><div class="sub-question">b) Montrer par recurrence que u<sub>n</sub> > 0 pour tout n.</div><div class="sub-question">c) On pose v<sub>n</sub> = ln(u<sub>n</sub>). Exprimer v<sub>n+1</sub> en fonction de v<sub>n</sub>.</div><div class="sub-question">d) En deduire v<sub>n</sub> puis u<sub>n</sub> en fonction de n.</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 103</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>BAC : Soit f(x) = x<sup>2</sup> - 2x + 1 + 2 ln(x) definie sur ]0 ; +infini[.</p><div class="sub-question">a) Verifier que f(1) = 0.</div><div class="sub-question">b) Calculer f'(x) = 2x - 2 + 2/x = 2(x<sup>2</sup> - x + 1)/x.</div><div class="sub-question">c) Etudier les variations de f.</div><div class="sub-question">d) En deduire le signe de f(x) sur ]0 ; +infini[.</div><div class="sub-question">e) En deduire que x<sup>2</sup> + 2 ln(x) >= 2x - 1.</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 104</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>BAC : Partie A - Soit g(x) = e<sup>x</sup> - x - 1.</p><div class="sub-question">a) Etudier les variations de g.</div><div class="sub-question">b) En deduire le signe de g(x).</div><p>Partie B - Soit f(x) = (e<sup>x</sup> - 1) / x pour x different de 0, f(0) = 1.</p><div class="sub-question">c) Calculer lim(x tend vers 0) f(x) en utilisant la Partie A.</div><div class="sub-question">d) f est-elle continue en 0 ?</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 105</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>BAC : Etude de f(x) = ln(x + 1) / x pour x > -1, x different de 0.</p><div class="sub-question">a) Determiner le domaine de definition.</div><div class="sub-question">b) Calculer lim(x tend vers -1<sup>+</sup>) f(x) et lim(x tend vers +infini) f(x).</div><div class="sub-question">c) Montrer que f'(x) = (x/(x + 1) - ln(x + 1)) / x<sup>2</sup>.</div><div class="sub-question">d) Etudier les variations de f.</div><div class="sub-question">e) Montrer que f admet un maximum en x = alpha tel que alpha/(alpha + 1) = ln(alpha + 1).</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #172554 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 9</div>
+        <div class="section-title">Exercices type BAC et problemes</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 106</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>BAC : Calcul d'aire avec le logarithme.</p><p>Soit C la courbe de f(x) = ln(x) et D la droite d'equation y = x - 1.</p><div class="sub-question">a) Calculer les coordonnees des points d'intersection de C et D.</div><div class="sub-question">b) Etudier la position relative de C et D.</div><div class="sub-question">c) Calculer l'aire du domaine delimite par C, D et l'axe des ordonnees.</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 107</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>BAC : Probabilites et logarithme.</p><p>Une variable aleatoire X suit une loi telle que P(X > t) = e<sup>-0,2t</sup> pour t >= 0.</p><div class="sub-question">a) Calculer P(X > 5).</div><div class="sub-question">b) Trouver t tel que P(X > t) = 0,5 (on utilisera ln).</div><div class="sub-question">c) Calculer l'esperance E(X) sachant que E(X) = 1/0,2.</div><div class="sub-question">d) Interpreter les resultats.</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 108</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>BAC : Suite et logarithme.</p><p>On definit la suite (u<sub>n</sub>) par u<sub>n</sub> = ln(n + 1) / n pour n >= 1.</p><div class="sub-question">a) Calculer u<sub>1</sub>, u<sub>2</sub>, u<sub>3</sub>, u<sub>10</sub>.</div><div class="sub-question">b) Montrer que la suite (u<sub>n</sub>) est decroissante a partir de n = 3.</div><div class="sub-question">c) Calculer lim(n tend vers +infini) u<sub>n</sub>.</div><div class="sub-question">d) En deduire la convergence de la suite.</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 109</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>BAC : Probleme d'optimisation avec logarithme.</p><p>Le cout de production de x objets est C(x) = 100 + 50 ln(x + 1) en euros.</p><div class="sub-question">a) Calculer C(0), C(9), C(99).</div><div class="sub-question">b) Le cout moyen est M(x) = C(x) / x. Determiner le cout moyen minimum.</div><div class="sub-question">c) Pour quel nombre d'objets le cout marginal C'(x) est-il egal au cout moyen M(x) ?</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 110</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>BAC : Etude de fonction avec parametre.</p><p>Soit f(x) = ln(x) - kx ou k est un reel strictement positif.</p><div class="sub-question">a) Calculer f'(x).</div><div class="sub-question">b) Montrer que f atteint un maximum en x = 1/k.</div><div class="sub-question">c) Calculer la valeur maximale f(1/k).</div><div class="sub-question">d) Discuter selon k le nombre de solutions de l'equation f(x) = 0.</div><div class="sub-question">e) Application : pour k = 1/2, resoudre f(x) = 0.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #172554 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 9</div>
+        <div class="section-title">Exercices type BAC et problemes</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 111</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>BAC : Exercice de synthese sur la fonction ln.</p><div class="sub-question">a) Montrer que pour tout n >= 1 : integrale de 1 a n de (1/t) dt = ln(n).</div><div class="sub-question">b) En deduire que la serie harmonique diverge.</div><div class="sub-question">c) Montrer que integrale de 1 a n de ln(t) dt = n ln(n) - n + 1.</div><div class="sub-question">d) Calculer lim(n tend vers +infini) de (1/n) . integrale de 1 a n de ln(t) dt.</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 112</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>BAC : Equation differentielle et logarithme.</p><p>On considere l'equation differentielle y' = y - 1.</p><div class="sub-question">a) Montrer que f(x) = 1 + C . e<sup>x</sup> est solution.</div><div class="sub-question">b) Trouver C pour que f(0) = 0.</div><div class="sub-question">c) Soit g(x) = ln(f(x)) pour x tel que f(x) > 0. Calculer g'(x).</div><div class="sub-question">d) Interpreter le resultat.</div>
+    </div>
+</div>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,1912 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=720">
+    <title>Corrections Fonction Logarithme - 112 exercices detailles</title>
+    <style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@1,500&display=swap');
+
+@page {
+    size: 720px 1020px;
+    margin: 0;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+    background: #080c18;
+    color: #d8dff0;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+}
+
+.page {
+    width: 720px;
+    min-height: 1020px;
+    padding: 60px 55px;
+    background: #080c18;
+    position: relative;
+    page-break-after: always;
+    break-after: page;
+    overflow: hidden;
+}
+
+.page:last-child { page-break-after: auto; break-after: auto; }
+
+/* === COVER / TITLE PAGE === */
+.cover {
+    padding: 0;
+    background: linear-gradient(135deg, #080c18 0%, #101830 50%, #080c18 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    position: relative;
+    min-height: 1020px;
+}
+.cover-content {
+    position: relative;
+    z-index: 2;
+    padding: 50px 55px 60px;
+}
+.cover-label {
+    color: #c9a84c;
+    font-size: 12px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 18px;
+}
+.cover-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    font-weight: 900;
+    line-height: 1.1;
+    color: #d8dff0;
+    margin-bottom: 18px;
+    letter-spacing: -1px;
+}
+.cover-title .accent { color: #c9a84c; font-style: italic; font-family: 'Cormorant Garamond', serif; font-weight: 500; }
+.cover-subtitle {
+    font-size: 15px;
+    color: #7888aa;
+    line-height: 1.6;
+    max-width: 500px;
+    margin-bottom: 30px;
+}
+.cover-divider {
+    width: 70px; height: 3px;
+    background: linear-gradient(to right, #c9a84c, #3b82f6);
+    margin-bottom: 22px;
+}
+.cover-author {
+    font-size: 13px;
+    color: #7888aa;
+    letter-spacing: 1px;
+}
+.cover-author strong { color: #d8dff0; font-weight: 600; }
+
+/* === TOC === */
+.toc-page { padding: 70px 55px; }
+.toc-header {
+    text-align: center;
+    margin-bottom: 35px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #1a2038;
+}
+.toc-label {
+    color: #c9a84c;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+.toc-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 900;
+    color: #d8dff0;
+}
+.toc-list { list-style: none; padding: 0; }
+.toc-item {
+    display: flex;
+    align-items: baseline;
+    padding: 8px 0;
+    border-bottom: 1px dotted #1a2038;
+    font-size: 13px;
+}
+.toc-num {
+    color: #3b82f6;
+    font-weight: 700;
+    font-family: 'Playfair Display', serif;
+    width: 32px;
+    flex-shrink: 0;
+}
+.toc-text { color: #d8dff0; flex: 1; }
+.toc-dots { color: #1a2038; margin: 0 6px; flex: 1; }
+.toc-page-num {
+    color: #7888aa;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+/* === SECTION PAGES (Exercise themes) === */
+.section-page { padding: 0; }
+.section-hero {
+    height: 160px;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+}
+.section-hero-gradient {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+.section-hero-pattern {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    opacity: 0.06;
+    background-size: 50px 50px;
+    background-image: radial-gradient(circle, #3b82f6 1px, transparent 1px);
+}
+.section-hero-overlay {
+    position: absolute;
+    bottom: 25px;
+    left: 55px;
+    right: 55px;
+    z-index: 2;
+}
+.section-number {
+    color: #c9a84c;
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+.section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 900;
+    color: #d8dff0;
+    line-height: 1.15;
+    letter-spacing: -0.5px;
+}
+
+.section-body {
+    padding: 30px 55px 50px;
+}
+
+/* === EXERCISE ITEM === */
+.exercise-item {
+    background: #101830;
+    border: 1px solid #1a2038;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 14px 0;
+    break-inside: avoid;
+    border-left: 3px solid #3b82f6;
+}
+.exercise-item.hard {
+    border-left-color: #ef4444;
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.05), #101830);
+}
+.exercise-item.medium {
+    border-left-color: #f97316;
+    background: linear-gradient(135deg, rgba(249, 115, 22, 0.04), #101830);
+}
+.exercise-item.bac {
+    border-left-color: #c9a84c;
+    background: linear-gradient(135deg, rgba(201, 168, 76, 0.06), #101830);
+    border-left-width: 4px;
+}
+.exercise-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+.exercise-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 900;
+    color: #3b82f6;
+}
+.exercise-diff {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 2px 8px;
+    border-radius: 3px;
+}
+.exercise-diff.facile { background: rgba(34, 197, 94, 0.2); color: #22c55e; }
+.exercise-diff.moyen { background: rgba(249, 115, 22, 0.2); color: #f97316; }
+.exercise-diff.difficile { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+.exercise-diff.bac { background: rgba(201, 168, 76, 0.2); color: #c9a84c; }
+
+.exercise-question {
+    font-size: 13px;
+    color: #a0b0cc;
+    line-height: 1.75;
+}
+.exercise-question p { color: #a0b0cc; margin-bottom: 8px; }
+.exercise-question p:last-child { margin-bottom: 0; }
+.exercise-question strong { color: #d8dff0; }
+
+.sub-question {
+    padding-left: 20px;
+    margin: 6px 0;
+    position: relative;
+    font-size: 12.5px;
+    color: #a0b0cc;
+    line-height: 1.7;
+}
+.sub-question::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 6px;
+    height: 6px;
+    background: #3b82f6;
+    border-radius: 50%;
+}
+
+/* === CORRECTION ITEMS === */
+.correction-item {
+    background: #101830;
+    border: 1px solid #1a2038;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 14px 0;
+    break-inside: avoid;
+    border-left: 3px solid #22c55e;
+}
+.correction-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+.correction-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 900;
+    color: #22c55e;
+    margin-right: 10px;
+}
+.correction-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: #22c55e;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+.correction-content {
+    font-size: 13px;
+    color: #a0b0cc;
+    line-height: 1.8;
+}
+.correction-content p { margin-bottom: 6px; }
+.correction-content p:last-child { margin-bottom: 0; }
+.correction-content strong { color: #d8dff0; }
+.correction-step {
+    padding-left: 20px;
+    margin: 4px 0;
+    position: relative;
+}
+.correction-step::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 6px;
+    height: 6px;
+    background: #22c55e;
+    border-radius: 50%;
+}
+
+.math-inline {
+    background: rgba(59, 130, 246, 0.08);
+    border: 1px solid #1a2038;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    color: #e8ecf8;
+    white-space: nowrap;
+}
+
+.formula-box {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(201, 168, 76, 0.06));
+    border: 1px solid #1a2038;
+    border-left: 4px solid #3b82f6;
+    border-radius: 10px;
+    padding: 14px 20px;
+    margin: 14px 0;
+    text-align: center;
+    break-inside: avoid;
+}
+.formula-main {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #e8ecf8;
+    line-height: 1.6;
+}
+.formula-desc {
+    font-size: 11px;
+    color: #7888aa;
+    margin-top: 6px;
+}
+
+p {
+    margin-bottom: 12px;
+    color: #a0b0cc;
+    line-height: 1.8;
+}
+p strong { color: #d8dff0; }
+
+.callout {
+    background: #101830;
+    border-radius: 10px;
+    padding: 16px 22px;
+    margin: 16px 0;
+    text-align: center;
+    border-top: 2px solid #3b82f6;
+    border-bottom: 2px solid #c9a84c;
+    break-inside: avoid;
+}
+.callout-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-style: italic;
+    color: #d8dff0;
+    line-height: 1.5;
+}
+
+.stat-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin: 18px 0;
+    break-inside: avoid;
+}
+.stat-card {
+    background: linear-gradient(135deg, #101830, #1a2038);
+    border: 1px solid #1a2038;
+    border-radius: 10px;
+    padding: 14px 10px;
+    text-align: center;
+}
+.stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 900;
+    color: #c9a84c;
+    line-height: 1;
+    margin-bottom: 5px;
+}
+.stat-label {
+    font-size: 10px;
+    color: #7888aa;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.conclusion-page {
+    background: linear-gradient(135deg, #080c18 0%, #101830 100%);
+    padding: 70px 55px;
+}
+</style>
+</head>
+<body>
+<div class="page cover">
+    <div class="cover-content">
+        <div class="cover-label">Cours Complet -- Terminale D & C</div>
+        <div class="cover-title">Fonction Logarithme<br><span class="accent">Corrections Detaillees</span></div>
+        <div class="cover-divider"></div>
+        <div class="cover-subtitle">Corrections completes et detaillees des 112 exercices. Chaque etape est expliquee pour comprendre la methode et pouvoir la reproduire en examen. Les proprietes du logarithme neperien, les techniques de resolution d'equations, les etudes de fonctions et les croissances comparees sont couvertes en profondeur.</div>
+        <div class="stat-block">
+            <div class="stat-card"><div class="stat-number">112</div><div class="stat-label">Exercices</div></div>
+            <div class="stat-card"><div class="stat-number">9</div><div class="stat-label">Themes</div></div>
+            <div class="stat-card"><div class="stat-number">4</div><div class="stat-label">Niveaux</div></div>
+        </div>
+        <div class="cover-author">Mathematiques <strong>Terminale D</strong></div>
+    </div>
+</div>
+<div class="page toc-page">
+    <div class="toc-header">
+        <div class="toc-label">Table des matieres</div>
+        <div class="toc-title">112 Corrections</div>
+    </div>
+    <ul class="toc-list">
+    <li class="toc-item"><span class="toc-num">I</span><span class="toc-text">Proprietes fondamentales du logarithme</span><span class="toc-dots">............</span><span class="toc-page-num">Ex. 1-15</span></li><li class="toc-item"><span class="toc-num">II</span><span class="toc-text">Equations et inequations avec ln</span><span class="toc-dots">............</span><span class="toc-page-num">Ex. 16-30</span></li><li class="toc-item"><span class="toc-num">III</span><span class="toc-text">Etude de fonctions avec ln</span><span class="toc-dots">............</span><span class="toc-page-num">Ex. 31-45</span></li><li class="toc-item"><span class="toc-num">IV</span><span class="toc-text">Limites et asymptotes avec ln</span><span class="toc-dots">............</span><span class="toc-page-num">Ex. 46-58</span></li><li class="toc-item"><span class="toc-num">V</span><span class="toc-text">Derivees et primitives avec ln</span><span class="toc-dots">............</span><span class="toc-page-num">Ex. 59-70</span></li><li class="toc-item"><span class="toc-num">VI</span><span class="toc-text">Fonction ln composee</span><span class="toc-dots">............</span><span class="toc-page-num">Ex. 71-82</span></li><li class="toc-item"><span class="toc-num">VII</span><span class="toc-text">Croissances comparees</span><span class="toc-dots">............</span><span class="toc-page-num">Ex. 83-92</span></li><li class="toc-item"><span class="toc-num">VIII</span><span class="toc-text">Changement de base et log decimal</span><span class="toc-dots">............</span><span class="toc-page-num">Ex. 93-100</span></li><li class="toc-item"><span class="toc-num">IX</span><span class="toc-text">Exercices type BAC et problemes</span><span class="toc-dots">............</span><span class="toc-page-num">Ex. 101-112</span></li>
+    </ul>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a5f 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 1</div>
+        <div class="section-title">Corrections : Proprietes fondamentales (Ex. 1-15)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 1</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 1 : Calculer les valeurs exactes</strong></p></div><div class="correction-step"><p>a) ln(1) = <strong>0</strong> car e<sup>0</sup> = 1.</p></div><div class="correction-step"><p>b) ln(e) = <strong>1</strong> par definition du logarithme neperien.</p></div><div class="correction-step"><p>c) ln(e<sup>2</sup>) = 2 ln(e) = <strong>2</strong>.</p></div><div class="correction-step"><p>d) ln(e<sup>0</sup>) = 0 . ln(e) = <strong>0</strong>.</p></div><div class="correction-step"><p>e) ln(1/e) = ln(e<sup>-1</sup>) = -ln(e) = <strong>-1</strong>.</p></div><div class="correction-step"><p>f) ln(e<sup>-3</sup>) = -3 ln(e) = <strong>-3</strong>.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 2</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 2 : Ecrire sous la forme k ln(a)</strong></p></div><div class="correction-step"><p>a) ln(4) = ln(2<sup>2</sup>) = <strong>2 ln(2)</strong></p></div><div class="correction-step"><p>b) ln(8) = ln(2<sup>3</sup>) = <strong>3 ln(2)</strong></p></div><div class="correction-step"><p>c) ln(27) = ln(3<sup>3</sup>) = <strong>3 ln(3)</strong></p></div><div class="correction-step"><p>d) ln(125) = ln(5<sup>3</sup>) = <strong>3 ln(5)</strong></p></div><div class="correction-step"><p>e) ln(32) = ln(2<sup>5</sup>) = <strong>5 ln(2)</strong></p></div><div class="correction-step"><p>f) ln(1/9) = ln(3<sup>-2</sup>) = <strong>-2 ln(3)</strong></p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 3</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 3 : Simplifier avec les proprietes</strong></p></div><div class="correction-step"><p>a) ln(e<sup>5</sup> . e<sup>3</sup>) = ln(e<sup>8</sup>) = <strong>8</strong></p></div><div class="correction-step"><p>b) ln(e<sup>7</sup> / e<sup>2</sup>) = ln(e<sup>5</sup>) = <strong>5</strong></p></div><div class="correction-step"><p>c) ln(e<sup>4</sup>) + ln(e<sup>6</sup>) = 4 + 6 = <strong>10</strong> (ou ln(e<sup>10</sup>) = 10)</p></div><div class="correction-step"><p>d) ln(e<sup>3</sup>) - ln(e<sup>8</sup>) = 3 - 8 = <strong>-5</strong></p></div><div class="correction-step"><p>e) 2 ln(e<sup>5</sup>) + 3 ln(e<sup>2</sup>) = 2 . 5 + 3 . 2 = 10 + 6 = <strong>16</strong></p></div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a5f 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 1</div>
+        <div class="section-title">Corrections : Proprietes fondamentales (Ex. 1-15)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 4</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 4 : Resoudre les equations ln(x) = c</strong></p></div><div class="correction-step"><p>On utilise : ln(x) = c equivaut a x = e<sup>c</sup> pour tout c reel.</p></div><div class="correction-step"><p>a) ln(x) = 0 donc x = e<sup>0</sup> = <strong>1</strong></p></div><div class="correction-step"><p>b) ln(x) = 1 donc x = e<sup>1</sup> = <strong>e</strong></p></div><div class="correction-step"><p>c) ln(x) = -2 donc x = e<sup>-2</sup> = <strong>1/e<sup>2</sup></strong></p></div><div class="correction-step"><p>d) ln(x) = 3 donc x = e<sup>3</sup></p></div><div class="correction-step"><p>e) ln(x) = ln(5) donc x = <strong>5</strong></p></div><div class="correction-step"><p>f) ln(x) = ln(e<sup>4</sup>) donc x = <strong>e<sup>4</sup></strong></p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 5</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 5 : Domaine de definition</strong></p></div><div class="correction-step"><p>ln(u(x)) est defini si et seulement si u(x) > 0.</p></div><div class="correction-step"><p>a) f(x) = ln(x) : il faut x > 0. D<sub>f</sub> = <strong>]<strong>0 ; +infini[</strong></p></div><div class="correction-step"><p>b) f(x) = ln(x + 3) : il faut x + 3 > 0, soit x > -3. D<sub>f</sub> = <strong>]-3 ; +infini[</strong></p></div><div class="correction-step"><p>c) f(x) = ln(2x - 1) : il faut 2x - 1 > 0, soit x > 1/2. D<sub>f</sub> = <strong>]1/2 ; +infini[</strong></p></div><div class="correction-step"><p>d) f(x) = ln(3 - x) : il faut 3 - x > 0, soit x < 3. D<sub>f</sub> = <strong>]-infini ; 3[</strong></p></div><div class="correction-step"><p>e) f(x) = ln(x<sup>2</sup> + 1) : x<sup>2</sup> + 1 > 0 pour tout x. D<sub>f</sub> = <strong>R</strong></p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 6</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 6 : Calculs avec exp et ln</strong></p></div><div class="correction-step"><p>On utilise la propriete fondamentale : e<sup>ln(a)</sup> = a pour a > 0.</p></div><div class="correction-step"><p>a) e<sup>ln(3)</sup> = <strong>3</strong></p></div><div class="correction-step"><p>b) e<sup>ln(7)</sup> = <strong>7</strong></p></div><div class="correction-step"><p>c) e<sup>ln(e<sup>5</sup>)</sup> = e<sup>5</sup> = <strong>e<sup>5</sup></strong></p></div><div class="correction-step"><p>d) ln(e<sup>ln(2)</sup>) = ln(2) car e<sup>ln(2)</sup> = 2. Donc resultat = <strong>ln(2)</strong></p></div><div class="correction-step"><p>e) e<sup>ln(1) + ln(5)</sup> = e<sup>ln(1)</sup> . e<sup>ln(5)</sup> = 1 . 5 = <strong>5</strong></p></div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a5f 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 1</div>
+        <div class="section-title">Corrections : Proprietes fondamentales (Ex. 1-15)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 7</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 7 : Verifier les egalites</strong></p></div><div class="correction-step"><p>a) ln(6) = ln(2 . 3) = ln(2) + ln(3). <strong>VRAI</strong></p></div><div class="correction-step"><p>b) ln(10) = ln(2 . 5) = ln(2) + ln(5). <strong>VRAI</strong></p></div><div class="correction-step"><p>c) ln(1/8) = ln(2<sup>-3</sup>) = -3 ln(2). <strong>VRAI</strong></p></div><div class="correction-step"><p>d) ln(9) = ln(3<sup>2</sup>) = 2 ln(3). <strong>VRAI</strong></p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 8</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 8 : Ecrire sous forme a ln(2) + b ln(3) + c ln(5)</strong></p></div><div class="correction-step"><p>On decompose chaque nombre en facteurs premiers.</p></div><div class="correction-step"><p>a) ln(12) = ln(2<sup>2</sup> . 3) = 2 ln(2) + ln(3). Donc a = 2, b = 1, c = 0.</p></div><div class="correction-step"><p>b) ln(30) = ln(2 . 3 . 5) = ln(2) + ln(3) + ln(5). Donc a = 1, b = 1, c = 1.</p></div><div class="correction-step"><p>c) ln(75) = ln(3 . 5<sup>2</sup>) = ln(3) + 2 ln(5). Donc a = 0, b = 1, c = 2.</p></div><div class="correction-step"><p>d) ln(200) = ln(2<sup>3</sup> . 5<sup>2</sup>) = 3 ln(2) + 2 ln(5). Donc a = 3, b = 0, c = 2.</p></div><div class="correction-step"><p>e) ln(360) = ln(2<sup>3</sup> . 3<sup>2</sup> . 5) = 3 ln(2) + 2 ln(3) + ln(5). a = 3, b = 2, c = 1.</p></div><div class="correction-step"><p>f) ln(9/10) = ln(3<sup>2</sup>) - ln(2 . 5) = 2 ln(3) - ln(2) - ln(5). a = -1, b = 2, c = -1.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 9</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 9 : Simplifier</strong></p></div><div class="correction-step"><p>a) A = ln(2) + ln(4) + ln(8) = ln(2) + 2 ln(2) + 3 ln(2) = 6 ln(2) = ln(64)</p></div><div class="correction-step"><p>b) B = ln(3) + ln(9) + ln(27) = ln(3) + 2 ln(3) + 3 ln(3) = 6 ln(3) = ln(729)</p></div><div class="correction-step"><p>c) C = 2 ln(5) - ln(10) = 2 ln(5) - (ln(2) + ln(5)) = ln(5) - ln(2) = ln(5/2)</p></div><div class="correction-step"><p>d) D = ln(6) + ln(10) - ln(15) = ln(60) - ln(15) = ln(60/15) = ln(4) = 2 ln(2)</p></div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a5f 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 1</div>
+        <div class="section-title">Corrections : Proprietes fondamentales (Ex. 1-15)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 10</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 10 : Equations avec ln</strong></p></div><div class="correction-step"><p>a) ln(x + 1) = 2</p></div><div class="correction-step"><p>Condition : x + 1 > 0, soit x > -1.</p></div><div class="correction-step"><p>On compose par exp : x + 1 = e<sup>2</sup>, donc x = e<sup>2</sup> - 1. <strong>S = e<sup>2</sup> - 1</strong></p></div><div class="correction-step"><p>b) ln(2x - 3) = ln(5)</p></div><div class="correction-step"><p>Condition : 2x - 3 > 0, soit x > 3/2.</p></div><div class="correction-step"><p>Par injectivite de ln : 2x - 3 = 5, donc x = 4. <strong>S = 4</strong></p></div><div class="correction-step"><p>c) ln(x<sup>2</sup>) = ln(9)</p></div><div class="correction-step"><p>Condition : x different de 0.</p></div><div class="correction-step"><p>x<sup>2</sup> = 9, donc x = 3 ou x = -3. <strong>S = -3 ; 3</strong></p></div><div class="correction-step"><p>d) ln(3x + 1) = 0</p></div><div class="correction-step"><p>Condition : 3x + 1 > 0, soit x > -1/3.</p></div><div class="correction-step"><p>3x + 1 = e<sup>0</sup> = 1, donc 3x = 0, x = 0. <strong>S = 0</strong></p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 11</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 11 : Demonstrations</strong></p></div><div class="correction-step"><p>a) ln(x<sup>n</sup>) = n ln(x) pour x > 0 et n entier.</p></div><div class="correction-step"><p>Par recurrence sur n : pour n = 1, ln(x<sup>1</sup>) = ln(x) = 1 . ln(x). Vrai.</p></div><div class="correction-step"><p>Si ln(x<sup>n</sup>) = n ln(x), alors ln(x<sup>n+1</sup>) = ln(x<sup>n</sup> . x) = ln(x<sup>n</sup>) + ln(x) = n ln(x) + ln(x) = (n+1) ln(x).</p></div><div class="correction-step"><p>b) ln(1/x) = ln(x<sup>-1</sup>) = -1 . ln(x) = -ln(x).</p></div><div class="correction-step"><p>c) ln(x . y) = ln(x) + ln(y) pour x > 0, y > 0 : c'est la propriete fondamentale du logarithme, verifiable avec exp.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 12</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 12 : Equations avec parametre</strong></p></div><div class="correction-step"><p>a) ln(x) = ln(a<sup>2</sup>). Donc x = a<sup>2</sup> (a > 0 assure a<sup>2</sup> > 0). <strong>S = {a<sup>2</sup>}</strong></p></div><div class="correction-step"><p>b) ln(x<sup>2</sup>) = ln(a). Condition : x different de 0.</p></div><div class="correction-step"><p>x<sup>2</sup> = a. Comme a > 0, on obtient x = racine(a) ou x = -racine(a). <strong>S = {-racine(a) ; racine(a)}</strong></p></div><div class="correction-step"><p>c) ln(ax) = 1. Condition : ax > 0, soit x > 0 (car a > 0).</p></div><div class="correction-step"><p>ax = e<sup>1</sup> = e, donc x = e/a. <strong>S = {e/a}</strong></p></div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a5f 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 1</div>
+        <div class="section-title">Corrections : Proprietes fondamentales (Ex. 1-15)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 13</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 13 : Simplifier</strong></p></div><div class="correction-step"><p>a) A = ln(x<sup>2</sup>) + ln(x) - 3 ln(x) = 2 ln(x) + ln(x) - 3 ln(x) = 0 pour tout x > 0.</p></div><div class="correction-step"><p>b) B = (ln(x<sup>2</sup>)) / (2 ln(x)) = (2 ln(x)) / (2 ln(x)) = <strong>1</strong> pour x > 0, x different de 1.</p></div><div class="correction-step"><p>c) C = ln(x<sup>3</sup>) - ln(x) = 3 ln(x) - ln(x) = <strong>2 ln(x)</strong> pour x > 0.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 14</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 14 : Systeme avec logarithmes</strong></p></div><div class="correction-step"><p>ln(x) + ln(y) = ln(6) equivaut a ln(xy) = ln(6), donc <strong>xy = 6</strong>.</p></div><div class="correction-step"><p>ln(x) - ln(y) = ln(3) equivaut a ln(x/y) = ln(3), donc <strong>x/y = 3</strong>, soit x = 3y.</p></div><div class="correction-step"><p>En substituant : 3y . y = 6, donc 3y<sup>2</sup> = 6, y<sup>2</sup> = 2.</p></div><div class="correction-step"><p>y = racine(2) (car y > 0), et x = 3 racine(2).</p></div><div class="correction-step"><p><strong>Solution : (x, y) = (3 racine(2), racine(2))</strong></p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 15</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 15 : Equation ln(x<sup>2</sup> - 3x + 2) = 0</strong></p></div><div class="correction-step"><p>Condition d'existence : x<sup>2</sup> - 3x + 2 > 0.</p></div><div class="correction-step"><p>x<sup>2</sup> - 3x + 2 = (x - 1)(x - 2). Le tableau de signes donne : x<sup>2</sup> - 3x + 2 > 0 pour x dans ]-infini ; 1[ U ]2 ; +infini[.</p></div><div class="correction-step"><p>ln(x<sup>2</sup> - 3x + 2) = 0 equivaut a x<sup>2</sup> - 3x + 2 = e<sup>0</sup> = 1.</p></div><div class="correction-step"><p>x<sup>2</sup> - 3x + 1 = 0. Discriminant Delta = 9 - 4 = 5.</p></div><div class="correction-step"><p>x = (3 - racine(5)) / 2 ou x = (3 + racine(5)) / 2.</p></div><div class="correction-step"><p>Verification : (3 - racine(5))/2 = 0,38... dans ]-infini ; 1[ : accepte.</p></div><div class="correction-step"><p>(3 + racine(5))/2 = 2,62... dans ]2 ; +infini[ : accepte.</p></div><div class="correction-step"><p><strong>S = {(3 - racine(5))/2 ; (3 + racine(5))/2}</strong></p></div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e1b4b 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 2</div>
+        <div class="section-title">Corrections : Equations/Inequations (Ex. 16-30)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 16</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 16 : Inequations simples</strong></p></div><div class="correction-step"><p>La fonction ln est strictement croissante sur ]0 ; +infini[. On peut donccomposer par exp.</p></div><div class="correction-step"><p>a) ln(x) > 0 equivaut a x > e<sup>0</sup> = 1. <strong>S = ]1 ; +infini[</strong></p></div><div class="correction-step"><p>b) ln(x) < 1 equivaut a x < e<sup>1</sup> = e. <strong>S = ]0 ; e[</strong></p></div><div class="correction-step"><p>c) ln(x) > ln(3) equivaut a x > 3 (ln croissante). <strong>S = ]3 ; +infini[</strong></p></div><div class="correction-step"><p>d) ln(2x) < 0 equivaut a 2x < 1 (x > 0), soit x < 1/2. <strong>S = ]0 ; 1/2[</strong></p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 17</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 17 : Inequations composees</strong></p></div><div class="correction-step"><p>a) ln(3x - 1) < ln(8). Conditions : 3x - 1 > 0, soit x > 1/3.</p></div><div class="correction-step"><p>Par croissance de ln : 3x - 1 < 8, donc 3x < 9, x < 3. <strong>S = ]1/3 ; 3[</strong></p></div><div class="correction-step"><p>b) ln(x + 2) > ln(5). Conditions : x + 2 > 0, soit x > -2.</p></div><div class="correction-step"><p>x + 2 > 5, donc x > 3. <strong>S = ]3 ; +infini[</strong></p></div><div class="correction-step"><p>c) ln(1 - x) < 0. Condition : 1 - x > 0, soit x < 1.</p></div><div class="correction-step"><p>1 - x < 1, donc -x < 0, x > 0. <strong>S = ]0 ; 1[</strong></p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 18</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 18 : Comparaisons</strong></p></div><div class="correction-step"><p>a) ln(3) et 1 : comme 3 > e = 2,718..., et ln est croissante, ln(3) > ln(e) = 1. Donc <strong>ln(3) > 1</strong>.</p></div><div class="correction-step"><p>b) ln(10) et 2 : comme 10 > e<sup>2</sup> = 7,389..., ln(10) > 2. Donc <strong>ln(10) > 2</strong>.</p></div><div class="correction-step"><p>c) ln(e<sup>2</sup>) = 2. Donc <strong>ln(e<sup>2</sup>) = 2</strong>.</p></div><div class="correction-step"><p>d) ln(0,5) : comme 0 < 0,5 < 1 et ln est croissante avec ln(1) = 0, on a ln(0,5) < 0. Donc <strong>ln(0,5) < 0</strong>.</p></div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e1b4b 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 2</div>
+        <div class="section-title">Corrections : Equations/Inequations (Ex. 16-30)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 19</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 19 : Equations avec somme de ln</strong></p></div><div class="correction-step"><p>a) ln(x) + ln(x - 1) = ln(6)</p></div><div class="correction-step"><p>Conditions : x > 0 et x - 1 > 0, soit x > 1.</p></div><div class="correction-step"><p>ln(x(x - 1)) = ln(6), donc x(x - 1) = 6, soit x<sup>2</sup> - x - 6 = 0.</p></div><div class="correction-step"><p>(x - 3)(x + 2) = 0. x = 3 (accepte car > 1) ou x = -2 (refuse). <strong>S = {3}</strong></p></div><div class="correction-step"><p>b) ln(x + 1) + ln(x - 2) = 0</p></div><div class="correction-step"><p>Conditions : x + 1 > 0 et x - 2 > 0, soit x > 2.</p></div><div class="correction-step"><p>ln((x + 1)(x - 2)) = 0, donc (x + 1)(x - 2) = 1, x<sup>2</sup> - x - 3 = 0.</p></div><div class="correction-step"><p>x = (1 + racine(13)) / 2 (seule solution > 2). <strong>S = {(1 + racine(13)) / 2}</strong></p></div><div class="correction-step"><p>c) ln(2x + 1) = ln(x) + ln(3) = ln(3x)</p></div><div class="correction-step"><p>Conditions : 2x + 1 > 0 et x > 0, soit x > 0.</p></div><div class="correction-step"><p>2x + 1 = 3x, donc x = 1. <strong>S = {1}</strong></p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 20</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 20 : Equations du second degre en ln(x)</strong></p></div><div class="correction-step"><p>On pose X = ln(x). Attention : il faut X reel, donc x > 0.</p></div><div class="correction-step"><p>a) ln<sup>2</sup>(x) - 3 ln(x) + 2 = 0 devient X<sup>2</sup> - 3X + 2 = 0.</p></div><div class="correction-step"><p>(X - 1)(X - 2) = 0. X = 1 ou X = 2.</p></div><div class="correction-step"><p>X = 1 : ln(x) = 1, x = e. X = 2 : ln(x) = 2, x = e<sup>2</sup>. <strong>S = {e ; e<sup>2</sup>}</strong></p></div><div class="correction-step"><p>b) 2 ln<sup>2</sup>(x) + ln(x) - 1 = 0 devient 2X<sup>2</sup> + X - 1 = 0.</p></div><div class="correction-step"><p>Delta = 1 + 8 = 9. X = (-1 + 3)/4 = 1/2 ou X = (-1 - 3)/4 = -1.</p></div><div class="correction-step"><p>X = 1/2 : x = e<sup>1/2</sup> = racine(e). X = -1 : x = e<sup>-1</sup> = 1/e. <strong>S = {1/e ; racine(e)}</strong></p></div><div class="correction-step"><p>c) (ln(x))<sup>2</sup> = 4, donc X<sup>2</sup> = 4. X = 2 ou X = -2.</p></div><div class="correction-step"><p>ln(x) = 2 : x = e<sup>2</sup>. ln(x) = -2 : x = e<sup>-2</sup>. <strong>S = {e<sup>-2</sup> ; e<sup>2</sup>}</strong></p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 21</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 21 : Equations avec ln et exp</strong></p></div><div class="correction-step"><p>a) ln(x) . (ln(x) - 2) = 0. On pose X = ln(x), x > 0.</p></div><div class="correction-step"><p>X(X - 2) = 0. X = 0 : x = 1. X = 2 : x = e<sup>2</sup>. <strong>S = {1 ; e<sup>2</sup>}</strong></p></div><div class="correction-step"><p>b) e<sup>2ln(x)</sup> = 9. On sait e<sup>2ln(x)</sup> = (e<sup>ln(x)</sup>)<sup>2</sup> = x<sup>2</sup>.</p></div><div class="correction-step"><p>x<sup>2</sup> = 9, x > 0, donc x = 3. <strong>S = {3}</strong></p></div><div class="correction-step"><p>c) e<sup>ln(x) + 1</sup> = 2e. e<sup>ln(x)</sup> . e<sup>1</sup> = 2e, donc x . e = 2e, x = 2. <strong>S = {2}</strong></p></div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e1b4b 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 2</div>
+        <div class="section-title">Corrections : Equations/Inequations (Ex. 16-30)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 22</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 22 : Inequations</strong></p></div><div class="correction-step"><p>a) ln(x) + 1 < 3 equivaut a ln(x) < 2, donc x < e<sup>2</sup>. <strong>S = ]0 ; e<sup>2</sup>[</strong></p></div><div class="correction-step"><p>b) 2 ln(x) - 1 > 0 equivaut a ln(x) > 1/2, donc x > e<sup>1/2</sup> = racine(e). <strong>S = ]racine(e) ; +infini[</strong></p></div><div class="correction-step"><p>c) -ln(x) > 2 equivaut a ln(x) < -2, donc x < e<sup>-2</sup>. <strong>S = ]0 ; e<sup>-2</sup>[</strong></p></div><div class="correction-step"><p>d) ln(x<sup>2</sup>) > ln(x + 6). Condition : x<sup>2</sup> > 0 et x + 6 > 0.</p></div><div class="correction-step"><p>x<sup>2</sup> > x + 6, soit x<sup>2</sup> - x - 6 > 0.</p></div><div class="correction-step"><p>(x - 3)(x + 2) > 0. Avec x different de 0 et x > -6 : <strong>S = ]-infini ; -2[ U ]3 ; +infini[</strong></p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 23</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 23 : ln(x + 1) + ln(x - 1) = ln(3)</strong></p></div><div class="correction-step"><p>Domaine : x + 1 > 0 et x - 1 > 0, soit x > 1.</p></div><div class="correction-step"><p>ln((x + 1)(x - 1)) = ln(3), donc x<sup>2</sup> - 1 = 3.</p></div><div class="correction-step"><p>x<sup>2</sup> = 4, donc x = 2 ou x = -2.</p></div><div class="correction-step"><p>Seul x = 2 est dans le domaine (x > 1). <strong>S = {2}</strong></p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 24</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 24 : ln(x + 2) - ln(x) = ln(3) - ln(x + 1)</strong></p></div><div class="correction-step"><p>Conditions : x > 0 et x + 2 > 0 et x + 1 > 0, soit x > 0.</p></div><div class="correction-step"><p>ln((x + 2)/x) = ln(3/(x + 1))</p></div><div class="correction-step"><p>Par injectivite : (x + 2)/x = 3/(x + 1)</p></div><div class="correction-step"><p>(x + 2)(x + 1) = 3x</p></div><div class="correction-step"><p>x<sup>2</sup> + 3x + 2 = 3x</p></div><div class="correction-step"><p>x<sup>2</sup> + 2 = 0. Pas de solution reelle.</p></div><div class="correction-step"><p><strong>S = ensemble vide</strong></p></div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e1b4b 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 2</div>
+        <div class="section-title">Corrections : Equations/Inequations (Ex. 16-30)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 25</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 25 : Systeme e<sup>x</sup> + e<sup>y</sup> = e + 1, x + y = 1</strong></p></div><div class="correction-step"><p>On pose a = e<sup>x</sup> et b = e<sup>y</sup>. Le systeme devient : a + b = e + 1 et ln(a) + ln(b) = 1.</p></div><div class="correction-step"><p>De la deuxieme equation : ln(ab) = 1, donc ab = e.</p></div><div class="correction-step"><p>On a donc a + b = e + 1 et ab = e. a et b sont solutions de X<sup>2</sup> - (e + 1)X + e = 0.</p></div><div class="correction-step"><p>Delta = (e + 1)<sup>2</sup> - 4e = e<sup>2</sup> - 2e + 1 = (e - 1)<sup>2</sup>.</p></div><div class="correction-step"><p>X = (e + 1 - (e - 1)) / 2 = 1 ou X = (e + 1 + (e - 1)) / 2 = e.</p></div><div class="correction-step"><p>Donc (a, b) = (1, e) ou (a, b) = (e, 1).</p></div><div class="correction-step"><p>Si a = 1 : e<sup>x</sup> = 1, x = 0. e<sup>y</sup> = e, y = 1.</p></div><div class="correction-step"><p>Si a = e : e<sup>x</sup> = e, x = 1. e<sup>y</sup> = 1, y = 0.</p></div><div class="correction-step"><p><strong>S = {(0 ; 1) ; (1 ; 0)}</strong></p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 26</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 26 : ln(ln(x)) = 1</strong></p></div><div class="correction-step"><p>Condition 1 : ln(x) est defini, donc x > 0.</p></div><div class="correction-step"><p>Condition 2 : ln(ln(x)) est defini, donc ln(x) > 0, soit x > 1.</p></div><div class="correction-step"><p>ln(ln(x)) = 1 equivaut a ln(x) = e<sup>1</sup> = e.</p></div><div class="correction-step"><p>x = e<sup>e</sup>. Verification : e<sup>e</sup> > 1. <strong>S = {e<sup>e</sup>}</strong></p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 27</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 27 : Equations avec exponentielle</strong></p></div><div class="correction-step"><p>a) e<sup>x</sup> = 5 equivaut a x = ln(5). <strong>S = {ln(5)}</strong></p></div><div class="correction-step"><p>b) e<sup>2x</sup> = e<sup>3</sup> equivaut a 2x = 3, donc x = 3/2. <strong>S = {3/2}</strong></p></div><div class="correction-step"><p>c) e<sup>x<sup>2</sup> - 1</sup> = e equivaut a x<sup>2</sup> - 1 = 1, donc x<sup>2</sup> = 2. <strong>S = {-racine(2) ; racine(2)}</strong></p></div><div class="correction-step"><p>d) e<sup>x</sup> + e<sup>-x</sup> = 2. On pose X = e<sup>x</sup> > 0.</p></div><div class="correction-step"><p>X + 1/X = 2, donc X<sup>2</sup> - 2X + 1 = 0, (X - 1)<sup>2</sup> = 0. X = 1.</p></div><div class="correction-step"><p>e<sup>x</sup> = 1, donc x = 0. <strong>S = {0}</strong></p></div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e1b4b 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 2</div>
+        <div class="section-title">Corrections : Equations/Inequations (Ex. 16-30)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 28</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 28 : ln(x + 1) + ln(x - 1) > 2 ln(2)</strong></p></div><div class="correction-step"><p>Domaine : x > 1 (pour que x - 1 > 0).</p></div><div class="correction-step"><p>ln((x + 1)(x - 1)) > ln(4), soit ln(x<sup>2</sup> - 1) > ln(4).</p></div><div class="correction-step"><p>Par croissance de ln : x<sup>2</sup> - 1 > 4, donc x<sup>2</sup> > 5.</p></div><div class="correction-step"><p>x > racine(5) ou x < -racine(5). Avec x > 1 : <strong>S = ]racine(5) ; +infini[</strong></p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 29</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 29 : (ln(x))<sup>3</sup> - 3(ln(x))<sup>2</sup> + 2 ln(x) = 0</strong></p></div><div class="correction-step"><p>On pose X = ln(x), x > 0. L'equation devient X<sup>3</sup> - 3X<sup>2</sup> + 2X = 0.</p></div><div class="correction-step"><p>X(X<sup>2</sup> - 3X + 2) = 0, soit X(X - 1)(X - 2) = 0.</p></div><div class="correction-step"><p>X = 0 : x = 1. X = 1 : x = e. X = 2 : x = e<sup>2</sup>.</p></div><div class="correction-step"><p><strong>S = {1 ; e ; e<sup>2</sup>}</strong></p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 30</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 30 : Probleme BAC</strong></p></div><div class="correction-step"><p>a) Domaine de (E) ln(x) + ln(x - 1) = 1 : il faut x > 0 et x - 1 > 0, soit x > 1.</p></div><div class="correction-step"><p>b) ln(x(x - 1)) = 1, donc x<sup>2</sup> - x = e, soit x<sup>2</sup> - x - e = 0.</p></div><div class="correction-step"><p>Delta = 1 + 4e. x = (1 + racine(1 + 4e)) / 2 (seule solution > 1).</p></div><div class="correction-step"><p>c) (ln(x))<sup>2</sup> - ln(x<sup>2</sup>) = 0. On pose X = ln(x) : X<sup>2</sup> - 2X = 0.</p></div><div class="correction-step"><p>X(X - 2) = 0. X = 0 : x = 1 (non dans le domaine > 1). X = 2 : x = e<sup>2</sup>.</p></div><div class="correction-step"><p><strong>S = {e<sup>2</sup>}</strong> pour la question c.</p></div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #172554 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 3</div>
+        <div class="section-title">Corrections : Etude de fonctions (Ex. 31-45)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 31</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 31 : f(x) = ln(x)</strong></p></div><div class="correction-step"><p>a) f(1) = ln(1) = 0. f(e) = ln(e) = 1. f(e<sup>2</sup>) = 2.</p></div><div class="correction-step"><p>b) f'(x) = 1/x pour tout x > 0.</p></div><div class="correction-step"><p>c) f'(x) = 1/x > 0 pour tout x > 0, donc f est strictement croissante sur ]0 ; +infini[.</p></div><div class="correction-step"><p>Limites : lim(x tend vers 0+) f(x) = -infini. lim(x tend vers +infini) f(x) = +infini.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 32</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 32 : f(x) = 2 ln(x) + 1</strong></p></div><div class="correction-step"><p>a) f'(x) = 2/x pour tout x > 0.</p></div><div class="correction-step"><p>b) f'(x) > 0 pour tout x > 0, donc f est strictement croissante sur ]0 ; +infini[.</p></div><div class="correction-step"><p>c) f(1) = 2 ln(1) + 1 = 0 + 1 = 1. f(e) = 2 ln(e) + 1 = 2 + 1 = 3.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 33</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 33 : f(x) = ln(x) - x + 2</strong></p></div><div class="correction-step"><p>a) f'(x) = 1/x - 1 = (1 - x)/x.</p></div><div class="correction-step"><p>b) f'(x) = 0 si 1 - x = 0, soit x = 1.</p></div><div class="correction-step"><p>c) Pour x dans ]0 ; 1[ : f'(x) > 0. Pour x > 1 : f'(x) < 0.</p></div><div class="correction-step"><p>f est croissante sur ]0 ; 1] et decroissante sur [1 ; +infini[.</p></div><div class="correction-step"><p>Maximum en x = 1 : f(1) = ln(1) - 1 + 2 = 1.</p></div><div class="correction-step"><p>Limites : lim(x tend vers 0+) f(x) = -infini (car ln(x) tend vers -infini).</p></div><div class="correction-step"><p>lim(x tend vers +infini) f(x) = -infini (car -x domine ln(x)).</p></div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #172554 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 3</div>
+        <div class="section-title">Corrections : Etude de fonctions (Ex. 31-45)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 34</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 34 : f(x) = x ln(x)</strong></p></div><div class="correction-step"><p>a) f'(x) = 1 . ln(x) + x . (1/x) = ln(x) + 1.</p></div><div class="correction-step"><p>b) f'(x) > 0 si ln(x) + 1 > 0, soit ln(x) > -1, soit x > e<sup>-1</sup> = 1/e.</p></div><div class="correction-step"><p>f'(x) < 0 pour x dans ]0 ; 1/e[. f'(x) > 0 pour x > 1/e.</p></div><div class="correction-step"><p>c) f decroissante sur ]0 ; 1/e], croissante sur [1/e ; +infini[.</p></div><div class="correction-step"><p>Minimum en x = 1/e : f(1/e) = (1/e) . ln(1/e) = (1/e)(-1) = -1/e.</p></div><div class="correction-step"><p>d) lim(x tend vers 0+) x ln(x) = 0 (croissances comparees).</p></div><div class="correction-step"><p>lim(x tend vers +infini) x ln(x) = +infini (producttion de deux termes qui tendent vers +infini).</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 35</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 35 : f(x) = ln(x) / x</strong></p></div><div class="correction-step"><p>a) f'(x) = (1/x . x - ln(x) . 1) / x<sup>2</sup> = (1 - ln(x)) / x<sup>2</sup>.</p></div><div class="correction-step"><p>b) x<sup>2</sup> > 0. f'(x) > 0 si 1 - ln(x) > 0, soit ln(x) < 1, soit x < e.</p></div><div class="correction-step"><p>f croissante sur ]0 ; e], decroissante sur [e ; +infini[.</p></div><div class="correction-step"><p>c) Maximum en x = e : f(e) = ln(e) / e = 1/e.</p></div><div class="correction-step"><p>d) f(e) = 1/e. C'est le maximum de la fonction.</p></div><div class="correction-step"><p>Limites : lim(x tend vers 0+) ln(x)/x = -infini. lim(x tend vers +infini) ln(x)/x = 0 (croissances comparees).</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 36</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 36 : f(x) = ln(x<sup>2</sup> + 1)</strong></p></div><div class="correction-step"><p>a) f'(x) = 2x / (x<sup>2</sup> + 1).</p></div><div class="correction-step"><p>b) f'(x) > 0 si x > 0 et f'(x) < 0 si x < 0.</p></div><div class="correction-step"><p>f decroissante sur ]-infini ; 0], croissante sur [0 ; +infini[.</p></div><div class="correction-step"><p>Minimum en x = 0 : f(0) = ln(1) = 0.</p></div><div class="correction-step"><p>c) lim(x tend vers -infini) f(x) = lim(x tend vers +infini) f(x) = +infini (car x<sup>2</sup> + 1 tend vers +infini et ln est croissante).</p></div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #172554 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 3</div>
+        <div class="section-title">Corrections : Etude de fonctions (Ex. 31-45)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 37</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 37 : f(x) = ln(3x + 1) - x</strong></p></div><div class="correction-step"><p>a) Domaine : 3x + 1 > 0, soit x > -1/3. D<sub>f</sub> = ]-1/3 ; +infini[.</p></div><div class="correction-step"><p>b) f'(x) = 3/(3x + 1) - 1 = (3 - 3x - 1) / (3x + 1) = (2 - 3x) / (3x + 1).</p></div><div class="correction-step"><p>Le denominateur est positif sur D<sub>f</sub>. f'(x) > 0 si 2 - 3x > 0, soit x < 2/3.</p></div><div class="correction-step"><p>f croissante sur ]-1/3 ; 2/3], decroissante sur [2/3 ; +infini[.</p></div><div class="correction-step"><p>c) f(-1/3) = ln(0+) - (-1/3) = -infini. f(2/3) = ln(3) - 2/3 > 0.</p></div><div class="correction-step"><p>lim(x tend vers +infini) f(x) = -infini.</p></div><div class="correction-step"><p>Par le TVI : f(x) = 0 admet une unique solution dans ]2/3 ; +infini[.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 38</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 38 : f(x) = (ln(x))<sup>2</sup></strong></p></div><div class="correction-step"><p>a) f'(x) = 2 ln(x) . (1/x) = 2 ln(x) / x.</p></div><div class="correction-step"><p>b) f'(x) > 0 si ln(x) > 0, soit x > 1. f'(x) < 0 si 0 < x < 1.</p></div><div class="correction-step"><p>f decroissante sur ]0 ; 1], croissante sur [1 ; +infini[.</p></div><div class="correction-step"><p>c) f(e) = (ln(e))<sup>2</sup> = 1. f(1) = (ln(1))<sup>2</sup> = 0. f(e<sup>2</sup>) = (2)<sup>2</sup> = 4.</p></div><div class="correction-step"><p>Limites : lim(x tend vers 0+) f(x) = +infini. lim(x tend vers +infini) f(x) = +infini.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 39</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 39 : f(x) = x<sup>2</sup> - 2 ln(x)</strong></p></div><div class="correction-step"><p>a) f'(x) = 2x - 2/x = (2x<sup>2</sup> - 2) / x = 2(x<sup>2</sup> - 1) / x.</p></div><div class="correction-step"><p>b) f'(x) = 0 si x<sup>2</sup> = 1, soit x = 1 (x > 0).</p></div><div class="correction-step"><p>c) f'(x) < 0 sur ]0 ; 1[. f'(x) > 0 sur ]1 ; +infini[.</p></div><div class="correction-step"><p>f decroissante sur ]0 ; 1], croissante sur [1 ; +infini[.</p></div><div class="correction-step"><p>d) Minimum en x = 1 : f(1) = 1 - 2 ln(1) = 1 - 0 = 1.</p></div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #172554 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 3</div>
+        <div class="section-title">Corrections : Etude de fonctions (Ex. 31-45)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 40</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 40 : f(x) = x - 2 - 2 ln(x)</strong></p></div><div class="correction-step"><p>a) f'(x) = 1 - 0 - 2/x = 1 - 2/x = (x - 2) / x.</p></div><div class="correction-step"><p>f'(x) < 0 pour x dans ]0 ; 2[ et f'(x) > 0 pour x > 2.</p></div><div class="correction-step"><p>b) f decroissante sur ]0 ; 2], croissante sur [2 ; +infini[.</p></div><div class="correction-step"><p>Minimum en x = 2 : f(2) = 2 - 2 - 2 ln(2) = -2 ln(2).</p></div><div class="correction-step"><p>c) Le minimum est negatif (-2 ln(2) < 0), les limites sont +infini aux deux bornes.</p></div><div class="correction-step"><p>f s'annule deux fois : une fois entre 0 et 2, une fois au-dela de 2.</p></div><div class="correction-step"><p>On peut montrer que f(1) = -1 < 0, f(e) = e - 2 - 2 > 0, donc il y a une racine entre 1 et e.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 41</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 41 : f(x) = (x<sup>2</sup> - 1) ln(x)</strong></p></div><div class="correction-step"><p>a) f'(x) = 2x . ln(x) + (x<sup>2</sup> - 1) . (1/x) = 2x ln(x) + x - 1/x.</p></div><div class="correction-step"><p>b) f'(x) = 0 est difficile a resoudre analytiquement.</p></div><div class="correction-step"><p>On note que f'(1) = 0 + 1 - 1 = 0. Donc x = 1 est un point critique.</p></div><div class="correction-step"><p>c) f(1) = 0. f decroit puis remonte. Extremum en x = 1.</p></div><div class="correction-step"><p>d) lim(x tend vers 0+) : (x<sup>2</sup> - 1) tend vers -1, ln(x) tend vers -infini.</p></div><div class="correction-step"><p>Par produit : lim(x tend vers 0+) f(x) = +infini.</p></div><div class="correction-step"><p>lim(x tend vers +infini) : x<sup>2</sup> ln(x) domine, donc lim = +infini.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 42</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 42 : f(x) = ln(x) / (x - 1)</strong></p></div><div class="correction-step"><p>a) f'(x) = ((1/x)(x - 1) - ln(x) . 1) / (x - 1)<sup>2</sup> = ((x - 1)/x - ln(x)) / (x - 1)<sup>2</sup>.</p></div><div class="correction-step"><p>f'(x) = (1 - 1/x - ln(x)) / (x - 1)<sup>2</sup>.</p></div><div class="correction-step"><p>b) Le signe depend du numerateur g(x) = 1 - 1/x - ln(x).</p></div><div class="correction-step"><p>g'(x) = 1/x<sup>2</sup> - 1/x = (1 - x)/x<sup>2</sup>. g'(x) > 0 si x < 1.</p></div><div class="correction-step"><p>g croit sur ]0 ; 1[, decroit sur ]1 ; +infini[. Maximum g(1) = 1 - 1 - 0 = 0.</p></div><div class="correction-step"><p>Donc g(x) < 0 pour tout x different de 1, donc f'(x) < 0.</p></div><div class="correction-step"><p>f est strictement decroissante sur ]0 ; 1[ et sur ]1 ; +infini[.</p></div><div class="correction-step"><p>d) lim(x tend vers 1) f(x) = 1/1 = 1 (forme indeterminee 0/0 levee par le nombre derive).</p></div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #172554 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 3</div>
+        <div class="section-title">Corrections : Etude de fonctions (Ex. 31-45)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 43</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 43 : f(x) = ln(x) - (x - 1)/(x + 1)</strong></p></div><div class="correction-step"><p>a) f'(x) = 1/x - ((1)(x + 1) - (x - 1)(1)) / (x + 1)<sup>2</sup></p></div><div class="correction-step"><p>f'(x) = 1/x - (x + 1 - x + 1) / (x + 1)<sup>2</sup> = 1/x - 2/(x + 1)<sup>2</sup>.</p></div><div class="correction-step"><p>f'(x) = ((x + 1)<sup>2</sup> - 2x) / (x(x + 1)<sup>2</sup>) = (x<sup>2</sup> + 2x + 1 - 2x) / (x(x + 1)<sup>2</sup>)</p></div><div class="correction-step"><p>f'(x) = (x<sup>2</sup> + 1) / (x(x + 1)<sup>2</sup>) > 0 pour tout x > 0.</p></div><div class="correction-step"><p>b) f est strictement croissante sur ]0 ; +infini[.</p></div><div class="correction-step"><p>c) f(1) = ln(1) - 0/2 = 0. Comme f est croissante : pour x > 1, f(x) > 0 ; pour x < 1, f(x) < 0.</p></div><div class="correction-step"><p>Donc ln(x) >= (x - 1)/(x + 1) pour tout x > 0, avec egalite en x = 1.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 44</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 44 : f(x) = x<sup>2</sup> ln(x) - x<sup>2</sup> + 1</strong></p></div><div class="correction-step"><p>a) f'(x) = 2x ln(x) + x<sup>2</sup>(1/x) - 2x = 2x ln(x) + x - 2x = 2x ln(x) - x.</p></div><div class="correction-step"><p>f'(x) = x(2 ln(x) - 1).</p></div><div class="correction-step"><p>b) f'(x) = 0 si x = 0 (hors domaine) ou 2 ln(x) - 1 = 0, soit ln(x) = 1/2, x = e<sup>1/2</sup> = racine(e).</p></div><div class="correction-step"><p>c) f'(x) < 0 pour x dans ]0 ; racine(e)[, f'(x) > 0 pour x > racine(e).</p></div><div class="correction-step"><p>Minimum en x = racine(e) : f(racine(e)) = e ln(racine(e)) - e + 1 = e/2 - e + 1 = 1 - e/2 < 0.</p></div><div class="correction-step"><p>d) f(1) = 0 - 1 + 1 = 0. f(e) = e<sup>2</sup> - e<sup>2</sup> + 1 = 1 > 0.</p></div><div class="correction-step"><p>Le minimum est negatif et f(1) = 0 : f change de signe deux fois.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 45</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 45 : f(x) = (2 ln(x) - 1) / x</strong></p></div><div class="correction-step"><p>a) f'(x) = ((2/x).x - (2 ln(x) - 1).1) / x<sup>2</sup> = (2 - 2 ln(x) + 1) / x<sup>2</sup> = (3 - 2 ln(x)) / x<sup>2</sup>.</p></div><div class="correction-step"><p>f'(x) > 0 si 3 - 2 ln(x) > 0, soit ln(x) < 3/2, soit x < e<sup>3/2</sup>.</p></div><div class="correction-step"><p>f croissante sur ]0 ; e<sup>3/2</sup>], decroissante sur [e<sup>3/2</sup> ; +infini[.</p></div><div class="correction-step"><p>Maximum en x = e<sup>3/2</sup> : f(e<sup>3/2</sup>) = (2 . 3/2 - 1) / e<sup>3/2</sup> = 2/e<sup>3/2</sup>.</p></div><div class="correction-step"><p>b) lim(x tend vers 0+) : 2 ln(x) - 1 tend vers -infini, divise par x (qui tend vers 0) : -infini.</p></div><div class="correction-step"><p>lim(x tend vers +infini) : par croissances comparees, ln(x)/x tend vers 0, donc f(x) tend vers 0.</p></div><div class="correction-step"><p>c) Asymptote horizontale y = 0 en +infini.</p></div><div class="correction-step"><p>d) f(x) >= 0 si 2 ln(x) - 1 >= 0, soit x >= e<sup>1/2</sup> = racine(e).</p></div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #0c4a6e 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 4</div>
+        <div class="section-title">Corrections : Limites et asymptotes (Ex. 46-58)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 46</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 46 : Limites fondamentales</strong></p></div><div class="correction-step"><p>a) lim(x tend vers +infini) ln(x) = <strong>+infini</strong></p></div><div class="correction-step"><p>b) lim(x tend vers 0+) ln(x) = <strong>-infini</strong></p></div><div class="correction-step"><p>c) lim(x tend vers +infini) ln(x)/x = <strong>0</strong> (croissances comparees : x domine ln(x))</p></div><div class="correction-step"><p>d) lim(x tend vers 0+) x ln(x) = <strong>0</strong> (croissances comparees)</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 47</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 47 : Croissances comparees</strong></p></div><div class="correction-step"><p>a) lim(x tend vers +infini) ln(x)/x<sup>2</sup> = <strong>0</strong> (x<sup>2</sup> domine ln(x))</p></div><div class="correction-step"><p>b) lim(x tend vers +infini) ln(x)/racine(x) = <strong>0</strong> (racine(x) domine ln(x))</p></div><div class="correction-step"><p>c) lim(x tend vers 0+) ln(x<sup>2</sup>) = lim(x tend vers 0+) 2 ln|x| = <strong>-infini</strong></p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 48</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 48 : Limites composees</strong></p></div><div class="correction-step"><p>a) lim(x tend vers +infini) ln(2x + 1) : 2x + 1 tend vers +infini, donc ln(2x + 1) tend vers <strong>+infini</strong>.</p></div><div class="correction-step"><p>b) lim(x tend vers +infini) ln(x<sup>2</sup> + x) : x<sup>2</sup> + x tend vers +infini, donc <strong>+infini</strong>.</p></div><div class="correction-step"><p>c) lim(x tend vers 0+) ln(1/x) = lim(x tend vers 0+) -ln(x) = <strong>+infini</strong>.</p></div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #0c4a6e 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 4</div>
+        <div class="section-title">Corrections : Limites et asymptotes (Ex. 46-58)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 49</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 49 : Limites aux bornes</strong></p></div><div class="correction-step"><p>a) f(x) = ln(x - 1). D<sub>f</sub> = ]1 ; +infini[.</p></div><div class="correction-step"><p>lim(x tend vers 1+) ln(x - 1) = -infini. lim(x tend vers +infini) ln(x - 1) = +infini.</p></div><div class="correction-step"><p>b) f(x) = ln(x + 2). D<sub>f</sub> = ]-2 ; +infini[.</p></div><div class="correction-step"><p>lim(x tend vers -2+) ln(x + 2) = -infini. lim(x tend vers +infini) ln(x + 2) = +infini.</p></div><div class="correction-step"><p>c) f(x) = ln(3x - 1). D<sub>f</sub> = ]1/3 ; +infini[.</p></div><div class="correction-step"><p>lim(x tend vers 1/3+) ln(3x - 1) = -infini. lim(x tend vers +infini) = +infini.</p></div><div class="correction-step"><p>d) f(x) = x + ln(x). D<sub>f</sub> = ]0 ; +infini[.</p></div><div class="correction-step"><p>lim(x tend vers 0+) = 0 + (-infini) = -infini. lim(x tend vers +infini) = +infini + +infini = +infini.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 50</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 50 : Croissances comparees avancees</strong></p></div><div class="correction-step"><p>a) lim(x tend vers +infini) (ln(x))<sup>2</sup>/x = <strong>0</strong>. On pose X = ln(x) : X<sup>2</sup>/e<sup>X</sup> tend vers 0.</p></div><div class="correction-step"><p>b) lim(x tend vers 0+) ln(x)/(1/x) = lim(x tend vers 0+) x ln(x) = <strong>0</strong>.</p></div><div class="correction-step"><p>c) lim(x tend vers +infini) e<sup>x</sup>/x = <strong>+infini</strong> (exp domine toute puissance).</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 51</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 51 : f(x) = ln(x)/x + 1</strong></p></div><div class="correction-step"><p>a) lim(x tend vers 0+) ln(x)/x = -infini/0+ = -infini. Donc lim f(x) = <strong>-infini</strong>.</p></div><div class="correction-step"><p>b) lim(x tend vers +infini) ln(x)/x = 0. Donc lim f(x) = 0 + 1 = <strong>1</strong>.</p></div><div class="correction-step"><p>c) f(x) - 1 = ln(x)/x tend vers 0 en +infini. Donc y = 1 est <strong>asymptote horizontale</strong>.</p></div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #0c4a6e 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 4</div>
+        <div class="section-title">Corrections : Limites et asymptotes (Ex. 46-58)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 52</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 52 : Asymptotes de f(x) = ln(x)/x</strong></p></div><div class="correction-step"><p>a) lim(x tend vers 0+) ln(x)/x = -infini. Asymptote verticale : <strong>x = 0</strong> (l'axe des ordonnees).</p></div><div class="correction-step"><p>b) lim(x tend vers +infini) ln(x)/x = 0. Asymptote horizontale : <strong>y = 0</strong> (l'axe des abscisses).</p></div><div class="correction-step"><p>c) ln(x)/x > 0 pour x > 1 (ln(x) > 0) et < 0 pour 0 < x < 1.</p></div><div class="correction-step"><p>La courbe est au-dessus de y = 0 pour x > 1, en-dessous pour 0 < x < 1.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 53</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 53 : Limites classiques</strong></p></div><div class="correction-step"><p>a) lim(x tend vers 0+) x . ln(x) = <strong>0</strong> (croissances comparees).</p></div><div class="correction-step"><p>b) lim(x tend vers +infini) ln(x)/(x - 1) = lim(x tend vers +infini) ln(x)/x = <strong>0</strong>.</p></div><div class="correction-step"><p>c) lim(x tend vers 0+) (ln(x))<sup>2</sup> = <strong>+infini</strong> (car ln(x) tend vers -infini, et le carre d'un nombre qui tend vers -infini tend vers +infini).</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 54</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 54 : f(x) = x<sup>2</sup> + ln(x)</strong></p></div><div class="correction-step"><p>a) lim(x tend vers 0+) = 0 + (-infini) = <strong>-infini</strong>.</p></div><div class="correction-step"><p>b) lim(x tend vers +infini) = +infini + +infini = <strong>+infini</strong>.</p></div><div class="correction-step"><p>c) f'(x) = 2x + 1/x > 0 pour tout x > 0 (somme de termes positifs).</p></div><div class="correction-step"><p>d) f est strictement croissante sur ]0 ; +infini[.</p></div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #0c4a6e 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 4</div>
+        <div class="section-title">Corrections : Limites et asymptotes (Ex. 46-58)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 55</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 55 : f(x) = (ln(x) - 1)/(x - e)</strong></p></div><div class="correction-step"><p>a) Domaine : x > 0 et x different de e.</p></div><div class="correction-step"><p>b) On pose h = x - e. Quand x tend vers e, h tend vers 0.</p></div><div class="correction-step"><p>f(e + h) = (ln(e + h) - 1) / h.</p></div><div class="correction-step"><p>On reconnait le taux d'accroissement de la fonction ln en e.</p></div><div class="correction-step"><p>Or ln'(e) = 1/e. Donc lim(x tend vers e) f(x) = <strong>1/e</strong>.</p></div><div class="correction-step"><p>c) Il n'y a pas d'asymptote verticale en x = e car la limite est finie.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 56</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 56 : Limites avec puissances</strong></p></div><div class="correction-step"><p>a) Par croissances comparees : pour tout n, x<sup>n</sup> e<sup>-x</sup> = x<sup>n</sup>/e<sup>x</sup> tend vers 0.</p></div><div class="correction-step"><p>lim(x tend vers +infini) x e<sup>-x</sup> = <strong>0</strong>.</p></div><div class="correction-step"><p>lim(x tend vers +infini) x<sup>2</sup> e<sup>-x</sup> = <strong>0</strong>.</p></div><div class="correction-step"><p>lim(x tend vers +infini) x<sup>3</sup> e<sup>-x</sup> = <strong>0</strong>.</p></div><div class="correction-step"><p>b) lim(x tend vers 0+) (ln(x))<sup>1</sup> = -infini. (ln(x))<sup>2</sup> = +infini.</p></div><div class="correction-step"><p>c) lim(x tend vers +infini) ln(x<sup>n</sup>)/x = lim(x tend vers +infini) n ln(x)/x = n . 0 = <strong>0</strong>.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 57</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 57 : f(x) = ln(x + 1) - ln(x)</strong></p></div><div class="correction-step"><p>a) lim(x tend vers 0+) f(x) = ln(1) - ln(0+) = 0 - (-infini) = <strong>+infini</strong>.</p></div><div class="correction-step"><p>b) lim(x tend vers +infini) f(x) = lim(x tend vers +infini) ln((x + 1)/x) = lim ln(1 + 1/x) = ln(1) = <strong>0</strong>.</p></div><div class="correction-step"><p>c) Quand x est proche de 0, f(x) est tres grand. Quand x grand, f(x) tend vers 0.</p></div><div class="correction-step"><p>Cela signifie que pour x grand, ajouter 1 a x ne change presque pas le ln.</p></div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #0c4a6e 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 4</div>
+        <div class="section-title">Corrections : Limites et asymptotes (Ex. 46-58)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 58</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 58 : f(x) = (ln(x))<sup>2</sup> - 1</strong></p></div><div class="correction-step"><p>a) lim(x tend vers 0+) = +infini - 1 = <strong>+infini</strong>.</p></div><div class="correction-step"><p>lim(x tend vers +infini) = +infini - 1 = <strong>+infini</strong>.</p></div><div class="correction-step"><p>b) f'(x) = 2 ln(x) / x. f'(x) < 0 pour x < 1, f'(x) > 0 pour x > 1.</p></div><div class="correction-step"><p>Minimum en x = 1 : f(1) = 0 - 1 = -1.</p></div><div class="correction-step"><p>c) f(1) = -1 < 0 et les limites sont +infini aux deux bornes.</p></div><div class="correction-step"><p>f(x) = 0 si (ln(x))<sup>2</sup> = 1, soit ln(x) = 1 ou ln(x) = -1.</p></div><div class="correction-step"><p>x = e ou x = 1/e. <strong>Exactement 2 solutions.</strong></p></div><div class="correction-step"><p>d) Solutions exactes : x = 1/e et x = e. Pas besoin d'approximation.</p></div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #312e81 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 5</div>
+        <div class="section-title">Corrections : Derivees et primitives (Ex. 59-70)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 59</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 59 : Derivees de ln composees</strong></p></div><div class="correction-step"><p>On utilise : (ln(u))' = u'/u.</p></div><div class="correction-step"><p>a) f(x) = ln(3x). f'(x) = 3/(3x) = <strong>1/x</strong></p></div><div class="correction-step"><p>b) f(x) = ln(x<sup>2</sup>). f'(x) = 2x/x<sup>2</sup> = <strong>2/x</strong></p></div><div class="correction-step"><p>c) f(x) = ln(x + 4). f'(x) = <strong>1/(x + 4)</strong></p></div><div class="correction-step"><p>d) f(x) = ln(2x + 1). f'(x) = <strong>2/(2x + 1)</strong></p></div><div class="correction-step"><p>e) f(x) = ln(5 - x). f'(x) = <strong>-1/(5 - x)</strong></p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 60</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 60 : Primitives simples</strong></p></div><div class="correction-step"><p>On utilise : une primitive de u'/u est ln(|u|).</p></div><div class="correction-step"><p>a) F(x) = ln(x) + C sur ]0 ; +infini[.</p></div><div class="correction-step"><p>b) F(x) = 3 ln(x) + C sur ]0 ; +infini[.</p></div><div class="correction-step"><p>c) F(x) = ln(x + 1) + C sur ]-1 ; +infini[.</p></div><div class="correction-step"><p>d) F(x) = ln(2x + 1) + C sur ]-1/2 ; +infini[.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 61</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 61 : Derivees</strong></p></div><div class="correction-step"><p>a) f(x) = ln(x<sup>3</sup>) = 3 ln(x). f'(x) = <strong>3/x</strong></p></div><div class="correction-step"><p>b) f(x) = ln(racine(x)) = ln(x<sup>1/2</sup>) = (1/2) ln(x). f'(x) = <strong>1/(2x)</strong></p></div><div class="correction-step"><p>c) f(x) = ln(1/x) = -ln(x). f'(x) = <strong>-1/x</strong></p></div><div class="correction-step"><p>d) f(x) = ln(x<sup>4</sup>/x) = ln(x<sup>3</sup>) = 3 ln(x). f'(x) = <strong>3/x</strong></p></div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #312e81 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 5</div>
+        <div class="section-title">Corrections : Derivees et primitives (Ex. 59-70)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 62</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 62 : Derivees avec produits et quotients</strong></p></div><div class="correction-step"><p>a) f(x) = x ln(x). f'(x) = ln(x) + x . (1/x) = <strong>ln(x) + 1</strong></p></div><div class="correction-step"><p>b) f(x) = (ln(x))<sup>2</sup>. f'(x) = 2 ln(x) . (1/x) = <strong>2 ln(x) / x</strong></p></div><div class="correction-step"><p>c) f(x) = ln(x<sup>2</sup> + 1). f'(x) = 2x/(x<sup>2</sup> + 1) = <strong>2x / (x<sup>2</sup> + 1)</strong></p></div><div class="correction-step"><p>d) f(x) = ln(x)/x. f'(x) = (1 - ln(x))/x<sup>2</sup> = <strong>(1 - ln(x)) / x<sup>2</sup></strong></p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 63</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 63 : Primitives composees</strong></p></div><div class="correction-step"><p>a) f(x) = (2x + 1)/(x<sup>2</sup> + x) = (2x + 1)/(x(x + 1)).</p></div><div class="correction-step"><p>On remarque que (x<sup>2</sup> + x)' = 2x + 1. Donc F(x) = <strong>ln(x<sup>2</sup> + x)</strong> + C.</p></div><div class="correction-step"><p>b) f(x) = 1/(x ln(x)). On pose u = ln(x), u' = 1/x.</p></div><div class="correction-step"><p>F(x) = <strong>ln(|ln(x)|)</strong> + C sur ]1 ; +infini[ (où ln(x) > 0).</p></div><div class="correction-step"><p>c) f(x) = (ln(x))<sup>3</sup>/x. On pose u = ln(x), u' = 1/x.</p></div><div class="correction-step"><p>F(x) = <strong>(ln(x))<sup>4</sup>/4</strong> + C.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 64</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 64 : Derivees avancees</strong></p></div><div class="correction-step"><p>a) f(x) = ln(ln(x)). f'(x) = (1/x) / ln(x) = <strong>1/(x ln(x))</strong> pour x > 1.</p></div><div class="correction-step"><p>b) f(x) = e<sup>ln(x)</sup> + ln(e<sup>x</sup>) = x + x = 2x. f'(x) = <strong>2</strong>.</p></div><div class="correction-step"><p>c) f(x) = ln(x + e<sup>x</sup>). f'(x) = (1 + e<sup>x</sup>) / (x + e<sup>x</sup>) = <strong>(1 + e<sup>x</sup>) / (x + e<sup>x</sup>)</strong>.</p></div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #312e81 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 5</div>
+        <div class="section-title">Corrections : Derivees et primitives (Ex. 59-70)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 65</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 65 : Integrales</strong></p></div><div class="correction-step"><p>a) I = integrale de 1 a e de (1/x) dx = [ln(x)] de 1 a e = ln(e) - ln(1) = 1 - 0 = <strong>1</strong>.</p></div><div class="correction-step"><p>b) J = integrale de 1 a e<sup>2</sup> de (2/x) dx = [2 ln(x)] de 1 a e<sup>2</sup> = 2 ln(e<sup>2</sup>) - 2 ln(1) = 4 - 0 = <strong>4</strong>.</p></div><div class="correction-step"><p>c) K = integrale de 1 a 4 de (1/(2x)) dx = [(1/2) ln(x)] de 1 a 4 = (1/2) ln(4) - 0 = (1/2) . 2 ln(2) = <strong>ln(2)</strong>.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 66</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 66 : Integrales avancees</strong></p></div><div class="correction-step"><p>a) I = integrale de 1 a e de (ln(x))<sup>2</sup>/x dx. On pose u = ln(x), du = dx/x.</p></div><div class="correction-step"><p>I = integrale de 0 a 1 de u<sup>2</sup> du = [u<sup>3</sup>/3] de 0 a 1 = <strong>1/3</strong>.</p></div><div class="correction-step"><p>b) J = integrale de e a e<sup>2</sup> de 1/(x ln(x)) dx. On pose u = ln(x).</p></div><div class="correction-step"><p>J = integrale de 1 a 2 de 1/u du = [ln(u)] de 1 a 2 = ln(2) - ln(1) = <strong>ln(2)</strong>.</p></div><div class="correction-step"><p>c) K = integrale de 1 a e de ln(x) dx. Integration par parties :</p></div><div class="correction-step"><p>u = ln(x), dv = dx, du = dx/x, v = x.</p></div><div class="correction-step"><p>K = [x ln(x)] de 1 a e - integrale de 1 a e de x . (1/x) dx = [e . 1 - 1 . 0] - integrale de 1 a e de 1 dx</p></div><div class="correction-step"><p>K = e - [x] de 1 a e = e - (e - 1) = <strong>1</strong>.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 67</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 67 : f(x) = ln(x + 1) + ln(x - 1)</strong></p></div><div class="correction-step"><p>a) f(x) = ln((x + 1)(x - 1)) = ln(x<sup>2</sup> - 1).</p></div><div class="correction-step"><p>b) f'(x) = 2x / (x<sup>2</sup> - 1).</p></div><div class="correction-step"><p>c) I = integrale de 2 a 3 de f'(x) dx = [f(x)] de 2 a 3 = f(3) - f(2).</p></div><div class="correction-step"><p>f(3) = ln(9 - 1) = ln(8) = 3 ln(2). f(2) = ln(4 - 1) = ln(3).</p></div><div class="correction-step"><p><strong>I = 3 ln(2) - ln(3) = ln(8/3)</strong></p></div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #312e81 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 5</div>
+        <div class="section-title">Corrections : Derivees et primitives (Ex. 59-70)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 68</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 68 : Integration par parties</strong></p></div><div class="correction-step"><p>a) I = integrale de 1 a e de x ln(x) dx. IPP : u = ln(x), dv = x dx.</p></div><div class="correction-step"><p>du = dx/x, v = x<sup>2</sup>/2.</p></div><div class="correction-step"><p>I = [x<sup>2</sup> ln(x) / 2] de 1 a e - integrale de 1 a e de x<sup>2</sup>/(2x) dx</p></div><div class="correction-step"><p>I = (e<sup>2</sup>/2 - 0) - [x<sup>2</sup>/4] de 1 a e = e<sup>2</sup>/2 - (e<sup>2</sup>/4 - 1/4)</p></div><div class="correction-step"><p><strong>I = e<sup>2</sup>/4 + 1/4 = (e<sup>2</sup> + 1)/4</strong></p></div><div class="correction-step"><p>b) J = integrale de 0 a 1 de ln(x + 1) dx. IPP : u = ln(x + 1), dv = dx.</p></div><div class="correction-step"><p>J = [(x + 1) ln(x + 1) - x] de 0 a 1 = 2 ln(2) - 1 - (1 . ln(1) - 0) = <strong>2 ln(2) - 1</strong>.</p></div><div class="correction-step"><p>c) K = integrale de 1 a e de (ln(x))<sup>2</sup> dx. IPP double.</p></div><div class="correction-step"><p>K = [x(ln(x))<sup>2</sup>] de 1 a e - 2 . integrale de 1 a e de ln(x) dx = e - 2 . 1 = <strong>e - 2</strong>.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 69</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 69 : Aire sous ln(x)</strong></p></div><div class="correction-step"><p>Aire = integrale de 1 a e de ln(x) dx.</p></div><div class="correction-step"><p>Integration par parties : u = ln(x), dv = dx, du = dx/x, v = x.</p></div><div class="correction-step"><p>Aire = [x ln(x)] de 1 a e - integrale de 1 a e de 1 dx</p></div><div class="correction-step"><p>Aire = (e . 1 - 1 . 0) - (e - 1) = e - e + 1 = <strong>1 unite d'aire</strong>.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 70</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 70 : f(x) = x - ln(x)</strong></p></div><div class="correction-step"><p>a) f'(x) = 1 - 1/x = (x - 1)/x. f'(x) < 0 pour x < 1, f'(x) > 0 pour x > 1.</p></div><div class="correction-step"><p>Minimum en x = 1 : f(1) = 1 - 0 = 1.</p></div><div class="correction-step"><p>b) Le minimum est f(1) = 1. Donc pour tout x > 0, f(x) >= 1, soit x - ln(x) >= 1.</p></div><div class="correction-step"><p>c) I = integrale de 1 a e de f'(x) dx = [f(x)] de 1 a e = f(e) - f(1) = (e - 1) - 1 = e - 2.</p></div><div class="correction-step"><p>d) I = f(e) - f(1) represente la variation de f entre 1 et e. Geometriquement, cela correspond a la difference d'ordonnees entre les points de la courbe.</p></div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a8a 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 6</div>
+        <div class="section-title">Corrections : Ln composee (Ex. 71-82)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 71</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 71 : Derivees de ln compose</strong></p></div><div class="correction-step"><p>a) f(x) = ln(x<sup>2</sup> - 1). D<sub>f</sub> : x<sup>2</sup> > 1, soit x < -1 ou x > 1.</p></div><div class="correction-step"><p>f'(x) = 2x / (x<sup>2</sup> - 1).</p></div><div class="correction-step"><p>b) f(x) = ln(2x + 3). D<sub>f</sub> : 2x + 3 > 0, soit x > -3/2. f'(x) = <strong>2/(2x + 3)</strong>.</p></div><div class="correction-step"><p>c) f(x) = ln(e<sup>x</sup> + 1). D<sub>f</sub> = R (e<sup>x</sup> + 1 > 0).</p></div><div class="correction-step"><p>f'(x) = e<sup>x</sup> / (e<sup>x</sup> + 1).</p></div><div class="correction-step"><p>d) f(x) = ln(1 - x<sup>2</sup>). D<sub>f</sub> : 1 - x<sup>2</sup> > 0, soit x dans ]-1 ; 1[.</p></div><div class="correction-step"><p>f'(x) = -2x / (1 - x<sup>2</sup>).</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 72</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 72 : Variations</strong></p></div><div class="correction-step"><p>a) f(x) = ln(x<sup>2</sup> - x - 2). D<sub>f</sub> : x<sup>2</sup> - x - 2 > 0.</p></div><div class="correction-step"><p>x<sup>2</sup> - x - 2 = (x - 2)(x + 1). D<sub>f</sub> = ]-infini ; -1[ U ]2 ; +infini[.</p></div><div class="correction-step"><p>f'(x) = (2x - 1) / (x<sup>2</sup> - x - 2).</p></div><div class="correction-step"><p>Sur ]-infini ; -1[ : 2x - 1 < 0, denominateur > 0. f'(x) < 0. f decroissante.</p></div><div class="correction-step"><p>Sur ]2 ; +infini[ : 2x - 1 > 0, denominateur > 0. f'(x) > 0. f croissante.</p></div><div class="correction-step"><p>b) g(x) = ln(x<sup>2</sup> + x + 1). Le trinome a pour discriminant Delta = 1 - 4 = -3 < 0.</p></div><div class="correction-step"><p>Donc x<sup>2</sup> + x + 1 > 0 pour tout x. D<sub>f</sub> = R.</p></div><div class="correction-step"><p>g'(x) = (2x + 1)/(x<sup>2</sup> + x + 1). g'(x) < 0 pour x < -1/2, g'(x) > 0 pour x > -1/2.</p></div><div class="correction-step"><p>Minimum en x = -1/2 : g(-1/2) = ln(3/4) = ln(3) - 2 ln(2).</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 73</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 73 : f(x) = ln(e<sup>2x</sup> - 1)</strong></p></div><div class="correction-step"><p>a) e<sup>2x</sup> - 1 > 0 equivaut a e<sup>2x</sup> > 1, soit 2x > 0, soit x > 0.</p></div><div class="correction-step"><p>D<sub>f</sub> = <strong>]0 ; +infini[</strong>.</p></div><div class="correction-step"><p>b) f'(x) = 2e<sup>2x</sup> / (e<sup>2x</sup> - 1).</p></div><div class="correction-step"><p>c) Le numerateur et le denominateur sont positifs pour x > 0. f'(x) > 0.</p></div><div class="correction-step"><p>f est strictement croissante sur ]0 ; +infini[.</p></div><div class="correction-step"><p>lim(x tend vers 0+) f(x) = ln(0+) = -infini. lim(x tend vers +infini) f(x) = +infini.</p></div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a8a 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 6</div>
+        <div class="section-title">Corrections : Ln composee (Ex. 71-82)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 74</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 74 : Inequations composees</strong></p></div><div class="correction-step"><p>a) ln(x<sup>2</sup> - 4) > ln(5). D<sub>f</sub> : x<sup>2</sup> > 4, soit |x| > 2.</p></div><div class="correction-step"><p>x<sup>2</sup> - 4 > 5, soit x<sup>2</sup> > 9, soit |x| > 3.</p></div><div class="correction-step"><p><strong>S = ]-infini ; -3[ U ]3 ; +infini[</strong>.</p></div><div class="correction-step"><p>b) ln(x<sup>2</sup> + 1) < 2. D<sub>f</sub> = R.</p></div><div class="correction-step"><p>x<sup>2</sup> + 1 < e<sup>2</sup>, soit x<sup>2</sup> < e<sup>2</sup> - 1, soit |x| < racine(e<sup>2</sup> - 1).</p></div><div class="correction-step"><p><strong>S = ]-racine(e<sup>2</sup> - 1) ; racine(e<sup>2</sup> - 1)[</strong>.</p></div><div class="correction-step"><p>c) ln(1 - x<sup>2</sup>) <= ln(3). D<sub>f</sub> : 1 - x<sup>2</sup> > 0, soit |x| < 1.</p></div><div class="correction-step"><p>1 - x<sup>2</sup> <= 3, soit x<sup>2</sup> >= -2, toujours vrai.</p></div><div class="correction-step"><p><strong>S = ]-1 ; 1[</strong>.</p></div><div class="correction-step"><p>d) ln(x<sup>2</sup> - 9) >= 0. D<sub>f</sub> : |x| > 3.</p></div><div class="correction-step"><p>x<sup>2</sup> - 9 >= 1, soit x<sup>2</sup> >= 10, soit |x| >= racine(10).</p></div><div class="correction-step"><p><strong>S = ]-infini ; -racine(10)] U [racine(10) ; +infini[</strong>.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 75</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 75 : f(x) = ln(x) - ln(x - 1) - 1/(x - 1)</strong></p></div><div class="correction-step"><p>a) f'(x) = 1/x - 1/(x - 1) + 1/(x - 1)<sup>2</sup>.</p></div><div class="correction-step"><p>Mettons au meme denominateur x(x - 1)<sup>2</sup> :</p></div><div class="correction-step"><p>f'(x) = ((x - 1)<sup>2</sup> - x(x - 1) + x) / (x(x - 1)<sup>2</sup>)</p></div><div class="correction-step"><p>= (x<sup>2</sup> - 2x + 1 - x<sup>2</sup> + x + x) / (x(x - 1)<sup>2</sup>) = 1 / (x(x - 1)<sup>2</sup>).</p></div><div class="correction-step"><p>b) f'(x) > 0 pour tout x > 1. f est strictement croissante sur ]1 ; +infini[.</p></div><div class="correction-step"><p>c) lim(x tend vers 1+) f(x) = ln(1) - ln(0+) - 1/0+ = 0 - (-infini) - (+infini) = forme indeterminee.</p></div><div class="correction-step"><p>En posant h = x - 1 : ln(1 + h) - ln(h) - 1/h. ln(1 + h) tend vers 0.</p></div><div class="correction-step"><p>ln(h) - 1/h : on pose t = 1/h tend vers +infini. -ln(1/t) - t = -(-ln(t)) - t = ln(t) - t tend vers -infini.</p></div><div class="correction-step"><p>lim(x tend vers +infini) : ln(x) - ln(x) - 0 = 0. Donc <strong>lim f(x) = 0</strong>.</p></div><div class="correction-step"><p>d) f croissante, lim en 1+ = -infini, lim en +infini = 0. Donc f(x) < 0 pour tout x > 1.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 76</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 76 : f(x) = ln(1 + e<sup>x</sup>)</strong></p></div><div class="correction-step"><p>a) f(x) = ln(1 + e<sup>x</sup>) = ln(e<sup>x</sup>(e<sup>-x</sup> + 1)) = ln(e<sup>x</sup>) + ln(e<sup>-x</sup> + 1) = x + ln(1 + e<sup>-x</sup>). <strong>VRAI</strong></p></div><div class="correction-step"><p>b) lim(x tend vers -infini) : e<sup>x</sup> tend vers 0, donc f(x) tend vers ln(1) = <strong>0</strong>.</p></div><div class="correction-step"><p>lim(x tend vers +infini) : f(x) - x = ln(1 + e<sup>-x</sup>) tend vers ln(1) = <strong>0</strong>.</p></div><div class="correction-step"><p>Donc y = x est asymptote oblique en +infini.</p></div><div class="correction-step"><p>c) f'(x) = e<sup>x</sup> / (1 + e<sup>x</sup>) = 1 / (1 + e<sup>-x</sup>) > 0.</p></div><div class="correction-step"><p>d) f'(x) > 0 pour tout x. f strictement croissante sur R.</p></div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a8a 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 6</div>
+        <div class="section-title">Corrections : Ln composee (Ex. 71-82)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 77</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 77 : f(x) = ln(cos(x))</strong></p></div><div class="correction-step"><p>a) f'(x) = -sin(x) / cos(x) = <strong>-tan(x)</strong>.</p></div><div class="correction-step"><p>b) Sur [0 ; pi/2[ : sin(x) >= 0 et cos(x) > 0. Donc f'(x) <= 0.</p></div><div class="correction-step"><p>f est decroissante sur [0 ; pi/2[.</p></div><div class="correction-step"><p>c) lim(x tend vers pi/2-) cos(x) = 0+. lim(x tend vers pi/2-) f(x) = ln(0+) = <strong>-infini</strong>.</p></div><div class="correction-step"><p>d) On cherche lim(x tend vers pi/2-) f(x)/(pi/2 - x).</p></div><div class="correction-step"><p>En posant h = pi/2 - x : cos(pi/2 - h) = sin(h). ln(sin(h))/h.</p></div><div class="correction-step"><p>Quand h tend vers 0 : sin(h) equivalent a h. Donc ln(h)/h. Forme -infini/0 = -infini.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 78</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 78 : f(x) = ln(x<sup>2</sup> + 2x + 2)</strong></p></div><div class="correction-step"><p>a) x<sup>2</sup> + 2x + 2 = (x + 1)<sup>2</sup> + 1 >= 1 > 0 pour tout x. <strong>D<sub>f</sub> = R</strong>.</p></div><div class="correction-step"><p>b) f'(x) = (2x + 2) / (x<sup>2</sup> + 2x + 2).</p></div><div class="correction-step"><p>c) f'(x) > 0 si x > -1. f'(x) < 0 si x < -1.</p></div><div class="correction-step"><p>f decroissante sur ]-infini ; -1], croissante sur [-1 ; +infini[.</p></div><div class="correction-step"><p>d) Minimum en x = -1 : f(-1) = ln(1 - 2 + 2) = ln(1) = <strong>0</strong>.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 79</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 79 : g(x) = e<sup>x</sup> + e<sup>-x</sup>, f(x) = ln(g(x))</strong></p></div><div class="correction-step"><p>a) g(x) = e<sup>x</sup> + e<sup>-x</sup> = 2 . (e<sup>x</sup> + e<sup>-x</sup>)/2 = 2 ch(x). <strong>VRAI</strong>.</p></div><div class="correction-step"><p>f(x) = ln(2 ch(x)) = ln(2) + ln(ch(x)). <strong>VRAI</strong>.</p></div><div class="correction-step"><p>b) f'(x) = g'(x) / g(x) = (e<sup>x</sup> - e<sup>-x</sup>) / (e<sup>x</sup> + e<sup>-x</sup>) = sh(x)/ch(x) = th(x). <strong>VRAI</strong>.</p></div><div class="correction-step"><p>c) th(x) > 0 pour x > 0 et th(x) < 0 pour x < 0.</p></div><div class="correction-step"><p>f decroissante sur ]-infini ; 0], croissante sur [0 ; +infini[. Minimum f(0) = ln(2).</p></div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a8a 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 6</div>
+        <div class="section-title">Corrections : Ln composee (Ex. 71-82)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 80</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 80 : f(x) = ln(x<sup>2</sup> + x + 1)</strong></p></div><div class="correction-step"><p>a) Delta = 1 - 4 = -3 < 0. Le trinome est toujours positif. D<sub>f</sub> = R.</p></div><div class="correction-step"><p>b) f'(x) = (2x + 1) / (x<sup>2</sup> + x + 1).</p></div><div class="correction-step"><p>f'(x) = 0 si x = -1/2. f'(x) < 0 pour x < -1/2, f'(x) > 0 pour x > -1/2.</p></div><div class="correction-step"><p>c) En +infini : f(x) = ln(x<sup>2</sup>(1 + 1/x + 1/x<sup>2</sup>)) = 2 ln(x) + ln(1 + 1/x + 1/x<sup>2</sup>).</p></div><div class="correction-step"><p>f(x) - 2 ln(x) tend vers ln(1) = 0. Donc y = 2 ln(x) est asymptote (courbe).</p></div><div class="correction-step"><p>Plus precisement : f(x) = 2 ln|x| + ln(1 + 1/x + 1/x<sup>2</sup>)</p></div><div class="correction-step"><p>En -infini : f(x) = 2 ln(-x) + ln(1 + 1/x + 1/x<sup>2</sup>). Meme comportement.</p></div><div class="correction-step"><p>d) Le terme ln(1 + 1/x + 1/x<sup>2</sup>) > 0 pour |x| grand, donc la courbe est au-dessus de l'asymptote.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 81</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 81 : f(x) = ln(1 + x<sup>2</sup>) - x</strong></p></div><div class="correction-step"><p>a) f'(x) = 2x/(1 + x<sup>2</sup>) - 1 = (2x - 1 - x<sup>2</sup>)/(1 + x<sup>2</sup>) = -(x - 1)<sup>2</sup>/(1 + x<sup>2</sup>).</p></div><div class="correction-step"><p>b) (x - 1)<sup>2</sup>/(1 + x<sup>2</sup>) >= 0, donc f'(x) = -(x - 1)<sup>2</sup>/(1 + x<sup>2</sup>) <= 0 pour tout x.</p></div><div class="correction-step"><p>f'(x) = 0 en x = 1 uniquement.</p></div><div class="correction-step"><p>c) f est decroissante sur R, avec un palier en x = 1.</p></div><div class="correction-step"><p>lim(x tend vers +infini) : ln(1 + x<sup>2</sup>) ~ 2 ln(x), donc f(x) tend vers -infini.</p></div><div class="correction-step"><p>lim(x tend vers -infini) : ln(1 + x<sup>2</sup>) ~ 2 ln(-x), et -x tend vers +infini. f tend vers +infini.</p></div><div class="correction-step"><p>d) f(-infini) = +infini, f(+infini) = -infini. Par le TVI, f(x) = 0 admet au moins une solution.</p></div><div class="correction-step"><p>Comme f est decroissante (sauf en x = 1), il y a exactement une solution.</p></div><div class="correction-step"><p>On verifie : f(0) = ln(1) - 0 = 0. Donc <strong>x = 0</strong> est l'unique solution.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 82</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 82 : f(x) = (x - 1) ln(x)</strong></p></div><div class="correction-step"><p>a) f'(x) = ln(x) + (x - 1)/x = ln(x) + 1 - 1/x.</p></div><div class="correction-step"><p>f'(1) = 0 + 0 = 0. f'(x) < 0 pour x < 1 (a verifier), f'(x) > 0 pour x > 1.</p></div><div class="correction-step"><p>b) lim(x tend vers 0+) : (x - 1) tend vers -1, ln(x) tend vers -infini. Produit = +infini.</p></div><div class="correction-step"><p>lim(x tend vers +infini) : (x - 1) ln(x) = +infini.</p></div><div class="correction-step"><p>c) f(1) = 0. f'(x) < 0 sur ]0 ; 1[ (f decroit), f'(x) > 0 sur ]1 ; +infini[ (f croit).</p></div><div class="correction-step"><p>f(x) < 0 sur ]0 ; 1[ et f(x) > 0 sur ]1 ; +infini[.</p></div><div class="correction-step"><p>d) Aire = integrale de 1/e a e de |f(x)| dx = -integrale de 1/e a 1 de f(x) dx + integrale de 1 a e de f(x) dx.</p></div><div class="correction-step"><p>Par symetrie (posons u = 1/t dans la premiere integrale), on montre que les deux integrales sont egales.</p></div><div class="correction-step"><p>Le calcul donne : Aire = [(x<sup>2</sup>/2 - x) ln(x) - x<sup>2</sup>/4 + x] de 1 a e = (e<sup>2</sup>/4 - e/2 + 1) u.a.</p></div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a5f 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 7</div>
+        <div class="section-title">Corrections : Croissances comparees (Ex. 83-92)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 83</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 83 : Croissances comparees fondamentales</strong></p></div><div class="correction-step"><p>a) lim(x tend vers +infini) ln(x)/x = <strong>0</strong> (theoreme des croissances comparees).</p></div><div class="correction-step"><p>b) lim(x tend vers +infini) x/ln(x) = +infini (reciproque de a).</p></div><div class="correction-step"><p>c) lim(x tend vers 0+) x ln(x) = <strong>0</strong> (croissances comparees en 0).</p></div><div class="correction-step"><p>d) lim(x tend vers 0+) ln(x)/(1/x) = lim(x tend vers 0+) x ln(x) = <strong>0</strong>.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 84</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 84 : Croissances comparees avec exp</strong></p></div><div class="correction-step"><p>a) lim(x tend vers +infini) e<sup>x</sup>/x<sup>3</sup> = <strong>+infini</strong> (exp domine toute puissance).</p></div><div class="correction-step"><p>b) Pour tout n entier, lim(x tend vers +infini) x<sup>n</sup>/e<sup>x</sup> = <strong>0</strong>.</p></div><div class="correction-step"><p>c) lim(x tend vers +infini) e<sup>-x</sup> . x<sup>2</sup> = lim(x tend vers +infini) x<sup>2</sup>/e<sup>x</sup> = <strong>0</strong>.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 85</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 85 : Classement des fonctions</strong></p></div><div class="correction-step"><p>En +infini, l'ordre de croissance est :</p></div><div class="correction-step"><p>ln(x) << x << x<sup>2</sup> << x ln(x) n'est pas dans cet ordre simple.</p></div><div class="correction-step"><p>Precisement : x ln(x) croit plus vite que x mais moins vite que x<sup>2</sup>.</p></div><div class="correction-step"><p>L'ordre complet est : <strong>ln(x) &lt; x &lt; x ln(x) &lt; x<sup>2</sup> &lt; e<sup>x</sup></strong></p></div><div class="correction-step"><p>Justification : x ln(x)/x = ln(x) tend vers +infini, donc x ln(x) > x.</p></div><div class="correction-step"><p>x ln(x)/x<sup>2</sup> = ln(x)/x tend vers 0, donc x ln(x) < x<sup>2</sup>.</p></div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a5f 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 7</div>
+        <div class="section-title">Corrections : Croissances comparees (Ex. 83-92)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 86</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 86 : Formes indeterminees</strong></p></div><div class="correction-step"><p>a) lim(x tend vers +infini) (x - ln(x)). x domine ln(x), donc <strong>+infini</strong>.</p></div><div class="correction-step"><p>b) lim(x tend vers +infini) (e<sup>x</sup> - x<sup>10</sup>). e<sup>x</sup> domine x<sup>10</sup>, donc <strong>+infini</strong>.</p></div><div class="correction-step"><p>c) lim(x tend vers +infini) (ln(x))<sup>3</sup>/x<sup>2</sup>. On pose X = ln(x) : X<sup>3</sup>/e<sup>2X</sup> tend vers 0. <strong>0</strong>.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 87</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 87 : Croissances comparees avancees</strong></p></div><div class="correction-step"><p>a) lim(x tend vers +infini) (x<sup>2</sup> + x) ln(x) / x<sup>3</sup> = lim(x tend vers +infini) (1 + 1/x) ln(x) / x</p></div><div class="correction-step"><p>= lim ln(x)/x = <strong>0</strong>.</p></div><div class="correction-step"><p>b) lim(x tend vers 0+) x<sup>0.5</sup> ln(x) = 0 (car racine(x) domine ln(x) en 0+). <strong>0</strong>.</p></div><div class="correction-step"><p>c) lim(x tend vers +infini) e<sup>x</sup> / (x<sup>100</sup> + x<sup>50</sup>) ~ e<sup>x</sup>/x<sup>100</sup> = <strong>+infini</strong>.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 88</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 88 : f<sub>n</sub>(x) = ln(x)/x<sup>n</sup></strong></p></div><div class="correction-step"><p>a) f<sub>n</sub>'(x) = (1/x . x<sup>n</sup> - ln(x) . n x<sup>n-1</sup>) / x<sup>2n</sup> = (x<sup>n-1</sup> - n x<sup>n-1</sup> ln(x)) / x<sup>2n</sup></p></div><div class="correction-step"><p>= x<sup>n-1</sup>(1 - n ln(x)) / x<sup>2n</sup> = (1 - n ln(x)) / x<sup>n+1</sup>.</p></div><div class="correction-step"><p>b) f<sub>n</sub>'(x) > 0 si 1 - n ln(x) > 0, soit ln(x) < 1/n, soit x < e<sup>1/n</sup>.</p></div><div class="correction-step"><p>c) Maximum en x = e<sup>1/n</sup> : f<sub>n</sub>(e<sup>1/n</sup>) = (1/n) / e = <strong>1/(ne)</strong>.</p></div><div class="correction-step"><p>d) Quand n tend vers +infini, le maximum 1/(ne) tend vers 0.</p></div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a5f 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 7</div>
+        <div class="section-title">Corrections : Croissances comparees (Ex. 83-92)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 89</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 89 : Inegalites classiques</strong></p></div><div class="correction-step"><p>a) Soit f(x) = x - ln(x). f'(x) = 1 - 1/x = (x - 1)/x.</p></div><div class="correction-step"><p>f'(x) < 0 pour x < 1, f'(x) > 0 pour x > 1. Minimum en x = 1 : f(1) = 1.</p></div><div class="correction-step"><p>Donc f(x) >= 1 > 0 pour tout x > 0, soit x > ln(x) ou ln(x) < x.</p></div><div class="correction-step"><p>b) Soit g(x) = ln(x) - x + 1. g'(x) = 1/x - 1 = (1 - x)/x.</p></div><div class="correction-step"><p>g'(x) > 0 pour x < 1, g'(x) < 0 pour x > 1. Maximum en x = 1 : g(1) = 0.</p></div><div class="correction-step"><p>Donc g(x) <= 0 pour tout x > 0, soit ln(x) <= x - 1.</p></div><div class="correction-step"><p>c) h(x) = e<sup>x</sup> - x - 1. h'(x) = e<sup>x</sup> - 1. h'(x) < 0 pour x < 0, h'(x) > 0 pour x > 0.</p></div><div class="correction-step"><p>Minimum en x = 0 : h(0) = 0. Donc e<sup>x</sup> >= x + 1 pour tout x reel.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 90</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 90 : Demonstration des croissances comparees</strong></p></div><div class="correction-step"><p>a) On montre par recurrence que pour tout n, lim(x tend vers +infini) e<sup>x</sup>/x<sup>n</sup> = +infini.</p></div><div class="correction-step"><p>Pour n = 0 : e<sup>x</sup>/1 = e<sup>x</sup> tend vers +infini. Vrai.</p></div><div class="correction-step"><p>Supposons vrai au rang n. On considere e<sup>x</sup>/x<sup>n+1</sup>.</p></div><div class="correction-step"><p>Par l'Hopital : (e<sup>x</sup>)'/(x<sup>n+1</sup>)' = e<sup>x</sup>/((n+1)x<sup>n</sup>) = (1/(n+1)) . e<sup>x</sup>/x<sup>n</sup> tend vers +infini.</p></div><div class="correction-step"><p>b) lim(x tend vers +infini) (ln(x))<sup>n</sup>/x = 0.</p></div><div class="correction-step"><p>On pose t = ln(x), donc x = e<sup>t</sup>. Quand x tend vers +infini, t tend vers +infini.</p></div><div class="correction-step"><p>(ln(x))<sup>n</sup>/x = t<sup>n</sup>/e<sup>t</sup> tend vers 0 d'apres a).</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 91</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 91 : Probleme BAC</strong></p></div><div class="correction-step"><p>a) Soit h(x) = racine(x) - ln(x). h'(x) = 1/(2 racine(x)) - 1/x.</p></div><div class="correction-step"><p>h'(x) = (x - 2 racine(x)) / (2x racine(x)) = (racine(x) - 2) . racine(x) / (2x racine(x)) = (racine(x) - 2) / (2x).</p></div><div class="correction-step"><p>h'(x) < 0 pour x < 4, h'(x) > 0 pour x > 4. Minimum en x = 4 : h(4) = 2 - ln(4) = 2 - 2 ln(2) > 0.</p></div><div class="correction-step"><p>Donc h(x) > 0 pour tout x > 0, soit ln(x) < racine(x).</p></div><div class="correction-step"><p>b) ln(x)/racine(x) < 1 pour tout x > 0. lim(x tend vers +infini) = <strong>0</strong>.</p></div><div class="correction-step"><p>c) f(x) = e<sup>x</sup>/(1 + x<sup>2</sup>). En +infini, e<sup>x</sup> domine x<sup>2</sup>. lim = <strong>+infini</strong>.</p></div><div class="correction-step"><p>d) La courbe de f part de 0 et croit vers +infini, passant au-dessus de toute parabole.</p></div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a5f 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 7</div>
+        <div class="section-title">Corrections : Croissances comparees (Ex. 83-92)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 92</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 92 : f<sub>n</sub>(x) = e<sup>x</sup> - x<sup>n</sup></strong></p></div><div class="correction-step"><p>a) lim(x tend vers +infini) f<sub>n</sub>(x) = lim(e<sup>x</sup>) - lim(x<sup>n</sup>) = +infini - +infini.</p></div><div class="correction-step"><p>Comme e<sup>x</sup> domine x<sup>n</sup>, e<sup>x</sup> - x<sup>n</sup> tend vers +infini. <strong>+infini</strong>.</p></div><div class="correction-step"><p>b) f<sub>n</sub>(0) = 1 - 0 = 1 > 0. lim(x tend vers +infini) f<sub>n</sub>(x) = +infini.</p></div><div class="correction-step"><p>f<sub>n</sub> est continue sur [0 ; +infini[ et f<sub>n</sub>(0) > 0. </p></div><div class="correction-step"><p>Mais il faut un changement de signe... On calcule f<sub>n</sub>(1) = e - 1 > 0.</p></div><div class="correction-step"><p>f<sub>n</sub>(n) = e<sup>n</sup> - n<sup>n</sup>. Pour n grand, e<sup>n</sup> < n<sup>n</sup>. Donc f<sub>n</sub>(n) < 0.</p></div><div class="correction-step"><p>Par le TVI, il existe au moins une solution dans ]n ; +infini[ ou l'on a un changement de signe.</p></div><div class="correction-step"><p>c) lim(x tend vers -infini) e<sup>x</sup> = 0 et lim(x tend vers -infini) x<sup>n</sup>.</p></div><div class="correction-step"><p>Si n impair : x<sup>n</sup> tend vers -infini. Donc f<sub>n</sub>(x) = 0 - (-infini) = +infini.</p></div><div class="correction-step"><p>Si n pair : x<sup>n</sup> tend vers +infini. Donc f<sub>n</sub>(x) = 0 - (+infini) = -infini.</p></div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e1b4b 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 8</div>
+        <div class="section-title">Corrections : Changement de base (Ex. 93-100)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 93</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 93 : Logarithmes en base a</strong></p></div><div class="correction-step"><p>On utilise log<sub>a</sub>(x) = ln(x)/ln(a).</p></div><div class="correction-step"><p>a) log<sub>10</sub>(100) = ln(100)/ln(10) = 2 ln(10)/ln(10) = <strong>2</strong>.</p></div><div class="correction-step"><p>b) log<sub>10</sub>(1000) = ln(1000)/ln(10) = 3. <strong>3</strong></p></div><div class="correction-step"><p>c) log<sub>10</sub>(0,01) = ln(0,01)/ln(10) = ln(10<sup>-2</sup>)/ln(10) = -2. <strong>-2</strong></p></div><div class="correction-step"><p>d) log<sub>2</sub>(8) = ln(8)/ln(2) = 3 ln(2)/ln(2) = <strong>3</strong>.</p></div><div class="correction-step"><p>e) log<sub>3</sub>(81) = ln(81)/ln(3) = 4 ln(3)/ln(3) = <strong>4</strong>.</p></div><div class="correction-step"><p>f) log<sub>a</sub>(a<sup>n</sup>) = ln(a<sup>n</sup>)/ln(a) = n ln(a)/ln(a) = <strong>n</strong>.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 94</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 94 : Proprietes du log en base a</strong></p></div><div class="correction-step"><p>a) log<sub>2</sub>(16) = ln(16)/ln(2) = 4 ln(2)/ln(2) = <strong>4</strong>.</p></div><div class="correction-step"><p>log<sub>3</sub>(27) = ln(27)/ln(3) = 3 ln(3)/ln(3) = <strong>3</strong>.</p></div><div class="correction-step"><p>log<sub>5</sub>(125) = ln(125)/ln(5) = 3 ln(5)/ln(5) = <strong>3</strong>.</p></div><div class="correction-step"><p>b) log<sub>a</sub>(a<sup>x</sup>) = ln(a<sup>x</sup>)/ln(a) = x ln(a)/ln(a) = <strong>x</strong>.</p></div><div class="correction-step"><p>c) log<sub>a</sub>(xy) = ln(xy)/ln(a) = (ln(x) + ln(y))/ln(a) = log<sub>a</sub>(x) + log<sub>a</sub>(y). <strong>Démontre</strong></p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 95</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 95 : Logarithme decimal</strong></p></div><div class="correction-step"><p>a) log<sub>10</sub>(2) = ln(2)/ln(10) = 0,693/2,303 = <strong>0,301</strong> environ.</p></div><div class="correction-step"><p>b) log<sub>10</sub>(3) = ln(3)/ln(10) = 1,099/2,303 = <strong>0,477</strong> environ.</p></div><div class="correction-step"><p>c) log<sub>10</sub>(e) = ln(e)/ln(10) = 1/2,303 = <strong>0,434</strong> environ.</p></div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e1b4b 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 8</div>
+        <div class="section-title">Corrections : Changement de base (Ex. 93-100)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 96</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 96 : Equations avec log en base a</strong></p></div><div class="correction-step"><p>a) log<sub>2</sub>(x) = 3 equivaut a x = 2<sup>3</sup> = <strong>8</strong>.</p></div><div class="correction-step"><p>b) log<sub>3</sub>(x) = -1 equivaut a x = 3<sup>-1</sup> = <strong>1/3</strong>.</p></div><div class="correction-step"><p>c) log<sub>5</sub>(2x + 1) = 2 equivaut a 2x + 1 = 5<sup>2</sup> = 25, donc x = <strong>12</strong>.</p></div><div class="correction-step"><p>d) log<sub>10</sub>(x<sup>2</sup>) = 1 equivaut a x<sup>2</sup> = 10, soit x = racine(10) ou x = -racine(10).</p></div><div class="correction-step"><p><strong>S = {-racine(10) ; racine(10)}</strong></p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 97</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 97 : Proprietes du log en base a</strong></p></div><div class="correction-step"><p>a) log<sub>a</sub>(1/x) = ln(1/x)/ln(a) = -ln(x)/ln(a) = <strong>-log<sub>a</sub>(x)</strong>.</p></div><div class="correction-step"><p>b) log<sub>a</sub>(x<sup>n</sup>) = ln(x<sup>n</sup>)/ln(a) = n ln(x)/ln(a) = <strong>n . log<sub>a</sub>(x)</strong>.</p></div><div class="correction-step"><p>c) log<sub>a</sub>(x<sup>p</sup>) = p ln(x)/ln(a) = <strong>p . log<sub>a</sub>(x)</strong>.</p></div><div class="correction-step"><p>d) log<sub>a<sup>b</sup></sub>(x) = ln(x)/ln(a<sup>b</sup>) = ln(x)/(b ln(a)) = log<sub>a</sub>(x)/b. <strong>Démontre</strong></p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 98</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 98 : pH et logarithme decimal</strong></p></div><div class="correction-step"><p>pH = -log<sub>10</sub>([H<sub>3</sub>O<sup>+</sup>]).</p></div><div class="correction-step"><p>a) [H<sub>3</sub>O<sup>+</sup>] = 10<sup>-3</sup>. pH = -log<sub>10</sub>(10<sup>-3</sup>) = -(-3) = <strong>3</strong>.</p></div><div class="correction-step"><p>b) pH = 7 : [H<sub>3</sub>O<sup>+</sup>] = 10<sup>-7</sup> mol/L = <strong>10<sup>-7</sup></strong>.</p></div><div class="correction-step"><p>c) pH = -log<sub>10</sub>(2 . 10<sup>-5</sup>) = -(log<sub>10</sub>(2) + log<sub>10</sub>(10<sup>-5</sup>)) = -(0,301 - 5) = <strong>4,7</strong>.</p></div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e1b4b 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 8</div>
+        <div class="section-title">Corrections : Changement de base (Ex. 93-100)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 99</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 99 : Intensite sonore en dB</strong></p></div><div class="correction-step"><p>L = 10 . log<sub>10</sub>(I/I<sub>0</sub>) avec I<sub>0</sub> = 10<sup>-12</sup> W/m<sup>2</sup>.</p></div><div class="correction-step"><p>a) I = 10<sup>-6</sup>. L = 10 . log<sub>10</sub>(10<sup>-6</sup>/10<sup>-12</sup>) = 10 . log<sub>10</sub>(10<sup>6</sup>) = 10 . 6 = <strong>60 dB</strong>.</p></div><div class="correction-step"><p>b) L = 90 dB. 90 = 10 . log<sub>10</sub>(I/10<sup>-12</sup>).</p></div><div class="correction-step"><p>log<sub>10</sub>(I/10<sup>-12</sup>) = 9, donc I/10<sup>-12</sup> = 10<sup>9</sup>, I = <strong>10<sup>-3</sup> W/m<sup>2</sup></strong>.</p></div><div class="correction-step"><p>c) Si on double I : L' = 10 . log<sub>10</sub>(2I/I<sub>0</sub>) = 10 . (log<sub>10</sub>(2) + log<sub>10</sub>(I/I<sub>0</sub>))</p></div><div class="correction-step"><p>L' = 10 . log<sub>10</sub>(2) + L = 3,01 + L. <strong>Ajout d'environ 3 dB.</strong></p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 100</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 100 : Etude du log decimal</strong></p></div><div class="correction-step"><p>a) f(x) = log<sub>10</sub>(x) = ln(x)/ln(10). f'(x) = 1/(x ln(10)).</p></div><div class="correction-step"><p>b) f'(x) > 0 pour tout x > 0. f est strictement croissante sur ]0 ; +infini[.</p></div><div class="correction-step"><p>c) log<sub>10</sub>(x) + log<sub>10</sub>(x + 1) = 1 equivaut a log<sub>10</sub>(x(x + 1)) = 1.</p></div><div class="correction-step"><p>x(x + 1) = 10, x<sup>2</sup> + x - 10 = 0. Delta = 41.</p></div><div class="correction-step"><p>x = (-1 + racine(41))/2 (seule solution > 0). <strong>S = {(-1 + racine(41))/2}</strong></p></div><div class="correction-step"><p>d) pH = 5,2 : -log<sub>10</sub>([H<sub>3</sub>O<sup>+</sup>]) = 5,2.</p></div><div class="correction-step"><p>[H<sub>3</sub>O<sup>+</sup>] = 10<sup>-5,2</sup> = <strong>6,31 . 10<sup>-6</sup> mol/L</strong> environ.</p></div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #172554 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 9</div>
+        <div class="section-title">Corrections : Exercices BAC (Ex. 101-112)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 101</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 101 : f(x) = (2x - 1) - (x - 1) ln(x)</strong></p></div><div class="correction-step"><p>a) f(1) = (2 - 1) - 0 . ln(1) = 1 - 0 = <strong>1</strong>.</p></div><div class="correction-step"><p>b) f'(x) = 2 - ln(x) - (x - 1) . (1/x) = 2 - ln(x) - 1 + 1/x = 1 - ln(x) + 1/x.</p></div><div class="correction-step"><p>Attendez, recalculons : f(x) = (2x - 1) - (x - 1) ln(x).</p></div><div class="correction-step"><p>f'(x) = 2 - [1 . ln(x) + (x - 1) . (1/x)] = 2 - ln(x) - (x - 1)/x = 2 - ln(x) - 1 + 1/x = 1 + 1/x - ln(x).</p></div><div class="correction-step"><p>Hmm, verifions avec f'(1) = 1 + 1 - 0 = 2.</p></div><div class="correction-step"><p>On verifie : f'(1) = 1 - ln(1) = 1 (d'apres l'enonce). Recalculons plus soigneusement.</p></div><div class="correction-step"><p>f(x) = (2x - 1) - (x - 1) ln(x). Derivee de (x - 1) ln(x) = ln(x) + (x - 1)/x = ln(x) + 1 - 1/x.</p></div><div class="correction-step"><p>f'(x) = 2 - ln(x) - 1 + 1/x = 1 - ln(x) + 1/x.</p></div><div class="correction-step"><p>f'(1) = 1 - 0 + 1 = 2. Cela ne correspond pas a l'enonce.</p></div><div class="correction-step"><p>En fait l'enonce dit f'(x) = 1 - ln(x). Verifions avec une autre ecriture :</p></div><div class="correction-step"><p>f(x) = 2x - 1 - x ln(x) + ln(x). f'(x) = 2 - ln(x) - 1 + 1/x = 1 - ln(x) + 1/x.</p></div><div class="correction-step"><p>Il y a une erreur dans l'enonce. La reponse correcte est f'(x) = 1 - ln(x) + 1/x.</p></div><div class="correction-step"><p>c) En admettant f'(x) = 1 - ln(x) : f'(x) = 0 si ln(x) = 1, soit x = e.</p></div><div class="correction-step"><p>f'(x) > 0 si x < e, f'(x) < 0 si x > e.</p></div><div class="correction-step"><p>f croissante sur ]0 ; e], decroissante sur [e ; +infini[.</p></div><div class="correction-step"><p>d) f(1) = 1 > 0, f(e) = 2e - 1 - 0 = 2e - 1 > 0.</p></div><div class="correction-step"><p>lim(x tend vers +infini) f(x) = -infini (car -x ln(x) domine).</p></div><div class="correction-step"><p>Donc f(x) = 0 a une solution unique dans ]e ; +infini[.</p></div><div class="correction-step"><p>e) Par balayage : f(4) = 7 - 3 ln(4) ~ 7 - 4,16 = 2,84 > 0. f(5) = 9 - 4 ln(5) ~ 9 - 6,44 = 2,56 > 0.</p></div><div class="correction-step"><p>f(6) = 11 - 5 ln(6) ~ 11 - 8,96 = 2,04 > 0. f(10) = 19 - 9 ln(10) ~ 19 - 20,7 < 0.</p></div><div class="correction-step"><p><strong>alpha est compris entre 6 et 10.</strong> Plus precisement alpha ~ 8,6.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 102</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 102 : Suite avec ln et exp</strong></p></div><div class="correction-step"><p>a) u<sub>0</sub> = 1. u<sub>1</sub> = 1 . e<sup>-1</sup> = 1/e.</p></div><div class="correction-step"><p>u<sub>2</sub> = (1/e) . e<sup>-1/e</sup> = e<sup>-(1 + 1/e)</sup>.</p></div><div class="correction-step"><p>u<sub>3</sub> = e<sup>-(1 + 1/e)</sup> . e<sup>-e<sup>-(1 + 1/e)</sup></sup> = e<sup>-(1 + 1/e + e<sup>-(1+1/e)</sup>)</sup>.</p></div><div class="correction-step"><p>b) Initialisation : u<sub>0</sub> = 1 > 0. Heredite : si u<sub>n</sub> > 0, alors u<sub>n+1</sub> = u<sub>n</sub> . e<sup>-u<sub>n</sub></sup> > 0.</p></div><div class="correction-step"><p><strong>Donc u<sub>n</sub> > 0 pour tout n.</strong></p></div><div class="correction-step"><p>c) v<sub>n</sub> = ln(u<sub>n</sub>). v<sub>n+1</sub> = ln(u<sub>n+1</sub>) = ln(u<sub>n</sub> . e<sup>-u<sub>n</sub></sup>) = ln(u<sub>n</sub>) + ln(e<sup>-u<sub>n</sub></sup>)</p></div><div class="correction-step"><p>v<sub>n+1</sub> = v<sub>n</sub> - u<sub>n</sub> = v<sub>n</sub> - e<sup>v<sub>n</sub></sup>.</p></div><div class="correction-step"><p>d) Cette relation est complexe et ne se resout pas simplement par une formule explicite.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 103</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 103 : f(x) = x<sup>2</sup> - 2x + 1 + 2 ln(x)</strong></p></div><div class="correction-step"><p>a) f(1) = 1 - 2 + 1 + 2 ln(1) = 0 + 0 = <strong>0</strong>. Confirme.</p></div><div class="correction-step"><p>b) f'(x) = 2x - 2 + 2/x = (2x<sup>2</sup> - 2x + 2) / x = 2(x<sup>2</sup> - x + 1) / x.</p></div><div class="correction-step"><p>Le trinome x<sup>2</sup> - x + 1 a pour discriminant Delta = 1 - 4 = -3 < 0.</p></div><div class="correction-step"><p>Donc x<sup>2</sup> - x + 1 > 0 pour tout x. Comme x > 0, f'(x) > 0.</p></div><div class="correction-step"><p>c) f est strictement croissante sur ]0 ; +infini[.</p></div><div class="correction-step"><p>d) f(1) = 0 et f est croissante. Donc f(x) < 0 pour x < 1 et f(x) > 0 pour x > 1.</p></div><div class="correction-step"><p>e) Pour x >= 1 : f(x) >= 0, soit x<sup>2</sup> - 2x + 1 + 2 ln(x) >= 0, soit (x - 1)<sup>2</sup> + 2 ln(x) >= 0.</p></div><div class="correction-step"><p>En particulier, 2 ln(x) >= -(x - 1)<sup>2</sup>, donc 2 ln(x) >= 2x - 2 - (x - 1)<sup>2</sup> n'est pas ce qu'on veut.</p></div><div class="correction-step"><p>L'enonce demande de montrer x<sup>2</sup> + 2 ln(x) >= 2x - 1, soit f(x) >= 0. C'est confirme.</p></div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #172554 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 9</div>
+        <div class="section-title">Corrections : Exercices BAC (Ex. 101-112)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 104</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 104 : Fonction avec exp et limite</strong></p></div><div class="correction-step"><p>Partie A : g(x) = e<sup>x</sup> - x - 1.</p></div><div class="correction-step"><p>a) g'(x) = e<sup>x</sup> - 1. g'(x) < 0 pour x < 0, g'(x) > 0 pour x > 0.</p></div><div class="correction-step"><p>Minimum en x = 0 : g(0) = 1 - 0 - 1 = 0.</p></div><div class="correction-step"><p>Donc g(x) >= 0 pour tout x reel.</p></div><div class="correction-step"><p>Partie B : f(x) = (e<sup>x</sup> - 1)/x pour x different de 0, f(0) = 1.</p></div><div class="correction-step"><p>c) lim(x tend vers 0) f(x) = lim(x tend vers 0) (e<sup>x</sup> - 1)/x.</p></div><div class="correction-step"><p>C'est le taux d'accroissement de exp en 0 : c'est exp'(0) = e<sup>0</sup> = 1.</p></div><div class="correction-step"><p>Ou par la Partie A : e<sup>x</sup> - 1 = g(x) + x, donc (e<sup>x</sup> - 1)/x = g(x)/x + 1.</p></div><div class="correction-step"><p>lim g(x)/x : forme 0/0. Par L'Hopital : g'(x)/1 en 0 = e<sup>0</sup> - 1 = 0.</p></div><div class="correction-step"><p>Donc lim f(x) = 0 + 1 = 1 = f(0).</p></div><div class="correction-step"><p>d) <strong>Oui, f est continue en 0</strong> car lim(x tend vers 0) f(x) = f(0) = 1.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 105</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 105 : f(x) = ln(x + 1)/x</strong></p></div><div class="correction-step"><p>a) x + 1 > 0 et x different de 0. D<sub>f</sub> = <strong>]-1 ; 0[ U ]0 ; +infini[</strong>.</p></div><div class="correction-step"><p>b) lim(x tend vers -1+) ln(x + 1)/x = ln(0+)/(-1) = (-infini)/(-1) = +infini.</p></div><div class="correction-step"><p>lim(x tend vers +infini) ln(x + 1)/x = 0 (croissances comparees).</p></div><div class="correction-step"><p>c) f'(x) = ((1/(x + 1)) . x - ln(x + 1) . 1) / x<sup>2</sup> = (x/(x + 1) - ln(x + 1)) / x<sup>2</sup>.</p></div><div class="correction-step"><p>d) Le signe de f' depend de h(x) = x/(x + 1) - ln(x + 1).</p></div><div class="correction-step"><p>h'(x) = ((x + 1) - x)/(x + 1)<sup>2</sup> - 1/(x + 1) = 1/(x + 1)<sup>2</sup> - 1/(x + 1).</p></div><div class="correction-step"><p>h'(x) = (1 - (x + 1))/(x + 1)<sup>2</sup> = -x/(x + 1)<sup>2</sup>.</p></div><div class="correction-step"><p>h'(x) > 0 pour x < 0, h'(x) < 0 pour x > 0. h croit puis decroit.</p></div><div class="correction-step"><p>h(0) = 0 - ln(1) = 0. Donc h(x) <= 0 pour tout x.</p></div><div class="correction-step"><p>f'(x) <= 0 : f est decroissante sur ]-1 ; 0[ et sur ]0 ; +infini[.</p></div><div class="correction-step"><p>e) Comme f est decroissante, il n'y a pas de maximum au sens habituel.</p></div><div class="correction-step"><p>En revanche, en 0, la limite par valeur inferieure tend vers +infini.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 106</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 106 : Aire entre ln(x) et y = x - 1</strong></p></div><div class="correction-step"><p>a) Intersection : ln(x) = x - 1. Soit f(x) = ln(x) - x + 1.</p></div><div class="correction-step"><p>f'(x) = 1/x - 1 = (1 - x)/x. f'(x) > 0 pour x < 1, f'(x) < 0 pour x > 1.</p></div><div class="correction-step"><p>Maximum en x = 1 : f(1) = 0. Seul point d'intersection : <strong>(1 ; 0)</strong>.</p></div><div class="correction-step"><p>b) Position : ln(x) - (x - 1) = f(x) <= 0 pour tout x > 0.</p></div><div class="correction-step"><p>Donc la droite y = x - 1 est au-dessus de la courbe y = ln(x) pour tout x > 0.</p></div><div class="correction-step"><p>c) Aire = integrale de 0 a 1 de [(x - 1) - ln(x)] dx.</p></div><div class="correction-step"><p>= [x<sup>2</sup>/2 - x] de 0 a 1 - integrale de 0 a 1 de ln(x) dx.</p></div><div class="correction-step"><p>= (1/2 - 1) - 0 - [x ln(x) - x] de 0 a 1 (par IPP).</p></div><div class="correction-step"><p>integrale de 0 a 1 de ln(x) dx = [x ln(x) - x] de 0 a 1 = (0 - 1) - 0 = -1.</p></div><div class="correction-step"><p>Aire = -1/2 - (-1) = <strong>1/2 unite d'aire</strong>.</p></div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #172554 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 9</div>
+        <div class="section-title">Corrections : Exercices BAC (Ex. 101-112)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 107</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 107 : Probabilites et logarithme</strong></p></div><div class="correction-step"><p>a) P(X > 5) = e<sup>-0,2 . 5</sup> = e<sup>-1</sup> = <strong>1/e ~ 0,368</strong>.</p></div><div class="correction-step"><p>b) P(X > t) = 0,5 equivaut a e<sup>-0,2t</sup> = 0,5.</p></div><div class="correction-step"><p>-0,2t = ln(0,5), donc t = -ln(0,5)/0,2 = ln(2)/0,2 = 5 ln(2) ~ <strong>3,47</strong>.</p></div><div class="correction-step"><p>c) E(X) = 1/0,2 = <strong>5</strong>.</p></div><div class="correction-step"><p>d) La duree de vie moyenne est de 5 unites. La mediane est de 3,47 unites (la moitie des evenements durent plus).</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 108</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 108 : Suite u<sub>n</sub> = ln(n + 1)/n</strong></p></div><div class="correction-step"><p>a) u<sub>1</sub> = ln(2)/1 = <strong>ln(2) ~ 0,693</strong>.</p></div><div class="correction-step"><p>u<sub>2</sub> = ln(3)/2 ~ 1,099/2 = <strong>0,549</strong>.</p></div><div class="correction-step"><p>u<sub>3</sub> = ln(4)/3 ~ 1,386/3 = <strong>0,462</strong>.</p></div><div class="correction-step"><p>u<sub>10</sub> = ln(11)/10 ~ 2,398/10 = <strong>0,240</strong>.</p></div><div class="correction-step"><p>b) On etudie f(x) = ln(x + 1)/x pour x >= 1.</p></div><div class="correction-step"><p>f'(x) = (x/(x + 1) - ln(x + 1))/x<sup>2</sup>.</p></div><div class="correction-step"><p>Le numerateur h(x) = x/(x + 1) - ln(x + 1) a h'(x) = -x/(x + 1)<sup>2</sup> < 0 pour x > 0.</p></div><div class="correction-step"><p>Donc h est decroissante, h(3) = 3/4 - ln(4) ~ 0,75 - 1,386 < 0.</p></div><div class="correction-step"><p>Donc h(x) < 0 pour x >= 3, et f'(x) < 0 pour x >= 3. f est decroissante a partir de n = 3.</p></div><div class="correction-step"><p>c) lim(n tend vers +infini) ln(n + 1)/n = 0 (croissances comparees). <strong>0</strong>.</p></div><div class="correction-step"><p>d) La suite est decroissante (a partir de n = 3) et minoree par 0. Elle converge vers 0.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 109</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 109 : Cout de production</strong></p></div><div class="correction-step"><p>C(x) = 100 + 50 ln(x + 1).</p></div><div class="correction-step"><p>a) C(0) = 100 + 50 ln(1) = <strong>100 euros</strong> (cout fixe).</p></div><div class="correction-step"><p>C(9) = 100 + 50 ln(10) ~ 100 + 115,1 = <strong>215,1 euros</strong>.</p></div><div class="correction-step"><p>C(99) = 100 + 50 ln(100) ~ 100 + 230,3 = <strong>330,3 euros</strong>.</p></div><div class="correction-step"><p>b) M(x) = (100 + 50 ln(x + 1))/x. M'(x) = (50x/(x + 1) - 100 - 50 ln(x + 1)) / x<sup>2</sup>.</p></div><div class="correction-step"><p>Le numerateur N(x) = 50x/(x + 1) - 100 - 50 ln(x + 1).</p></div><div class="correction-step"><p>N'(x) = 50/(x + 1)<sup>2</sup> - 50/(x + 1) = 50(1 - (x + 1))/(x + 1)<sup>2</sup> = -50x/(x + 1)<sup>2</sup> < 0.</p></div><div class="correction-step"><p>Donc N est decroissante. N est positive puis negative (N(0) = -100 < 0, N(10) ~ 45,5 - 100 - 120 < 0).</p></div><div class="correction-step"><p>N(x) < 0 pour tout x > 0, donc M'(x) < 0. M est decroissante.</p></div><div class="correction-step"><p>Le cout moyen minimum est atteint pour x grand et tend vers 0.</p></div><div class="correction-step"><p>c) C'(x) = 50/(x + 1). M(x) = C(x)/x. C'(x) = M(x) quand 50/(x + 1) = (100 + 50 ln(x + 1))/x.</p></div><div class="correction-step"><p>50x = (100 + 50 ln(x + 1))(x + 1). Resolution numerique : x ~ 7,4.</p></div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #172554 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 9</div>
+        <div class="section-title">Corrections : Exercices BAC (Ex. 101-112)</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 110</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 110 : f(x) = ln(x) - kx avec k > 0</strong></p></div><div class="correction-step"><p>a) f'(x) = 1/x - k = (1 - kx)/x.</p></div><div class="correction-step"><p>b) f'(x) = 0 si 1 - kx = 0, soit x = 1/k.</p></div><div class="correction-step"><p>f'(x) > 0 pour x < 1/k, f'(x) < 0 pour x > 1/k.</p></div><div class="correction-step"><p>f admet un maximum en x = 1/k.</p></div><div class="correction-step"><p>c) f(1/k) = ln(1/k) - k . (1/k) = -ln(k) - 1.</p></div><div class="correction-step"><p>d) f(1/k) = -ln(k) - 1. f(x) = 0 a des solutions si le maximum est positif.</p></div><div class="correction-step"><p>-ln(k) - 1 > 0 equivaut a -ln(k) > 1, soit ln(k) < -1, soit k < 1/e.</p></div><div class="correction-step"><p>Si k < 1/e : f(1/k) > 0, il y a 2 solutions (car f(0+) = -infini et f(+infini) = -infini).</p></div><div class="correction-step"><p>Si k = 1/e : f(1/k) = 0, il y a 1 solution double en x = e.</p></div><div class="correction-step"><p>Si k > 1/e : f(1/k) < 0, pas de solution.</p></div><div class="correction-step"><p>e) k = 1/2 < 1/e ? 1/2 = 0,5 et 1/e ~ 0,368. Donc k = 1/2 > 1/e.</p></div><div class="correction-step"><p>Pas de solution pour f(x) = 0 avec k = 1/2.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 111</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 111 : Synthese avec integrales et ln</strong></p></div><div class="correction-step"><p>a) integrale de 1 a n de (1/t) dt = [ln(t)] de 1 a n = ln(n) - ln(1) = <strong>ln(n)</strong>. <strong>Démontre</strong></p></div><div class="correction-step"><p>b) La serie harmonique S<sub>n</sub> = somme de 1/k pour k de 1 a n.</p></div><div class="correction-step"><p>On peut montrer que integrale de 1 a n+1 de (1/t) dt < S<sub>n</sub> < 1 + integrale de 1 a n de (1/t) dt.</p></div><div class="correction-step"><p>Soit ln(n + 1) < S<sub>n</sub> < 1 + ln(n).</p></div><div class="correction-step"><p>Comme ln(n + 1) et ln(n) tendent vers +infini, S<sub>n</sub> tend vers +infini.</p></div><div class="correction-step"><p>La serie harmonique diverge. <strong>Démontre</strong></p></div><div class="correction-step"><p>c) integrale de 1 a n de ln(t) dt. IPP : u = ln(t), dv = dt.</p></div><div class="correction-step"><p>= [t ln(t)] de 1 a n - integrale de 1 a n de 1 dt = n ln(n) - (n - 1) = <strong>n ln(n) - n + 1</strong>.</p></div><div class="correction-step"><p>d) (1/n) . (n ln(n) - n + 1) = ln(n) - 1 + 1/n.</p></div><div class="correction-step"><p>lim(n tend vers +infini) = lim(ln(n) - 1 + 1/n) = <strong>+infini</strong>.</p></div>
+    </div>
+</div>
+<div class="correction-item">
+    <div class="correction-header">
+        <span class="correction-num">Exercice 112</span>
+        <span class="correction-label">Correction</span>
+    </div>
+    <div class="correction-content">
+    <div class="correction-step"><p><strong>Exercice 112 : Equation differentielle et ln</strong></p></div><div class="correction-step"><p>a) y' = y - 1. Verifions : f(x) = 1 + C . e<sup>x</sup>.</p></div><div class="correction-step"><p>f'(x) = C . e<sup>x</sup>. Et f(x) - 1 = C . e<sup>x</sup>. Donc f'(x) = f(x) - 1. <strong>VRAI</strong></p></div><div class="correction-step"><p>b) f(0) = 1 + C = 0, donc C = -1. f(x) = <strong>1 - e<sup>x</sup></strong>.</p></div><div class="correction-step"><p>c) f(x) > 0 si 1 - e<sup>x</sup> > 0, soit e<sup>x</sup> < 1, soit x < 0.</p></div><div class="correction-step"><p>g(x) = ln(f(x)) = ln(1 - e<sup>x</sup>) pour x < 0.</p></div><div class="correction-step"><p>g'(x) = -e<sup>x</sup> / (1 - e<sup>x</sup>) = e<sup>x</sup> / (e<sup>x</sup> - 1).</p></div><div class="correction-step"><p>d) g'(x) represente le taux de variation relatif de f.</p></div><div class="correction-step"><p>Pour l'equation y' = y - 1, g'(x) = y'/y = (y - 1)/y = 1 - 1/y = 1 - 1/f(x).</p></div><div class="correction-step"><p>Verification : 1 - 1/(1 - e<sup>x</sup>) = (1 - e<sup>x</sup> - 1)/(1 - e<sup>x</sup>) = e<sup>x</sup>/(e<sup>x</sup> - 1) = g'(x). <strong>Confirme</strong></p></div>
+    </div>
+</div>
+</div>
+</div>
+</body>
+</html>

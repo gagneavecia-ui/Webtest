@@ -1,0 +1,1729 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=720">
+    <title>Exercices Probabilites - 110 exercices corriges</title>
+    <style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@1,500&display=swap');
+
+@page {
+    size: 720px 1020px;
+    margin: 0;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+    background: #080c18;
+    color: #d8dff0;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+}
+
+.page {
+    width: 720px;
+    min-height: 1020px;
+    padding: 60px 55px;
+    background: #080c18;
+    position: relative;
+    page-break-after: always;
+    break-after: page;
+    overflow: hidden;
+}
+
+.page:last-child { page-break-after: auto; break-after: auto; }
+
+/* === COVER / TITLE PAGE === */
+.cover {
+    padding: 0;
+    background: linear-gradient(135deg, #080c18 0%, #101830 50%, #080c18 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    position: relative;
+    min-height: 1020px;
+}
+.cover-content {
+    position: relative;
+    z-index: 2;
+    padding: 50px 55px 60px;
+}
+.cover-label {
+    color: #c9a84c;
+    font-size: 12px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 18px;
+}
+.cover-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    font-weight: 900;
+    line-height: 1.1;
+    color: #d8dff0;
+    margin-bottom: 18px;
+    letter-spacing: -1px;
+}
+.cover-title .accent { color: #c9a84c; font-style: italic; font-family: 'Cormorant Garamond', serif; font-weight: 500; }
+.cover-subtitle {
+    font-size: 15px;
+    color: #7888aa;
+    line-height: 1.6;
+    max-width: 500px;
+    margin-bottom: 30px;
+}
+.cover-divider {
+    width: 70px; height: 3px;
+    background: linear-gradient(to right, #c9a84c, #3b82f6);
+    margin-bottom: 22px;
+}
+.cover-author {
+    font-size: 13px;
+    color: #7888aa;
+    letter-spacing: 1px;
+}
+.cover-author strong { color: #d8dff0; font-weight: 600; }
+
+/* === TOC === */
+.toc-page { padding: 70px 55px; }
+.toc-header {
+    text-align: center;
+    margin-bottom: 35px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #1a2038;
+}
+.toc-label {
+    color: #c9a84c;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+.toc-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 900;
+    color: #d8dff0;
+}
+.toc-list { list-style: none; padding: 0; }
+.toc-item {
+    display: flex;
+    align-items: baseline;
+    padding: 8px 0;
+    border-bottom: 1px dotted #1a2038;
+    font-size: 13px;
+}
+.toc-num {
+    color: #3b82f6;
+    font-weight: 700;
+    font-family: 'Playfair Display', serif;
+    width: 32px;
+    flex-shrink: 0;
+}
+.toc-text { color: #d8dff0; flex: 1; }
+.toc-dots { color: #1a2038; margin: 0 6px; flex: 1; }
+.toc-page-num {
+    color: #7888aa;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+/* === SECTION PAGES (Exercise themes) === */
+.section-page { padding: 0; }
+.section-hero {
+    height: 160px;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+}
+.section-hero-gradient {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+.section-hero-pattern {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    opacity: 0.06;
+    background-size: 50px 50px;
+    background-image: radial-gradient(circle, #3b82f6 1px, transparent 1px);
+}
+.section-hero-overlay {
+    position: absolute;
+    bottom: 25px;
+    left: 55px;
+    right: 55px;
+    z-index: 2;
+}
+.section-number {
+    color: #c9a84c;
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+.section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 900;
+    color: #d8dff0;
+    line-height: 1.15;
+    letter-spacing: -0.5px;
+}
+
+.section-body {
+    padding: 30px 55px 50px;
+}
+
+/* === EXERCISE ITEM === */
+.exercise-item {
+    background: #101830;
+    border: 1px solid #1a2038;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 14px 0;
+    break-inside: avoid;
+    border-left: 3px solid #3b82f6;
+}
+.exercise-item.hard {
+    border-left-color: #ef4444;
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.05), #101830);
+}
+.exercise-item.medium {
+    border-left-color: #f97316;
+    background: linear-gradient(135deg, rgba(249, 115, 22, 0.04), #101830);
+}
+.exercise-item.bac {
+    border-left-color: #c9a84c;
+    background: linear-gradient(135deg, rgba(201, 168, 76, 0.06), #101830);
+    border-left-width: 4px;
+}
+.exercise-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+.exercise-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 900;
+    color: #3b82f6;
+}
+.exercise-diff {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 2px 8px;
+    border-radius: 3px;
+}
+.exercise-diff.facile { background: rgba(34, 197, 94, 0.2); color: #22c55e; }
+.exercise-diff.moyen { background: rgba(249, 115, 22, 0.2); color: #f97316; }
+.exercise-diff.difficile { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+.exercise-diff.bac { background: rgba(201, 168, 76, 0.2); color: #c9a84c; }
+
+.exercise-question {
+    font-size: 13px;
+    color: #a0b0cc;
+    line-height: 1.75;
+}
+.exercise-question p { color: #a0b0cc; margin-bottom: 8px; }
+.exercise-question p:last-child { margin-bottom: 0; }
+.exercise-question strong { color: #d8dff0; }
+
+.sub-question {
+    padding-left: 20px;
+    margin: 6px 0;
+    position: relative;
+    font-size: 12.5px;
+    color: #a0b0cc;
+    line-height: 1.7;
+}
+.sub-question::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 6px;
+    height: 6px;
+    background: #3b82f6;
+    border-radius: 50%;
+}
+
+/* === CORRECTION ITEMS === */
+.correction-item {
+    background: #101830;
+    border: 1px solid #1a2038;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 14px 0;
+    break-inside: avoid;
+    border-left: 3px solid #22c55e;
+}
+.correction-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+.correction-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 900;
+    color: #22c55e;
+    margin-right: 10px;
+}
+.correction-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: #22c55e;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+.correction-content {
+    font-size: 13px;
+    color: #a0b0cc;
+    line-height: 1.8;
+}
+.correction-content p { margin-bottom: 6px; }
+.correction-content p:last-child { margin-bottom: 0; }
+.correction-content strong { color: #d8dff0; }
+.correction-step {
+    padding-left: 20px;
+    margin: 4px 0;
+    position: relative;
+}
+.correction-step::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 6px;
+    height: 6px;
+    background: #22c55e;
+    border-radius: 50%;
+}
+
+.math-inline {
+    background: rgba(59, 130, 246, 0.08);
+    border: 1px solid #1a2038;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    color: #e8ecf8;
+    white-space: nowrap;
+}
+
+.formula-box {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(201, 168, 76, 0.06));
+    border: 1px solid #1a2038;
+    border-left: 4px solid #3b82f6;
+    border-radius: 10px;
+    padding: 14px 20px;
+    margin: 14px 0;
+    text-align: center;
+    break-inside: avoid;
+}
+.formula-main {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #e8ecf8;
+    line-height: 1.6;
+}
+.formula-desc {
+    font-size: 11px;
+    color: #7888aa;
+    margin-top: 6px;
+}
+
+p {
+    margin-bottom: 12px;
+    color: #a0b0cc;
+    line-height: 1.8;
+}
+p strong { color: #d8dff0; }
+
+.callout {
+    background: #101830;
+    border-radius: 10px;
+    padding: 16px 22px;
+    margin: 16px 0;
+    text-align: center;
+    border-top: 2px solid #3b82f6;
+    border-bottom: 2px solid #c9a84c;
+    break-inside: avoid;
+}
+.callout-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-style: italic;
+    color: #d8dff0;
+    line-height: 1.5;
+}
+
+.stat-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin: 18px 0;
+    break-inside: avoid;
+}
+.stat-card {
+    background: linear-gradient(135deg, #101830, #1a2038);
+    border: 1px solid #1a2038;
+    border-radius: 10px;
+    padding: 14px 10px;
+    text-align: center;
+}
+.stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 900;
+    color: #c9a84c;
+    line-height: 1;
+    margin-bottom: 5px;
+}
+.stat-label {
+    font-size: 10px;
+    color: #7888aa;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.conclusion-page {
+    background: linear-gradient(135deg, #080c18 0%, #101830 100%);
+    padding: 70px 55px;
+}
+</style>
+</head>
+<body>
+<div class="page cover">
+<div class="cover-content">
+    <div class="cover-label">Exercices et Corrections</div>
+    <div class="cover-title">Exercices de<br><span class="accent">Probabilites</span><br>Variable Aleatoire</div>
+    <div class="cover-divider"></div>
+    <div class="cover-subtitle">110 exercices corriges couvrant l'integralite du programme de Terminale D et C.</div>
+    <div class="cover-author"><strong>Programme officiel</strong> - Mathematiques Terminale</div>
+</div>
+</div>
+<div class="page">
+    <div class="stat-block">
+        <div class="stat-card"><div class="stat-number">110</div><div class="stat-label">Exercices</div></div>
+        <div class="stat-card"><div class="stat-number">10</div><div class="stat-label">Themes</div></div>
+        <div class="stat-card"><div class="stat-number">4</div><div class="stat-label">Niveaux</div></div>
+    </div>
+    <p style="text-align:center;color:#7888aa;margin-top:20px;">Facile -- Moyen -- Difficile -- BAC</p>
+</div>
+<div class="page toc-page">
+    <div class="toc-header">
+        <div class="toc-label">Table des matieres</div>
+        <div class="toc-title">Exercices</div>
+    </div>
+    <ul class="toc-list">
+    <li class="toc-item"><span class="toc-num">01</span><span class="toc-text">Vocabulaire et univers probabiliste (12 ex.)</span><span class="toc-dots">............................................................</span></li><li class="toc-item"><span class="toc-num">02</span><span class="toc-text">Denombrement et analyse combinatoire (10 ex.)</span><span class="toc-dots">............................................................</span></li><li class="toc-item"><span class="toc-num">03</span><span class="toc-text">Probabilites sur un univers fini (13 ex.)</span><span class="toc-dots">............................................................</span></li><li class="toc-item"><span class="toc-num">04</span><span class="toc-text">Probabilites conditionnelles et independance (13 ex.)</span><span class="toc-dots">............................................................</span></li><li class="toc-item"><span class="toc-num">05</span><span class="toc-text">Probabilites totales et theoreme de Bayes (12 ex.)</span><span class="toc-dots">............................................................</span></li><li class="toc-item"><span class="toc-num">06</span><span class="toc-text">Variable aleatoire et loi de probabilite (12 ex.)</span><span class="toc-dots">............................................................</span></li><li class="toc-item"><span class="toc-num">07</span><span class="toc-text">Esperance et variance (13 ex.)</span><span class="toc-dots">............................................................</span></li><li class="toc-item"><span class="toc-num">08</span><span class="toc-text">Loi binomiale (10 ex.)</span><span class="toc-dots">............................................................</span></li><li class="toc-item"><span class="toc-num">09</span><span class="toc-text">Loi de Poisson, hypergeometrique et geometrique (10 ex.)</span><span class="toc-dots">............................................................</span></li><li class="toc-item"><span class="toc-num">10</span><span class="toc-text">Exercices type BAC et synthese (5 ex.)</span><span class="toc-dots">............................................................</span></li>
+    </ul>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a5f 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 1</div>
+        <div class="section-title">Vocabulaire et univers probabiliste</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 1</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Definir l'univers Omega de chacune des experiences aleatoires suivantes :</p><div class="sub-question">On lance un de a 6 faces et on note le resultat.</div><div class="sub-question">On tire une carte d'un jeu de 32 cartes.</div><div class="sub-question">On lance une piece trois fois et on note le nombre de piles obtenus.</div><div class="sub-question">On choisit un nombre entier au hasard entre 1 et 20.</div>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 2</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>On lance deux des simultanement. L'univers Omega est l'ensemble des couples (a, b) ou a et b sont les resultats des deux des.</p><div class="sub-question">Determiner le cardinal de Omega.</div><div class="sub-question">Soit A l'evenement "la somme des deux des est 7". Determiner les issues de A.</div><div class="sub-question">Soit B l'evenement "les deux des affichent le meme nombre". Determiner les issues de B.</div>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 3</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Dans une classe de 30 eleves, on choisit un eleve au hasard. Soit A l'evenement "l'eleve est un garcon" et B l'evenement "l'eleve porte des lunettes".</p><div class="sub-question">Decrire l'evenement A inter B.</div><div class="sub-question">Decrire l'evenement A union B.</div><div class="sub-question">Decrire l'evenement A barre.</div><div class="sub-question">Decrire l'evenement A inter B barre.</div>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 4</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>On tire une carte dans un jeu de 32. Soit :</p><div class="sub-question">A = "la carte est un Roi"</div><div class="sub-question">B = "la carte est un coeur"</div><div class="sub-question">C = "la carte est une figure (Roi, Dame, Valet)"</div><p>Calculer Card(A), Card(B), Card(C), Card(A inter B), Card(A union B).</p>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 5</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Determiner si les evenements suivants sont incompatibles ou non. Justifier.</p><div class="sub-question">A = "tirer un nombre pair" et B = "tirer un nombre premier" (de 1 a 10)</div><div class="sub-question">A = "obtenir pile" et B = "obtenir face" au lancer d'une piece</div><div class="sub-question">A = "la carte est rouge" et B = "la carte est un coeur"</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a5f 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 1</div>
+        <div class="section-title">Vocabulaire et univers probabiliste</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 6</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>On lance un de equilibre. Soit A = {{1, 3, 5}} et B = {{2, 4, 6}}.</p><div class="sub-question">A et B sont-ils incompatibles ?</div><div class="sub-question">Que vaut A inter B ?</div><div class="sub-question">Que vaut A union B ?</div><div class="sub-question">Determiner A barre et B barre.</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 7</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>On choisit un nombre entier entre 1 et 100.</p><div class="sub-question">Soit A = "le nombre est divisible par 3". Combien d'elements A contient-il ?</div><div class="sub-question">Soit B = "le nombre est divisible par 5". Combien d'elements B contient-il ?</div><div class="sub-question">Combien d'elements A inter B contient-il ?</div><div class="sub-question">Verifier la formule : Card(A union B) = Card(A) + Card(B) - Card(A inter B).</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 8</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit Omega = {{a, b, c, d, e, f}} un univers a 6 elements. On considere les evenements A = {{a, b, c}} et B = {{c, d, e}}.</p><div class="sub-question">Determiner A inter B, A union B, A barre, B barre.</div><div class="sub-question">Determiner (A inter B) barre et verifier que c'est A barre union B barre.</div><div class="sub-question">Determiner (A union B) barre et verifier que c'est A barre inter B barre.</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 9</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Dans une urne contenant 5 boules rouges, 3 boules vertes et 2 boules noires, on tire une boule au hasard.</p><div class="sub-question">Definir l'univers Omega.</div><div class="sub-question">Soit R = "boule rouge", V = "boule verte", N = "boule noire". Ces evenements forment-ils un systeme complet ? Justifier.</div><div class="sub-question">Exprimer B = "tirer une boule qui n'est pas noire" en fonction de R et V.</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 10</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>On lance trois pieces simultanement. On note le resultat par un triplet (P/F, P/F, P/F).</p><div class="sub-question">Ecrire tous les evenements elementaires de Omega.</div><div class="sub-question">Soit A = "obtenir exactement deux piles". Lister les issues de A.</div><div class="sub-question">Soit B = "obtenir au moins un pile". Lister les issues de B barre.</div><div class="sub-question">Card(A) et Card(B) ?</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a5f 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 1</div>
+        <div class="section-title">Vocabulaire et univers probabiliste</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 11</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soient A, B, C trois evenements d'un univers Omega. On donne : Card(Omega) = 100, Card(A) = 40, Card(B) = 35, Card(C) = 25, Card(A inter B) = 15, Card(A inter C) = 10, Card(B inter C) = 8, Card(A inter B inter C) = 5.</p><div class="sub-question">Calculer Card(A union B union C) en utilisant la formule d'inclusion-exclusion pour 3 ensembles.</div><div class="sub-question">En deduire le nombre d'elements qui n'appartiennent a aucun des trois evenements.</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 12</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Dans un groupe de 50 personnes, 25 parlent anglais, 20 parlent espagnol, 15 parlent allemand. 8 parlent anglais et espagnol, 6 parlent anglais et allemand, 5 parlent espagnol et allemand, et 2 parlent les trois langues.</p><div class="sub-question">Combien de personnes parlent au moins une de ces langues ?</div><div class="sub-question">Combien de personnes ne parlent aucune de ces langues ?</div><div class="sub-question">Combien de personnes parlent exactement une langue ?</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e1b4b 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 2</div>
+        <div class="section-title">Denombrement et analyse combinatoire</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 13</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer les valeurs suivantes :</p><div class="sub-question">3! et 5!</div><div class="sub-question">C(6,2) et C(6,4)</div><div class="sub-question">A(7,3)</div><div class="sub-question">C(10,3)</div>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 14</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Simplifier les expressions suivantes sans les calculer completement :</p><div class="sub-question">C(n, 0)</div><div class="sub-question">C(n, 1)</div><div class="sub-question">C(n, n)</div><div class="sub-question">C(8, 2) / C(8, 6)</div><div class="sub-question">A(n, n-1)</div>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 15</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Une equipe de football de 11 joueurs doit etre choisie parmi 18 joueurs disponibles.</p><div class="sub-question">Combien y a-t-il d'equipes possibles ?</div><div class="sub-question">Si le capitaine est deja choisi, combien reste-t-il de choix pour les 10 autres ?</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 16</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Au loto, on tire 6 boules parmi 49. Combien de grilles differentes peut-on remplir ?</p><p>Le resultat sera donne sans le calculer completement, puis donner une valeur approchee.</p>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 17</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>On doit former un comite de 5 personnes parmi 12 hommes et 8 femmes.</p><div class="sub-question">Combien de comites possibles ?</div><div class="sub-question">Combien de comites avec exactement 2 femmes ?</div><div class="sub-question">Combien de comites avec au moins une femme ?</div><div class="sub-question">Combien de comites avec exactement 3 hommes et 2 femmes ?</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e1b4b 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 2</div>
+        <div class="section-title">Denombrement et analyse combinatoire</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 18</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Combien de mots de 4 lettres peut-on former avec les lettres A, B, C, D, E, F :</p><div class="sub-question">Si les lettres peuvent se repeter ?</div><div class="sub-question">Si les lettres sont toutes distinctes ?</div><div class="sub-question">Si le mot doit commencer par A ?</div><div class="sub-question">Si le mot doit contenir la lettre A exactement une fois (sans repetition) ?</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 19</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Dans une classe de 30 eleves, on veut elire un delegue et un suppleant.</p><div class="sub-question">Combien de choix possibles (l'ordre compte) ?</div><div class="sub-question">Combien de choix si on elit un bureau de 3 personnes (president, tresorier, secretaire) ?</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 20</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>On distribue 5 cartes d'un jeu de 32 a un joueur de poker.</p><div class="sub-question">Combien de mains de 5 cartes possibles ?</div><div class="sub-question">Combien de mains contiennent exactement 1 paire ?</div><div class="sub-question">Combien de mains contiennent un brelan (3 cartes identiques) ?</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 21</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Demontrer les identites combinatoires suivantes :</p><div class="sub-question">C(n, k) = C(n, n-k)</div><div class="sub-question">C(n+1, k) = C(n, k) + C(n, k-1)</div><div class="sub-question">Somme de k=0 a n de C(n, k) = 2 puissance n</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 22</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>On dispose de 4 boules differentes et de 3 urnes differentes. De combien de facons peut-on repartir les 4 boules dans les 3 urnes (une urne peut etre vide) ?</p><p>Indication : chaque boule a 3 choix possibles. Pensez au principe multiplicatif.</p>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #172554 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 3</div>
+        <div class="section-title">Probabilites sur un univers fini</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 23</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>On lance un de equilibre a 6 faces. Calculer les probabilites suivantes :</p><div class="sub-question">P(obtenir un nombre pair)</div><div class="sub-question">P(obtenir un nombre superieur a 4)</div><div class="sub-question">P(obtenir un multiple de 3)</div><div class="sub-question">P(obtenir 1 ou 6)</div>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 24</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>On tire une carte dans un jeu de 32. Calculer :</p><div class="sub-question">P(tirer un As)</div><div class="sub-question">P(tirer un coeur)</div><div class="sub-question">P(tirer une figure rouge)</div><div class="sub-question">P(tirer un As ou un coeur)</div><div class="sub-question">P(tirer ni un As ni un coeur)</div>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 25</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Une urne contient 6 boules rouges, 4 boules blanches et 5 boules noires. On tire une boule au hasard.</p><div class="sub-question">P(tirer une boule rouge) ?</div><div class="sub-question">P(tirer une boule blanche ou noire) ?</div><div class="sub-question">P(ne pas tirer une boule rouge) ?</div>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 26</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>On lance deux des equilibres simultanement. Calculer :</p><div class="sub-question">P(la somme est 7)</div><div class="sub-question">P(la somme est 12)</div><div class="sub-question">P(les deux des affichent le meme nombre)</div><div class="sub-question">P(la somme est superieure a 9)</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 27</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Dans une classe de 35 eleves, 18 filles et 17 garcons, 12 eleves portent des lunettes dont 7 filles.</p><div class="sub-question">On choisit un eleve au hasard. P(ce soit une fille) ?</div><div class="sub-question">P(ce soit un garcon avec lunettes) ?</div><div class="sub-question">P(ce soit une fille ou un eleve avec lunettes) ?</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #172554 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 3</div>
+        <div class="section-title">Probabilites sur un univers fini</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 28</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Une enquete montre que dans une ville : 60% des habitants ont un smartphone, 45% ont une tablette, et 30% ont les deux.</p><div class="sub-question">Quelle est la probabilite qu'un habitant ait au moins un de ces appareils ?</div><div class="sub-question">Quelle est la probabilite qu'un habitant n'ait ni smartphone ni tablette ?</div><div class="sub-question">Quelle est la probabilite qu'un habitant ait exactement un seul de ces appareils ?</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 29</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>On tire simultanement 2 cartes d'un jeu de 32.</p><div class="sub-question">P(les deux cartes sont des As) ?</div><div class="sub-question">P(les deux cartes sont de la meme couleur) ?</div><div class="sub-question">P(uniquement un des deux est un Roi) ?</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 30</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>On lance 3 pieces simultanement.</p><div class="sub-question">P(obtenir exactement 3 piles) ?</div><div class="sub-question">P(obtenir exactement 2 piles) ?</div><div class="sub-question">P(obtenir au moins un pile) ?</div><div class="sub-question">P(obtenir au plus 2 piles) ?</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 31</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Un jeu de cartes special contient 40 cartes : 10 coeurs, 10 carreaux, 10 piques et 10 trefoles. On tire 3 cartes simultanement.</p><div class="sub-question">P(les 3 cartes sont de la meme couleur) ?</div><div class="sub-question">P(les 3 cartes sont de couleurs differentes) ?</div><div class="sub-question">P(aucune carte n'est un coeur) ?</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 32</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>On lance un de equilibre 4 fois de suite. Calculer :</p><div class="sub-question">P(obtenir 4 six de suite)</div><div class="sub-question">P(obtenir au moins un six)</div><div class="sub-question">P(n'obtenir aucun six)</div><div class="sub-question">P(obtenir exactement deux six)</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #172554 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 3</div>
+        <div class="section-title">Probabilites sur un univers fini</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 33</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Dans un QCM de 10 questions, chaque question a 4 choix dont un seul est correct. Un eleve repond au hasard a chaque question.</p><div class="sub-question">P(repondre correctement a une question) ?</div><div class="sub-question">P(repondre correctement a toutes les questions) ?</div><div class="sub-question">P(repondre correctement a au moins 9 questions) ?</div><div class="sub-question">P(repondre correctement a au moins 1 question) ?</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 34</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>On distribue au hasard 5 cartes d'un jeu de 52 a un joueur.</p><div class="sub-question">P(obtenir une quinte royale : 10, V, D, R, As de la meme couleur) ?</div><div class="sub-question">P(obtenir un carre : 4 cartes de meme rang) ?</div><div class="sub-question">P(obtenir un full (3 + 2 de meme rang)) ?</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 35</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>Dans une urne U1, il y a 4 boules rouges et 6 boules noires. Dans une urne U2, il y a 3 boules rouges et 7 boules noires. On choisit une urne au hasard (equiprobable) puis on tire une boule.</p><div class="sub-question">P(tirer une boule rouge) ?</div><div class="sub-question">P(tirer une boule noire) ?</div><div class="sub-question">Sachant que la boule tiree est rouge, quelle est la probabilite qu'elle provienne de U1 ?</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #0c4a6e 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 4</div>
+        <div class="section-title">Probabilites conditionnelles et independance</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 36</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soient A et B deux evenements avec P(A) = 0,4, P(B) = 0,5 et P(A inter B) = 0,2.</p><div class="sub-question">Calculer P(A|B).</div><div class="sub-question">Calculer P(B|A).</div><div class="sub-question">A et B sont-ils independants ? Justifier.</div>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 37</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>On lance un de equilibre. Soit A = "obtenir un nombre pair" et B = "obtenir un nombre superieur a 3".</p><div class="sub-question">Calculer P(A), P(B), P(A inter B).</div><div class="sub-question">Calculer P(A|B).</div><div class="sub-question">A et B sont-ils independants ?</div>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 38</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Dans une population, 40% des personnes ont les yeux marrons et 30% ont les cheveux bruns. 15% ont les yeux marrons ET les cheveux bruns.</p><div class="sub-question">P(yeux marrons | cheveux bruns) ?</div><div class="sub-question">P(cheveux bruns | yeux marrons) ?</div><div class="sub-question">Les evenements "yeux marrons" et "cheveux bruns" sont-ils independants ?</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 39</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Une urne contient 5 boules rouges et 3 boules noires. On tire successivement 2 boules sans remise.</p><div class="sub-question">P(les deux boules sont rouges) ?</div><div class="sub-question">P(la premiere est rouge et la seconde est noire) ?</div><div class="sub-question">P(les deux boules sont de couleurs differentes) ?</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 40</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Une urne contient 5 boules rouges et 3 boules noires. On tire successivement 2 boules AVEC remise.</p><div class="sub-question">P(les deux boules sont rouges) ?</div><div class="sub-question">P(la premiere est rouge et la seconde est noire) ?</div><div class="sub-question">Comparer avec les resultats de l'exercice 39 et expliquer la difference.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #0c4a6e 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 4</div>
+        <div class="section-title">Probabilites conditionnelles et independance</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 41</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>On dispose de deux urnes : U1 contient 4 boules rouges et 2 noires. U2 contient 3 rouges et 5 noires. On choisit une urne au hasard (equiprobable) et on tire une boule.</p><div class="sub-question">P(tirer une boule rouge) ?</div><div class="sub-question">P(tirer une rouge | on a choisi U1) ?</div><div class="sub-question">P(avoir choisi U1 | la boule est rouge) ?</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 42</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Un test de depistage d'une maladie a les caracteristiques suivantes : la sensibilite (P(T|M)) = 0,95 et la specificite (P(T barre|M barre)) = 0,98. La prevalence de la maladie est P(M) = 0,02.</p><div class="sub-question">Calculer P(T), la probabilite que le test soit positif.</div><div class="sub-question">Calculer P(M|T), la probabilite d'etre malade sachant que le test est positif.</div><div class="sub-question">Calculer P(M|T barre), la probabilite d'etre malade sachant que le test est negatif.</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 43</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Une usine fabrique des pieces sur 3 machines. M1 produit 50% des pieces avec 2% de defauts. M2 produit 30% avec 3% de defauts. M3 produit 20% avec 5% de defauts.</p><div class="sub-question">P(piece defectueuse) ?</div><div class="sub-question">P(piece vient de M1 | elle est defectueuse) ?</div><div class="sub-question">P(piece vient de M3 | elle est bonne) ?</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 44</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>On tire successivement 3 cartes d'un jeu de 32 sans remise.</p><div class="sub-question">P(les 3 cartes sont des As) ?</div><div class="sub-question">P(les 3 cartes sont de la meme couleur) ?</div><div class="sub-question">P(obtenir exactement 2 coeurs) ?</div><div class="sub-question">P(la troisieme carte est un Roi | les deux premieres ne sont pas des Rois) ?</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 45</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Un joueur de tennis gagne 60% de ses points quand il sert et 45% quand il recoit. Il sert sur 40% des points.</p><div class="sub-question">P(gagner un point) ?</div><div class="sub-question">P(avoir servi | il a gagne le point) ?</div><div class="sub-question">Si dans un match il a gagne 55% de ses points, est-ce coherent avec les donnees ?</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #0c4a6e 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 4</div>
+        <div class="section-title">Probabilites conditionnelles et independance</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 46</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Trois boites contiennent chacune une piece : la premiere est equilibree, la seconde est pipee avec P(Pile)=0,6, la troisieme est pipee avec P(Pile)=0,3. On choisit une boite au hasard, on lance la piece et on obtient Pile.</p><div class="sub-question">Quelle est la probabilite que la piece provienne de la premiere boite ?</div><div class="sub-question">Quelle est la probabilite qu'elle provienne de la troisieme boite ?</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 47</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>On considere deux evenements A et B tels que P(A) = 0,3, P(B|A) = 0,6 et P(A|B) = 0,5.</p><div class="sub-question">Calculer P(A inter B).</div><div class="sub-question">Calculer P(B).</div><div class="sub-question">A et B sont-ils independants ?</div><div class="sub-question">Calculer P(A barre | B barre).</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 48</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>Une etude statistique donne les informations suivantes sur les habitudes de transport dans une ville de 100 000 habitants : 40% utilisent les bus, 25% utilisent le metro, 15% utilisent les deux, et 20% utilisent la voiture.</p><div class="sub-question">P(utiliser au moins un transport en commun) ?</div><div class="sub-question">P(utiliser uniquement le bus) ?</div><div class="sub-question">Sachant qu'une personne utilise les transports en commun, P(qu'elle utilise le metro) ?</div><div class="sub-question">Les evenements "utiliser le bus" et "utiliser le metro" sont-ils independants ?</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #312e81 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 5</div>
+        <div class="section-title">Probabilites totales et theoreme de Bayes</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 49</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit Omega = {{1, 2, 3, 4, 5, 6, 7, 8}}. On definit B1 = {{1, 2, 3}}, B2 = {{4, 5, 6}} et B3 = {{7, 8}}.</p><div class="sub-question">Verifier que {B1, B2, B3} est un systeme complet d'evenements.</div><div class="sub-question">Soit A = {{2, 4, 6, 8}}. Calculer P(A) en utilisant la formule des probabilites totales.</div>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 50</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>On a deux pieces : P1 est equilibree, P2 est pipee avec P(Pile) = 0,7. On choisit une piece au hasard et on la lance.</p><div class="sub-question">P(obtenir Pile) en utilisant les probabilites totales.</div><div class="sub-question">P(choisir P2 | on a obtenu Pile) en utilisant Bayes.</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 51</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Dans une population, 60% sont des hommes et 40% des femmes. 5% des hommes et 2% des femmes sont daltoniens.</p><div class="sub-question">P(etre daltonien) ?</div><div class="sub-question">P(etre un homme | daltonien) ?</div><div class="sub-question">P(etre une femme | non daltonien) ?</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 52</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Une compagnie d'assurance classe ses clients en 3 categories : risques faibles (50%), risques moyens (35%), risques eleves (15%). Les probabilites d'accident sont respectivement 0,02, 0,05 et 0,10.</p><div class="sub-question">P(un client a un accident) ?</div><div class="sub-question">P(risque moyen | accident) ?</div><div class="sub-question">P(risque faible | pas d'accident) ?</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 53</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Un etudiant revise pour un examen en utilisant 3 methodes : les cours (40%), les exercices (35%) ou les videos (25%). S'il utilise les cours, il reussit avec P=0,7. Les exercices : P=0,8. Les videos : P=0,6.</p><div class="sub-question">P(reussir l'examen) ?</div><div class="sub-question">P(avoir utilise les exercices | il a reussi) ?</div><div class="sub-question">P(avoir utilise les videos | il a echoue) ?</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #312e81 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 5</div>
+        <div class="section-title">Probabilites totales et theoreme de Bayes</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 54</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>On dispose de 3 urnes : U1 contient 1R+2N, U2 contient 3R+1N, U3 contient 2R+2N. On choisit une urne avec des probabilites respectives 0,3, 0,5 et 0,2.</p><div class="sub-question">P(tirer une rouge) ?</div><div class="sub-question">P(choisir U2 | rouge tiree) ?</div><div class="sub-question">P(choisir U1 | noire tiree) ?</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 55</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Une maladie touche 1% de la population. Un test a une sensibilite de 98% et une specificite de 99% (P(T|M)=0,98 et P(T barre|M barre)=0,99).</p><div class="sub-question">Construire un arbre de probabilites complet.</div><div class="sub-question">Calculer P(T), la probabilite d'un test positif.</div><div class="sub-question">Calculer P(M|T), la valeur predictive positive.</div><div class="sub-question">Calculer P(M barre|T), la probabilite d'un faux positif.</div><div class="sub-question">Comparer P(M|T) et P(M). Commenter le resultat.</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 56</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Une fabrique de composants electroniques utilise 4 machines M1, M2, M3, M4 avec des proportions respectives de 30%, 25%, 20%, 25%. Les taux de defauts sont : 1%, 2%, 3%, 1,5%.</p><div class="sub-question">P(piece defectueuse) ?</div><div class="sub-question">Quelle machine a la plus grande probabilite d'avoir produit une piece defectueuse ?</div><div class="sub-question">P(M1 | bonne piece) ?</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 57</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>On effectue deux tirages successifs dans une urne contenant initialement 4 boules rouges et 6 noires. Apres chaque tirage, si la boule tiree est rouge, on la remplace par 2 noires. Si elle est noire, on la remet.</p><div class="sub-question">Construire un arbre de probabilites.</div><div class="sub-question">P(obtenir deux rouges) ?</div><div class="sub-question">P(obtenir exactement une rouge) ?</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 58</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Dans une famille de 2 enfants, on sait qu'il y a au moins un garcon.</p><div class="sub-question">Quelle est la probabilite que les deux enfants soient des garcons ?</div><div class="sub-question">Si on sait que l'aine est un garcon, P(que le cadet soit un garcon) ?</div><div class="sub-question">Comparer et expliquer la difference.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #312e81 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 5</div>
+        <div class="section-title">Probabilites totales et theoreme de Bayes</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 59</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Un joueur participe a un jeu en 2 etapes. D'abord, il tire une carte dans un jeu de 32. Si c'est un As, il gagne 50 euros et le jeu s'arrete. Sinon, il lance un de : s'il obtient 6, il gagne 20 euros, sinon il perd 5 euros.</p><div class="sub-question">Construire l'arbre de probabilites.</div><div class="sub-question">P(gagner 50 euros) ?</div><div class="sub-question">P(gagner 20 euros) ?</div><div class="sub-question">P(perdre 5 euros) ?</div><div class="sub-question">P(gagner de l'argent) ?</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 60</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>Un cabinet medical a trois medecins : Dr A (40% des consultations), Dr B (35%), Dr C (25%). Le Dr A prescrit des antibiotiques dans 10% des cas, le Dr B dans 15%, et le Dr C dans 8%.</p><div class="sub-question">P(un patient recoit des antibiotiques) ?</div><div class="sub-question">P(Dr B | antibiotiques prescrits) ?</div><div class="sub-question">Un patient recoit des antibiotiques. Quelle est la probabilite que cela ne soit pas le Dr B qui les ait prescrits ?</div><div class="sub-question">P(Dr A | pas d'antibiotiques) ?</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a8a 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 6</div>
+        <div class="section-title">Variable aleatoire et loi de probabilite</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 61</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>On lance un de equilibre et on definit X = le resultat.</p><div class="sub-question">Determiner les valeurs que prend X.</div><div class="sub-question">Donner la loi de probabilite de X sous forme de tableau.</div><div class="sub-question">Verifier que la somme des probabilites vaut 1.</div>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 62</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>On lance une piece equilibree 3 fois. Soit X le nombre de piles obtenus.</p><div class="sub-question">Determiner les valeurs possibles de X.</div><div class="sub-question">Construire la loi de probabilite de X.</div><div class="sub-question">Verifier la somme des probabilites.</div>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 63</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>On tire une carte dans un jeu de 32. Soit X la variable aleatoire definie par : X = 10 si As, X = 5 si Roi, Dame ou Valet, X = 0 sinon.</p><div class="sub-question">Determiner la loi de probabilite de X.</div><div class="sub-question">Verifier la normalisation.</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 64</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Un jeu consiste a lancer un de equilibre : si on obtient 1 ou 2, on gagne 3 euros ; si on obtient 3, 4 ou 5, on gagne 1 euro ; si on obtient 6, on perd 4 euros. Soit X le gain.</p><div class="sub-question">Determiner la loi de X.</div><div class="sub-question">Calculer E(X).</div><div class="sub-question">Le jeu est-il equitable ? Justifier.</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 65</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>On choisit un nombre entier entre 1 et 10 au hasard. Soit X le carre du nombre choisi.</p><div class="sub-question">Determiner les valeurs possibles de X.</div><div class="sub-question">Construire la loi de probabilite de X.</div><div class="sub-question">Calculer E(X).</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a8a 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 6</div>
+        <div class="section-title">Variable aleatoire et loi de probabilite</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 66</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Une urne contient 4 boules rouges et 2 noires. On tire 2 boules sans remise. Soit X le nombre de boules rouges obtenues.</p><div class="sub-question">Determiner les valeurs possibles de X.</div><div class="sub-question">Calculer P(X=0), P(X=1), P(X=2).</div><div class="sub-question">Verifier que la somme vaut 1. Quelle loi reconnaissez-vous ?</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 67</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit X une variable aleatoire de loi : P(X=-2)=0,1, P(X=0)=0,4, P(X=1)=0,3, P(X=3)=0,2.</p><div class="sub-question">Calculer E(X).</div><div class="sub-question">Calculer E(X au carre) et Var(X).</div><div class="sub-question">Calculer sigma(X).</div><div class="sub-question">Calculer P(X superieur ou egal a 0).</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 68</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit Y = 3X + 2 ou X a pour loi : P(X=0)=0,2, P(X=1)=0,5, P(X=2)=0,3.</p><div class="sub-question">Determiner la loi de Y.</div><div class="sub-question">Calculer E(Y) de deux manieres : directement et via E(Y)=3E(X)+2.</div><div class="sub-question">Calculer Var(Y) et verifier Var(Y) = 9 Var(X).</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 69</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Un joueur lance un de equilibre. S'il obtient un multiple de 3, il gagne le double de la valeur. Sinon, il perd la valeur affichee. Soit X le gain.</p><div class="sub-question">Determiner la loi de X.</div><div class="sub-question">Calculer E(X) et Var(X).</div><div class="sub-question">Calculer P(X > 0) et P(X < 0).</div><div class="sub-question">Determiner la fonction de repartition F de X.</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 70</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>On tire 3 boules sans remise d'une urne contenant 5 rouges, 3 blanches et 2 noires. Soit X le nombre de couleurs differentes obtenues.</p><div class="sub-question">Determiner les valeurs possibles de X.</div><div class="sub-question">Calculer P(X=1), P(X=2), P(X=3).</div><div class="sub-question">Calculer E(X).</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a8a 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 6</div>
+        <div class="section-title">Variable aleatoire et loi de probabilite</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 71</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit X une variable aleatoire dont la fonction de repartition F est donnee par : F(x) = 0 si x < -1, F(x) = 0,2 si -1 inferieur ou egal a x < 2, F(x) = 0,7 si 2 inferieur ou egal a x < 5, F(x) = 1 si x superieur ou egal a 5.</p><div class="sub-question">Determiner la loi de probabilite de X.</div><div class="sub-question">Calculer P(-1 inferieur ou egal a X inferieur ou egal a 2).</div><div class="sub-question">Calculer P(X > 2).</div><div class="sub-question">Calculer E(X) et Var(X).</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 72</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>On lance des pieces jusqu'a obtenir Face pour la premiere fois. Soit X le nombre de lancers effectues.</p><div class="sub-question">Determiner les valeurs possibles de X.</div><div class="sub-question">On suppose la piece equilibree. Calculer P(X=1), P(X=2), P(X=3), P(X=k) pour k general.</div><div class="sub-question">Quelle loi reconnaissez-vous ?</div><div class="sub-question">Calculer E(X).</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a5f 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 7</div>
+        <div class="section-title">Esperance et variance</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 73</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit X de loi : P(X=1)=0,3, P(X=2)=0,4, P(X=3)=0,3.</p><div class="sub-question">Calculer E(X).</div><div class="sub-question">Calculer E(X au carre) et Var(X) en utilisant Koenig-Huygens.</div><div class="sub-question">Calculer sigma(X).</div>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 74</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit Y de loi : P(Y=-1)=0,2, P(Y=0)=0,5, P(Y=2)=0,2, P(Y=5)=0,1.</p><div class="sub-question">Calculer E(Y).</div><div class="sub-question">Calculer Var(Y).</div><div class="sub-question">Calculer E(-2Y + 3) et Var(-2Y + 3).</div>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 75</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Un jeu coute 2 euros a jouer. On lance un de : si on obtient 5 ou 6, on gagne 10 euros. Sinon, on ne gagne rien. Soit G le gain net.</p><div class="sub-question">Determiner la loi de G.</div><div class="sub-question">Calculer E(G).</div><div class="sub-question">Le jeu est-il favorable au joueur ?</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 76</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Une variable aleatoire X verifie : E(X) = 5 et Var(X) = 4.</p><div class="sub-question">Calculer E(3X - 1) et Var(3X - 1).</div><div class="sub-question">Calculer E(2X + 3) et sigma(2X + 3).</div><div class="sub-question">Calculer E(X au carre).</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 77</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soient X et Y deux variables aleatoires independantes avec E(X)=3, Var(X)=2, E(Y)=5, Var(Y)=4.</p><div class="sub-question">Calculer E(X + Y) et Var(X + Y).</div><div class="sub-question">Calculer E(2X - 3Y) et Var(2X - 3Y).</div><div class="sub-question">Calculer E(XY) et Var(XY).</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a5f 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 7</div>
+        <div class="section-title">Esperance et variance</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 78</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>On lance un de pipe : les faces 1 a 5 ont la meme probabilite p, et la face 6 a une probabilite 2p.</p><div class="sub-question">Determiner p.</div><div class="sub-question">Soit X le resultat. Calculer E(X) et Var(X).</div><div class="sub-question">Comparaison avec un de equilibre ?</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 79</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Un etudiant passe un examen avec 3 questions. Chaque bonne reponse rapporte 4 points, chaque mauvaise reponse enleve 1 point, et une absence vaut 0 point. L'etudiant a une probabilite de 0,7 de repondre correctement a chaque question.</p><div class="sub-question">Soit S le score total. Determiner la loi de S.</div><div class="sub-question">Calculer E(S) et Var(S).</div><div class="sub-question">P(score positif) ?</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 80</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>On lance 3 des equilibres. Soit X la somme des resultats.</p><div class="sub-question">Determiner toutes les valeurs possibles de X.</div><div class="sub-question">Calculer E(X) de deux manieres : directement et en utilisant la linearite.</div><div class="sub-question">Calculer Var(X) sachant Var(X_i)=35/12 pour un de.</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 81</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit X une variable aleatoire telle que E(X) = 4 et E(X au carre) = 20.</p><div class="sub-question">Calculer Var(X).</div><div class="sub-question">Soit Y = (X - 4)/3. Calculer E(Y) et Var(Y).</div><div class="sub-question">Interpreter le role de Y par rapport a X.</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 82</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Une urne contient n boules numerotees de 1 a n. On tire une boule au hasard. Soit X le numero obtenu.</p><div class="sub-question">Calculer E(X) (on pourra utiliser la formule 1+2+...+n = n(n+1)/2).</div><div class="sub-question">Calculer E(X au carre) (on pourra utiliser la formule 1+4+9+...+n au carre = n(n+1)(2n+1)/6).</div><div class="sub-question">En deduire Var(X).</div><div class="sub-question">Application numerique pour n=10.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a5f 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 7</div>
+        <div class="section-title">Esperance et variance</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 83</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>On considere n variables aleatoires X1, X2, ..., Xn independantes, toutes de loi de Bernoulli de parametre p. Soit S = X1 + X2 + ... + Xn.</p><div class="sub-question">Que represente S ?</div><div class="sub-question">Calculer E(S).</div><div class="sub-question">Calculer Var(S).</div><div class="sub-question">Quelle est la loi de S ?</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 84</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soient X et Y avec E(X)=2, E(Y)=3, Var(X)=1, Var(Y)=4, Cov(X,Y)=0,5.</p><div class="sub-question">Calculer E(X+Y), Var(X+Y).</div><div class="sub-question">Calculer le coefficient de correlation r(X,Y).</div><div class="sub-question">X et Y sont-ils independants ? Justifier.</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 85</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>Un producteur de tomates vend sa recolte a 2 euros le kilo si les tomates sont de bonne qualite, et a 0,50 euro sinon. La probabilite de bonne qualite est 0,8. Le cout de production est de 1 euro par kilo.</p><div class="sub-question">Soit R le revenu net par kilo. Determiner la loi de R.</div><div class="sub-question">Calculer E(R). Le producteur est-il en moyenne beneficiaire ?</div><div class="sub-question">Calculer Var(R) et sigma(R).</div><div class="sub-question">Si le producteur produit 1000 kg, quel est son gain moyen total ?</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e1b4b 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 8</div>
+        <div class="section-title">Loi binomiale</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 86</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit X une variable aleatoire suivant la loi binomiale B(5, 0,4).</p><div class="sub-question">Calculer P(X=0) et P(X=5).</div><div class="sub-question">Calculer P(X=2).</div><div class="sub-question">Calculer E(X) et Var(X).</div>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 87</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Un QCM comporte 10 questions, chaque question a 4 reponses dont une seule est correcte. Un eleve repond au hasard a toutes les questions. Soit X le nombre de bonnes reponses.</p><div class="sub-question">Identifier la loi de X et ses parametres.</div><div class="sub-question">Calculer P(X=0), P(X=10), P(X=5).</div><div class="sub-question">Calculer E(X) et interpreter.</div>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 88</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Dans une population, 30% des personnes soutiennent le candidat A. On interroge 8 personnes au hasard. Soit X le nombre de partisans de A parmi les 8.</p><div class="sub-question">X suit quelle loi ?</div><div class="sub-question">Calculer P(X=0), P(X=8), P(X=3).</div><div class="sub-question">P(X superieur ou egal a 5) ?</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 89</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Une machine produit des pieces avec un taux de defaut de 5%. On preleve un echantillon de 20 pieces. Soit X le nombre de pieces defectueuses.</p><div class="sub-question">X suit quelle loi ? Donner ses parametres.</div><div class="sub-question">P(aucune piece defectueuse) ?</div><div class="sub-question">P(exactement 2 pieces defectueuses) ?</div><div class="sub-question">P(au moins une piece defectueuse) ?</div><div class="sub-question">P(au plus 3 pieces defectueuses) ?</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 90</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>On lance 12 fois un de equilibre. Soit X le nombre de fois ou l'on obtient un 6.</p><div class="sub-question">Loi de X et ses parametres.</div><div class="sub-question">P(X=0) ? P(X=1) ?</div><div class="sub-question">P(X superieur ou egal a 2) en utilisant l'evenement contraire.</div><div class="sub-question">Calculer E(X) et interpreter le resultat.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e1b4b 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 8</div>
+        <div class="section-title">Loi binomiale</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 91</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Un tireur touche sa cible avec une probabilite de 0,7. Il tire 8 fois. Soit X le nombre de reussites.</p><div class="sub-question">P(toucher exactement 5 fois) ?</div><div class="sub-question">P(toucher au moins 6 fois) ?</div><div class="sub-question">P(toucher moins de 4 fois) ?</div><div class="sub-question">Combien de tirs doit-il effectuer pour que la probabilite de toucher au moins une fois depasse 0,99 ?</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 92</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>La probabilite qu'un etudiant reussisse un examen est 0,6. Dix etudiants passent l'examen.</p><div class="sub-question">P(exactement 6 reussissent) ?</div><div class="sub-question">P(moins de 5 reussissent) ?</div><div class="sub-question">P(au moins 7 mais pas plus de 9 reussissent) ?</div><div class="sub-question">P(un nombre pair d'etudiants reussisse) ?</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 93</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>On considere X suivant B(n, p). On sait que E(X) = 4 et Var(X) = 3.</p><div class="sub-question">Determiner n et p.</div><div class="sub-question">Calculer P(X=0).</div><div class="sub-question">P(X=4) ?</div><div class="sub-question">P(X est pair) ?</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 94</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Un joueur de basket a un taux de reussite de 75% aux lancers francs. Il effectue 10 lancers francs par match.</p><div class="sub-question">Soit X le nombre de reussites. Quelle est la loi de X ?</div><div class="sub-question">P(X=8) ?</div><div class="sub-question">P(X superieur ou egal a 8) ?</div><div class="sub-question">E(X) = 7,5 n'est pas une valeur entiere. Comment interpreter ce resultat ?</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 95</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>Une epidemicie touche une ville de 10 000 habitants. La probabilite qu'une personne vaccinee tombe malade est 0,05. Pour une personne non vaccinee, c'est 0,4. Le taux de vaccination est 60%. On preleve un echantillon de 15 personnes non vaccinées.</p><div class="sub-question">P(exactement 3 personnes tombent malades dans l'echantillon) ?</div><div class="sub-question">P(aucune ne tombe malade) ?</div><div class="sub-question">P(au moins 5 tombent malades) ?</div><div class="sub-question">Comparaison : quelle serait la probabilite que 3 personnes sur 15 vaccinées tombent malades ?</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #172554 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 9</div>
+        <div class="section-title">Loi de Poisson, hypergeometrique et geometrique</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 96</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit X une variable aleatoire suivant la loi de Poisson P(3).</p><div class="sub-question">Calculer P(X=0), P(X=1), P(X=2), P(X=3).</div><div class="sub-question">Verifier que E(X) = Var(X) = 3.</div><div class="sub-question">Calculer P(X inferieur ou egal a 2).</div>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 97</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Le nombre d'appels telephoniques recus par un standard en une heure suit la loi de Poisson de parametre 5.</p><div class="sub-question">P(recervoir exactement 3 appels en une heure) ?</div><div class="sub-question">P(recervoir au plus 2 appels) ?</div><div class="sub-question">P(recervoir plus de 6 appels) ?</div><div class="sub-question">P(recervoir entre 4 et 7 appels inclus) ?</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 98</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Une usine produit 500 pieces par jour. Le taux de defaut est 0,01. Soit X le nombre de pieces defectueuses par jour.</p><div class="sub-question">X suit approximativement quelle loi ? Donner le parametre.</div><div class="sub-question">P(X=0) ? P(X=3) ? P(X=10) ?</div><div class="sub-question">P(X inferieur ou egal a 5) ?</div><div class="sub-question">P(X > 8) ?</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 99</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>On tire 5 cartes sans remise d'un jeu de 32 contenant 8 coeurs.</p><div class="sub-question">Soit X le nombre de coeurs obtenus. Quelle est la loi de X ?</div><div class="sub-question">Calculer P(X=0), P(X=2), P(X=5).</div><div class="sub-question">Calculer E(X).</div><div class="sub-question">Comparer avec l'approximation binomiale B(5, 1/4).</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 100</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>On lance un de equilibre jusqu'a obtenir un 6. Soit X le nombre de lancers necessaires.</p><div class="sub-question">Quelle est la loi de X ? Donner son parametre.</div><div class="sub-question">P(X=1) ? P(X=2) ? P(X=3) ?</div><div class="sub-question">P(X est inferieur ou egal a 4) ?</div><div class="sub-question">P(X > 6) ?</div><div class="sub-question">Calculer E(X) et interpreter.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #172554 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 9</div>
+        <div class="section-title">Loi de Poisson, hypergeometrique et geometrique</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 101</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Le nombre de pannes mensuelles d'une machine suit la loi de Poisson P(0,5).</p><div class="sub-question">P(aucune panne en un mois) ?</div><div class="sub-question">P(exactement 2 pannes en un mois) ?</div><div class="sub-question">P(au moins une panne en 3 mois) en utilisant l'additivite de la loi de Poisson.</div><div class="sub-question">P(exactement 1 panne sur 2 mois) ?</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 102</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Dans un lot de 100 pieces, 10 sont defectueuses. On preleve un echantillon de 10 pieces sans remise.</p><div class="sub-question">Soit X le nombre de pieces defectueuses dans l'echantillon. Quelle loi suit X ?</div><div class="sub-question">Calculer P(X=0), P(X=1), P(X=2).</div><div class="sub-question">Calculer E(X) et Var(X).</div><div class="sub-question">Donner l'approximation binomiale et comparer P(X=2) avec les deux methodes.</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 103</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>X suit la loi de Poisson P(2). Y suit la loi de Poisson P(3). X et Y sont independantes.</p><div class="sub-question">Quelle loi suit Z = X + Y ?</div><div class="sub-question">Calculer P(Z=3), P(Z=5), P(Z=0).</div><div class="sub-question">P(Z inferieur ou egal a 4) ?</div><div class="sub-question">Calculer E(Z) et Var(Z).</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 104</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>On repete une epreuve de Bernoulli de parametre p=0,1 jusqu'a obtenir le premier succes. Soit X le nombre d'echecs avant le premier succes.</p><div class="sub-question">Determiner P(X=0), P(X=1), P(X=2), P(X=k) pour tout k.</div><div class="sub-question">Quelle est la loi de X ?</div><div class="sub-question">Calculer E(X) et Var(X).</div><div class="sub-question">P(X superieur ou egal a 5) ?</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 105</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Le nombre de voitures qui passent un peage par minute suit une loi de Poisson de parametre 4. On observe le peage pendant 30 minutes.</p><div class="sub-question">Quelle loi suit le nombre total de voitures ?</div><div class="sub-question">P(exactement 120 voitures en 30 min) ?</div><div class="sub-question">P(entre 100 et 140 voitures) ?</div><div class="sub-question">P(moins de 90 voitures) ?</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #0c4a6e 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 10</div>
+        <div class="section-title">Exercices type BAC et synthese</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 106</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>Un restaurant propose trois menus : A a 25 euros, B a 30 euros et C a 40 euros. Les proportions de choix sont respectivement 0,4, 0,35 et 0,25. Parmi les clients du menu A, 10% prennent un dessert supplementaire a 8 euros. Pour le menu B, c'est 15%. Pour le menu C, c'est 20%.</p><div class="sub-question">Soit M le prix du menu choisi. Determiner la loi de M et calculer E(M).</div><div class="sub-question">P(le client depense plus de 35 euros) ?</div><div class="sub-question">Soit D l'evenement "prendre un dessert". Calculer P(D) et P(A|D).</div><div class="sub-question">Si 200 clients viennent au restaurant, quelle est la recette moyenne attendue ?</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 107</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>Une agence de voyage propose deux destinations : Destination A (60% des clients) et Destination B (40%). Les clients ayant choisi A sont satisfaits dans 90% des cas, ceux ayant choisi B dans 75% des cas. On interroge 5 clients au hasard.</p><div class="sub-question">P(un client soit satisfait) ?</div><div class="sub-question">Sachant qu'un client est satisfait, P(qu'il ait choisi A) ?</div><div class="sub-question">Parmi les 5 clients, le nombre S de clients satisfaits suit quelle loi ?</div><div class="sub-question">P(exactement 4 des 5 clients soient satisfaits) ?</div><div class="sub-question">P(au moins 3 clients soient satisfaits) ?</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 108</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>Une entreprise fabrique des composants. Chaque composant est teste : s'il est conforme, il est vendu 50 euros. S'il est defectueux, il est repris et rectifie pour un cout de 20 euros, puis vendu 30 euros. La probabilite de defaut est 0,08.</p><div class="sub-question">Soit G le gain par composant. Determiner la loi de G.</div><div class="sub-question">Calculer E(G) et Var(G).</div><div class="sub-question">On produit 500 composants par jour. Soit J le gain journalier. Calculer E(J) et sigma(J).</div><div class="sub-question">P(J > 24000 euros) ? (utiliser le TCL avec approximation normale)</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 109</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>Dans un lycee de 800 eleves, 55% sont des filles. Parmi les filles, 40% font du sport. Parmi les garcons, 60% font du sport. On choisit 10 eleves au hasard.</p><div class="sub-question">P(un eleve choisi au hasard fasse du sport) ?</div><div class="sub-question">Sachant qu'un eleve fait du sport, P(que ce soit une fille) ?</div><div class="sub-question">Soit X le nombre de sportifs parmi les 10 eleves. Quelle loi suit X ?</div><div class="sub-question">P(exactement 5 sportifs parmi les 10) ?</div><div class="sub-question">Calculer E(X) et Var(X).</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 110</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>Un joueur participe a un jeu compose de deux etapes. Premiere etape : il tire une carte dans un jeu de 32. Deuxieme etape : il lance un de. Les regles sont : si la carte est un Roi (R), il gagne 100 euros sans lancer le de. Si la carte est une figure mais pas un Roi (F), il lance le de : s'il fait 6, il gagne 50 euros, sinon 10 euros. Si la carte n'est pas une figure (N), il lance le de : s'il fait 6, il gagne 20 euros, sinon il perd 5 euros.</p><div class="sub-question">Construire un arbre de probabilites complet.</div><div class="sub-question">Soit G le gain. Determiner la loi de G.</div><div class="sub-question">Calculer E(G) et Var(G).</div><div class="sub-question">P(gagner au moins 20 euros) ?</div><div class="sub-question">Le jeu coute 15 euros. Le joueur est-il en moyenne gagnant ou perdant ?</div>
+    </div>
+</div>
+</div>
+</div>
+</body>
+</html>
