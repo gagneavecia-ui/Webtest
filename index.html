@@ -1055,7 +1055,7 @@ setPersistence(auth, browserLocalPersistence);
 // ================================================================
 // CONFIGURATION
 // ================================================================
-var ADMIN_URL = 'https://nexgen-39043.web.app/admin';
+var ADMIN_URL = 'https://arvexa-finance.vercel.app/admin';
 var ADMIN_EMAIL = 'gagneavecia@gmail.com';
 
 if (typeof APP_CONFIG !== 'undefined') {
@@ -1111,7 +1111,6 @@ var userNameEl = document.getElementById('userName');
 var userAvatarEl = document.getElementById('userAvatar');
 var statBalanceEl = document.getElementById('statBalance');
 var statRevenueEl = document.getElementById('statRevenue');
-var statDefisEl = document.getElementById('statDefis');
 var statReferralsEl = document.getElementById('statReferrals');
 var dailyPercentEl = document.getElementById('dailyPercent');
 var dailyReturnDisplay = document.getElementById('dailyReturnDisplay');
@@ -1308,9 +1307,6 @@ function updateUI(data) {
   // ✅ Stats : affichage ABRÉGÉ (k, M)
   var totalRevenus = data.gainsTotal || 0;
   statRevenueEl.innerHTML = formatCurrency(totalRevenus);
-  
-  var totalDefis = data.totalDefisGagnes || 0;
-  statDefisEl.innerHTML = formatCurrency(totalDefis);
   
   statReferralsEl.innerHTML = data.referralsCount || 0;
   
@@ -1707,7 +1703,6 @@ function loadDefisStats(uid) {
     if (snap.exists()) {
       var data = snap.data();
       var totalDefis = data.totalDefisGagnes || 0;
-      statDefisEl.innerHTML = formatCurrency(totalDefis);
     }
   }, function(error) {
     console.error('Erreur chargement défis:', error);
