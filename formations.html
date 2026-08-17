@@ -1190,8 +1190,6 @@ import {
   query,
   orderBy,
   onSnapshot,
-  getDocs,
-  addDoc,
   increment
 } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
 
@@ -1281,34 +1279,6 @@ function loadFromCacheFormations() {
     return true;
   }
   return false;
-}
-
-// ================================================================
-// INITIALISER LA COLLECTION FORMATIONS
-// ================================================================
-async function initFormations() {
-  try {
-    const formationsRef = collection(db, 'formations');
-    const formationsSnap = await getDocs(formationsRef);
-    
-    if (formationsSnap.empty) {
-      console.log('📝 Création de la collection formations...');
-      
-      // Ajouter chaque formation par défaut
-      for (const formation of DEFAULT_FORMATIONS) {
-        // Supprimer l'id pour que Firestore en génère un
-        const { id, ...formationData } = formation;
-        await addDoc(formationsRef, formationData);
-      }
-      
-      console.log('✅ Collection formations créée avec succès !');
-    } else {
-      console.log('✅ Collection formations déjà existante');
-    }
-    
-  } catch (error) {
-    console.error('❌ Erreur création formations:', error);
-  }
 }
 
 // ================================================================
@@ -1957,13 +1927,10 @@ var sessionUid = sessionStorage.getItem('session_uid');
 
 loadFromCacheFormations();
 
-onAuthStateChanged(auth, async (user) => {
+onAuthStateChanged(auth, (user) => {
   if (user) {
     currentUser = user;
     localStorage.setItem('ARVEXA_current_user', user.uid);
-    
-    // ✅ INITIALISER LA COLLECTION FORMATIONS
-    await initFormations();
     
     if (sessionUid === user.uid) {
       console.debug("✅ Session déjà validée, chargement rapide");
@@ -2007,7 +1974,7 @@ onAuthStateChanged(auth, async (user) => {
         window.location.href = 'login.html';
       }
     }
-  }    
+  }
 });
 
 console.debug('🎓 ARVEXA - Page Formations corrigée (v3.0)');
