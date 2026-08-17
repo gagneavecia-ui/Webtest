@@ -1430,9 +1430,22 @@ function listenPendingWithdrawal(uid) {
 }
 
 // ================================================================
-// ENVOI DE LA DEMANDE
+// ENVOI DE LA DEMANDE DE RETRAIT
 // ================================================================
 async function sendWithdrawalRequest(amount) {
+  // ✅ VÉRIFICATION : Le montant demandé ne dépasse pas les gains
+  const retirableBalance = userData?.gainsTotal || 0;
+  
+  if (amount > retirableBalance) {
+    showToast('❌ Solde insuffisant.', 'error');
+    return;
+  }
+
+  if (amount > userBalance) {
+    showToast('❌ Solde insuffisant.', 'error');
+    return;
+  }
+
   // ✅ Vérifier si une demande est déjà en attente
   if (hasPendingWithdrawal) {
     showToast('⚠️ Vous avez déjà une demande de retrait en attente.', 'warning');
@@ -1514,7 +1527,7 @@ async function sendWithdrawalRequest(amount) {
 }
 
 // ================================================================
-// METTRE A JOUR L'AFFICHAGE DU MONTANT ET DES FRAIS
+// METTRE À JOUR L'AFFICHAGE DU MONTANT
 // ================================================================
 function updateAmountDisplay() {
   var amount = parseInt(amountInput.value) || 0;
@@ -1536,14 +1549,16 @@ function updateAmountDisplay() {
     feeDisplay.classList.remove('has-value');
   }
   
-  // Vérifier le solde
+  // ✅ VÉRIFICATION : Solde retirable (gains uniquement)
+  const retirableBalance = userData?.gainsTotal || 0;
+  
   if (amount >= MIN_WITHDRAWAL && amount <= MAX_WITHDRAWAL) {
-    if (feesData.net <= userBalance) {
+    if (amount <= retirableBalance) {
       balanceInfo.className = 'balance-info sufficient';
-      balanceInfo.innerHTML = '<i class="fas fa-check-circle"></i> Solde suffisant : ' + formatCurrency(userBalance);
+      balanceInfo.innerHTML = '<i class="fas fa-check-circle"></i> Solde suffisant';
     } else {
       balanceInfo.className = 'balance-info insufficient';
-      balanceInfo.innerHTML = '<i class="fas fa-exclamation-circle"></i> Solde insuffisant. Vous avez ' + formatCurrency(userBalance);
+      balanceInfo.innerHTML = '<i class="fas fa-exclamation-circle"></i> Solde insuffisant';
     }
   } else if (amount > 0) {
     balanceInfo.className = 'balance-info insufficient';
@@ -1557,12 +1572,11 @@ function updateAmountDisplay() {
 }
 
 // ================================================================
-// METTRE A JOUR LE LIEN WHATSAPP
+// METTRE À JOUR LE LIEN WHATSAPP
 // ================================================================
 function updateWhatsAppLink(amount) {
   var feesData = calculateFees(amount);
   
-  // ✅ Vérifier si une demande est en attente
   if (hasPendingWithdrawal) {
     whatsappBtn.disabled = true;
     whatsappBtn.innerHTML = '⏳ Demande en attente...';
@@ -1584,7 +1598,9 @@ function updateWhatsAppLink(amount) {
     return;
   }
 
-  if (feesData.net > userBalance) {
+  // ✅ VÉRIFICATION : Solde retirable (gains uniquement)
+  const retirableBalance = userData?.gainsTotal || 0;
+  if (amount > retirableBalance) {
     whatsappBtn.disabled = true;
     whatsappBtn.style.opacity = '0.5';
     whatsappBtn.innerHTML = '<i class="fab fa-whatsapp"></i> Solde insuffisant';
@@ -1597,7 +1613,7 @@ function updateWhatsAppLink(amount) {
 }
 
 // ================================================================
-// MODALE DE CONFIRMATION - LUXUEUSE
+// MODALE DE CONFIRMATION
 // ================================================================
 function showConfirmationModal() {
   var amount = parseInt(amountInput.value) || 0;
@@ -1607,12 +1623,14 @@ function showConfirmationModal() {
   }
   
   var feesData = calculateFees(amount);
-  if (feesData.net > userBalance) {
-    showToast('Solde insuffisant.', 'warning');
+  
+  // ✅ VÉRIFICATION : Solde retirable (gains uniquement)
+  const retirableBalance = userData?.gainsTotal || 0;
+  if (amount > retirableBalance) {
+    showToast('❌ Solde insuffisant.', 'warning');
     return;
   }
   
-  // ✅ Vérifier si une demande est en attente
   if (hasPendingWithdrawal) {
     showToast('⚠️ Vous avez déjà une demande de retrait en attente.', 'warning');
     return;

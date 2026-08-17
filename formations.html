@@ -211,6 +211,80 @@
       margin: 0 auto;
     }
 
+/* ===== PROMO BANNER MINI ===== */
+.promo-banner-mini {
+  background: rgba(212, 90, 90, 0.08);
+  border: 1px solid rgba(212, 90, 90, 0.15);
+  border-radius: 12px;
+  padding: 8px 16px;
+  margin-bottom: 16px;
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  animation: promoPulse 2s ease-in-out infinite;
+}
+.promo-banner-mini.active {
+  display: flex;
+}
+@keyframes promoPulse {
+  0%, 100% { border-color: rgba(212, 90, 90, 0.15); }
+  50% { border-color: rgba(184, 134, 11, 0.3); }
+}
+
+.promo-banner-mini .promo-text {
+  font-size: 11px;
+  color: var(--text-dim);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.promo-banner-mini .promo-text .fire {
+  font-size: 14px;
+}
+.promo-banner-mini .promo-text .badge {
+  background: #D45A5A;
+  color: #fff;
+  padding: 1px 8px;
+  border-radius: 12px;
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.promo-banner-mini .promo-timer-mini {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: 'Playfair Display', serif;
+  color: var(--accent);
+}
+.promo-banner-mini .promo-timer-mini .separator {
+  color: var(--text-muted);
+  font-weight: 300;
+}
+.promo-banner-mini .promo-timer-mini .time-block {
+  min-width: 22px;
+  text-align: center;
+}
+
+.promo-banner-mini .promo-close-mini {
+  background: rgba(255,255,255,0.03);
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  transition: var(--transition);
+}
+.promo-banner-mini .promo-close-mini:hover {
+  color: var(--text-light);
+  background: rgba(255,255,255,0.06);
+}
+
     /* ============================================================
        SKELETON LOADING
        ============================================================ */
@@ -1035,17 +1109,9 @@
     <div class="achat-category" id="achatCategory">Catégorie</div>
     <p class="achat-desc" id="achatDesc">Description de la formation</p>
     
-    <div class="achat-benefits">
-      <div class="benefit-title">🎯 Ce que vous allez gagner</div>
-      <div class="benefit-item"><i class="fas fa-check-circle"></i> Accès à vie à la formation</div>
-      <div class="benefit-item"><i class="fas fa-check-circle"></i> Certificat de réussite inclus</div>
-      <div class="benefit-item"><i class="fas fa-check-circle"></i> Support prioritaire 24/7</div>
-      <div class="benefit-item"><i class="fas fa-check-circle"></i> Mise à jour gratuites à vie</div>
-    </div>
-    
-    <div class="achat-price-row">
-      <span class="achat-price-label">💰 Prix de la formation</span>
-      <span class="achat-price-value" id="achatPrice">5 000 FCFA</span>
+    <!-- ✅ AJOUTER CETTE PARTIE -->
+    <div class="achat-pricing" id="achatPricing">
+      <!-- Généré par JavaScript -->
     </div>
     
     <div class="achat-balance" id="achatBalance">
@@ -1080,6 +1146,23 @@
     <h1 class="hero-title">🎓 Formations <span>exclusives</span></h1>
     <p class="hero-description">Apprenez les secrets de la finance, de l'investissement et de l'entrepreneuriat.</p>
   </div>
+
+<!-- ===== PROMO BANNER MINI ===== -->
+<div class="promo-banner-mini" id="promoBannerMini">
+  <div class="promo-text">
+    <span class="fire">🔥</span>
+    <span id="promoTextMini">-75%</span>
+    <span class="badge">PROMO</span>
+  </div>
+  <div class="promo-timer-mini" id="promoTimerMini">
+    <span class="time-block" id="timerHoursMini">48</span>
+    <span class="separator">:</span>
+    <span class="time-block" id="timerMinutesMini">00</span>
+    <span class="separator">:</span>
+    <span class="time-block" id="timerSecondsMini">00</span>
+  </div>
+  <button class="promo-close-mini" id="promoCloseMini">✕</button>
+</div>
 
   <!-- ===== SKELETON LOADING ===== -->
   <div class="skeleton-grid" id="skeletonGrid">
@@ -1192,7 +1275,8 @@ import {
   onSnapshot,
   getDocs,
   addDoc,
-  increment
+  increment,
+  where
 } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
 
 // ================================================================
@@ -1234,6 +1318,15 @@ const achatPrice = document.getElementById('achatPrice');
 const achatBalance = document.getElementById('achatBalance');
 const achatBalanceAmount = document.getElementById('achatBalanceAmount');
 const achatIcon = document.getElementById('achatIcon');
+const achatPricing = document.getElementById('achatPricing');  // ✅ AJOUTER ICI
+
+// ✅ PROMO MINI
+const promoBannerMini = document.getElementById('promoBannerMini');
+const promoTextMini = document.getElementById('promoTextMini');
+const timerHoursMini = document.getElementById('timerHoursMini');
+const timerMinutesMini = document.getElementById('timerMinutesMini');
+const timerSecondsMini = document.getElementById('timerSecondsMini');
+const promoCloseMini = document.getElementById('promoCloseMini');
 
 // ✅ DÉCLARATIONS
 let isUnlocked = false;
@@ -1247,6 +1340,10 @@ let popupShown = false;
 let popupTimeout = null;
 let unsubscribeUser = null;
 let currentFormation = null;
+let activePromo = null;
+let timerIntervalMini = null;
+let unsubscribePromotions = null;
+let formationsData = [];  
 
 // ================================================================
 // GESTION DU CACHE
@@ -1282,6 +1379,118 @@ function loadFromCacheFormations() {
   }
   return false;
 }
+
+// ================================================================
+// GESTION DES PROMOTIONS (MINI BANNER)
+// ================================================================
+function listenPromotions() {
+  if (unsubscribePromotions) {
+    unsubscribePromotions();
+    unsubscribePromotions = null;
+  }
+  
+  const q = query(
+    collection(db, 'promotions'),
+    where('actif', '==', true)
+  );
+  
+  unsubscribePromotions = onSnapshot(q, (snapshot) => {
+    let foundPromo = null;
+    const now = new Date();
+    
+    snapshot.forEach(doc => {
+      const data = doc.data();
+      const dateFin = data.dateFin ? new Date(data.dateFin) : null;
+      
+      if (dateFin && dateFin > now) {
+        if (data.type === 'bienvenue' && currentUser) {
+          if (data.utilisateurId === currentUser.uid) {
+            foundPromo = data;
+          }
+        } else if (data.type === 'flash') {
+          foundPromo = data;
+        }
+      } else if (dateFin && dateFin <= now) {
+        updateDoc(doc.ref, { actif: false });
+      }
+    });
+    
+    if (foundPromo) {
+      activePromo = foundPromo;
+      showPromoBannerMini(foundPromo);
+    } else {
+      activePromo = null;
+      hidePromoBannerMini();
+    }
+    
+    if (formationsData.length > 0) {
+      renderFormations(formationsData);
+    }
+  }, (error) => {
+    console.warn('Erreur écoute promotions:', error);
+  });
+}
+
+function showPromoBannerMini(promo) {
+  if (!promo) return;
+  
+  const dateFin = new Date(promo.dateFin);
+  promoBannerMini.classList.add('active');
+  promoTextMini.textContent = `-${promo.reduction}%`;
+  startTimerMini(dateFin);
+  
+  const bannerClosed = localStorage.getItem('promo_banner_closed_' + promo.id);
+  if (bannerClosed === 'true') {
+    promoBannerMini.style.display = 'none';
+  } else {
+    promoBannerMini.style.display = 'flex';
+  }
+}
+
+function hidePromoBannerMini() {
+  promoBannerMini.classList.remove('active');
+  promoBannerMini.style.display = 'none';
+  stopTimerMini();
+}
+
+function startTimerMini(dateFin) {
+  stopTimerMini();
+  
+  timerIntervalMini = setInterval(() => {
+    const now = new Date();
+    const diff = dateFin - now;
+    
+    if (diff <= 0) {
+      hidePromoBannerMini();
+      if (activePromo && activePromo.id) {
+        updateDoc(doc(db, 'promotions', activePromo.id), { actif: false });
+      }
+      return;
+    }
+    
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+    
+    timerHoursMini.textContent = String(hours).padStart(2, '0');
+    timerMinutesMini.textContent = String(minutes).padStart(2, '0');
+    timerSecondsMini.textContent = String(seconds).padStart(2, '0');
+  }, 1000);
+}
+
+function stopTimerMini() {
+  if (timerIntervalMini) {
+    clearInterval(timerIntervalMini);
+    timerIntervalMini = null;
+  }
+}
+
+promoCloseMini.addEventListener('click', () => {
+  if (activePromo && activePromo.id) {
+    localStorage.setItem('promo_banner_closed_' + activePromo.id, 'true');
+  }
+  promoBannerMini.style.display = 'none';
+});
 
 // ================================================================
 // INITIALISER LA COLLECTION FORMATIONS
@@ -1537,12 +1746,20 @@ function renderFormations(formations) {
     const isFree = formation.isFree || formation.price === 0;
     const isAchete = userAchats && userAchats.includes(formation.id);
     
-    // ✅ Une formation est accessible si :
-    // - Elle est gratuite (isFree === true) 
-    // - OU l'utilisateur l'a déjà achetée
-    // - OU l'utilisateur est premium ET elle est payante
     const isAccessible = isFree || isAchete || isUnlocked;
     const showLock = !isFree && !isAchete && !isUnlocked;
+    
+    // ✅ Calcul du prix avec promotion
+    let displayPrice = formation.price;
+    let oldPrice = null;
+    let hasPromoApplied = false;
+    
+    if (activePromo && activePromo.actif && !isFree && !isAchete) {
+      const reductionAmount = Math.round(formation.price * (activePromo.reduction / 100));
+      displayPrice = formation.price - reductionAmount;
+      oldPrice = formation.price;
+      hasPromoApplied = true;
+    }
     
     let badgeText = '';
     let badgeClass = '';
@@ -1561,18 +1778,39 @@ function renderFormations(formations) {
       badgeClass = '';
     }
     
-    let priceText = '';
-    let priceClass = '';
+    let priceHTML = '';
     
     if (isFree) {
-      priceText = '🎁 GRATUIT';
-      priceClass = 'free';
+      priceHTML = `
+        <div style="margin:6px 0 8px;">
+          <span style="color:var(--success);font-weight:700;">🎁 GRATUIT</span>
+        </div>
+      `;
     } else if (isAchete) {
-      priceText = '✅ ACHETÉ';
-      priceClass = 'free';
+      priceHTML = `
+        <div style="margin:6px 0 8px;">
+          <span style="color:var(--success);font-weight:700;">✅ ACHETÉ</span>
+        </div>
+      `;
+    } else if (hasPromoApplied) {
+      priceHTML = `
+        <div style="margin:6px 0 8px;background:rgba(212,90,90,0.05);border-radius:8px;padding:6px 10px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">
+            <span style="color:#5A5A4A;text-decoration:line-through;font-size:12px;opacity:0.6;">${formatCurrency(oldPrice)}</span>
+            <span style="background:#D45A5A;color:#fff;padding:1px 8px;border-radius:12px;font-size:9px;font-weight:700;">-${activePromo.reduction}%</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">
+            <span style="color:var(--success);font-size:16px;font-weight:700;font-family:'Playfair Display',serif;">🔥 ${formatCurrency(displayPrice)}</span>
+            <span style="color:var(--success);font-size:10px;opacity:0.7;">Économisez ${formatCurrency(oldPrice - displayPrice)}</span>
+          </div>
+        </div>
+      `;
     } else {
-      priceText = `${formation.price.toLocaleString('fr-FR')} FCFA`;
-      priceClass = '';
+      priceHTML = `
+        <div style="margin:6px 0 8px;">
+          <span style="font-size:16px;font-weight:700;font-family:'Playfair Display',serif;color:var(--success);">${formatCurrency(formation.price)}</span>
+        </div>
+      `;
     }
     
     let btnText, btnClass, btnAction;
@@ -1617,13 +1855,13 @@ function renderFormations(formations) {
           <span class="formation-category">${safeCategory}</span>
           <h3 class="formation-title">${safeTitle}</h3>
           <p class="formation-description">${safeDescription}</p>
-          <div style="font-size:10px;color:var(--text-muted);margin-bottom:6px;">
+          <div style="font-size:10px;color:var(--text-muted);margin-bottom:4px;">
             <i class="fas fa-clock"></i> ${duration} • ${levelBadge}
           </div>
+          ${priceHTML}
           <div class="formation-footer">
-            <span class="formation-price ${priceClass}">${priceText}</span>
-            <div class="formation-actions">
-              <button class="formation-btn ${btnClass}" data-id="${formation.id}" data-action="${btnAction}">
+            <div class="formation-actions" style="width:100%;">
+              <button class="formation-btn ${btnClass}" data-id="${formation.id}" data-action="${btnAction}" style="width:100%;justify-content:center;">
                 ${btnText}
               </button>
             </div>
@@ -1685,24 +1923,69 @@ function handleFormationAction(formation, action) {
 }
 
 // ================================================================
-// 🎯 OUVRIR LE MODAL D'ACHAT
+// 🎯 OUVRIR LE MODAL D'ACHAT AVEC PROMOTION
 // ================================================================
 function openAchatModal(formation) {
   currentFormation = formation;
   
-  achatIcon.textContent = formation.coverImage ? '📚' : '🎓';
+  const hasPromo = activePromo && activePromo.actif;
+  const reduction = hasPromo ? activePromo.reduction : 0;
+  
+  let finalPrice = formation.price;
+  let oldPrice = null;
+  let hasPromoApplied = false;
+  
+  if (hasPromo && !formation.isFree) {
+    const reductionAmount = Math.round(formation.price * (reduction / 100));
+    finalPrice = formation.price - reductionAmount;
+    oldPrice = formation.price;
+    hasPromoApplied = true;
+  }
+  
+  achatIcon.textContent = '📚';
   achatTitle.innerHTML = `${formation.title} <span>formation</span>`;
   achatCategory.textContent = formation.category || 'Général';
   achatDesc.textContent = formation.description || 'Découvrez cette formation exclusive ARVEXA.';
-  achatPrice.textContent = formation.price.toLocaleString('fr-FR') + ' FCFA';
+  
+  let pricingHTML = '';
+  if (hasPromoApplied) {
+    pricingHTML = `
+      <div class="price-row" style="display:flex;justify-content:space-between;padding:4px 0;font-size:13px;color:var(--text-dim);border-bottom:1px solid rgba(255,255,255,0.02);">
+        <span>💰 Prix normal</span>
+        <span style="text-decoration:line-through;color:#5A5A4A;opacity:0.6;">${formatCurrency(oldPrice)}</span>
+      </div>
+      <div class="price-row" style="display:flex;justify-content:space-between;padding:4px 0;font-size:13px;color:var(--text-dim);border-bottom:1px solid rgba(255,255,255,0.02);">
+        <span>🎉 Réduction -${reduction}%</span>
+        <span style="color:var(--success);font-weight:600;">- ${formatCurrency(oldPrice - finalPrice)}</span>
+      </div>
+      <div class="price-row" style="display:flex;justify-content:space-between;padding:6px 0 4px;font-size:16px;font-weight:700;color:var(--text-light);border-bottom:1px solid rgba(255,255,255,0.02);">
+        <span>💎 Prix final</span>
+        <span style="color:var(--success);font-size:20px;font-family:'Playfair Display',serif;">${formatCurrency(finalPrice)}</span>
+      </div>
+      <div style="text-align:center;font-size:12px;color:#D45A5A;font-weight:600;margin-top:6px;padding:4px 12px;background:rgba(212,90,90,0.08);border-radius:20px;border:1px solid rgba(212,90,90,0.15);display:inline-block;width:100%;">
+        🔥 Promotion active !
+      </div>
+    `;
+  } else {
+    pricingHTML = `
+      <div class="price-row" style="display:flex;justify-content:space-between;padding:4px 0;font-size:13px;color:var(--text-dim);">
+        <span>💰 Prix</span>
+        <span style="font-size:16px;font-weight:700;font-family:'Playfair Display',serif;color:var(--success);">${formatCurrency(formation.price)}</span>
+      </div>
+    `;
+  }
+  
+  achatPricing.innerHTML = pricingHTML;
+  
   achatBalanceAmount.textContent = userBalance.toLocaleString('fr-FR') + ' FCFA';
   
-  const hasEnoughBalance = userBalance >= formation.price;
+  const hasEnoughBalance = userBalance >= finalPrice;
   
   if (hasEnoughBalance) {
     confirmAchatBtn.innerHTML = '<i class="fas fa-shopping-cart"></i> Acheter maintenant';
     confirmAchatBtn.className = 'btn-buy';
     confirmAchatBtn.disabled = false;
+    confirmAchatBtn.style.opacity = '1';
   } else {
     confirmAchatBtn.innerHTML = '💳 Solde insuffisant';
     confirmAchatBtn.className = 'btn-buy';
@@ -1714,12 +1997,18 @@ function openAchatModal(formation) {
   document.body.style.overflow = 'hidden';
 }
 
+// ================================================================
+// FERMER LE MODAL D'ACHAT - ✅ BIEN DÉFINIE
+// ================================================================
 function closeAchatModalFn() {
   achatModal.classList.remove('show');
   document.body.style.overflow = '';
   currentFormation = null;
 }
 
+// ================================================================
+// ÉVÉNEMENTS DU MODAL
+// ================================================================
 closeAchatModal.addEventListener('click', closeAchatModalFn);
 cancelAchatBtn.addEventListener('click', closeAchatModalFn);
 achatModal.addEventListener('click', (e) => {
@@ -1739,11 +2028,21 @@ confirmAchatBtn.addEventListener('click', async function() {
     return;
   }
   
+  // ✅ Calcul du prix final avec promotion
+  let finalPrice = currentFormation.price;
+  const hasPromo = activePromo && activePromo.actif;
+  const reduction = hasPromo ? activePromo.reduction : 0;
+  
+  if (hasPromo && !currentFormation.isFree) {
+    const reductionAmount = Math.round(currentFormation.price * (reduction / 100));
+    finalPrice = currentFormation.price - reductionAmount;
+  }
+  
   this.innerHTML = '<span class="loader"></span> Achat en cours...';
   this.disabled = true;
   
   try {
-    const result = await acheterFormation(currentUser.uid, currentFormation.id, currentFormation.price);
+    const result = await acheterFormation(currentUser.uid, currentFormation.id, finalPrice);
     
     if (result.success) {
       this.innerHTML = '<i class="fas fa-check-circle"></i> Acheté avec succès !';
@@ -1753,7 +2052,6 @@ confirmAchatBtn.addEventListener('click', async function() {
       
       userBalance = result.newBalance;
       
-      // Mettre à jour le cache
       const userRef = doc(db, 'users', currentUser.uid);
       const userSnap = await getDoc(userRef);
       if (userSnap.exists()) {
@@ -1834,6 +2132,7 @@ function loadFormations() {
         formations.push({ id: doc.id, ...doc.data() });
       });
       
+      formationsData = formations;  // ✅ STOCKER LES DONNÉES
       skeletonGrid.style.display = 'none';
       formationsGrid.style.display = 'grid';
       
@@ -1932,6 +2231,7 @@ function updateUI(data) {
   }
   
   loadFormations();
+  listenPromotions();  // ✅ AJOUTE CETTE LIGNE
   
   if (!isUnlocked && !popupShown) {
     showPremiumPopup();
@@ -1966,14 +2266,21 @@ onAuthStateChanged(auth, async (user) => {
     await initFormations();
     
     if (sessionUid === user.uid) {
-      console.debug("✅ Session déjà validée, chargement rapide");
-      loadUser(user.uid).then(() => {
-        checkPremiumStatus(user.uid);
-        updateUI(userData);
-      });
-      isPageLoading = false;
-      return;
-    }
+  console.debug("✅ Session déjà validée, chargement rapide");
+  loadUser(user.uid).then(() => {
+    checkPremiumStatus(user.uid);
+    updateUI(userData);
+    listenPromotions(); // ✅ AJOUTE ICI
+  });
+  isPageLoading = false;
+  return;
+}
+
+loadUser(user.uid).then(() => {
+  checkPremiumStatus(user.uid);
+  updateUI(userData);
+  listenPromotions(); // ✅ AJOUTE ICI
+});
 
     loadUser(user.uid).then(() => {
       checkPremiumStatus(user.uid);

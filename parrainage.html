@@ -179,6 +179,53 @@
     .hero-stats .stat { text-align: center; }
     .hero-stats .stat .value { font-size: 20px; font-weight: 700; color: var(--accent); font-family: 'Playfair Display', serif; }
     .hero-stats .stat .label { font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; }
+    
+    /* ===== PARTNER BADGE ===== */
+.partner-badge-container {
+  background: linear-gradient(135deg, rgba(184, 134, 11, 0.12), rgba(212, 90, 90, 0.08));
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  margin-bottom: 16px;
+  display: none;
+  align-items: center;
+  gap: 14px;
+  animation: fadeInUp 0.4s ease-out;
+}
+.partner-badge-container.show {
+  display: flex;
+}
+.partner-badge-container .partner-icon {
+  font-size: 32px;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+.partner-badge-container .partner-info {
+  flex: 1;
+}
+.partner-badge-container .partner-title {
+  font-size: 16px;
+  font-weight: 700;
+  font-family: 'Playfair Display', 'Georgia', serif;
+  color: var(--accent);
+}
+.partner-badge-container .partner-title span {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-dim);
+  font-family: 'Inter', sans-serif;
+}
+.partner-badge-container .partner-desc {
+  font-size: 13px;
+  color: var(--text-dim);
+}
+.partner-badge-container .partner-bonus {
+  font-size: 20px;
+  font-weight: 700;
+  font-family: 'Playfair Display', 'Georgia', serif;
+  color: var(--success);
+  flex-shrink: 0;
+}
 
     /* ===== CODE ===== */
     .code-box {
@@ -506,21 +553,30 @@
   <div id="parrainContent">
 
     <!-- HERO -->
-    <div class="hero">
-      <span class="hero-icon"><i class="fas fa-users"></i></span>
-      <h1>👥 Programme de <span>Parrainage</span></h1>
-      <p>Invitez vos amis et gagnez <strong>1000 FCFA</strong> après leur <strong>premier dépôt</strong></p>
-      <div class="hero-stats">
-        <div class="stat">
-          <div class="value">+1000 FCFA</div>
-          <div class="label">Après 1er dépôt</div>
-        </div>
-        <div class="stat">
-          <div class="value">Illimité</div>
-          <div class="label">Personnes</div>
-        </div>
-      </div>
+   <div class="hero">
+  <span class="hero-icon"><i class="fas fa-users"></i></span>
+  <h1 id="parrainTitle">👥 Programme de <span>Parrainage</span></h1>
+  <p>Invitez vos amis et gagnez <strong>1000 FCFA</strong> après leur <strong>premier dépôt</strong></p>
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="value" id="bonusAmountDisplay">+1000 FCFA</div>
+      <div class="label">Par filleul</div>
     </div>
+    <div class="stat">
+      <div class="value">Illimité</div>
+      <div class="label">Personnes</div>
+    </div>
+    <div class="stat" id="partnerStatusDisplay">
+      <div class="value" id="partnerStatusValue">🔓 Standard</div>
+      <div class="label" id="partnerStatusLabel">Votre statut</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PARTNER BADGE ===== -->
+<div class="partner-badge-container" id="partnerBadge">
+  <!-- Rempli par JavaScript -->
+</div>
 
     <!-- CODE -->
     <div class="code-box">
@@ -691,6 +747,13 @@ var toast = document.getElementById('toast');
 var parrainContent = document.getElementById('parrainContent');
 var lockedMessage = document.getElementById('lockedMessage');
 
+// ✅ AJOUTER CES RÉFÉRENCES
+var parrainTitle = document.getElementById('parrainTitle');
+var bonusAmountDisplay = document.getElementById('bonusAmountDisplay');
+var partnerStatusValue = document.getElementById('partnerStatusValue');
+var partnerStatusLabel = document.getElementById('partnerStatusLabel');
+var partnerBadge = document.getElementById('partnerBadge');
+
 var currentUser = null;
 var userData = null;
 var unsubscribeFilleuls = null;
@@ -802,6 +865,66 @@ function updateUI(data) {
 }
 
 // ================================================================
+// AFFICHER LE STATUT PARTENAIRE
+// ================================================================
+function updatePartnerStatus(data) {
+  if (!data) return;
+
+  var isPartner = data.isPartner === true;
+  var bonusAmount = isPartner ? 1500 : 1000;
+  var referralsCount = data.referralsCount || 0;
+  
+  // Mettre à jour le titre
+  if (parrainTitle) {
+    parrainTitle.innerHTML = isPartner 
+      ? '🤝 Programme <span>Partenaire</span>' 
+      : '👥 Programme de <span>Parrainage</span>';
+  }
+
+  // Mettre à jour le bonus affiché
+  if (bonusAmountDisplay) {
+    bonusAmountDisplay.textContent = '+' + bonusAmount.toLocaleString('fr-FR') + ' FCFA';
+  }
+
+  // Mettre à jour le statut
+  if (partnerStatusValue) {
+    partnerStatusValue.textContent = isPartner ? '🤝 Partenaire' : '🔓 Standard';
+    partnerStatusValue.style.color = isPartner ? 'var(--accent)' : 'var(--text-dim)';
+  }
+  if (partnerStatusLabel) {
+    partnerStatusLabel.textContent = isPartner ? '⭐ Bonus par filleul' : 'Votre statut';
+  }
+
+  // Afficher le badge partenaire
+  if (partnerBadge) {
+    if (isPartner) {
+      partnerBadge.className = 'partner-badge-container show';
+      partnerBadge.innerHTML = `
+        <div class="partner-icon">🤝</div>
+        <div class="partner-info">
+          <div class="partner-title">Partenaire ARVEXA <span>⭐</span></div>
+          <div class="partner-desc">Vous gagnez <strong>1500 FCFA</strong> par filleul au lieu de 1000 FCFA !</div>
+        </div>
+        <div class="partner-bonus">+500 FCFA</div>
+      `;
+    } else if (referralsCount >= 4) {
+      partnerBadge.className = 'partner-badge-container show';
+      partnerBadge.innerHTML = `
+        <div class="partner-icon">⭐</div>
+        <div class="partner-info">
+          <div class="partner-title">Plus que ${5 - referralsCount} filleul${5 - referralsCount > 1 ? 's' : ''} pour devenir <span>Partenaire</span> !</div>
+          <div class="partner-desc">Parrainez encore ${5 - referralsCount} personne${5 - referralsCount > 1 ? 's' : ''} et gagnez <strong>1500 FCFA</strong> par filleul !</div>
+        </div>
+        <div class="partner-bonus">🎯 ${referralsCount}/5</div>
+      `;
+    } else {
+      partnerBadge.className = 'partner-badge-container';
+      partnerBadge.innerHTML = '';
+    }
+  }
+}
+
+// ================================================================
 // CHARGEMENT RAPIDE DEPUIS LE CACHE
 // ================================================================
 function loadFromCache() {
@@ -809,8 +932,10 @@ function loadFromCache() {
   if (cachedData) {
     try {
       var data = JSON.parse(cachedData);
-      updateUI(data);
-      console.debug('✅ Parrainage affiché depuis le cache');
+      userData = data;
+      isUnlocked = data.isUnlocked === true || data.hasDeposited === true;
+      // ... code existant ...
+      updatePartnerStatus(data);  // ✅ AJOUTER CETTE LIGNE
       return true;
     } catch(e) {}
   }
@@ -1066,12 +1191,20 @@ onAuthStateChanged(auth, function(user) {
     // Si session déjà validée, chargement rapide
     if (sessionUid === user.uid) {
       console.debug("✅ Session déjà validée, chargement rapide");
-      loadUserData(user.uid);
+      loadUserData(user.uid).then(function() {
+        // ✅ METTRE À JOUR LE STATUT PARTENAIRE APRÈS CHARGEMENT
+        updatePartnerStatus(userData);
+        listenToFilleuls(userData?.referralCode);
+      });
       isPageLoading = false;
       return;
     }
 
-    loadUserData(user.uid);
+    loadUserData(user.uid).then(function() {
+      // ✅ METTRE À JOUR LE STATUT PARTENAIRE APRÈS CHARGEMENT
+      updatePartnerStatus(userData);
+      listenToFilleuls(userData?.referralCode);
+    });
     isPageLoading = false;
   } else {
     if (isPageLoading) {
