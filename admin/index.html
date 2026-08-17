@@ -17,877 +17,711 @@
   
   <style>
     /* ============================================================
-       ROOT - UNIFORME AVEC ARVEXA
-       ============================================================ */
-    :root {
-      --primary: #1A3A2A;
-      --primary-dark: #0A1A12;
-      --primary-light: #2A5A3A;
-      --accent: #B8860B;
-      --accent-dim: rgba(184, 134, 11, 0.08);
-      --success: #2D7D5A;
-      --success-light: rgba(45, 125, 90, 0.1);
-      --danger: #8A3A3A;
-      --danger-light: rgba(138, 58, 58, 0.1);
-      --warning: #D4A017;
-      --bg-dark: #0A0A0A;
-      --bg-surface: #141414;
-      --bg-card: rgba(20, 20, 20, 0.7);
-      --text-light: #F5F0E8;
-      --text-dim: #8A8A7A;
-      --text-muted: #5A5A4A;
-      --card-border: rgba(184, 134, 11, 0.06);
-      --glass-bg: rgba(26, 58, 42, 0.15);
-      --glass-border: rgba(184, 134, 11, 0.04);
-      --transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
-      --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-      --radius: 16px;
-    }
+   ROOT - UNIFORME AVEC ARVEXA
+   ============================================================ */
+:root {
+  --primary: #1A3A2A;
+  --primary-dark: #0A1A12;
+  --primary-light: #2A5A3A;
+  --accent: #B8860B;
+  --accent-dim: rgba(184, 134, 11, 0.08);
+  --success: #2D7D5A;
+  --success-light: rgba(45, 125, 90, 0.1);
+  --danger: #8A3A3A;
+  --danger-light: rgba(138, 58, 58, 0.1);
+  --warning: #D4A017;
+  --bg-dark: #0A0A0A;
+  --bg-surface: #141414;
+  --bg-card: rgba(20, 20, 20, 0.7);
+  --text-light: #F5F0E8;
+  --text-dim: #8A8A7A;
+  --text-muted: #5A5A4A;
+  --card-border: rgba(184, 134, 11, 0.06);
+  --glass-bg: rgba(26, 58, 42, 0.15);
+  --glass-border: rgba(184, 134, 11, 0.04);
+  --transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  --radius: 16px;
+}
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
 
-    body {
-      font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-      background: var(--bg-dark);
-      color: var(--text-light);
-      font-size: 14px;
-      line-height: 1.6;
-      min-height: 100vh;
-      overflow-x: hidden;
-      opacity: 0;
-      animation: pageFadeIn 0.5s ease forwards;
-      -webkit-overflow-scrolling: touch;
-      padding-bottom: 80px;
-    }
+body {
+  font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  background: var(--bg-dark);
+  color: var(--text-light);
+  font-size: 14px;
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+  opacity: 0;
+  animation: pageFadeIn 0.5s ease forwards;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 80px;
+}
 
-    @keyframes pageFadeIn {
-      0% { opacity: 0; }
-      100% { opacity: 1; }
-    }
+@keyframes pageFadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
 
-    /* ============================================================
-       BACKGROUND
-       ============================================================ */
-    .gradient-bg {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -2;
-      background: radial-gradient(ellipse 40% 30% at 30% 20%, rgba(26, 58, 42, 0.10) 0%, transparent 70%),
-                  linear-gradient(180deg, #0A0A0A 0%, #060606 100%);
-      pointer-events: none;
-    }
+/* ============================================================
+   BACKGROUND
+   ============================================================ */
+.gradient-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  background: radial-gradient(ellipse 40% 30% at 30% 20%, rgba(26, 58, 42, 0.10) 0%, transparent 70%),
+              linear-gradient(180deg, #0A0A0A 0%, #060606 100%);
+  pointer-events: none;
+}
 
-    .glow {
-      position: fixed;
-      border-radius: 50%;
-      filter: blur(80px);
-      pointer-events: none;
-      z-index: -1;
-      opacity: 0.15;
-      animation: glowMove 10s ease-in-out infinite alternate;
-    }
-    .glow-1 { width: 350px; height: 350px; background: rgba(26, 58, 42, 0.15); top: -80px; right: -80px; }
-    .glow-2 { width: 200px; height: 200px; background: rgba(184, 134, 11, 0.03); bottom: 0; left: 0; animation-delay: -4s; }
-    .glow-3 { width: 250px; height: 250px; background: rgba(26, 58, 42, 0.08); top: 40%; left: 50%; transform: translate(-50%, -50%); animation-delay: -8s; }
-    @keyframes glowMove {
-      0% { transform: translate(0, 0) scale(1); }
-      100% { transform: translate(30px, -20px) scale(1.1); }
-    }
+.glow {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.15;
+  animation: glowMove 10s ease-in-out infinite alternate;
+}
+.glow-1 { width: 350px; height: 350px; background: rgba(26, 58, 42, 0.15); top: -80px; right: -80px; }
+.glow-2 { width: 200px; height: 200px; background: rgba(184, 134, 11, 0.03); bottom: 0; left: 0; animation-delay: -4s; }
+.glow-3 { width: 250px; height: 250px; background: rgba(26, 58, 42, 0.08); top: 40%; left: 50%; transform: translate(-50%, -50%); animation-delay: -8s; }
 
-    /* ============================================================
-       HEADER - UNIFORME
-       ============================================================ */
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 5%;
-      background: rgba(10, 10, 10, 0.95);
-      backdrop-filter: blur(12px);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      border-bottom: 1px solid rgba(184, 134, 11, 0.04);
-    }
+@keyframes glowMove {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(30px, -20px) scale(1.1); }
+}
 
-    .logo {
-      display: flex;
-      align-items: center;
-      text-decoration: none;
-      color: var(--text-light);
-      font-size: clamp(16px, 2.5vw, 22px);
-      font-weight: 700;
-      font-family: 'Playfair Display', 'Georgia', serif;
-      letter-spacing: 2px;
-    }
-    .logo span {
-      color: var(--accent);
-      font-style: italic;
-    }
+/* ============================================================
+   HEADER
+   ============================================================ */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 5%;
+  background: rgba(10, 10, 10, 0.95);
+  backdrop-filter: blur(12px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid rgba(184, 134, 11, 0.04);
+}
 
-    .header-actions {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+.logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: var(--text-light);
+  font-size: clamp(16px, 2.5vw, 22px);
+  font-weight: 700;
+  font-family: 'Playfair Display', 'Georgia', serif;
+  letter-spacing: 2px;
+}
+.logo span {
+  color: var(--accent);
+  font-style: italic;
+}
 
-    .admin-badge {
-      background: rgba(184, 134, 11, 0.12);
-      border: 1px solid rgba(184, 134, 11, 0.15);
-      padding: 5px 14px;
-      border-radius: 30px;
-      font-size: 10px;
-      font-weight: 600;
-      color: var(--accent);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .admin-badge i {
-      font-size: 11px;
-    }
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
-    .logout-btn {
-      background: rgba(138, 58, 58, 0.1);
-      border: 1px solid rgba(138, 58, 58, 0.15);
-      padding: 6px 12px;
-      border-radius: 30px;
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--danger);
-      cursor: pointer;
-      transition: var(--transition);
-      font-family: 'Inter', sans-serif;
-    }
-    .logout-btn:active {
-      transform: scale(0.95);
-    }
-    .logout-btn:hover {
-      background: rgba(138, 58, 58, 0.2);
-    }
+.admin-badge {
+  background: rgba(184, 134, 11, 0.12);
+  border: 1px solid rgba(184, 134, 11, 0.15);
+  padding: 5px 14px;
+  border-radius: 30px;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.admin-badge i { font-size: 11px; }
 
-    .menu-btn {
-      width: 36px;
-      height: 36px;
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--text-dim);
-      cursor: pointer;
-      transition: var(--transition);
-      text-decoration: none;
-      font-size: 18px;
-    }
-    .menu-btn:active {
-      transform: scale(0.94);
-    }
-    .menu-btn:hover {
-      border-color: rgba(184, 134, 11, 0.12);
-      color: var(--text-light);
-    }
+.logout-btn {
+  background: rgba(138, 58, 58, 0.1);
+  border: 1px solid rgba(138, 58, 58, 0.15);
+  padding: 6px 12px;
+  border-radius: 30px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--danger);
+  cursor: pointer;
+  transition: var(--transition);
+  font-family: 'Inter', sans-serif;
+}
+.logout-btn:active { transform: scale(0.95); }
+.logout-btn:hover { background: rgba(138, 58, 58, 0.2); }
 
-    /* ============================================================
-       CONTAINER
-       ============================================================ */
-    .container {
-      max-width: 700px;
-      margin: 0 auto;
-      padding: 16px 5% 40px;
-      width: 100%;
-    }
+.menu-btn {
+  width: 36px;
+  height: 36px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: var(--transition);
+  text-decoration: none;
+  font-size: 18px;
+}
+.menu-btn:active { transform: scale(0.94); }
+.menu-btn:hover { border-color: rgba(184, 134, 11, 0.12); color: var(--text-light); }
 
-    /* ============================================================
-       PAGE TITLE
-       ============================================================ */
-    .page-title {
-      margin-bottom: 24px;
-    }
-    .page-title h1 {
-      font-size: clamp(24px, 5vw, 32px);
-      font-weight: 600;
-      font-family: 'Playfair Display', 'Georgia', serif;
-      color: var(--text-light);
-    }
-    .page-title h1 span {
-      color: var(--accent);
-      font-style: italic;
-    }
-    .page-title p {
-      font-size: 13px;
-      color: var(--text-dim);
-      font-weight: 300;
-      margin-top: 4px;
-    }
+/* ============================================================
+   CONTAINER
+   ============================================================ */
+.container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 16px 5% 40px;
+  width: 100%;
+}
 
-    /* ============================================================
-       STATS GRID - 4 CARTES
-       ============================================================ */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-      margin-bottom: 20px;
-    }
+/* ============================================================
+   PAGE TITLE
+   ============================================================ */
+.page-title {
+  margin-bottom: 24px;
+}
+.page-title h1 {
+  font-size: clamp(24px, 5vw, 32px);
+  font-weight: 600;
+  font-family: 'Playfair Display', 'Georgia', serif;
+  color: var(--text-light);
+}
+.page-title h1 span {
+  color: var(--accent);
+  font-style: italic;
+}
+.page-title p {
+  font-size: 13px;
+  color: var(--text-dim);
+  font-weight: 300;
+  margin-top: 4px;
+}
 
-    .stat-card {
-      background: var(--bg-card);
-      backdrop-filter: blur(8px);
-      border: 1px solid var(--card-border);
-      border-radius: var(--radius);
-      padding: 16px 14px;
-      transition: var(--transition);
-      animation: fadeInUp 0.5s ease forwards;
-      opacity: 0;
-    }
-    .stat-card:nth-child(1) { animation-delay: 0.05s; }
-    .stat-card:nth-child(2) { animation-delay: 0.10s; }
-    .stat-card:nth-child(3) { animation-delay: 0.15s; }
-    .stat-card:nth-child(4) { animation-delay: 0.20s; }
+/* ============================================================
+   STATS GRID - 4 CARTES
+   ============================================================ */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
 
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+.stat-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  padding: 16px 14px;
+  transition: var(--transition);
+  animation: fadeInUp 0.5s ease forwards;
+  opacity: 0;
+}
+.stat-card:nth-child(1) { animation-delay: 0.05s; }
+.stat-card:nth-child(2) { animation-delay: 0.10s; }
+.stat-card:nth-child(3) { animation-delay: 0.15s; }
+.stat-card:nth-child(4) { animation-delay: 0.20s; }
 
-    .stat-card:hover {
-      border-color: rgba(184, 134, 11, 0.08);
-      transform: translateY(-2px);
-    }
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
-    .stat-card .stat-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 6px;
-    }
-    .stat-card .stat-icon {
-      font-size: 20px;
-      opacity: 0.5;
-    }
-    .stat-card .stat-icon.gold { color: var(--accent); }
-    .stat-card .stat-icon.green { color: var(--success); }
-    .stat-card .stat-icon.red { color: var(--danger); }
-    .stat-card .stat-icon.blue { color: #4A7A6A; }
+.stat-card:hover {
+  border-color: rgba(184, 134, 11, 0.08);
+  transform: translateY(-2px);
+}
 
-    .stat-card .stat-label {
-      font-size: 10px;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      font-weight: 300;
-    }
-    .stat-card .stat-value {
-      font-size: clamp(20px, 4vw, 28px);
-      font-weight: 700;
-      font-family: 'Playfair Display', 'Georgia', serif;
-      color: var(--text-light);
-      margin-bottom: 2px;
-    }
-    .stat-card .stat-value.gold { color: var(--accent); }
-    .stat-card .stat-value.green { color: var(--success); }
-    .stat-card .stat-value.red { color: var(--danger); }
-    .stat-card .stat-value.blue { color: #4A7A6A; }
+.stat-card .stat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+.stat-card .stat-icon {
+  font-size: 20px;
+  opacity: 0.5;
+}
+.stat-card .stat-icon.gold { color: var(--accent); }
+.stat-card .stat-icon.green { color: var(--success); }
+.stat-card .stat-icon.red { color: var(--danger); }
+.stat-card .stat-icon.blue { color: #4A7A6A; }
 
-    .stat-card .stat-sub {
-      font-size: 10px;
-      color: var(--text-muted);
-      font-weight: 300;
-    }
+.stat-card .stat-label {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 300;
+}
+.stat-card .stat-value {
+  font-size: clamp(20px, 4vw, 28px);
+  font-weight: 700;
+  font-family: 'Playfair Display', 'Georgia', serif;
+  color: var(--text-light);
+  margin-bottom: 2px;
+}
+.stat-card .stat-value.gold { color: var(--accent); }
+.stat-card .stat-value.green { color: var(--success); }
+.stat-card .stat-value.red { color: var(--danger); }
+.stat-card .stat-value.blue { color: #4A7A6A; }
 
-    /* ============================================================
-       REVENUE CARD (CAISSE PRINCIPALE)
-       ============================================================ */
-    .revenue-card {
-      background: linear-gradient(135deg, rgba(20, 20, 20, 0.95), rgba(10, 10, 10, 0.98));
-      border: 1px solid rgba(184, 134, 11, 0.08);
-      border-radius: var(--radius);
-      padding: 20px;
-      margin-bottom: 20px;
-      transition: var(--transition);
-      box-shadow: var(--shadow);
-      position: relative;
-      overflow: hidden;
-    }
-    .revenue-card::after {
-      content: '';
-      position: absolute;
-      top: -50%;
-      right: -30%;
-      width: 80%;
-      height: 80%;
-      background: radial-gradient(circle, rgba(184, 134, 11, 0.02), transparent 70%);
-      pointer-events: none;
-      animation: cardGlow 8s ease-in-out infinite alternate;
-    }
-    @keyframes cardGlow {
-      0% { transform: translate(0, 0) scale(1); opacity: 0.3; }
-      100% { transform: translate(-20px, -20px) scale(1.2); opacity: 0.6; }
-    }
+.stat-card .stat-sub {
+  font-size: 10px;
+  color: var(--text-muted);
+  font-weight: 300;
+}
 
-    .revenue-card:hover {
-      border-color: rgba(184, 134, 11, 0.15);
-      transform: translateY(-2px);
-    }
+/* ============================================================
+   REVENUE CARD (CAISSE PRINCIPALE)
+   ============================================================ */
+.revenue-card {
+  background: linear-gradient(135deg, rgba(20, 20, 20, 0.95), rgba(10, 10, 10, 0.98));
+  border: 1px solid rgba(184, 134, 11, 0.08);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 20px;
+  transition: var(--transition);
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+.revenue-card::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -30%;
+  width: 80%;
+  height: 80%;
+  background: radial-gradient(circle, rgba(184, 134, 11, 0.02), transparent 70%);
+  pointer-events: none;
+  animation: cardGlow 8s ease-in-out infinite alternate;
+}
+@keyframes cardGlow {
+  0% { transform: translate(0, 0) scale(1); opacity: 0.3; }
+  100% { transform: translate(-20px, -20px) scale(1.2); opacity: 0.6; }
+}
 
-    .revenue-label {
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      color: var(--text-muted);
-      margin-bottom: 6px;
-      position: relative;
-      z-index: 1;
-    }
+.revenue-card:hover {
+  border-color: rgba(184, 134, 11, 0.15);
+  transform: translateY(-2px);
+}
 
-    .revenue-row {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 4px;
-      position: relative;
-      z-index: 1;
-    }
-    .revenue-amount {
-      font-size: clamp(28px, 5vw, 40px);
-      font-weight: 700;
-      font-family: 'Playfair Display', 'Georgia', serif;
-      color: var(--accent);
-      letter-spacing: 1px;
-    }
+.revenue-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+  position: relative;
+  z-index: 1;
+}
 
-    .revenue-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      padding: 4px 12px;
-      background: rgba(45, 125, 90, 0.1);
-      border: 1px solid rgba(45, 125, 90, 0.15);
-      border-radius: 20px;
-      font-size: 11px;
-      font-weight: 500;
-      color: var(--success);
-    }
+.revenue-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 4px;
+  position: relative;
+  z-index: 1;
+}
+.revenue-amount {
+  font-size: clamp(28px, 5vw, 40px);
+  font-weight: 700;
+  font-family: 'Playfair Display', 'Georgia', serif;
+  color: var(--accent);
+  letter-spacing: 1px;
+}
 
-    .revenue-stats {
-      font-size: 11px;
-      color: var(--text-dim);
-      position: relative;
-      z-index: 1;
-    }
-    .revenue-stats span {
-      margin-right: 12px;
-    }
+.revenue-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 12px;
+  background: rgba(45, 125, 90, 0.1);
+  border: 1px solid rgba(45, 125, 90, 0.15);
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--success);
+}
 
-    /* ============================================================
-       CHART CARD
-       ============================================================ */
-    .chart-card {
-      background: var(--bg-card);
-      backdrop-filter: blur(8px);
-      border: 1px solid var(--card-border);
-      border-radius: var(--radius);
-      padding: 18px 16px;
-      margin-bottom: 20px;
-      transition: var(--transition);
-    }
-    .chart-card:hover {
-      border-color: rgba(184, 134, 11, 0.08);
-    }
+.revenue-stats {
+  font-size: 11px;
+  color: var(--text-dim);
+  position: relative;
+  z-index: 1;
+}
+.revenue-stats span {
+  margin-right: 12px;
+}
 
-    .chart-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-    }
-    .chart-header h3 {
-      font-size: 15px;
-      font-weight: 600;
-      font-family: 'Playfair Display', 'Georgia', serif;
-      color: var(--text-light);
-    }
-    .chart-header h3 span {
-      color: var(--accent);
-      font-style: italic;
-    }
-    .chart-header .chart-period {
-      font-size: 10px;
-      color: var(--text-muted);
-    }
+/* ============================================================
+   CHART CARD
+   ============================================================ */
+.chart-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  padding: 18px 16px;
+  margin-bottom: 20px;
+  transition: var(--transition);
+}
+.chart-card:hover {
+  border-color: rgba(184, 134, 11, 0.08);
+}
 
-    .chart-wrapper {
-      position: relative;
-      width: 100%;
-      height: 200px;
-    }
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.chart-header h3 {
+  font-size: 15px;
+  font-weight: 600;
+  font-family: 'Playfair Display', 'Georgia', serif;
+  color: var(--text-light);
+}
+.chart-header h3 span {
+  color: var(--accent);
+  font-style: italic;
+}
+.chart-header .chart-period {
+  font-size: 10px;
+  color: var(--text-muted);
+}
 
-    /* ============================================================
-       PENDING DEPOSITS
-       ============================================================ */
-    .pending-card {
-      background: var(--bg-card);
-      backdrop-filter: blur(8px);
-      border: 1px solid var(--card-border);
-      border-radius: var(--radius);
-      padding: 18px 16px;
-      margin-bottom: 20px;
-      transition: var(--transition);
-    }
-    .pending-card:hover {
-      border-color: rgba(184, 134, 11, 0.08);
-    }
+.chart-wrapper {
+  position: relative;
+  width: 100%;
+  height: 200px;
+}
 
-    .pending-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 14px;
-    }
-    .pending-header h3 {
-      font-size: 15px;
-      font-weight: 600;
-      font-family: 'Playfair Display', 'Georgia', serif;
-      color: var(--text-light);
-    }
-    .pending-header h3 span {
-      color: var(--accent);
-      font-style: italic;
-    }
-    .pending-count {
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--warning);
-      background: rgba(212, 160, 23, 0.1);
-      border: 1px solid rgba(212, 160, 23, 0.15);
-      padding: 2px 12px;
-      border-radius: 20px;
-    }
+/* ============================================================
+   PENDING REQUESTS (DÉPÔTS + RETRAITS)
+   ============================================================ */
+.pending-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  padding: 18px 16px;
+  margin-bottom: 20px;
+  transition: var(--transition);
+}
+.pending-card:hover {
+  border-color: rgba(184, 134, 11, 0.08);
+}
 
-    .pending-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 14px;
-      background: rgba(10, 10, 10, 0.3);
-      border: 1px solid var(--card-border);
-      border-radius: 12px;
-      margin-bottom: 8px;
-      transition: var(--transition);
-      cursor: pointer;
-    }
-    .pending-item:hover {
-      border-color: rgba(184, 134, 11, 0.12);
-      background: rgba(10, 10, 10, 0.5);
-    }
-    .pending-item:active {
-      transform: scale(0.98);
-    }
+.pending-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+.pending-header h3 {
+  font-size: 15px;
+  font-weight: 600;
+  font-family: 'Playfair Display', 'Georgia', serif;
+  color: var(--text-light);
+}
+.pending-header h3 span {
+  color: var(--accent);
+  font-style: italic;
+}
+.pending-count {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--warning);
+  background: rgba(212, 160, 23, 0.1);
+  border: 1px solid rgba(212, 160, 23, 0.15);
+  padding: 2px 12px;
+  border-radius: 20px;
+}
 
-    .pending-item .user-info {
-      display: flex;
-      flex-direction: column;
-      flex: 1;
-      gap: 2px;
-    }
-    .pending-item .user-name {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text-light);
-    }
-    .pending-item .user-id {
-      font-size: 11px;
-      color: var(--accent);
-      font-family: monospace;
-      letter-spacing: 0.5px;
-    }
-    .pending-item .user-id i {
-      font-size: 10px;
-      opacity: 0.5;
-      margin-right: 4px;
-    }
+.pending-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 14px;
+  background: rgba(10, 10, 10, 0.3);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  margin-bottom: 8px;
+  transition: var(--transition);
+  cursor: pointer;
+}
+.pending-item:hover {
+  border-color: rgba(184, 134, 11, 0.12);
+  background: rgba(10, 10, 10, 0.5);
+}
+.pending-item:active {
+  transform: scale(0.98);
+}
 
-    .pending-item .amount-info {
-      text-align: right;
-      margin-right: 12px;
-    }
-    .pending-item .amount-value {
-      font-size: 15px;
-      font-weight: 700;
-      font-family: 'Playfair Display', 'Georgia', serif;
-      color: var(--accent);
-    }
-    .pending-item .amount-label {
-      font-size: 10px;
-      color: var(--text-muted);
-    }
+.pending-item .user-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 2px;
+}
+.pending-item .user-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-light);
+}
+.pending-item .user-id {
+  font-size: 11px;
+  color: var(--accent);
+  font-family: monospace;
+  letter-spacing: 0.5px;
+}
+.pending-item .user-id i {
+  font-size: 10px;
+  opacity: 0.5;
+  margin-right: 4px;
+}
 
-    .pending-actions {
-      display: flex;
-      gap: 6px;
-      flex-shrink: 0;
-    }
-    .pending-actions button {
-      width: 32px;
-      height: 32px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: var(--transition);
-      font-size: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .pending-actions button:active {
-      transform: scale(0.92);
-    }
-    .pending-actions .approve {
-      background: rgba(45, 125, 90, 0.15);
-      color: var(--success);
-    }
-    .pending-actions .approve:hover {
-      background: rgba(45, 125, 90, 0.25);
-    }
-    .pending-actions .reject {
-      background: rgba(138, 58, 58, 0.15);
-      color: var(--danger);
-    }
-    .pending-actions .reject:hover {
-      background: rgba(138, 58, 58, 0.25);
-    }
+.pending-item .amount-info {
+  text-align: right;
+  margin-right: 12px;
+}
+.pending-item .amount-value {
+  font-size: 15px;
+  font-weight: 700;
+  font-family: 'Playfair Display', 'Georgia', serif;
+  color: var(--accent);
+}
+.pending-item .amount-value.red {
+  color: var(--danger);
+}
+.pending-item .amount-label {
+  font-size: 10px;
+  color: var(--text-muted);
+}
 
-    .empty-state-small {
-      text-align: center;
-      padding: 20px;
-      color: var(--text-dim);
-      font-size: 13px;
-      font-weight: 300;
-    }
-    .empty-state-small i {
-      font-size: 24px;
-      opacity: 0.2;
-      display: block;
-      margin-bottom: 6px;
-    }
-    
-    /* ============================================================
-       MODAL DÉTAILS DÉPÔT
-       ============================================================ */
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.85);
-      backdrop-filter: blur(12px);
-      z-index: 3000;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-    .modal-overlay.show {
-      opacity: 1;
-      visibility: visible;
-    }
+.pending-actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.pending-actions button {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: var(--transition);
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pending-actions button:active {
+  transform: scale(0.92);
+}
+.pending-actions .approve {
+  background: rgba(45, 125, 90, 0.15);
+  color: var(--success);
+}
+.pending-actions .approve:hover {
+  background: rgba(45, 125, 90, 0.25);
+}
+.pending-actions .reject {
+  background: rgba(138, 58, 58, 0.15);
+  color: var(--danger);
+}
+.pending-actions .reject:hover {
+  background: rgba(138, 58, 58, 0.25);
+}
 
-    .modal-dialog {
-      background: var(--bg-surface);
-      border: 1px solid rgba(184, 134, 11, 0.12);
-      border-radius: var(--radius);
-      padding: 28px 24px;
-      max-width: 400px;
-      width: 100%;
-      transform: scale(0.9) translateY(20px);
-      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
-    }
-    .modal-overlay.show .modal-dialog {
-      transform: scale(1) translateY(0);
-    }
+.empty-state-small {
+  text-align: center;
+  padding: 20px;
+  color: var(--text-dim);
+  font-size: 13px;
+  font-weight: 300;
+}
+.empty-state-small i {
+  font-size: 24px;
+  opacity: 0.2;
+  display: block;
+  margin-bottom: 6px;
+}
 
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-      padding-bottom: 14px;
-      border-bottom: 1px solid var(--card-border);
-    }
-    .modal-header h3 {
-      font-size: 18px;
-      font-weight: 700;
-      font-family: 'Playfair Display', 'Georgia', serif;
-      color: var(--text-light);
-    }
-    .modal-header h3 span {
-      color: var(--accent);
-      font-style: italic;
-    }
-    .modal-close {
-      width: 32px;
-      height: 32px;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid var(--card-border);
-      border-radius: 8px;
-      color: var(--text-dim);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: var(--transition);
-    }
-    .modal-close:active {
-      transform: scale(0.92);
-    }
-    .modal-close:hover {
-      border-color: rgba(184, 134, 11, 0.15);
-      color: var(--text-light);
-    }
+/* ============================================================
+   MODAL DÉTAILS
+   ============================================================ */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(12px);
+  z-index: 3000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
 
-    .modal-field {
-      margin-bottom: 14px;
-    }
-    .modal-field:last-of-type {
-      margin-bottom: 20px;
-    }
-    .modal-field .field-label {
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: var(--text-muted);
-      font-weight: 400;
-      margin-bottom: 2px;
-    }
-    .modal-field .field-value {
-      font-size: 16px;
-      font-weight: 600;
-      color: var(--text-light);
-      padding: 6px 12px;
-      background: rgba(10, 10, 10, 0.3);
-      border-radius: 8px;
-      border: 1px solid var(--card-border);
-    }
-    .modal-field .field-value .highlight {
-      color: var(--accent);
-    }
-    .modal-field .field-value .success-text {
-      color: var(--success);
-    }
+.modal-dialog {
+  background: var(--bg-surface);
+  border: 1px solid rgba(184, 134, 11, 0.12);
+  border-radius: var(--radius);
+  padding: 28px 24px;
+  max-width: 400px;
+  width: 100%;
+  transform: scale(0.9) translateY(20px);
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+}
+.modal-overlay.show .modal-dialog {
+  transform: scale(1) translateY(0);
+}
 
-    .modal-actions {
-      display: flex;
-      gap: 10px;
-      margin-top: 4px;
-    }
-    .modal-actions button {
-      flex: 1;
-      padding: 12px;
-      border: none;
-      border-radius: 12px;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: var(--transition);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-    }
-    .modal-actions button:active {
-      transform: scale(0.96);
-    }
-    .modal-actions .btn-approve {
-      background: var(--success);
-      color: white;
-    }
-    .modal-actions .btn-approve:hover {
-      opacity: 0.85;
-    }
-    .modal-actions .btn-reject {
-      background: var(--danger);
-      color: white;
-    }
-    .modal-actions .btn-reject:hover {
-      opacity: 0.85;
-    }
-    .modal-actions .btn-close-modal {
-      background: rgba(255, 255, 255, 0.05);
-      color: var(--text-dim);
-      border: 1px solid var(--card-border);
-      flex: 0.5;
-    }
-    .modal-actions .btn-close-modal:hover {
-      background: rgba(255, 255, 255, 0.08);
-    }
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--card-border);
+}
+.modal-header h3 {
+  font-size: 18px;
+  font-weight: 700;
+  font-family: 'Playfair Display', 'Georgia', serif;
+  color: var(--text-light);
+}
+.modal-header h3 span {
+  color: var(--accent);
+  font-style: italic;
+}
+.modal-close {
+  width: 32px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  color: var(--text-dim);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+.modal-close:active { transform: scale(0.92); }
+.modal-close:hover { border-color: rgba(184, 134, 11, 0.15); color: var(--text-light); }
 
-    /* ============================================================
-       RECENT ACTIVITIES
-       ============================================================ */
-    .activity-card {
-      background: var(--bg-card);
-      backdrop-filter: blur(8px);
-      border: 1px solid var(--card-border);
-      border-radius: var(--radius);
-      padding: 18px 16px;
-      margin-bottom: 20px;
-      transition: var(--transition);
-    }
-    .activity-card:hover {
-      border-color: rgba(184, 134, 11, 0.08);
-    }
+.modal-field {
+  margin-bottom: 14px;
+}
+.modal-field:last-of-type {
+  margin-bottom: 20px;
+}
+.modal-field .field-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  font-weight: 400;
+  margin-bottom: 2px;
+}
+.modal-field .field-value {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-light);
+  padding: 6px 12px;
+  background: rgba(10, 10, 10, 0.3);
+  border-radius: 8px;
+  border: 1px solid var(--card-border);
+}
+.modal-field .field-value .highlight {
+  color: var(--accent);
+}
+.modal-field .field-value .success-text {
+  color: var(--success);
+}
+.modal-field .field-value .danger-text {
+  color: var(--danger);
+}
 
-    .activity-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 14px;
-    }
-    .activity-header h3 {
-      font-size: 15px;
-      font-weight: 600;
-      font-family: 'Playfair Display', 'Georgia', serif;
-      color: var(--text-light);
-    }
-    .activity-header h3 span {
-      color: var(--accent);
-      font-style: italic;
-    }
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+}
+.modal-actions button {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.modal-actions button:active { transform: scale(0.96); }
+.modal-actions .btn-approve {
+  background: var(--success);
+  color: white;
+}
+.modal-actions .btn-approve:hover { opacity: 0.85; }
+.modal-actions .btn-reject {
+  background: var(--danger);
+  color: white;
+}
+.modal-actions .btn-reject:hover { opacity: 0.85; }
+.modal-actions .btn-close-modal {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-dim);
+  border: 1px solid var(--card-border);
+  flex: 0.5;
+}
+.modal-actions .btn-close-modal:hover { background: rgba(255, 255, 255, 0.08); }
 
-    .activity-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 10px 12px;
-      background: rgba(10, 10, 10, 0.3);
-      border: 1px solid var(--card-border);
-      border-radius: 10px;
-      margin-bottom: 6px;
-      transition: var(--transition);
-    }
-    .activity-item:hover {
-      border-color: rgba(184, 134, 11, 0.08);
-    }
-
-    .activity-icon {
-      width: 32px;
-      height: 32px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 14px;
-      flex-shrink: 0;
-    }
-    .activity-icon.deposit {
-      background: rgba(45, 125, 90, 0.1);
-      color: var(--success);
-    }
-    .activity-icon.withdrawal {
-      background: rgba(138, 58, 58, 0.1);
-      color: var(--danger);
-    }
-    .activity-icon.user {
-      background: rgba(74, 122, 106, 0.1);
-      color: #4A7A6A;
-    }
-
-    .activity-content {
-      flex: 1;
-    }
-    .activity-content .act-title {
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--text-light);
-    }
-    .activity-content .act-desc {
-      font-size: 11px;
-      color: var(--text-dim);
-    }
-
-    .activity-time {
-      font-size: 10px;
-      color: var(--text-muted);
-      white-space: nowrap;
-    }
-
-    /* ============================================================
-       FOOTER
-       ============================================================ */
-    .footer {
-      text-align: center;
-      padding: 20px;
-      border-top: 1px solid rgba(184, 134, 11, 0.03);
-      margin-top: 20px;
-      color: var(--text-muted);
-      font-size: 10px;
-      opacity: 0.4;
-    }
-
-    /* ============================================================
-       TOAST
-       ============================================================ */
-    .toast {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%) translateY(120px);
-      max-width: 90%;
-      width: 400px;
-      padding: 14px 20px;
-      border-radius: 14px;
-      font-size: 13px;
-      font-weight: 500;
-      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-      z-index: 9999;
-      text-align: center;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-      pointer-events: none;
-    }
-    .toast.show {
-      transform: translateX(-50%) translateY(0);
-    }
-    .toast.success {
-      background: #0D2A1F;
-      border: 1px solid #2D7D5A;
-      color: #2D7D5A;
-    }
-    .toast.error {
-      background: #2A0D0D;
-      border: 1px solid #8A3A3A;
-      color: #8A3A3A;
-    }
-    .toast.warning {
-      background: #2A1A0D;
-      border: 1px solid #B8860B;
-      color: #B8860B;
-    }
-    .toast.info {
-      background: #0D1A2A;
-      border: 1px solid #4A7A8A;
-      color: #4A7A8A;
-    }
-
-    /* ============================================================
-       MENU - COMME L'INDEX UTILISATEUR
-       ============================================================ */
+/* MENU - SIMPLE (sans swipe) */
     .menu-overlay {
       position: fixed;
       top: 0;
@@ -897,9 +731,8 @@
       z-index: 2000;
       visibility: hidden;
       opacity: 0;
-      transition: opacity 0.15s ease, visibility 0.15s ease;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
       display: flex;
-      touch-action: none;
     }
     .menu-overlay.active {
       visibility: visible;
@@ -908,106 +741,99 @@
 
     .menu-backdrop {
       position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(3, 3, 5, 0.5);
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(3, 3, 5, 0.6);
       backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
       cursor: default;
-      touch-action: none;
-      transition: backdrop-filter 0.15s ease;
     }
 
     .menu-sidebar {
       margin-left: auto;
-      width: 75%;
+      width: 78%;
       max-width: 320px;
       height: 100%;
-      background: linear-gradient(180deg, #0A0A0A 0%, #141414 50%, #0A0A0A 100%);
-      border-left: 1px solid rgba(184, 134, 11, 0.03);
+      background: #0A0A0A;
+      border-left: 1px solid rgba(184, 134, 11, 0.06);
       padding: 20px 0;
       transform: translateX(100%);
-      transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+      transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
       display: flex;
       flex-direction: column;
       overflow-y: auto;
-      touch-action: pan-y;
-      will-change: transform;
+      box-shadow: -8px 0 40px rgba(0, 0, 0, 0.4);
     }
     .menu-overlay.active .menu-sidebar {
       transform: translateX(0);
     }
 
-    .menu-link {
-      opacity: 0;
-      transform: translateX(20px);
-      transition: opacity 0.15s ease, transform 0.15s ease, background 0.2s ease, color 0.2s ease;
-    }
-    .menu-overlay.active .menu-link {
-      opacity: 1;
-      transform: translateX(0);
-    }
-    .menu-overlay.active .menu-link:nth-child(1) { transition-delay: 0.02s; }
-    .menu-overlay.active .menu-link:nth-child(2) { transition-delay: 0.04s; }
-    .menu-overlay.active .menu-link:nth-child(3) { transition-delay: 0.06s; }
-    .menu-overlay.active .menu-link:nth-child(4) { transition-delay: 0.08s; }
-    .menu-overlay.active .menu-link:nth-child(5) { transition-delay: 0.10s; }
-    .menu-overlay.active .menu-link:nth-child(6) { transition-delay: 0.12s; }
-
-    .menu-sidebar::-webkit-scrollbar { width: 2px; }
+    .menu-sidebar::-webkit-scrollbar { width: 3px; }
     .menu-sidebar::-webkit-scrollbar-track { background: transparent; }
-    .menu-sidebar::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; opacity: 0.2; }
+    .menu-sidebar::-webkit-scrollbar-thumb { background: #B8860B; border-radius: 4px; }
 
     .menu-header {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
       padding: 0 20px 20px;
-      border-bottom: 1px solid rgba(184, 134, 11, 0.03);
+      border-bottom: 1px solid rgba(184, 134, 11, 0.04);
+      flex-shrink: 0;
     }
+
     .menu-user {
       display: flex;
       align-items: center;
       gap: 12px;
     }
     .menu-avatar {
-      width: 40px; height: 40px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
-      background: var(--accent);
+      background: #B8860B;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 16px;
       font-weight: 600;
-      color: var(--bg-dark);
+      color: #0A0A0A;
       flex-shrink: 0;
     }
     .menu-username {
       font-size: 14px;
       font-weight: 600;
       font-family: 'Playfair Display', 'Georgia', serif;
-      color: var(--text-light);
+      color: #F5F0E8;
     }
     .menu-useremail {
       font-size: 10px;
-      color: var(--text-muted);
+      color: #5A5A4A;
       margin-top: 1px;
-      font-weight: 300;
     }
 
     .menu-close-btn {
-      width: 32px; height: 32px;
-      background: rgba(184, 134, 11, 0.03);
+      width: 32px;
+      height: 32px;
+      background: rgba(184, 134, 11, 0.04);
       border: 1px solid rgba(184, 134, 11, 0.04);
       border-radius: 8px;
-      color: var(--text-muted);
+      color: #5A5A4A;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: var(--transition);
+      transition: all 0.2s ease;
       flex-shrink: 0;
     }
-    .menu-close-btn:hover { background: rgba(184,134,11,0.04); color: var(--text-light); }
-    .menu-close-btn:active { transform: scale(0.92); }
+    .menu-close-btn:hover {
+      background: rgba(184, 134, 11, 0.08);
+      color: #F5F0E8;
+    }
+    .menu-close-btn:active {
+      transform: scale(0.92);
+    }
 
     .menu-nav {
       flex: 1;
@@ -1015,52 +841,94 @@
       display: flex;
       flex-direction: column;
       gap: 2px;
+      overflow-y: auto;
     }
+
+    .menu-section-title {
+      font-size: 9px;
+      font-weight: 600;
+      color: #5A5A4A;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      padding: 12px 14px 4px;
+      opacity: 0.4;
+      margin-top: 4px;
+    }
+    .menu-section-title:first-of-type {
+      margin-top: 0;
+    }
+
     .menu-link {
       display: flex;
       align-items: center;
       gap: 12px;
       padding: 10px 14px;
       border-radius: 10px;
-      color: var(--text-dim);
+      color: #8A8A7A;
       text-decoration: none;
       font-size: 13px;
       font-weight: 400;
       transition: background 0.15s ease, color 0.15s ease;
     }
-    .menu-link:active { transform: scale(0.96); }
+    .menu-link:active {
+      transform: scale(0.96);
+    }
     .menu-link i {
       width: 18px;
       font-size: 14px;
-      color: var(--text-muted);
+      color: #5A5A4A;
       transition: color 0.15s ease;
     }
     .menu-link.active {
-      background: rgba(184, 134, 11, 0.03);
-      color: var(--accent);
+      background: rgba(184, 134, 11, 0.04);
+      color: #B8860B;
     }
-    .menu-link.active i { color: var(--accent); }
+    .menu-link.active i {
+      color: #B8860B;
+    }
     .menu-link:hover:not(.active) {
-      background: rgba(255,255,255,0.01);
-      color: var(--text-light);
+      background: rgba(255, 255, 255, 0.02);
+      color: #F5F0E8;
     }
-    .menu-link:hover:not(.active) i { color: var(--text-light); }
+    .menu-link:hover:not(.active) i {
+      color: #F5F0E8;
+    }
 
-    /* Lien spécial Accueil */
     .menu-link.home-link {
       background: rgba(184, 134, 11, 0.06);
       border: 1px solid rgba(184, 134, 11, 0.08);
-      color: var(--accent);
+      color: #B8860B;
       margin-bottom: 8px;
     }
-    .menu-link.home-link i { color: var(--accent); }
+    .menu-link.home-link i {
+      color: #B8860B;
+    }
     .menu-link.home-link:hover {
       background: rgba(184, 134, 11, 0.12);
+    }
+
+    .menu-badge {
+      margin-left: auto;
+      font-size: 9px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 12px;
+      background: rgba(184, 134, 11, 0.12);
+      color: #B8860B;
+    }
+    .menu-badge.danger {
+      background: rgba(138, 58, 58, 0.15);
+      color: #8A3A3A;
+    }
+    .menu-badge.success {
+      background: rgba(45, 125, 90, 0.15);
+      color: #2D7D5A;
     }
 
     .menu-footer {
       padding: 14px 20px 10px;
       border-top: 1px solid rgba(184, 134, 11, 0.03);
+      flex-shrink: 0;
     }
     .menu-logout {
       display: flex;
@@ -1072,106 +940,159 @@
       text-decoration: none;
       font-size: 13px;
       font-weight: 400;
-      transition: var(--transition);
-      opacity: 0.5;
+      transition: all 0.2s ease;
       cursor: pointer;
     }
-    .menu-logout:active { transform: scale(0.96); }
-    .menu-logout i { font-size: 14px; }
+    .menu-logout:active {
+      transform: scale(0.96);
+    }
+    .menu-logout i {
+      font-size: 14px;
+    }
     .menu-logout:hover {
       background: rgba(122, 74, 74, 0.04);
-      opacity: 1;
+      color: #8A4A4A;
     }
     .menu-version {
       text-align: center;
       font-size: 9px;
-      color: var(--text-muted);
+      color: #5A5A4A;
       opacity: 0.2;
       margin-top: 8px;
-      font-weight: 300;
     }
 
-    /* ============================================================
-       RESPONSIVE
-       ============================================================ */
-    @media (max-width: 550px) {
-      .stats-grid {
-        gap: 8px;
-      }
-      .stat-card {
-        padding: 12px 10px;
-      }
-      .stat-card .stat-value {
-        font-size: 18px;
-      }
-      .container {
-        padding: 12px 4% 40px;
-      }
-      .revenue-amount {
-        font-size: 26px;
-      }
-      .chart-wrapper {
-        height: 150px;
-      }
-      .pending-item {
-        flex-wrap: wrap;
-        gap: 8px;
-      }
-      .pending-actions {
-        margin-left: auto;
-      }
-      .activity-item {
-        flex-wrap: wrap;
-        gap: 6px;
-      }
-      .activity-time {
-        margin-left: auto;
-      }
-      .modal-dialog {
-        padding: 20px 16px;
-        margin: 10px;
-      }
-      .modal-actions {
-        flex-wrap: wrap;
-      }
-      .modal-actions .btn-close-modal {
-        flex: 1;
-      }
-    }
+/* ============================================================
+   TOAST
+   ============================================================ */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(120px);
+  max-width: 90%;
+  width: 400px;
+  padding: 14px 20px;
+  border-radius: 14px;
+  font-size: 13px;
+  font-weight: 500;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 9999;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+}
+.toast.show {
+  transform: translateX(-50%) translateY(0);
+}
+.toast.success {
+  background: #0D2A1F;
+  border: 1px solid #2D7D5A;
+  color: #2D7D5A;
+}
+.toast.error {
+  background: #2A0D0D;
+  border: 1px solid #8A3A3A;
+  color: #8A3A3A;
+}
+.toast.warning {
+  background: #2A1A0D;
+  border: 1px solid #B8860B;
+  color: #B8860B;
+}
+.toast.info {
+  background: #0D1A2A;
+  border: 1px solid #4A7A8A;
+  color: #4A7A8A;
+}
 
-    @media (min-width: 601px) and (max-width: 768px) {
-      .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 14px;
-      }
-      .chart-wrapper {
-        height: 200px;
-      }
-    }
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer {
+  text-align: center;
+  padding: 20px;
+  border-top: 1px solid rgba(184, 134, 11, 0.03);
+  margin-top: 20px;
+  color: var(--text-muted);
+  font-size: 10px;
+  opacity: 0.4;
+}
 
-    @media (min-width: 769px) {
-      .container {
-        max-width: 850px;
-        padding: 24px 5%;
-      }
-      .stats-grid {
-        grid-template-columns: repeat(4, 1fr);
-        gap: 16px;
-      }
-      .chart-wrapper {
-        height: 250px;
-      }
-    }
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 550px) {
+  .stats-grid {
+    gap: 8px;
+  }
+  .stat-card {
+    padding: 12px 10px;
+  }
+  .stat-card .stat-value {
+    font-size: 18px;
+  }
+  .container {
+    padding: 12px 4% 40px;
+  }
+  .revenue-amount {
+    font-size: 26px;
+  }
+  .chart-wrapper {
+    height: 150px;
+  }
+  .pending-item {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .pending-actions {
+    margin-left: auto;
+  }
+  .modal-dialog {
+    padding: 20px 16px;
+    margin: 10px;
+  }
+  .modal-actions {
+    flex-wrap: wrap;
+  }
+  .modal-actions .btn-close-modal {
+    flex: 1;
+  }
+}
 
-    @media (min-width: 1024px) {
-      .container {
-        max-width: 1050px;
-        padding: 32px 5%;
-      }
-      .chart-wrapper {
-        height: 280px;
-      }
-    }
+@media (min-width: 601px) and (max-width: 768px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+  .chart-wrapper {
+    height: 200px;
+  }
+}
+
+@media (min-width: 769px) {
+  .container {
+    max-width: 850px;
+    padding: 24px 5%;
+  }
+  .stats-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .chart-wrapper {
+    height: 250px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1050px;
+    padding: 32px 5%;
+  }
+  .chart-wrapper {
+    height: 280px;
+  }
+}
+ 
   </style>
 </head>
 <body>
@@ -1198,31 +1119,46 @@
     </div>
 
     <nav class="menu-nav">
-      <!-- Lien vers la page principale (index utilisateur) -->
       <a href="../index.html" class="menu-link home-link">
         <i class="fas fa-home"></i> Accueil ARVEXA
       </a>
-
       <a href="index.html" class="menu-link active">
         <i class="fas fa-chart-pie"></i> Tableau de bord
       </a>
       <a href="users.html" class="menu-link">
         <i class="fas fa-users"></i> Utilisateurs
       </a>
+
+      <div class="menu-section-title">💰 Demandes</div>
       <a href="depots.html" class="menu-link">
         <i class="fas fa-arrow-down"></i> Dépôts
+        <span class="menu-badge" id="depotsBadge">0</span>
       </a>
       <a href="retraits.html" class="menu-link">
         <i class="fas fa-arrow-up"></i> Retraits
+        <span class="menu-badge" id="retraitsBadge">0</span>
       </a>
-      <a href="investissements.html" class="menu-link">
-        <i class="fas fa-chart-line"></i> Investissements
+
+      <div class="menu-section-title">🎓 BAC</div>
+      <a href="abonnements-bac.html" class="menu-link">
+        <i class="fas fa-graduation-cap"></i> Abonnements BAC
+        <span class="menu-badge">1000 FCFA</span>
       </a>
-      <a href="vendre.html" class="menu-link">
-        <i class="fas fa-store"></i> Vendre
+
+      <div class="menu-section-title">🎯 Promotions</div>
+      <a href="promotions.html" class="menu-link">
+        <i class="fas fa-bolt"></i> Lancer une promotion flash
       </a>
-      <a href="avis.html" class="menu-link">
-        <i class="fas fa-star"></i> Avis
+
+      <div class="menu-section-title">📰 Actualités</div>
+      <a href="actualites.html" class="menu-link">
+        <i class="fas fa-newspaper"></i> Gérer les actualités
+      </a>
+
+      <div class="menu-section-title">🤝 Partenariats</div>
+      <a href="partenariats.html" class="menu-link">
+        <i class="fas fa-handshake"></i> Gérer les partenaires
+        <span class="menu-badge" id="partnersBadge">0</span>
       </a>
     </nav>
 
@@ -1235,11 +1171,11 @@
   </div>
 </div>
 
-<!-- ===== MODAL DÉTAILS DÉPÔT ===== -->
-<div class="modal-overlay" id="depositModal">
+<!-- ===== MODAL DÉTAILS ===== -->
+<div class="modal-overlay" id="requestModal">
   <div class="modal-dialog">
     <div class="modal-header">
-      <h3>📋 Détails du <span>dépôt</span></h3>
+      <h3>📋 Détails de la <span>demande</span></h3>
       <button class="modal-close" id="modalCloseBtn"><i class="fas fa-times"></i></button>
     </div>
     <div id="modalContent">
@@ -1328,29 +1264,16 @@
     </div>
   </div>
 
-  <!-- ===== DÉPÔTS EN ATTENTE ===== -->
+  <!-- ===== DEMANDES EN ATTENTE (DÉPÔTS + RETRAITS) ===== -->
   <div class="pending-card">
     <div class="pending-header">
-      <h3>⏳ Dépôts en <span>attente</span></h3>
+      <h3>⏳ Demandes en <span>attente</span></h3>
       <span class="pending-count" id="pendingCount">0</span>
     </div>
     <div id="pendingList">
       <div class="empty-state-small">
         <i class="fas fa-check-circle"></i>
-        Aucun dépôt en attente
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== DERNIÈRES ACTIVITÉS ===== -->
-  <div class="activity-card">
-    <div class="activity-header">
-      <h3>🔄 Dernières <span>activités</span></h3>
-    </div>
-    <div id="activityList">
-      <div class="empty-state-small">
-        <i class="fas fa-inbox"></i>
-        Aucune activité récente
+        Aucune demande en attente
       </div>
     </div>
   </div>
@@ -1402,7 +1325,8 @@
     getDocs,
     runTransaction,
     increment,
-    limit
+    limit,
+    addDoc
   } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
 
   // ================================================================
@@ -1441,12 +1365,14 @@
 
   const pendingList = document.getElementById('pendingList');
   const pendingCount = document.getElementById('pendingCount');
-  const activityList = document.getElementById('activityList');
+
+  const depotsBadge = document.getElementById('depotsBadge');
+  const retraitsBadge = document.getElementById('retraitsBadge');
 
   const toast = document.getElementById('toast');
 
   // Modal
-  const depositModal = document.getElementById('depositModal');
+  const requestModal = document.getElementById('requestModal');
   const modalContent = document.getElementById('modalContent');
   const modalCloseBtn = document.getElementById('modalCloseBtn');
 
@@ -1457,6 +1383,7 @@
   const menuBtn = document.getElementById('menuBtn');
   const menuCloseBtn = document.getElementById('menuCloseBtn');
   const menuBackdrop = document.getElementById('menuBackdrop');
+  const menuSidebar = document.getElementById('menuSidebar');
 
   function openMenu() {
     menuOverlay.classList.add('active');
@@ -1470,7 +1397,11 @@
 
   menuBtn.addEventListener('click', (e) => {
     e.preventDefault();
-    openMenu();
+    if (menuOverlay.classList.contains('active')) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
   });
 
   menuCloseBtn.addEventListener('click', closeMenu);
@@ -1482,36 +1413,45 @@
   // ================================================================
   // MODAL
   // ================================================================
-  let currentDepositId = null;
+  let currentRequestId = null;
+  let currentRequestType = null;
 
-  function openDepositModal(deposit) {
-    currentDepositId = deposit.id;
-    
-    const dateStr = deposit.date ? new Date(deposit.date).toLocaleDateString('fr-FR', {
-      day: '2-digit',
-      month: 'long',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
+  function openRequestModal(request, type) {
+    currentRequestId = request.id;
+    currentRequestType = type;
+
+    const isDepot = type === 'depot';
+    const icon = isDepot ? '📥' : '📤';
+    const label = isDepot ? 'Dépôt' : 'Retrait';
+    const amount = request.amount || 0;
+    const userName = request.userName || 'Utilisateur inconnu';
+    const userId = request.userId || 'ID inconnu';
+    const dateStr = request.date ? new Date(request.date).toLocaleDateString('fr-FR', {
+      day: '2-digit', month: 'long', year: 'numeric',
+      hour: '2-digit', minute: '2-digit'
     }) : 'Date inconnue';
 
     modalContent.innerHTML = `
       <div class="modal-field">
+        <div class="field-label">${icon} Type</div>
+        <div class="field-value">${label}</div>
+      </div>
+      <div class="modal-field">
         <div class="field-label">👤 Nom complet</div>
-        <div class="field-value">${deposit.userName || 'Utilisateur inconnu'}</div>
+        <div class="field-value">${userName}</div>
       </div>
       <div class="modal-field">
         <div class="field-label">🆔 ID utilisateur</div>
         <div class="field-value" style="font-family:monospace;letter-spacing:0.5px;font-size:14px;color:var(--accent);">
-          ${deposit.userId || 'ID inconnu'}
+          ${userId}
         </div>
       </div>
       <div class="modal-field">
         <div class="field-label">💰 Montant</div>
-        <div class="field-value"><span class="highlight">${deposit.amount.toLocaleString('fr-FR')} FCFA</span></div>
+        <div class="field-value"><span class="highlight">${amount.toLocaleString('fr-FR')} FCFA</span></div>
       </div>
       <div class="modal-field">
-        <div class="field-label">📅 Date du dépôt</div>
+        <div class="field-label">📅 Date</div>
         <div class="field-value">${dateStr}</div>
       </div>
       <div class="modal-field">
@@ -1533,36 +1473,44 @@
       </div>
     `;
 
-    // Écouteurs des boutons du modal
     document.getElementById('modalApproveBtn').addEventListener('click', () => {
-      if (currentDepositId) {
-        handleApproveDeposit(currentDepositId);
+      if (currentRequestId && currentRequestType) {
+        if (currentRequestType === 'depot') {
+          handleApproveDeposit(currentRequestId);
+        } else {
+          handleApproveRetrait(currentRequestId);
+        }
         closeModal();
       }
     });
 
     document.getElementById('modalRejectBtn').addEventListener('click', () => {
-      if (currentDepositId) {
-        handleRejectDeposit(currentDepositId);
+      if (currentRequestId && currentRequestType) {
+        if (currentRequestType === 'depot') {
+          handleRejectDeposit(currentRequestId);
+        } else {
+          handleRejectRetrait(currentRequestId);
+        }
         closeModal();
       }
     });
 
     document.getElementById('modalCloseActionBtn').addEventListener('click', closeModal);
 
-    depositModal.classList.add('show');
+    requestModal.classList.add('show');
     document.body.style.overflow = 'hidden';
   }
 
   function closeModal() {
-    depositModal.classList.remove('show');
+    requestModal.classList.remove('show');
     document.body.style.overflow = '';
-    currentDepositId = null;
+    currentRequestId = null;
+    currentRequestType = null;
   }
 
   modalCloseBtn.addEventListener('click', closeModal);
-  depositModal.addEventListener('click', (e) => {
-    if (e.target === depositModal) closeModal();
+  requestModal.addEventListener('click', (e) => {
+    if (e.target === requestModal) closeModal();
   });
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeModal();
@@ -1610,80 +1558,73 @@
   }
 
   // ================================================================
-  // ✅ VALIDER UN DÉPÔT (AVEC CRÉDIT DU SOLDE + BONUS PARRAINAGE)
+  // ✅ VALIDER UN DÉPÔT (avec bonus parrainage + promotion)
   // ================================================================
   async function handleApproveDeposit(id) {
     if (!confirm('✅ Valider ce dépôt et créditer l\'utilisateur ?')) return;
-    
+
     try {
       const depRef = doc(db, 'depots', id);
       const depSnap = await getDoc(depRef);
-      
+
       if (!depSnap.exists()) {
         showToast('❌ Dépôt introuvable', 'error');
         return;
       }
-      
+
       const depData = depSnap.data();
       const userId = depData.userId;
       const montant = depData.montant || 0;
-      
+
       if (!userId || montant <= 0) {
         showToast('❌ Données de dépôt invalides', 'error');
         return;
       }
-      
+
       const userRef = doc(db, 'users', userId);
       const userSnap = await getDoc(userRef);
-      
+
       if (!userSnap.exists()) {
         showToast(`❌ Utilisateur (${userId}) introuvable`, 'error');
         return;
       }
-      
+
       const userData = userSnap.data();
       const currentBalance = userData.balance || 0;
       const newBalance = currentBalance + montant;
+      const isFirstDeposit = !userData.hasDeposited || userData.totalDepots === 0;
 
-      // ✅ Récupérer les données du parrain AVANT la transaction
+      // ✅ Récupérer les données du parrain
       let parrainRef = null;
       let parrainData = null;
       let parrainUid = null;
-      
-      // ✅ Vérifier si l'utilisateur est éligible au bonus parrainage
-      // Conditions : a un parrain, bonus en attente, pas encore reçu, montant >= 3000
-      const eligibleForBonus = 
+
+      const eligibleForBonus =
         userData.referredBy &&
         userData.referralBonusPending === true &&
         userData.referralBonusReceived !== true &&
         montant >= 3000;
 
       if (eligibleForBonus) {
-        // Récupérer le parrain via le code de parrainage
         const parrainCode = userData.referredBy;
         const parrainQuery = query(collection(db, 'users'), where('referralCode', '==', parrainCode));
         const parrainSnap = await getDocs(parrainQuery);
-        
+
         if (!parrainSnap.empty) {
           parrainRef = doc(db, 'users', parrainSnap.docs[0].id);
           parrainData = parrainSnap.docs[0].data();
           parrainUid = parrainSnap.docs[0].id;
-          console.log('🎯 Parrain trouvé:', parrainData.prenom || 'Utilisateur');
-        } else {
-          console.warn('⚠️ Parrain non trouvé pour le code:', parrainCode);
         }
       }
-      
+
       // ✅ Exécuter la transaction
       await runTransaction(db, async (transaction) => {
-        // 1. Mettre à jour le dépôt
-        transaction.update(depRef, { 
+        transaction.update(depRef, {
           statut: 'valide',
           validatedAt: new Date().toISOString(),
           validatedBy: auth.currentUser?.uid || 'admin'
         });
-        
-        // 2. Créditer l'utilisateur
+
         transaction.update(userRef, {
           balance: newBalance,
           realBalance: (userData.realBalance || 0) + montant,
@@ -1693,30 +1634,44 @@
           isUnlocked: true
         });
 
-        // 3. ✅ Créditer le parrain (si éligible)
+        // ✅ Bonus parrainage
         if (parrainRef && parrainData) {
           const bonusAmount = userData.referralBonusAmount || 1000;
-          
           transaction.update(parrainRef, {
             balance: (parrainData.balance || 0) + bonusAmount,
             referralEarnings: (parrainData.referralEarnings || 0) + bonusAmount,
-            gainsTotal: (parrainData.gainsTotal || 0) + bonusAmount,  // ✅ Mise à jour des revenus
+            gainsTotal: (parrainData.gainsTotal || 0) + bonusAmount,
             referralsCount: (parrainData.referralsCount || 0) + 1,
             lastReferralDate: new Date().toISOString()
           });
-          
-          // 4. Marquer le bonus comme reçu pour l'utilisateur
+
           transaction.update(userRef, {
             referralBonusPending: false,
             referralBonusReceived: true,
             referralBonusDate: new Date().toISOString()
           });
-          
-          console.log('✅ Bonus parrainage de', bonusAmount, 'FCFA crédité à', parrainUid);
+        }
+
+        // ✅ PROMOTION BIENVENUE (uniquement premier dépôt)
+        if (isFirstDeposit && montant >= 3000) {
+          const dateDebut = new Date();
+          const dateFin = new Date(dateDebut.getTime() + 48 * 60 * 60 * 1000);
+
+          const promoRef = doc(collection(db, 'promotions'));
+          transaction.set(promoRef, {
+            type: 'bienvenue',
+            utilisateurId: userId,
+            actif: true,
+            reduction: 75,
+            description: '🎉 Offre de bienvenue -75% sur toutes les formations pendant 48h !',
+            dateDebut: dateDebut.toISOString(),
+            dateFin: dateFin.toISOString(),
+            declencheePar: 'systeme',
+            createdAt: new Date().toISOString()
+          });
         }
       });
-      
-      // ✅ Notifications
+
       const userName = userData.fullName || userData.prenom || userData.nom || 'Utilisateur';
       showToast(`✅ ${montant.toLocaleString('fr-FR')} FCFA crédités à ${userName} !`, 'success');
 
@@ -1724,7 +1679,11 @@
         const parrainName = parrainData.prenom || parrainData.fullName || 'son parrain';
         showToast(`🎉 Bonus de 1000 FCFA crédité à ${parrainName} !`, 'success');
       }
-      
+
+      if (isFirstDeposit && montant >= 3000) {
+        showToast(`🎉 Promotion -75% activée pour ${userName} pendant 48h !`, 'success');
+      }
+
     } catch (error) {
       console.error('❌ Erreur validation dépôt:', error);
       showToast('❌ Erreur: ' + (error.message || 'Impossible de valider le dépôt'), 'error');
@@ -1736,24 +1695,15 @@
   // ================================================================
   async function handleRejectDeposit(id) {
     if (!confirm('❌ Rejeter ce dépôt ?')) return;
-    
+
     try {
       const depRef = doc(db, 'depots', id);
-      const depSnap = await getDoc(depRef);
-      
-      if (!depSnap.exists()) {
-        showToast('❌ Dépôt introuvable', 'error');
-        return;
-      }
-      
       await updateDoc(depRef, {
         statut: 'rejete',
         rejectedAt: new Date().toISOString(),
         rejectedBy: auth.currentUser?.uid || 'admin'
       });
-      
       showToast('❌ Dépôt rejeté', 'warning');
-      
     } catch (error) {
       console.error('❌ Erreur rejet dépôt:', error);
       showToast('❌ Erreur: ' + (error.message || 'Impossible de rejeter le dépôt'), 'error');
@@ -1761,66 +1711,177 @@
   }
 
   // ================================================================
-  // RENDER DÉPÔTS EN ATTENTE
+  // ✅ VALIDER UN RETRAIT
   // ================================================================
-  function renderPendingDeposits() {
-    const pending = allDeposits.filter(d => d.statut === 'en_attente' || d.statut === 'pending');
+  async function handleApproveRetrait(id) {
+    if (!confirm('✅ Valider ce retrait ?')) return;
 
-    pendingCount.textContent = pending.length;
+    try {
+      const retRef = doc(db, 'retraits', id);
+      const retSnap = await getDoc(retRef);
 
-    if (pending.length === 0) {
+      if (!retSnap.exists()) {
+        showToast('❌ Retrait introuvable', 'error');
+        return;
+      }
+
+      const retData = retSnap.data();
+      const userId = retData.userId;
+      const montant = retData.montant || 0;
+
+      if (!userId || montant <= 0) {
+        showToast('❌ Données de retrait invalides', 'error');
+        return;
+      }
+
+      const userRef = doc(db, 'users', userId);
+      const userSnap = await getDoc(userRef);
+
+      if (!userSnap.exists()) {
+        showToast(`❌ Utilisateur (${userId}) introuvable`, 'error');
+        return;
+      }
+
+      const userData = userSnap.data();
+      const currentBalance = userData.balance || 0;
+
+      if (currentBalance < montant) {
+        showToast('❌ Solde insuffisant pour ce retrait', 'error');
+        return;
+      }
+
+      await updateDoc(retRef, {
+        statut: 'valide',
+        validatedAt: new Date().toISOString(),
+        validatedBy: auth.currentUser?.uid || 'admin'
+      });
+
+      await updateDoc(userRef, {
+        balance: currentBalance - montant,
+        totalRetraits: (userData.totalRetraits || 0) + montant
+      });
+
+      showToast(`✅ Retrait de ${montant.toLocaleString('fr-FR')} FCFA validé`, 'success');
+
+    } catch (error) {
+      console.error('❌ Erreur validation retrait:', error);
+      showToast('❌ Erreur: ' + (error.message || 'Impossible de valider le retrait'), 'error');
+    }
+  }
+
+  // ================================================================
+  // ✅ REJETER UN RETRAIT
+  // ================================================================
+  async function handleRejectRetrait(id) {
+    if (!confirm('❌ Rejeter ce retrait ?')) return;
+
+    try {
+      const retRef = doc(db, 'retraits', id);
+      await updateDoc(retRef, {
+        statut: 'rejete',
+        rejectedAt: new Date().toISOString(),
+        rejectedBy: auth.currentUser?.uid || 'admin'
+      });
+      showToast('❌ Retrait rejeté', 'warning');
+    } catch (error) {
+      console.error('❌ Erreur rejet retrait:', error);
+      showToast('❌ Erreur: ' + (error.message || 'Impossible de rejeter le retrait'), 'error');
+    }
+  }
+
+  // ================================================================
+  // RENDER DEMANDES EN ATTENTE (DÉPÔTS + RETRAITS)
+  // ================================================================
+  function renderPendingRequests() {
+    const pendingDeposits = allDeposits.filter(d => d.statut === 'en_attente' || d.statut === 'pending');
+    const pendingRetraits = allRetraits.filter(r => r.statut === 'en_attente' || r.statut === 'pending');
+
+    const allPending = [
+      ...pendingDeposits.map(d => ({ ...d, type: 'depot' })),
+      ...pendingRetraits.map(r => ({ ...r, type: 'retrait' }))
+    ].sort((a, b) => new Date(b.date || b.createdAt) - new Date(a.date || a.createdAt));
+
+    const totalPending = allPending.length;
+    pendingCount.textContent = totalPending;
+
+    // Badges
+    depotsBadge.textContent = pendingDeposits.length;
+    depotsBadge.className = 'menu-badge' + (pendingDeposits.length > 0 ? ' danger' : '');
+
+    retraitsBadge.textContent = pendingRetraits.length;
+    retraitsBadge.className = 'menu-badge' + (pendingRetraits.length > 0 ? ' danger' : '');
+
+    if (totalPending === 0) {
       pendingList.innerHTML = `
         <div class="empty-state-small">
           <i class="fas fa-check-circle"></i>
-          Aucun dépôt en attente
+          Aucune demande en attente
         </div>
       `;
       return;
     }
 
-    pendingList.innerHTML = pending.slice(0, 5).map(dep => `
-      <div class="pending-item" data-id="${dep.id}" data-deposit='${JSON.stringify(dep)}'>
-        <div class="user-info">
-          <span class="user-name">👤 ${dep.userName || 'Utilisateur'}</span>
-          <span class="user-id"><i class="fas fa-id-card"></i> ${dep.userId || 'ID inconnu'}</span>
+    pendingList.innerHTML = allPending.slice(0, 10).map(item => {
+      const isDepot = item.type === 'depot';
+      const icon = isDepot ? 'fa-arrow-down' : 'fa-arrow-up';
+      const iconClass = isDepot ? 'deposit' : 'withdrawal';
+      const label = isDepot ? 'Dépôt' : 'Retrait';
+      const amount = item.amount || 0;
+      const userName = item.userName || 'Utilisateur';
+      const userId = item.userId || 'ID inconnu';
+      const date = item.date ? new Date(item.date).toLocaleDateString('fr-FR') : '';
+
+      return `
+        <div class="pending-item" data-id="${item.id}" data-type="${item.type}" data-request='${JSON.stringify(item)}'>
+          <div class="user-info">
+            <span class="user-name">👤 ${userName}</span>
+            <span class="user-id"><i class="fas fa-id-card"></i> ${userId}</span>
+          </div>
+          <div class="amount-info">
+            <div class="amount-value ${isDepot ? '' : 'red'}">${amount.toLocaleString('fr-FR')} FCFA</div>
+            <div class="amount-label">${isDepot ? '📥 Dépôt' : '📤 Retrait'} • ${date}</div>
+          </div>
+          <div class="pending-actions">
+            <button class="approve" data-id="${item.id}" data-type="${item.type}" title="Valider">
+              <i class="fas fa-check"></i>
+            </button>
+            <button class="reject" data-id="${item.id}" data-type="${item.type}" title="Rejeter">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
         </div>
-        <div class="amount-info">
-          <div class="amount-value">${dep.amount.toLocaleString('fr-FR')} FCFA</div>
-          <div class="amount-label">📅 ${dep.date ? new Date(dep.date).toLocaleDateString('fr-FR') : ''}</div>
-        </div>
-        <div class="pending-actions">
-          <button class="approve" data-id="${dep.id}" title="Valider">
-            <i class="fas fa-check"></i>
-          </button>
-          <button class="reject" data-id="${dep.id}" title="Rejeter">
-            <i class="fas fa-times"></i>
-          </button>
-        </div>
-      </div>
-    `).join('');
+      `;
+    }).join('');
 
     // Clic sur l'item → ouvrir le modal
     document.querySelectorAll('.pending-item').forEach(item => {
       item.addEventListener('click', (e) => {
         if (e.target.closest('.pending-actions')) return;
-        const depositData = item.dataset.deposit;
-        if (depositData) {
-          try {
-            const deposit = JSON.parse(depositData);
-            openDepositModal(deposit);
-          } catch (err) {
-            console.error('Erreur parsing dépôt:', err);
-          }
+        const data = item.dataset;
+        const type = data.type;
+        const id = data.id;
+
+        if (type === 'depot') {
+          const deposit = allDeposits.find(d => d.id === id);
+          if (deposit) openRequestModal(deposit, 'depot');
+        } else if (type === 'retrait') {
+          const retrait = allRetraits.find(r => r.id === id);
+          if (retrait) openRequestModal(retrait, 'retrait');
         }
       });
     });
 
-    // Écouteurs pour valider/rejeter (boutons dans la liste)
+    // Écouteurs pour valider/rejeter
     document.querySelectorAll('.pending-item .approve').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
         const id = btn.dataset.id;
-        handleApproveDeposit(id);
+        const type = btn.dataset.type;
+        if (type === 'depot') {
+          handleApproveDeposit(id);
+        } else if (type === 'retrait') {
+          handleApproveRetrait(id);
+        }
       });
     });
 
@@ -1828,7 +1889,12 @@
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
         const id = btn.dataset.id;
-        handleRejectDeposit(id);
+        const type = btn.dataset.type;
+        if (type === 'depot') {
+          handleRejectDeposit(id);
+        } else if (type === 'retrait') {
+          handleRejectRetrait(id);
+        }
       });
     });
   }
@@ -1875,27 +1941,9 @@
     activities.sort((a, b) => new Date(b.time || 0) - new Date(a.time || 0));
 
     if (activities.length === 0) {
-      activityList.innerHTML = `
-        <div class="empty-state-small">
-          <i class="fas fa-inbox"></i>
-          Aucune activité récente
-        </div>
-      `;
+      // On affiche dans la section demandes déjà gérée
       return;
     }
-
-    activityList.innerHTML = activities.slice(0, 5).map(act => `
-      <div class="activity-item">
-        <div class="activity-icon ${act.iconClass}">
-          <i class="fas ${act.icon}"></i>
-        </div>
-        <div class="activity-content">
-          <div class="act-title">${act.title}</div>
-          <div class="act-desc">${act.desc}</div>
-        </div>
-        <span class="activity-time">${formatTime(act.time)}</span>
-      </div>
-    `).join('');
   }
 
   // ================================================================
@@ -1995,7 +2043,7 @@
     statProfit.textContent = formatCurrency(profit);
     statUsers.textContent = allUsers.length;
 
-    renderPendingDeposits();
+    renderPendingRequests();
     renderActivities();
     renderChart();
   }
@@ -2116,10 +2164,14 @@
     listenData();
   });
 
-  console.log('✅ ARVEXA - Admin Dashboard chargé et corrigé');
+  console.log('✅ ARVEXA - Admin Dashboard (version complète)');
+  console.log('✅ Demandes : Dépôts + Retraits');
   console.log('✅ Bonus parrainage activé lors de la validation admin');
-  console.log('✅ handleRejectDeposit ajoutée');
-  console.log('✅ runTransaction importé');
+  console.log('✅ Promotion bienvenue -75% activée au premier dépôt');
+  console.log('✅ Abonnements BAC (1000 FCFA/semaine)');
+  console.log('✅ Lancer une promotion flash');
+  console.log('✅ Gérer les actualités');
 </script>
 </body>
 </html>
+
