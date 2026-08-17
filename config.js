@@ -8,7 +8,7 @@ var APP_CONFIG = {
   ADMIN_URL: 'https://nexgen-39043.web.app/admin',
 
   // 📱 Contact WhatsApp
-  CONTACT_WHATSAPP: '22798064667',
+  CONTACT_WHATSAPP: '22774872082',
 
   // 💰 Seuils financiers
   MIN_DEPOSIT: 3000,
