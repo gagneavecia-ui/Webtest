@@ -1,0 +1,1807 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercices Calcul Integral - 115 exercices</title>
+    <style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@1,500&display=swap');
+
+@page {
+    size: 720px 1020px;
+    margin: 0;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+    background: #080c18;
+    color: #d8dff0;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+}
+
+.page {
+    width: 720px;
+    min-height: 1020px;
+    padding: 60px 55px;
+    background: #080c18;
+    position: relative;
+    page-break-after: always;
+    break-after: page;
+    overflow: hidden;
+}
+
+.page:last-child { page-break-after: auto; break-after: auto; }
+
+/* === COVER / TITLE PAGE === */
+.cover {
+    padding: 0;
+    background: linear-gradient(135deg, #080c18 0%, #101830 50%, #080c18 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    position: relative;
+    min-height: 1020px;
+}
+.cover-content {
+    position: relative;
+    z-index: 2;
+    padding: 50px 55px 60px;
+}
+.cover-label {
+    color: #c9a84c;
+    font-size: 12px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 18px;
+}
+.cover-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    font-weight: 900;
+    line-height: 1.1;
+    color: #d8dff0;
+    margin-bottom: 18px;
+    letter-spacing: -1px;
+}
+.cover-title .accent { color: #c9a84c; font-style: italic; font-family: 'Cormorant Garamond', serif; font-weight: 500; }
+.cover-subtitle {
+    font-size: 15px;
+    color: #7888aa;
+    line-height: 1.6;
+    max-width: 500px;
+    margin-bottom: 30px;
+}
+.cover-divider {
+    width: 70px; height: 3px;
+    background: linear-gradient(to right, #c9a84c, #3b82f6);
+    margin-bottom: 22px;
+}
+.cover-author {
+    font-size: 13px;
+    color: #7888aa;
+    letter-spacing: 1px;
+}
+.cover-author strong { color: #d8dff0; font-weight: 600; }
+
+/* === TOC === */
+.toc-page { padding: 70px 55px; }
+.toc-header {
+    text-align: center;
+    margin-bottom: 35px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #1a2038;
+}
+.toc-label {
+    color: #c9a84c;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+.toc-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 900;
+    color: #d8dff0;
+}
+.toc-list { list-style: none; padding: 0; }
+.toc-item {
+    display: flex;
+    align-items: baseline;
+    padding: 8px 0;
+    border-bottom: 1px dotted #1a2038;
+    font-size: 13px;
+}
+.toc-num {
+    color: #3b82f6;
+    font-weight: 700;
+    font-family: 'Playfair Display', serif;
+    width: 32px;
+    flex-shrink: 0;
+}
+.toc-text { color: #d8dff0; flex: 1; }
+.toc-dots { color: #1a2038; margin: 0 6px; flex: 1; }
+.toc-page-num {
+    color: #7888aa;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+/* === SECTION PAGES (Exercise themes) === */
+.section-page { padding: 0; }
+.section-hero {
+    height: 160px;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+}
+.section-hero-gradient {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+.section-hero-pattern {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    opacity: 0.06;
+    background-size: 50px 50px;
+    background-image: radial-gradient(circle, #3b82f6 1px, transparent 1px);
+}
+.section-hero-overlay {
+    position: absolute;
+    bottom: 25px;
+    left: 55px;
+    right: 55px;
+    z-index: 2;
+}
+.section-number {
+    color: #c9a84c;
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+.section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 900;
+    color: #d8dff0;
+    line-height: 1.15;
+    letter-spacing: -0.5px;
+}
+
+.section-body {
+    padding: 30px 55px 50px;
+}
+
+/* === EXERCISE ITEM === */
+.exercise-item {
+    background: #101830;
+    border: 1px solid #1a2038;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 14px 0;
+    break-inside: avoid;
+    border-left: 3px solid #3b82f6;
+}
+.exercise-item.hard {
+    border-left-color: #ef4444;
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.05), #101830);
+}
+.exercise-item.medium {
+    border-left-color: #f97316;
+    background: linear-gradient(135deg, rgba(249, 115, 22, 0.04), #101830);
+}
+.exercise-item.bac {
+    border-left-color: #c9a84c;
+    background: linear-gradient(135deg, rgba(201, 168, 76, 0.06), #101830);
+    border-left-width: 4px;
+}
+.exercise-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+.exercise-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 900;
+    color: #3b82f6;
+}
+.exercise-diff {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 2px 8px;
+    border-radius: 3px;
+}
+.exercise-diff.facile { background: rgba(34, 197, 94, 0.2); color: #22c55e; }
+.exercise-diff.moyen { background: rgba(249, 115, 22, 0.2); color: #f97316; }
+.exercise-diff.difficile { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+.exercise-diff.bac { background: rgba(201, 168, 76, 0.2); color: #c9a84c; }
+
+.exercise-question {
+    font-size: 13px;
+    color: #a0b0cc;
+    line-height: 1.75;
+}
+.exercise-question p { color: #a0b0cc; margin-bottom: 8px; }
+.exercise-question p:last-child { margin-bottom: 0; }
+.exercise-question strong { color: #d8dff0; }
+
+.sub-question {
+    padding-left: 20px;
+    margin: 6px 0;
+    position: relative;
+    font-size: 12.5px;
+    color: #a0b0cc;
+    line-height: 1.7;
+}
+.sub-question::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 6px;
+    height: 6px;
+    background: #3b82f6;
+    border-radius: 50%;
+}
+
+/* === CORRECTION ITEMS === */
+.correction-item {
+    background: #101830;
+    border: 1px solid #1a2038;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 14px 0;
+    break-inside: avoid;
+    border-left: 3px solid #22c55e;
+}
+.correction-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+.correction-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 900;
+    color: #22c55e;
+    margin-right: 10px;
+}
+.correction-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: #22c55e;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+.correction-content {
+    font-size: 13px;
+    color: #a0b0cc;
+    line-height: 1.8;
+}
+.correction-content p { margin-bottom: 6px; }
+.correction-content p:last-child { margin-bottom: 0; }
+.correction-content strong { color: #d8dff0; }
+.correction-step {
+    padding-left: 20px;
+    margin: 4px 0;
+    position: relative;
+}
+.correction-step::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 6px;
+    height: 6px;
+    background: #22c55e;
+    border-radius: 50%;
+}
+
+.math-inline {
+    background: rgba(59, 130, 246, 0.08);
+    border: 1px solid #1a2038;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    color: #e8ecf8;
+    white-space: nowrap;
+}
+
+.formula-box {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(201, 168, 76, 0.06));
+    border: 1px solid #1a2038;
+    border-left: 4px solid #3b82f6;
+    border-radius: 10px;
+    padding: 14px 20px;
+    margin: 14px 0;
+    text-align: center;
+    break-inside: avoid;
+}
+.formula-main {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #e8ecf8;
+    line-height: 1.6;
+}
+.formula-desc {
+    font-size: 11px;
+    color: #7888aa;
+    margin-top: 6px;
+}
+
+p {
+    margin-bottom: 12px;
+    color: #a0b0cc;
+    line-height: 1.8;
+}
+p strong { color: #d8dff0; }
+
+.callout {
+    background: #101830;
+    border-radius: 10px;
+    padding: 16px 22px;
+    margin: 16px 0;
+    text-align: center;
+    border-top: 2px solid #3b82f6;
+    border-bottom: 2px solid #c9a84c;
+    break-inside: avoid;
+}
+.callout-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-style: italic;
+    color: #d8dff0;
+    line-height: 1.5;
+}
+
+.stat-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin: 18px 0;
+    break-inside: avoid;
+}
+.stat-card {
+    background: linear-gradient(135deg, #101830, #1a2038);
+    border: 1px solid #1a2038;
+    border-radius: 10px;
+    padding: 14px 10px;
+    text-align: center;
+}
+.stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 900;
+    color: #c9a84c;
+    line-height: 1;
+    margin-bottom: 5px;
+}
+.stat-label {
+    font-size: 10px;
+    color: #7888aa;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.conclusion-page {
+    background: linear-gradient(135deg, #080c18 0%, #101830 100%);
+    padding: 70px 55px;
+}
+</style>
+</head>
+<body>
+<div class="page cover">
+    <div class="cover-content">
+        <div class="cover-label">Collection NAMO -- Terminale D & C</div>
+        <div class="cover-title">Calcul<br><span class="accent">Integral</span></div>
+        <div class="cover-divider"></div>
+        <div class="cover-subtitle">115 exercices couvrant l'ensemble du programme : primitives elementaires, integration par substitution, integration par parties, fractions rationnelles, integrales trigonometriques, proprietes des integrales, calculs d'aire, integrales impropres et sujets type BAC. Quatre niveaux de difficulte pour progresser methodiquement.</div>
+        <div class="stat-block">
+            <div class="stat-card"><div class="stat-number">115</div><div class="stat-label">Exercices</div></div>
+            <div class="stat-card"><div class="stat-number">9</div><div class="stat-label">Themes</div></div>
+            <div class="stat-card"><div class="stat-number">4</div><div class="stat-label">Niveaux</div></div>
+        </div>
+        <div class="cover-author">Mathematiques <strong>Terminale D</strong></div>
+    </div>
+</div>
+<div class="page toc-page">
+    <div class="toc-header">
+        <div class="toc-label">Table des matieres</div>
+        <div class="toc-title">115 Exercices</div>
+    </div>
+    <ul class="toc-list">
+    <li class="toc-item"><span class="toc-num">I</span><span class="toc-text">Primitives elementaires</span><span class="toc-dots">............</span><span class="toc-page-num">Ex. 1-14</span></li><li class="toc-item"><span class="toc-num">II</span><span class="toc-text">Integration par substitution</span><span class="toc-dots">............</span><span class="toc-page-num">Ex. 15-27</span></li><li class="toc-item"><span class="toc-num">III</span><span class="toc-text">Integration par parties</span><span class="toc-dots">............</span><span class="toc-page-num">Ex. 28-44</span></li><li class="toc-item"><span class="toc-num">IV</span><span class="toc-text">Fractions rationnelles</span><span class="toc-dots">............</span><span class="toc-page-num">Ex. 45-56</span></li><li class="toc-item"><span class="toc-num">V</span><span class="toc-text">Integrales trigonometriques</span><span class="toc-dots">............</span><span class="toc-page-num">Ex. 57-68</span></li><li class="toc-item"><span class="toc-num">VI</span><span class="toc-text">Proprietes des integrales</span><span class="toc-dots">............</span><span class="toc-page-num">Ex. 69-80</span></li><li class="toc-item"><span class="toc-num">VII</span><span class="toc-text">Aire et calcul d'aire</span><span class="toc-dots">............</span><span class="toc-page-num">Ex. 81-92</span></li><li class="toc-item"><span class="toc-num">VIII</span><span class="toc-text">Integrales impropres</span><span class="toc-dots">............</span><span class="toc-page-num">Ex. 93-103</span></li><li class="toc-item"><span class="toc-num">IX</span><span class="toc-text">Exercices type BAC et problemes</span><span class="toc-dots">............</span><span class="toc-page-num">Ex. 104-115</span></li>
+    </ul>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a5f 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 1</div>
+        <div class="section-title">Primitives elementaires</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 1</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Determiner une primitive de chaque fonction sur R :</p><div class="sub-question">f(x) = 3x<sup>2</sup></div><div class="sub-question">f(x) = 5x<sup>3</sup></div><div class="sub-question">f(x) = 2x - 7</div><div class="sub-question">f(x) = x<sup>4</sup> + 3x<sup>2</sup> - 1</div>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 2</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Determiner une primitive sur ]0 ; +infini[ :</p><div class="sub-question">f(x) = 1/x<sup>2</sup></div><div class="sub-question">f(x) = 1/x<sup>3</sup></div><div class="sub-question">f(x) = 3/x<sup>4</sup></div><div class="sub-question">f(x) = 2/x<sup>2</sup> - 1/x</div>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 3</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Determiner une primitive sur R :</p><div class="sub-question">f(x) = e<sup>x</sup></div><div class="sub-question">f(x) = 4e<sup>x</sup></div><div class="sub-question">f(x) = e<sup>x</sup> + x</div><div class="sub-question">f(x) = 3e<sup>x</sup> - 2</div>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 4</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Determiner une primitive sur ]0 ; +infini[ :</p><div class="sub-question">f(x) = 1/x</div><div class="sub-question">f(x) = 3/x</div><div class="sub-question">f(x) = 1/(2x)</div><div class="sub-question">f(x) = (x + 1)/x</div>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 5</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Determiner une primitive sur R* :</p><div class="sub-question">f(x) = x<sup>-2</sup></div><div class="sub-question">f(x) = -3x<sup>-4</sup></div><div class="sub-question">f(x) = x<sup>-1</sup>/2</div><div class="sub-question">f(x) = 2x<sup>-3</sup> + x<sup>-1</sup></div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a5f 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 1</div>
+        <div class="section-title">Primitives elementaires</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 6</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer les integrales suivantes :</p><div class="sub-question">integrale de 0 a 1 de 2x dx</div><div class="sub-question">integrale de 1 a 3 de x<sup>2</sup> dx</div><div class="sub-question">integrale de 0 a 2 de (3x<sup>2</sup> + 1) dx</div><div class="sub-question">integrale de -1 a 1 de x<sup>3</sup> dx</div>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 7</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer les integrales suivantes :</p><div class="sub-question">integrale de 1 a e de 1/x dx</div><div class="sub-question">integrale de 0 a 1 de e<sup>x</sup> dx</div><div class="sub-question">integrale de 0 a 2 de 3e<sup>x</sup> dx</div><div class="sub-question">integrale de 1 a 4 de 2/x dx</div>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 8</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Verifier que F est une primitive de f :</p><div class="sub-question">f(x) = 2x + 1,  F(x) = x<sup>2</sup> + x + 3</div><div class="sub-question">f(x) = e<sup>x</sup>,  F(x) = e<sup>x</sup> - 5</div><div class="sub-question">f(x) = 1/x,  F(x) = ln(x) + 2</div><div class="sub-question">f(x) = x<sup>3</sup>,  F(x) = x<sup>4</sup>/4</div>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 9</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = 4x<sup>3</sup> - 6x<sup>2</sup> + 2x sur R.</p><div class="sub-question">a) Determiner une primitive F de f.</div><div class="sub-question">b) Calculer F(0) et F(1).</div><div class="sub-question">c) En deduire integrale de 0 a 1 de f(x) dx.</div>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 10</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer l'aire de la zone delimitee par :</p><div class="sub-question">a) y = x<sup>2</sup>, l'axe (Ox) et les droites x = 0, x = 2.</div><div class="sub-question">b) y = 2x + 1, l'axe (Ox) et les droites x = 0, x = 3.</div><div class="sub-question">c) y = e<sup>x</sup>, l'axe (Ox) et les droites x = 0, x = 1.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a5f 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 1</div>
+        <div class="section-title">Primitives elementaires</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 11</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Determiner la primitive F de f qui verifie la condition initiale :</p><div class="sub-question">f(x) = 2x,  F(0) = 3</div><div class="sub-question">f(x) = e<sup>x</sup>,  F(0) = 1</div><div class="sub-question">f(x) = 3x<sup>2</sup> - 2x,  F(1) = 0</div><div class="sub-question">f(x) = 1/x,  F(e) = 1</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 12</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer les integrales en utilisant la linearite :</p><div class="sub-question">integrale de 0 a 2 de (x<sup>2</sup> - 3x + 1) dx</div><div class="sub-question">integrale de 1 a 3 de (2x<sup>3</sup> - x + 4) dx</div><div class="sub-question">integrale de -1 a 1 de (x<sup>4</sup> - 2x<sup>2</sup> + 3) dx</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 13</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer les integrales suivantes :</p><div class="sub-question">integrale de 0 a pi de (cos(x) + sin(x)) dx</div><div class="sub-question">integrale de 0 a pi/2 de cos(x) dx</div><div class="sub-question">integrale de 0 a pi de sin(x) dx</div><div class="sub-question">integrale de -pi/2 a pi/2 de cos(x) dx</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 14</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Determiner une primitive sur R :</p><div class="sub-question">f(x) = cos(x)</div><div class="sub-question">f(x) = sin(x)</div><div class="sub-question">f(x) = 2cos(x) - 3sin(x)</div><div class="sub-question">f(x) = cos(x) + x<sup>2</sup> - e<sup>x</sup></div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e1b4b 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 2</div>
+        <div class="section-title">Integration par substitution</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 15</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>En posant u = x<sup>2</sup> + 1, calculer :</p><div class="sub-question">integrale de 0 a 1 de 2x(x<sup>2</sup> + 1)<sup>3</sup> dx</div><div class="sub-question">integrale de 0 a 1 de x(x<sup>2</sup> + 1)<sup>4</sup> dx</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 16</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer en utilisant la substitution u = g(x) :</p><div class="sub-question">integrale de 0 a 1 de 2xe<sup>x<sup>2</sup></sup> dx</div><div class="sub-question">integrale de 0 a 2 de 3x<sup>2</sup>e<sup>x<sup>3</sup></sup> dx</div><div class="sub-question">integrale de 1 a 2 de (2x + 1)e<sup>x<sup>2</sup>+x</sup> dx</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 17</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer les integrales suivantes (u = ln x ou u = e<sup>x</sup>) :</p><div class="sub-question">integrale de 1 a e de e<sup>x</sup>/x dx  (poser u = ln x)</div><div class="sub-question">integrale de 0 a 1 de e<sup>x</sup>/(e<sup>x</sup> + 1) dx</div><div class="sub-question">integrale de e a e<sup>2</sup> de 1/(x ln x) dx</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 18</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer les integrales :</p><div class="sub-question">integrale de 0 a 1 de x/(x<sup>2</sup> + 1) dx</div><div class="sub-question">integrale de 0 a 2 de x<sup>2</sup>/(x<sup>3</sup> + 1) dx</div><div class="sub-question">integrale de 0 a 1 de (2x - 1)/(x<sup>2</sup> - x + 3) dx</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 19</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>En posant u = cos(x), calculer :</p><div class="sub-question">integrale de 0 a pi/2 de sin(x)cos<sup>2</sup>(x) dx</div><div class="sub-question">integrale de 0 a pi de sin(x)cos<sup>3</sup>(x) dx</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e1b4b 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 2</div>
+        <div class="section-title">Integration par substitution</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 20</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer en utilisant la substitution adaptee :</p><div class="sub-question">integrale de 0 a pi/4 de cos(x)/(sin(x) + 1) dx</div><div class="sub-question">integrale de 0 a pi/2 de sin(x)e<sup>cos(x)</sup> dx</div><div class="sub-question">integrale de 0 a pi/6 de tan(x) dx</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 21</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Determiner une primitive de :</p><div class="sub-question">f(x) = 2x(x<sup>2</sup> - 1)<sup>5</sup></div><div class="sub-question">f(x) = e<sup>x</sup>(e<sup>x</sup> + 2)<sup>3</sup></div><div class="sub-question">f(x) = (2x + 3)/(x<sup>2</sup> + 3x + 1)<sup>2</sup></div><div class="sub-question">f(x) = cos(x)sin<sup>4</sup>(x)</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 22</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer les integrales suivantes par substitution :</p><div class="sub-question">integrale de 0 a 1 de x*sqrt(x<sup>2</sup> + 1) dx</div><div class="sub-question">integrale de 0 a 2 de x<sup>3</sup>/sqrt(x<sup>2</sup> + 1) dx</div><div class="sub-question">integrale de 1 a 3 de x/sqrt(x<sup>2</sup> - 1) dx</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 23</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>En posant le changement de variable indique, calculer :</p><div class="sub-question">integrale de 0 a 1 de e<sup>sqrt(x)</sup>/sqrt(x) dx  (u = sqrt(x))</div><div class="sub-question">integrale de 1 a 4 de 1/(x + sqrt(x)) dx  (u = sqrt(x))</div><div class="sub-question">integrale de 0 a ln 2 de e<sup>2x</sup>/(e<sup>x</sup> + 1) dx  (u = e<sup>x</sup>)</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 24</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer :</p><div class="sub-question">integrale de 0 a pi/2 de sin<sup>3</sup>(x) dx  (ecrire sin<sup>3</sup> x = sin x (1 - cos<sup>2</sup> x))</div><div class="sub-question">integrale de 0 a pi/2 de cos<sup>3</sup>(x) dx</div><div class="sub-question">integrale de 0 a pi de sin<sup>2</sup>(x)cos(x) dx</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e1b4b 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 2</div>
+        <div class="section-title">Integration par substitution</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 25</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer les integrales par substitution :</p><div class="sub-question">integrale de 0 a 1 de 1/(1 + x<sup>2</sup>) dx  (resultat connu : arctan)</div><div class="sub-question">integrale de 0 a 1 de x<sup>2</sup>/(1 + x<sup>2</sup>) dx</div><div class="sub-question">integrale de 0 a sqrt(3) de 1/(1 + x<sup>2</sup>) dx</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 26</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer par substitution :</p><div class="sub-question">integrale de 0 a 1 de 1/sqrt(1 - x<sup>2</sup>) dx  (resultat connu : arcsin)</div><div class="sub-question">integrale de 0 a 1/2 de 1/sqrt(1 - x<sup>2</sup>) dx</div><div class="sub-question">integrale de 0 a 1 de x/sqrt(1 - x<sup>2</sup>) dx</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 27</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit I = integrale de 0 a pi/4 de tan<sup>2</sup>(x) dx.</p><div class="sub-question">a) Exprimer tan<sup>2</sup>(x) en fonction de 1/cos<sup>2</sup>(x).</div><div class="sub-question">b) En deduire la valeur de I.</div><div class="sub-question">c) Calculer J = integrale de 0 a pi/4 de 1/cos<sup>2</sup>(x) dx.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #172554 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 3</div>
+        <div class="section-title">Integration par parties</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 28</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer par integration par parties :</p><div class="sub-question">integrale de 0 a 1 de x*e<sup>x</sup> dx</div><div class="sub-question">integrale de 0 a 2 de x*e<sup>x</sup> dx</div><div class="sub-question">integrale de 0 a 1 de 2x*e<sup>x</sup> dx</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 29</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer par integration par parties (poser u = ln x) :</p><div class="sub-question">integrale de 1 a e de ln(x) dx</div><div class="sub-question">integrale de 1 a e<sup>2</sup> de ln(x) dx</div><div class="sub-question">integrale de 1 a e de 2ln(x) dx</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 30</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer par integration par parties :</p><div class="sub-question">integrale de 0 a pi de x*cos(x) dx</div><div class="sub-question">integrale de 0 a pi/2 de x*sin(x) dx</div><div class="sub-question">integrale de 0 a 2pi de x*sin(x) dx</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 31</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer par integration par parties :</p><div class="sub-question">integrale de 0 a 1 de x<sup>2</sup>*e<sup>x</sup> dx</div><div class="sub-question">integrale de 0 a 1 de x<sup>2</sup>*e<sup>-x</sup> dx</div><div class="sub-question">integrale de 0 a 2 de (x<sup>2</sup>/2)*e<sup>x</sup> dx</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 32</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer :</p><div class="sub-question">integrale de 1 a e de (ln x)<sup>2</sup> dx</div><div class="sub-question">integrale de 1 a e de ln(x)/x<sup>2</sup> dx</div><div class="sub-question">integrale de 1 a e de x*ln(x) dx</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #172554 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 3</div>
+        <div class="section-title">Integration par parties</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 33</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer par deux integrations par parties successives :</p><div class="sub-question">integrale de 0 a pi/2 de x<sup>2</sup>*sin(x) dx</div><div class="sub-question">integrale de 0 a pi de x<sup>2</sup>*cos(x) dx</div><div class="sub-question">integrale de 0 a 1 de x<sup>3</sup>*e<sup>x</sup> dx</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 34</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer en utilisant une integration par parties :</p><div class="sub-question">integrale de 0 a 1 de e<sup>x</sup>*cos(x) dx</div><div class="sub-question">integrale de 0 a pi/2 de e<sup>x</sup>*sin(x) dx</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 35</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer par integration par parties :</p><div class="sub-question">integrale de 0 a 1 de (x + 1)e<sup>-x</sup> dx</div><div class="sub-question">integrale de 0 a 1 de (2x + 3)e<sup>-2x</sup> dx</div><div class="sub-question">integrale de -1 a 1 de (x + 2)e<sup>x</sup> dx</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 36</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit I<sub>n</sub> = integrale de 0 a 1 de x<sup>n</sup>*e<sup>x</sup> dx.</p><div class="sub-question">a) Calculer I<sub>0</sub> et I<sub>1</sub>.</div><div class="sub-question">b) Etablir la relation de recurrence : I<sub>n</sub> = e - n*I<sub>n-1</sub>.</div><div class="sub-question">c) En deduire I<sub>2</sub>, I<sub>3</sub> et I<sub>4</sub>.</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 37</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit J<sub>n</sub> = integrale de 0 a pi de x<sup>n</sup>*sin(x) dx.</p><div class="sub-question">a) Calculer J<sub>0</sub>.</div><div class="sub-question">b) Etablir la relation : J<sub>n</sub> = n*pi<sup>n-1</sup>*(-cos pi) - n(n-1)*J<sub>n-2</sub>.</div><div class="sub-question">c) En deduire J<sub>1</sub> et J<sub>2</sub>.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #172554 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 3</div>
+        <div class="section-title">Integration par parties</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 38</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer les integrales par integration par parties :</p><div class="sub-question">integrale de 0 a 1 de arctan(x) dx</div><div class="sub-question">integrale de 0 a 1 de x*arctan(x) dx</div><div class="sub-question">integrale de 0 a pi/2 de x*cos<sup>2</sup>(x) dx</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 39</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer par la methode de votre choix :</p><div class="sub-question">integrale de 0 a 1 de (x<sup>2</sup> + 1)e<sup>x</sup> dx</div><div class="sub-question">integrale de 0 a 1 de (x - 1)<sup>2</sup>*e<sup>x</sup> dx</div><div class="sub-question">integrale de 0 a pi de (x + 1)sin(x) dx</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 40</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = x<sup>2</sup>ln(x) sur ]0 ; +infini[.</p><div class="sub-question">a) Calculer integrale de 1 a e de f(x) dx par parties.</div><div class="sub-question">b) Calculer integrale de 1 a e<sup>2</sup> de f(x) dx.</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 41</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer par integration par parties :</p><div class="sub-question">integrale de 0 a 1 de e<sup>-x</sup>*cos(x) dx</div><div class="sub-question">integrale de 0 a pi/2 de e<sup>x</sup>*cos(x) dx</div><div class="sub-question">integrale de 0 a pi de x<sup>2</sup>*e<sup>-x</sup> dx</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 42</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit K<sub>n</sub> = integrale de 0 a pi/2 de cos<sup>n</sup>(x) dx.</p><div class="sub-question">a) Calculer K<sub>0</sub> et K<sub>1</sub>.</div><div class="sub-question">b) Montrer que K<sub>n</sub> = ((n-1)/n) * K<sub>n-2</sub> pour n >= 2.</div><div class="sub-question">c) En deduire K<sub>2</sub>, K<sub>3</sub>, K<sub>4</sub> et K<sub>5</sub>.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #172554 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 3</div>
+        <div class="section-title">Integration par parties</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 43</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer les integrales suivantes :</p><div class="sub-question">integrale de 0 a pi/2 de x*sin<sup>2</sup>(x) dx</div><div class="sub-question">integrale de 0 a pi/2 de x*cos<sup>2</sup>(x) dx</div><div class="sub-question">En deduire la somme des deux integrales precedentes.</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 44</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>BAC : Soit I = integrale de 0 a 1 de f(x) dx ou f(x) = (2x - 1)e<sup>-x</sup>.</p><div class="sub-question">a) Calculer I par integration par parties.</div><div class="sub-question">b) Interpreter geometriquement le resultat.</div><div class="sub-question">c) La fonction f est-elle positive sur [0 ; 1] ?</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #0c4a6e 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 4</div>
+        <div class="section-title">Fractions rationnelles</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 45</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Decomposer en elements simples et integrer :</p><div class="sub-question">integrale de 0 a 1 de 1/((x+1)(x+2)) dx</div><div class="sub-question">integrale de 0 a 1 de 1/((x+1)(x+3)) dx</div><div class="sub-question">integrale de 0 a 2 de 1/((x-1)(x+1)) dx</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 46</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer :</p><div class="sub-question">integrale de 0 a 1 de x/((x+1)(x+2)) dx</div><div class="sub-question">integrale de 0 a 1 de (2x+1)/((x+1)(x+2)) dx</div><div class="sub-question">integrale de 0 a 1 de (x+3)/((x+1)(x+2)) dx</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 47</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Decomposer et integrer :</p><div class="sub-question">integrale de 2 a 3 de 1/(x<sup>2</sup> - 1) dx</div><div class="sub-question">integrale de 0 a 1 de 1/(x<sup>2</sup> - 4) dx</div><div class="sub-question">integrale de 1 a 2 de 1/(x<sup>2</sup> + 2x) dx</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 48</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer les integrales :</p><div class="sub-question">integrale de 0 a 1 de 1/(x<sup>2</sup> + x) dx</div><div class="sub-question">integrale de 1 a 2 de 1/(x<sup>2</sup> - x) dx</div><div class="sub-question">integrale de 2 a 3 de 1/(x<sup>2</sup> - x - 2) dx</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 49</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Decomposer en elements simples :</p><div class="sub-question">(3x + 1)/((x-1)(x+2))</div><div class="sub-question">(x<sup>2</sup> + 1)/((x-1)(x+1)(x+2))</div><div class="sub-question">(2x<sup>2</sup> - 3x + 1)/(x(x-1)(x+1))</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #0c4a6e 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 4</div>
+        <div class="section-title">Fractions rationnelles</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 50</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer les integrales a l'aide de decompositions :</p><div class="sub-question">integrale de 0 a 1 de (2x + 3)/(x<sup>2</sup> + 3x + 2) dx</div><div class="sub-question">integrale de 0 a 1 de (x + 1)/(x<sup>2</sup> + 2x - 3) dx</div><div class="sub-question">integrale de 1 a 2 de (3x - 1)/(x<sup>2</sup> - x - 6) dx</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 51</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = 1/(x<sup>2</sup> - a<sup>2</sup>) avec a > 0.</p><div class="sub-question">a) Decomposer f(x) en elements simples.</div><div class="sub-question">b) En deduire une primitive de f.</div><div class="sub-question">c) Calculer integrale de 2a a 3a de f(x) dx.</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 52</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer :</p><div class="sub-question">integrale de 0 a 1 de (x<sup>2</sup> - 1)/(x<sup>2</sup> + 1) dx  (ecrire x<sup>2</sup> - 1 = (x<sup>2</sup> + 1) - 2)</div><div class="sub-question">integrale de 0 a 1 de (2x<sup>2</sup> + 3)/(x<sup>2</sup> + 1) dx</div><div class="sub-question">integrale de 0 a 1 de (x<sup>2</sup> + x)/(x<sup>2</sup> + 1) dx</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 53</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Decomposer et calculer :</p><div class="sub-question">integrale de 0 a 1 de 1/(x<sup>3</sup> - x) dx</div><div class="sub-question">integrale de 2 a 3 de 1/(x<sup>3</sup> - 3x<sup>2</sup> + 2x) dx</div><div class="sub-question">integrale de 0 a 1 de x/((x-1)<sup>2</sup>(x+1)) dx</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 54</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer les integrales en completant le carre :</p><div class="sub-question">integrale de 0 a 1 de 1/(x<sup>2</sup> + 2x + 5) dx</div><div class="sub-question">integrale de 0 a 1 de 1/(x<sup>2</sup> - 4x + 8) dx</div><div class="sub-question">integrale de -1 a 0 de 1/(x<sup>2</sup> + 6x + 13) dx</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #0c4a6e 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 4</div>
+        <div class="section-title">Fractions rationnelles</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 55</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = (2x + b)/(x<sup>2</sup> + 2x + 5).</p><div class="sub-question">a) Pour quelle valeur de b la decomposition est-elle plus simple ?</div><div class="sub-question">b) Calculer integrale de 0 a 1 de f(x) dx pour cette valeur de b.</div><div class="sub-question">c) Calculer aussi integrale de -1 a 1 de x/(x<sup>2</sup> + 1)<sup>2</sup> dx.</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 56</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>BAC : Soit f(x) = (x<sup>2</sup> - x + 1)/(x<sup>2</sup> - x).</p><div class="sub-question">a) Ecrire f(x) sous la forme A + B/(x-1) + C/x.</div><div class="sub-question">b) En deduire integrale de 2 a 3 de f(x) dx.</div><div class="sub-question">c) Calculer l'aire sous la courbe de f entre x = 2 et x = 3.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #312e81 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 5</div>
+        <div class="section-title">Integrales trigonometriques</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 57</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer les integrales :</p><div class="sub-question">integrale de 0 a pi/4 de cos<sup>2</sup>(x) dx  (lineariser)</div><div class="sub-question">integrale de 0 a pi/4 de sin<sup>2</sup>(x) dx</div><div class="sub-question">integrale de 0 a pi de sin<sup>2</sup>(x) dx</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 58</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Lineariser puis integrer :</p><div class="sub-question">integrale de 0 a pi/2 de cos<sup>4</sup>(x) dx</div><div class="sub-question">integrale de 0 a pi/2 de sin<sup>4</sup>(x) dx</div><div class="sub-question">integrale de 0 a 2pi de cos<sup>4</sup>(x) dx</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 59</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer :</p><div class="sub-question">integrale de 0 a pi/2 de sin(x)cos(x) dx  (deux methodes)</div><div class="sub-question">integrale de 0 a pi/2 de sin<sup>2</sup>(x)cos<sup>2</sup>(x) dx</div><div class="sub-question">integrale de 0 a pi/2 de sin(x)cos<sup>3</sup>(x) dx</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 60</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer les integrales :</p><div class="sub-question">integrale de 0 a pi de sin(2x) dx</div><div class="sub-question">integrale de 0 a pi/4 de cos(2x) dx</div><div class="sub-question">integrale de 0 a pi/2 de sin(3x) dx</div><div class="sub-question">integrale de 0 a pi de cos(x/2) dx</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 61</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Lineariser puis calculer :</p><div class="sub-question">integrale de 0 a pi/2 de sin<sup>2</sup>(x)cos<sup>2</sup>(x) dx</div><div class="sub-question">integrale de 0 a pi/2 de sin<sup>2</sup>(x)cos(x) dx</div><div class="sub-question">integrale de 0 a pi/2 de sin(x)cos<sup>4</sup>(x) dx</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #312e81 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 5</div>
+        <div class="section-title">Integrales trigonometriques</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 62</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer en utilisant les formules d'addition :</p><div class="sub-question">integrale de 0 a pi/2 de sin(x) + cos(x) dx</div><div class="sub-question">integrale de 0 a pi/2 de sin(x)*cos(x) dx</div><div class="sub-question">integrale de 0 a pi/2 de (sin(x) + cos(x))<sup>2</sup> dx</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 63</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer :</p><div class="sub-question">integrale de 0 a pi/3 de 1/cos<sup>2</sup>(x) dx</div><div class="sub-question">integrale de 0 a pi/4 de tan<sup>2</sup>(x) dx</div><div class="sub-question">integrale de 0 a pi/4 de 1/(cos<sup>2</sup>(x) + 1) dx</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 64</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit I = integrale de 0 a pi de x*sin<sup>2</sup>(x) dx et J = integrale de 0 a pi de x*cos<sup>2</sup>(x) dx.</p><div class="sub-question">a) Calculer I + J.</div><div class="sub-question">b) Calculer I - J en utilisant cos(2x).</div><div class="sub-question">c) En deduire I et J.</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 65</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer les integrales suivantes :</p><div class="sub-question">integrale de 0 a pi/2 de sin<sup>3</sup>(x)cos<sup>2</sup>(x) dx</div><div class="sub-question">integrale de 0 a pi/2 de sin<sup>5</sup>(x) dx</div><div class="sub-question">integrale de 0 a pi/2 de sin<sup>2</sup>(x)cos<sup>3</sup>(x) dx</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 66</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit I<sub>n</sub> = integrale de 0 a pi/2 de sin<sup>n</sup>(x) dx.</p><div class="sub-question">a) Calculer I<sub>0</sub>, I<sub>1</sub>, I<sub>2</sub>, I<sub>3</sub>.</div><div class="sub-question">b) Etablir I<sub>n</sub> = ((n-1)/n)*I<sub>n-2</sub> pour n >= 2.</div><div class="sub-question">c) En deduire I<sub>4</sub>, I<sub>5</sub>, I<sub>6</sub>.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #312e81 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 5</div>
+        <div class="section-title">Integrales trigonometriques</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 67</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer :</p><div class="sub-question">integrale de 0 a 2pi de sin<sup>2</sup>(x)cos<sup>3</sup>(x) dx</div><div class="sub-question">integrale de -pi/2 a pi/2 de cos<sup>3</sup>(x) dx</div><div class="sub-question">integrale de 0 a pi de x*cos<sup>2</sup>(x) dx</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 68</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>BAC : Soit f(x) = cos<sup>4</sup>(x) sur [0 ; pi/2].</p><div class="sub-question">a) Lineariser f(x).</div><div class="sub-question">b) Calculer l'aire sous la courbe de f sur [0 ; pi/2].</div><div class="sub-question">c) Comparer cette aire avec celle sous cos<sup>2</sup>(x) sur le meme intervalle.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a8a 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 6</div>
+        <div class="section-title">Proprietes des integrales</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 69</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Utiliser la relation de Chasles pour calculer :</p><div class="sub-question">integrale de 0 a 2 de f(x) dx sachant que integrale de 0 a 1 f = 3 et integrale de 1 a 2 f = 5</div><div class="sub-question">integrale de -1 a 2 de f(x) dx sachant que integrale de -1 a 0 f = -2 et integrale de 0 a 2 f = 7</div>
+    </div>
+</div>
+<div class="exercise-item ">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 70</span>
+        <span class="exercise-diff facile">FACILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit integrale de 0 a 3 de f(x) dx = 5 et integrale de 0 a 3 de g(x) dx = -2.</p><div class="sub-question">a) Calculer integrale de 0 a 3 de (f + g)(x) dx.</div><div class="sub-question">b) Calculer integrale de 0 a 3 de (3f - 2g)(x) dx.</div><div class="sub-question">c) Calculer integrale de 0 a 3 de (2f + 4g)(x) dx.</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 71</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Encadrer les integrales suivantes :</p><div class="sub-question">integrale de 0 a 1 de x<sup>2</sup>/(x<sup>2</sup> + 1) dx sachant que 0 <= f(x) <= 1/2</div><div class="sub-question">integrale de 0 a pi/2 de sin<sup>3</sup>(x) dx sachant que 0 <= f(x) <= 1</div><div class="sub-question">integrale de 1 a 2 de ln(x)/x dx</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 72</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Determiner le signe des integrales sans les calculer :</p><div class="sub-question">integrale de -1 a 1 de x<sup>3</sup> dx</div><div class="sub-question">integrale de -pi/2 a pi/2 de x*cos(x) dx</div><div class="sub-question">integrale de 0 a 2 de (x - 1)<sup>2</sup> dx</div><div class="sub-question">integrale de -2 a 2 de x*e<sup>-x<sup>2</sup></sup> dx</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 73</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f positive et continue sur [0 ; 4] avec integrale de 0 a 1 f = 2 et integrale de 2 a 4 f = 5.</p><div class="sub-question">a) Donner un encadrement de integrale de 0 a 4 f(x) dx.</div><div class="sub-question">b) Que peut-on dire si on sait de plus que f est croissante ?</div><div class="sub-question">c) Que peut-on dire si f est decroissante ?</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a8a 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 6</div>
+        <div class="section-title">Proprietes des integrales</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 74</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Comparer les integrales sans les calculer :</p><div class="sub-question">I = integrale de 0 a 1 de x<sup>2</sup> dx et J = integrale de 0 a 1 de x<sup>3</sup> dx</div><div class="sub-question">I = integrale de 1 a 2 de ln(x) dx et J = integrale de 1 a 2 de (ln x)<sup>2</sup> dx</div><div class="sub-question">I = integrale de 0 a pi/2 de sin(x) dx et J = integrale de 0 a pi/2 de sin<sup>2</sup>(x) dx</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 75</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Inegalite de la moyenne. Soit f continue sur [a ; b] avec m <= f(x) <= M.</p><div class="sub-question">a) Montrer que m(b - a) <= integrale de a a b de f(x) dx <= M(b - a).</div><div class="sub-question">b) Appliquer pour encadrer integrale de 1 a 2 de 1/x dx.</div><div class="sub-question">c) Appliquer pour encadrer integrale de 0 a pi/2 de cos(x) dx.</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 76</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Montrer les inegalites suivantes :</p><div class="sub-question">1/(n+1) < integrale de 0 a 1 de x<sup>n</sup> dx < 1/n  pour tout n >= 1</div><div class="sub-question">integrale de 0 a 1 de e<sup>-x<sup>2</sup></sup> dx > integrale de 0 a 1 de e<sup>-x</sup> dx</div><div class="sub-question">integrale de 0 a pi/4 de cos(x) dx > integrale de 0 a pi/4 de cos<sup>2</sup>(x) dx</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 77</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f une fonction paire continue sur [-a ; a].</p><div class="sub-question">a) Montrer que integrale de -a a a de f(x) dx = 2 * integrale de 0 a a f(x) dx.</div><div class="sub-question">b) Si f est impaire, montrer que integrale de -a a a de f(x) dx = 0.</div><div class="sub-question">c) Appliquer pour calculer integrale de -2 a 2 de x<sup>4</sup> dx et integrale de -pi a pi de x<sup>3</sup>cos(x) dx.</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 78</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit I = integrale de 0 a 1 de e<sup>-x<sup>2</sup></sup> dx.</p><div class="sub-question">a) Montrer que I est compris entre e<sup>-1</sup> et 1.</div><div class="sub-question">b) En utilisant la majoration e<sup>-x<sup>2</sup></sup> <= e<sup>-x</sup> sur [1 ; +infini[, donner un encadrement plus precis.</div><div class="sub-question">c) Prouver que integrale de 0 a 1 de x<sup>2</sup>e<sup>-x<sup>2</sup></sup> dx < I < integrale de 0 a 1 de e<sup>-x<sup>2</sup></sup> dx.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a8a 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 6</div>
+        <div class="section-title">Proprietes des integrales</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 79</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f continue et positive sur [a ; b].</p><div class="sub-question">a) Montrer que si integrale de a a b f(x) dx = 0 alors f(x) = 0 pour tout x de [a ; b].</div><div class="sub-question">b) Ce resultat reste-t-il vrai si f n'est pas positive ? Donner un contre-exemple.</div><div class="sub-question">c) Soit integrale de 0 a pi de f(x)sin(x) dx = 0 avec f croissante. Que peut-on dire ?</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 80</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>BAC : Soit f(x) = x<sup>2</sup> - 2x + 3 sur [0 ; 3].</p><div class="sub-question">a) Etudier le signe de f sur [0 ; 3].</div><div class="sub-question">b) Calculer l'aire entre la courbe de f et l'axe (Ox) sur [0 ; 3].</div><div class="sub-question">c) Encadrer cette aire en utilisant l'inegalite de la moyenne.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a5f 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 7</div>
+        <div class="section-title">Aire et calcul d'aire</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 81</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer l'aire de la region delimitee par :</p><div class="sub-question">a) y = x<sup>2</sup> et y = x sur [0 ; 1]</div><div class="sub-question">b) y = x<sup>2</sup> et y = sqrt(x) sur [0 ; 1]</div><div class="sub-question">c) y = e<sup>x</sup> et y = e<sup>-x</sup> sur [0 ; 1]</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 82</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer l'aire entre les courbes :</p><div class="sub-question">a) y = x<sup>2</sup> et y = 2 - x<sup>2</sup></div><div class="sub-question">b) y = x<sup>3</sup> et y = x sur [-1 ; 1]</div><div class="sub-question">c) y = cos(x) et y = sin(x) sur [0 ; pi/4]</div>
+    </div>
+</div>
+<div class="exercise-item moyen">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 83</span>
+        <span class="exercise-diff moyen">MOYEN</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer l'aire comprise entre la courbe et l'axe des abscisses :</p><div class="sub-question">a) y = x<sup>2</sup> - 4 sur [-2 ; 2]</div><div class="sub-question">b) y = x(x - 1)(x - 2) sur [0 ; 2]</div><div class="sub-question">c) y = sin(x) sur [0 ; 2pi]</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 84</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer l'aire de la region delimitee par :</p><div class="sub-question">a) y = ln(x), l'axe (Ox), x = 1 et x = e</div><div class="sub-question">b) y = e<sup>x</sup>, y = e<sup>-x</sup>, x = 0 et x = ln(2)</div><div class="sub-question">c) y = 1/x, l'axe (Ox), x = 1 et x = 3</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 85</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = x<sup>2</sup> - 3x + 2 sur [0 ; 3].</p><div class="sub-question">a) Resoudre f(x) = 0 et etudier le signe de f.</div><div class="sub-question">b) Calculer l'aire totale entre la courbe de f et l'axe (Ox) sur [0 ; 3].</div><div class="sub-question">c) Calculer l'aire entre les courbes y = f(x) et y = -f(x) sur [0 ; 3].</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a5f 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 7</div>
+        <div class="section-title">Aire et calcul d'aire</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 86</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer l'aire delimitee par les courbes :</p><div class="sub-question">a) y = x<sup>3</sup> et y = 4x sur [0 ; 2]</div><div class="sub-question">b) y = e<sup>x</sup> - 1 et y = 2 - e<sup>-x</sup>  (determiner d'abord les points d'intersection)</div><div class="sub-question">c) y = cos(x) et y = 1 - 2x/pi sur [0 ; pi/2]</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 87</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit la parabole P : y = x<sup>2</sup> et la droite D : y = 2x - 1.</p><div class="sub-question">a) Determiner les points d'intersection de P et D.</div><div class="sub-question">b) Calculer l'aire de la region comprise entre P et D.</div><div class="sub-question">c) Representer graphiquement la situation.</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 88</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit f(x) = (x - 1)<sup>2</sup>e<sup>-x</sup> sur R.</p><div class="sub-question">a) Montrer que f(x) >= 0 pour tout x.</div><div class="sub-question">b) Calculer l'aire sous la courbe sur [0 ; 4].</div><div class="sub-question">c) Cette aire est-elle finie quand on integre sur [0 ; +infini[ ?</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 89</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer le volume du solide engendre par la rotation autour de (Ox) de :</p><div class="sub-question">a) y = sqrt(x) entre x = 0 et x = 1</div><div class="sub-question">b) y = x<sup>2</sup> entre x = 0 et x = 1</div><div class="sub-question">c) y = sin(x) entre x = 0 et x = pi</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 90</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit C<sub>f</sub> la courbe de f(x) = 1/(1 + x<sup>2</sup>).</p><div class="sub-question">a) Calculer l'aire sous C<sub>f</sub> sur [0 ; 1].</div><div class="sub-question">b) Calculer l'aire sous C<sub>f</sub> sur [0 ; +infini[ (integrale impropore).</div><div class="sub-question">c) Interpreter geometriquement le resultat de b).</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e3a5f 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 7</div>
+        <div class="section-title">Aire et calcul d'aire</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 91</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit C<sub>f</sub> la courbe de f(x) = e<sup>-x</sup> sur [0 ; +infini[.</p><div class="sub-question">a) Calculer l'aire sous C<sub>f</sub> sur [0 ; n] en fonction de n.</div><div class="sub-question">b) Quelle est la limite de cette aire quand n tend vers +infini ?</div><div class="sub-question">c) Calculer le volume engendre par la rotation de C<sub>f</sub> autour de (Ox) sur [0 ; +infini[.</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 92</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>BAC : Soit f(x) = x<sup>2</sup> - 2x + 1 et g(x) = -x<sup>2</sup> + 2x + 3.</p><div class="sub-question">a) Determiner les points d'intersection de C<sub>f</sub> et C<sub>g</sub>.</div><div class="sub-question">b) Calculer l'aire comprise entre les deux courbes.</div><div class="sub-question">c) Verifier le resultat en utilisant la symetrie de la figure.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e1b4b 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 8</div>
+        <div class="section-title">Integrales impropres</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 93</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Etudier la convergence des integrales impropres :</p><div class="sub-question">integrale de 1 a +infini de 1/x<sup>2</sup> dx</div><div class="sub-question">integrale de 1 a +infini de 1/x<sup>3</sup> dx</div><div class="sub-question">integrale de 1 a +infini de 1/sqrt(x) dx</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 94</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Etudier la convergence :</p><div class="sub-question">integrale de 0 a 1 de 1/sqrt(x) dx</div><div class="sub-question">integrale de 0 a 1 de 1/x<sup>2/3</sup> dx</div><div class="sub-question">integrale de 0 a 1 de 1/x<sup>2</sup> dx</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 95</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Etudier la convergence et calculer si possible :</p><div class="sub-question">integrale de 0 a +infini de e<sup>-x</sup> dx</div><div class="sub-question">integrale de 0 a +infini de e<sup>-2x</sup> dx</div><div class="sub-question">integrale de 0 a +infini de xe<sup>-x</sup> dx</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 96</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Etudier la convergence :</p><div class="sub-question">integrale de 1 a +infini de 1/(x(x+1)) dx</div><div class="sub-question">integrale de 1 a +infini de 1/(x<sup>2</sup> + 1) dx</div><div class="sub-question">integrale de 1 a +infini de ln(x)/x<sup>2</sup> dx</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 97</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Etudier la convergence des integrales :</p><div class="sub-question">integrale de 0 a +infini de 1/(1 + x<sup>2</sup>) dx</div><div class="sub-question">integrale de 0 a +infini de x/(1 + x<sup>2</sup>) dx</div><div class="sub-question">integrale de -infini a +infini de 1/(1 + x<sup>2</sup>) dx</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e1b4b 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 8</div>
+        <div class="section-title">Integrales impropres</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 98</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Determiner pour quelles valeurs de alpha l'integrale converge :</p><div class="sub-question">integrale de 1 a +infini de 1/x<sup>alpha</sup> dx</div><div class="sub-question">integrale de 0 a 1 de 1/x<sup>alpha</sup> dx</div><div class="sub-question">integrale de 0 a +infini de e<sup>-alpha*x</sup> dx  (alpha > 0)</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 99</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Etudier la convergence par comparaison :</p><div class="sub-question">integrale de 0 a +infini de e<sup>-x<sup>2</sup></sup> dx</div><div class="sub-question">integrale de 1 a +infini de e<sup>-x</sup>/x dx</div><div class="sub-question">integrale de 0 a 1 de ln(x) dx</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 100</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Calculer quand elles convergent :</p><div class="sub-question">integrale de 0 a 1 de ln(x) dx</div><div class="sub-question">integrale de 0 a 1 de x*ln(x) dx</div><div class="sub-question">integrale de 0 a 1 de ln(x)<sup>2</sup> dx</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 101</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit la fonction Gamma : Gamma(a) = integrale de 0 a +infini de x<sup>a-1</sup>*e<sup>-x</sup> dx.</p><div class="sub-question">a) Montrer que Gamma(1) = 1.</div><div class="sub-question">b) A l'aide d'une integration par parties, montrer Gamma(a + 1) = a * Gamma(a).</div><div class="sub-question">c) En deduire Gamma(2), Gamma(3) et Gamma(4).</div>
+    </div>
+</div>
+<div class="exercise-item difficile">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 102</span>
+        <span class="exercise-diff difficile">DIFFICILE</span>
+    </div>
+    <div class="exercise-question">
+    <p>Soit I<sub>n</sub> = integrale de 0 a +infini de x<sup>n</sup>*e<sup>-x</sup> dx.</p><div class="sub-question">a) Montrer que I<sub>n</sub> = n!I<sub>0</sub>.</div><div class="sub-question">b) Calculer I<sub>3</sub> et I<sub>5</sub>.</div><div class="sub-question">c) Montrer que I<sub>n+1</sub> = (n + 1)I<sub>n</sub>.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #1e1b4b 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 8</div>
+        <div class="section-title">Integrales impropres</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 103</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>BAC : On considere l'integrale I = integrale de 0 a +infini de e<sup>-x<sup>2</sup></sup> dx.</p><div class="sub-question">a) Montrer que I converge.</div><div class="sub-question">b) Montrer que I<sup>2</sup> = pi/4 (admis).</div><div class="sub-question">c) Calculer integrale de 0 a 1 de e<sup>-x<sup>2</sup></sup> dx et montrer qu'elle est inferieure a I.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #172554 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 9</div>
+        <div class="section-title">Exercices type BAC et problemes</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 104</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>BAC : Soit f(x) = (x<sup>2</sup> - 1)e<sup>-x</sup> sur R.</p><div class="sub-question">a) Calculer les limites de f aux bornes.</div><div class="sub-question">b) Etudier les variations de f.</div><div class="sub-question">c) Calculer l'aire sous la courbe sur [0 ; 2].</div><div class="sub-question">d) Determiner la primitive F de f telle que F(0) = 0.</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 105</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>BAC : Une entreprise produit un objet. Le cout marginal est C<sub>m</sub>(x) = 3x<sup>2</sup> - 12x + 15.</p><div class="sub-question">a) Sachant que les couts fixes sont de 20, determiner la fonction cout total C(x).</div><div class="sub-question">b) Calculer le cout total pour une production de 5 unites.</div><div class="sub-question">c) Le prix de vente unitaire est 10. Calculer le profit total pour 5 unites.</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 106</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>BAC : Soit f(x) = ln(x)/x sur ]0 ; +infini[.</p><div class="sub-question">a) Etudier les variations de f et tracer la courbe.</div><div class="sub-question">b) Calculer l'aire sous la courbe sur [1 ; e].</div><div class="sub-question">c) Montrer que l'aire sous la courbe sur [1 ; +infini[ est infinie.</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 107</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>BAC : Soit f la fonction definie par f(x) = (2x + 1)e<sup>-x</sup>.</p><div class="sub-question">a) Calculer f'(x) et etudier les variations.</div><div class="sub-question">b) Montrer que la courbe admet une tangente horizontale.</div><div class="sub-question">c) Calculer l'aire entre la courbe, l'axe (Ox) et les droites x = 0 et x = 2.</div><div class="sub-question">d) En deduire la valeur moyenne de f sur [0 ; 2].</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 108</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>BAC : Probleme d'aire avec fonction trigonometrique.</p><p>Soit f(x) = sin(x) + x*cos(x) sur [0 ; pi].</p><div class="sub-question">a) Calculer f'(x) et montrer que f'(x) = 2cos(x) - x*sin(x).</div><div class="sub-question">b) Calculer l'aire sous la courbe de f sur [0 ; pi].</div><div class="sub-question">c) Cette aire est-elle egale a 2 ? Justifier.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #172554 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 9</div>
+        <div class="section-title">Exercices type BAC et problemes</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 109</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>BAC : Etude de g(x) = (x<sup>2</sup> + 1)/e<sup>x</sup>.</p><div class="sub-question">a) Calculer les limites aux bornes et les variations.</div><div class="sub-question">b) Calculer l'aire sous la courbe sur [0 ; 3].</div><div class="sub-question">c) Montrer que integrale de 0 a n de g(x) dx tend vers une limite finie quand n tend vers +infini.</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 110</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>BAC : Soit la suite (I<sub>n</sub>) definie par I<sub>n</sub> = integrale de 0 a 1 de x<sup>n</sup>*e<sup>x</sup> dx.</p><div class="sub-question">a) Calculer I<sub>0</sub> et I<sub>1</sub>.</div><div class="sub-question">b) Montrer que I<sub>n</sub> = e - n*I<sub>n-1</sub>.</div><div class="sub-question">c) Calculer I<sub>2</sub>, I<sub>3</sub>, I<sub>4</sub>.</div><div class="sub-question">d) Montrer que la suite (I<sub>n</sub>) est positive et decroissante.</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 111</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>BAC : Probleme de volume.</p><p>On considere le solide obtenu par rotation de la courbe y = sqrt(4 - x<sup>2</sup>) autour de (Ox) pour x dans [-2 ; 2].</p><div class="sub-question">a) Quelle est la nature de ce solide ?</div><div class="sub-question">b) Calculer son volume a l'aide d'une integrale.</div><div class="sub-question">c) Retrouver ce resultat par la formule geometrique du volume d'une sphere.</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 112</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>BAC : Soit f(x) = x + 2 - 4e<sup>-x/2</sup> sur [0 ; 10].</p><div class="sub-question">a) Montrer que f est croissante sur [0 ; 10].</div><div class="sub-question">b) Calculer l'aire sous la courbe de f sur [0 ; 10].</div><div class="sub-question">c) En deduire la valeur moyenne de f sur cet intervalle.</div><div class="sub-question">d) Interpreter le resultat dans un contexte concret (ex : quantite totale produite).</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 113</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>BAC : Synthese - Fonction avec parametre.</p><p>Soit f<sub>a</sub>(x) = x<sup>2</sup> - 2ax + 1 ou a est un reel positif.</p><div class="sub-question">a) Pour quelle valeur de a le minimum de f est-il nul ?</div><div class="sub-question">b) Calculer integrale de 0 a 1 de f<sub>a</sub>(x) dx en fonction de a.</div><div class="sub-question">c) Pour quelle valeur de a cette integrale est-elle minimale ?</div><div class="sub-question">d) Calculer l'aire entre C<sub>f</sub> et l'axe (Ox) quand a = 1.</div>
+    </div>
+</div>
+</div>
+</div>
+<div class="page section-page">
+<div class="section-hero">
+    <div class="section-hero-pattern"></div>
+    <div class="section-hero-gradient" style="linear-gradient(135deg, #172554 0%, #101830 60%, #080c18 100%)"></div>
+    <div class="section-hero-overlay">
+        <div class="section-number">Partie 9</div>
+        <div class="section-title">Exercices type BAC et problemes</div>
+    </div>
+</div>
+<div class="section-body">
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 114</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>BAC : Probleme complet d'integration.</p><p>Soit f(x) = e<sup>x</sup>/(e<sup>x</sup> + 1)<sup>2</sup> sur R.</p><div class="sub-question">a) Montrer que f est une fonction paire.</div><div class="sub-question">b) Etudier les variations de f sur [0 ; +infini[.</div><div class="sub-question">c) Calculer integrale de 0 a 1 de f(x) dx.</div><div class="sub-question">d) Montrer que integrale de 0 a +infini de f(x) dx = 1/2.</div>
+    </div>
+</div>
+<div class="exercise-item bac">
+    <div class="exercise-header">
+        <span class="exercise-num">Exercice 115</span>
+        <span class="exercise-diff bac">BAC</span>
+    </div>
+    <div class="exercise-question">
+    <p>BAC : Probleme de synthese.</p><p>On definit la suite u<sub>n</sub> = integrale de 0 a 1 de x<sup>n</sup>/sqrt(1 + x) dx.</p><div class="sub-question">a) Calculer u<sub>0</sub> et u<sub>1</sub>.</div><div class="sub-question">b) Montrer que (u<sub>n</sub>) est decroissante et positive.</div><div class="sub-question">c) Montrer que u<sub>n</sub> <= 1/(n + 1) pour tout n.</div><div class="sub-question">d) En deduire la limite de la suite (u<sub>n</sub>).</div>
+    </div>
+</div>
+</div>
+</div>
+</body>
+</html>
