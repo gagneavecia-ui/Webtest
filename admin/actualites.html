@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
   <meta name="theme-color" content="#0A0A0A">
-  <meta name="description" content="ARVEXA - Administration - Abonnements BAC">
+  <meta name="description" content="ARVEXA - Administration - Actualités">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="manifest" href="../manifest.json">
@@ -15,9 +15,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
   
   <style>
-    /* ============================================================
-       ROOT - UNIFORME AVEC ARVEXA
-       ============================================================ */
     :root {
       --primary: #1A3A2A;
       --primary-dark: #0A1A12;
@@ -64,9 +61,6 @@
       100% { opacity: 1; }
     }
 
-    /* ============================================================
-       BACKGROUND
-       ============================================================ */
     .gradient-bg {
       position: fixed; top: 0; left: 0;
       width: 100%; height: 100%;
@@ -93,9 +87,6 @@
       100% { transform: translate(30px, -20px) scale(1.1); }
     }
 
-    /* ============================================================
-       HEADER
-       ============================================================ */
     .header {
       display: flex;
       justify-content: space-between;
@@ -174,9 +165,6 @@
     .menu-btn:active { transform: scale(0.94); }
     .menu-btn:hover { border-color: rgba(184, 134, 11, 0.12); color: var(--text-light); }
 
-    /* ============================================================
-       CONTAINER
-       ============================================================ */
     .container {
       max-width: 1200px;
       margin: 0 auto;
@@ -184,9 +172,6 @@
       width: 100%;
     }
 
-    /* ============================================================
-       PAGE TITLE
-       ============================================================ */
     .page-title {
       margin-bottom: 24px;
     }
@@ -207,51 +192,50 @@
       margin-top: 4px;
     }
 
-    /* ============================================================
-       STATS BADGES
-       ============================================================ */
-    .stats-badges {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
+    .action-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
       gap: 12px;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
     }
 
-    .stat-badge {
-      background: var(--bg-card);
-      backdrop-filter: blur(8px);
-      border: 1px solid var(--card-border);
-      border-radius: var(--radius);
-      padding: 14px 16px;
-      text-align: center;
-      transition: var(--transition);
-    }
-    .stat-badge:hover {
-      border-color: rgba(184, 134, 11, 0.08);
-      transform: translateY(-2px);
-    }
-    .stat-badge .stat-number {
-      font-size: clamp(22px, 3vw, 28px);
+    .btn-add {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 24px;
+      background: linear-gradient(135deg, var(--accent), #9A7209);
+      border: none;
+      border-radius: 12px;
+      color: var(--bg-dark);
       font-weight: 700;
-      font-family: 'Playfair Display', 'Georgia', serif;
+      font-size: 14px;
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: 'Inter', sans-serif;
+      box-shadow: 0 4px 20px rgba(184, 134, 11, 0.3);
+    }
+    .btn-add:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 30px rgba(184, 134, 11, 0.4);
+    }
+    .btn-add:active {
+      transform: scale(0.96);
+    }
+    .btn-add i {
+      font-size: 16px;
+    }
+
+    .total-count {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .total-count strong {
       color: var(--text-light);
     }
-    .stat-badge .stat-number.gold { color: var(--accent); }
-    .stat-badge .stat-number.green { color: var(--success); }
-    .stat-badge .stat-number.red { color: var(--danger); }
-    .stat-badge .stat-number.warning { color: var(--warning); }
-    .stat-badge .stat-label {
-      font-size: 10px;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      font-weight: 300;
-      margin-top: 2px;
-    }
 
-    /* ============================================================
-       FILTERS BAR
-       ============================================================ */
     .filters-bar {
       display: flex;
       flex-wrap: wrap;
@@ -282,41 +266,7 @@
       opacity: 0.5;
     }
 
-    .filter-select {
-      padding: 10px 14px;
-      background: rgba(10, 10, 10, 0.6);
-      border: 1px solid var(--card-border);
-      border-radius: 12px;
-      color: var(--text-light);
-      font-size: 13px;
-      font-family: inherit;
-      outline: none;
-      transition: var(--transition);
-      cursor: pointer;
-      min-width: 160px;
-    }
-    .filter-select:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.08);
-    }
-    .filter-select option {
-      background: var(--bg-dark);
-      color: var(--text-light);
-    }
-
-    .total-count {
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-left: auto;
-    }
-    .total-count strong {
-      color: var(--text-light);
-    }
-
-    /* ============================================================
-       ABONNEMENTS TABLE
-       ============================================================ */
-    .abonnements-table-wrapper {
+    .actualites-table-wrapper {
       background: var(--bg-card);
       backdrop-filter: blur(8px);
       border: 1px solid var(--card-border);
@@ -325,16 +275,16 @@
       margin-bottom: 20px;
     }
 
-    .abonnements-table {
+    .actualites-table {
       width: 100%;
       border-collapse: collapse;
     }
 
-    .abonnements-table thead {
+    .actualites-table thead {
       background: rgba(10, 10, 10, 0.5);
     }
 
-    .abonnements-table th {
+    .actualites-table th {
       padding: 12px 14px;
       text-align: left;
       font-size: 10px;
@@ -346,115 +296,71 @@
       white-space: nowrap;
     }
 
-    .abonnements-table td {
+    .actualites-table td {
       padding: 12px 14px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.02);
       vertical-align: middle;
     }
 
-    .abonnements-table tbody tr {
+    .actualites-table tbody tr {
       transition: var(--transition);
       cursor: default;
     }
-    .abonnements-table tbody tr:hover {
+    .actualites-table tbody tr:hover {
       background: rgba(255, 255, 255, 0.02);
     }
-    .abonnements-table tbody tr:last-child td {
+    .actualites-table tbody tr:last-child td {
       border-bottom: none;
     }
 
-    /* Colonnes */
-    .abonnements-table .col-user {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .abonnements-table .user-avatar {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: var(--accent);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--bg-dark);
-      flex-shrink: 0;
-      background-size: cover;
-      background-position: center;
-    }
-    .abonnements-table .user-name {
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--text-light);
-    }
-    .abonnements-table .user-email {
-      font-size: 11px;
-      color: var(--text-dim);
-    }
-
-    .abonnements-table .abo-id {
-      font-size: 11px;
-      font-family: monospace;
-      color: var(--accent);
-      letter-spacing: 0.5px;
-    }
-
-    .abonnements-table .abo-amount {
-      font-size: 14px;
-      font-weight: 600;
-      font-family: 'Playfair Display', 'Georgia', serif;
-      color: var(--accent);
-    }
-
-    .abonnements-table .status-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
+    .actualites-table .badge-display {
+      display: inline-block;
       padding: 3px 12px;
       border-radius: 20px;
       font-size: 10px;
       font-weight: 600;
     }
-    .abonnements-table .status-badge.active {
-      background: rgba(45, 125, 90, 0.12);
+    .actualites-table .badge-display.astuce {
+      background: rgba(184, 134, 11, 0.08);
+      color: #D4A017;
+      border: 1px solid rgba(184, 134, 11, 0.1);
+    }
+    .actualites-table .badge-display.promotion {
+      background: rgba(45, 125, 90, 0.08);
       color: var(--success);
-      border: 1px solid rgba(45, 125, 90, 0.15);
+      border: 1px solid rgba(45, 125, 90, 0.1);
     }
-    .abonnements-table .status-badge.expired {
-      background: rgba(138, 58, 58, 0.12);
-      color: var(--danger);
-      border: 1px solid rgba(138, 58, 58, 0.15);
+    .actualites-table .badge-display.update {
+      background: rgba(26, 58, 42, 0.15);
+      color: #4A7A6A;
+      border: 1px solid rgba(26, 58, 42, 0.1);
     }
-    .abonnements-table .status-badge.pending {
-      background: rgba(212, 160, 23, 0.12);
-      color: var(--warning);
-      border: 1px solid rgba(212, 160, 23, 0.15);
-    }
-    .abonnements-table .status-badge.cancelled {
-      background: rgba(90, 90, 74, 0.12);
-      color: var(--text-muted);
-      border: 1px solid rgba(90, 90, 74, 0.15);
+    .actualites-table .badge-display.default {
+      background: rgba(184, 134, 11, 0.06);
+      color: var(--accent);
+      border: 1px solid rgba(184, 134, 11, 0.06);
     }
 
-    .abonnements-table .abo-date {
+    .actualites-table .actu-text {
+      font-size: 13px;
+      color: var(--text-light);
+      max-width: 300px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .actualites-table .actu-date {
       font-size: 11px;
       color: var(--text-muted);
       white-space: nowrap;
     }
-    .abonnements-table .abo-expire {
-      font-size: 10px;
-      color: var(--text-muted);
-      white-space: nowrap;
-    }
 
-    .abonnements-table .abo-actions {
+    .actualites-table .actu-actions {
       display: flex;
       gap: 4px;
-      flex-wrap: wrap;
     }
-    .abonnements-table .abo-actions button {
+    .actualites-table .actu-actions button {
       width: 30px;
       height: 30px;
       border: none;
@@ -466,178 +372,24 @@
       align-items: center;
       justify-content: center;
     }
-    .abonnements-table .abo-actions button:active {
+    .actualites-table .actu-actions button:active {
       transform: scale(0.92);
     }
-    .abonnements-table .abo-actions .btn-activate {
-      background: rgba(45, 125, 90, 0.12);
-      color: var(--success);
-    }
-    .abonnements-table .abo-actions .btn-activate:hover {
-      background: rgba(45, 125, 90, 0.25);
-    }
-    .abonnements-table .abo-actions .btn-deactivate {
-      background: rgba(138, 58, 58, 0.12);
-      color: var(--danger);
-    }
-    .abonnements-table .abo-actions .btn-deactivate:hover {
-      background: rgba(138, 58, 58, 0.25);
-    }
-    .abonnements-table .abo-actions .btn-details {
+    .actualites-table .actu-actions .btn-edit {
       background: rgba(184, 134, 11, 0.08);
       color: var(--accent);
     }
-    .abonnements-table .abo-actions .btn-details:hover {
+    .actualites-table .actu-actions .btn-edit:hover {
       background: rgba(184, 134, 11, 0.18);
     }
-
-    /* ============================================================
-       DEMANDES EN ATTENTE (section spéciale)
-       ============================================================ */
-    .pending-card {
-      background: var(--bg-card);
-      backdrop-filter: blur(8px);
-      border: 1px solid var(--card-border);
-      border-radius: var(--radius);
-      padding: 18px 16px;
-      margin-bottom: 20px;
-      transition: var(--transition);
-    }
-    .pending-card:hover {
-      border-color: rgba(184, 134, 11, 0.08);
-    }
-
-    .pending-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 14px;
-    }
-    .pending-header h3 {
-      font-size: 15px;
-      font-weight: 600;
-      font-family: 'Playfair Display', 'Georgia', serif;
-      color: var(--text-light);
-    }
-    .pending-header h3 span {
-      color: var(--accent);
-      font-style: italic;
-    }
-    .pending-count {
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--warning);
-      background: rgba(212, 160, 23, 0.1);
-      border: 1px solid rgba(212, 160, 23, 0.15);
-      padding: 2px 12px;
-      border-radius: 20px;
-    }
-
-    .pending-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 14px;
-      background: rgba(10, 10, 10, 0.3);
-      border: 1px solid var(--card-border);
-      border-radius: 12px;
-      margin-bottom: 8px;
-      transition: var(--transition);
-    }
-    .pending-item:hover {
-      border-color: rgba(184, 134, 11, 0.12);
-      background: rgba(10, 10, 10, 0.5);
-    }
-
-    .pending-item .user-info {
-      display: flex;
-      flex-direction: column;
-      flex: 1;
-      gap: 2px;
-    }
-    .pending-item .user-name {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text-light);
-    }
-    .pending-item .user-email {
-      font-size: 11px;
-      color: var(--text-dim);
-    }
-    .pending-item .user-id {
-      font-size: 11px;
-      color: var(--accent);
-      font-family: monospace;
-      letter-spacing: 0.5px;
-    }
-
-    .pending-item .amount-info {
-      text-align: right;
-      margin-right: 12px;
-    }
-    .pending-item .amount-value {
-      font-size: 15px;
-      font-weight: 700;
-      font-family: 'Playfair Display', 'Georgia', serif;
-      color: var(--accent);
-    }
-    .pending-item .amount-label {
-      font-size: 10px;
-      color: var(--text-muted);
-    }
-
-    .pending-actions {
-      display: flex;
-      gap: 6px;
-      flex-shrink: 0;
-    }
-    .pending-actions button {
-      width: 32px;
-      height: 32px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: var(--transition);
-      font-size: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .pending-actions button:active {
-      transform: scale(0.92);
-    }
-    .pending-actions .approve {
-      background: rgba(45, 125, 90, 0.15);
-      color: var(--success);
-    }
-    .pending-actions .approve:hover {
-      background: rgba(45, 125, 90, 0.25);
-    }
-    .pending-actions .reject {
-      background: rgba(138, 58, 58, 0.15);
+    .actualites-table .actu-actions .btn-delete {
+      background: rgba(138, 58, 58, 0.08);
       color: var(--danger);
     }
-    .pending-actions .reject:hover {
-      background: rgba(138, 58, 58, 0.25);
+    .actualites-table .actu-actions .btn-delete:hover {
+      background: rgba(138, 58, 58, 0.18);
     }
 
-    .empty-state-small {
-      text-align: center;
-      padding: 20px;
-      color: var(--text-dim);
-      font-size: 13px;
-      font-weight: 300;
-    }
-    .empty-state-small i {
-      font-size: 24px;
-      opacity: 0.2;
-      display: block;
-      margin-bottom: 6px;
-    }
-
-    /* ============================================================
-       PAGINATION
-       ============================================================ */
     .pagination {
       display: flex;
       justify-content: center;
@@ -680,9 +432,6 @@
       padding: 0 10px;
     }
 
-    /* ============================================================
-       EMPTY STATE
-       ============================================================ */
     .empty-state {
       text-align: center;
       padding: 60px 20px;
@@ -706,22 +455,12 @@
       margin-top: 4px;
     }
 
-    /* ============================================================
-       SKELETON LOADING
-       ============================================================ */
     .skeleton-row {
       display: flex;
       align-items: center;
       gap: 12px;
       padding: 12px 14px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.02);
-    }
-    .skeleton-row .skeleton-avatar {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.03);
-      animation: pulse 1.5s ease-in-out infinite;
     }
     .skeleton-row .skeleton-text {
       flex: 1;
@@ -750,9 +489,7 @@
       50% { opacity: 0.6; }
     }
 
-    /* ============================================================
-       MODAL UNIFORME ARVEXA - PREMIUM
-       ============================================================ */
+    /* MODAL UNIFORME */
     .modal-overlay {
       position: fixed;
       top: 0;
@@ -881,8 +618,8 @@
       border-radius: 10px;
       opacity: 0.3;
     }
-
-    .modal-body .modal-icon {
+    
+        .modal-body .modal-icon {
       font-size: 48px;
       display: block;
       margin-bottom: 8px;
@@ -895,42 +632,47 @@
       margin-bottom: 16px;
     }
 
-    .modal-body .modal-field {
+    .modal-body .form-group {
       margin-bottom: 14px;
     }
-    .modal-body .modal-field .field-label {
+    .modal-body .form-group label {
       display: block;
       font-size: 10px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
       color: var(--text-muted);
       font-weight: 400;
-      margin-bottom: 3px;
+      margin-bottom: 4px;
     }
-    .modal-body .modal-field .field-value {
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--text-light);
-      padding: 8px 12px;
-      background: rgba(10, 10, 10, 0.4);
-      border-radius: 8px;
+    .modal-body .form-group select,
+    .modal-body .form-group textarea {
+      width: 100%;
+      padding: 10px 14px;
+      background: rgba(10, 10, 10, 0.6);
       border: 1px solid rgba(184, 134, 11, 0.06);
+      border-radius: 12px;
+      color: var(--text-light);
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+      transition: all 0.2s ease;
     }
-    .modal-body .modal-field .field-value .highlight {
-      color: var(--accent);
+    .modal-body .form-group textarea {
+      min-height: 100px;
+      resize: vertical;
     }
-    .modal-body .modal-field .field-value .success {
-      color: var(--success);
+    .modal-body .form-group select:focus,
+    .modal-body .form-group textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.08);
     }
-    .modal-body .modal-field .field-value .danger {
-      color: var(--danger);
+    .modal-body .form-group textarea::placeholder {
+      color: var(--text-muted);
+      opacity: 0.5;
     }
-    .modal-body .modal-field .field-value .warning {
-      color: var(--warning);
-    }
-    .modal-body .modal-field .field-value .mono {
-      font-family: monospace;
-      letter-spacing: 0.5px;
+    .modal-body .form-group select option {
+      background: var(--bg-dark);
+      color: var(--text-light);
     }
 
     .modal-footer {
@@ -998,31 +740,6 @@
       transform: scale(0.97);
     }
 
-    .modal-footer .btn-success {
-      flex: 1;
-      padding: 12px 20px;
-      background: var(--success);
-      border: none;
-      border-radius: 12px;
-      color: #fff;
-      font-weight: 700;
-      font-size: 14px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-family: 'Inter', sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-    .modal-footer .btn-success:hover {
-      background: #1A5A3A;
-      box-shadow: 0 0 30px rgba(45, 125, 90, 0.15);
-    }
-    .modal-footer .btn-success:active {
-      transform: scale(0.97);
-    }
-
     .modal-footer .btn-danger {
       flex: 1;
       padding: 12px 20px;
@@ -1048,13 +765,11 @@
       transform: scale(0.97);
     }
 
-    .modal-footer .btn-primary .loader,
-    .modal-footer .btn-success .loader,
-    .modal-footer .btn-danger .loader {
+    .modal-footer .btn-primary .loader {
       display: inline-block;
       width: 18px;
       height: 18px;
-      border: 2px solid currentColor;
+      border: 2px solid var(--bg-dark);
       border-radius: 50%;
       border-top-color: transparent;
       animation: spin 0.6s linear infinite;
@@ -1063,9 +778,6 @@
       to { transform: rotate(360deg); }
     }
 
-    /* ============================================================
-       TOAST
-       ============================================================ */
     .toast {
       position: fixed;
       bottom: 20px;
@@ -1107,9 +819,6 @@
       color: #4A7A8A;
     }
 
-    /* ============================================================
-       FOOTER
-       ============================================================ */
     .footer {
       text-align: center;
       padding: 20px;
@@ -1360,16 +1069,14 @@
       margin-top: 8px;
     }
 
-        /* ============================================================
-       RESPONSIVE
-       ============================================================ */
     @media (max-width: 768px) {
-      .stats-badges {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 8px;
+      .action-bar {
+        flex-direction: column;
+        align-items: stretch;
       }
-      .stat-badge {
-        padding: 10px 12px;
+      .action-bar .btn-add {
+        width: 100%;
+        justify-content: center;
       }
       .filters-bar {
         flex-direction: column;
@@ -1378,26 +1085,23 @@
       .filters-bar .search-input {
         min-width: auto;
       }
-      .filter-select {
-        min-width: auto;
-      }
       .total-count {
-        margin-left: 0;
         text-align: center;
+        margin-top: 4px;
       }
 
-      .abonnements-table thead {
+      .actualites-table thead {
         display: none;
       }
-      .abonnements-table tbody tr {
+      .actualites-table tbody tr {
         display: block;
         padding: 14px 16px;
         border-bottom: 1px solid var(--card-border);
       }
-      .abonnements-table tbody tr:last-child {
+      .actualites-table tbody tr:last-child {
         border-bottom: none;
       }
-      .abonnements-table tbody td {
+      .actualites-table tbody td {
         display: flex;
         align-items: center;
         padding: 4px 0;
@@ -1405,7 +1109,7 @@
         gap: 8px;
         flex-wrap: wrap;
       }
-      .abonnements-table tbody td::before {
+      .actualites-table tbody td::before {
         content: attr(data-label);
         font-size: 9px;
         font-weight: 600;
@@ -1415,22 +1119,19 @@
         min-width: 70px;
         flex-shrink: 0;
       }
-      .abonnements-table .col-user {
-        flex: 1;
+      .actualites-table .actu-text {
+        max-width: 100%;
+        white-space: normal;
       }
-      .abonnements-table .abo-actions {
+      .actualites-table .actu-actions {
         margin-left: auto;
       }
-      .abonnements-table .abo-actions button {
+      .actualites-table .actu-actions button {
         width: 28px;
         height: 28px;
         font-size: 10px;
       }
-      .abonnements-table .status-badge {
-        font-size: 9px;
-        padding: 2px 10px;
-      }
-      
+
       .modal-content {
         max-width: 100%;
         margin: 10px;
@@ -1454,12 +1155,6 @@
       }
     }
 
-    @media (min-width: 769px) and (max-width: 1024px) {
-      .stats-badges {
-        grid-template-columns: repeat(4, 1fr);
-      }
-    }
-
     @media (min-width: 1024px) {
       .container {
         padding: 24px 5%;
@@ -1469,7 +1164,6 @@
 </head>
 <body>
 
-<!-- ===== BACKGROUND ===== -->
 <div class="gradient-bg"></div>
 <div class="glow glow-1"></div>
 <div class="glow glow-2"></div>
@@ -1512,7 +1206,7 @@
       </a>
 
       <div class="menu-section-title">🎓 BAC</div>
-      <a href="abonnements-bac.html" class="menu-link active">
+      <a href="abonnements-bac.html" class="menu-link">
         <i class="fas fa-graduation-cap"></i> Abonnements BAC
         <span class="menu-badge">1000 FCFA</span>
       </a>
@@ -1523,14 +1217,8 @@
       </a>
 
       <div class="menu-section-title">📰 Actualités</div>
-      <a href="actualites.html" class="menu-link">
+      <a href="actualites.html" class="menu-link active">
         <i class="fas fa-newspaper"></i> Gérer les actualités
-      </a>
-
-      <div class="menu-section-title">🤝 Partenariats</div>
-      <a href="partenariats.html" class="menu-link">
-        <i class="fas fa-handshake"></i> Gérer les partenaires
-        <span class="menu-badge" id="partnersBadge">0</span>
       </a>
     </nav>
 
@@ -1543,21 +1231,69 @@
   </div>
 </div>
 
-<!-- ===== MODAL UNIFORME - DÉTAILS ===== -->
-<div class="modal-overlay" id="detailModal">
+<!-- ===== MODAL - AJOUTER / MODIFIER ACTUALITÉ ===== -->
+<div class="modal-overlay" id="actuModal">
   <div class="modal-content">
     <div class="modal-header">
       <div class="modal-title">
-        <i class="fas fa-receipt"></i>
-        Détails de <span>l'abonnement</span>
+        <i class="fas fa-newspaper"></i>
+        <span id="modalTitle">Ajouter une</span> <span>actualité</span>
       </div>
-      <button class="modal-close-btn" id="detailModalClose"><i class="fas fa-times"></i></button>
+      <button class="modal-close-btn" id="modalCloseBtn"><i class="fas fa-times"></i></button>
     </div>
-    <div class="modal-body" id="detailModalBody">
-      <!-- Rempli par JavaScript -->
+    <div class="modal-body">
+      <div class="modal-icon">📰</div>
+      <div class="modal-subtitle" id="modalSubtitle">Créez une nouvelle actualité pour la page d'accueil</div>
+
+      <div class="form-group">
+        <label>🏷️ Type de badge</label>
+        <select id="actuBadge">
+          <option value="📢 Bienvenue">📢 Bienvenue</option>
+          <option value="💡 Astuce">💡 Astuce</option>
+          <option value="🎉 Promotion">🎉 Promotion</option>
+          <option value="✅ Mise à jour">✅ Mise à jour</option>
+          <option value="🔥 Nouveau">🔥 Nouveau</option>
+          <option value="📊 Info">📊 Info</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>📝 Message</label>
+        <textarea id="actuText" placeholder="Saisissez le contenu de l'actualité..."></textarea>
+      </div>
     </div>
-    <div class="modal-footer" id="detailModalFooter">
-      <button class="btn-secondary" id="detailModalCloseBtn">Fermer</button>
+    <div class="modal-footer">
+      <button class="btn-secondary" id="modalCancelBtn">Annuler</button>
+      <button class="btn-primary" id="modalSaveBtn">
+        <i class="fas fa-save"></i> <span id="modalSaveText">Publier</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODAL - SUPPRIMER ===== -->
+<div class="modal-overlay" id="deleteModal">
+  <div class="modal-content" style="max-width:380px;">
+    <div class="modal-header">
+      <div class="modal-title">
+        <i class="fas fa-trash"></i>
+        Supprimer <span>l'actualité</span>
+      </div>
+      <button class="modal-close-btn" id="deleteModalClose"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-icon">⚠️</div>
+      <div class="modal-subtitle">Êtes-vous sûr de vouloir supprimer cette actualité ?</div>
+      <div style="text-align:center;padding:12px;background:rgba(10,10,10,0.3);border-radius:12px;border:1px solid var(--card-border);">
+        <div style="font-size:13px;color:var(--text-light);" id="deleteActuText">"Texte de l'actualité"</div>
+      </div>
+      <div style="text-align:center;font-size:12px;color:var(--text-muted);margin-top:8px;">Cette action est irréversible.</div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" id="deleteCancelBtn">Annuler</button>
+      <button class="btn-danger" id="deleteConfirmBtn">
+        <i class="fas fa-trash"></i> Supprimer
+      </button>
     </div>
   </div>
 </div>
@@ -1575,65 +1311,25 @@
 <!-- ===== MAIN ===== -->
 <main class="container">
 
-  <!-- ===== PAGE TITLE ===== -->
   <div class="page-title">
-    <h1>🎓 Abonnements <span>BAC</span></h1>
-    <p>Gérez les abonnements BAC à 1000 FCFA / 2 semaines</p>
+    <h1>📰 Gestion des <span>actualités</span></h1>
+    <p>Gérez les actualités affichées sur la page d'accueil</p>
   </div>
 
-  <!-- ===== STATS BADGES ===== -->
-  <div class="stats-badges" id="statsBadges">
-    <div class="stat-badge">
-      <div class="stat-number green" id="activeCount">0</div>
-      <div class="stat-label">✅ Actifs</div>
-    </div>
-    <div class="stat-badge">
-      <div class="stat-number warning" id="pendingCount">0</div>
-      <div class="stat-label">⏳ En attente</div>
-    </div>
-    <div class="stat-badge">
-      <div class="stat-number red" id="expiredCount">0</div>
-      <div class="stat-label">⏳ Expirés</div>
-    </div>
-    <div class="stat-badge">
-      <div class="stat-number gold" id="totalCount">0</div>
-      <div class="stat-label">📊 Total</div>
-    </div>
+  <div class="action-bar">
+    <button class="btn-add" id="addActuBtn">
+      <i class="fas fa-plus"></i> Ajouter une actualité
+    </button>
+    <span class="total-count">Total : <strong id="totalCount">0</strong> actualités</span>
   </div>
 
-  <!-- ===== DEMANDES EN ATTENTE ===== -->
-  <div class="pending-card" id="pendingCard" style="display:none;">
-    <div class="pending-header">
-      <h3>⏳ Demandes d'abonnement en <span>attente</span></h3>
-      <span class="pending-count" id="pendingRequestsCount">0</span>
-    </div>
-    <div id="pendingRequestsList">
-      <div class="empty-state-small">
-        <i class="fas fa-check-circle"></i>
-        Aucune demande en attente
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== FILTERS BAR ===== -->
   <div class="filters-bar">
-    <input type="text" class="search-input" id="searchInput" placeholder="🔍 Rechercher par nom, email ou ID...">
-    <select class="filter-select" id="statusFilter">
-      <option value="all">📋 Tous les statuts</option>
-      <option value="actif">✅ Actifs</option>
-      <option value="expire">⏳ Expirés</option>
-      <option value="en_attente">⏳ En attente</option>
-      <option value="annule">🚫 Annulés</option>
-    </select>
-    <span class="total-count">Total : <strong id="displayCount">0</strong> abonnements</span>
+    <input type="text" class="search-input" id="searchInput" placeholder="🔍 Rechercher une actualité...">
   </div>
 
-  <!-- ===== ABONNEMENTS TABLE ===== -->
-  <div class="abonnements-table-wrapper">
-    <div id="abonnementsContainer">
-      <!-- Skeleton loading -->
+  <div class="actualites-table-wrapper">
+    <div id="actualitesContainer">
       <div class="skeleton-row">
-        <div class="skeleton-avatar"></div>
         <div class="skeleton-text">
           <div class="line"></div>
           <div class="line"></div>
@@ -1643,7 +1339,6 @@
         <div class="skeleton-btn"></div>
       </div>
       <div class="skeleton-row">
-        <div class="skeleton-avatar"></div>
         <div class="skeleton-text">
           <div class="line"></div>
           <div class="line"></div>
@@ -1653,7 +1348,6 @@
         <div class="skeleton-btn"></div>
       </div>
       <div class="skeleton-row">
-        <div class="skeleton-avatar"></div>
         <div class="skeleton-text">
           <div class="line"></div>
           <div class="line"></div>
@@ -1663,17 +1357,6 @@
         <div class="skeleton-btn"></div>
       </div>
       <div class="skeleton-row">
-        <div class="skeleton-avatar"></div>
-        <div class="skeleton-text">
-          <div class="line"></div>
-          <div class="line"></div>
-        </div>
-        <div class="skeleton-btn"></div>
-        <div class="skeleton-btn"></div>
-        <div class="skeleton-btn"></div>
-      </div>
-      <div class="skeleton-row">
-        <div class="skeleton-avatar"></div>
         <div class="skeleton-text">
           <div class="line"></div>
           <div class="line"></div>
@@ -1685,14 +1368,12 @@
     </div>
   </div>
 
-  <!-- ===== PAGINATION ===== -->
   <div class="pagination" id="pagination">
     <button id="prevPage" disabled><i class="fas fa-chevron-left"></i></button>
     <span class="page-info" id="pageInfo">Page 1 / 1</span>
     <button id="nextPage" disabled><i class="fas fa-chevron-right"></i></button>
   </div>
 
-  <!-- ===== FOOTER ===== -->
   <footer class="footer">
     <p>&copy; 2026 ARVEXA - Administration</p>
   </footer>
@@ -1703,7 +1384,6 @@
 <div class="toast" id="toast"></div>
 
 <!-- ============================================================ -->
-<!-- ===== IMPORTS ===== -->
 <script type="importmap">
   {
     "imports": {
@@ -1730,13 +1410,13 @@
     getFirestore, 
     collection, 
     query, 
-    where, 
     orderBy, 
     onSnapshot, 
     doc, 
+    addDoc, 
     updateDoc, 
-    getDoc,
-    addDoc
+    deleteDoc,
+    getDocs
   } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
 
   // ================================================================
@@ -1761,30 +1441,32 @@
   // ================================================================
   // DOM ELEMENTS
   // ================================================================
-  const abonnementsContainer = document.getElementById('abonnementsContainer');
+  const actualitesContainer = document.getElementById('actualitesContainer');
   const searchInput = document.getElementById('searchInput');
-  const statusFilter = document.getElementById('statusFilter');
-  const displayCount = document.getElementById('displayCount');
-  const activeCount = document.getElementById('activeCount');
-  const pendingCount = document.getElementById('pendingCount');
-  const expiredCount = document.getElementById('expiredCount');
   const totalCount = document.getElementById('totalCount');
   const prevPageBtn = document.getElementById('prevPage');
   const nextPageBtn = document.getElementById('nextPage');
   const pageInfo = document.getElementById('pageInfo');
   const toast = document.getElementById('toast');
 
-  // Pending requests
-  const pendingCard = document.getElementById('pendingCard');
-  const pendingRequestsList = document.getElementById('pendingRequestsList');
-  const pendingRequestsCount = document.getElementById('pendingRequestsCount');
-
   // Modal
-  const detailModal = document.getElementById('detailModal');
-  const detailModalBody = document.getElementById('detailModalBody');
-  const detailModalClose = document.getElementById('detailModalClose');
-  const detailModalCloseBtn = document.getElementById('detailModalCloseBtn');
-  const detailModalFooter = document.getElementById('detailModalFooter');
+  const actuModal = document.getElementById('actuModal');
+  const modalCloseBtn = document.getElementById('modalCloseBtn');
+  const modalCancelBtn = document.getElementById('modalCancelBtn');
+  const modalSaveBtn = document.getElementById('modalSaveBtn');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalSubtitle = document.getElementById('modalSubtitle');
+  const modalSaveText = document.getElementById('modalSaveText');
+  const actuBadge = document.getElementById('actuBadge');
+  const actuText = document.getElementById('actuText');
+  const addActuBtn = document.getElementById('addActuBtn');
+
+  // Delete modal
+  const deleteModal = document.getElementById('deleteModal');
+  const deleteModalClose = document.getElementById('deleteModalClose');
+  const deleteCancelBtn = document.getElementById('deleteCancelBtn');
+  const deleteConfirmBtn = document.getElementById('deleteConfirmBtn');
+  const deleteActuText = document.getElementById('deleteActuText');
 
   // ================================================================
   // MENU - SIMPLE (sans swipe)
@@ -1819,7 +1501,6 @@
     if (e.key === 'Escape') closeMenu();
   });
 
-
   // ================================================================
   // TOAST
   // ================================================================
@@ -1829,20 +1510,10 @@
     setTimeout(() => toast.classList.add('show'), 50);
     setTimeout(() => toast.classList.remove('show'), 4000);
   }
-  
-    // ================================================================
+
+  // ================================================================
   // FORMAT
   // ================================================================
-  function formatCurrency(amount) {
-    if (!amount) return '0 FCFA';
-    return amount.toLocaleString('fr-FR') + ' FCFA';
-  }
-
-  function getInitials(name) {
-    if (!name) return '?';
-    return name.charAt(0).toUpperCase();
-  }
-
   function escapeHtml(str) {
     if (!str) return '';
     const div = document.createElement('div');
@@ -1855,18 +1526,6 @@
     try {
       const d = new Date(dateStr);
       return d.toLocaleDateString('fr-FR', {
-        day: '2-digit', month: 'long', year: 'numeric'
-      });
-    } catch {
-      return dateStr;
-    }
-  }
-
-  function formatDateShort(dateStr) {
-    if (!dateStr) return '--/--/----';
-    try {
-      const d = new Date(dateStr);
-      return d.toLocaleDateString('fr-FR', {
         day: '2-digit', month: 'short', year: 'numeric'
       });
     } catch {
@@ -1874,454 +1533,255 @@
     }
   }
 
+  function getBadgeClass(badgeText) {
+    const map = {
+      '💡 Astuce': 'astuce',
+      '🎉 Promotion': 'promotion',
+      '✅ Mise à jour': 'update'
+    };
+    return map[badgeText] || 'default';
+  }
+
   // ================================================================
   // VARIABLES GLOBALES
   // ================================================================
-  let allAbonnements = [];
-  let allPendingRequests = [];
-  let filteredAbonnements = [];
+  let allActualites = [];
+  let filteredActualites = [];
   let currentPage = 1;
   const ITEMS_PER_PAGE = 10;
+  let editingId = null;
 
   // ================================================================
-  // MODAL UNIFORME - DÉTAILS
+  // CRUD OPERATIONS
   // ================================================================
-  function openDetailModal(abo) {
-    const statusMap = {
-      'actif': { text: '✅ Actif', class: 'success' },
-      'expire': { text: '⏳ Expiré', class: 'danger' },
-      'en_attente': { text: '⏳ En attente', class: 'warning' },
-      'annule': { text: '🚫 Annulé', class: '' }
-    };
-    const statusInfo = statusMap[abo.statut] || statusMap['en_attente'];
 
-    const userName = abo.userName || 'Utilisateur inconnu';
-    const userId = abo.userId || 'ID inconnu';
-    const montant = abo.montant || 1000;
-    const dateDebut = formatDate(abo.dateDebut);
-    const dateFin = formatDate(abo.dateFin);
-    const source = abo.source || 'WhatsApp';
+  // Ajouter une actualité
+  async function addActualite(badge, text) {
+    try {
+      const docRef = await addDoc(collection(db, 'actualites'), {
+        badge: badge,
+        text: text,
+        timestamp: Date.now(),
+        createdAt: new Date().toISOString(),
+        createdBy: auth.currentUser?.uid || 'admin'
+      });
+      return docRef.id;
+    } catch (error) {
+      console.error('Erreur ajout actualité:', error);
+      throw error;
+    }
+  }
 
-    let footerButtons = '';
-    if (abo.statut === 'en_attente') {
-      footerButtons = `
-        <button class="btn-success" id="modalApproveBtn"><i class="fas fa-check"></i> Activer</button>
-        <button class="btn-danger" id="modalRejectBtn"><i class="fas fa-times"></i> Rejeter</button>
-        <button class="btn-secondary" id="modalCloseActionBtn">Fermer</button>
-      `;
-    } else if (abo.statut === 'actif') {
-      footerButtons = `
-        <button class="btn-danger" id="modalDeactivateBtn"><i class="fas fa-pause"></i> Désactiver</button>
-        <button class="btn-secondary" id="modalCloseActionBtn">Fermer</button>
-      `;
-    } else {
-      footerButtons = `
-        <button class="btn-success" id="modalActivateBtn"><i class="fas fa-play"></i> Activer</button>
-        <button class="btn-secondary" id="modalCloseActionBtn">Fermer</button>
-      `;
+  // Modifier une actualité
+  async function updateActualite(id, badge, text) {
+    try {
+      const ref = doc(db, 'actualites', id);
+      await updateDoc(ref, {
+        badge: badge,
+        text: text,
+        updatedAt: new Date().toISOString()
+      });
+      return true;
+    } catch (error) {
+      console.error('Erreur modification actualité:', error);
+      throw error;
+    }
+  }
+
+  // Supprimer une actualité
+  async function deleteActualite(id) {
+    try {
+      const ref = doc(db, 'actualites', id);
+      await deleteDoc(ref);
+      return true;
+    } catch (error) {
+      console.error('Erreur suppression actualité:', error);
+      throw error;
+    }
+  }
+
+  // ================================================================
+  // MODAL - AJOUTER / MODIFIER
+  // ================================================================
+  function openAddModal() {
+    editingId = null;
+    modalTitle.textContent = 'Ajouter une';
+    modalSubtitle.textContent = 'Créez une nouvelle actualité pour la page d\'accueil';
+    modalSaveText.textContent = 'Publier';
+    actuBadge.value = '📢 Bienvenue';
+    actuText.value = '';
+    actuModal.classList.add('show');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => actuText.focus(), 200);
+  }
+
+  function openEditModal(actu) {
+    editingId = actu.id;
+    modalTitle.textContent = 'Modifier l\'';
+    modalSubtitle.textContent = 'Modifiez cette actualité';
+    modalSaveText.textContent = 'Enregistrer';
+    actuBadge.value = actu.badge || '📢 Bienvenue';
+    actuText.value = actu.text || '';
+    actuModal.classList.add('show');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => actuText.focus(), 200);
+  }
+
+  function closeModal() {
+    actuModal.classList.remove('show');
+    document.body.style.overflow = '';
+    editingId = null;
+  }
+
+  modalCloseBtn.addEventListener('click', closeModal);
+  modalCancelBtn.addEventListener('click', closeModal);
+  actuModal.addEventListener('click', function(e) {
+    if (e.target === actuModal) closeModal();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  addActuBtn.addEventListener('click', openAddModal);
+
+  // Sauvegarder
+  modalSaveBtn.addEventListener('click', async function() {
+    const badge = actuBadge.value;
+    const text = actuText.value.trim();
+
+    if (!text) {
+      showToast('⚠️ Veuillez saisir un message', 'warning');
+      return;
     }
 
-    detailModalBody.innerHTML = `
-      <div class="modal-icon">🎓</div>
-      <div class="modal-subtitle">Détails complets de l'abonnement BAC</div>
-
-      <div class="modal-field">
-        <span class="field-label">👤 Utilisateur</span>
-        <div class="field-value">${escapeHtml(userName)}</div>
-      </div>
-      <div class="modal-field">
-        <span class="field-label">🆔 ID utilisateur</span>
-        <div class="field-value mono">${escapeHtml(userId)}</div>
-      </div>
-      <div class="modal-field">
-        <span class="field-label">💰 Montant</span>
-        <div class="field-value"><span class="highlight">${formatCurrency(montant)}</span></div>
-      </div>
-      <div class="modal-field">
-        <span class="field-label">📅 Date début</span>
-        <div class="field-value">${escapeHtml(dateDebut)}</div>
-      </div>
-      <div class="modal-field">
-        <span class="field-label">📅 Date fin</span>
-        <div class="field-value">${escapeHtml(dateFin)}</div>
-      </div>
-      <div class="modal-field">
-        <span class="field-label">📌 Statut</span>
-        <div class="field-value"><span class="${statusInfo.class}">${statusInfo.text}</span></div>
-      </div>
-      <div class="modal-field">
-        <span class="field-label">📱 Source</span>
-        <div class="field-value">${escapeHtml(source)}</div>
-      </div>
-      <div class="modal-field">
-        <span class="field-label">📋 Période</span>
-        <div class="field-value">2 semaines</div>
-      </div>
-    `;
-
-    detailModalFooter.innerHTML = footerButtons;
-
-    // Écouteurs
-    detailModal.querySelector('#modalCloseActionBtn')?.addEventListener('click', closeDetailModal);
-
-    if (abo.statut === 'en_attente') {
-      detailModal.querySelector('#modalApproveBtn')?.addEventListener('click', () => {
-        handleActivateAbo(abo.id);
-        closeDetailModal();
-      });
-      detailModal.querySelector('#modalRejectBtn')?.addEventListener('click', () => {
-        handleRejectAbo(abo.id);
-        closeDetailModal();
-      });
-    } else if (abo.statut === 'actif') {
-      detailModal.querySelector('#modalDeactivateBtn')?.addEventListener('click', () => {
-        handleDeactivateAbo(abo.id);
-        closeDetailModal();
-      });
-    } else {
-      detailModal.querySelector('#modalActivateBtn')?.addEventListener('click', () => {
-        handleActivateAbo(abo.id);
-        closeDetailModal();
-      });
+    if (text.length < 5) {
+      showToast('⚠️ Le message doit contenir au moins 5 caractères', 'warning');
+      return;
     }
 
-    detailModal.classList.add('show');
+    this.disabled = true;
+    this.innerHTML = '<span class="loader"></span>';
+
+    try {
+      if (editingId) {
+        await updateActualite(editingId, badge, text);
+        showToast('✅ Actualité modifiée avec succès !', 'success');
+      } else {
+        await addActualite(badge, text);
+        showToast('✅ Actualité publiée avec succès !', 'success');
+      }
+      closeModal();
+    } catch (error) {
+      showToast('❌ Erreur: ' + (error.message || 'Impossible d\'enregistrer'), 'error');
+    }
+
+    this.disabled = false;
+    this.innerHTML = '<i class="fas fa-save"></i> <span id="modalSaveText">' + (editingId ? 'Enregistrer' : 'Publier') + '</span>';
+  });
+
+  // ================================================================
+  // MODAL - SUPPRIMER
+  // ================================================================
+  let deleteId = null;
+
+  function openDeleteModal(actu) {
+    deleteId = actu.id;
+    deleteActuText.textContent = '"' + (actu.text || '') + '"';
+    deleteModal.classList.add('show');
     document.body.style.overflow = 'hidden';
   }
 
-  function closeDetailModal() {
-    detailModal.classList.remove('show');
+  function closeDeleteModal() {
+    deleteModal.classList.remove('show');
     document.body.style.overflow = '';
+    deleteId = null;
   }
 
-  detailModalClose.addEventListener('click', closeDetailModal);
-  detailModalCloseBtn.addEventListener('click', closeDetailModal);
-  detailModal.addEventListener('click', (e) => {
-    if (e.target === detailModal) closeDetailModal();
+  deleteModalClose.addEventListener('click', closeDeleteModal);
+  deleteCancelBtn.addEventListener('click', closeDeleteModal);
+  deleteModal.addEventListener('click', function(e) {
+    if (e.target === deleteModal) closeDeleteModal();
   });
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeDetailModal();
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeDeleteModal();
   });
 
-// ================================================================
-// ACTIVER UN ABONNEMENT BAC - CORRIGÉ
-// ================================================================
-async function handleActivateAbo(id) {
-  if (!confirm('✅ Activer cet abonnement BAC ?')) return;
+  deleteConfirmBtn.addEventListener('click', async function() {
+    if (!deleteId) return;
 
-  try {
-    const aboRef = doc(db, 'abonnements_bac', id);
-    const aboSnap = await getDoc(aboRef);
+    this.disabled = true;
+    this.innerHTML = '<span class="loader"></span>';
 
-    if (!aboSnap.exists()) {
-      showToast('❌ Abonnement introuvable', 'error');
-      return;
+    try {
+      await deleteActualite(deleteId);
+      showToast('✅ Actualité supprimée', 'success');
+      closeDeleteModal();
+    } catch (error) {
+      showToast('❌ Erreur: ' + (error.message || 'Impossible de supprimer'), 'error');
     }
 
-    const aboData = aboSnap.data();
-    const userId = aboData.userId;
-
-    if (!userId) {
-      showToast('❌ ID utilisateur manquant', 'error');
-      return;
-    }
-
-    // ✅ RECHERCHER L'UTILISATEUR
-    let userRef = doc(db, 'users', userId);
-    let userSnap = await getDoc(userRef);
-
-    if (!userSnap.exists()) {
-      const userQuery = query(collection(db, 'users'), where('customerId', '==', userId));
-      const userQuerySnap = await getDocs(userQuery);
-      if (!userQuerySnap.empty) {
-        userRef = userQuerySnap.docs[0].ref;
-        userSnap = await getDoc(userRef);
-      }
-    }
-
-    if (!userSnap.exists()) {
-      const userQuery2 = query(collection(db, 'users'), where('id', '==', userId));
-      const userQuerySnap2 = await getDocs(userQuery2);
-      if (!userQuerySnap2.empty) {
-        userRef = userQuerySnap2.docs[0].ref;
-        userSnap = await getDoc(userRef);
-      }
-    }
-
-    if (!userSnap.exists()) {
-      showToast('❌ Utilisateur introuvable', 'error');
-      return;
-    }
-
-    const userData = userSnap.data();
-    const now = new Date();
-    const dateFin = new Date(now.getTime() + 14 * 24 * 60 * 60 * 1000);
-
-    // ✅ 1. Mettre à jour l'abonnement dans "abonnements_bac"
-    await updateDoc(aboRef, {
-      statut: 'actif',
-      dateDebut: now.toISOString(),
-      dateFin: dateFin.toISOString(),
-      validatedAt: now.toISOString(),
-      validatedBy: auth.currentUser?.uid || 'admin'
-    });
-
-    // ✅ 2. Mettre à jour l'utilisateur dans "users" (IMPORTANT !)
-    const updatedUserData = {
-      ...userData,
-      education: {
-        ...userData.education,
-        bac: {
-          ...userData.education?.bac,
-          abonnement: {
-            actif: true,
-            dateDebut: now.toISOString(),
-            dateFin: dateFin.toISOString(),
-            source: 'whatsapp',
-            montant: 1000
-          }
-        }
-      }
-    };
-
-    await updateDoc(userRef, updatedUserData);
-
-    const userName = userData.fullName || userData.prenom + ' ' + userData.nom || 'Utilisateur';
-    showToast(`✅ Abonnement BAC activé pour ${userName} !`, 'success');
-
-  } catch (error) {
-    console.error('❌ Erreur activation:', error);
-    showToast('❌ Erreur: ' + (error.message || 'Impossible d\'activer l\'abonnement'), 'error');
-  }
-}
-
-// ================================================================
-// DÉSACTIVER UN ABONNEMENT BAC
-// ================================================================
-async function handleDeactivateAbo(id) {
-  if (!confirm('⏹️ Désactiver cet abonnement BAC ?')) return;
-
-  try {
-    const aboRef = doc(db, 'abonnements_bac', id);
-    const aboSnap = await getDoc(aboRef);
-
-    if (!aboSnap.exists()) {
-      showToast('❌ Abonnement introuvable', 'error');
-      return;
-    }
-
-    const aboData = aboSnap.data();
-    const userId = aboData.userId;
-
-    if (!userId) {
-      showToast('❌ ID utilisateur manquant', 'error');
-      return;
-    }
-
-    // ✅ RECHERCHER L'UTILISATEUR
-    let userRef = doc(db, 'users', userId);
-    let userSnap = await getDoc(userRef);
-
-    if (!userSnap.exists()) {
-      const userQuery = query(collection(db, 'users'), where('customerId', '==', userId));
-      const userQuerySnap = await getDocs(userQuery);
-      if (!userQuerySnap.empty) {
-        userRef = userQuerySnap.docs[0].ref;
-        userSnap = await getDoc(userRef);
-      }
-    }
-
-    if (!userSnap.exists()) {
-      showToast('❌ Utilisateur introuvable', 'error');
-      return;
-    }
-
-    const userData = userSnap.data();
-
-    // ✅ 1. Mettre à jour l'abonnement dans "abonnements_bac"
-    await updateDoc(aboRef, {
-      statut: 'expire',
-      updatedAt: new Date().toISOString()
-    });
-
-    // ✅ 2. Mettre à jour l'utilisateur dans "users"
-    const updatedUserData = {
-      ...userData,
-      education: {
-        ...userData.education,
-        bac: {
-          ...userData.education?.bac,
-          abonnement: {
-            actif: false,
-            dateFin: new Date().toISOString()
-          }
-        }
-      }
-    };
-
-    await updateDoc(userRef, updatedUserData);
-
-    showToast('⏹️ Abonnement BAC désactivé', 'warning');
-
-  } catch (error) {
-    console.error('❌ Erreur désactivation:', error);
-    showToast('❌ Erreur: ' + (error.message || 'Impossible de désactiver l\'abonnement'), 'error');
-  }
-}
+    this.disabled = false;
+    this.innerHTML = '<i class="fas fa-trash"></i> Supprimer';
+  });
 
   // ================================================================
-  // GESTION DES DEMANDES EN ATTENTE
+  // AFFICHER LES ACTUALITÉS
   // ================================================================
-
-  function renderPendingRequests() {
-    if (allPendingRequests.length === 0) {
-      pendingCard.style.display = 'none';
-      return;
-    }
-
-    pendingCard.style.display = 'block';
-    pendingRequestsCount.textContent = allPendingRequests.length;
-
-    pendingRequestsList.innerHTML = allPendingRequests.slice(0, 5).map(req => `
-      <div class="pending-item">
-        <div class="user-info">
-          <span class="user-name">👤 ${escapeHtml(req.userName || 'Utilisateur')}</span>
-          <span class="user-email">${escapeHtml(req.userEmail || '')}</span>
-          <span class="user-id"><i class="fas fa-id-card"></i> ${escapeHtml(req.userId || 'ID inconnu')}</span>
-        </div>
-        <div class="amount-info">
-          <div class="amount-value">${formatCurrency(req.montant || 1000)}</div>
-          <div class="amount-label">📅 ${formatDateShort(req.createdAt)}</div>
-        </div>
-        <div class="pending-actions">
-          <button class="approve" data-id="${req.id}" title="Activer">
-            <i class="fas fa-check"></i>
-          </button>
-          <button class="reject" data-id="${req.id}" title="Rejeter">
-            <i class="fas fa-times"></i>
-          </button>
-        </div>
-      </div>
-    `).join('');
-
-    // Écouteurs
-    document.querySelectorAll('#pendingRequestsList .approve').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const id = btn.dataset.id;
-        handleActivateAbo(id);
-      });
-    });
-
-    document.querySelectorAll('#pendingRequestsList .reject').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const id = btn.dataset.id;
-        handleRejectAbo(id);
-      });
-    });
-  }
-
-  // ================================================================
-  // AFFICHER LES ABONNEMENTS
-  // ================================================================
-  function renderAbonnements() {
+  function renderActualites() {
     const start = (currentPage - 1) * ITEMS_PER_PAGE;
     const end = start + ITEMS_PER_PAGE;
-    const pageAbonnements = filteredAbonnements.slice(start, end);
+    const pageActualites = filteredActualites.slice(start, end);
 
-    if (filteredAbonnements.length === 0) {
-      abonnementsContainer.innerHTML = `
+    if (filteredActualites.length === 0) {
+      actualitesContainer.innerHTML = `
         <div class="empty-state">
-          <i class="fas fa-graduation-cap"></i>
-          <div class="title">Aucun abonnement trouvé</div>
-          <div class="sub">Aucun abonnement ne correspond à votre recherche</div>
+          <i class="fas fa-newspaper"></i>
+          <div class="title">Aucune actualité</div>
+          <div class="sub">Cliquez sur "Ajouter une actualité" pour commencer</div>
         </div>
       `;
-      displayCount.textContent = '0';
+      totalCount.textContent = '0';
       return;
     }
 
-    displayCount.textContent = filteredAbonnements.length;
+    totalCount.textContent = filteredActualites.length;
 
     let html = `
-      <table class="abonnements-table">
+      <table class="actualites-table">
         <thead>
           <tr>
-            <th>Utilisateur</th>
-            <th>ID</th>
-            <th>Montant</th>
-            <th>Statut</th>
-            <th>Début</th>
-            <th>Fin</th>
+            <th>Badge</th>
+            <th>Message</th>
+            <th>Date</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
     `;
 
-    pageAbonnements.forEach(abo => {
-      const name = abo.userName || 'Utilisateur';
-      const initial = getInitials(name);
-      const isActive = abo.statut === 'actif';
-      const isExpired = abo.statut === 'expire';
-      const isPending = abo.statut === 'en_attente';
-      const isCancelled = abo.statut === 'annule';
-
-      let statusClass = 'pending';
-      let statusText = '⏳ En attente';
-      if (isActive) {
-        statusClass = 'active';
-        statusText = '✅ Actif';
-      } else if (isExpired) {
-        statusClass = 'expired';
-        statusText = '⏳ Expiré';
-      } else if (isCancelled) {
-        statusClass = 'cancelled';
-        statusText = '🚫 Annulé';
-      }
-
-      const dateDebut = abo.dateDebut ? formatDateShort(abo.dateDebut) : '--/--/----';
-      const dateFin = abo.dateFin ? formatDateShort(abo.dateFin) : '--/--/----';
-
-      const avatarStyle = abo.avatarBase64 ? `background-image:url('${abo.avatarBase64}');background-size:cover;` : '';
+    pageActualites.forEach(actu => {
+      const badgeClass = getBadgeClass(actu.badge);
+      const date = formatDate(actu.createdAt);
+      const text = actu.text || '';
 
       html += `
         <tr>
-          <td data-label="Utilisateur">
-            <div class="col-user">
-              <div class="user-avatar" style="${avatarStyle}">${avatarStyle ? '' : initial}</div>
-              <div>
-                <div class="user-name">${escapeHtml(name)}</div>
-                <div class="user-email">${escapeHtml(abo.userEmail || '')}</div>
-              </div>
-            </div>
+          <td data-label="Badge">
+            <span class="badge-display ${badgeClass}">${escapeHtml(actu.badge || '📢 Info')}</span>
           </td>
-          <td data-label="ID"><span class="abo-id">${escapeHtml(abo.displayId || abo.userId || '---')}</span></td>
-          <td data-label="Montant"><span class="abo-amount">${formatCurrency(abo.montant || 1000)}</span></td>
-          <td data-label="Statut"><span class="status-badge ${statusClass}">${statusText}</span></td>
-          <td data-label="Début"><span class="abo-date">${dateDebut}</span></td>
-          <td data-label="Fin"><span class="abo-expire">${dateFin}</span></td>
+          <td data-label="Message">
+            <div class="actu-text">${escapeHtml(text)}</div>
+          </td>
+          <td data-label="Date">
+            <span class="actu-date">${date}</span>
+          </td>
           <td data-label="Actions">
-            <div class="abo-actions">
-              ${isActive ? `
-                <button class="btn-deactivate" data-id="${abo.id}" title="Désactiver">
-                  <i class="fas fa-pause"></i>
-                </button>
-              ` : `
-                ${isPending ? `
-                  <button class="btn-activate" data-id="${abo.id}" title="Activer">
-                    <i class="fas fa-check"></i>
-                  </button>
-                  <button class="btn-deactivate" data-id="${abo.id}" title="Rejeter" style="color:var(--danger);">
-                    <i class="fas fa-times"></i>
-                  </button>
-                ` : `
-                  <button class="btn-activate" data-id="${abo.id}" title="Réactiver">
-                    <i class="fas fa-play"></i>
-                  </button>
-                `}
-              `}
-              <button class="btn-details" data-abo='${JSON.stringify(abo).replace(/'/g, "&#39;")}' title="Détails">
-                <i class="fas fa-eye"></i>
+            <div class="actu-actions">
+              <button class="btn-edit" data-actu='${JSON.stringify(actu).replace(/'/g, "&#39;")}' title="Modifier">
+                <i class="fas fa-pen"></i>
+              </button>
+              <button class="btn-delete" data-actu='${JSON.stringify(actu).replace(/'/g, "&#39;")}' title="Supprimer">
+                <i class="fas fa-trash"></i>
               </button>
             </div>
           </td>
@@ -2330,37 +1790,29 @@ async function handleDeactivateAbo(id) {
     });
 
     html += `</tbody></table>`;
-    abonnementsContainer.innerHTML = html;
+    actualitesContainer.innerHTML = html;
 
     // Écouteurs
-    document.querySelectorAll('.btn-activate').forEach(btn => {
-      btn.addEventListener('click', (e) => {
+    document.querySelectorAll('.btn-edit').forEach(btn => {
+      btn.addEventListener('click', function(e) {
         e.stopPropagation();
-        const id = btn.dataset.id;
-        handleActivateAbo(id);
-      });
-    });
-
-    document.querySelectorAll('.btn-deactivate').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const id = btn.dataset.id;
-        if (btn.style.color === 'var(--danger)') {
-          handleRejectAbo(id);
-        } else {
-          handleDeactivateAbo(id);
+        try {
+          const actu = JSON.parse(this.dataset.actu);
+          openEditModal(actu);
+        } catch (err) {
+          console.error('Erreur parsing actualité:', err);
         }
       });
     });
 
-    document.querySelectorAll('.btn-details').forEach(btn => {
-      btn.addEventListener('click', (e) => {
+    document.querySelectorAll('.btn-delete').forEach(btn => {
+      btn.addEventListener('click', function(e) {
         e.stopPropagation();
         try {
-          const abo = JSON.parse(btn.dataset.abo);
-          openDetailModal(abo);
+          const actu = JSON.parse(this.dataset.actu);
+          openDeleteModal(actu);
         } catch (err) {
-          console.error('Erreur parsing abonnement:', err);
+          console.error('Erreur parsing actualité:', err);
         }
       });
     });
@@ -2372,24 +1824,24 @@ async function handleDeactivateAbo(id) {
   // PAGINATION
   // ================================================================
   function updatePagination() {
-    const totalPages = Math.ceil(filteredAbonnements.length / ITEMS_PER_PAGE) || 1;
+    const totalPages = Math.ceil(filteredActualites.length / ITEMS_PER_PAGE) || 1;
     pageInfo.textContent = `Page ${currentPage} / ${totalPages}`;
     prevPageBtn.disabled = currentPage <= 1;
     nextPageBtn.disabled = currentPage >= totalPages;
   }
 
-  prevPageBtn.addEventListener('click', () => {
+  prevPageBtn.addEventListener('click', function() {
     if (currentPage > 1) {
       currentPage--;
-      renderAbonnements();
+      renderActualites();
     }
   });
 
-  nextPageBtn.addEventListener('click', () => {
-    const totalPages = Math.ceil(filteredAbonnements.length / ITEMS_PER_PAGE);
+  nextPageBtn.addEventListener('click', function() {
+    const totalPages = Math.ceil(filteredActualites.length / ITEMS_PER_PAGE);
     if (currentPage < totalPages) {
       currentPage++;
-      renderAbonnements();
+      renderActualites();
     }
   });
 
@@ -2398,125 +1850,40 @@ async function handleDeactivateAbo(id) {
   // ================================================================
   function applyFilters() {
     const searchTerm = searchInput.value.toLowerCase().trim();
-    const status = statusFilter.value;
 
-    filteredAbonnements = allAbonnements.filter(abo => {
-      const name = (abo.userName || '').toLowerCase();
-      const email = (abo.userEmail || '').toLowerCase();
-      const id = (abo.displayId || abo.userId || '').toLowerCase();
-      const matchesSearch = !searchTerm ||
-        name.includes(searchTerm) ||
-        email.includes(searchTerm) ||
-        id.includes(searchTerm);
-
-      let matchesStatus = true;
-      if (status !== 'all') {
-        const statut = abo.statut || 'en_attente';
-        matchesStatus = statut === status;
-      }
-
-      return matchesSearch && matchesStatus;
+    filteredActualites = allActualites.filter(actu => {
+      const text = (actu.text || '').toLowerCase();
+      const badge = (actu.badge || '').toLowerCase();
+      return !searchTerm || text.includes(searchTerm) || badge.includes(searchTerm);
     });
 
     currentPage = 1;
-    renderAbonnements();
-    updateStats();
+    renderActualites();
   }
 
   searchInput.addEventListener('input', applyFilters);
-  statusFilter.addEventListener('change', applyFilters);
 
   // ================================================================
-  // STATISTIQUES
+  // CHARGER LES ACTUALITÉS
   // ================================================================
-  function updateStats() {
-    const active = allAbonnements.filter(a => a.statut === 'actif');
-    const pending = allAbonnements.filter(a => a.statut === 'en_attente');
-    const expired = allAbonnements.filter(a => a.statut === 'expire');
+  function loadActualites() {
+    const q = query(collection(db, 'actualites'), orderBy('timestamp', 'desc'));
 
-    activeCount.textContent = active.length;
-    pendingCount.textContent = pending.length;
-    expiredCount.textContent = expired.length;
-    totalCount.textContent = allAbonnements.length;
-  }
-
-  // ================================================================
-  // CHARGER LES DONNÉES
-  // ================================================================
-  function loadData() {
-    abonnementsContainer.innerHTML = '';
-    for (let i = 0; i < 5; i++) {
-      abonnementsContainer.innerHTML += `
-        <div class="skeleton-row">
-          <div class="skeleton-avatar"></div>
-          <div class="skeleton-text">
-            <div class="line"></div>
-            <div class="line"></div>
-          </div>
-          <div class="skeleton-btn"></div>
-          <div class="skeleton-btn"></div>
-          <div class="skeleton-btn"></div>
-        </div>
-      `;
-    }
-
-    // Charger les abonnements
-    onSnapshot(query(collection(db, 'abonnements_bac'), orderBy('createdAt', 'desc')), async (snapshot) => {
-      allAbonnements = [];
-      for (const snapDoc of snapshot.docs) {
-        const data = snapDoc.data();
-        let userName = 'Utilisateur';
-        let userEmail = '';
-        let avatarBase64 = '';
-        let userId = data.userId || 'ID inconnu';
-
-        if (data.userId) {
-          const userRef = doc(db, 'users', data.userId);
-          const u = await getDoc(userRef);
-          if (u.exists()) {
-            const ud = u.data();
-            userName = ud.fullName || ud.prenom || ud.nom || 'Utilisateur';
-            userEmail = ud.email || '';
-            avatarBase64 = ud.avatarBase64 || '';
-          }
-        }
-
-        const now = new Date();
-        let statut = data.statut || 'en_attente';
-        if (statut === 'actif' && data.dateFin) {
-          const dateFin = new Date(data.dateFin);
-          if (dateFin < now) {
-            statut = 'expire';
-          }
-        }
-
-        allAbonnements.push({
-          id: snapDoc.id,
-          userName,
-          userEmail,
-          avatarBase64,
-          userId,
-          displayId: data.displayId || data.userId || 'ID inconnu',
-          montant: data.montant || 1000,
-          dateDebut: data.dateDebut || data.createdAt,
-          dateFin: data.dateFin,
-          statut: statut,
-          source: data.source || 'WhatsApp',
-          createdAt: data.createdAt || data.dateDebut,
-          updatedAt: data.updatedAt || data.createdAt
+    onSnapshot(q, function(snapshot) {
+      allActualites = [];
+      snapshot.forEach(function(doc) {
+        const data = doc.data();
+        allActualites.push({
+          id: doc.id,
+          ...data
         });
-      }
-
-      // Filtrer les demandes en attente
-      allPendingRequests = allAbonnements.filter(a => a.statut === 'en_attente');
+      });
 
       applyFilters();
-      updateStats();
-      renderPendingRequests();
 
-    }, (error) => {
-      console.error('Erreur chargement abonnements:', error);
-      abonnementsContainer.innerHTML = `
+    }, function(error) {
+      console.error('Erreur chargement actualités:', error);
+      actualitesContainer.innerHTML = `
         <div class="empty-state">
           <i class="fas fa-exclamation-circle"></i>
           <div class="title">Erreur de chargement</div>
@@ -2550,7 +1917,7 @@ async function handleDeactivateAbo(id) {
   // ================================================================
   const ADMIN_EMAIL = 'gagneavecia@gmail.com';
 
-  onAuthStateChanged(auth, async (user) => {
+  onAuthStateChanged(auth, async function(user) {
     if (!user) {
       window.location.href = '../login.html';
       return;
@@ -2567,14 +1934,13 @@ async function handleDeactivateAbo(id) {
     document.getElementById('menuUseremail').textContent = user.email;
     document.getElementById('menuAvatar').textContent = user.email.charAt(0).toUpperCase();
 
-    loadData();
+    loadActualites();
   });
 
-  console.log('✅ ARVEXA - Page Abonnements BAC chargée');
-  console.log('✅ Modal uniforme avec bandeau doré');
-  console.log('✅ Activation/Désactivation des abonnements');
-  console.log('✅ Demandes en attente affichées');
+  console.log('✅ ARVEXA - Page Actualités chargée');
+  console.log('✅ Ajout, modification et suppression d\'actualités');
   console.log('✅ Filtres, recherche et pagination OK');
 </script>
 </body>
 </html>
+  

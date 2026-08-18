@@ -1557,138 +1557,188 @@ body {
     }
   }
 
-  // ================================================================
-  // ✅ VALIDER UN DÉPÔT (avec bonus parrainage + promotion)
-  // ================================================================
-  async function handleApproveDeposit(id) {
-    if (!confirm('✅ Valider ce dépôt et créditer l\'utilisateur ?')) return;
+ // ================================================================
+// VALIDER UN DÉPÔT - CORRIGÉ (BONUS PARTENAIRE)
+// ================================================================
+async function handleApproveDeposit(id) {
+  if (!confirm('✅ Valider ce dépôt et créditer l\'utilisateur ?')) return;
 
-    try {
-      const depRef = doc(db, 'depots', id);
-      const depSnap = await getDoc(depRef);
+  try {
+    const depRef = doc(db, 'depots', id);
+    const depSnap = await getDoc(depRef);
 
-      if (!depSnap.exists()) {
-        showToast('❌ Dépôt introuvable', 'error');
-        return;
+    if (!depSnap.exists()) {
+      showToast('❌ Dépôt introuvable', 'error');
+      return;
+    }
+
+    const depData = depSnap.data();
+    const userId = depData.userId;
+    const montant = depData.montant || 0;
+
+    if (!userId || montant <= 0) {
+      showToast('❌ Données de dépôt invalides', 'error');
+      return;
+    }
+
+    // ✅ RECHERCHE UTILISATEUR
+    let userRef = doc(db, 'users', userId);
+    let userSnap = await getDoc(userRef);
+
+    // Si pas trouvé, chercher par customerId
+    if (!userSnap.exists()) {
+      const userQuery = query(collection(db, 'users'), where('customerId', '==', userId));
+      const userQuerySnap = await getDocs(userQuery);
+      if (!userQuerySnap.empty) {
+        userRef = userQuerySnap.docs[0].ref;
+        userSnap = await getDoc(userRef);
       }
+    }
 
-      const depData = depSnap.data();
-      const userId = depData.userId;
-      const montant = depData.montant || 0;
+    if (!userSnap.exists()) {
+      showToast('❌ Utilisateur introuvable', 'error');
+      return;
+    }
 
-      if (!userId || montant <= 0) {
-        showToast('❌ Données de dépôt invalides', 'error');
-        return;
+    const userData = userSnap.data();
+    const currentBalance = userData.balance || 0;
+    const newBalance = currentBalance + montant;
+    const isFirstDeposit = !userData.hasDeposited || userData.totalDepots === 0;
+
+    // ✅ RECHERCHE PARRAIN
+    let parrainRef = null;
+    let parrainData = null;
+    let parrainUid = null;
+    let bonusAmount = 1000; // Valeur par défaut
+
+    const eligibleForBonus =
+      userData.referredBy &&
+      userData.referralBonusPending === true &&
+      userData.referralBonusReceived !== true &&
+      montant >= 3000;
+
+    if (eligibleForBonus) {
+      const parrainCode = userData.referredBy;
+      const parrainQuery = query(collection(db, 'users'), where('referralCode', '==', parrainCode));
+      const parrainSnap = await getDocs(parrainQuery);
+
+      if (!parrainSnap.empty) {
+        parrainRef = parrainSnap.docs[0].ref;
+        parrainData = parrainSnap.docs[0].data();
+        parrainUid = parrainSnap.docs[0].id;
+
+        // ✅ VÉRIFIER SI LE PARRAIN EST PARTENAIRE
+        const isPartner = parrainData.isPartner === true;
+        bonusAmount = isPartner ? 1500 : 1000;
+
+        console.log('🎯 Parrain trouvé:', parrainData.prenom || 'Utilisateur');
+        console.log('💰 Bonus: ' + bonusAmount + ' FCFA');
+        console.log('🤝 Partenaire: ' + (isPartner ? '✅ OUI' : '❌ NON'));
       }
+    }
 
-      const userRef = doc(db, 'users', userId);
-      const userSnap = await getDoc(userRef);
+    // ✅ EXÉCUTER LA TRANSACTION
+    await runTransaction(db, async (transaction) => {
+      // 1. Mettre à jour le dépôt
+      transaction.update(depRef, {
+        statut: 'valide',
+        validatedAt: new Date().toISOString(),
+        validatedBy: auth.currentUser?.uid || 'admin'
+      });
 
-      if (!userSnap.exists()) {
-        showToast(`❌ Utilisateur (${userId}) introuvable`, 'error');
-        return;
-      }
+      // 2. Créditer l'utilisateur
+      transaction.update(userRef, {
+        balance: newBalance,
+        realBalance: (userData.realBalance || 0) + montant,
+        totalDepots: (userData.totalDepots || 0) + montant,
+        lastDeposit: new Date().toISOString(),
+        hasDeposited: true,
+        isUnlocked: true
+      });
 
-      const userData = userSnap.data();
-      const currentBalance = userData.balance || 0;
-      const newBalance = currentBalance + montant;
-      const isFirstDeposit = !userData.hasDeposited || userData.totalDepots === 0;
-
-      // ✅ Récupérer les données du parrain
-      let parrainRef = null;
-      let parrainData = null;
-      let parrainUid = null;
-
-      const eligibleForBonus =
-        userData.referredBy &&
-        userData.referralBonusPending === true &&
-        userData.referralBonusReceived !== true &&
-        montant >= 3000;
-
-      if (eligibleForBonus) {
-        const parrainCode = userData.referredBy;
-        const parrainQuery = query(collection(db, 'users'), where('referralCode', '==', parrainCode));
-        const parrainSnap = await getDocs(parrainQuery);
-
-        if (!parrainSnap.empty) {
-          parrainRef = doc(db, 'users', parrainSnap.docs[0].id);
-          parrainData = parrainSnap.docs[0].data();
-          parrainUid = parrainSnap.docs[0].id;
-        }
-      }
-
-      // ✅ Exécuter la transaction
-      await runTransaction(db, async (transaction) => {
-        transaction.update(depRef, {
-          statut: 'valide',
-          validatedAt: new Date().toISOString(),
-          validatedBy: auth.currentUser?.uid || 'admin'
+      // 3. ✅ BONUS PARRAINAGE (1000 ou 1500 selon partenaire)
+      if (parrainRef && parrainData) {
+        transaction.update(parrainRef, {
+          balance: (parrainData.balance || 0) + bonusAmount,
+          referralEarnings: (parrainData.referralEarnings || 0) + bonusAmount,
+          gainsTotal: (parrainData.gainsTotal || 0) + bonusAmount,
+          referralsCount: (parrainData.referralsCount || 0) + 1,
+          lastReferralDate: new Date().toISOString()
         });
 
         transaction.update(userRef, {
-          balance: newBalance,
-          realBalance: (userData.realBalance || 0) + montant,
-          totalDepots: (userData.totalDepots || 0) + montant,
-          lastDeposit: new Date().toISOString(),
-          hasDeposited: true,
-          isUnlocked: true
+          referralBonusPending: false,
+          referralBonusReceived: true,
+          referralBonusDate: new Date().toISOString()
         });
 
-        // ✅ Bonus parrainage
-        if (parrainRef && parrainData) {
-          const bonusAmount = userData.referralBonusAmount || 1000;
+        // ✅ VÉRIFIER SI LE PARRAIN DEVIENT PARTENAIRE (5 filleuls)
+        const newReferralsCount = (parrainData.referralsCount || 0) + 1;
+        if (newReferralsCount >= 5 && !parrainData.isPartner) {
+          const now = new Date().toISOString();
           transaction.update(parrainRef, {
-            balance: (parrainData.balance || 0) + bonusAmount,
-            referralEarnings: (parrainData.referralEarnings || 0) + bonusAmount,
-            gainsTotal: (parrainData.gainsTotal || 0) + bonusAmount,
-            referralsCount: (parrainData.referralsCount || 0) + 1,
-            lastReferralDate: new Date().toISOString()
+            isPartner: true,
+            partnerSince: now,
+            partnerBonusAmount: 1500,
+            partnerStatus: 'partner'
           });
 
-          transaction.update(userRef, {
-            referralBonusPending: false,
-            referralBonusReceived: true,
-            referralBonusDate: new Date().toISOString()
+          const partnerRef = doc(collection(db, 'partenaires'));
+          transaction.set(partnerRef, {
+            userId: parrainUid,
+            userName: parrainData.fullName || parrainData.prenom + ' ' + parrainData.nom || 'Utilisateur',
+            userEmail: parrainData.email || '',
+            referralsCount: newReferralsCount,
+            bonusAmount: 1500,
+            partnerSince: now,
+            status: 'actif',
+            totalEarnings: (parrainData.referralEarnings || 0) + bonusAmount,
+            createdAt: now,
+            updatedAt: now,
+            promotedBy: 'systeme'
           });
+
+          console.log('🎉 Nouveau partenaire automatique:', parrainData.prenom || 'Utilisateur');
         }
-
-        // ✅ PROMOTION BIENVENUE (uniquement premier dépôt)
-        if (isFirstDeposit && montant >= 3000) {
-          const dateDebut = new Date();
-          const dateFin = new Date(dateDebut.getTime() + 48 * 60 * 60 * 1000);
-
-          const promoRef = doc(collection(db, 'promotions'));
-          transaction.set(promoRef, {
-            type: 'bienvenue',
-            utilisateurId: userId,
-            actif: true,
-            reduction: 75,
-            description: '🎉 Offre de bienvenue -75% sur toutes les formations pendant 48h !',
-            dateDebut: dateDebut.toISOString(),
-            dateFin: dateFin.toISOString(),
-            declencheePar: 'systeme',
-            createdAt: new Date().toISOString()
-          });
-        }
-      });
-
-      const userName = userData.fullName || userData.prenom || userData.nom || 'Utilisateur';
-      showToast(`✅ ${montant.toLocaleString('fr-FR')} FCFA crédités à ${userName} !`, 'success');
-
-      if (parrainRef && parrainData) {
-        const parrainName = parrainData.prenom || parrainData.fullName || 'son parrain';
-        showToast(`🎉 Bonus de 1000 FCFA crédité à ${parrainName} !`, 'success');
       }
 
+      // 4. ✅ PROMOTION BIENVENUE (premier dépôt)
       if (isFirstDeposit && montant >= 3000) {
-        showToast(`🎉 Promotion -75% activée pour ${userName} pendant 48h !`, 'success');
+        const dateDebut = new Date();
+        const dateFin = new Date(dateDebut.getTime() + 48 * 60 * 60 * 1000);
+        const promoRef = doc(collection(db, 'promotions'));
+        transaction.set(promoRef, {
+          type: 'bienvenue',
+          utilisateurId: userId,
+          actif: true,
+          reduction: 75,
+          description: '🎉 Offre de bienvenue -75% sur toutes les formations pendant 48h !',
+          dateDebut: dateDebut.toISOString(),
+          dateFin: dateFin.toISOString(),
+          declencheePar: 'systeme',
+          createdAt: new Date().toISOString()
+        });
       }
+    });
 
-    } catch (error) {
-      console.error('❌ Erreur validation dépôt:', error);
-      showToast('❌ Erreur: ' + (error.message || 'Impossible de valider le dépôt'), 'error');
+    // ✅ NOTIFICATIONS
+    const userName = userData.fullName || userData.prenom || userData.nom || 'Utilisateur';
+    showToast(`✅ ${montant.toLocaleString('fr-FR')} FCFA crédités à ${userName} !`, 'success');
+
+    if (parrainRef && parrainData) {
+      const parrainName = parrainData.prenom || parrainData.fullName || 'son parrain';
+      showToast(`🎉 Bonus de ${bonusAmount.toLocaleString('fr-FR')} FCFA crédité à ${parrainName} !`, 'success');
     }
+
+    if (isFirstDeposit && montant >= 3000) {
+      showToast(`🎉 Promotion -75% activée pour ${userName} pendant 48h !`, 'success');
+    }
+
+  } catch (error) {
+    console.error('❌ Erreur validation dépôt:', error);
+    showToast('❌ Erreur: ' + (error.message || 'Impossible de valider le dépôt'), 'error');
   }
+}
 
   // ================================================================
   // ✅ REJETER UN DÉPÔT

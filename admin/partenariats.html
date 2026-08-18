@@ -401,6 +401,15 @@
       color: var(--text-muted);
       border: 1px solid rgba(90, 90, 74, 0.15);
     }
+    
+    .users-table .user-actions .btn-remove {
+  background: rgba(138, 58, 58, 0.12);
+  color: var(--danger);
+  border: 1px solid rgba(138, 58, 58, 0.15);
+}
+.users-table .user-actions .btn-remove:hover {
+  background: rgba(138, 58, 58, 0.22);
+}
 
     .users-table .user-actions {
       display: flex;
@@ -1608,6 +1617,110 @@
   promoteModal.addEventListener('click', function(e) {
     if (e.target === promoteModal) closePromoteModal();
   });
+  
+  // ================================================================
+// RETIRER LE STATUT DE PARTENAIRE - CORRIGÉ
+// ================================================================
+async function retirerPartenaire(user) {
+  // ✅ RÉCUPÉRER LE BON ID
+  const userId = user.id || user.uid || user.userId;
+  
+  if (!userId) {
+    showToast('❌ ID utilisateur invalide', 'error');
+    console.error('❌ User ID manquant:', user);
+    return;
+  }
+
+  const userName = user.fullName || user.prenom + ' ' + user.nom || 'Utilisateur';
+
+  if (!confirm(`⚠️ Retirer le statut de partenaire de ${userName} ?\n\nIl perdra :\n- Bonus de 1500 FCFA par filleul\n- Accès Premium (sauf s'il l'a obtenu autrement)\n- Badge "Partenaire" sur son profil`)) {
+    return;
+  }
+
+  try {
+    // ✅ 1. VÉRIFIER SI L'UTILISATEUR EXISTE (par uid ou customerId)
+    let userRef = doc(db, 'users', userId);
+    let userSnap = await getDoc(userRef);
+
+    // Si pas trouvé, chercher par customerId
+    if (!userSnap.exists()) {
+      console.log('🔍 Recherche par customerId:', userId);
+      const userQuery = query(collection(db, 'users'), where('customerId', '==', userId));
+      const userQuerySnap = await getDocs(userQuery);
+      if (!userQuerySnap.empty) {
+        userRef = userQuerySnap.docs[0].ref;
+        userSnap = await getDoc(userRef);
+        console.log('✅ Utilisateur trouvé par customerId');
+      }
+    }
+
+    // Si pas trouvé, chercher par id
+    if (!userSnap.exists()) {
+      console.log('🔍 Recherche par id:', userId);
+      const userQuery2 = query(collection(db, 'users'), where('id', '==', userId));
+      const userQuerySnap2 = await getDocs(userQuery2);
+      if (!userQuerySnap2.empty) {
+        userRef = userQuerySnap2.docs[0].ref;
+        userSnap = await getDoc(userRef);
+        console.log('✅ Utilisateur trouvé par id');
+      }
+    }
+
+    if (!userSnap.exists()) {
+      showToast('❌ Utilisateur introuvable. ID: ' + userId, 'error');
+      console.error('❌ Utilisateur non trouvé pour ID:', userId);
+      return;
+    }
+
+    const userData = userSnap.data();
+    const correctUid = userSnap.id;
+
+    // ✅ 2. Mettre à jour l'utilisateur
+    await updateDoc(userRef, {
+      isPartner: false,
+      partnerSince: null,
+      partnerBonusAmount: 1000,
+      partnerStatus: 'standard',
+      updatedAt: new Date().toISOString()
+    });
+
+    // ✅ 3. Mettre à jour dans la collection partenaires
+    const partnerQuery = query(collection(db, 'partenaires'), where('userId', '==', correctUid));
+    const partnerSnap = await getDocs(partnerQuery);
+    
+    if (!partnerSnap.empty) {
+      const partnerRef = partnerSnap.docs[0].ref;
+      await updateDoc(partnerRef, {
+        status: 'suspended',
+        updatedAt: new Date().toISOString()
+      });
+    } else {
+      // Si pas trouvé par uid, chercher par customerId
+      const partnerQuery2 = query(collection(db, 'partenaires'), where('userId', '==', userId));
+      const partnerSnap2 = await getDocs(partnerQuery2);
+      if (!partnerSnap2.empty) {
+        const partnerRef = partnerSnap2.docs[0].ref;
+        await updateDoc(partnerRef, {
+          status: 'suspended',
+          updatedAt: new Date().toISOString()
+        });
+      }
+    }
+    
+    async function retirerPartenaire(user) {
+  console.log('🔍 User reçu:', user);
+  console.log('🔍 ID:', user.id, 'UID:', user.uid, 'UserId:', user.userId);
+  
+}
+
+    showToast(`✅ ${userName} n'est plus partenaire.`, 'warning');
+
+  } catch (error) {
+    console.error('❌ Erreur retrait:', error);
+    showToast('❌ Erreur: ' + (error.message || 'Impossible de retirer le statut'), 'error');
+  }
+}
+
 
 // ================================================================
 // CONFIRMER LA PROMOTION - CORRIGÉE
@@ -1791,13 +1904,18 @@ promoteConfirmBtn.addEventListener('click', async function() {
 
       const avatarStyle = user.avatarBase64 ? `background-image:url('${user.avatarBase64}');background-size:cover;` : '';
 
-      let actionBtn = '';
-      if (isPartner) {
-        actionBtn = `<button class="btn-promoted"><i class="fas fa-check-circle"></i> Partenaire</button>`;
-      } else {
-        const label = isEligible ? '⭐ Promouvoir (5+ filleuls)' : '🤝 Promouvoir';
-        actionBtn = `<button class="btn-promote" data-user='${JSON.stringify(user).replace(/'/g, "&#39;")}'>${label}</button>`;
-      }
+      // Dans renderUsers(), pour les partenaires
+let actionBtn = '';
+if (isPartner) {
+  actionBtn = `
+    <button class="btn-remove" data-user='${JSON.stringify(user).replace(/'/g, "&#39;")}'>
+      <i class="fas fa-times"></i> Retirer
+    </button>
+  `;
+} else {
+  const label = isEligible ? '⭐ Promouvoir (5+ filleuls)' : '🤝 Promouvoir';
+  actionBtn = `<button class="btn-promote" data-user='${JSON.stringify(user).replace(/'/g, "&#39;")}'>${label}</button>`;
+}
 
       html += `
         <tr>
@@ -1842,6 +1960,19 @@ promoteConfirmBtn.addEventListener('click', async function() {
         }
       });
     });
+    
+    // Écouteurs pour les boutons "Retirer"
+document.querySelectorAll('.btn-remove').forEach(btn => {
+  btn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    try {
+      const user = JSON.parse(this.dataset.user);
+      retirerPartenaire(user);
+    } catch (err) {
+      console.error('Erreur parsing utilisateur:', err);
+    }
+  });
+});
 
     updatePagination();
   }
