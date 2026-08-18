@@ -231,41 +231,6 @@
       margin-top: 2px;
     }
 
-    .action-bar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 18px;
-      justify-content: flex-start;
-    }
-
-    .btn-add-partner {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 12px 24px;
-      background: linear-gradient(135deg, var(--accent), #9A7209);
-      border: none;
-      border-radius: 12px;
-      color: var(--bg-dark);
-      font-weight: 700;
-      font-size: 14px;
-      cursor: pointer;
-      transition: var(--transition);
-      font-family: 'Inter', sans-serif;
-      box-shadow: 0 4px 20px rgba(184, 134, 11, 0.3);
-    }
-    .btn-add-partner:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 30px rgba(184, 134, 11, 0.4);
-    }
-    .btn-add-partner:active {
-      transform: scale(0.96);
-    }
-    .btn-add-partner i {
-      font-size: 16px;
-    }
-
     .filters-bar {
       display: flex;
       flex-wrap: wrap;
@@ -327,7 +292,7 @@
       color: var(--text-light);
     }
 
-    .partners-table-wrapper {
+    .users-table-wrapper {
       background: var(--bg-card);
       backdrop-filter: blur(8px);
       border: 1px solid var(--card-border);
@@ -336,16 +301,16 @@
       margin-bottom: 20px;
     }
 
-    .partners-table {
+    .users-table {
       width: 100%;
       border-collapse: collapse;
     }
 
-    .partners-table thead {
+    .users-table thead {
       background: rgba(10, 10, 10, 0.5);
     }
 
-    .partners-table th {
+    .users-table th {
       padding: 12px 14px;
       text-align: left;
       font-size: 10px;
@@ -357,29 +322,29 @@
       white-space: nowrap;
     }
 
-    .partners-table td {
+    .users-table td {
       padding: 12px 14px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.02);
       vertical-align: middle;
     }
 
-    .partners-table tbody tr {
+    .users-table tbody tr {
       transition: var(--transition);
-      cursor: default;
+      cursor: pointer;
     }
-    .partners-table tbody tr:hover {
-      background: rgba(255, 255, 255, 0.02);
+    .users-table tbody tr:hover {
+      background: rgba(255, 255, 255, 0.03);
     }
-    .partners-table tbody tr:last-child td {
+    .users-table tbody tr:last-child td {
       border-bottom: none;
     }
 
-    .partners-table .col-user {
+    .users-table .col-user {
       display: flex;
       align-items: center;
       gap: 12px;
     }
-    .partners-table .user-avatar {
+    .users-table .user-avatar {
       width: 36px;
       height: 36px;
       border-radius: 50%;
@@ -394,36 +359,30 @@
       background-size: cover;
       background-position: center;
     }
-    .partners-table .user-name {
+    .users-table .user-name {
       font-size: 13px;
       font-weight: 500;
       color: var(--text-light);
     }
-    .partners-table .user-email {
+    .users-table .user-email {
       font-size: 11px;
       color: var(--text-dim);
     }
 
-    .partners-table .partner-id {
+    .users-table .user-id {
       font-size: 11px;
       font-family: monospace;
       color: var(--accent);
       letter-spacing: 0.5px;
     }
 
-    .partners-table .partner-referrals {
-      font-size: 14px;
+    .users-table .user-referrals {
+      font-size: 13px;
       font-weight: 600;
       color: var(--text-light);
     }
-    .partners-table .partner-bonus {
-      font-size: 14px;
-      font-weight: 700;
-      font-family: 'Playfair Display', 'Georgia', serif;
-      color: var(--success);
-    }
 
-    .partners-table .status-badge {
+    .users-table .status-badge {
       display: inline-flex;
       align-items: center;
       gap: 4px;
@@ -432,73 +391,58 @@
       font-size: 10px;
       font-weight: 600;
     }
-    .partners-table .status-badge.active {
-      background: rgba(45, 125, 90, 0.12);
-      color: var(--success);
-      border: 1px solid rgba(45, 125, 90, 0.15);
-    }
-    .partners-table .status-badge.pending {
-      background: rgba(212, 160, 23, 0.12);
-      color: var(--warning);
-      border: 1px solid rgba(212, 160, 23, 0.15);
-    }
-    .partners-table .status-badge.suspended {
-      background: rgba(138, 58, 58, 0.12);
-      color: var(--danger);
-      border: 1px solid rgba(138, 58, 58, 0.15);
-    }
-    .partners-table .status-badge.manual {
+    .users-table .status-badge.partner {
       background: rgba(184, 134, 11, 0.12);
       color: var(--accent);
       border: 1px solid rgba(184, 134, 11, 0.15);
     }
-
-    .partners-table .partner-date {
-      font-size: 11px;
+    .users-table .status-badge.not-partner {
+      background: rgba(90, 90, 74, 0.12);
       color: var(--text-muted);
-      white-space: nowrap;
+      border: 1px solid rgba(90, 90, 74, 0.15);
     }
 
-    .partners-table .partner-actions {
+    .users-table .user-actions {
       display: flex;
       gap: 4px;
       flex-wrap: wrap;
     }
-    .partners-table .partner-actions button {
-      width: 30px;
-      height: 30px;
+    .users-table .user-actions button {
+      padding: 6px 14px;
       border: none;
-      border-radius: 6px;
+      border-radius: 8px;
       cursor: pointer;
       transition: var(--transition);
-      font-size: 12px;
+      font-size: 11px;
+      font-weight: 600;
       display: flex;
       align-items: center;
-      justify-content: center;
+      gap: 6px;
+      font-family: 'Inter', sans-serif;
     }
-    .partners-table .partner-actions button:active {
-      transform: scale(0.92);
+    .users-table .user-actions button:active {
+      transform: scale(0.95);
     }
-    .partners-table .partner-actions .btn-promote {
-      background: rgba(45, 125, 90, 0.12);
-      color: var(--success);
-    }
-    .partners-table .partner-actions .btn-promote:hover {
-      background: rgba(45, 125, 90, 0.25);
-    }
-    .partners-table .partner-actions .btn-remove {
-      background: rgba(138, 58, 58, 0.12);
-      color: var(--danger);
-    }
-    .partners-table .partner-actions .btn-remove:hover {
-      background: rgba(138, 58, 58, 0.25);
-    }
-    .partners-table .partner-actions .btn-details {
-      background: rgba(184, 134, 11, 0.08);
+    .users-table .user-actions .btn-promote {
+      background: rgba(184, 134, 11, 0.12);
       color: var(--accent);
+      border: 1px solid rgba(184, 134, 11, 0.15);
     }
-    .partners-table .partner-actions .btn-details:hover {
-      background: rgba(184, 134, 11, 0.18);
+    .users-table .user-actions .btn-promote:hover {
+      background: rgba(184, 134, 11, 0.22);
+    }
+    .users-table .user-actions .btn-promoted {
+      background: rgba(45, 125, 90, 0.10);
+      color: var(--success);
+      border: 1px solid rgba(45, 125, 90, 0.10);
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .users-table .user-date {
+      font-size: 11px;
+      color: var(--text-muted);
+      white-space: nowrap;
     }
 
     .pagination {
@@ -595,7 +539,7 @@
       width: 60%;
     }
     .skeleton-row .skeleton-btn {
-      width: 30px;
+      width: 60px;
       height: 30px;
       border-radius: 6px;
       background: rgba(255, 255, 255, 0.03);
@@ -607,7 +551,6 @@
       50% { opacity: 0.6; }
     }
 
-    /* MODAL UNIFORME */
     .modal-overlay {
       position: fixed;
       top: 0;
@@ -635,7 +578,7 @@
       background: linear-gradient(160deg, #141414 0%, #0A0A0A 100%);
       border: 1px solid rgba(184, 134, 11, 0.12);
       border-radius: 20px;
-      max-width: 480px;
+      max-width: 460px;
       width: 100%;
       max-height: 90vh;
       overflow: hidden;
@@ -774,56 +717,6 @@
     .modal-body .modal-field .field-value .highlight {
       color: var(--accent);
     }
-    .modal-body .modal-field .field-value .success {
-      color: var(--success);
-    }
-    .modal-body .modal-field .field-value .danger {
-      color: var(--danger);
-    }
-    .modal-body .modal-field .field-value .mono {
-      font-family: monospace;
-      letter-spacing: 0.5px;
-    }
-
-    .modal-body .form-group {
-      margin-bottom: 14px;
-    }
-    .modal-body .form-group label {
-      display: block;
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: var(--text-muted);
-      font-weight: 400;
-      margin-bottom: 4px;
-    }
-    .modal-body .form-group input {
-      width: 100%;
-      padding: 10px 14px;
-      background: rgba(10, 10, 10, 0.6);
-      border: 1px solid rgba(184, 134, 11, 0.06);
-      border-radius: 12px;
-      color: var(--text-light);
-      font-size: 14px;
-      font-family: inherit;
-      outline: none;
-      transition: all 0.2s ease;
-    }
-    .modal-body .form-group input:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.08);
-    }
-    .modal-body .form-group input::placeholder {
-      color: var(--text-muted);
-      opacity: 0.5;
-    }
-
-    .search-result-item:hover {
-      background: rgba(255, 255, 255, 0.03);
-    }
-    .search-result-item:active {
-      transform: scale(0.98);
-    }
 
     .modal-footer {
       padding: 16px 24px 24px;
@@ -850,7 +743,7 @@
       justify-content: center;
       gap: 8px;
     }
-    .modal-footer .btn-primary:hover {
+        .modal-footer .btn-primary:hover {
       background: #9A7209;
       box-shadow: 0 0 30px rgba(184, 134, 11, 0.15);
       transform: translateY(-1px);
@@ -890,63 +783,11 @@
       transform: scale(0.97);
     }
 
-    .modal-footer .btn-danger {
-      flex: 1;
-      padding: 12px 20px;
-      background: var(--danger);
-      border: none;
-      border-radius: 12px;
-      color: #fff;
-      font-weight: 700;
-      font-size: 14px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-family: 'Inter', sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-    .modal-footer .btn-danger:hover {
-      background: #6A2A2A;
-      box-shadow: 0 0 30px rgba(138, 58, 58, 0.15);
-    }
-    .modal-footer .btn-danger:active {
-      transform: scale(0.97);
-    }
-
-    .modal-footer .btn-success {
-      flex: 1;
-      padding: 12px 20px;
-      background: var(--success);
-      border: none;
-      border-radius: 12px;
-      color: #fff;
-      font-weight: 700;
-      font-size: 14px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-family: 'Inter', sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-    .modal-footer .btn-success:hover {
-      background: #1A5A3A;
-      box-shadow: 0 0 30px rgba(45, 125, 90, 0.15);
-    }
-    .modal-footer .btn-success:active {
-      transform: scale(0.97);
-    }
-
-    .modal-footer .btn-primary .loader,
-    .modal-footer .btn-success .loader,
-    .modal-footer .btn-danger .loader {
+    .modal-footer .btn-primary .loader {
       display: inline-block;
       width: 18px;
       height: 18px;
-      border: 2px solid currentColor;
+      border: 2px solid var(--bg-dark);
       border-radius: 50%;
       border-top-color: transparent;
       animation: spin 0.6s linear infinite;
@@ -1006,7 +847,6 @@
       opacity: 0.4;
     }
 
-    /* MENU - SIMPLE (sans swipe) */
     .menu-overlay {
       position: fixed;
       top: 0;
@@ -1254,13 +1094,6 @@
       .stat-badge {
         padding: 10px 12px;
       }
-      .action-bar {
-        flex-direction: column;
-      }
-      .action-bar button {
-        width: 100%;
-        justify-content: center;
-      }
       .filters-bar {
         flex-direction: column;
         align-items: stretch;
@@ -1276,18 +1109,18 @@
         text-align: center;
       }
 
-      .partners-table thead {
+      .users-table thead {
         display: none;
       }
-      .partners-table tbody tr {
+      .users-table tbody tr {
         display: block;
         padding: 14px 16px;
         border-bottom: 1px solid var(--card-border);
       }
-      .partners-table tbody tr:last-child {
+      .users-table tbody tr:last-child {
         border-bottom: none;
       }
-      .partners-table tbody td {
+      .users-table tbody td {
         display: flex;
         align-items: center;
         padding: 4px 0;
@@ -1295,7 +1128,7 @@
         gap: 8px;
         flex-wrap: wrap;
       }
-      .partners-table tbody td::before {
+      .users-table tbody td::before {
         content: attr(data-label);
         font-size: 9px;
         font-weight: 600;
@@ -1305,20 +1138,15 @@
         min-width: 70px;
         flex-shrink: 0;
       }
-      .partners-table .col-user {
+      .users-table .col-user {
         flex: 1;
       }
-      .partners-table .partner-actions {
+      .users-table .user-actions {
         margin-left: auto;
       }
-      .partners-table .partner-actions button {
-        width: 28px;
-        height: 28px;
+      .users-table .user-actions button {
         font-size: 10px;
-      }
-      .partners-table .status-badge {
-        font-size: 9px;
-        padding: 2px 10px;
+        padding: 4px 10px;
       }
 
       .modal-content {
@@ -1341,12 +1169,6 @@
       }
       .modal-header .modal-title {
         font-size: 17px;
-      }
-    }
-
-    @media (min-width: 769px) and (max-width: 1024px) {
-      .stats-badges {
-        grid-template-columns: repeat(4, 1fr);
       }
     }
 
@@ -1432,62 +1254,22 @@
   </div>
 </div>
 
-<!-- ===== MODAL UNIFORME - DÉTAILS ===== -->
-<div class="modal-overlay" id="detailModal">
+<!-- ===== MODAL CONFIRMATION PROMOTION ===== -->
+<div class="modal-overlay" id="promoteModal">
   <div class="modal-content">
     <div class="modal-header">
       <div class="modal-title">
-        <i class="fas fa-user-tie"></i>
-        Détails du <span>partenaire</span>
+        <i class="fas fa-handshake"></i>
+        Promouvoir <span>partenaire</span>
       </div>
-      <button class="modal-close-btn" id="detailModalClose"><i class="fas fa-times"></i></button>
+      <button class="modal-close-btn" id="promoteModalClose"><i class="fas fa-times"></i></button>
     </div>
-    <div class="modal-body" id="detailModalBody">
+    <div class="modal-body" id="promoteModalBody">
       <!-- Rempli par JavaScript -->
     </div>
-    <div class="modal-footer" id="detailModalFooter">
-      <button class="btn-secondary" id="detailModalCloseBtn">Fermer</button>
-    </div>
-  </div>
-</div>
-
-<!-- ===== MODAL UNIFORME - AJOUTER UN PARTENAIRE ===== -->
-<div class="modal-overlay" id="addPartnerModal">
-  <div class="modal-content">
-    <div class="modal-header">
-      <div class="modal-title">
-        <i class="fas fa-user-plus"></i>
-        Ajouter un <span>partenaire</span>
-      </div>
-      <button class="modal-close-btn" id="addPartnerModalClose"><i class="fas fa-times"></i></button>
-    </div>
-    <div class="modal-body">
-      <div class="modal-icon">🤝</div>
-      <div class="modal-subtitle">Promouvoir un utilisateur en partenaire</div>
-
-      <div class="form-group">
-        <label>🔍 Rechercher un utilisateur</label>
-        <input type="text" id="partnerSearchInput" placeholder="Nom, email ou ID...">
-      </div>
-
-      <div id="partnerSearchResults" style="margin-top:10px;max-height:200px;overflow-y:auto;">
-        <!-- Résultats de recherche -->
-      </div>
-
-      <div id="selectedPartnerDisplay" style="display:none;margin-top:12px;padding:12px;background:rgba(10,10,10,0.4);border-radius:12px;border:1px solid var(--accent);">
-        <div style="display:flex;align-items:center;gap:10px;">
-          <div style="font-size:24px;">👤</div>
-          <div>
-            <div style="font-weight:600;color:var(--text-light);" id="selectedPartnerName">Nom</div>
-            <div style="font-size:12px;color:var(--text-dim);" id="selectedPartnerEmail">email@email.com</div>
-            <div style="font-size:11px;color:var(--accent);font-family:monospace;" id="selectedPartnerId">ID: ---</div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn-secondary" id="addPartnerCancel">Annuler</button>
-      <button class="btn-primary" id="addPartnerConfirm" disabled>
+    <div class="modal-footer" id="promoteModalFooter">
+      <button class="btn-secondary" id="promoteCancelBtn">Annuler</button>
+      <button class="btn-primary" id="promoteConfirmBtn">
         <i class="fas fa-check"></i> Promouvoir
       </button>
     </div>
@@ -1509,47 +1291,41 @@
 
   <div class="page-title">
     <h1>🤝 Gestion des <span>partenariats</span></h1>
-    <p>Gérez les partenaires ARVEXA et leurs avantages</p>
+    <p>Promouvez n'importe quel utilisateur en partenaire</p>
   </div>
 
   <div class="stats-badges" id="statsBadges">
     <div class="stat-badge">
       <div class="stat-number green" id="activeCount">0</div>
-      <div class="stat-label">✅ Actifs</div>
+      <div class="stat-label">✅ Partenaires</div>
     </div>
     <div class="stat-badge">
       <div class="stat-number warning" id="pendingCount">0</div>
       <div class="stat-label">⏳ En attente</div>
     </div>
     <div class="stat-badge">
-      <div class="stat-number red" id="suspendedCount">0</div>
-      <div class="stat-label">🚫 Suspendus</div>
+      <div class="stat-number gold" id="totalCount">0</div>
+      <div class="stat-label">👥 Total utilisateurs</div>
     </div>
     <div class="stat-badge">
-      <div class="stat-number gold" id="totalCount">0</div>
-      <div class="stat-label">👥 Total</div>
+      <div class="stat-number blue" id="eligibleCount">0</div>
+      <div class="stat-label">⭐ Éligibles (5+ filleuls)</div>
     </div>
-  </div>
-
-  <div class="action-bar">
-    <button class="btn-add-partner" id="addPartnerBtn">
-      <i class="fas fa-user-plus"></i> Ajouter un partenaire
-    </button>
   </div>
 
   <div class="filters-bar">
     <input type="text" class="search-input" id="searchInput" placeholder="🔍 Rechercher par nom, email ou ID...">
     <select class="filter-select" id="statusFilter">
-      <option value="all">📋 Tous les statuts</option>
-      <option value="actif">✅ Actifs</option>
-      <option value="pending">⏳ En attente</option>
-      <option value="suspended">🚫 Suspendus</option>
+      <option value="all">📋 Tous les utilisateurs</option>
+      <option value="partner">🤝 Partenaires</option>
+      <option value="not-partner">👤 Non partenaires</option>
+      <option value="eligible">⭐ Éligibles (5+ filleuls)</option>
     </select>
-    <span class="total-count">Total : <strong id="displayCount">0</strong> partenaires</span>
+    <span class="total-count">Total : <strong id="displayCount">0</strong> utilisateurs</span>
   </div>
 
-  <div class="partners-table-wrapper">
-    <div id="partnersContainer">
+  <div class="users-table-wrapper">
+    <div id="usersContainer">
       <!-- Skeleton loading -->
       <div class="skeleton-row">
         <div class="skeleton-avatar"></div>
@@ -1559,7 +1335,6 @@
         </div>
         <div class="skeleton-btn"></div>
         <div class="skeleton-btn"></div>
-        <div class="skeleton-btn"></div>
       </div>
       <div class="skeleton-row">
         <div class="skeleton-avatar"></div>
@@ -1567,17 +1342,6 @@
           <div class="line"></div>
           <div class="line"></div>
         </div>
-        <div class="skeleton-btn"></div>
-        <div class="skeleton-btn"></div>
-        <div class="skeleton-btn"></div>
-      </div>
-      <div class="skeleton-row">
-        <div class="skeleton-avatar"></div>
-        <div class="skeleton-text">
-          <div class="line"></div>
-          <div class="line"></div>
-        </div>
-        <div class="skeleton-btn"></div>
         <div class="skeleton-btn"></div>
         <div class="skeleton-btn"></div>
       </div>
@@ -1589,7 +1353,6 @@
         </div>
         <div class="skeleton-btn"></div>
         <div class="skeleton-btn"></div>
-        <div class="skeleton-btn"></div>
       </div>
       <div class="skeleton-row">
         <div class="skeleton-avatar"></div>
@@ -1598,6 +1361,14 @@
           <div class="line"></div>
         </div>
         <div class="skeleton-btn"></div>
+        <div class="skeleton-btn"></div>
+      </div>
+      <div class="skeleton-row">
+        <div class="skeleton-avatar"></div>
+        <div class="skeleton-text">
+          <div class="line"></div>
+          <div class="line"></div>
+        </div>
         <div class="skeleton-btn"></div>
         <div class="skeleton-btn"></div>
       </div>
@@ -1678,39 +1449,26 @@
   // ================================================================
   // DOM ELEMENTS
   // ================================================================
-  const partnersContainer = document.getElementById('partnersContainer');
+  const usersContainer = document.getElementById('usersContainer');
   const searchInput = document.getElementById('searchInput');
   const statusFilter = document.getElementById('statusFilter');
   const displayCount = document.getElementById('displayCount');
   const activeCount = document.getElementById('activeCount');
   const pendingCount = document.getElementById('pendingCount');
-  const suspendedCount = document.getElementById('suspendedCount');
   const totalCount = document.getElementById('totalCount');
+  const eligibleCount = document.getElementById('eligibleCount');
   const partnersBadge = document.getElementById('partnersBadge');
   const prevPageBtn = document.getElementById('prevPage');
   const nextPageBtn = document.getElementById('nextPage');
   const pageInfo = document.getElementById('pageInfo');
   const toast = document.getElementById('toast');
 
-  // Modal
-  const detailModal = document.getElementById('detailModal');
-  const detailModalBody = document.getElementById('detailModalBody');
-  const detailModalClose = document.getElementById('detailModalClose');
-  const detailModalCloseBtn = document.getElementById('detailModalCloseBtn');
-  const detailModalFooter = document.getElementById('detailModalFooter');
-
-  // Add partner modal
-  const addPartnerBtn = document.getElementById('addPartnerBtn');
-  const addPartnerModal = document.getElementById('addPartnerModal');
-  const addPartnerModalClose = document.getElementById('addPartnerModalClose');
-  const addPartnerCancel = document.getElementById('addPartnerCancel');
-  const addPartnerConfirm = document.getElementById('addPartnerConfirm');
-  const partnerSearchInput = document.getElementById('partnerSearchInput');
-  const partnerSearchResults = document.getElementById('partnerSearchResults');
-  const selectedPartnerDisplay = document.getElementById('selectedPartnerDisplay');
-  const selectedPartnerName = document.getElementById('selectedPartnerName');
-  const selectedPartnerEmail = document.getElementById('selectedPartnerEmail');
-  const selectedPartnerId = document.getElementById('selectedPartnerId');
+  // Promote modal
+  const promoteModal = document.getElementById('promoteModal');
+  const promoteModalBody = document.getElementById('promoteModalBody');
+  const promoteModalClose = document.getElementById('promoteModalClose');
+  const promoteCancelBtn = document.getElementById('promoteCancelBtn');
+  const promoteConfirmBtn = document.getElementById('promoteConfirmBtn');
 
   // ================================================================
   // MENU - SIMPLE (sans swipe)
@@ -1758,11 +1516,6 @@
   // ================================================================
   // FORMAT
   // ================================================================
-  function formatCurrency(amount) {
-    if (!amount) return '0 FCFA';
-    return amount.toLocaleString('fr-FR') + ' FCFA';
-  }
-
   function getInitials(name) {
     if (!name) return '?';
     return name.charAt(0).toUpperCase();
@@ -1790,53 +1543,26 @@
   // ================================================================
   // VARIABLES GLOBALES
   // ================================================================
-  let allPartners = [];
-  let filteredPartners = [];
+  let allUsers = [];
+  let filteredUsers = [];
   let currentPage = 1;
   const ITEMS_PER_PAGE = 10;
-  let selectedUserForPartner = null;
-  let searchTimeout = null;
-  let allUsersForSearch = [];
+  let selectedUserForPromote = null;
 
   // ================================================================
-  // MODAL - DÉTAILS
+  // MODAL - PROMOUVOIR UN UTILISATEUR
   // ================================================================
-  function openDetailModal(partner) {
-    const statusMap = {
-      'actif': { text: '✅ Actif', class: 'success' },
-      'pending': { text: '⏳ En attente', class: 'warning' },
-      'suspended': { text: '🚫 Suspendu', class: 'danger' }
-    };
-    const statusInfo = statusMap[partner.status] || statusMap['pending'];
+  function openPromoteModal(user) {
+    selectedUserForPromote = user;
+    
+    const userName = user.fullName || user.prenom + ' ' + user.nom || 'Utilisateur';
+    const email = user.email || 'Non renseigné';
+    const referrals = user.referralsCount || 0;
+    const isPartner = user.isPartner === true;
 
-    const userName = partner.userName || 'Utilisateur inconnu';
-    const userId = partner.userId || 'ID inconnu';
-    const referrals = partner.referralsCount || 0;
-    const bonus = partner.bonusAmount || 1500;
-    const earnings = partner.totalEarnings || 0;
-    const date = formatDateShort(partner.partnerSince || partner.createdAt);
-
-    let footerButtons = '';
-    if (partner.status === 'pending') {
-      footerButtons = `
-        <button class="btn-success" id="modalPromoteBtn"><i class="fas fa-check"></i> Promouvoir</button>
-        <button class="btn-secondary" id="modalCloseActionBtn">Fermer</button>
-      `;
-    } else if (partner.status === 'actif') {
-      footerButtons = `
-        <button class="btn-danger" id="modalRemoveBtn"><i class="fas fa-times"></i> Retirer</button>
-        <button class="btn-secondary" id="modalCloseActionBtn">Fermer</button>
-      `;
-    } else {
-      footerButtons = `
-        <button class="btn-success" id="modalPromoteBtn"><i class="fas fa-check"></i> Réactiver</button>
-        <button class="btn-secondary" id="modalCloseActionBtn">Fermer</button>
-      `;
-    }
-
-    detailModalBody.innerHTML = `
+    promoteModalBody.innerHTML = `
       <div class="modal-icon">🤝</div>
-      <div class="modal-subtitle">Détails complets du partenaire</div>
+      <div class="modal-subtitle">Confirmer la promotion en partenaire</div>
 
       <div class="modal-field">
         <span class="field-label">👤 Nom</span>
@@ -1844,96 +1570,97 @@
       </div>
       <div class="modal-field">
         <span class="field-label">📧 Email</span>
-        <div class="field-value">${escapeHtml(partner.userEmail || 'Non renseigné')}</div>
-      </div>
-      <div class="modal-field">
-        <span class="field-label">🆔 ID</span>
-        <div class="field-value mono">${escapeHtml(userId)}</div>
+        <div class="field-value">${escapeHtml(email)}</div>
       </div>
       <div class="modal-field">
         <span class="field-label">👥 Filleuls</span>
         <div class="field-value"><span class="highlight">${referrals}</span></div>
       </div>
       <div class="modal-field">
-        <span class="field-label">💰 Bonus par filleul</span>
-        <div class="field-value"><span class="success">${formatCurrency(bonus)}</span></div>
+        <span class="field-label">📌 Statut actuel</span>
+        <div class="field-value">${isPartner ? '✅ Déjà partenaire' : '👤 Utilisateur standard'}</div>
       </div>
-      <div class="modal-field">
-        <span class="field-label">💵 Gains totaux</span>
-        <div class="field-value"><span class="highlight">${formatCurrency(earnings)}</span></div>
-      </div>
-      <div class="modal-field">
-        <span class="field-label">📅 Partenaire depuis</span>
-        <div class="field-value">${date}</div>
-      </div>
-      <div class="modal-field">
-        <span class="field-label">📌 Statut</span>
-        <div class="field-value"><span class="${statusInfo.class}">${statusInfo.text}</span></div>
+      <div style="background:rgba(184,134,11,0.04);border-radius:12px;padding:12px 16px;margin-top:8px;border:1px solid rgba(184,134,11,0.06);">
+        <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-dim);">
+          <span style="font-size:16px;">⭐</span>
+          <span>Après promotion, il bénéficiera de :</span>
+        </div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:4px;padding-left:28px;">
+          <div>💰 Bonus de <strong style="color:var(--success);">1500 FCFA</strong> par filleul</div>
+          <div>🔓 Accès <strong style="color:var(--accent);">Premium</strong> immédiat</div>
+          <div>🤝 Badge <strong style="color:var(--accent);">Partenaire</strong> sur son profil</div>
+        </div>
       </div>
     `;
 
-    detailModalFooter.innerHTML = footerButtons;
-
-    detailModal.querySelector('#modalCloseActionBtn')?.addEventListener('click', closeDetailModal);
-
-    if (partner.status === 'pending' || partner.status === 'suspended') {
-      detailModal.querySelector('#modalPromoteBtn')?.addEventListener('click', () => {
-        handlePromotePartner(partner.id);
-        closeDetailModal();
-      });
-    }
-
-    if (partner.status === 'actif') {
-      detailModal.querySelector('#modalRemoveBtn')?.addEventListener('click', () => {
-        handleRemovePartner(partner.id);
-        closeDetailModal();
-      });
-    }
-
-    detailModal.classList.add('show');
+    promoteModal.classList.add('show');
     document.body.style.overflow = 'hidden';
   }
 
-  function closeDetailModal() {
-    detailModal.classList.remove('show');
+  function closePromoteModal() {
+    promoteModal.classList.remove('show');
     document.body.style.overflow = '';
+    selectedUserForPromote = null;
   }
 
-  detailModalClose.addEventListener('click', closeDetailModal);
-  detailModalCloseBtn.addEventListener('click', closeDetailModal);
-  detailModal.addEventListener('click', (e) => {
-    if (e.target === detailModal) closeDetailModal();
+  promoteModalClose.addEventListener('click', closePromoteModal);
+  promoteCancelBtn.addEventListener('click', closePromoteModal);
+  promoteModal.addEventListener('click', function(e) {
+    if (e.target === promoteModal) closePromoteModal();
   });
 
-  // ================================================================
-  // ACTIONS SUR LES PARTENAIRES
-  // ================================================================
+// ================================================================
+// CONFIRMER LA PROMOTION - CORRIGÉE
+// ================================================================
+promoteConfirmBtn.addEventListener('click', async function() {
+  if (!selectedUserForPromote) {
+    showToast('⚠️ Aucun utilisateur sélectionné', 'warning');
+    closePromoteModal();
+    return;
+  }
 
-  // Promouvoir un partenaire
-  async function handlePromotePartner(id) {
-    if (!confirm('✅ Promouvoir cet utilisateur en partenaire ?')) return;
+  const user = selectedUserForPromote;
+  
+  // ✅ Utiliser le bon ID (doc.id = UID Firebase)
+  const userId = user.id || user.uid;
+  const userName = user.fullName || user.prenom + ' ' + user.nom || 'Utilisateur';
 
-    try {
-      const partnerRef = doc(db, 'partenaires', id);
-      const partnerSnap = await getDoc(partnerRef);
+  if (!userId) {
+    showToast('❌ ID utilisateur invalide', 'error');
+    closePromoteModal();
+    return;
+  }
 
-      if (!partnerSnap.exists()) {
-        showToast('❌ Partenaire introuvable', 'error');
-        return;
-      }
+  // ✅ Vérifier si déjà partenaire
+  if (user.isPartner === true) {
+    showToast('⚠️ Cet utilisateur est déjà partenaire', 'warning');
+    closePromoteModal();
+    return;
+  }
 
-      const partnerData = partnerSnap.data();
-      const userId = partnerData.userId;
+  this.disabled = true;
+  this.innerHTML = '<span class="loader"></span> Promotion...';
 
-      await updateDoc(partnerRef, {
-        status: 'actif',
-        partnerSince: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
-      });
+  try {
+    // ✅ Utiliser userId directement (c'est l'UID Firebase)
+    const userRef = doc(db, 'users', userId);
+    const userSnap = await getDoc(userRef);
 
-      if (userId) {
-        const userRef = doc(db, 'users', userId);
-        await updateDoc(userRef, {
+    if (!userSnap.exists()) {
+      // ✅ SI PAS TROUVÉ, CHERCHER PAR customerId
+      console.log('🔍 Recherche par customerId...');
+      const userQuery = query(collection(db, 'users'), where('customerId', '==', userId));
+      const userQuerySnap = await getDocs(userQuery);
+      
+      if (!userQuerySnap.empty) {
+        const foundUser = userQuerySnap.docs[0];
+        const foundUserId = foundUser.id;
+        const foundUserData = foundUser.data();
+        
+        console.log('✅ Utilisateur trouvé par customerId:', foundUserId);
+        
+        // Mettre à jour avec le bon ID
+        await updateDoc(doc(db, 'users', foundUserId), {
           isPartner: true,
           partnerSince: new Date().toISOString(),
           partnerBonusAmount: 1500,
@@ -1942,332 +1669,154 @@
           hasDeposited: true,
           updatedAt: new Date().toISOString()
         });
-      }
 
-      showToast('✅ Utilisateur promu partenaire avec succès !', 'success');
+        await addDoc(collection(db, 'partenaires'), {
+          userId: foundUserId,
+          userName: userName,
+          userEmail: foundUserData.email || '',
+          referralsCount: foundUserData.referralsCount || 0,
+          bonusAmount: 1500,
+          partnerSince: new Date().toISOString(),
+          status: 'actif',
+          totalEarnings: foundUserData.referralEarnings || 0,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+          promotedBy: 'admin'
+        });
 
-    } catch (error) {
-      console.error('❌ Erreur promotion:', error);
-      showToast('❌ Erreur: ' + (error.message || 'Impossible de promouvoir le partenaire'), 'error');
-    }
-  }
-
-  // Retirer un partenaire
-  async function handleRemovePartner(id) {
-    if (!confirm('⛔ Retirer ce partenaire ?')) return;
-
-    try {
-      const partnerRef = doc(db, 'partenaires', id);
-      const partnerSnap = await getDoc(partnerRef);
-
-      if (!partnerSnap.exists()) {
-        showToast('❌ Partenaire introuvable', 'error');
+        showToast(`✅ ${userName} est maintenant partenaire ARVEXA !`, 'success');
+        closePromoteModal();
+        this.disabled = false;
+        this.innerHTML = '<i class="fas fa-check"></i> Promouvoir';
         return;
       }
-
-      const partnerData = partnerSnap.data();
-      const userId = partnerData.userId;
-
-      await updateDoc(partnerRef, {
-        status: 'suspended',
-        updatedAt: new Date().toISOString()
-      });
-
-      if (userId) {
-        const userRef = doc(db, 'users', userId);
-        await updateDoc(userRef, {
-          isPartner: false,
-          partnerStatus: 'standard',
-          partnerBonusAmount: 1000,
-          updatedAt: new Date().toISOString()
-        });
-      }
-
-      showToast('⛔ Partenaire retiré', 'warning');
-
-    } catch (error) {
-      console.error('❌ Erreur retrait:', error);
-      showToast('❌ Erreur: ' + (error.message || 'Impossible de retirer le partenaire'), 'error');
-    }
-  }
-
-  // ================================================================
-  // AJOUTER UN PARTENAIRE (MANUEL)
-  // ================================================================
-
-  // Ouvrir le modal
-  addPartnerBtn.addEventListener('click', function() {
-    addPartnerModal.classList.add('show');
-    document.body.style.overflow = 'hidden';
-    partnerSearchInput.value = '';
-    partnerSearchResults.innerHTML = '';
-    selectedPartnerDisplay.style.display = 'none';
-    selectedUserForPartner = null;
-    addPartnerConfirm.disabled = true;
-    partnerSearchInput.focus();
-    loadUsersForSearch();
-  });
-
-  function closeAddPartnerModal() {
-    addPartnerModal.classList.remove('show');
-    document.body.style.overflow = '';
-    selectedUserForPartner = null;
-    addPartnerConfirm.disabled = true;
-  }
-
-  addPartnerModalClose.addEventListener('click', closeAddPartnerModal);
-  addPartnerCancel.addEventListener('click', closeAddPartnerModal);
-  addPartnerModal.addEventListener('click', function(e) {
-    if (e.target === addPartnerModal) closeAddPartnerModal();
-  });
-
-  // Charger les utilisateurs pour la recherche
-  async function loadUsersForSearch() {
-    try {
-      const snapshot = await getDocs(collection(db, 'users'));
-      allUsersForSearch = [];
-      snapshot.forEach(doc => {
-        const data = doc.data();
-        // Exclure les utilisateurs déjà partenaires
-        if (data.isPartner !== true) {
-          allUsersForSearch.push({
-            id: doc.id,
-            ...data
-          });
-        }
-      });
-    } catch (error) {
-      console.error('Erreur chargement utilisateurs:', error);
-    }
-  }
-
-  // Recherche d'utilisateurs
-  partnerSearchInput.addEventListener('input', function() {
-    const searchTerm = this.value.toLowerCase().trim();
-    
-    if (searchTimeout) {
-      clearTimeout(searchTimeout);
-    }
-
-    if (searchTerm.length < 2) {
-      partnerSearchResults.innerHTML = '<div style="text-align:center;padding:12px;color:var(--text-muted);font-size:12px;">🔍 Tapez au moins 2 caractères</div>';
+      
+      showToast('❌ Utilisateur introuvable dans Firestore', 'error');
+      this.disabled = false;
+      this.innerHTML = '<i class="fas fa-check"></i> Promouvoir';
+      closePromoteModal();
       return;
     }
 
-    searchTimeout = setTimeout(() => {
-      const results = allUsersForSearch.filter(user => {
-        const name = (user.fullName || user.prenom || user.nom || '').toLowerCase();
-        const email = (user.email || '').toLowerCase();
-        const id = (user.id || user.uid || '').toLowerCase();
-        return name.includes(searchTerm) || email.includes(searchTerm) || id.includes(searchTerm);
-      });
+    const userData = userSnap.data();
+    const now = new Date().toISOString();
+    const referralsCount = userData.referralsCount || 0;
 
-      if (results.length === 0) {
-        partnerSearchResults.innerHTML = '<div style="text-align:center;padding:12px;color:var(--text-muted);font-size:12px;">❌ Aucun utilisateur trouvé</div>';
-        return;
-      }
+    // ✅ Mettre à jour l'utilisateur
+    await updateDoc(userRef, {
+      isPartner: true,
+      partnerSince: now,
+      partnerBonusAmount: 1500,
+      partnerStatus: 'partner',
+      isUnlocked: true,
+      hasDeposited: true,
+      updatedAt: now
+    });
 
-      partnerSearchResults.innerHTML = results.map(user => `
-        <div class="search-result-item" data-user='${JSON.stringify(user).replace(/'/g, "&#39;")}' style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;cursor:pointer;transition:var(--transition);border-bottom:1px solid rgba(255,255,255,0.02);">
-          <div style="width:32px;height:32px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:600;color:var(--bg-dark);flex-shrink:0;font-size:12px;">
-            ${(user.prenom || user.nom || user.fullName || 'U').charAt(0).toUpperCase()}
-          </div>
-          <div style="flex:1;min-width:0;">
-            <div style="font-weight:500;color:var(--text-light);font-size:13px;">${user.fullName || user.prenom + ' ' + user.nom || 'Utilisateur'}</div>
-            <div style="font-size:11px;color:var(--text-dim);">${user.email || 'No email'} • ${user.referralsCount || 0} filleuls</div>
-          </div>
-          <div style="font-size:12px;color:var(--accent);">
-            <i class="fas fa-chevron-right"></i>
-          </div>
-        </div>
-      `).join('');
+    // ✅ Ajouter dans la collection partenaires
+    await addDoc(collection(db, 'partenaires'), {
+      userId: userId,
+      userName: userName,
+      userEmail: userData.email || '',
+      referralsCount: referralsCount,
+      bonusAmount: 1500,
+      partnerSince: now,
+      status: 'actif',
+      totalEarnings: userData.referralEarnings || 0,
+      createdAt: now,
+      updatedAt: now,
+      promotedBy: 'admin'
+    });
 
-      document.querySelectorAll('.search-result-item').forEach(item => {
-        item.addEventListener('click', function() {
-          try {
-            const user = JSON.parse(this.dataset.user);
-            selectUserForPartner(user);
-          } catch (err) {
-            console.error('Erreur parsing utilisateur:', err);
-          }
-        });
-      });
+    showToast(`✅ ${userName} est maintenant partenaire ARVEXA !`, 'success');
+    closePromoteModal();
 
-    }, 300);
-  });
-
-  // Sélectionner un utilisateur
-  function selectUserForPartner(user) {
-    selectedUserForPartner = user;
-    selectedPartnerName.textContent = user.fullName || user.prenom + ' ' + user.nom || 'Utilisateur';
-    selectedPartnerEmail.textContent = user.email || 'Non renseigné';
-    selectedPartnerId.textContent = 'ID: ' + (user.id || user.uid || '---');
-    selectedPartnerDisplay.style.display = 'block';
-    addPartnerConfirm.disabled = false;
-    partnerSearchResults.innerHTML = '';
-    partnerSearchInput.value = user.email || user.prenom || '';
+  } catch (error) {
+    console.error('❌ Erreur promotion:', error);
+    showToast('❌ Erreur: ' + (error.message || 'Impossible de promouvoir l\'utilisateur'), 'error');
   }
 
-  // Confirmer la promotion
-  addPartnerConfirm.addEventListener('click', async function() {
-    if (!selectedUserForPartner) {
-      showToast('⚠️ Veuillez sélectionner un utilisateur', 'warning');
-      return;
-    }
-
-    const user = selectedUserForPartner;
-    const userName = user.fullName || user.prenom + ' ' + user.nom || 'Utilisateur';
-
-    if (!confirm(`✅ Promouvoir ${userName} en partenaire ?\n\nIl deviendra partenaire ARVEXA avec un bonus de 1500 FCFA par filleul.`)) {
-      return;
-    }
-
-    addPartnerConfirm.disabled = true;
-    addPartnerConfirm.innerHTML = '<span class="loader"></span> Promotion...';
-
-    try {
-      const userId = user.id || user.uid;
-      const referralsCount = user.referralsCount || 0;
-
-      // 1. Ajouter dans la collection partenaires
-      await addDoc(collection(db, 'partenaires'), {
-        userId: userId,
-        userName: userName,
-        userEmail: user.email || '',
-        referralsCount: referralsCount,
-        bonusAmount: 1500,
-        partnerSince: new Date().toISOString(),
-        status: 'actif',
-        totalEarnings: user.referralEarnings || 0,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        promotedBy: 'admin'
-      });
-
-      // 2. Mettre à jour dans la collection users (avec premium)
-      const userRef = doc(db, 'users', userId);
-      await updateDoc(userRef, {
-        isPartner: true,
-        partnerSince: new Date().toISOString(),
-        partnerBonusAmount: 1500,
-        partnerStatus: 'partner',
-        isUnlocked: true,
-        hasDeposited: true,
-        updatedAt: new Date().toISOString()
-      });
-
-      showToast(`✅ ${userName} est maintenant partenaire ARVEXA avec accès premium !`, 'success');
-      closeAddPartnerModal();
-      loadPartners();
-
-    } catch (error) {
-      console.error('❌ Erreur promotion:', error);
-      showToast('❌ Erreur: ' + (error.message || 'Impossible de promouvoir l\'utilisateur'), 'error');
-    }
-
-    addPartnerConfirm.disabled = false;
-    addPartnerConfirm.innerHTML = '<i class="fas fa-check"></i> Promouvoir';
-  });
+  this.disabled = false;
+  this.innerHTML = '<i class="fas fa-check"></i> Promouvoir';
+});
 
   // ================================================================
-  // AFFICHER LES PARTENAIRES
+  // RENDRE LES UTILISATEURS
   // ================================================================
-  function renderPartners() {
+  function renderUsers() {
     const start = (currentPage - 1) * ITEMS_PER_PAGE;
     const end = start + ITEMS_PER_PAGE;
-    const pagePartners = filteredPartners.slice(start, end);
+    const pageUsers = filteredUsers.slice(start, end);
 
-    if (filteredPartners.length === 0) {
-      partnersContainer.innerHTML = `
+    if (filteredUsers.length === 0) {
+      usersContainer.innerHTML = `
         <div class="empty-state">
-          <i class="fas fa-handshake"></i>
-          <div class="title">Aucun partenaire trouvé</div>
-          <div class="sub">Aucun partenaire ne correspond à votre recherche</div>
+          <i class="fas fa-users"></i>
+          <div class="title">Aucun utilisateur trouvé</div>
+          <div class="sub">Aucun utilisateur ne correspond à votre recherche</div>
         </div>
       `;
       displayCount.textContent = '0';
       return;
     }
 
-    displayCount.textContent = filteredPartners.length;
+    displayCount.textContent = filteredUsers.length;
 
     let html = `
-      <table class="partners-table">
+      <table class="users-table">
         <thead>
           <tr>
-            <th>Partenaire</th>
+            <th>Utilisateur</th>
             <th>ID</th>
             <th>Filleuls</th>
-            <th>Bonus</th>
             <th>Statut</th>
-            <th>Depuis</th>
+            <th>Inscrit</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
     `;
 
-    pagePartners.forEach(partner => {
-      const name = partner.userName || 'Utilisateur';
+    pageUsers.forEach(user => {
+      const name = user.fullName || user.prenom + ' ' + user.nom || 'Utilisateur';
       const initial = getInitials(name);
-      const isActive = partner.status === 'actif';
-      const isPending = partner.status === 'pending';
-      const isSuspended = partner.status === 'suspended';
+      const isPartner = user.isPartner === true;
+      const referrals = user.referralsCount || 0;
+      const isEligible = referrals >= 5 && !isPartner;
 
-      let statusClass = 'pending';
-      let statusText = '⏳ En attente';
-      if (isActive) {
-        statusClass = 'active';
-        statusText = '✅ Actif';
-      } else if (isSuspended) {
-        statusClass = 'suspended';
-        statusText = '🚫 Suspendu';
+      const statusClass = isPartner ? 'partner' : 'not-partner';
+      const statusText = isPartner ? '🤝 Partenaire' : '👤 Standard';
+
+      const dateStr = user.createdAt ? formatDateShort(user.createdAt) : '--/--/----';
+
+      const avatarStyle = user.avatarBase64 ? `background-image:url('${user.avatarBase64}');background-size:cover;` : '';
+
+      let actionBtn = '';
+      if (isPartner) {
+        actionBtn = `<button class="btn-promoted"><i class="fas fa-check-circle"></i> Partenaire</button>`;
+      } else {
+        const label = isEligible ? '⭐ Promouvoir (5+ filleuls)' : '🤝 Promouvoir';
+        actionBtn = `<button class="btn-promote" data-user='${JSON.stringify(user).replace(/'/g, "&#39;")}'>${label}</button>`;
       }
-
-      // Badge spécial pour les promus manuellement
-      let extraBadge = '';
-      if (partner.promotedBy === 'admin') {
-        extraBadge = ' <span class="status-badge manual" style="font-size:8px;padding:1px 6px;">👑 Admin</span>';
-      }
-
-      const dateStr = partner.partnerSince ? formatDateShort(partner.partnerSince) : formatDateShort(partner.createdAt);
 
       html += `
         <tr>
-          <td data-label="Partenaire">
+          <td data-label="Utilisateur">
             <div class="col-user">
-              <div class="user-avatar">${initial}</div>
+              <div class="user-avatar" style="${avatarStyle}">${avatarStyle ? '' : initial}</div>
               <div>
                 <div class="user-name">${escapeHtml(name)}</div>
-                <div class="user-email">${escapeHtml(partner.userEmail || '')}</div>
+                <div class="user-email">${escapeHtml(user.email || 'No email')}</div>
               </div>
             </div>
           </td>
-          <td data-label="ID"><span class="partner-id">${escapeHtml(partner.userId || '---')}</span></td>
-          <td data-label="Filleuls"><span class="partner-referrals">${partner.referralsCount || 0}</span></td>
-          <td data-label="Bonus"><span class="partner-bonus">${formatCurrency(partner.bonusAmount || 1500)}</span></td>
-          <td data-label="Statut"><span class="status-badge ${statusClass}">${statusText}</span>${extraBadge}</td>
-          <td data-label="Depuis"><span class="partner-date">${dateStr}</span></td>
+          <td data-label="ID"><span class="user-id">${escapeHtml(user.customerId || user.id || user.uid || '---')}</span></td>
+          <td data-label="Filleuls"><span class="user-referrals">${referrals}</span></td>
+          <td data-label="Statut"><span class="status-badge ${statusClass}">${statusText}</span></td>
+          <td data-label="Inscrit"><span class="user-date">${dateStr}</span></td>
           <td data-label="Actions">
-            <div class="partner-actions">
-              ${isPending ? `
-                <button class="btn-promote" data-id="${partner.id}" title="Promouvoir">
-                  <i class="fas fa-check"></i>
-                </button>
-              ` : ''}
-              ${isActive ? `
-                <button class="btn-remove" data-id="${partner.id}" title="Retirer">
-                  <i class="fas fa-times"></i>
-                </button>
-              ` : ''}
-              ${isSuspended ? `
-                <button class="btn-promote" data-id="${partner.id}" title="Réactiver">
-                  <i class="fas fa-play"></i>
-                </button>
-              ` : ''}
-              <button class="btn-details" data-partner='${JSON.stringify(partner).replace(/'/g, "&#39;")}' title="Détails">
-                <i class="fas fa-eye"></i>
-              </button>
+            <div class="user-actions">
+              ${actionBtn}
             </div>
           </td>
         </tr>
@@ -2275,33 +1824,21 @@
     });
 
     html += `</tbody></table>`;
-    partnersContainer.innerHTML = html;
+    usersContainer.innerHTML = html;
 
     // Écouteurs
     document.querySelectorAll('.btn-promote').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const id = btn.dataset.id;
-        handlePromotePartner(id);
-      });
-    });
-
-    document.querySelectorAll('.btn-remove').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const id = btn.dataset.id;
-        handleRemovePartner(id);
-      });
-    });
-
-    document.querySelectorAll('.btn-details').forEach(btn => {
-      btn.addEventListener('click', (e) => {
+      btn.addEventListener('click', function(e) {
         e.stopPropagation();
         try {
-          const partner = JSON.parse(btn.dataset.partner);
-          openDetailModal(partner);
+          const user = JSON.parse(this.dataset.user);
+          if (user.isPartner === true) {
+            showToast('⚠️ Cet utilisateur est déjà partenaire', 'warning');
+            return;
+          }
+          openPromoteModal(user);
         } catch (err) {
-          console.error('Erreur parsing partenaire:', err);
+          console.error('Erreur parsing utilisateur:', err);
         }
       });
     });
@@ -2313,24 +1850,24 @@
   // PAGINATION
   // ================================================================
   function updatePagination() {
-    const totalPages = Math.ceil(filteredPartners.length / ITEMS_PER_PAGE) || 1;
+    const totalPages = Math.ceil(filteredUsers.length / ITEMS_PER_PAGE) || 1;
     pageInfo.textContent = `Page ${currentPage} / ${totalPages}`;
     prevPageBtn.disabled = currentPage <= 1;
     nextPageBtn.disabled = currentPage >= totalPages;
   }
 
-  prevPageBtn.addEventListener('click', () => {
+  prevPageBtn.addEventListener('click', function() {
     if (currentPage > 1) {
       currentPage--;
-      renderPartners();
+      renderUsers();
     }
   });
 
-  nextPageBtn.addEventListener('click', () => {
-    const totalPages = Math.ceil(filteredPartners.length / ITEMS_PER_PAGE);
+  nextPageBtn.addEventListener('click', function() {
+    const totalPages = Math.ceil(filteredUsers.length / ITEMS_PER_PAGE);
     if (currentPage < totalPages) {
       currentPage++;
-      renderPartners();
+      renderUsers();
     }
   });
 
@@ -2339,28 +1876,30 @@
   // ================================================================
   function applyFilters() {
     const searchTerm = searchInput.value.toLowerCase().trim();
-    const status = statusFilter.value;
+    const filter = statusFilter.value;
 
-    filteredPartners = allPartners.filter(partner => {
-      const name = (partner.userName || '').toLowerCase();
-      const email = (partner.userEmail || '').toLowerCase();
-      const id = (partner.userId || '').toLowerCase();
+    filteredUsers = allUsers.filter(user => {
+      const name = (user.fullName || user.prenom || user.nom || '').toLowerCase();
+      const email = (user.email || '').toLowerCase();
+      const id = (user.customerId || user.id || user.uid || '').toLowerCase();
       const matchesSearch = !searchTerm ||
         name.includes(searchTerm) ||
         email.includes(searchTerm) ||
         id.includes(searchTerm);
 
-      let matchesStatus = true;
-      if (status !== 'all') {
-        const statut = partner.status || 'pending';
-        matchesStatus = statut === status;
-      }
+      let matchesFilter = true;
+      const isPartner = user.isPartner === true;
+      const referrals = user.referralsCount || 0;
 
-      return matchesSearch && matchesStatus;
+      if (filter === 'partner') matchesFilter = isPartner;
+      else if (filter === 'not-partner') matchesFilter = !isPartner;
+      else if (filter === 'eligible') matchesFilter = !isPartner && referrals >= 5;
+
+      return matchesSearch && matchesFilter;
     });
 
     currentPage = 1;
-    renderPartners();
+    renderUsers();
     updateStats();
   }
 
@@ -2371,29 +1910,27 @@
   // STATISTIQUES
   // ================================================================
   function updateStats() {
-    const active = allPartners.filter(p => p.status === 'actif');
-    const pending = allPartners.filter(p => p.status === 'pending');
-    const suspended = allPartners.filter(p => p.status === 'suspended');
+    const partners = allUsers.filter(u => u.isPartner === true);
+    const eligible = allUsers.filter(u => !u.isPartner && (u.referralsCount || 0) >= 5);
 
-    activeCount.textContent = active.length;
-    pendingCount.textContent = pending.length;
-    suspendedCount.textContent = suspended.length;
-    totalCount.textContent = allPartners.length;
+    activeCount.textContent = partners.length;
+    pendingCount.textContent = eligible.length;
+    totalCount.textContent = allUsers.length;
+    eligibleCount.textContent = eligible.length;
 
     if (partnersBadge) {
-      const totalPending = pending.length;
-      partnersBadge.textContent = totalPending;
-      partnersBadge.className = 'menu-badge' + (totalPending > 0 ? ' danger' : '');
+      partnersBadge.textContent = eligible.length;
+      partnersBadge.className = 'menu-badge' + (eligible.length > 0 ? ' danger' : '');
     }
   }
 
   // ================================================================
-  // CHARGER LES PARTENAIRES
+  // CHARGER LES UTILISATEURS
   // ================================================================
-  function loadPartners() {
-    partnersContainer.innerHTML = '';
+  function loadUsers() {
+    usersContainer.innerHTML = '';
     for (let i = 0; i < 5; i++) {
-      partnersContainer.innerHTML += `
+      usersContainer.innerHTML += `
         <div class="skeleton-row">
           <div class="skeleton-avatar"></div>
           <div class="skeleton-text">
@@ -2402,27 +1939,34 @@
           </div>
           <div class="skeleton-btn"></div>
           <div class="skeleton-btn"></div>
-          <div class="skeleton-btn"></div>
         </div>
       `;
     }
 
-    onSnapshot(query(collection(db, 'partenaires'), orderBy('createdAt', 'desc')), (snapshot) => {
-      allPartners = [];
-      snapshot.forEach(doc => {
+    onSnapshot(collection(db, 'users'), function(snapshot) {
+      allUsers = [];
+      snapshot.forEach(function(doc) {
         const data = doc.data();
-        allPartners.push({
+        allUsers.push({
           id: doc.id,
+          uid: doc.id,
           ...data
         });
+      });
+
+      // Trier par date d'inscription (les plus récents d'abord)
+      allUsers.sort((a, b) => {
+        const dateA = a.createdAt ? new Date(a.createdAt) : new Date(0);
+        const dateB = b.createdAt ? new Date(b.createdAt) : new Date(0);
+        return dateB - dateA;
       });
 
       applyFilters();
       updateStats();
 
-    }, (error) => {
-      console.error('Erreur chargement partenaires:', error);
-      partnersContainer.innerHTML = `
+    }, function(error) {
+      console.error('Erreur chargement utilisateurs:', error);
+      usersContainer.innerHTML = `
         <div class="empty-state">
           <i class="fas fa-exclamation-circle"></i>
           <div class="title">Erreur de chargement</div>
@@ -2451,12 +1995,12 @@
   document.getElementById('logoutBtn').addEventListener('click', handleLogout);
   document.getElementById('menuLogoutBtn').addEventListener('click', handleLogout);
 
-    // ================================================================
+  // ================================================================
   // AUTH
   // ================================================================
   const ADMIN_EMAIL = 'gagneavecia@gmail.com';
 
-  onAuthStateChanged(auth, async (user) => {
+  onAuthStateChanged(auth, async function(user) {
     if (!user) {
       window.location.href = '../login.html';
       return;
@@ -2473,13 +2017,12 @@
     document.getElementById('menuUseremail').textContent = user.email;
     document.getElementById('menuAvatar').textContent = user.email.charAt(0).toUpperCase();
 
-    loadPartners();
+    loadUsers();
   });
 
-  console.log('✅ ARVEXA - Page Partenariats chargée');
-  console.log('✅ 2 façons de devenir partenaire: automatique (5 filleuls) ou manuel (admin)');
-  console.log('✅ Promotion manuelle donne accès premium immédiat');
-  console.log('✅ Menu sans swipe (clic uniquement)');
+  console.log('✅ ARVEXA - Page Partenariats avec liste des utilisateurs');
+  console.log('✅ Promotion manuelle disponible pour tous les utilisateurs');
+  console.log('✅ Filtres: Partenaires, Non partenaires, Éligibles (5+ filleuls)');
 </script>
 </body>
 </html>
