@@ -979,7 +979,10 @@
 <div class="sidebar" id="sidebar" role="navigation" aria-label="Menu principal">
   
   <div class="sidebar-header">
-    <div class="logo">ARVE<span>XA</span></div>
+    <div class="logo">
+  <img src="icon.png" alt="ARVEXA" style="height:32px;width:auto;object-fit:contain;">
+</div>
+
     <button class="close-btn" id="closeSidebar"><i class="fas fa-times"></i></button>
   </div>
 
@@ -1018,9 +1021,9 @@
       <i class="fas fa-bars"></i>
     </button>
 
-    <div class="ia-avatar">
-      <img src="https://ui-avatars.com/api/?name=ARVEXA&background=B8860B&color=fff&size=128" alt="ARVEXA">
-    </div>
+  <div class="ia-avatar">
+  <img src="icon.png" alt="ARVEXA" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
+</div>
 
     <div class="ia-info">
       <div class="ia-name">Assistant <span>ARVEXA</span></div>
@@ -1163,7 +1166,7 @@ const APIS = {
 };
 
 // ================================================================
-// SYSTÈME PROMPT
+// SYSTÈME PROMPT OPTIMISÉ
 // ================================================================
 const SYSTEM_PROMPT = `Tu es ARVEXA Assistant, un agent IA spécialisé de la plateforme ARVEXA.
 
@@ -1173,35 +1176,37 @@ IDENTITÉ:
 - Expertise: Finance, investissement, épargne, parrainage
 - Localisation: Niger
 
-RÈGLES:
-- Ne dis jamais que tu es un autre modèle (Mistral, Groq, etc.)
-- Ne donne jamais de conseils financiers engageants
-- Ne fais jamais de promesses de gains garantis
-- Réponds comme un humain, naturellement
-- Sois précis, complet et surtout DÉTAILLÉ : ne donne jamais une réponse trop courte ou vague.
-- Quand une notion est demandée (exemple : "explique-moi les nombres complexes"), explique-la vraiment : définition claire, à quoi ça sert, comment ça fonctionne, puis un exemple concret. Ne te contente jamais d'une phrase ou d'une formule brute sans explication.
-- Propose toujours une question ouverte à la fin
+📌 INFORMATIONS OFFICIELLES SUR ARVEXA:
+- ARVEXA est une plateforme d'affiliation et de finance
+- Créée par une équipe dédiée en 2026
+- Disponible au Niger et dans la région
+- Services: Parrainage, Formations, E-books, BAC, Boutique
 
-MISE EN FORME (très important, à respecter strictement) :
-- Utilise le markdown léger suivant, rien d'autre :
-  • **mot ou expression** pour mettre en gras UNIQUEMENT les mots-clés, notions essentielles, chiffres importants ou noms de formules.
-  • Pour une liste d'étapes, utilise des lignes séparées commençant par "1. ", "2. ", "3. " etc.
-  • Pour une liste simple, utilise des lignes séparées commençant par "- ".
-  • Sépare chaque paragraphe ou chaque point par une ligne vide (saut de ligne double).
-- N'utilise JAMAIS de titres avec #, ##, ni de tableaux.
-- Quand tu donnes une formule (mathématiques, finance, etc.) :
-  • Ne l'écris JAMAIS mélangée au milieu d'une phrase.
-  • Termine d'abord ta phrase d'explication, puis va à la ligne (nouveau paragraphe).
-  • Écris la formule SEULE sur sa propre ligne, entourée de ** ** (exemple : **|z| = racine(a^2 + b^2)**) — elle apparaîtra automatiquement dans un encadré bien mis en valeur.
-  • Juste après, sur une nouvelle ligne, explique en texte normal ce que représente chaque terme de la formule.
-- N'utilise pas d'astérisque isolé "*" pour autre chose que le gras ou une puce de liste.
-- Structure toujours une réponse détaillée en plusieurs paragraphes ou points courts et aérés plutôt qu'un seul bloc de texte compact.
-- Ne mélange jamais plusieurs idées dans un même paragraphe : une idée = un paragraphe, pour que ce soit facile à lire et à comprendre.
+📏 RÈGLES DE RÉPONSE (TRÈS IMPORTANT):
+1. SOIS CONCIS :
+   - Salutation ("salut", "bonjour") → 1 phrase max
+   - Questions simples → 2-3 phrases max
+   - Questions complexes → 3-5 paragraphes max
+   - Ne dépasse JAMAIS 8 paragraphes
+
+2. NE INVENTE PAS :
+   - Ne mentionne JAMAIS de noms de personnes (créateurs, fondateurs, etc.)
+   - Ne donne JAMAIS d'informations non vérifiées
+   - Si tu ne sais pas → "Je ne dispose pas de cette information"
+
+3. TON :
+   - Professionnel, amical, précis
+   - Utilise des listes à puces pour les étapes
+
+📋 EXEMPLES:
+- "Salut" → "Bonjour ! 👋 Comment puis-je vous aider aujourd'hui ?"
+- "Qui a créé ARVEXA ?" → "ARVEXA a été créé par une équipe dédiée en 2026."
+- "Comment investir ?" → (3-5 paragraphes structurés)
 
 SERVICES ARVEXA (informations à donner aux utilisateurs):
 - RECHARGE: Montant 3 000 à 1 000 000 FCFA, WhatsApp +227 98 06 64 67
 - RETRAIT: Montant 1 000 à 50 000 FCFA, délai 24-48h
-- PARRAINAGE: Bonus 1000 FCFA par filleul après 1er dépôt
+- PARRAINAGE: Bonus 1000 FCFA par filleul après 1er dépôt (1500 FCFA si partenaire)
 - E-BOOKS: 10 e-books disponibles
 - FORMATIONS: 10 formations (2 gratuites, 8 payantes)
 - DÉFIS: 5 défis par semaine
@@ -1299,6 +1304,52 @@ function escapeHtml(str) {
   const div = document.createElement('div');
   div.textContent = str;
   return div.innerHTML;
+}
+
+// ================================================================
+// NETTOYER LES RÉPONSES (AJOUTER ICI)
+// ================================================================
+function cleanResponse(text) {
+  if (!text) return '';
+  
+  // 1. Supprimer les références à des noms de personnes
+  var namePatterns = [
+    /(créé par|c'est|fondateur|créateur|développé par|conçu par|inventé par)\s+(\w+)/gi,
+    /(\w+)\s+(a créé|a fondé|a développé|a conçu|a inventé)/gi
+  ];
+  namePatterns.forEach(function(pattern) {
+    text = text.replace(pattern, 'créé par l\'équipe ARVEXA');
+  });
+  
+  // 2. Supprimer les noms propres isolés
+  var commonNames = ['ibrahim', 'ahmed', 'mohamed', 'ali', 'ousmane', 'amadou', 'souleymane'];
+  commonNames.forEach(function(name) {
+    var regex = new RegExp('\\b' + name + '\\b', 'gi');
+    text = text.replace(regex, 'l\'équipe ARVEXA');
+  });
+  
+  // ✅ 3. NE PAS LIMITER LA LONGUEUR POUR LES RÉPONSES COMPLEXES
+  // On garde la limite seulement pour les salutations
+  var greetings = ['salut', 'bonjour', 'hello', 'coucou', 'hey', 'yo', 'hi'];
+  var firstWord = text.toLowerCase().split(' ')[0] || '';
+  if (greetings.some(function(g) { return firstWord.includes(g); }) && text.split(' ').length > 5) {
+    return 'Bonjour ! 👋 Comment puis-je vous aider aujourd\'hui ?';
+  }
+  
+  // ✅ SUPPRIMER la limitation de longueur pour les réponses complexes
+  // On ne coupe plus les réponses
+  return text;
+}
+
+// ================================================================
+// VÉRIFIER SI LA QUESTION EST UNE SALUTATION
+// ================================================================
+function isGreeting(text) {
+  var greetings = ['salut', 'bonjour', 'hello', 'coucou', 'hey', 'yo', 'hi'];
+  var lowerText = text.toLowerCase().trim();
+  return greetings.some(function(g) {
+    return lowerText === g || lowerText.startsWith(g + ' ');
+  });
 }
 
 // ================================================================
@@ -1491,7 +1542,7 @@ async function callMistral(messages, imageBase64) {
       { role: 'user', content: content }
     ],
     temperature: 0.7,
-    max_tokens: 2000
+    max_tokens: 6000
   };
 
   const response = await fetch(api.url, {
@@ -1510,8 +1561,8 @@ async function callMistral(messages, imageBase64) {
 
   const data = await response.json();
   let contentText = data.choices[0]?.message?.content || 'Je n\'ai pas de réponse pour le moment.';
-  return cleanAndFormatResponse(contentText);
-}
+  return cleanResponse(cleanAndFormatResponse(contentText));
+}  
 
 // ================================================================
 // APPEL GROQ
@@ -1526,7 +1577,7 @@ async function callGroq(messages) {
       ...messages
     ],
     temperature: 0.7,
-    max_tokens: 2000
+    max_tokens: 6000
   };
 
   const response = await fetch(api.url, {
@@ -1545,7 +1596,7 @@ async function callGroq(messages) {
 
   const data = await response.json();
   let contentText = data.choices[0]?.message?.content || 'Je n\'ai pas de réponse pour le moment.';
-  return cleanAndFormatResponse(contentText);
+  return cleanResponse(cleanAndFormatResponse(contentText));
 }
 
 // ================================================================
@@ -1561,7 +1612,7 @@ async function callOpenRouter(messages) {
       ...messages
     ],
     temperature: 0.7,
-    max_tokens: 2000
+    max_tokens: 6000
   };
 
   const response = await fetch(api.url, {
@@ -1582,7 +1633,7 @@ async function callOpenRouter(messages) {
 
   const data = await response.json();
   let contentText = data.choices[0]?.message?.content || 'Je n\'ai pas de réponse pour le moment.';
-  return cleanAndFormatResponse(contentText);
+   return cleanResponse(cleanAndFormatResponse(contentText));
 }
 
 // ================================================================
@@ -1624,15 +1675,25 @@ function selectBestResponse(results) {
 // ================================================================
 // RÉPONDRE AVEC LES 3 API
 // ================================================================
+
 async function getResponse(text, imageBase64) {
   try {
     const results = await callAllApis(text, imageBase64);
     const best = selectBestResponse(results);
-    return {
-      text: best.text,
-      model: best.model,
-      icon: best.icon
-    };
+    
+    // ✅ VÉRIFIER SI LA RÉPONSE EST TROP COURTE
+    if (best.text && best.text.length < 100 && !isGreeting(text)) {
+      // Si la réponse est trop courte pour une question complexe, on réessaie
+      console.warn('⚠️ Réponse trop courte, réessai...');
+      // On peut relancer l'appel ou ajouter un message
+      return {
+        text: best.text + '\n\nJe peux développer davantage si vous le souhaitez.',
+        model: best.model,
+        icon: best.icon
+      };
+    }
+    
+    return best;
   } catch (error) {
     console.error('Erreur appel API:', error);
     return {
@@ -1707,6 +1768,19 @@ async function sendMessage() {
   const text = messageInput.value.trim();
   if (!text && !pendingImage) return;
 
+  // ✅ SI PAS DE DISCUSSION ACTIVE, EN CRÉER UNE
+  if (!currentChatId) {
+    await createAutoChat();
+  }
+
+  // ✅ AJOUTER CETTE VÉRIFICATION
+  if (isGreeting(text)) {
+    addMessage('Bonjour ! 👋 Comment puis-je vous aider aujourd\'hui ?', 'ia', formatTime());
+    messageInput.value = '';
+    messageInput.style.height = 'auto';
+    return;
+  }
+
   const timeStr = formatTime();
   let imageToSend = pendingImage;
   pendingImage = null;
@@ -1779,6 +1853,42 @@ async function sendMessage() {
     scrollToBottom();
     renderChatList();
   }, 800 + Math.random() * 400);
+}
+
+async function loadChat(chatId) {
+  try {
+    const chatRef = doc(db, 'ia_chats', chatId);
+    const chatSnap = await getDoc(chatRef);
+    if (chatSnap.exists()) {
+      const chat = chatSnap.data();
+      currentChatId = chatId;
+      conversationHistory = [];
+      messagesContainer.innerHTML = '';
+      
+      // ✅ CHARGER TOUS LES MESSAGES
+      const messages = chat.messages || [];
+      if (messages.length === 0) {
+        messagesContainer.innerHTML = `
+          <div class="messages-empty">
+            <i class="fas fa-robot"></i>
+            <div class="empty-title">Assistant ARVEXA</div>
+            <div class="empty-sub">Posez-moi une question, je vous aiderai !</div>
+          </div>
+        `;
+      } else {
+        messages.forEach(msg => {
+          const sender = msg.sender === 'user' ? 'user' : 'ia';
+          addMessage(msg.text, sender, msg.time, msg.model ? { model: msg.model, icon: '🤖' } : null);
+          if (sender === 'user' || sender === 'ia') {
+            conversationHistory.push({ sender, text: msg.text });
+          }
+        });
+      }
+      renderChatList();
+    }
+  } catch (error) {
+    console.error('Erreur chargement:', error);
+  }
 }
 
 // ================================================================
@@ -1894,7 +2004,11 @@ function renderChatList() {
 }
 
 async function createNewChat() {
-  if (!currentUser) { showToast('Veuillez vous connecter', 'error'); return; }
+  if (!currentUser) {
+    showToast('Veuillez vous connecter', 'error');
+    return;
+  }
+  
   try {
     const chatId = 'chat_' + Date.now();
     const newChat = {
@@ -1916,42 +2030,44 @@ async function createNewChat() {
       </div>
     `;
     closeMenu();
-    showToast('Nouvelle discussion créée', 'info');
+    renderChatList();
+    showToast('✅ Nouvelle discussion créée', 'info');
   } catch (error) {
     console.error('Erreur création:', error);
     showToast('Erreur lors de la création', 'error');
   }
 }
 
-async function loadChat(chatId) {
+// ================================================================
+// CRÉER UNE NOUVELLE DISCUSSION AUTOMATIQUEMENT
+// ================================================================
+async function createAutoChat() {
+  if (!currentUser) return;
+  
   try {
-    const chatRef = doc(db, 'ia_chats', chatId);
-    const chatSnap = await getDoc(chatRef);
-    if (chatSnap.exists()) {
-      const chat = chatSnap.data();
-      currentChatId = chatId;
-      conversationHistory = [];
-      messagesContainer.innerHTML = '';
-      (chat.messages || []).forEach(msg => {
-        const sender = msg.sender === 'user' ? 'user' : 'ia';
-        addMessage(msg.text, sender, msg.time, msg.model ? { model: msg.model, icon: '🤖' } : null);
-        if (sender === 'user' || sender === 'ia') {
-          conversationHistory.push({ sender, text: msg.text });
-        }
-      });
-      if ((chat.messages || []).length === 0) {
-        messagesContainer.innerHTML = `
-          <div class="messages-empty">
-            <i class="fas fa-robot"></i>
-            <div class="empty-title">Assistant ARVEXA</div>
-            <div class="empty-sub">Posez-moi une question, je vous aiderai !</div>
-          </div>
-        `;
-      }
-      renderChatList();
-    }
+    const chatId = 'chat_' + Date.now();
+    const newChat = {
+      userId: currentUser.uid,
+      chatId: chatId,
+      name: 'Nouvelle discussion',
+      messages: [],
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
+    await setDoc(doc(db, 'ia_chats', chatId), newChat);
+    currentChatId = chatId;
+    conversationHistory = [];
+    messagesContainer.innerHTML = `
+      <div class="messages-empty">
+        <i class="fas fa-robot"></i>
+        <div class="empty-title">Assistant ARVEXA</div>
+        <div class="empty-sub">Posez-moi une question, je vous aiderai !</div>
+      </div>
+    `;
+    renderChatList();
+    console.log('✅ Nouvelle discussion automatique créée:', chatId);
   } catch (error) {
-    console.error('Erreur chargement:', error);
+    console.error('Erreur création automatique:', error);
   }
 }
 
@@ -2154,11 +2270,21 @@ onAuthStateChanged(auth, async (user) => {
 
     listenChats();
     const cached = getChatsCache();
+    
+    // ✅ SI L'UTILISATEUR A DES DISCUSSIONS SAUVEGARDÉES
     if (cached.length > 0 && !currentChatId) {
+      // ✅ CHARGER LA DERNIÈRE DISCUSSION
       const lastChat = cached[0];
       if (lastChat) {
         await loadChat(lastChat.id);
+        // ✅ Ne pas créer de nouvelle discussion si une existe déjà
+      } else {
+        // ✅ CRÉER UNE NOUVELLE DISCUSSION
+        await createAutoChat();
       }
+    } else {
+      // ✅ CRÉER UNE NOUVELLE DISCUSSION
+      await createAutoChat();
     }
 
     authChecked = true;
