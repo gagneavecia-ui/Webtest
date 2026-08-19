@@ -531,9 +531,10 @@
 
       <div class="modal-buttons">
         <button class="modal-btn secondary" id="modalLaterBtn">✕ Plus tard</button>
-        <button class="modal-btn whatsapp" id="modalActivateBtn">
-          <i class="fab fa-whatsapp"></i> Contacter sur WhatsApp
-        </button>
+       <!-- Dans le modal, remplacer le bouton -->
+<button class="modal-btn whatsapp" id="modalActivateBtn">
+  <i class="fab fa-whatsapp"></i> Contacter sur WhatsApp
+</button>
       </div>
     </div>
   </div>
@@ -658,40 +659,40 @@
   });
 }
 
-    // ================================================================
-    // BANNIÈRE ABONNEMENT
-    // ================================================================
-    function updateBanner(abonnement) {
-      var now = new Date();
-      var dateFin = abonnement && abonnement.dateFin ? new Date(abonnement.dateFin) : null;
-      isAbonnementActif = !!(abonnement && abonnement.actif && dateFin && dateFin > now);
+// ================================================================
+// BANNIÈRE ABONNEMENT - CORRIGÉE
+// ================================================================
+function updateBanner(abonnement) {
+  var now = new Date();
+  var dateFin = abonnement && abonnement.dateFin ? new Date(abonnement.dateFin) : null;
+  
+  // ✅ VÉRIFICATION CORRECTE
+  isAbonnementActif = !!(abonnement && abonnement.actif === true && dateFin && dateFin > now);
 
-      if (isAbonnementActif) {
-        var joursRestants = Math.max(1, Math.ceil((dateFin - now) / 86400000));
-        subBanner.classList.add('active');
-        subStatusText.innerHTML = '<i class="fas fa-check-circle"></i> Abonnement actif';
-        subSubtext.textContent = 'Accès complet aux 4 matières du BAC';
-        subDaysBadge.style.display = 'inline-block';
-        subDaysBadge.textContent = joursRestants + ' jour' + (joursRestants > 1 ? 's' : '') + ' restant' + (joursRestants > 1 ? 's' : '');
-        
-        // ✅ Cache le bouton d'activation
-        subBannerBtn.style.display = 'none';
-        
-      } else {
-        subBanner.classList.remove('active');
-        var expire = !!(abonnement && dateFin && dateFin <= now);
-        subStatusText.innerHTML = '<i class="fas fa-lock"></i> ' + (expire ? 'Abonnement expiré' : 'Abonnement inactif');
-        subSubtext.textContent = expire ? "Réactivez pour continuer vos cours" : 'Activez pour débloquer les 4 matières';
-        subDaysBadge.style.display = 'none';
-        
-        // ✅ Affiche le bouton d'activation
-        subBannerBtn.style.display = 'flex';
-        subBannerBtnText.textContent = 'Activer';
-        subBannerBtn.className = 'sub-banner-btn activate';
-      }
+  console.log('📊 Abonnement:', abonnement);
+  console.log('📊 Actif:', isAbonnementActif);
 
-      renderSubjects();
-    }
+  if (isAbonnementActif) {
+    var joursRestants = Math.max(1, Math.ceil((dateFin - now) / 86400000));
+    subBanner.classList.add('active');
+    subStatusText.innerHTML = '<i class="fas fa-check-circle"></i> Abonnement actif';
+    subSubtext.textContent = 'Accès complet aux 4 matières du BAC';
+    subDaysBadge.style.display = 'inline-block';
+    subDaysBadge.textContent = joursRestants + ' jour' + (joursRestants > 1 ? 's' : '') + ' restant' + (joursRestants > 1 ? 's' : '');
+    subBannerBtn.style.display = 'none';
+  } else {
+    subBanner.classList.remove('active');
+    var expire = !!(abonnement && dateFin && dateFin <= now);
+    subStatusText.innerHTML = '<i class="fas fa-lock"></i> ' + (expire ? 'Abonnement expiré' : 'Abonnement inactif');
+    subSubtext.textContent = expire ? 'Réactivez pour continuer vos cours' : 'Activez pour débloquer les 4 matières';
+    subDaysBadge.style.display = 'none';
+    subBannerBtn.style.display = 'flex';
+    subBannerBtnText.textContent = 'Activer';
+    subBannerBtn.className = 'sub-banner-btn activate';
+  }
+
+  renderSubjects();
+}
 
     // ✅ Événement du bouton : ouvre la modale
     subBannerBtn.addEventListener('click', function () {
@@ -699,45 +700,142 @@
     });
 
     // ================================================================
-    // MODALE
-    // ================================================================
-    function openModal(subject) {
-      pendingSubject = subject;
-      modalSubjectName.textContent = subject ? ('Débloquez « ' + subject.name + ' » et tout le programme BAC') : 'Débloquez toutes les matières du BAC';
-      subModal.classList.add('show');
+// FONCTIONS DU MODAL
+// ================================================================
+function openModal(subject) {
+  pendingSubject = subject;
+  modalSubjectName.textContent = subject ? ('Débloquez « ' + subject.name + ' » et tout le programme BAC') : 'Débloquez toutes les matières du BAC';
+  subModal.classList.add('show');
+}
+
+function closeModal() {
+  subModal.classList.remove('show');
+}
+
+// ================================================================
+// TOAST
+// ================================================================
+function showToast(message, type = 'info') {
+  const toast = document.getElementById('toast');
+  if (!toast) {
+    console.log('Toast:', message);
+    return;
+  }
+  
+  toast.textContent = message;
+  toast.className = `toast ${type}`;
+  requestAnimationFrame(() => toast.classList.add('show'));
+  setTimeout(() => toast.classList.remove('show'), 4000);
+}
+
+// ================================================================
+// RÉCUPÉRER userData DEPUIS LE CACHE
+// ================================================================
+function getCachedUserData() {
+  try {
+    const cached = localStorage.getItem('ARVEXA_user_data');
+    if (cached) {
+      return JSON.parse(cached);
     }
+  } catch(e) {}
+  return null;
+}
 
-    function closeModal() {
-      subModal.classList.remove('show');
-    }
+// ================================================================
+// ✅ ACTIVER L'ABONNEMENT BAC
+// ================================================================
+async function activerAbonnementBac() {
+  if (!currentUser) {
+    showToast('⚠️ Veuillez vous connecter', 'warning');
+    return;
+  }
 
-    document.getElementById('modalLaterBtn').addEventListener('click', closeModal);
-    subModal.addEventListener('click', function (e) {
-      if (e.target === subModal) closeModal();
-    });
+  const userData = getCachedUserData() || {};
+  const uid = currentUser.uid;
+  const email = currentUser.email || '';
+  const userName = userData?.fullName || userData?.prenom + ' ' + userData?.nom || 'Utilisateur';
+  const displayId = userData?.customerId || userData?.id || 'ID_INCONNU';
 
-    document.getElementById('modalActivateBtn').addEventListener('click', function () {
-      var uid = currentUser ? currentUser.uid : 'inconnu';
-      var email = currentUser ? (currentUser.email || '') : '';
-      var texte = 'Bonjour ARVEXA, je souhaite activer mon abonnement BAC (1000 FCFA / 2 semaines).%0AMon identifiant : ' + uid + (email ? ('%0AEmail : ' + email) : '');
+  const btn = document.getElementById('modalActivateBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi en cours...';
 
-      if (currentUser) {
-        try {
-          addDoc(collection(db, 'demandes_abonnement_bac'), {
-            uid: uid,
-            email: email,
-            montant: MONTANT_ABONNEMENT,
-            statut: 'en_attente',
-            createdAt: new Date().toISOString()
-          });
-        } catch (err) {
-          console.warn('Erreur enregistrement demande:', err);
-        }
+  try {
+    // ✅ VÉRIFIER SI UNE DEMANDE EXISTE DÉJÀ EN ATTENTE
+    try {
+      const q = query(
+        collection(db, 'abonnements_bac'),
+        where('userId', '==', uid),
+        where('statut', '==', 'en_attente')
+      );
+      const snapshot = await getDocs(q);
+      if (!snapshot.empty) {
+        showToast('⚠️ Vous avez déjà une demande en attente.', 'warning');
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fab fa-whatsapp"></i> Contacter sur WhatsApp';
+        return;
       }
+    } catch (error) {
+      console.warn('Erreur vérification demande:', error);
+    }
 
-      window.open('https://wa.me/' + WHATSAPP_NUMBER + '?text=' + texte, '_blank');
-      closeModal();
-    });
+    // ✅ ENREGISTRER LA DEMANDE DANS FIRESTORE
+    const demandeData = {
+      userId: uid,
+      displayId: displayId,
+      userName: userName,
+      userEmail: email,
+      montant: 1000,
+      statut: 'en_attente',
+      source: 'whatsapp',
+      type: 'bac',
+      createdAt: new Date().toISOString()
+    };
+
+    const docRef = await addDoc(collection(db, 'abonnements_bac'), demandeData);
+    console.log('✅ Demande d\'abonnement BAC enregistrée:', docRef.id);
+
+    showToast('✅ Demande enregistrée ! Contactez-nous sur WhatsApp.', 'success');
+
+    // ✅ ENVOYER LE MESSAGE WHATSAPP
+    const numeroWhatsApp = '22798064667';
+    const message = encodeURIComponent(
+      'Bonjour ARVEXA,\n\n' +
+      'Je souhaite activer mon abonnement BAC.\n\n' +
+      '👤 Nom: ' + userName + '\n' +
+      '🆔 ID: ' + displayId + '\n' +
+      '📧 Email: ' + email + '\n' +
+      '💰 Montant: 1000 FCFA\n' +
+      '📅 Date: ' + new Date().toLocaleDateString('fr-FR') + '\n\n' +
+      'Merci de valider ma demande.'
+    );
+
+    const waUrl = 'https://wa.me/' + numeroWhatsApp + '?text=' + message;
+    window.open(waUrl, '_blank', 'noopener,noreferrer');
+
+    closeModal();
+
+  } catch (error) {
+    console.error('❌ Erreur enregistrement demande:', error);
+    showToast('❌ Erreur lors de l\'enregistrement. Réessayez.', 'error');
+  }
+
+  btn.disabled = false;
+  btn.innerHTML = '<i class="fab fa-whatsapp"></i> Contacter sur WhatsApp';
+}
+
+// ================================================================
+// ÉVÉNEMENTS DES BOUTONS DU MODAL
+// ================================================================
+document.getElementById('modalLaterBtn').addEventListener('click', closeModal);
+subModal.addEventListener('click', function(e) {
+  if (e.target === subModal) closeModal();
+});
+
+// ✅ ÉCOUTEUR DU BOUTON D'ACTIVATION
+document.getElementById('modalActivateBtn').addEventListener('click', function() {
+  activerAbonnementBac();
+});
 
     // ================================================================
     // PROGRESSION
