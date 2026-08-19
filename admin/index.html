@@ -1761,63 +1761,90 @@ async function handleApproveDeposit(id) {
   }
 
   // ================================================================
-  // ✅ VALIDER UN RETRAIT
-  // ================================================================
-  async function handleApproveRetrait(id) {
-    if (!confirm('✅ Valider ce retrait ?')) return;
+// VALIDER UN RETRAIT - CORRIGÉ AVEC runTransaction
+// ================================================================
+async function handleApproveRetrait(id) {
+  if (!confirm('✅ Valider ce retrait ?')) return;
 
-    try {
-      const retRef = doc(db, 'retraits', id);
-      const retSnap = await getDoc(retRef);
+  try {
+    const retRef = doc(db, 'retraits', id);
+    const retSnap = await getDoc(retRef);
 
-      if (!retSnap.exists()) {
-        showToast('❌ Retrait introuvable', 'error');
-        return;
+    if (!retSnap.exists()) {
+      showToast('❌ Retrait introuvable', 'error');
+      return;
+    }
+
+    const retData = retSnap.data();
+    const userId = retData.userId;
+    const montant = retData.montant || 0;
+
+    if (!userId || montant <= 0) {
+      showToast('❌ Données de retrait invalides', 'error');
+      return;
+    }
+
+    // RECHERCHER L'UTILISATEUR
+    let userRef = doc(db, 'users', userId);
+    let userSnap = await getDoc(userRef);
+
+    if (!userSnap.exists()) {
+      const userQuery = query(collection(db, 'users'), where('customerId', '==', userId));
+      const userQuerySnap = await getDocs(userQuery);
+      if (!userQuerySnap.empty) {
+        userRef = userQuerySnap.docs[0].ref;
+        userSnap = await getDoc(userRef);
       }
+    }
 
-      const retData = retSnap.data();
-      const userId = retData.userId;
-      const montant = retData.montant || 0;
+    if (!userSnap.exists()) {
+      showToast(`❌ Utilisateur (${userId}) introuvable`, 'error');
+      return;
+    }
 
-      if (!userId || montant <= 0) {
-        showToast('❌ Données de retrait invalides', 'error');
-        return;
-      }
+    const userData = userSnap.data();
+    const currentBalance = userData.balance || 0;
+    const currentGains = userData.gainsTotal || 0;
 
-      const userRef = doc(db, 'users', userId);
-      const userSnap = await getDoc(userRef);
+    // ✅ VÉRIFICATION : Le montant ne dépasse pas les gains
+    if (montant > currentGains) {
+      showToast(`❌ L'utilisateur ne peut retirer que ${currentGains.toLocaleString('fr-FR')} FCFA.`, 'error');
+      return;
+    }
 
-      if (!userSnap.exists()) {
-        showToast(`❌ Utilisateur (${userId}) introuvable`, 'error');
-        return;
-      }
+    // ✅ VÉRIFICATION : Solde de sécurité
+    if (currentBalance < montant) {
+      showToast('❌ Solde insuffisant', 'error');
+      return;
+    }
 
-      const userData = userSnap.data();
-      const currentBalance = userData.balance || 0;
-
-      if (currentBalance < montant) {
-        showToast('❌ Solde insuffisant pour ce retrait', 'error');
-        return;
-      }
-
-      await updateDoc(retRef, {
+    // ✅ EXÉCUTER LA TRANSACTION
+    await runTransaction(db, async (transaction) => {
+      // 1. Mettre à jour le retrait
+      transaction.update(retRef, {
         statut: 'valide',
         validatedAt: new Date().toISOString(),
         validatedBy: auth.currentUser?.uid || 'admin'
       });
 
-      await updateDoc(userRef, {
+      // 2. DÉDUIRE DU SOLDE ET DES GAINS
+      transaction.update(userRef, {
         balance: currentBalance - montant,
-        totalRetraits: (userData.totalRetraits || 0) + montant
+        gainsTotal: currentGains - montant,  // ✅ CORRECTION
+        totalRetraits: (userData.totalRetraits || 0) + montant,
+        realBalance: (userData.realBalance || 0) - montant,
+        updatedAt: new Date().toISOString()
       });
+    });
 
-      showToast(`✅ Retrait de ${montant.toLocaleString('fr-FR')} FCFA validé`, 'success');
+    const userName = userData.fullName || userData.prenom || userData.nom || 'Utilisateur';
+    showToast(`✅ Retrait de ${montant.toLocaleString('fr-FR')} FCFA validé pour ${userName}`, 'success');
 
-    } catch (error) {
-      console.error('❌ Erreur validation retrait:', error);
-      showToast('❌ Erreur: ' + (error.message || 'Impossible de valider le retrait'), 'error');
-    }
+  } catch (error) {
+    console.error('❌ Erreur validation retrait:', error);
+    showToast('❌ Erreur: ' + (error.message || 'Impossible de valider le retrait'), 'error');
   }
+}
 
   // ================================================================
   // ✅ REJETER UN RETRAIT
