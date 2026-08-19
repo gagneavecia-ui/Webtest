@@ -1,0 +1,28 @@
+{
+  "rewrites": [
+    {
+      "source": "/config.js",
+      "destination": "/404.html"
+    },
+    {
+      "source": "/firebase-config.js",
+      "destination": "/404.html"
+    },
+    {
+      "source": "/admin/:path*",
+      "destination": "/404.html"
+    },
+    {
+      "source": "/chapitres/:path*",
+      "destination": "/404.html"
+    },
+    {
+      "source": "/ebooks/:path*",
+      "destination": "/404.html"
+    },
+    {
+      "source": "/formations/:path*",
+      "destination": "/404.html"
+    }
+  ]
+}
