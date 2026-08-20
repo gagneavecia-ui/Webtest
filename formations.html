@@ -2117,7 +2117,7 @@ function loadFormations() {
   formationsGrid.style.display = 'none';
 
   try {
-    const q = query(collection(db, 'formations'), orderBy('createdAt', 'desc'));
+const q = query(collection(db, 'formations'), orderBy('createdAt', 'asc'));
     onSnapshot(q, (snapshot) => {
       const formations = [];
       snapshot.forEach(doc => {
