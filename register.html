@@ -988,7 +988,7 @@ import {
 // ================================================================
 // CONFIGURATION
 // ================================================================
-var ADMIN_URL = 'https://nexgen-39043.web.app/admin';
+var ADMIN_URL = 'https://arvexa-finance.vercel.app/admin/';
 var BONUS_AMOUNT = 1000;
 
 if (typeof APP_CONFIG !== 'undefined') {
@@ -1016,12 +1016,6 @@ var auth = getAuth(app);
 var db = getFirestore(app);
 
 setPersistence(auth, browserLocalPersistence);
-
-  onAuthStateChanged(auth, (user) => {
-  if (!user) {
-    window.location.replace('bienvenue.html');
-  }
-});
 
 // ================================================================
 // TELEGRAM CONFIG
