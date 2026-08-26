@@ -777,7 +777,6 @@
       <div class="menu-section-title">💰 Finances</div>
       <a href="recharger.html" class="menu-link"><i class="fas fa-plus-circle"></i> Recharger</a>
       <a href="retrait.html" class="menu-link"><i class="fas fa-arrow-down"></i> Retrait</a>
-      <a href="activite.html" class="menu-link"><i class="fas fa-chart-pie"></i> Mon Activité</a>
 
       <!-- 📚 Apprentissage -->
       <div class="menu-section-title">📚 Apprentissage</div>
@@ -1049,6 +1048,15 @@ var auth = getAuth(app);
 var db = getFirestore(app);
 
 setPersistence(auth, browserLocalPersistence);
+
+  // ================================================================
+// REDIRECTION VERS BIENVENUE SI NON CONNECTÉ
+// ================================================================
+onAuthStateChanged(auth, (user) => {
+  if (!user) {
+    window.location.replace('bienvenue.html');
+  }
+});
 
 // ================================================================
 // CONFIGURATION
