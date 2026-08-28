@@ -450,8 +450,8 @@
 <div class="glow glow-3"></div>
 
 <header class="header">
-  <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
-  <a href="index.html" class="logo-text">ARVE<span>XA</span></a>
+  <a href="bienvenue.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+  <a href="bienvenue.html" class="logo-text">ARVE<span>XA</span></a>
   <div class="header-actions">
     <a href="register.html" class="register-link"><i class="fas fa-user-plus"></i> Inscription</a>
   </div>
@@ -668,6 +668,7 @@ function hideMessage() {
 onAuthStateChanged(auth, function(user) {
   if (user && !isLoggingIn) {
     localStorage.setItem('ARVEXA_current_user', user.uid);
+    // ✅ REDIRIGER VERS INDEX (Dashboard)
     window.location.replace('index.html');
   }
 });

@@ -1078,6 +1078,8 @@ const auth = getAuth(app);
 // ================================================================
 onAuthStateChanged(auth, (user) => {
   if (user) {
+    console.log('✅ Utilisateur connecté, redirection vers le dashboard');
+    localStorage.setItem('ARVEXA_current_user', user.uid);
     window.location.replace('index.html');
   }
 });

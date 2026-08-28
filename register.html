@@ -769,8 +769,8 @@
 
 <!-- ===== HEADER ===== -->
 <header class="header">
-  <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
-  <a href="index.html" class="logo-text">ARVE<span>XA</span></a>
+  <a href="bienvenue.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+  <a href="bienvenue.html" class="logo-text">ARVE<span>XA</span></a>
   <div class="header-actions">
     <a href="login.html" class="login-link"><i class="fas fa-sign-in-alt"></i> Connexion</a>
   </div>
@@ -1143,6 +1143,7 @@ function hideMessage() {
 onAuthStateChanged(auth, function(user) {
   if (user && !isRegistering) {
     localStorage.setItem('ARVEXA_current_user', user.uid);
+    // ✅ REDIRIGER VERS INDEX (Dashboard)
     window.location.replace('index.html');
   }
 });

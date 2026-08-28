@@ -1805,88 +1805,69 @@ async function initActualites() {
 }
 
 // ================================================================
-// CHARGEMENT COMPLET
+// AUTH - REDIRECTION VERS BIENVENUE SI NON CONNECTÉ
 // ================================================================
 onAuthStateChanged(auth, async function(user) {
-  if (user) {
-    currentUser = user;
-    localStorage.setItem('ARVEXA_current_user', user.uid);
-    
-    var cachedLoaded = loadFromCache();
-    
-    if (sessionUid === user.uid) {
-      console.debug("✅ Session déjà validée, chargement rapide");
-      listenToUser(user.uid);
-      initActualites();
-      loadDefisStats(user.uid);
-      isPageLoading = false;
-      return;
-    }
-
-    try {
-      var userRef = doc(db, 'users', user.uid);
-      var docSnap = await getDoc(userRef);
-      
-      if (!docSnap.exists()) {
-        var newUser = {
-          uid: user.uid, email: user.email || '', prenom: user.displayName?.split(' ')[0] || 'Investisseur',
-          nom: user.displayName?.split(' ').slice(1).join(' ') || '', fullName: user.displayName || 'Investisseur',
-          balance: 0, gainsTotal: 0, totalDepots: 0, totalRetraits: 0, totalDefisGagnes: 0,
-          referralsCount: 0, referralEarnings: 0, status: 'active', role: 'user',
-          createdAt: new Date().toISOString(), lastLogin: new Date().toISOString(),
-          hasDeposited: false, isUnlocked: false
-        };
-        await setDoc(userRef, newUser);
-        userData = newUser;
-      } else {
-        userData = docSnap.data();
-        await updateDoc(userRef, { lastLogin: new Date().toISOString() });
-      }
-      
-      sessionStorage.setItem('session_uid', user.uid);
-      
-      updateUI(userData);
-      listenToUser(user.uid);
-      initActualites();
-      loadDefisStats(user.uid);
-      isPageLoading = false;
-      
-    } catch (error) {
-      console.warn('Erreur Firestore:', error);
-      initActualites();
-      isPageLoading = false;
-    }
-    
-    setTimeout(hideLoadingScreen, 2000);
-    
-  } else {
-    if (isPageLoading) {
-      console.debug("⏳ Page en chargement, attente avant redirection...");
-      setTimeout(function() {
-        if (!auth.currentUser) {
-          var savedUid = localStorage.getItem('ARVEXA_current_user');
-          if (savedUid) {
-            if (!auth.currentUser) {
-              window.location.href = 'login.html';
-            }
-          } else {
-            window.location.href = 'login.html';
-          }
-        }
-      }, 3000);
-    } else {
-      var savedUid = localStorage.getItem('ARVEXA_current_user');
-      if (savedUid) {
-        setTimeout(function() { 
-          if (!auth.currentUser) { 
-            window.location.href = 'login.html'; 
-          } 
-        }, 2000);
-      } else {
-        window.location.href = 'login.html';
-      }
-    }
+  // ✅ SI NON CONNECTÉ → REDIRIGER VERS BIENVENUE
+  if (!user) {
+    console.log('🔒 Utilisateur non connecté, redirection vers bienvenue');
+    // Nettoyer le cache
+    localStorage.removeItem('ARVEXA_current_user');
+    localStorage.removeItem('ARVEXA_user_data');
+    window.location.replace('bienvenue.html');
+    return;
   }
+
+  // ✅ UTILISATEUR CONNECTÉ
+  currentUser = user;
+  localStorage.setItem('ARVEXA_current_user', user.uid);
+  
+  var cachedLoaded = loadFromCache();
+  
+  if (sessionUid === user.uid) {
+    console.debug("✅ Session déjà validée, chargement rapide");
+    listenToUser(user.uid);
+    initActualites();
+    loadDefisStats(user.uid);
+    isPageLoading = false;
+    return;
+  }
+
+  try {
+    var userRef = doc(db, 'users', user.uid);
+    var docSnap = await getDoc(userRef);
+    
+    if (!docSnap.exists()) {
+      var newUser = {
+        uid: user.uid, email: user.email || '', prenom: user.displayName?.split(' ')[0] || 'Investisseur',
+        nom: user.displayName?.split(' ').slice(1).join(' ') || '', fullName: user.displayName || 'Investisseur',
+        balance: 0, gainsTotal: 0, totalDepots: 0, totalRetraits: 0, totalDefisGagnes: 0,
+        referralsCount: 0, referralEarnings: 0, status: 'active', role: 'user',
+        createdAt: new Date().toISOString(), lastLogin: new Date().toISOString(),
+        hasDeposited: false, isUnlocked: false
+      };
+      await setDoc(userRef, newUser);
+      userData = newUser;
+    } else {
+      userData = docSnap.data();
+      await updateDoc(userRef, { lastLogin: new Date().toISOString() });
+    }
+    
+    sessionStorage.setItem('session_uid', user.uid);
+    
+    updateUI(userData);
+    listenToUser(user.uid);
+    initActualites();
+    loadDefisStats(user.uid);
+    isPageLoading = false;
+    
+  } catch (error) {
+    console.warn('Erreur Firestore:', error);
+    initActualites();
+    isPageLoading = false;
+  }
+  
+  setTimeout(hideLoadingScreen, 2000);
 });
 
 // ================================================================
