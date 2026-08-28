@@ -1,28 +1,56 @@
 {
+  "version": 2,
   "rewrites": [
     {
+      "source": "/",
+      "destination": "/bienvenue.html"
+    },
+    {
+      "source": "/index",
+      "destination": "/bienvenue.html"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/index.html",
+      "destination": "/bienvenue.html",
+      "permanent": true
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "geolocation=(), microphone=(), camera=()"
+        }
+      ]
+    },
+    {
       "source": "/config.js",
-      "destination": "/404.html"
-    },
-    {
-      "source": "/firebase-config.js",
-      "destination": "/404.html"
-    },
-    {
-      "source": "/admin/:path*",
-      "destination": "/404.html"
-    },
-    {
-      "source": "/chapitres/:path*",
-      "destination": "/404.html"
-    },
-    {
-      "source": "/ebooks/:path*",
-      "destination": "/404.html"
-    },
-    {
-      "source": "/formations/:path*",
-      "destination": "/404.html"
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, no-store, must-revalidate"
+        }
+      ]
     }
   ]
 }
