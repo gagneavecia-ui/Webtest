@@ -1810,11 +1810,11 @@ async function initActualites() {
 onAuthStateChanged(auth, async function(user) {
   // ✅ SI NON CONNECTÉ → REDIRIGER VERS BIENVENUE
   if (!user) {
-    console.log('🔒 Utilisateur non connecté, redirection vers bienvenue');
+    console.log('🔒 Utilisateur non connecté, redirection vers login');
     // Nettoyer le cache
     localStorage.removeItem('ARVEXA_current_user');
     localStorage.removeItem('ARVEXA_user_data');
-    window.location.replace('bienvenue.html');
+    window.location.replace('login.html');
     return;
   }
 
