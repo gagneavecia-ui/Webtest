@@ -16,11 +16,11 @@
     "rewrites": [
       {
         "source": "/",
-        "destination": "/bienvenue.html"
+        "destination": "/index.html"
       },
       {
         "source": "/index.html",
-        "destination": "/bienvenue.html"
+        "destination": "/login.html"
       }
     ],
     "headers": [
