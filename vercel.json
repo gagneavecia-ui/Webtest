@@ -10,13 +10,6 @@
       "destination": "/bienvenue.html"
     }
   ],
-  "redirects": [
-    {
-      "source": "/index.html",
-      "destination": "/bienvenue.html",
-      "permanent": true
-    }
-  ],
   "headers": [
     {
       "source": "/(.*)",
