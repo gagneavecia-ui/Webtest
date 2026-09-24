@@ -1046,15 +1046,6 @@ var db = getFirestore(app);
 
 setPersistence(auth, browserLocalPersistence);
 
-  // ================================================================
-// REDIRECTION VERS BIENVENUE SI NON CONNECTÉ
-// ================================================================
-onAuthStateChanged(auth, (user) => {
-  if (!user) {
-    window.location.replace('bienvenue.html');
-  }
-});
-
 // ================================================================
 // CONFIGURATION
 // ================================================================
